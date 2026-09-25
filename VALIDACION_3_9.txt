@@ -1,0 +1,5 @@
+REVISIÓN 3.9 WEB / 3.8 EXELEARNING — 23/09/2026
+Comprobado: sintaxis JS; ocho rutas; narraciones conservadas salvo bimbapes; respuestas y criterios de insignia sin cambios; mismas claves de progreso; pies de ocho escenas y notas de Mafasca; coincidencia de tres imágenes editadas entre web y eXe.
+eXe: ZIP íntegro, XML válido según su DTD, JSON válido, 14 páginas, 87 iDevices e identificadores conservados; actividades nativas no textuales idénticas a 3.7; enlaces y recursos locales resueltos. No se incorpora código de usuario.
+Web: pruebas en DOM simulado de progreso heredado, revisión por etapa, guardado, 32 combinaciones ruta/etapa, importación/exportación, fallo de almacenamiento y puzle sin números.
+Pendiente: prueba visual de esta revisión publicada, apertura y exportación del .elpx en el editor, lector de pantalla y locución en dispositivos reales. No es una certificación histórica, de accesibilidad ni de eficacia educativa.

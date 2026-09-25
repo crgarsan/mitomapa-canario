@@ -1,0 +1,4 @@
+Edición mediante herramienta integrada OpenAI ImageGen, 23/09/2026. Entradas: escenas originales de las mismas rutas.
+Gran Canaria: retirar el quinqué sin sustituirlo por otro objeto; mano relajada; conservar personas, poses, paisaje, composición e iluminación; convertir prendas lanosas en piel lisa mate sin pelo, lana ni flecos; sin texto añadido.
+Tenerife y Lanzarote: cambiar exclusivamente las texturas de indumentaria por piel lisa mate sin pelo, lana ni flecos; conservar rostros, poses, cobertura, objetos, paisaje y encuadre; sin texto añadido.
+Archivos finales: assets/images/scene_gran-canaria.webp, scene_tenerife.webp, scene_lanzarote.webp. Conversión técnica a WebP posterior a la edición. Los resultados fueron inspeccionados visualmente.

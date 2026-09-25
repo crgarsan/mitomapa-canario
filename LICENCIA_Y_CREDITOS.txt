@@ -1,0 +1,31 @@
+MitoMapa canario: ocho islas, ocho pintaderas — versión web 3.9
+Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
+
+Se conserva la licencia CC BY-NC-SA 4.0 declarada en el recurso original.
+https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
+Texto legal: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.es
+
+Permite copiar, redistribuir y adaptar con atribución, enlace a la licencia,
+indicación de cambios, uso no comercial y distribución de adaptaciones con la
+misma licencia. No constituye una cesión de derechos sobre fuentes externas.
+La licencia cubre los materiales propios en la medida en que la autoría dispone
+de derechos; no genera derechos exclusivos sobre materiales no protegidos.
+No se ha realizado una auditoría independiente de titularidad de cada imagen.
+
+Crédito sugerido:
+Fortes Regalado, J.; González Martín, G. E.; García Santana, C. (2026).
+MitoMapa canario: ocho islas, ocho pintaderas (web 3.9). CC BY-NC-SA 4.0.
+https://mitomapa-canario.cgarcias.workers.dev/
+Si adaptas: añade tu autoría, fecha y descripción de los cambios.
+
+Ilustraciones: según los créditos originales, facilitadas por la autoría y
+elaboradas con OpenAI ImageGen en agosto de 2026. Son recreaciones contemporáneas,
+no descripciones históricas. La locución usa voces del navegador y no
+incluye grabaciones propias con acento canario garantizado.
+
+La cláusula NoComercial limita la reutilización. No se presenta este paquete
+como software libre certificado ni como contenido libre para cualquier fin.
+Cambiar a CC BY o CC BY-SA requiere la decisión de quienes ostenten los derechos;
+esta revisión no cambia la licencia elegida por la autoría.
+
+Revisión histórica de septiembre de 2026 (web 3.9 / eXe 3.8): se editan con OpenAI ImageGen las escenas de Gran Canaria, Tenerife y Lanzarote. Se retira el quinqué y se alisan las prendas de aspecto lanoso. Todas las escenas se etiquetan como imágenes ilustrativas, no descripciones históricas. El audio aportado se usa como referencia de revisión; no se redistribuye ni se licencia dentro del REA.

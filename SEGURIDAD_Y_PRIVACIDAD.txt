@@ -1,0 +1,8 @@
+El recurso no requiere registro. Guarda progreso y nombre opcional en localStorage.
+Las tareas acordadas y revisiones se guardan por etapa en el mismo dispositivo.
+Docente es una herramienta de acompañamiento local: no tiene autenticación ni firma.
+Guardar seguimiento genera un archivo que puede incluir nombres y respuestas.
+Las descargas de fuentes distribuidas no incluyen estos datos.
+El alojamiento puede registrar solicitudes conforme a sus políticas. Las voces de
+síntesis dependen del sistema y navegador; no se garantiza procesamiento local de
+cada voz disponible. No se añaden analítica ni envío de respuestas desde la aplicación.

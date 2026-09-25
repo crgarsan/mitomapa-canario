@@ -1,0 +1,21 @@
+REVISIÓN HISTÓRICA — MITOMAPA WEB 3.9 / EXELEARNING 3.8
+23 de septiembre de 2026
+
+Se aplican las observaciones escritas del historiador facilitadas por la autoría y el audio «Pateo mixto» (17 min 26 s aproximadamente), analizado mediante transcripción automática completa. Los nombres propios de quienes intervienen no se usan como atribuciones verificadas. No se presenta su participación en el audio como aval de este REA. El MP3 y la transcripción no se redistribuyen.
+
+Cambios comunes:
+1. Quinqué: retirado de la escena de Gran Canaria. Su texto alternativo describe lo que aparece, sin atribuirle una tea que no muestra.
+2. Vestimenta: eliminadas las texturas de pelo/lana más evidentes en Gran Canaria, Tenerife y Lanzarote. Esto no convierte el conjunto en una reconstrucción histórica validada. No se incorpora la generalización de que todo el ganado careciera de pelo.
+3. Ocho pies: «Imagen ilustrativa, no es una descripción histórica». Se explicita su creación con IA. Ropa, rostros, objetos, arquitectura y paisaje siguen siendo elecciones ilustrativas no acreditadas detalle por detalle.
+4. Fuentes: se diferencia entre escritos y crónicas, restos arqueológicos, tradición oral y ficción. Las crónicas también requieren crítica de autoría, fecha y contexto; no se afirma que sustituyan a la arqueología.
+5. El Hierro: bimbapes como opción editorial apoyada en la tradición oral estudiada por la bibliografía filológica; no se atribuye una posición no verificada a la Academia Canaria de la Lengua.
+6. Mafasca: se conserva la versión de la cruz para no alterar los retos, pero se elimina la deducción de que toda la leyenda nació tras la conquista. Se reconoce la diversidad de testimonios, incluidos los de Tindaya, sin afirmar un origen indígena por proximidad geográfica.
+7. Toponimia: consulta de nombres transmitidos por fuentes, con variantes y cautelas; los nombres actuales continúan en la navegación. Gran Canaria no se rotula Tamarán. No se inventa un nombre indígena para La Graciosa.
+8. Podcast: se incorporan transparencia sobre IA, límites de la apariencia realista, contraste de fuentes, atención a estereotipos de género/edad y actividad opcional por etapa. Se explicita que una corrección visual no acredita todos los detalles. Primaria observa y pregunta; Secundaria distingue datos, interpretaciones y recreaciones con fuentes.
+9. Textos alternativos: se corrigen también las descripciones que atribuían a las imágenes de Lanzarote y La Graciosa acciones que no mostraban.
+
+Localización: web, pies y desplegables de las ocho escenas, nota de Mafasca, sección «Historia, imágenes y fuentes», guía de reutilización y créditos. eXe, iDevices de texto de los ocho cuentos, introducción, Guía docente y Créditos.
+
+Se mantienen la licencia CC BY-NC-SA 4.0, las producciones de Primaria y Secundaria, las respuestas automáticas, el seguimiento y las diferencias de funcionamiento entre ambos entornos. El puzle web conserva la eliminación de números visibles y la ventana Docente su desplazamiento.
+
+Estas entregas no actualizan por sí solas el sitio publicado. Publicar el ZIP completo en el mismo Worker. El eXeLearning 3.8 ya está incluido en la carpeta downloads de la web.
