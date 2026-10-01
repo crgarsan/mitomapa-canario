@@ -1,4 +1,4 @@
-MitoMapa canario: ocho islas, ocho pintaderas — versión web 3.9
+MitoMapa canario: ocho islas, ocho pintaderas — versión web 4.0.1
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
 Se conserva la licencia CC BY-NC-SA 4.0 declarada en el recurso original.
@@ -14,7 +14,7 @@ No se ha realizado una auditoría independiente de titularidad de cada imagen.
 
 Crédito sugerido:
 Fortes Regalado, J.; González Martín, G. E.; García Santana, C. (2026).
-MitoMapa canario: ocho islas, ocho pintaderas (web 3.9). CC BY-NC-SA 4.0.
+MitoMapa canario: ocho islas, ocho pintaderas (web 4.0.1). CC BY-NC-SA 4.0.
 https://mitomapa-canario.cgarcias.workers.dev/
 Si adaptas: añade tu autoría, fecha y descripción de los cambios.
 
@@ -29,3 +29,5 @@ Cambiar a CC BY o CC BY-SA requiere la decisión de quienes ostenten los derecho
 esta revisión no cambia la licencia elegida por la autoría.
 
 Revisión histórica de septiembre de 2026 (web 3.9 / eXe 3.8): se editan con OpenAI ImageGen las escenas de Gran Canaria, Tenerife y Lanzarote. Se retira el quinqué y se alisan las prendas de aspecto lanoso. Todas las escenas se etiquetan como imágenes ilustrativas, no descripciones históricas. El audio aportado se usa como referencia de revisión; no se redistribuye ni se licencia dentro del REA.
+
+Revisión 4.0.1 (30/09/2026): correcciones técnicas de rutas de imágenes y seguimiento por etapa; variación de respuestas y cinco afirmaciones V/F. Sin nuevas ilustraciones ni cambio de licencia.

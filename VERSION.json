@@ -1,0 +1,17 @@
+{
+  "web_version": "4.0.1",
+  "rea_exelearning_version": "4.0.1",
+  "exelearning_runtime_version": "4.0.5",
+  "prepared_at": "2026-09-30",
+  "publication_status": "prepared_not_deployed",
+  "download": {
+    "path": "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx",
+    "sha256": "a8e6e8a1d71d7547171d1665b83edd9b9944d5f92f061767ff9d0fdf669c77d8",
+    "bytes": 3991506
+  },
+  "previous_web_version": "4.0",
+  "previous_rea_version": "4.0",
+  "public_download_before_update": "4.0",
+  "deployment_format": "static_assets_root",
+  "compatibility_alias": "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx"
+}

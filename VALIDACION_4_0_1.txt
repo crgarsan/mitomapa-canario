@@ -1,0 +1,12 @@
+RESULTADOS — WEB Y ELPX 4.0.1
+PASS: JavaScript válido; recorrido normal en las ocho rutas; reto final y diploma.
+PASS: 32 combinaciones de etapa e isla, importación anterior y avisos de guardado.
+PASS: historial conservado al cambiar de etapa; cómputo actual condicionado a sus
+requisitos en pasaporte, seguimiento, impresión y diploma; recarga e importación.
+PASS: 14 páginas y 94 iDevices nativos; integridad ZIP y XML.
+PASS: 829 referencias locales del ELPX, incluidos datos JSON y juegos codificados;
+sin rutas ausentes ni resources duplicado. Configuraciones editables/exportadas
+coinciden en 16 juegos de preguntas y 8 juegos de verdadero/falso.
+PASS: enlaces locales HTML de la web, ZIP de carga directa y huellas SHA-256.
+Límite: no sustituye apertura/reexportación manual en eXeLearning 4.0.5, pruebas
+con lector de pantalla ni comprobación en móvil real. No se ha desplegado.

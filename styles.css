@@ -237,3 +237,24 @@ html{scroll-padding-top:var(--header-offset,8rem)}
 
 /* Revisión histórica 3.9 */
 .image-literacy{font-size:.9rem;text-align:left;margin-top:.8rem;padding:.75rem;border:1px solid #b8a68a;border-radius:.6rem;background:#fffaf0;color:#493b30}.image-literacy summary{cursor:pointer;font-weight:700}.historical-review table{width:100%;table-layout:fixed;border-collapse:collapse}.historical-review th,.historical-review td{padding:.6rem;border:1px solid #b8a68a;text-align:left;vertical-align:top;overflow-wrap:anywhere}.historical-review th:first-child{width:24%}.historical-review summary{cursor:pointer;font-weight:700}
+
+/* Web 4.0: accesos visibles y materiales de aula. */
+.expedition-links{display:flex;flex-wrap:wrap;gap:.55rem;margin:1.1rem 0}
+.expedition-links a{display:inline-flex;align-items:center;min-height:44px;padding:.55rem .8rem;border:1px solid #8c6548;border-radius:3px;background:#fffdf7;color:#5f4b3b;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.expedition-links a:hover{background:#f7edbd}
+.reuse-heading{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.reuse-heading img{flex:0 0 72px;object-fit:contain}
+.reuse-heading h2{margin:.2rem 0}
+.rea-downloads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:1rem;margin:1.4rem 0}
+.download-card{display:flex;flex-direction:column;min-width:0;padding:1.2rem;border:1px solid #c9b98f;background:#fffdf7;border-top:4px solid #8c6548}
+.download-card h3{margin:.25rem 0;font-size:1.25rem}
+.download-card p{margin:.6rem 0 1rem}
+.download-card .download-format{margin:0;font-size:.75rem;font-weight:700;letter-spacing:.06em;color:#5f4b3b}
+.download-card .button{margin-top:auto;overflow-wrap:anywhere}
+.classroom-materials{border-left:4px solid #8c6548;background:#f3e7cf;padding:1rem 1.25rem}
+.classroom-materials h3{margin:0}
+.classroom-materials ul{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;padding-left:1.2rem;margin-bottom:0}
+.classroom-materials a{display:inline-block;padding:.4rem 0;color:#5f4b3b;text-underline-offset:3px}
+@media(max-width:850px){.rea-downloads{grid-template-columns:1fr}}
+@media(max-width:520px){.reuse-heading{align-items:flex-start;gap:.65rem}.reuse-heading img{width:48px;height:48px;flex-basis:48px}.expedition-links{flex-direction:column}.expedition-links a{justify-content:center}}
+@media print{.expedition-links{display:none}}

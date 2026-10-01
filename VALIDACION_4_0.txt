@@ -1,0 +1,15 @@
+VALIDACIÓN WEB 4.0 — 30/09/2026
+- Sintaxis JavaScript comprobada con node --check.
+- Pruebas en DOM simulado: 32 combinaciones de etapa e isla, conservación
+  e importación de progreso antiguo, revisión manual por etapa, reinicio,
+  avisos de almacenamiento, foco y exportación identificada como 4.0.
+- Puzle: 12 piezas sin números visibles y con etiquetas accesibles.
+- ELPX 4.0 conservado byte a byte; SHA-256 registrado en VERSION.json.
+- Enlaces y recursos locales de las páginas HTML comprobados.
+- ZIP con index.html en la raíz; CRC e integridad comprobados.
+- No se incluyen datos de pruebas ni respuestas del alumnado.
+
+La vista previa local fue bloqueada por el navegador de revisión. No se
+afirma una inspección visual final de esta maquetación ni una auditoría WCAG.
+Tras publicar: comprobar portada, descargas, ventana Docente y una ruta
+en ordenador y móvil. La eficacia didáctica requiere evaluación en el aula.
