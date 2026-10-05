@@ -609,7 +609,7 @@ function applyLearningLevelToRoute(section){
 function setLearningLevel(level,persist=true){
  learningLevel=Object.prototype.hasOwnProperty.call(learningLevelCopy,level)?level:"middle";
  document.body.dataset.learningLevel=learningLevel;
- document.querySelectorAll("[data-learning-level]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.learningLevel===learningLevel)));
+ document.querySelectorAll(".learning-level-switch button[data-learning-level]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.learningLevel===learningLevel)));
  const status=byId("learningLevelStatus");
  if(status)status.textContent=`Nivel seleccionado: ${learningLevelLabel()}. ${learningLevelCopy[learningLevel].guide}`;
  document.querySelectorAll(".route").forEach(applyLearningLevelToRoute);
