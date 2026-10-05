@@ -18,8 +18,14 @@ assets/images/scene_la-graciosa.webp,"Mapa, escena o pintadera del recurso","Cr�
 assets/images/scene_la-palma.webp,"Mapa, escena o pintadera del recurso","Créditos originales: facilitado por la autoría; OpenAI ImageGen, agosto 2026",CC BY-NC-SA 4.0 sobre los derechos que correspondan; ver LICENCIA_Y_CREDITOS.txt
 assets/images/scene_lanzarote.webp,"Mapa, escena o pintadera del recurso","Créditos originales: facilitado por la autoría; OpenAI ImageGen, agosto 2026; edición OpenAI ImageGen, septiembre 2026 (quinqué/prendas)",CC BY-NC-SA 4.0 sobre los derechos que correspondan; ver LICENCIA_Y_CREDITOS.txt
 assets/images/scene_tenerife.webp,"Mapa, escena o pintadera del recurso","Créditos originales: facilitado por la autoría; OpenAI ImageGen, agosto 2026; edición OpenAI ImageGen, septiembre 2026 (quinqué/prendas)",CC BY-NC-SA 4.0 sobre los derechos que correspondan; ver LICENCIA_Y_CREDITOS.txt
-scripts.js,"Relatos, actividades y programación",Paquete MitoMapa 3.7.1 con revisión 3.8,Se mantiene la licencia general declarada; no se certifica licencia de software libre
+scripts.js,"Relatos, actividades y programación",Paquete MitoMapa 3.7.1 con revisión 3.8; revisión web 4.1.0,Se mantiene la licencia general declarada; no se certifica licencia de software libre
 downloads/MitoMapa_eXeLearning_v3_7.elpx,Implementación editable complementaria,MitoMapa eXeLearning 3.7 del proyecto,Ver créditos internos; no es la web 3.8
 downloads/Cuaderno_de_ruta_MitoMapa_web_4_0.html,Cuaderno del REA 4.0 adaptado al seguimiento de web y eXeLearning,Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana,CC BY-NC-SA 4.0
 downloads/Rubrica_lectura_MitoMapa_4_0.html,Rúbrica de lectura e impresión del REA 4.0,Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana,CC BY-NC-SA 4.0
 downloads/Rubrica_MitoMapa_4_0.csv,Rúbrica editable del REA 4.0,Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana,CC BY-NC-SA 4.0
+explorador.js,Mapa interactivo y expediciones con pistas,Revisión web 4.1.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
+explorador.css,Presentación accesible del mapa interactivo,Revisión web 4.1.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
+historias.js,Secuencias de las recreaciones literarias,Revisión web 4.1.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
+historias.css,Presentación y controles de las secuencias,Revisión web 4.1.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
+comparador.js,Comparación de cuentos y notas locales,Revisión web 4.1.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
+comparador.css,Presentación del comparador de cuentos,Revisión web 4.1.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt

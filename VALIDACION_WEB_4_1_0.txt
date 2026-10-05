@@ -1,0 +1,26 @@
+MitoMapa web 4.1.0 — comprobaciones del 05/10/2026
+
+Comprobaciones realizadas con Chromium:
+- Ocho rutas con cuatro acontecimientos, fuera del texto de narración.
+- Mapa: apertura por teclado, pistas, ayuda, lectura y retorno a la expedición.
+- Secuencia: mover mediante botones, conservar el foco, comprobar y recuperar
+  el orden tras recargar. Su resultado no concede una pintadera.
+- Comparador: selección de islas distintas, intercambio, notas por pareja,
+  descarga y conservación del texto más reciente en la exportación.
+- Carga de seguimiento 4.0.2: mantiene el progreso anterior y comienza las nuevas
+  actividades sin resultados ni notas previos. Carga 4.1.0: restaura ambos.
+- Etapas: orientación Infantil y Secundaria, requisitos originales y reinicio.
+- Puzle desplegable, comprensión y verdadero/falso originales, concesión de la
+  pintadera y sincronización con el nuevo mapa y el pasaporte.
+- Pantallas de 1280, 640, 390 y 320 píxeles, sin desbordamiento horizontal;
+  saltos de navegación por debajo de la cabecera e ilustraciones con carga diferida.
+- Ningún error JavaScript registrado en las comprobaciones integradas.
+
+axe-core 4.10.3: cero incidencias automáticas con las etiquetas WCAG 2 A/AA,
+2.1 AA y 2.2 AA en las vistas comprobadas de inicio/ruta y en la guía.
+Estas pruebas no constituyen una auditoría manual completa ni una certificación.
+Queda pendiente la observación de uso en aula y con tecnologías de asistencia.
+
+La integridad de los archivos y del ZIP editable se comprueba antes del despliegue
+con tools/update_release.py y tools/prepare_deploy.py. El ELPX mantiene la edición
+4.0.2. Las nuevas actividades pertenecen a la web y se documentan en su guía.

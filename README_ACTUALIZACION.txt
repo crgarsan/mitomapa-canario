@@ -1,9 +1,17 @@
-ACTUALIZAR MITOMAPA WEB Y REA 4.0.2 — 04/10/2026
+MITOMAPA WEB 4.1.0 / REA 4.0.2 — 05/10/2026
+
+INTERACTIVIDAD WEB
+La web añade un mapa navegable con expediciones de pistas, secuencias de los ocho
+cuentos y un comparador con notas locales. Son actividades opcionales y no cambian
+los requisitos de las pintaderas. Se incluyen en la web editable 4.1.0; el ELPX
+mantiene sus actividades nativas y la versión 4.0.2. Las secuencias y notas forman
+parte del seguimiento exportado desde Docente.
+
 
 CLOUDFLARE (Worker existente: mitomapa-canario)
 1. Antes de actualizar, descarga el seguimiento desde el recurso publicado si
    necesitas una copia de seguridad del trabajo local.
-2. Descomprime MitoMapa_Web_v4_0_2_Cloudflare.zip. index.html debe estar en la raíz.
+2. Descomprime MitoMapa_fuentes_web_v4_1_0.zip. index.html debe estar en la raíz.
 3. En tu Worker actual, utiliza New deployment y carga este ZIP o todos los archivos
    descomprimidos, según la opción que ofrezca el panel. No crees otro Worker.
 4. Conserva Assets directory /, HTML handling auto-trailing-slash y Not found
@@ -11,7 +19,7 @@ CLOUDFLARE (Worker existente: mitomapa-canario)
 5. Si el panel no ofrece carga de recursos, desde la carpeta usa:
    npx wrangler login
    npx wrangler deploy --assets . --name mitomapa-canario
-6. Verifica «Versión web 4.0.2», una descarga «REA 4.0.2», el selector docente
+6. Verifica «Versión web 4.1.0», una descarga «REA 4.0.2», el selector docente
    de tareas, la restauración de un borrador y el pasaporte anterior.
 7. Si ves la versión anterior, recarga con Ctrl+F5 o Cmd+Mayús+R.
 
@@ -54,7 +62,9 @@ un enlace solo en ese navegador. Comprueba que el formulario está publicado.
 
 LICENCIA Y VALIDACIÓN
 CC BY-NC-SA 4.0 para los materiales propios; se conservan créditos y fuentes.
-Lee CAMBIOS_WEB_4_0_2.md y VALIDACION_4_0_2.txt para ver alcance y límites.
+Lee CAMBIOS_WEB_4_1_0.md y CAMBIOS_WEB_4_0_2.md para ver el alcance de cada
+revisión. VALIDACION_WEB_4_1_0.txt describe las comprobaciones actuales;
+VALIDACION_4_0_2.txt describe la entrega anterior.
 No se han añadido falsas locuciones humanas: el audio sigue dependiendo de las
 voces del dispositivo. Los MP3 propios se pueden incorporar posteriormente.
 

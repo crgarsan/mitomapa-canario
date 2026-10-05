@@ -1,4 +1,5 @@
-MitoMapa web 4.0.2 / REA eXeLearning 4.0.2
-Código web revisado el 05/10/2026. Formato compatible con eXeLearning 4.0.5.
-Entrega preparada, pendiente de despliegue.
+MitoMapa web 4.1.0 / REA eXeLearning 4.0.2
+Código web revisado el 05/10/2026. Formato del REA: eXeLearning 4.0.5.
+Mapa con pistas, secuencias y comparación disponibles en la web editable.
+El despliegue se ejecuta desde GitHub Actions al actualizar main.
 El archivo VERSION.json conserva la huella de la descarga principal.

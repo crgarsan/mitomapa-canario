@@ -1,0 +1,39 @@
+/* Cuaderno de secuencias: controles de teclado y táctiles, sin arrastre obligatorio. */
+.story-sequence{max-width:1040px;margin:1.6rem auto;padding:clamp(1rem,3vw,1.6rem);border:1px solid #b9aa8e;border-left:7px solid var(--earth,#8c6548);background:#fbf5e8;color:#3f3b32;overflow-wrap:anywhere}
+.story-sequence h3{margin:.15rem 0 .6rem;font-size:clamp(1.35rem,2.5vw,1.8rem);color:#5f4b3b}
+.story-sequence h4{margin:0 0 .5rem;color:#5f4b3b}
+.story-sequence-kicker{margin:0;color:#5f4b3b;font-size:.78rem;font-weight:850;letter-spacing:.04em;text-transform:uppercase}
+.story-sequence-instruction{max-width:76ch;margin:.5rem 0}
+.story-sequence-note,.story-sequence-source,.story-sequence-storage{font-size:.87rem;line-height:1.6;color:#5f4b3b}
+.story-sequence-list{display:grid;gap:.65rem;margin:1.2rem 0;padding:0;list-style:none;counter-reset:none}
+.story-sequence-card{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:.45rem .7rem;align-items:center;padding:.8rem;border:1px solid #a89b83;background:var(--paper,#fffdf7);min-width:0}
+.story-sequence-position{display:grid;place-items:center;align-self:start;min-height:36px;background:var(--yellow,#e6c86b);color:#44382c;font-weight:900;border:1px solid #9c8744}
+.story-sequence-text{margin:.2rem 0;line-height:1.55;min-width:0}
+.story-sequence-move{display:flex;flex-wrap:wrap;gap:.4rem}
+.story-sequence-button{appearance:none;min-width:80px;min-height:44px;padding:.55rem .75rem;border:1px solid #8f7c64;border-radius:2px;background:#eee5d2;color:#5f4b3b;font:800 .9rem/1.3 Arial,Helvetica,sans-serif;cursor:pointer;overflow-wrap:anywhere}
+.story-sequence-button:hover:not(:disabled){background:var(--yellow,#e6c86b);color:#44382c}
+.story-sequence-button:focus-visible,.story-sequence a:focus-visible{outline:3px solid #5f4b3b;outline-offset:3px}
+.story-sequence-button:disabled{background:#f1ece2;color:#8b8175;border-color:#c0b6a7;cursor:default}
+.story-sequence-check{background:#5f4b3b;color:#fffdf7;border-color:#5f4b3b}
+.story-sequence-check:hover:not(:disabled){background:#493829;color:#fffdf7}
+.story-sequence-actions{display:flex;flex-wrap:wrap;gap:.55rem}
+.story-sequence-feedback{grid-column:2/-1;margin:0;font-size:.86rem;font-weight:750;line-height:1.45}
+.story-sequence-feedback:empty{display:none}
+.story-sequence-correct{border-color:#708266;background:#eef5e8}
+.story-sequence-correct .story-sequence-feedback{color:#36532d}
+.story-sequence-revise{border-color:#b37562;background:#fff2eb}
+.story-sequence-revise .story-sequence-feedback{color:#803d2f}
+.story-sequence-status{min-height:1.6em;margin:1rem 0;padding:.8rem 1rem;border-left:5px solid var(--sky-dark,#6f9ea5);background:var(--sky,#d8eaed);color:#3f4e50;font-weight:750;line-height:1.55}
+.story-sequence-passed .story-sequence-status{border-color:#708266;background:#eef5e8;color:#36532d}
+.story-sequence-hint,.story-sequence-support{padding:.8rem 1rem;border:1px solid #cfbc7c;background:#fff9e3;color:#5f4b3b}
+.story-sequence-hint{margin:.8rem 0}
+.story-sequence-support ol{margin:.5rem 0 0;padding-left:1.5rem}
+.story-sequence-support li+li{margin-top:.5rem}
+.story-sequence-source{margin:1rem 0 0;padding-top:.9rem;border-top:1px solid #cdbf9f}
+.story-sequence-source a{color:#07536c;font-weight:750}
+.story-sequence-storage{margin:.6rem 0 0}
+.mode-guided .story-sequence{max-width:900px}
+@media(max-width:760px){.story-sequence-card{grid-template-columns:36px minmax(0,1fr)}.story-sequence-move{grid-column:2/-1}.story-sequence-feedback{grid-column:2/-1}}
+@media(max-width:420px){.story-sequence{padding:.85rem;border-left-width:5px}.story-sequence-card{padding:.7rem;gap:.45rem .55rem;grid-template-columns:30px minmax(0,1fr)}.story-sequence-position{min-height:30px}.story-sequence-move{grid-column:1/-1}.story-sequence-move .story-sequence-button{flex:1 1 80px}.story-sequence-feedback{grid-column:1/-1}.story-sequence-actions .story-sequence-button{flex:1 1 145px}.story-sequence-status,.story-sequence-hint,.story-sequence-support{padding:.7rem}}
+@media(prefers-reduced-motion:reduce){.story-sequence,.story-sequence *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{.story-sequence{break-inside:avoid;border-left-width:1px}.story-sequence-move,.story-sequence-actions,.story-sequence-status,.story-sequence-storage{display:none!important}.story-sequence-card{grid-template-columns:36px minmax(0,1fr)}}

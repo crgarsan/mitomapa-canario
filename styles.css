@@ -281,3 +281,9 @@ html{scroll-padding-top:var(--header-offset,8rem)}
 .print-credit{margin-top:1rem;font-size:.8rem;color:#554735}
 .panel pre{overflow-wrap:anywhere}
 #studentFeedback > .eyebrow{color:var(--earth-dark)}
+.puzzle-disclosure{border:1px solid #cfc3ad;background:#fffdf7}
+.puzzle-disclosure>summary{padding:1rem;font-weight:800;cursor:pointer;min-height:44px;color:var(--earth-dark)}
+.puzzle-disclosure>summary:focus-visible{outline:3px solid var(--earth-dark);outline-offset:3px}
+.puzzle-disclosure>.lead{padding:0 1rem}
+#exploreMap,#compareStories{scroll-margin-top:var(--header-offset,100px)}
+@media print{.puzzle-disclosure,#compareStories,.story-sequence{display:none!important}}
