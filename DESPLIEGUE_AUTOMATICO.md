@@ -5,21 +5,19 @@ El repositorio contiene la web estática y el Worker existente se llama
 solo los archivos públicos y los despliega con Wrangler. Mantiene la URL del
 Worker de la cuenta configurada.
 
-El flujo está desactivado inicialmente. Para activarlo, una persona con acceso a
-la cuenta de Cloudflare debe comprobar que el Worker `mitomapa-canario` pertenece
-a esa cuenta y crear un token de API limitado a la edición de Workers Scripts.
+Cada push a `main` inicia el despliegue. Una persona con acceso a la cuenta de
+Cloudflare debe comprobar que el Worker `mitomapa-canario` pertenece a esa cuenta
+y crear un token de API limitado a la edición de Workers Scripts.
 En **GitHub → Settings → Secrets and variables → Actions**, añade estos secretos:
 
 - `CLOUDFLARE_API_TOKEN`: token de esa cuenta, sin incluirlo en archivos.
 - `CLOUDFLARE_ACCOUNT_ID`: identificador de esa cuenta.
 
-Después, añade la variable de repositorio
-`MITOMAPA_CLOUDFLARE_AUTODEPLOY_20261005` con valor `enabled` y ejecuta
-manualmente **Deploy MitoMapa to Cloudflare** una vez desde
-Actions. Comprueba en la URL pública la versión, las ocho rutas, el pasaporte,
-la guía y la descarga del REA. Desde entonces, cada push a `main` iniciará el
-mismo flujo automáticamente. Si la variable falta o tiene otro valor, el trabajo
-de despliegue se omite.
+Después de configurar los secretos, comprueba la ejecución de **Deploy MitoMapa
+to Cloudflare** en Actions. También puedes iniciarla manualmente con **Run
+workflow**. Comprueba en la URL pública la autoría, las ocho rutas, el pasaporte,
+la guía y la descarga del REA. Un error de credenciales aparece como un fallo del
+despliegue en Actions y puede consultarse en el paso **Deploy existing Worker**.
 
 Los cambios hechos directamente en el panel de Cloudflare no vuelven a GitHub y
 el siguiente despliegue desde `main` puede reemplazarlos. Conserva en el

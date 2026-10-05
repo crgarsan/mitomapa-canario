@@ -17,12 +17,12 @@ CLOUDFLARE (Worker existente: mitomapa-canario)
 
 Se han conservado las claves locales y los identificadores de ruta. Mantener
 la misma dirección permite conservar el progreso guardado; no traslada datos
-entre navegadores o dominios. No se ha desplegado automáticamente.
+entre navegadores o dominios.
 
 DESPLIEGUE DESDE GITHUB
 El repositorio incluye un flujo de GitHub Actions para desplegar el Worker desde
-main. Permanece desactivado hasta configurar los secretos de Cloudflare y la
-variable de activación. La configuración se explica en
+main. El despliegue requiere los dos secretos de Cloudflare y se ejecuta con cada
+push a main. La configuración se explica en
 DESPLIEGUE_AUTOMATICO.md del repositorio GitHub; no forma parte del ZIP web.
 La carga manual anterior sigue disponible mientras tanto.
 
