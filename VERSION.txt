@@ -1,4 +1,4 @@
-MitoMapa web 4.0.1 / REA eXeLearning 4.0.1
-Preparado el 30/09/2026. Programa compatible: eXeLearning 4.0.5.
-Corrección de referencias de imágenes, requisitos por etapa y patrones de respuesta.
-Paquete con index.html en la raíz. Pendiente de despliegue.
+MitoMapa web 4.0.2 / REA eXeLearning 4.0.2
+Código web revisado el 05/10/2026. Formato compatible con eXeLearning 4.0.5.
+Entrega preparada, pendiente de despliegue.
+El archivo VERSION.json conserva la huella de la descarga principal.

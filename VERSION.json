@@ -1,17 +1,32 @@
 {
-  "web_version": "4.0.1",
-  "rea_exelearning_version": "4.0.1",
+  "web_version": "4.0.2",
+  "rea_exelearning_version": "4.0.2",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-09-30",
+  "prepared_at": "2026-10-05",
   "publication_status": "prepared_not_deployed",
   "download": {
-    "path": "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx",
-    "sha256": "a8e6e8a1d71d7547171d1665b83edd9b9944d5f92f061767ff9d0fdf669c77d8",
-    "bytes": 3991506
+    "path": "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_2.elpx",
+    "sha256": "5bf249e922c223aaeba2d39f88ce6394a730b66502ed3700e1a10e597d9c19dc",
+    "bytes": 3994474
   },
-  "previous_web_version": "4.0",
-  "previous_rea_version": "4.0",
-  "public_download_before_update": "4.0",
+  "previous_web_version": "4.0.1",
+  "previous_rea_version": "4.0.1",
+  "public_download_before_update": "4.0.2",
   "deployment_format": "static_assets_root",
-  "compatibility_alias": "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx"
+  "presets": [
+    {
+      "name": "Esencial",
+      "report_count": 9,
+      "path": "downloads/MitoMapa_REA_v4_0_2_Esencial.elpx"
+    },
+    {
+      "name": "Intermedio",
+      "report_count": 33,
+      "path": "downloads/MitoMapa_REA_v4_0_2_Intermedio.elpx"
+    }
+  ],
+  "compatibility_aliases": [
+    "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
+    "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
+  ]
 }

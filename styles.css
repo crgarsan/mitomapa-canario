@@ -93,10 +93,7 @@ dialog[open] .dialog-badge{animation:badge-arrive .48s ease-out}.reward.show{ani
 body[data-learning-level="early"] .story p{font-size:1.16rem;line-height:1.82}
 body[data-learning-level="early"] .route-grid{grid-template-columns:1fr;max-width:880px;margin-inline:auto}
 body[data-learning-level="early"] .story .radar{display:none}
-body[data-learning-level="middle"] .activity-tabs [data-activity-tab="research"],
-body[data-learning-level="middle"] .activity-tabs [data-activity-tab="creation"],
-body[data-learning-level="middle"] .activity-panel[data-activity-panel="research"],
-body[data-learning-level="middle"] .activity-panel[data-activity-panel="creation"]{display:none!important}
+
 .teacher-button{border:1px solid rgba(255,255,255,.35);background:#d7e7d2;color:#23352a;border-radius:2px;padding:.55rem .9rem;font:800 .86rem/1 Arial,Helvetica,sans-serif;cursor:pointer;white-space:nowrap}
 .teacher-summary{display:flex;flex-wrap:wrap;gap:.55rem;margin:.85rem 0}
 .teacher-summary span{background:#f3ead7;border:1px solid #ded0b3;border-radius:2px;padding:.45rem .7rem;font-weight:750}
@@ -179,8 +176,6 @@ body[data-learning-level="secondary"] .activity-workshop{border-left-color:var(-
 html{scroll-padding-top:6.75rem}
 .route{scroll-margin-top:6.75rem}
 .hero{align-items:start}
-.hero-authors{padding:.65rem .85rem;border-left:4px solid var(--earth);background:rgba(255,255,255,.75);font-size:.95rem;line-height:1.5}
-.hero-authors a{color:var(--earth-dark);font-weight:700}
 .hero>div:first-child{min-width:0}
 .hero-visual{position:relative;z-index:1;display:grid;gap:.8rem;align-self:start;min-width:0}
 .hero-map{margin:0;width:100%}
@@ -261,6 +256,18 @@ html{scroll-padding-top:var(--header-offset,8rem)}
 @media(max-width:520px){.reuse-heading{align-items:flex-start;gap:.65rem}.reuse-heading img{width:48px;height:48px;flex-basis:48px}.expedition-links{flex-direction:column}.expedition-links a{justify-content:center}}
 @media print{.expedition-links{display:none}}
 
+/* 4.0.2: tareas asignadas y estados de borrador */
+.teacher-assignment{display:flex;flex-wrap:wrap;gap:.4rem;border:1px solid #8b7b65;border-radius:.4rem;padding:.5rem;margin:0 0 .5rem;white-space:normal}
+.teacher-assignment legend{font-weight:700;font-size:.85rem}.teacher-assignment label{display:flex;align-items:center;gap:.25rem;font-size:.85rem}
+.assigned-label select{max-width:100%;padding:.4rem;background:#fff;color:#332a23;border:1px solid #776954;font:inherit}
+.external-review{display:flex;align-items:flex-start;gap:.4rem;margin:.5rem 0;font-size:.85rem;white-space:normal}
+.draft-status,.research-draft-status{font-size:.9rem;color:#3b513a;margin:.65rem 0}.external-creation-note{padding:1rem;background:#edf3e8;border:1px solid #799173;border-radius:.5rem;color:#29422b}
+.feedback-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1rem}.feedback-grid label{display:grid;gap:.4rem}.feedback-grid select,.feedback-grid textarea,.form-url-setting input{width:100%;box-sizing:border-box;padding:.65rem;font:inherit;border:1px solid #776954;border-radius:.35rem;background:#fff;color:#332a23}.feedback-grid textarea{resize:vertical;min-height:6rem}
+.form-url-setting{display:grid;gap:.4rem;margin:1rem 0}.feedback-note{font-size:.9rem}.draft-status:empty,.research-draft-status:empty{display:none}
+@media print{#studentFeedback,.form-url-setting{display:none!important}}
+
+.hero-authors{padding:.65rem .85rem;border-left:4px solid var(--earth);background:rgba(255,255,255,.75);font-size:.95rem;line-height:1.5}
+.hero-authors a{color:var(--earth-dark);font-weight:700}
 .learning-path{margin:1rem 0;padding:1rem 1.2rem;border:1px solid #b9ccd0;border-left:5px solid var(--sky-dark);background:#edf6f7}
 .learning-path h3{margin:0 0 .5rem;color:var(--earth-dark)}
 .learning-path ol{margin:.3rem 0 0;padding-left:1.4rem}
@@ -273,3 +280,4 @@ html{scroll-padding-top:var(--header-offset,8rem)}
 .curriculum-table th{background:#edf6f7}
 .print-credit{margin-top:1rem;font-size:.8rem;color:#554735}
 .panel pre{overflow-wrap:anywhere}
+#studentFeedback > .eyebrow{color:var(--earth-dark)}

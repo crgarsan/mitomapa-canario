@@ -1,0 +1,31 @@
+name: Deploy MitoMapa to Cloudflare
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: mitomapa-cloudflare-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: vars.MITOMAPA_CLOUDFLARE_AUTODEPLOY_20261005 == 'enabled'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify and stage static files
+        run: python3 tools/prepare_deploy.py
+      - name: Install Wrangler
+        run: npm install --no-save wrangler@4.147.0
+      - name: Deploy existing Worker
+        run: npx wrangler deploy --config wrangler.jsonc
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

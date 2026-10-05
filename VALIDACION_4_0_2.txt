@@ -1,0 +1,27 @@
+COMPROBACIONES — MITOMAPA 4.0.2, 04/10/2026
+
+Punto de partida: HTML, JavaScript y CSS publicados coincidían byte a byte con
+la entrega 4.0.1 conservada. Revisión funcional de la publicación en escritorio.
+La vista previa local de 4.0.2 no es accesible desde este navegador remoto.
+
+PASS en pruebas de código con DOM simulado:
+- 8 rutas; 48 respuestas de comprensión y V/F, reto final y diploma.
+- 32 combinaciones de etapa e isla; cambio de etapa y criterios de pintaderas.
+- Borradores automáticos, recarga, edición de trabajo completado, revisión invalidada.
+- Tareas asignadas, recuentos 0/1, 0/2 y 0/3; estado sin tareas, pestañas con teclado.
+- Evidencia externa, extensión adaptada y rechazo de producción vacía.
+- Respuestas persistentes, importación/exportación anterior y nueva, fallo de cuota.
+- Descarga de borrador, URL de formulario de respuesta y valoración local sin nombres.
+
+PASS de archivos:
+- ELPX principal: integridad ZIP, XML, 14 páginas, 94 iDevices nativos.
+- 829 referencias locales, sin ausencias ni carpeta resources duplicada.
+- 16 juegos de preguntas y 8 de V/F: datos editables/exportados coherentes con web.
+- Copias Esencial/Intermedia: grupos e informes coincidentes, 9/33 juegos activos.
+- Enlaces locales HTML, configuración, descarga y huellas del paquete final.
+
+LÍMITES: no equivale a apertura/reexportación manual en el editor eXeLearning,
+prueba SCORM/Moodle, auditoría WCAG, móvil real, lector de pantalla ni validación
+con alumnado. La versión 4.0.2 necesita comprobación visual tras el despliegue.
+El formulario web de Google requiere su URL pública; eXe conserva la suya, cuyo
+estado de publicación debe comprobarse. No se han incorporado audios humanos.
