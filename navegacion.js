@@ -111,7 +111,7 @@
       byId("homeActions").append(resume);
     }
     const reset = byId("resetProgress");
-    reset.classList.add("teacher-reset");byId("teacherDialog").append(reset);
+    reset.classList.add("teacher-reset");(byId("teacherToolsPanel")||byId("teacherDialog")).append(reset);
     document.body.classList.add("navigation-ready");
     document.addEventListener("click", event => {
       const link = event.target.closest("a[href^='#']");

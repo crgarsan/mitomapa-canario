@@ -48,7 +48,13 @@
   }
 
   function openStory(id) {
-    if (context && typeof context.openRoute === 'function') context.openRoute(id);
+    if (context && typeof context.openRoute === 'function') context.openRoute(id, {step: 'cuento'});
+  }
+
+  function updatePinLabel(pin) {
+    const action = playing && !complete ? 'responder a la pista con esta isla' : 'abrir su cuento';
+    const state = pin.classList.contains('explore-pin-earned') ? 'conseguida en la etapa seleccionada' : 'por conseguir en la etapa seleccionada';
+    pin.setAttribute('aria-label', pin.dataset.island + ': ' + action + '. ' + pin.dataset.badgeName + ', ' + state + '.');
   }
 
   function chooseIsland(route) {
@@ -123,11 +129,12 @@
     controls.leave.hidden = !playing;
     controls.game.hidden = !playing;
     controls.mapInstruction.textContent = playing && !complete
-      ? 'Elige en el mapa la isla que responde a la pista. También puedes usar el teclado: Tab para recorrer los botones y Enter para elegir.'
-      : 'Elige una isla para abrir su cuento. También puedes usar el teclado: Tab para recorrer los botones y Enter para abrir.';
+      ? 'Toca la pintadera de la isla que responde a la pista. Con el teclado, usa Tab para recorrer las islas y Enter para elegir.'
+      : 'Empieza por la isla que quieras. Toca una pintadera para abrir su cuento. Con el teclado, usa Tab para recorrer las islas y Enter para abrir.';
     controls.pins.forEach(pin => {
       pin.classList.remove('explore-pin-found');
       pin.setAttribute('aria-describedby', 'exploreMapInstruction');
+      updatePinLabel(pin);
     });
     if (!playing) return;
     controls.restart.hidden = !complete;
@@ -162,6 +169,7 @@
       if (earned) earnedCount += 1;
       pin.classList.toggle('explore-pin-earned', Boolean(earned));
       pin.querySelector('.explore-pin-state-value').textContent = earned ? 'Conseguida' : 'Por conseguir';
+      updatePinLabel(pin);
     });
     controls.progress.textContent = 'En la etapa seleccionada: ' + earnedCount + ' de ' + controls.pins.length + ' pintaderas conseguidas. Las pistas son una actividad libre y no modifican ese progreso.';
   }
@@ -241,19 +249,28 @@
     image.src = context.assets && context.assets['mapa_canarias.webp'] || 'assets/images/mapa_canarias.webp';
     image.width = 1600;
     image.height = 807;
-    image.alt = 'Relieve de las ocho islas habitadas de Canarias. Los botones muestran sus nombres y permiten abrir cada ruta.';
+    image.alt = 'Relieve de las ocho islas habitadas de Canarias. Las pintaderas junto a los nombres permiten abrir cada cuento.';
     stage.appendChild(image);
     const islands = element('div', 'explore-map-islands');
     islands.setAttribute('role', 'group');
     islands.setAttribute('aria-label', 'Elige una de las ocho rutas insulares');
-    controls.pins = context.routes.filter(route => positions[route.id]).map((route, index) => {
+    controls.pins = context.routes.filter(route => positions[route.id]).map(route => {
       const northLabel = route.id === 'la-graciosa' || route.id === 'tenerife';
       const pin = button('', 'explore-pin' + (northLabel ? ' explore-pin-north' : ''), () => chooseIsland(route));
       pin.dataset.route = route.id;
+      pin.dataset.island = route.island;
+      pin.dataset.badgeName = route.badgeName;
       pin.style.setProperty('--explore-x', positions[route.id][0] + '%');
       pin.style.setProperty('--explore-y', positions[route.id][1] + '%');
-      const marker = element('span', 'explore-pin-number', String(index + 1));
+      const marker = element('span', 'explore-pin-badge');
       marker.setAttribute('aria-hidden', 'true');
+      const badge = element('img', 'explore-pin-image');
+      badge.src = context.assets && context.assets[route.badge] || 'assets/images/' + route.badge;
+      badge.alt = '';
+      badge.width = 44;
+      badge.height = 44;
+      badge.decoding = 'async';
+      marker.appendChild(badge);
       const label = element('span', 'explore-pin-label');
       const state = element('span', 'explore-pin-state');
       state.append(element('span', 'explore-visually-hidden', 'Pintadera: '), element('span', 'explore-pin-state-value'));

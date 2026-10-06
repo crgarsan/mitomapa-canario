@@ -1,6 +1,6 @@
-MitoMapa web 4.2.0 / REA eXeLearning 4.0.2
+MitoMapa web 4.3.0 / REA eXeLearning 4.0.2
 Código web revisado el 06/10/2026. Formato del REA: eXeLearning 4.0.5.
-Interfaz organizada en Inicio, Islas, Juegos y Recursos; rutas por pasos.
-La navegación y las interacciones están incluidas en el ZIP editable web.
+Islas sin numeración con pintaderas interactivas y guía práctica en Docente.
+La web y su guía imprimible están incluidas en el ZIP editable.
 El despliegue se ejecuta desde GitHub Actions al actualizar main.
 El archivo VERSION.json conserva la huella de la descarga principal.

@@ -1,0 +1,36 @@
+MitoMapa web 4.3.0 — comprobaciones del 06/10/2026
+
+Alcance: mapa con pintaderas interactivas, elección libre de isla y guía docente.
+El REA nativo y sus selecciones conservan la edición 4.0.2 sin cambios.
+
+Comprobaciones independientes con Chromium: 176 comprobaciones superadas,
+sin errores JavaScript en los recorridos comprobados.
+- Las ocho pintaderas cargan las mismas imágenes que el pasaporte y abren
+  cada cuento con teclado o ratón, sin requisitos previos ni numeración.
+- Lista de islas y cabeceras de cuentos sin números. Salida al mapa para
+  elegir otra isla en lugar de proponer una siguiente ruta fija.
+- Cinco pistas con ayuda, reintento y regreso a la exploración libre.
+  El estado de las pintaderas conseguidas se conserva en el mapa.
+- Guía de actividad como primera pestaña de Docente; herramientas de ajustes
+  y seguimiento en otra pestaña. Flechas, Escape, foco y cambio de etapa.
+- Pantallas entre 320 y 1280 píxeles: controles utilizables, imágenes cargadas,
+  sin desbordamiento ni solapamiento de los botones del mapa.
+- Exportación e importación conservan etapa, tareas, acuerdos y borradores.
+
+Comprobaciones adicionales:
+- Docente vuelve al inicio de la guía al reabrirse y enfoca su pestaña.
+- Cambio de etapa desde la preparación, copia de la guía para imprimir,
+  PDF con contenido completo y retorno a la web.
+- Exportación 4.3.0 y acceso directo a las herramientas desde el aviso de guardado.
+- axe-core 4.10.3: cero incidencias automáticas WCAG 2 A/AA, 2.1 AA y 2.2 AA
+  en mapa, guía, preparación abierta y herramientas a 320 píxeles, en ambos
+  apartados de Docente a 1280 píxeles y en la guía imprimible a 320 píxeles.
+
+Las pruebas no constituyen una auditoría manual completa ni una certificación
+ni demuestran eficacia educativa. Queda pendiente la observación en el aula,
+con tecnologías de asistencia y en dispositivos móviles reales.
+
+Los requisitos de las pintaderas y del reto final y las claves de guardado
+se conservan. La integridad de los archivos y del ZIP editable se comprueba
+con SHA256 y tools/update_release.py / tools/prepare_deploy.py. La publicación
+se verifica en la dirección pública después del despliegue automático.

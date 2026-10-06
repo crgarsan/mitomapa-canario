@@ -25,18 +25,19 @@
 .explore-map-islands{position:absolute;inset:0}
 .explore-pin{position:absolute;left:var(--explore-x);top:var(--explore-y);transform:translate(-50%,-22px);z-index:1;appearance:none;display:flex;align-items:center;flex-direction:column;gap:4px;min-width:44px;min-height:44px;padding:0;border:0;color:var(--explore-earth);background:transparent;font:inherit;line-height:1.2;cursor:pointer;border-radius:.65rem}
 .explore-pin-north{transform:translate(-50%,calc(-100% + 22px))}
-.explore-pin-number{display:grid;place-items:center;width:44px;height:44px;flex-shrink:0;border:3px solid var(--explore-earth);background:#fff9dc;color:var(--explore-earth);border-radius:50%;font-weight:900;font-size:1.05rem;box-shadow:0 2px 8px #0003}
+.explore-pin-badge{display:grid;place-items:center;width:44px;height:44px;flex-shrink:0;border:2px solid var(--explore-earth);background:#fff9dc;border-radius:50%;box-shadow:0 2px 8px #0003}
+.explore-pin-image{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 1px 1px #0002)}
 .explore-pin-label{display:flex;flex-direction:column;align-items:center;gap:3px;padding:.35rem .5rem;max-width:160px;border-radius:.5rem;background:#fff;color:var(--explore-earth);box-shadow:0 2px 8px #0002;border:1px solid #bfb09b}
 .explore-pin-name{font-size:.9rem;white-space:nowrap}
 .explore-pin-state{font-size:.65rem;font-weight:650;white-space:nowrap}
-.explore-pin:hover .explore-pin-number{background:var(--explore-yellow);box-shadow:0 0 0 4px #ffffffd9}
+.explore-pin:hover .explore-pin-badge{background:var(--explore-yellow);box-shadow:0 0 0 4px #ffffffd9}
 .explore-pin-earned .explore-pin-label{border:2px solid #3e6b49;background:#f0f7ee}
-.explore-pin-found .explore-pin-number{background:var(--explore-yellow);border-color:#24442c;box-shadow:0 0 0 5px #ffffffdf}
+.explore-pin-found .explore-pin-badge{background:var(--explore-yellow);border-color:#24442c;box-shadow:0 0 0 5px #ffffffdf}
 .explore-progress{font-size:.88rem;margin:1rem 0 0;padding:.8rem 1rem;border-radius:.65rem;background:#f1ede5;color:var(--explore-earth)}
 @media(max-width:1000px){
  .explore-map-islands{position:static;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;margin-top:.85rem}
  .explore-pin,.explore-pin-north{position:static;transform:none;flex-direction:row;justify-content:flex-start;gap:.55rem;padding:.65rem;border:1px solid #bfb09b;background:#fff;min-height:76px;text-align:left}
- .explore-pin-north .explore-pin-number{order:-1}
+ .explore-pin-north .explore-pin-badge{order:-1}
  .explore-pin-label{align-items:flex-start;border:0;box-shadow:none;padding:0;min-width:0;background:transparent}
  .explore-pin-name{white-space:normal;overflow-wrap:anywhere}
  .explore-pin-state{white-space:normal;font-size:.7rem}
@@ -45,7 +46,7 @@
  .explore-pin-found{box-shadow:inset 0 0 0 2px #24442c;background:#fff9dc}
  .explore-pin:hover{background:#f8f1d9}
 }
-@media(max-width:750px){.explore-map-islands{grid-template-columns:repeat(2,minmax(0,1fr))}.explore-pin{min-height:80px}.explore-pin-number{width:38px;height:38px;font-size:.95rem}.explore-pin-name{font-size:.86rem}}
-@media(max-width:380px){.explore-map-islands{gap:.5rem}.explore-pin{padding:.5rem;gap:.35rem;align-items:flex-start}.explore-pin-number{width:30px;height:30px;border-width:2px;font-size:.85rem}.explore-pin-name{font-size:.8rem}.explore-pin-state{font-size:.65rem}.explore-actions .explore-button{width:100%}}
+@media(max-width:750px){.explore-map-islands{grid-template-columns:repeat(2,minmax(0,1fr))}.explore-pin{min-height:80px}.explore-pin-name{font-size:.86rem}}
+@media(max-width:380px){.explore-map-islands{gap:.5rem}.explore-pin{padding:.5rem;gap:.35rem;flex-direction:column;align-items:center;text-align:center}.explore-pin-label{align-items:center}.explore-pin-name{font-size:.8rem}.explore-pin-state{font-size:.65rem}.explore-actions .explore-button{width:100%}}
 @media(prefers-reduced-motion:reduce){.map-explorer *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 @media print{.map-explorer{display:none}}
