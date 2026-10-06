@@ -1,6 +1,6 @@
-MitoMapa web 4.3.1 / REA eXeLearning 4.0.2
+MitoMapa web 4.4.0 / REA eXeLearning 4.0.2
 Código web revisado el 06/10/2026. Formato del REA: eXeLearning 4.0.5.
-Corrección del espacio interior, título y mapa de Inicio.
-Se conserva el foco de navegación y su indicación al usar teclado.
+Narración de los ocho cuentos: Jesica Fortes Regalado.
+Entrada suave opcional de percusión y naturaleza recreadas.
 El despliegue se ejecuta desde GitHub Actions al actualizar main.
 El archivo VERSION.json conserva la huella de la descarga principal.

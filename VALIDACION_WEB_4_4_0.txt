@@ -1,0 +1,35 @@
+MitoMapa web 4.4.0 — comprobaciones del 06/10/2026
+
+Se identificaron 13 WAV mediante transcripción local y comparación con los
+cuentos; se eligieron ocho tomas. Las omisiones aparentes del ASR en límites de
+30 segundos se resolvieron comprobando fragmentos cortos. No se atribuyen
+automáticamente las diferencias de transcripción a errores de la narradora.
+El contenido y las medidas acústicas no sustituyen la escucha humana para
+valorar expresividad; varias tomas alternativas también tienen buena calidad.
+
+161 comprobaciones Playwright/Chromium superadas; 16 MP3 decodificados.
+Cero errores de página y promesas rechazadas sin manejar.
+Tras la reconexión: 72 comprobaciones adicionales superadas sobre las ocho
+rutas y sus grabaciones reales, sin errores JavaScript ni precarga de audio.
+- Abrir las ocho rutas no crea reproductores ni precarga MP3.
+- Crédito de Jesica, velocidad Normal 1, pausa, continuación, parada y replay.
+- Ambiente elige la variante correcta; cambiarlo pide reiniciar la lectura.
+- Navegación y cierre detienen el audio; ocultar la pestaña lo pausa.
+- Cancelación de reproducción pendiente, error 404 y ausencia de síntesis.
+- Móvil de 390 px sin desbordamiento; casilla por teclado y etiqueta de 44 px.
+
+26 aserciones aisladas del reproductor superadas. Generador comprobado con WAV
+de prueba: recorte conservador, pausas interiores, normalización en dos pasos,
+picos finales y salidas reproducibles con las mismas herramientas.
+Los MP3 finales son mono, 44,1 kHz y 64 kbps; voz alrededor de -19,4 LUFS y
+picos inferiores a -1,5 dBFS. Entrada de 5 s; naturaleza desvanecida en los
+primeros 6 s de voz. Los niveles y hashes están en AUDIO_ORIGENES.json.
+
+axe-core 4.10.3: cero incidencias automáticas WCAG 2 A/AA, 2.1 AA y 2.2 AA en
+Tenerife a 1217 px, La Graciosa a 390 px y los créditos a 390 px. Tabla de
+créditos accesible por teclado. Revisión visual en escritorio y móvil.
+No constituye una certificación ni una auditoría manual completa.
+
+Integridad de los archivos y del ZIP editable mediante SHA256 y
+tools/prepare_deploy.py. El ELPX conserva su hash y edición 4.0.2.
+La publicación se comprueba por separado después del despliegue.

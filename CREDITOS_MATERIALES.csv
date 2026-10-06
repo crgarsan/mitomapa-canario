@@ -36,3 +36,21 @@ recorrido.css,Presentación de los pasos de cada isla,Revisión web 4.2.0 del re
 docente.js,Guía inicial y herramientas docentes en pestañas,Revisión web 4.3.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
 docente.css,Presentación del espacio docente y guía,Revisión web 4.3.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
 GUIA_DOCENTE.html,Orientaciones prácticas para desarrollar la actividad en el aula,Revisión web 4.3.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
+assets/audio/tenerife.mp3,Narración grabada del cuento,Jesica Fortes Regalado; grabación aportada por la autoría,CC BY-NC-SA 4.0; ver AUDIO_CREDITOS.html
+assets/audio/tenerife-ambiente.mp3,Narración con entrada sonora recreada,Jesica Fortes Regalado; adaptación sonora digital de MitoMapa,CC BY-NC-SA 4.0; efectos recreados; ver AUDIO_CREDITOS.html
+assets/audio/gran-canaria.mp3,Narración grabada del cuento,Jesica Fortes Regalado; grabación aportada por la autoría,CC BY-NC-SA 4.0; ver AUDIO_CREDITOS.html
+assets/audio/gran-canaria-ambiente.mp3,Narración con entrada sonora recreada,Jesica Fortes Regalado; adaptación sonora digital de MitoMapa,CC BY-NC-SA 4.0; efectos recreados; ver AUDIO_CREDITOS.html
+assets/audio/la-palma.mp3,Narración grabada del cuento,Jesica Fortes Regalado; grabación aportada por la autoría,CC BY-NC-SA 4.0; ver AUDIO_CREDITOS.html
+assets/audio/la-palma-ambiente.mp3,Narración con entrada sonora recreada,Jesica Fortes Regalado; adaptación sonora digital de MitoMapa,CC BY-NC-SA 4.0; efectos recreados; ver AUDIO_CREDITOS.html
+assets/audio/la-gomera.mp3,Narración grabada del cuento,Jesica Fortes Regalado; grabación aportada por la autoría,CC BY-NC-SA 4.0; ver AUDIO_CREDITOS.html
+assets/audio/la-gomera-ambiente.mp3,Narración con entrada sonora recreada,Jesica Fortes Regalado; adaptación sonora digital de MitoMapa,CC BY-NC-SA 4.0; efectos recreados; ver AUDIO_CREDITOS.html
+assets/audio/el-hierro.mp3,Narración grabada del cuento,Jesica Fortes Regalado; grabación aportada por la autoría,CC BY-NC-SA 4.0; ver AUDIO_CREDITOS.html
+assets/audio/el-hierro-ambiente.mp3,Narración con entrada sonora recreada,Jesica Fortes Regalado; adaptación sonora digital de MitoMapa,CC BY-NC-SA 4.0; efectos recreados; ver AUDIO_CREDITOS.html
+assets/audio/fuerteventura.mp3,Narración grabada del cuento,Jesica Fortes Regalado; grabación aportada por la autoría,CC BY-NC-SA 4.0; ver AUDIO_CREDITOS.html
+assets/audio/fuerteventura-ambiente.mp3,Narración con entrada sonora recreada,Jesica Fortes Regalado; adaptación sonora digital de MitoMapa,CC BY-NC-SA 4.0; efectos recreados; ver AUDIO_CREDITOS.html
+assets/audio/lanzarote.mp3,Narración grabada del cuento,Jesica Fortes Regalado; grabación aportada por la autoría,CC BY-NC-SA 4.0; ver AUDIO_CREDITOS.html
+assets/audio/lanzarote-ambiente.mp3,Narración con entrada sonora recreada,Jesica Fortes Regalado; adaptación sonora digital de MitoMapa,CC BY-NC-SA 4.0; efectos recreados; ver AUDIO_CREDITOS.html
+assets/audio/la-graciosa.mp3,Narración grabada del cuento,Jesica Fortes Regalado; grabación aportada por la autoría,CC BY-NC-SA 4.0; ver AUDIO_CREDITOS.html
+assets/audio/la-graciosa-ambiente.mp3,Narración con entrada sonora recreada,Jesica Fortes Regalado; adaptación sonora digital de MitoMapa,CC BY-NC-SA 4.0; efectos recreados; ver AUDIO_CREDITOS.html
+narraciones.js,Registro de las ocho grabaciones de la web,Revisión web 4.4.0 de MitoMapa,Se mantiene la licencia general; ver LICENCIA_Y_CREDITOS.txt
+tools/prepare_narrations.py,Preparación reproducible de voz y entrada sonora recreada,Revisión web 4.4.0 de MitoMapa,Se mantiene la licencia general; ver LICENCIA_Y_CREDITOS.txt

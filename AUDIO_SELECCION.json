@@ -1,0 +1,34 @@
+{
+  "tenerife": {
+    "file": "2026_0930_1711.WAV",
+    "ambience": "wind"
+  },
+  "gran-canaria": {
+    "file": "2026_0930_1722.WAV",
+    "ambience": "wind"
+  },
+  "la-palma": {
+    "file": "2026_0930_1956.WAV",
+    "ambience": "wind"
+  },
+  "la-gomera": {
+    "file": "2026_0930_2014.WAV",
+    "ambience": "wind"
+  },
+  "el-hierro": {
+    "file": "2026_1002_1608.WAV",
+    "ambience": "wind"
+  },
+  "fuerteventura": {
+    "file": "2026_1002_1611.WAV",
+    "ambience": "wind"
+  },
+  "lanzarote": {
+    "file": "2026_1002_1620.WAV",
+    "ambience": "sea"
+  },
+  "la-graciosa": {
+    "file": "2026_1002_1627.WAV",
+    "ambience": "sea"
+  }
+}

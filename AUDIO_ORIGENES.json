@@ -1,0 +1,776 @@
+{
+  "generator": "tools/prepare_narrations.py",
+  "ffmpeg_version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers",
+  "numpy_version": "2.3.5",
+  "sample_rate_hz": 44100,
+  "channels": 1,
+  "bit_rate": "64k",
+  "narration_pitch_changed": false,
+  "sound_description": "Recreación sonora; no son grabaciones auténticas de instrumentos ni de naturaleza",
+  "recordings": {
+    "tenerife": {
+      "original_file": "2026_0930_1711.WAV",
+      "original_sha256": "5bca65ad5ced2a967f3da2f55608c0fa53a922b40a3f99f03e5c90104ff579a9",
+      "original_duration_seconds": 112.015964,
+      "trim": {
+        "threshold_dbfs": -45,
+        "minimum_silence_seconds": 0.35,
+        "retained_margin_seconds": 0.15,
+        "start_seconds": 0.0,
+        "end_seconds": 109.948866,
+        "removed_leading_seconds": 0.0,
+        "removed_trailing_seconds": 2.067098,
+        "interior_silences_preserved": true
+      },
+      "normalization": {
+        "target_integrated_lufs": -19,
+        "target_true_peak_dbfs": -2,
+        "target_lra_lu": 11,
+        "highpass_hz": 70,
+        "passes": 2,
+        "first_pass": {
+          "input_i": "-19.26",
+          "input_tp": "-2.92",
+          "input_lra": "4.30",
+          "input_thresh": "-30.12",
+          "output_i": "-18.37",
+          "output_tp": "-2.47",
+          "output_lra": "3.70",
+          "output_thresh": "-29.25",
+          "normalization_type": "dynamic",
+          "target_offset": "-0.63"
+        },
+        "second_pass": {
+          "input_i": "-19.22",
+          "input_tp": "-2.92",
+          "input_lra": "4.00",
+          "input_thresh": "-29.94",
+          "output_i": "-18.96",
+          "output_tp": "-2.66",
+          "output_lra": "4.00",
+          "output_thresh": "-29.69",
+          "normalization_type": "linear",
+          "target_offset": "-0.04"
+        }
+      },
+      "sound_recreation": {
+        "description": "Recreación sonora original: tambor grave, percusión de madera y naturaleza sintetizados",
+        "authentic_instrument_recording": false,
+        "profile": "wind",
+        "intro_seconds": 5.0,
+        "voice_offset_seconds": 5.0,
+        "percussion_ends_before_voice": true,
+        "percussion_peak_dbfs": -27.0,
+        "nature_target_rms_before_fades_dbfs": -43.0,
+        "nature_rms_dbfs": -49.696,
+        "nature_after_voice_seconds_max": 6.0,
+        "continuous_bed": false,
+        "random_seeds": [
+          2026100601,
+          2026100603
+        ]
+      },
+      "voice": {
+        "file": "tenerife.mp3",
+        "sha256": "95e7ac7f5442664aec96b4aec3d7288e417ad70153a341f8f023e0e21fc5ad0a",
+        "bytes": 880056,
+        "duration_seconds": 109.97551,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.35,
+        "true_peak_dbfs": -3.16,
+        "lra_lu": 4.4,
+        "encoding_attenuation_db": 0.0
+      },
+      "ambient": {
+        "file": "tenerife-ambiente.mp3",
+        "sha256": "ca34579b84666033e37d7862d56284adec81df1a6cdd8a66d9fc06d9ec8da5f3",
+        "bytes": 920180,
+        "duration_seconds": 114.99102,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.36,
+        "true_peak_dbfs": -3.11,
+        "lra_lu": 4.3,
+        "encoding_attenuation_db": 0.0
+      },
+      "selection_reason": "Entre las dos tomas completas, mejor separación aproximada entre voz y fondo en 1711."
+    },
+    "gran-canaria": {
+      "original_file": "2026_0930_1722.WAV",
+      "original_sha256": "2cdae00933de02f882bf45e332f4b238f6710ec038a01f14644237d2564f9847",
+      "original_duration_seconds": 96.062404,
+      "trim": {
+        "threshold_dbfs": -45,
+        "minimum_silence_seconds": 0.35,
+        "retained_margin_seconds": 0.15,
+        "start_seconds": 0.0,
+        "end_seconds": 94.069955,
+        "removed_leading_seconds": 0.0,
+        "removed_trailing_seconds": 1.992449,
+        "interior_silences_preserved": true
+      },
+      "normalization": {
+        "target_integrated_lufs": -19,
+        "target_true_peak_dbfs": -2,
+        "target_lra_lu": 11,
+        "highpass_hz": 70,
+        "passes": 2,
+        "first_pass": {
+          "input_i": "-18.27",
+          "input_tp": "-2.51",
+          "input_lra": "3.20",
+          "input_thresh": "-29.07",
+          "output_i": "-18.50",
+          "output_tp": "-2.65",
+          "output_lra": "2.50",
+          "output_thresh": "-29.30",
+          "normalization_type": "dynamic",
+          "target_offset": "-0.50"
+        },
+        "second_pass": {
+          "input_i": "-18.22",
+          "input_tp": "-2.51",
+          "input_lra": "3.00",
+          "input_thresh": "-29.01",
+          "output_i": "-18.95",
+          "output_tp": "-3.24",
+          "output_lra": "3.00",
+          "output_thresh": "-29.72",
+          "normalization_type": "linear",
+          "target_offset": "-0.05"
+        }
+      },
+      "sound_recreation": {
+        "description": "Recreación sonora original: tambor grave, percusión de madera y naturaleza sintetizados",
+        "authentic_instrument_recording": false,
+        "profile": "wind",
+        "intro_seconds": 5.0,
+        "voice_offset_seconds": 5.0,
+        "percussion_ends_before_voice": true,
+        "percussion_peak_dbfs": -27.0,
+        "nature_target_rms_before_fades_dbfs": -43.0,
+        "nature_rms_dbfs": -49.696,
+        "nature_after_voice_seconds_max": 6.0,
+        "continuous_bed": false,
+        "random_seeds": [
+          2026100601,
+          2026100603
+        ]
+      },
+      "voice": {
+        "file": "gran-canaria.mp3",
+        "sha256": "a12d3b9132d02e48d70ba6862e51ab7eacc24c733a792f1f9bc65f666528c056",
+        "bytes": 753205,
+        "duration_seconds": 94.119184,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.37,
+        "true_peak_dbfs": -3.67,
+        "lra_lu": 3.0,
+        "encoding_attenuation_db": 0.0
+      },
+      "ambient": {
+        "file": "gran-canaria-ambiente.mp3",
+        "sha256": "aeede244a64f44b7e7c6ab5ed066b74fd72e1d04d0fb5dc820db8c492e70f294",
+        "bytes": 793120,
+        "duration_seconds": 99.108571,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.38,
+        "true_peak_dbfs": -3.59,
+        "lra_lu": 3.2,
+        "encoding_attenuation_db": 0.0
+      },
+      "selection_reason": "Única toma aportada; título y narración corresponden al cuento."
+    },
+    "la-palma": {
+      "original_file": "2026_0930_1956.WAV",
+      "original_sha256": "2631287189e726c49084ec2046eaf560c5a1e5a051f19b5d6a416eb9506f68d1",
+      "original_duration_seconds": 80.81415,
+      "trim": {
+        "threshold_dbfs": -45,
+        "minimum_silence_seconds": 0.35,
+        "retained_margin_seconds": 0.15,
+        "start_seconds": 0.0,
+        "end_seconds": 79.172902,
+        "removed_leading_seconds": 0.0,
+        "removed_trailing_seconds": 1.641248,
+        "interior_silences_preserved": true
+      },
+      "normalization": {
+        "target_integrated_lufs": -19,
+        "target_true_peak_dbfs": -2,
+        "target_lra_lu": 11,
+        "highpass_hz": 70,
+        "passes": 2,
+        "first_pass": {
+          "input_i": "-20.50",
+          "input_tp": "-2.08",
+          "input_lra": "3.90",
+          "input_thresh": "-31.40",
+          "output_i": "-18.69",
+          "output_tp": "-2.00",
+          "output_lra": "3.60",
+          "output_thresh": "-29.51",
+          "normalization_type": "dynamic",
+          "target_offset": "-0.31"
+        },
+        "second_pass": {
+          "input_i": "-20.50",
+          "input_tp": "-2.08",
+          "input_lra": "3.90",
+          "input_thresh": "-31.40",
+          "output_i": "-18.99",
+          "output_tp": "-2.00",
+          "output_lra": "3.60",
+          "output_thresh": "-29.81",
+          "normalization_type": "dynamic",
+          "target_offset": "-0.01"
+        }
+      },
+      "sound_recreation": {
+        "description": "Recreación sonora original: tambor grave, percusión de madera y naturaleza sintetizados",
+        "authentic_instrument_recording": false,
+        "profile": "wind",
+        "intro_seconds": 5.0,
+        "voice_offset_seconds": 5.0,
+        "percussion_ends_before_voice": true,
+        "percussion_peak_dbfs": -27.0,
+        "nature_target_rms_before_fades_dbfs": -43.0,
+        "nature_rms_dbfs": -49.696,
+        "nature_after_voice_seconds_max": 6.0,
+        "continuous_bed": false,
+        "random_seeds": [
+          2026100601,
+          2026100603
+        ]
+      },
+      "voice": {
+        "file": "la-palma.mp3",
+        "sha256": "f8fa37ce1473a3623e567da30db6a59732ea0887fc52da108f9895a3587b8002",
+        "bytes": 633251,
+        "duration_seconds": 79.124898,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.42,
+        "true_peak_dbfs": -2.4,
+        "lra_lu": 3.6,
+        "encoding_attenuation_db": 0.0
+      },
+      "ambient": {
+        "file": "la-palma-ambiente.mp3",
+        "sha256": "ca4fef2149018bc9da700904f3bc36098e828addb21345a4e07766d31586b2da",
+        "bytes": 673166,
+        "duration_seconds": 84.114286,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.41,
+        "true_peak_dbfs": -2.36,
+        "lra_lu": 3.8,
+        "encoding_attenuation_db": 0.0
+      },
+      "selection_reason": "Ambas tomas completas y de calidad similar; preferencia moderada por claridad y continuidad de 1956. No hay superioridad acústica concluyente."
+    },
+    "la-gomera": {
+      "original_file": "2026_0930_2014.WAV",
+      "original_sha256": "40b3edfe87c0d8e374b4c62b10bb0ada87bbd81c56655eb19ae83555a96823fb",
+      "original_duration_seconds": 91.422766,
+      "trim": {
+        "threshold_dbfs": -45,
+        "minimum_silence_seconds": 0.35,
+        "retained_margin_seconds": 0.15,
+        "start_seconds": 0.0,
+        "end_seconds": 91.422766,
+        "removed_leading_seconds": 0.0,
+        "removed_trailing_seconds": 0.0,
+        "interior_silences_preserved": true
+      },
+      "normalization": {
+        "target_integrated_lufs": -19,
+        "target_true_peak_dbfs": -2,
+        "target_lra_lu": 11,
+        "highpass_hz": 70,
+        "passes": 2,
+        "first_pass": {
+          "input_i": "-18.33",
+          "input_tp": "-2.66",
+          "input_lra": "3.20",
+          "input_thresh": "-29.17",
+          "output_i": "-18.68",
+          "output_tp": "-3.24",
+          "output_lra": "3.00",
+          "output_thresh": "-29.43",
+          "normalization_type": "dynamic",
+          "target_offset": "-0.32"
+        },
+        "second_pass": {
+          "input_i": "-18.29",
+          "input_tp": "-2.66",
+          "input_lra": "3.20",
+          "input_thresh": "-29.05",
+          "output_i": "-18.96",
+          "output_tp": "-3.33",
+          "output_lra": "3.20",
+          "output_thresh": "-29.68",
+          "normalization_type": "linear",
+          "target_offset": "-0.04"
+        }
+      },
+      "sound_recreation": {
+        "description": "Recreación sonora original: tambor grave, percusión de madera y naturaleza sintetizados",
+        "authentic_instrument_recording": false,
+        "profile": "wind",
+        "intro_seconds": 5.0,
+        "voice_offset_seconds": 5.0,
+        "percussion_ends_before_voice": true,
+        "percussion_peak_dbfs": -27.0,
+        "nature_target_rms_before_fades_dbfs": -43.0,
+        "nature_rms_dbfs": -49.696,
+        "nature_after_voice_seconds_max": 6.0,
+        "continuous_bed": false,
+        "random_seeds": [
+          2026100601,
+          2026100603
+        ]
+      },
+      "voice": {
+        "file": "la-gomera.mp3",
+        "sha256": "b7b7d3adad5526656e107451bfe8fc3c3a8b7f713689c219c343f92e85fd6461",
+        "bytes": 731889,
+        "duration_seconds": 91.454694,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.43,
+        "true_peak_dbfs": -3.75,
+        "lra_lu": 3.2,
+        "encoding_attenuation_db": 0.0
+      },
+      "ambient": {
+        "file": "la-gomera-ambiente.mp3",
+        "sha256": "abe671b377374f0d5aafed27cf0a29662d9be50d4f2fe97a3f986ba4b2ad0657",
+        "bytes": 772013,
+        "duration_seconds": 96.470204,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.44,
+        "true_peak_dbfs": -3.62,
+        "lra_lu": 3.4,
+        "encoding_attenuation_db": 0.0
+      },
+      "selection_reason": "Ambas tomas completas y de calidad similar; preferencia moderada por continuidad de 2014. La supuesta omisión de 2004 era un error de transcripción."
+    },
+    "el-hierro": {
+      "original_file": "2026_1002_1608.WAV",
+      "original_sha256": "b350c062f6349cafcd7fb0b384ee30295423aeb79addfdefe67fea1701c0f152",
+      "original_duration_seconds": 82.336508,
+      "trim": {
+        "threshold_dbfs": -45,
+        "minimum_silence_seconds": 0.35,
+        "retained_margin_seconds": 0.15,
+        "start_seconds": 0.495351,
+        "end_seconds": 82.336508,
+        "removed_leading_seconds": 0.495351,
+        "removed_trailing_seconds": 0.0,
+        "interior_silences_preserved": true
+      },
+      "normalization": {
+        "target_integrated_lufs": -19,
+        "target_true_peak_dbfs": -2,
+        "target_lra_lu": 11,
+        "highpass_hz": 70,
+        "passes": 2,
+        "first_pass": {
+          "input_i": "-19.98",
+          "input_tp": "-3.71",
+          "input_lra": "3.70",
+          "input_thresh": "-30.80",
+          "output_i": "-18.17",
+          "output_tp": "-2.00",
+          "output_lra": "2.50",
+          "output_thresh": "-28.92",
+          "normalization_type": "dynamic",
+          "target_offset": "-0.83"
+        },
+        "second_pass": {
+          "input_i": "-19.95",
+          "input_tp": "-3.71",
+          "input_lra": "3.30",
+          "input_thresh": "-30.70",
+          "output_i": "-18.97",
+          "output_tp": "-2.73",
+          "output_lra": "3.30",
+          "output_thresh": "-29.73",
+          "normalization_type": "linear",
+          "target_offset": "-0.03"
+        }
+      },
+      "sound_recreation": {
+        "description": "Recreación sonora original: tambor grave, percusión de madera y naturaleza sintetizados",
+        "authentic_instrument_recording": false,
+        "profile": "wind",
+        "intro_seconds": 5.0,
+        "voice_offset_seconds": 5.0,
+        "percussion_ends_before_voice": true,
+        "percussion_peak_dbfs": -27.0,
+        "nature_target_rms_before_fades_dbfs": -43.0,
+        "nature_rms_dbfs": -49.696,
+        "nature_after_voice_seconds_max": 6.0,
+        "continuous_bed": false,
+        "random_seeds": [
+          2026100601,
+          2026100603
+        ]
+      },
+      "voice": {
+        "file": "el-hierro.mp3",
+        "sha256": "fcc46fb1458b139d9825d74907e3a0304e3355c546486c1041291e350f73d65e",
+        "bytes": 655194,
+        "duration_seconds": 81.867755,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.43,
+        "true_peak_dbfs": -2.89,
+        "lra_lu": 3.7,
+        "encoding_attenuation_db": 0.0
+      },
+      "ambient": {
+        "file": "el-hierro-ambiente.mp3",
+        "sha256": "419d1ad22ae5d7d39dc268d965d49a805b1992a6d4573b25837636aea2f16f4f",
+        "bytes": 695318,
+        "duration_seconds": 86.883265,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.44,
+        "true_peak_dbfs": -3.18,
+        "lra_lu": 3.9,
+        "encoding_attenuation_db": 0.0
+      },
+      "selection_reason": "Única toma aportada; título y narración corresponden al cuento."
+    },
+    "fuerteventura": {
+      "original_file": "2026_1002_1611.WAV",
+      "original_sha256": "8a62420f11f8b6f8b122ec4b5cc5626ee37d7fe58df994087f1cadfbf5419293",
+      "original_duration_seconds": 85.371066,
+      "trim": {
+        "threshold_dbfs": -45,
+        "minimum_silence_seconds": 0.35,
+        "retained_margin_seconds": 0.15,
+        "start_seconds": 0.74712,
+        "end_seconds": 84.675057,
+        "removed_leading_seconds": 0.74712,
+        "removed_trailing_seconds": 0.696009,
+        "interior_silences_preserved": true
+      },
+      "normalization": {
+        "target_integrated_lufs": -19,
+        "target_true_peak_dbfs": -2,
+        "target_lra_lu": 11,
+        "highpass_hz": 70,
+        "passes": 2,
+        "first_pass": {
+          "input_i": "-19.78",
+          "input_tp": "-3.71",
+          "input_lra": "3.60",
+          "input_thresh": "-30.70",
+          "output_i": "-18.63",
+          "output_tp": "-2.87",
+          "output_lra": "2.50",
+          "output_thresh": "-29.47",
+          "normalization_type": "dynamic",
+          "target_offset": "-0.37"
+        },
+        "second_pass": {
+          "input_i": "-19.72",
+          "input_tp": "-3.71",
+          "input_lra": "3.10",
+          "input_thresh": "-30.51",
+          "output_i": "-18.95",
+          "output_tp": "-2.93",
+          "output_lra": "3.10",
+          "output_thresh": "-29.76",
+          "normalization_type": "linear",
+          "target_offset": "-0.05"
+        }
+      },
+      "sound_recreation": {
+        "description": "Recreación sonora original: tambor grave, percusión de madera y naturaleza sintetizados",
+        "authentic_instrument_recording": false,
+        "profile": "wind",
+        "intro_seconds": 5.0,
+        "voice_offset_seconds": 5.0,
+        "percussion_ends_before_voice": true,
+        "percussion_peak_dbfs": -27.0,
+        "nature_target_rms_before_fades_dbfs": -43.0,
+        "nature_rms_dbfs": -49.696,
+        "nature_after_voice_seconds_max": 6.0,
+        "continuous_bed": false,
+        "random_seeds": [
+          2026100601,
+          2026100603
+        ]
+      },
+      "voice": {
+        "file": "fuerteventura.mp3",
+        "sha256": "05edf873c32a921095773edf8f720a70f6f71b5d7b33fe3fa51cb5d06bf5e439",
+        "bytes": 671912,
+        "duration_seconds": 83.957551,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.43,
+        "true_peak_dbfs": -3.67,
+        "lra_lu": 3.4,
+        "encoding_attenuation_db": 0.0
+      },
+      "ambient": {
+        "file": "fuerteventura-ambiente.mp3",
+        "sha256": "00d5ccfb5f54bfb262e97aaf8af60f5748d12c94384ee1aefd74a7d4c9d5017a",
+        "bytes": 712036,
+        "duration_seconds": 88.973061,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.43,
+        "true_peak_dbfs": -3.27,
+        "lra_lu": 3.6,
+        "encoding_attenuation_db": 0.0
+      },
+      "selection_reason": "Única toma aportada. La promesa de reparar la cruz se confirma en una transcripción localizada; no se trata de una omisión de la narradora."
+    },
+    "lanzarote": {
+      "original_file": "2026_1002_1620.WAV",
+      "original_sha256": "52f8baadec3c0c18fbbe11b3fc70f07dfee909e5e24a6fc170bdc3f7bf6778a1",
+      "original_duration_seconds": 82.809615,
+      "trim": {
+        "threshold_dbfs": -45,
+        "minimum_silence_seconds": 0.35,
+        "retained_margin_seconds": 0.15,
+        "start_seconds": 0.580862,
+        "end_seconds": 81.165306,
+        "removed_leading_seconds": 0.580862,
+        "removed_trailing_seconds": 1.644309,
+        "interior_silences_preserved": true
+      },
+      "normalization": {
+        "target_integrated_lufs": -19,
+        "target_true_peak_dbfs": -2,
+        "target_lra_lu": 11,
+        "highpass_hz": 70,
+        "passes": 2,
+        "first_pass": {
+          "input_i": "-20.05",
+          "input_tp": "-4.16",
+          "input_lra": "4.00",
+          "input_thresh": "-31.03",
+          "output_i": "-18.16",
+          "output_tp": "-2.00",
+          "output_lra": "2.70",
+          "output_thresh": "-29.08",
+          "normalization_type": "dynamic",
+          "target_offset": "-0.84"
+        },
+        "second_pass": {
+          "input_i": "-19.98",
+          "input_tp": "-4.17",
+          "input_lra": "3.50",
+          "input_thresh": "-30.82",
+          "output_i": "-18.93",
+          "output_tp": "-3.12",
+          "output_lra": "3.50",
+          "output_thresh": "-29.79",
+          "normalization_type": "linear",
+          "target_offset": "-0.07"
+        }
+      },
+      "sound_recreation": {
+        "description": "Recreación sonora original: tambor grave, percusión de madera y naturaleza sintetizados",
+        "authentic_instrument_recording": false,
+        "profile": "sea",
+        "intro_seconds": 5.0,
+        "voice_offset_seconds": 5.0,
+        "percussion_ends_before_voice": true,
+        "percussion_peak_dbfs": -27.0,
+        "nature_target_rms_before_fades_dbfs": -43.0,
+        "nature_rms_dbfs": -49.318,
+        "nature_after_voice_seconds_max": 6.0,
+        "continuous_bed": false,
+        "random_seeds": [
+          2026100601,
+          2026100602
+        ]
+      },
+      "voice": {
+        "file": "lanzarote.mp3",
+        "sha256": "380bde00ef128aba012c0e2ae49cf7d5da052870c6da76f3a343f6376081a95e",
+        "bytes": 645163,
+        "duration_seconds": 80.613878,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.37,
+        "true_peak_dbfs": -3.58,
+        "lra_lu": 3.5,
+        "encoding_attenuation_db": 0.0
+      },
+      "ambient": {
+        "file": "lanzarote-ambiente.mp3",
+        "sha256": "262cda000703854014f2a1bd24bab69162258591f1709b56e995a36670736e6c",
+        "bytes": 685287,
+        "duration_seconds": 85.629388,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.38,
+        "true_peak_dbfs": -3.53,
+        "lra_lu": 3.8,
+        "encoding_attenuation_db": 0.0
+      },
+      "selection_reason": "La toma 1620 conserva la formulación demostrar quién era del texto vigente."
+    },
+    "la-graciosa": {
+      "original_file": "2026_1002_1627.WAV",
+      "original_sha256": "cc8911e2e9b46261cf649be4c77c3fc28e2acbee5422cb09ea8970c064787b2a",
+      "original_duration_seconds": 86.862948,
+      "trim": {
+        "threshold_dbfs": -45,
+        "minimum_silence_seconds": 0.35,
+        "retained_margin_seconds": 0.15,
+        "start_seconds": 0.0,
+        "end_seconds": 83.88288,
+        "removed_leading_seconds": 0.0,
+        "removed_trailing_seconds": 2.980068,
+        "interior_silences_preserved": true
+      },
+      "normalization": {
+        "target_integrated_lufs": -19,
+        "target_true_peak_dbfs": -2,
+        "target_lra_lu": 11,
+        "highpass_hz": 70,
+        "passes": 2,
+        "first_pass": {
+          "input_i": "-19.95",
+          "input_tp": "-3.92",
+          "input_lra": "3.20",
+          "input_thresh": "-30.82",
+          "output_i": "-18.47",
+          "output_tp": "-2.84",
+          "output_lra": "3.00",
+          "output_thresh": "-29.35",
+          "normalization_type": "dynamic",
+          "target_offset": "-0.53"
+        },
+        "second_pass": {
+          "input_i": "-19.91",
+          "input_tp": "-3.93",
+          "input_lra": "3.00",
+          "input_thresh": "-30.74",
+          "output_i": "-18.96",
+          "output_tp": "-2.98",
+          "output_lra": "3.00",
+          "output_thresh": "-29.82",
+          "normalization_type": "linear",
+          "target_offset": "-0.04"
+        }
+      },
+      "sound_recreation": {
+        "description": "Recreación sonora original: tambor grave, percusión de madera y naturaleza sintetizados",
+        "authentic_instrument_recording": false,
+        "profile": "sea",
+        "intro_seconds": 5.0,
+        "voice_offset_seconds": 5.0,
+        "percussion_ends_before_voice": true,
+        "percussion_peak_dbfs": -27.0,
+        "nature_target_rms_before_fades_dbfs": -43.0,
+        "nature_rms_dbfs": -49.318,
+        "nature_after_voice_seconds_max": 6.0,
+        "continuous_bed": false,
+        "random_seeds": [
+          2026100601,
+          2026100602
+        ]
+      },
+      "voice": {
+        "file": "la-graciosa.mp3",
+        "sha256": "be2deb32bbec1a7ba05e8ca8a1d7114a179605feb8c08a5dc9d12f858c06c555",
+        "bytes": 671703,
+        "duration_seconds": 83.931429,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.42,
+        "true_peak_dbfs": -3.06,
+        "lra_lu": 3.0,
+        "encoding_attenuation_db": 0.0
+      },
+      "ambient": {
+        "file": "la-graciosa-ambiente.mp3",
+        "sha256": "cf8570cbb015c1786e8ed53c0b2f7e5a9b401d7cbac544999f281f443fa55e7a",
+        "bytes": 711618,
+        "duration_seconds": 88.920816,
+        "sample_rate_hz": 44100,
+        "channels": 1,
+        "bit_rate": "64k",
+        "integrated_lufs": -19.44,
+        "true_peak_dbfs": -3.61,
+        "lra_lu": 3.0,
+        "encoding_attenuation_db": 0.0
+      },
+      "selection_reason": "En 1627 el fondo de las pausas es aproximadamente 3.5 dB menor y la lectura es más pausada; inicio y final completos."
+    }
+  },
+  "narrator": "Jesica Fortes Regalado",
+  "source_archive": {
+    "file": "2026_1002_1616.zip",
+    "sha256": "1b9bb70123da50980d5c4f9fd9b59f34e385a7f4a8801e5ce6c7b64fc04fdfbb",
+    "received_recordings": 13,
+    "selected_recordings": 8,
+    "unselected_alternatives": 5
+  },
+  "selection_method": "Identificación mediante transcripción local automática y contraste con los cuentos; medidas acústicas de ruido, saturación y duración. Se comprobaron fragmentos localizados al detectar errores del decodificador en límites de 30 segundos. La transcripción no se toma como prueba de defectos de pronunciación.",
+  "selection": {
+    "tenerife": {
+      "file": "2026_0930_1711.WAV",
+      "ambience": "wind"
+    },
+    "gran-canaria": {
+      "file": "2026_0930_1722.WAV",
+      "ambience": "wind"
+    },
+    "la-palma": {
+      "file": "2026_0930_1956.WAV",
+      "ambience": "wind"
+    },
+    "la-gomera": {
+      "file": "2026_0930_2014.WAV",
+      "ambience": "wind"
+    },
+    "el-hierro": {
+      "file": "2026_1002_1608.WAV",
+      "ambience": "wind"
+    },
+    "fuerteventura": {
+      "file": "2026_1002_1611.WAV",
+      "ambience": "wind"
+    },
+    "lanzarote": {
+      "file": "2026_1002_1620.WAV",
+      "ambience": "sea"
+    },
+    "la-graciosa": {
+      "file": "2026_1002_1627.WAV",
+      "ambience": "sea"
+    }
+  },
+  "web_version": "4.4.0"
+}

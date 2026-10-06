@@ -1,5 +1,5 @@
 {
-  "web_version": "4.3.1",
+  "web_version": "4.4.0",
   "rea_exelearning_version": "4.0.2",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-06",
@@ -8,7 +8,7 @@
     "sha256": "5bf249e922c223aaeba2d39f88ce6394a730b66502ed3700e1a10e597d9c19dc",
     "bytes": 3994474
   },
-  "previous_web_version": "4.3.0",
+  "previous_web_version": "4.3.1",
   "previous_rea_version": "4.0.1",
   "public_download_before_update": "4.0.2",
   "deployment_format": "static_assets_root",
@@ -28,5 +28,5 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_3_1.md"
+  "release_notes": "CAMBIOS_WEB_4_4_0.md"
 }

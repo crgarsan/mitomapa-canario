@@ -287,3 +287,8 @@ html{scroll-padding-top:var(--header-offset,8rem)}
 .puzzle-disclosure>.lead{padding:0 1rem}
 #exploreMap,#compareStories{scroll-margin-top:var(--header-offset,100px)}
 @media print{.puzzle-disclosure,#compareStories,.story-sequence{display:none!important}}
+
+/* La etiqueta completa permite activar el ambiente con ratón, tacto o teclado. */
+.narrator-controls .narration-ambient-label{min-height:44px;cursor:pointer;gap:.6rem}
+.narration-ambient{width:20px;height:20px;flex:none;accent-color:var(--earth-dark)}
+.narration-ambient:focus-visible{outline:3px solid var(--earth-dark);outline-offset:3px}
