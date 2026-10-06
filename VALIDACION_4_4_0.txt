@@ -1,0 +1,67 @@
+MitoMapa REA eXeLearning 4.4.0 — validación técnica, 6 de octubre de 2026
+Base: REA 4.0.2 + aplicación interactiva web 4.4.0.
+Editor oficial: eXeLearning estático 4.0.5; navegador: Chromium.
+
+ESTRUCTURA DE LOS TRES ARCHIVOS
+- ZIP íntegros; XML ODE 2.0 y DTD válidos.
+- 15 páginas, 95 iDevices con IDs únicos; se conservan los 94 IDs originales.
+- 39 iDevices Texto: htmlView y JSON editable coherentes en los tres paquetes.
+- 42 juegos registrables en Completo, 9 en Esencial y 33 en Intermedio.
+- 365 archivos por paquete, manifiesto completo y sin rutas inseguras.
+- 66 recursos de la aplicación portable, con SHA y tamaños comprobados.
+- 987 referencias locales y 91 referencias del modelo ODE comprobadas por paquete.
+- 16 MP3 por paquete, idénticos a las grabaciones publicadas.
+- Islas sin numeración y enlaces de pintaderas a nodos nativos editables.
+
+PRUEBA REAL EN EL EDITOR
+- Los tres archivos importados y guardados en el editor sin avisos ni errores.
+- Archivo completo abierto sin aviso de archivos ausentes.
+- Guardado, cierre del navegador, nueva apertura y segundo guardado correctos.
+- Edición de una frase en el iDevice Texto de Inicio mediante TinyMCE.
+- La edición reaparece tras cerrar y reabrir el archivo guardado y está en
+  htmlView, textTextarea y HTML exportado. La frase de prueba no se publica.
+- Exportación oficial conserva los 66 recursos de la aplicación byte a byte.
+- Audios, iframe y aplicación local funcionan en la exportación oficial.
+- El Explorador carga también dentro del editor, antes de exportar.
+
+PRUEBAS DE NAVEGADOR
+- 15 páginas nativas recorridas; 16 pistas reproducidas desde sus controles.
+- Inicio funcional de los 16 cuestionarios nativos y resolución de los ocho
+  juegos Completa. Acierto y error con explicaciones específicas verificados
+  en comprensión e investigación del candidato final.
+- Audio sin autoplay y con preload=none; cero errores JavaScript y cero 404.
+- Inicio con ocho pintaderas de libre elección; guía docente práctica primero.
+- Explorador incluido: mapa, pintaderas, cuentos, pistas, secuencias y comparación.
+- Aplicación portable: 13 comprobaciones con tráfico externo bloqueado, incluida
+  reproducción, pausa, velocidad, cambio de ambiente y parada al navegar.
+- Sin descargas ELPX/ZIP anidadas ni consultas externas necesarias para jugar.
+
+CORRECCIONES DETECTADAS DURANTE LA VALIDACIÓN
+- Completa: se restaura el elemento nativo completa-text-game con el texto del
+  propio juego. La ausencia de ese elemento impedía iniciarlo en la edición base.
+- Preguntas rápidas: se retira una introducción de YouTube de ejemplo heredada,
+  ajena a los cuentos, que bloqueaba el inicio cuando no había conexión.
+- Se activan las explicaciones específicas de acierto/error ya presentes en
+  las preguntas rápidas, además de sus puntuaciones.
+- Se sustituyen las pistas numéricas por una invitación a continuar libremente.
+- Pasaportes Esencial/Intermedio: sincronizados HTML y JSON para mantener 9/33
+  al editar o guardar; etiquetas de edición actualizadas.
+- Se evitan enlaces de recurso con fragmentos que el importador interpretaba
+  erróneamente como archivos ausentes; los enlaces entre páginas usan exe-node.
+
+ALCANCE
+Pruebas técnicas de estructura, edición y funcionamiento. No son una evaluación
+con alumnado ni una certificación de accesibilidad. No se ha probado Moodle ni
+SCORM. La aplicación portable, la web pública y el informe nativo conservan
+seguimientos independientes. Las fuentes externas requieren conexión.
+
+ARCHIVOS FINALES
+downloads/MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx
+  bytes: 16849255
+  SHA-256: b5c155162cf505d8c8ccbf2ec7cb3f93e7d89cd1e6e6b364b93a82c676499e67
+downloads/MitoMapa_REA_v4_4_0_Esencial.elpx
+  bytes: 16850676
+  SHA-256: f68133ae8aea164a875a5f5e5eedbb03bb79847d5d009fe269d92980ea0b5c56
+downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx
+  bytes: 16850894
+  SHA-256: 8dd9627d4a4f73bde529aa8ad2621db4b4bc5ab4ca3427314cef1aab183d06fd

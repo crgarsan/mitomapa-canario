@@ -1,32 +1,37 @@
 {
-  "web_version": "4.4.0",
-  "rea_exelearning_version": "4.0.2",
+  "web_version": "4.4.1",
+  "rea_exelearning_version": "4.4.0",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-06",
   "download": {
-    "path": "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_2.elpx",
-    "sha256": "5bf249e922c223aaeba2d39f88ce6394a730b66502ed3700e1a10e597d9c19dc",
-    "bytes": 3994474
+    "path": "downloads/MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx",
+    "sha256": "b5c155162cf505d8c8ccbf2ec7cb3f93e7d89cd1e6e6b364b93a82c676499e67",
+    "bytes": 16849255
   },
-  "previous_web_version": "4.3.1",
-  "previous_rea_version": "4.0.1",
+  "previous_web_version": "4.4.0",
+  "previous_rea_version": "4.0.2",
   "public_download_before_update": "4.0.2",
   "deployment_format": "static_assets_root",
   "presets": [
     {
       "name": "Esencial",
       "report_count": 9,
-      "path": "downloads/MitoMapa_REA_v4_0_2_Esencial.elpx"
+      "path": "downloads/MitoMapa_REA_v4_4_0_Esencial.elpx",
+      "sha256": "f68133ae8aea164a875a5f5e5eedbb03bb79847d5d009fe269d92980ea0b5c56",
+      "bytes": 16850676
     },
     {
       "name": "Intermedio",
       "report_count": 33,
-      "path": "downloads/MitoMapa_REA_v4_0_2_Intermedio.elpx"
+      "path": "downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx",
+      "sha256": "8dd9627d4a4f73bde529aa8ad2621db4b4bc5ab4ca3427314cef1aab183d06fd",
+      "bytes": 16850894
     }
   ],
   "compatibility_aliases": [
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_4_0.md"
+  "release_notes": "CAMBIOS_WEB_4_4_1.md",
+  "rea_release_notes": "CAMBIOS_REA_4_4_0.md"
 }

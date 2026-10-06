@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh the editable source ZIP and checksums after changing public files."""
+"""Package web sources without ELPX archives and refresh public checksums."""
 
 from hashlib import sha256
 import json
@@ -18,9 +18,6 @@ def main() -> None:
         + version["web_version"].replace(".", "_")
         + ".zip"
     )
-    current_elpx = {version["download"]["path"]}
-    current_elpx.update(preset["path"] for preset in version.get("presets", []))
-
     names = []
     for line in CHECKSUMS.read_text(encoding="utf-8").splitlines():
         _, separator, name = line.partition("  ")
@@ -37,7 +34,7 @@ def main() -> None:
         name
         for name in names
         if not name.startswith("downloads/MitoMapa_fuentes_web_")
-        and (not name.endswith(".elpx") or name in current_elpx)
+        and not name.lower().endswith(".elpx")
     ]
     archive = ROOT / archive_name
     temporary = archive.with_suffix(".zip.tmp")
