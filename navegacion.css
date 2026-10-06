@@ -7,19 +7,22 @@
 .main-navigation a:focus-visible,.activity-choice:focus-visible,.view-back:focus-visible,.resource-disclosure>summary:focus-visible,.reading-settings>summary:focus-visible,.island-list-disclosure>summary:focus-visible{outline:3px solid var(--earth-dark);outline-offset:3px}
 .navigation-location{font-size:.9rem;color:var(--muted);margin:0 0 1rem}
 .navigation-ready main{padding-top:0}
-.navigation-ready .hero{margin-top:0;gap:1.5rem;align-items:center;padding:1rem 0 0}
-.navigation-ready .hero h1{font-size:clamp(2rem,4.2vw,3.5rem);max-width:17ch;line-height:1.1}
-.navigation-ready .hero-visual{align-self:center}
-.navigation-ready .hero-map{box-shadow:none}
-.home-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin:1.5rem 0 1rem}
-.home-actions .button{min-height:48px}
+.navigation-ready .hero{margin-top:0;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(1.25rem,2.5vw,2rem);align-items:center;padding:clamp(1rem,2.5vw,2rem);border-left-width:6px;border-radius:8px}
+.navigation-ready .hero h1{font-size:clamp(2rem,3.4vw,2.9rem);max-width:21ch;line-height:1.14;margin:.35rem 0 1rem;text-wrap:balance}
+.navigation-ready .hero-visual{align-self:center;justify-self:center;width:100%;max-width:440px}
+.navigation-ready .hero-map{box-sizing:border-box;width:100%;box-shadow:none;border-radius:6px}
+.navigation-ready .hero-map img{border-radius:3px}
+.home-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.5rem 0 1rem}
+.home-actions .button{min-height:48px;border-radius:5px;text-decoration:none}
 .navigation-ready .hero-authors{margin:1rem 0 0;font-size:.85rem;border:0;padding:0;background:none;max-width:65ch}
-.reading-settings{grid-column:1/-1;border:1px solid var(--line);border-radius:6px;margin-top:.5rem;background:var(--paper)}
+.reading-settings{grid-column:1/-1;min-width:0;border:1px solid var(--line);border-radius:6px;margin-top:0;background:var(--paper)}
 .reading-settings>summary,.resource-disclosure>summary,.island-list-disclosure>summary{padding:1rem;cursor:pointer;font-weight:700;min-height:48px;box-sizing:border-box}
 .reading-settings .experience-tools{margin:0;padding:0 1.2rem 1.2rem;border:0;background:none}
 .reading-settings .experience-tools>p{margin-top:0}
 .navigation-ready [data-screen]{scroll-margin-top:var(--header-offset,100px)}
 .navigation-ready h1,.navigation-ready h2{scroll-margin-top:var(--header-offset,100px)}
+.navigation-ready:not([data-navigation-input="keyboard"]) :is(h1,h2)[tabindex="-1"]:focus{outline:none}
+.navigation-ready[data-navigation-input="keyboard"] :is(h1,h2)[tabindex="-1"]:focus{outline:3px solid var(--earth-dark);outline-offset:4px;border-radius:2px}
 .navigation-ready [data-screen].section{margin-top:0}
 .navigation-ready #routes .route{margin-top:0}
 .screen-intro>h1{font-family:Georgia,serif;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.2;margin:.5rem 0}
@@ -45,6 +48,7 @@
 .footer-privacy{margin:.6rem 0 0}
 .footer-privacy>summary{cursor:pointer;min-height:44px;display:list-item;align-content:center;font-weight:700}
 .teacher-reset{margin-top:1.5rem;border:1px solid #a74938;color:#813a2d;background:#fff;min-height:44px;padding:.6rem 1rem}
+@media(max-width:850px){.navigation-ready .hero{grid-template-columns:minmax(0,1fr)}.navigation-ready .hero-visual{display:none}}
 @media(max-width:760px){.navigation-ready .topbar{grid-template-columns:minmax(0,1fr) auto auto;gap:.45rem;padding:.5rem .75rem}.navigation-ready .topbar .brand{grid-column:auto;font-size:.9rem;white-space:normal}.navigation-ready .topbar .passport-button,.navigation-ready .topbar .teacher-button{width:auto;font-size:.82rem;padding:.55rem .6rem}.activity-choices{grid-template-columns:1fr}.activity-choice{padding:1.1rem}.navigation-ready .hero{grid-template-columns:1fr}.navigation-ready .hero-visual{display:none}.navigation-ready .hero h1{max-width:23ch}.main-navigation{gap:.15rem}.main-navigation a{font-size:.9rem}.home-actions{flex-direction:column;align-items:stretch}.home-actions .button{justify-content:center;text-align:center}.resource-disclosure>.section{padding:1rem}.navigation-ready #exploreMap{padding:.85rem}}
 @media print{.main-navigation,.navigation-location,.view-back,.home-actions,.reading-settings,.screen-intro[data-screen="juegos"],.resource-disclosure>summary,.island-list-disclosure>summary{display:none!important}body:not(.print-diploma):not(.print-passport) [data-screen][hidden]{display:block!important}.resource-disclosure{border:0}.resource-disclosure>section,.island-list-disclosure>.island-grid{display:block!important}.navigation-ready .hero-visual{display:block}.navigation-ready .hero-authors{font-size:.85rem}}
 @media print{body:not(.print-diploma):not(.print-passport) .resource-disclosure::details-content{content-visibility:visible!important}}

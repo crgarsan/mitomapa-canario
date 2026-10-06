@@ -68,6 +68,11 @@
   }
   function mount(options) {
     context = options;
+    document.body.dataset.navigationInput = "pointer";
+    document.addEventListener("keydown",event => {
+      if (["Tab","Enter"," ","ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Home","End"].includes(event.key)) document.body.dataset.navigationInput = "keyboard";
+    },true);
+    document.addEventListener("pointerdown",() => {document.body.dataset.navigationInput = "pointer";},true);
     const main = byId("main");
     const hero = main.querySelector(".hero");hero.dataset.screen = "inicio";
     const map = byId("exploreMap");map.dataset.screen = "islas";

@@ -1,0 +1,18 @@
+MitoMapa web 4.3.1 — comprobaciones del 06/10/2026
+
+102 comprobaciones visuales y de navegación con Chromium superadas en
+320, 390, 768, 850, 851, 1024 y 1280 píxeles. Sin errores JavaScript.
+- Sin desbordamiento horizontal; margen interior del título de 22 a 38 píxeles.
+- Separación de texto y controles. Mapa contenido desde 851 píxeles y oculto
+  en el inicio por debajo de ese umbral; el mapa interactivo no cambia.
+- Entrada #inicio y navegación con ratón sin marco automático en el título;
+  foco visible al navegar con teclado. Historial, CTA y salto al contenido.
+- Revisión visual de capturas, incluido el ancho de la captura comunicada.
+
+axe-core 4.10.3: cero incidencias automáticas WCAG 2 A/AA, 2.1 AA y 2.2 AA
+en Inicio a 1217, 850, 768, 390 y 320 píxeles, y con los ajustes abiertos a 320.
+No constituye una auditoría manual completa ni una certificación.
+
+Integridad del ZIP editable y archivos públicos mediante SHA256,
+tools/update_release.py y tools/prepare_deploy.py. El ELPX mantiene su hash.
+La publicación se comprueba en la dirección pública después del despliegue.
