@@ -1,4 +1,4 @@
-MitoMapa canario: ocho islas, ocho pintaderas — versión web 4.0.2
+MitoMapa canario: ocho islas, ocho pintaderas — versión web 4.2.0
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
 Se conserva la licencia CC BY-NC-SA 4.0 declarada en el recurso original.

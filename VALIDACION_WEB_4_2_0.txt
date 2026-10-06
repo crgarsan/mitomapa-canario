@@ -1,0 +1,36 @@
+MitoMapa web 4.2.0 — comprobaciones del 06/10/2026
+
+Alcance: organización de las pantallas de la web. El REA nativo y sus selecciones
+conservan la edición 4.0.2; no se modifican los archivos ELPX.
+
+Comprobaciones realizadas con Chromium:
+- 119 comprobaciones independientes de anclas antiguas y recarga, vistas,
+  foco, teclado, historial entre vistas y pasos, etapas, progreso v1/v2,
+  borradores, impresión de ocho cuentos y aislamiento de pasaporte y diploma.
+- Inicio, Islas, Juegos y Recursos muestran una vista cada vez. Cuento,
+  Retos y Taller conservan sus nodos, respuestas y borradores al cambiar.
+- Comprensión y verdadero/falso originales: concesión de la pintadera
+  después de los requisitos correspondientes, sin cambios en sus condiciones.
+- Secuencia opcional plegada, expedición de pistas y notas del comparador
+  conservadas al cambiar de pantalla y después de recargar.
+- Exportación del seguimiento 4.2.0, importación 4.0.2 y restauración 4.2.0:
+  progreso anterior conservado y actividades nuevas recuperadas correctamente.
+- Pantallas de 1280, 390 y 320 píxeles: sin desbordamiento horizontal en las
+  vistas comprobadas. Foco visible y controles de impresión ocultos.
+- Reiniciar conserva las tareas asignadas a la etapa elegida.
+- PDF real: incluye los Recursos plegados sin abrirlos en la pantalla.
+- Enlaces iniciales por debajo de la cabecera y salto de teclado al contenido
+  que conserva la vista y la dirección.
+- Ningún error JavaScript registrado en las comprobaciones integradas.
+
+axe-core 4.10.3: cero incidencias automáticas WCAG 2 A/AA, 2.1 AA y 2.2 AA
+en las diez vistas/pasos comprobados a 390 píxeles, incluidos los apartados
+abiertos de Recursos. Se corrigieron dos contrastes detectados en la primera
+revisión. Las pruebas no constituyen una auditoría manual completa ni una
+certificación. Queda pendiente la observación de uso en aula, con tecnologías
+de asistencia y en dispositivos móviles reales.
+
+La integridad del ZIP editable 4.2.0 y los archivos públicos se revisa con
+herramientas de hashes, tools/update_release.py y tools/prepare_deploy.py.
+La publicación se comprueba en la dirección pública después del despliegue;
+no se deduce su estado de un campo estático de versión.

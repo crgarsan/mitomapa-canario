@@ -1,0 +1,38 @@
+/* Un apartado de la ruta cada vez. Los nodos conservan respuestas y borradores. */
+.route.route-flow>.route-steps{display:none}
+.route-flow[data-route-flow-step="cuento"]>[data-route-flow-group="retos"],
+.route-flow[data-route-flow-step="cuento"]>[data-route-flow-group="taller"],
+.route-flow[data-route-flow-step="retos"]>[data-route-flow-group="cuento"],
+.route-flow[data-route-flow-step="retos"]>[data-route-flow-group="taller"],
+.route-flow[data-route-flow-step="taller"]>[data-route-flow-group="cuento"],
+.route-flow[data-route-flow-step="taller"]>[data-route-flow-group="retos"]{display:none!important}
+.route-flow[data-route-flow-quiz="comprension"]>[data-route-flow-quiz-panel="verdad"],
+.route-flow[data-route-flow-quiz="verdad"]>[data-route-flow-quiz-panel="comprension"]{display:none!important}
+.route-flow-nav{margin:1rem 0 1.4rem;padding:.85rem;border:1px solid #b9aa8e;background:#f3e7cf;color:#5f4b3b;scroll-margin-top:var(--header-offset,8rem)}
+.route-flow-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+.route-flow-button{appearance:none;min-height:44px;min-width:0;padding:.65rem .9rem;border:1px solid #927e65;border-radius:2px;background:#fffdf7;color:#5f4b3b;font:800 .95rem/1.3 Arial,Helvetica,sans-serif;cursor:pointer;overflow-wrap:anywhere}
+.route-flow-button:hover{background:#f7edbd;color:#44382c}
+.route-flow-button:focus-visible,.route-flow-sequence>summary:focus-visible{outline:3px solid #5f4b3b;outline-offset:3px}
+.route-flow-button[aria-current="step"]{border-color:#5f4b3b;background:#e6c86b;color:#44382c;box-shadow:inset 0 -3px 0 #5f4b3b}
+.route-flow-description{margin:.75rem 0 0;font-size:.93rem;line-height:1.5;color:#5f4b3b}
+.route-flow-quiz-nav{display:flex;flex-wrap:wrap;gap:.55rem;margin:1.3rem 0 .4rem;scroll-margin-top:var(--header-offset,8rem)}
+.route-flow-quiz-nav .route-flow-button{flex:1 1 180px}
+.route-flow-sequence{max-width:1040px;margin:1.4rem auto;border:1px solid #b9aa8e;border-left:5px solid #8c6548;background:#fbf5e8;color:#5f4b3b}
+.route-flow-sequence>summary{min-height:48px;padding:.8rem 1rem;color:#5f4b3b;font-weight:800;cursor:pointer;overflow-wrap:anywhere}
+.route-flow-sequence[open]>summary{border-bottom:1px solid #cdbf9f;background:#f3e7cf}
+.route-flow-sequence>.story-sequence{margin:0;border:0;background:transparent}
+.route-flow-transition{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:.6rem;margin:1.3rem 0;padding-top:.9rem;border-top:1px solid #cdbf9f}
+.route-flow-primary{border-color:#5f4b3b;background:#5f4b3b;color:#fffdf7}
+.route-flow-primary:hover{background:#49382a;color:#fffdf7}
+.mode-guided .route-flow-sequence{max-width:900px}
+@media(max-width:520px){.route-flow-nav{padding:.7rem}.route-flow-steps{gap:.35rem}.route-flow-steps .route-flow-button{padding:.65rem .3rem;font-size:.88rem}.route-flow-transition .route-flow-button{flex:1 1 180px}.route-flow-sequence>summary{padding:.8rem}.route-flow-quiz-nav .route-flow-button{flex-basis:130px}}
+@media(prefers-reduced-motion:reduce){.route-flow-nav,.route-flow-button,.route-flow-sequence{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{
+  .route.route-flow>[data-route-flow-group],.route.route-flow>[data-route-flow-quiz-panel]{display:block!important}
+  .route.route-flow>.route-grid{display:grid!important}
+  .route.route-flow>[hidden]{display:none!important}
+  .route.route-flow>.route-flow-nav,.route.route-flow>.route-flow-quiz-nav,.route.route-flow>.route-flow-transition{display:none!important}
+  .route.route-flow>.reward:not(.show){display:none!important}
+  .route.route-flow>.reward.show{display:grid!important}
+  .route.route-flow>.route-flow-sequence[data-route-flow-group]{display:none!important}
+}
