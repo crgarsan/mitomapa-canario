@@ -126,7 +126,7 @@ def portable_reuse_guide(html: str, version: str) -> str:
             'en Créditos, fuentes y licencia del documento eXeLearning. No necesitas consultar ni descargar otra edición desde Internet.</p></section>'
         ))
     html = re.sub(
-        r'<p>Estas interacciones están disponibles en la web y en su ZIP editable\..*?</p>',
+        r'<p>Estas interacciones están disponibles en la web y (?:en su ZIP editable|en el explorador incluido en el ELPX)\..*?</p>',
         '<p>El mapa con pistas, las secuencias y el comparador están incluidos en esta aplicación portable dentro del ELPX. '
         'Funcionan con los archivos locales del paquete. Las actividades nativas de eXeLearning conservan su propia edición y seguimiento.</p>',
         html, count=1, flags=re.S,
@@ -138,7 +138,7 @@ def portable_reuse_guide(html: str, version: str) -> str:
         'La aplicación interactiva está incluida como un recurso local con su propio código; los cambios de los iDevices '
         'no modifican automáticamente esa copia. Tras una adaptación, revisa la apertura, la navegación y la exportación en tu instalación.</p></section>'
     ))
-    html = replace_section(html, "Adaptación de la web", (
+    html = replace_section(html, "Código en GitHub", (
         '<section><h2>Adaptar la aplicación portable</h2><p>La carpeta de la aplicación está en '
         '<strong>content/resources/mitomapa</strong> dentro del paquete ELPX. Conserva una copia antes de modificarla. '
         'Sus archivos index.html, scripts.js y styles.css contienen la presentación, los relatos y las actividades. '

@@ -1,6 +1,8 @@
-MitoMapa web 4.4.0 / REA eXeLearning 4.0.2
-Código web revisado el 06/10/2026. Formato del REA: eXeLearning 4.0.5.
+MitoMapa web 4.4.2 / REA eXeLearning 4.4.0 — adaptación GobCan
+Distribución actualizada el 07/10/2026. Formato del REA: eXeLearning 4.0.5.
+Descarga principal: MitoMapa_canario_GobCan.elpx; 39 páginas y 118 iDevices.
+Se conservan 95 identidades de iDevices, 42 juegos y 16 MP3 de la edición base.
 Narración de los ocho cuentos: Jesica Fortes Regalado.
-Entrada suave opcional de percusión y naturaleza recreadas.
+El código de la web se enlaza en GitHub; el repositorio requiere acceso autorizado.
 El despliegue se ejecuta desde GitHub Actions al actualizar main.
-El archivo VERSION.json conserva la huella de la descarga principal.
+VERSION.json conserva la huella y el tamaño de la descarga principal.

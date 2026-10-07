@@ -1,0 +1,33 @@
+MITOMAPA WEB 4.4.2 — COMPROBACIONES DE PUBLICACIÓN
+Fecha: 07/10/2026
+
+La descarga principal es la adaptación GobCan de 39 páginas y 118 iDevices.
+El archivo se publica sin cambios respecto a la entrega preparada con la plantilla
+Flux y abierta, guardada, exportada y reabierta con eXeLearning 4.0.5.
+SHA-256: a6ca9d3468097d21f15b00fc8b775e2e11cd6d69036d077d9d5cc8cf199e9504
+
+La validación previa conserva las 95 identidades de iDevices, las configuraciones
+de 42 juegos y los 16 MP3 de Jesica byte a byte. Se verificaron Andika local,
+contador, búsqueda, accesibilidad integrada, navegación, pintaderas por teclado,
+pistas, ordenación, comparación, audio y portada en escritorio/móvil.
+
+La actualización web cambia la descarga, las tarjetas y la guía de reutilización.
+El apartado de adaptación web se sustituye por un enlace al repositorio GitHub;
+la visibilidad del repositorio continúa siendo privada. Se conservan los juegos,
+las claves del seguimiento, las variantes antiguas y las descargas históricas.
+
+COMPROBACIÓN LOCAL DE LA DISTRIBUCIÓN: PASADA
+• Descarga real desde el botón de Recursos: 18.355.877 bytes y SHA-256 idéntico
+  al archivo GobCan validado. Se conserva su contenido sin regenerarlo.
+• Tarjeta Código en GitHub y enlace de la guía: URL del repositorio correcta,
+  apertura en otra pestaña y rel noopener/noreferrer.
+• Apartado de descargas abierto y comprobado a 1366 y 390 píxeles, sin
+  desbordamiento horizontal, errores JavaScript ni respuestas HTTP fallidas.
+• ZIP de fuentes íntegro y actualizado, sin ELPX ni ZIP anidados.
+• Código de los juegos y claves de almacenamiento iguales a la edición anterior;
+  scripts.js sólo actualiza las etiquetas de versión de los archivos exportados.
+• Todos los archivos preparados para Cloudflare se verifican mediante su SHA-256.
+
+La comprobación del despliegue remoto se realiza después del push a main,
+contrastando VERSION.json y el SHA-256 de la descarga pública.
+Las pruebas no constituyen aprobación institucional ni certificación WCAG.

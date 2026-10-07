@@ -1,16 +1,16 @@
 {
-  "web_version": "4.4.1",
+  "web_version": "4.4.2",
   "rea_exelearning_version": "4.4.0",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-06",
+  "prepared_at": "2026-10-07",
   "download": {
-    "path": "downloads/MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx",
-    "sha256": "b5c155162cf505d8c8ccbf2ec7cb3f93e7d89cd1e6e6b364b93a82c676499e67",
-    "bytes": 16849255
+    "path": "downloads/MitoMapa_canario_GobCan.elpx",
+    "sha256": "a6ca9d3468097d21f15b00fc8b775e2e11cd6d69036d077d9d5cc8cf199e9504",
+    "bytes": 18355877
   },
-  "previous_web_version": "4.4.0",
-  "previous_rea_version": "4.0.2",
-  "public_download_before_update": "4.0.2",
+  "previous_web_version": "4.4.1",
+  "previous_rea_version": "4.4.0",
+  "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
     {
@@ -18,20 +18,37 @@
       "report_count": 9,
       "path": "downloads/MitoMapa_REA_v4_4_0_Esencial.elpx",
       "sha256": "f68133ae8aea164a875a5f5e5eedbb03bb79847d5d009fe269d92980ea0b5c56",
-      "bytes": 16850676
+      "bytes": 16850676,
+      "edition": "4.4.0 — edición anterior a la adaptación GobCan"
     },
     {
       "name": "Intermedio",
       "report_count": 33,
       "path": "downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx",
       "sha256": "8dd9627d4a4f73bde529aa8ad2621db4b4bc5ab4ca3427314cef1aab183d06fd",
-      "bytes": 16850894
+      "bytes": 16850894,
+      "edition": "4.4.0 — edición anterior a la adaptación GobCan"
     }
   ],
   "compatibility_aliases": [
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_4_1.md",
-  "rea_release_notes": "CAMBIOS_REA_4_4_0.md"
+  "release_notes": "CAMBIOS_WEB_4_4_2.md",
+  "rea_release_notes": "CAMBIOS_REA_GOBCAN.md",
+  "rea_edition": "Adaptación GobCan",
+  "rea_structure": {
+    "pages": 39,
+    "idevices": 118,
+    "preserved_idevices": 95,
+    "native_games": 42,
+    "audio_tracks": 16
+  },
+  "curricular_reference": {
+    "stage": "Educación Primaria",
+    "cycle": "3.er ciclo",
+    "course": "6.º, adaptable a 5.º",
+    "sessions": 4,
+    "selected_islands": 2
+  }
 }

@@ -6,20 +6,28 @@ Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.
 
 ## Descargas y edición
 
-La distribución web 4.4.1 actualiza las descargas del REA y conserva la aplicación
-interactiva 4.4.0. El proyecto eXeLearning 4.4.0 reúne 15 páginas y 95 iDevices:
-los 94 originales editables y un iDevice de texto que integra el nuevo
-«Explorador interactivo». La aplicación portable incluida permite utilizar las
-vistas Inicio, Islas, Juegos y Recursos, las pintaderas interactivas, las pistas,
-los pasos Cuento/Retos/Taller y las demás interacciones de la web.
+La distribución web 4.4.2 ofrece como descarga principal la adaptación GobCan
+del REA 4.4.0. Contiene 39 páginas y 118 iDevices, conservando las 95 identidades
+de la edición base, sus 42 juegos y los 16 MP3. Utiliza la plantilla Flux,
+Andika, contador de páginas, guía didáctica práctica y fundamentación curricular.
+Propone cuatro sesiones para dos islas de libre elección, con 6.º como referencia
+del tercer ciclo de Primaria y adaptación a 5.º. Las ocho islas siguen disponibles.
 
-Los tres proyectos conservan las actividades nativas; la selección del informe
-determina qué juegos figuran en él:
+La aplicación portable incluida conserva las vistas Inicio, Islas, Juegos y
+Recursos, las pintaderas, las pistas, los pasos Cuento/Retos/Taller, la comparación
+y las narraciones. El archivo publicado es idéntico al de la entrega GobCan.
 
-- [REA completo: 42 juegos en el informe](downloads/MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx).
-- [Esencial: 9 juegos en el informe](downloads/MitoMapa_REA_v4_4_0_Esencial.elpx).
-- [Intermedio: 33 juegos en el informe](downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx).
-- [Fuentes de la web 4.4.1](downloads/MitoMapa_fuentes_web_v4_4_1.zip).
+- [REA adaptado a GobCan](downloads/MitoMapa_canario_GobCan.elpx).
+- [Código en GitHub](https://github.com/crgarsan/mitomapa-canario); el repositorio
+  mantiene su visibilidad privada y requiere acceso autorizado.
+- [Fuentes de la web 4.4.2](downloads/MitoMapa_fuentes_web_v4_4_2.zip).
+
+Las ediciones anteriores 4.4.0 conservan 15 páginas y 95 iDevices. La selección
+del informe determina qué juegos figuran en él:
+
+- [Edición original: 42 juegos en el informe](downloads/MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx).
+- [Esencial anterior: 9 juegos en el informe](downloads/MitoMapa_REA_v4_4_0_Esencial.elpx).
+- [Intermedio anterior: 33 juegos en el informe](downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx).
 
 El ZIP de fuentes contiene la aplicación web, sus guías y los 16 MP3. Los
 proyectos ELPX se descargan por separado: no se incluyen en ese ZIP, para
@@ -64,14 +72,21 @@ automáticamente.
 
 ## Regenerar el proyecto editable
 
-Desde este repositorio, que conserva los tres ELPX de partida 4.0.2, usa
-Python 3 con `lxml` y ejecuta `python3 tools/build_elpx.py`. El generador actualiza
+Para adaptar la edición GobCan, abre una copia de
+`downloads/MitoMapa_canario_GobCan.elpx` en eXeLearning. El generador siguiente
+corresponde a la edición original 4.4.0 y no reproduce la adaptación GobCan.
+
+Para regenerar esa edición histórica desde este repositorio, que conserva los
+tres ELPX de partida 4.0.2, usa Python 3 con `lxml` y ejecuta
+`python3 tools/build_elpx.py`. El generador actualiza
 el modelo ODE, los iDevices Texto, la exportación HTML, los recursos locales,
 el buscador y el manifiesto de descarga del proyecto. El ZIP de fuentes web
 no incluye los ELPX de partida; se ofrecen como descargas históricas separadas.
 Antes de distribuir un cambio, abre, guarda y exporta el resultado con
 eXeLearning 4.0.5 y verifica las rutas afectadas.
 
-Las notas de preparación están en [CAMBIOS_REA_4_4_0.md](CAMBIOS_REA_4_4_0.md) y
-[CAMBIOS_WEB_4_4_1.md](CAMBIOS_WEB_4_4_1.md). Las comprobaciones de estructura, apertura, guardado, edición y exportación
-con eXeLearning 4.0.5 se recogen en [VALIDACION_4_4_0.txt](VALIDACION_4_4_0.txt).
+Las notas actuales están en [CAMBIOS_REA_GOBCAN.md](CAMBIOS_REA_GOBCAN.md) y
+[CAMBIOS_WEB_4_4_2.md](CAMBIOS_WEB_4_4_2.md). Las comprobaciones de la descarga
+y la publicación se recogen en [VALIDACION_WEB_4_4_2.txt](VALIDACION_WEB_4_4_2.txt).
+La validación de la edición histórica permanece en
+[VALIDACION_4_4_0.txt](VALIDACION_4_4_0.txt).

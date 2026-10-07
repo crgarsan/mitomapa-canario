@@ -1,73 +1,47 @@
-MITOMAPA WEB 4.1.0 / REA 4.0.2 — 05/10/2026
+MITOMAPA WEB 4.4.2 / REA 4.4.0 — ADAPTACIÓN GOBCAN · 07/10/2026
 
-INTERACTIVIDAD WEB
-La web añade un mapa navegable con expediciones de pistas, secuencias de los ocho
-cuentos y un comparador con notas locales. Son actividades opcionales y no cambian
-los requisitos de las pintaderas. Se incluyen en la web editable 4.1.0; el ELPX
-mantiene sus actividades nativas y la versión 4.0.2. Las secuencias y notas forman
-parte del seguimiento exportado desde Docente.
+DESCARGA PRINCIPAL
+MitoMapa_canario_GobCan.elpx se abre en eXeLearning 4.0.5 o compatible.
+Contiene 39 páginas y 118 iDevices. Se conservan 95 identidades de iDevices,
+42 juegos y 16 MP3 de Jesica Fortes Regalado. El archivo es idéntico a la
+entrega preparada con la plantilla Flux y las orientaciones de GobCan.
+Se organizan Cuento, Retos y Taller por isla; se añaden Andika, contador,
+guía didáctica y fundamento curricular. Las islas se eligen libremente.
+La propuesta principal trabaja dos islas en cuatro sesiones de unos 50 minutos,
+con 6.º como referencia del tercer ciclo de Primaria y adaptación a 5.º.
+Las variantes Esencial e Intermedio y las descargas históricas permanecen
+como ediciones anteriores; no son la adaptación GobCan.
 
+CÓDIGO EN GITHUB
+El apartado de adaptación web enlaza al repositorio
+https://github.com/crgarsan/mitomapa-canario
+El repositorio conserva su visibilidad privada: requiere acceso autorizado.
+El ELPX y los paquetes de fuentes siguen disponibles como descargas públicas.
+El ZIP de fuentes web 4.4.2 excluye todos los ELPX y otros ZIP anidados.
 
-CLOUDFLARE (Worker existente: mitomapa-canario)
-1. Antes de actualizar, descarga el seguimiento desde el recurso publicado si
-   necesitas una copia de seguridad del trabajo local.
-2. Descomprime MitoMapa_fuentes_web_v4_1_0.zip. index.html debe estar en la raíz.
-3. En tu Worker actual, utiliza New deployment y carga este ZIP o todos los archivos
-   descomprimidos, según la opción que ofrezca el panel. No crees otro Worker.
-4. Conserva Assets directory /, HTML handling auto-trailing-slash y Not found
-   handling none si aparecen estos ajustes.
-5. Si el panel no ofrece carga de recursos, desde la carpeta usa:
-   npx wrangler login
-   npx wrangler deploy --assets . --name mitomapa-canario
-6. Verifica «Versión web 4.1.0», una descarga «REA 4.0.2», el selector docente
-   de tareas, la restauración de un borrador y el pasaporte anterior.
-7. Si ves la versión anterior, recarga con Ctrl+F5 o Cmd+Mayús+R.
+DESPLIEGUE AUTOMÁTICO
+Cada push a main ejecuta GitHub Actions y publica el Worker existente.
+Antes de subir archivos públicos, ejecutar python3 tools/update_release.py
+y python3 tools/prepare_deploy.py. El despliegue verifica SHA256SUMS.txt.
+No modificar directamente .deploy: se genera a partir de ese manifiesto.
+VERSION.json identifica el archivo principal, su tamaño y su SHA-256.
 
-Se han conservado las claves locales y los identificadores de ruta. Mantener
-la misma dirección permite conservar el progreso guardado; no traslada datos
-entre navegadores o dominios.
+EDICIÓN DEL PROYECTO
+Para adaptar GobCan, abrir y guardar una copia del ELPX con eXeLearning.
+tools/build_elpx.py corresponde a la edición histórica original 4.4.0,
+con 15 páginas y 95 iDevices, y no regenera la adaptación GobCan.
+El Explorador conserva su código local dentro del proyecto. La edición nativa
+y el código de la aplicación son independientes; comprobar ambas al adaptarlas.
 
-DESPLIEGUE DESDE GITHUB
-El repositorio incluye un flujo de GitHub Actions para desplegar el Worker desde
-main. El despliegue requiere los dos secretos de Cloudflare y se ejecuta con cada
-push a main. La configuración se explica en
-DESPLIEGUE_AUTOMATICO.md del repositorio GitHub; no forma parte del ZIP web.
-La carga manual anterior sigue disponible mientras tanto.
+SEGUIMIENTO Y SONIDO
+Las claves de almacenamiento, rutas y juegos web se conservan. El progreso
+permanece en el navegador y el mismo origen. Docente permite guardar/cargar
+seguimiento. El informe nativo y el Explorador tienen seguimiento independiente.
+Los ocho cuentos incluyen voz humana de Jesica. El ambiente breve de percusión
+y naturaleza es una recreación digital opcional, sin reproducción automática.
 
-GITHUB PRIVADO
-La web 4.0.2 publicada se ha incorporado a este repositorio junto con la revisión
-editorial posterior. El repositorio es la fuente para futuros despliegues.
-Al modificar los archivos públicos, ejecuta python3 tools/update_release.py para
-actualizar el ZIP editable y SHA256SUMS.txt antes del commit. El flujo de GitHub
-verifica ambos y se detiene si falta algún archivo o huella no coincide.
-Conserva las etiquetas anteriores y no cambies la visibilidad del repositorio.
-Las descargas públicas del REA y del código editable permanecen en Cloudflare;
-el repositorio puede seguir privado.
-
-REA NATIVO
-Principal: MitoMapa_canario_REA_eXeLearning_v4_0_2.elpx, informe de 42 juegos.
-Esencial: 9 juegos en el informe; Intermedio: 33 juegos. Todas las copias conservan
-las 14 páginas y 94 iDevices nativos; las tareas excluidas del informe son opcionales.
-El pasaporte y las producciones requieren revisión manual. La selección del informe
-no cambia la finalización SCORM: adapta y prueba las páginas para utilizar Moodle.
-Los enlaces antiguos del ELPX 4.0 y 4.0.1 entregan también la corrección 4.0.2.
-Los ZIP anteriores del código se conservan como archivos históricos.
-
-FORMULARIO WEB
-Se incluye una valoración voluntaria local. Para activar Google Forms para todo el
-alumnado, pega la URL pública de respuesta en configuracion.js y vuelve a desplegar.
-No pegues el enlace de edición. No se conoce una URL pública verificable del
-formulario web existente; no se ha inventado. El campo del modo docente guarda
-un enlace solo en ese navegador. Comprueba que el formulario está publicado.
-
-LICENCIA Y VALIDACIÓN
-CC BY-NC-SA 4.0 para los materiales propios; se conservan créditos y fuentes.
-Lee CAMBIOS_WEB_4_1_0.md y CAMBIOS_WEB_4_0_2.md para ver el alcance de cada
-revisión. VALIDACION_WEB_4_1_0.txt describe las comprobaciones actuales;
-VALIDACION_4_0_2.txt describe la entrega anterior.
-No se han añadido falsas locuciones humanas: el audio sigue dependiendo de las
-voces del dispositivo. Los MP3 propios se pueden incorporar posteriormente.
-
-Documentación oficial consultada:
-https://developers.cloudflare.com/changelog/post/2025-09-09-interactive-wrangler-assets/
-https://descargas.intef.es/cedec/exe_learning/Manuales/manual_exe405/html/informe-de-progreso.html
+LICENCIA Y FUENTES
+CC BY-NC-SA 4.0 para los materiales propios. Se mantiene autoría y créditos.
+La versión del modelo ImageGen usado en las imágenes originales no quedó
+registrada y así se indica en la adaptación. No hay nuevas imágenes.
+Consultar CAMBIOS_WEB_4_4_2.md, CAMBIOS_REA_GOBCAN.md y VALIDACION_WEB_4_4_2.txt.
