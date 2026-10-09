@@ -443,10 +443,121 @@ function enhanceQuizStepper(quiz){
  quiz.querySelectorAll("input").forEach(input=>input.addEventListener("change",()=>show(current)));
  show(0);
 }
+// Comprueba los contenedores completos antes de que el navegador decodifique un dibujo.
+const drawingLimits=Object.freeze({width:900,height:520,pixels:900*520,characters:2500000});
+function drawingImageSize(value){
+ if(typeof value!=="string"||value.length>drawingLimits.characters)return null;
+ const prefix=/^data:image\/(png|webp);base64,/i.exec(value);if(!prefix)return null;
+ const encoded=value.slice(prefix[0].length);
+ if(!encoded.length||encoded.length%4||!/^[A-Za-z0-9+/]+={0,2}$/.test(encoded))return null;
+ let bytes;try{bytes=Uint8Array.from(atob(encoded),character=>character.charCodeAt(0));}catch(error){return null;}
+ const view=new DataView(bytes.buffer),tag=offset=>String.fromCharCode(...bytes.subarray(offset,offset+4));
+ const bounded=(width,height)=>width>0&&height>0&&width<=drawingLimits.width&&height<=drawingLimits.height&&width*height<=drawingLimits.pixels;
+ if(prefix[1].toLowerCase()==="png"){
+  if(bytes.length<45||![137,80,78,71,13,10,26,10].every((byte,i)=>bytes[i]===byte))return null;
+  let offset=8,width=0,height=0,hasData=false,dataEnded=false,chunks=0;
+  const allowed=new Set(["IHDR","PLTE","tRNS","IDAT","IEND","gAMA","cHRM","sRGB","pHYs"]);
+  while(offset<bytes.length){
+   if(++chunks>4096||bytes.length-offset<12)return null;
+   const size=view.getUint32(offset),type=tag(offset+4),end=offset+12+size;
+   if(end>bytes.length||!allowed.has(type))return null;
+   // Una cabecera con CRC incorrecto tampoco puede llegar al decodificador.
+   let crc=0xffffffff;
+   for(let i=offset+4;i<offset+8+size;i++){crc^=bytes[i];for(let bit=0;bit<8;bit++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}
+   if(((crc^0xffffffff)>>>0)!==view.getUint32(offset+8+size))return null;
+   if(type==="IHDR"){
+    if(offset!==8||size!==13)return null;
+    width=view.getUint32(offset+8);height=view.getUint32(offset+12);
+    const depth=bytes[offset+16],color=bytes[offset+17],depths={0:[1,2,4,8,16],2:[8,16],3:[1,2,4,8],4:[8,16],6:[8,16]};
+    if(!bounded(width,height)||!depths[color]?.includes(depth)||bytes[offset+18]||bytes[offset+19]||bytes[offset+20]>1)return null;
+   }else if(!width)return null;
+   if(type==="IDAT"){if(dataEnded)return null;hasData=hasData||size>0;}
+   else if(hasData)dataEnded=true;
+   if(type==="IEND")return size===0&&hasData&&end===bytes.length?{width,height}:null;
+   offset=end;
+  }
+  return null;
+ }
+ if(bytes.length<20||tag(0)!=="RIFF"||tag(8)!=="WEBP"||view.getUint32(4,true)+8!==bytes.length)return null;
+ let offset=12,extended=null,raster=null,alpha=false,profile=false,chunks=0;
+ while(offset<bytes.length){
+  if(++chunks>16||bytes.length-offset<8)return null;
+  const type=tag(offset),size=view.getUint32(offset+4,true),start=offset+8,end=start+size,next=end+(size&1);
+  if(next>bytes.length||(size&1)&&bytes[end]!==0)return null;
+  if(type==="VP8X"){
+   if(offset!==12||size!==10||extended||bytes[start]&~0x30||bytes[start+1]||bytes[start+2]||bytes[start+3])return null;
+   const width=1+bytes[start+4]+bytes[start+5]*256+bytes[start+6]*65536,height=1+bytes[start+7]+bytes[start+8]*256+bytes[start+9]*65536;
+   if(!bounded(width,height))return null;
+   extended={width,height,alpha:Boolean(bytes[start]&0x10),profile:Boolean(bytes[start]&0x20)};
+  }else if(type==="ICCP"){
+   // Chromium incluye este perfil sin compresión en sus propios lienzos WebP.
+   if(!extended?.profile||profile||alpha||raster||size<132||size>4096||view.getUint32(start)!==size||tag(start+36)!=="acsp")return null;
+   const entries=view.getUint32(start+128),tableEnd=132+entries*12;
+   if(entries>64||tableEnd>size)return null;
+   for(let i=0;i<entries;i++){
+    const entry=start+132+i*12,position=view.getUint32(entry+4),length=view.getUint32(entry+8);
+    if(position<tableEnd||length<8||position+length>size)return null;
+   }
+   profile=true;
+  }else if(type==="ALPH"){
+   if(!extended?.alpha||alpha||raster||size<1||(bytes[start]&3)>1||bytes[start]>>>6||(bytes[start]>>4&3)>1)return null;
+   if((bytes[start]&3)===0&&size!==1+extended.width*extended.height)return null;
+   alpha=true;
+  }else if(type==="VP8 "||type==="VP8L"){
+   if(raster||size<(type==="VP8 "?10:5))return null;
+   let width,height;
+   if(type==="VP8 "){
+    if(bytes[start]&1||bytes[start+3]!==157||bytes[start+4]!==1||bytes[start+5]!==42)return null;
+    width=view.getUint16(start+6,true)&0x3fff;height=view.getUint16(start+8,true)&0x3fff;
+    if(extended&&extended.alpha!==alpha)return null;
+   }else{
+    if(alpha||bytes[start]!==47)return null;
+    const bits=view.getUint32(start+1,true);if(bits>>>29)return null;
+    width=1+(bits&0x3fff);height=1+(bits>>>14&0x3fff);
+   }
+   if(!bounded(width,height)||extended&&(width!==extended.width||height!==extended.height))return null;
+   raster={width,height};
+  }else return null; // Animaciones y metadatos ajenos al lienzo no se aceptan.
+  offset=next;
+ }
+ return profile===Boolean(extended?.profile)?raster:null;
+}
+function safeWorkshopDrawing(value){return drawingImageSize(value)?value:null;}
+function removeUnsafeWorkshopDrawings(state){
+ let changed=false;
+ for(const item of Object.values(state.routes)){
+  if(!item||typeof item!=="object"||item.drawing==null)continue;
+  const drawing=safeWorkshopDrawing(item.drawing);
+  if(drawing!==item.drawing){item.drawing=drawing;item.drawingHasInk=false;if(String(item.text||"").trim().length<3)item.creation=false;changed=true;}
+ }
+ return changed;
+}
+function loadWorkshopDrawing(value){
+ const size=drawingImageSize(value);if(!size)return Promise.resolve(null);
+ return new Promise(resolve=>{
+  const image=new Image();
+  image.onload=async()=>{try{if(typeof image.decode==="function")await image.decode();resolve(image.naturalWidth===size.width&&image.naturalHeight===size.height?image:null);}catch(error){resolve(null);}};
+  image.onerror=()=>resolve(null);
+  image.src=value;
+ });
+}
+async function normalizeImportedDrawings(clean){
+ for(const item of Object.values(clean.routes)){
+  if(!item.drawing)continue;
+  const image=await loadWorkshopDrawing(item.drawing);if(!image)throw new Error("DRAWING_INVALID");
+  const canvas=document.createElement("canvas");canvas.width=drawingLimits.width;canvas.height=drawingLimits.height;
+  const context=canvas.getContext("2d");if(!context)throw new Error("DRAWING_INVALID");
+  context.fillStyle="#fffdf7";context.fillRect(0,0,canvas.width,canvas.height);context.drawImage(image,0,0,canvas.width,canvas.height);
+  item.drawing=safeWorkshopDrawing(canvas.toDataURL("image/webp",.82));
+  if(!item.drawing)throw new Error("DRAWING_INVALID");
+ }
+ return clean;
+}
 const workshopStorageKey="mitomapa-canario-cuaderno-v1";
 let workshopState=readJSON(workshopStorageKey,{routes:{}});
 if(!workshopState||typeof workshopState!=="object")workshopState={routes:{}};
 if(!workshopState.routes||typeof workshopState.routes!=="object")workshopState.routes={};
+if(removeUnsafeWorkshopDrawings(workshopState))writeJSON(workshopStorageKey,workshopState);
 
 function activityEscape(value){
  return String(value??"").replace(/[&<>"']/g,character=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[character]);
@@ -462,7 +573,7 @@ function getWorkshopRouteState(routeId){
  state.wordResponses=state.wordResponses&&typeof state.wordResponses==="object"?state.wordResponses:{match:[],fill:[]};
  state.researchResponses=Array.isArray(state.researchResponses)?state.researchResponses:[];
  state.researchEvidence=String(state.researchEvidence||"").slice(0,600);
- state.drawing=typeof state.drawing==="string"?state.drawing:null;state.drawingHasInk=Boolean(state.drawingHasInk&&state.drawing);
+ state.drawing=safeWorkshopDrawing(state.drawing);state.drawingHasInk=Boolean(state.drawingHasInk&&state.drawing);
  state.secondaryCreation=Boolean(state.secondaryCreation);
  state.secondaryText=String(state.secondaryText||"").slice(0,5000);
  state.secondaryChoice=String(state.secondaryChoice||"").slice(0,180);
@@ -620,7 +731,7 @@ function setupWorkshopCanvas(workshop,routeId){
  const state=getWorkshopRouteState(routeId),baseColor="#fffdf7";
  let drawing=false,lastPoint=null,currentColor="#2f2b26",history=[];
  const clearSurface=()=>{context.save();context.fillStyle=baseColor;context.fillRect(0,0,canvas.width,canvas.height);context.restore();};
- const restore=imageData=>new Promise(resolve=>{if(!imageData){clearSurface();resolve();return;}const image=new Image();image.onload=()=>{clearSurface();context.drawImage(image,0,0,canvas.width,canvas.height);resolve();};image.onerror=()=>{clearSurface();resolve();};image.src=imageData;});
+ const restore=async imageData=>{const image=await loadWorkshopDrawing(imageData);clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};
  clearSurface();if(state.drawing)restore(state.drawing);
  const pointFromEvent=event=>{const box=canvas.getBoundingClientRect();return{x:(event.clientX-box.left)*canvas.width/box.width,y:(event.clientY-box.top)*canvas.height/box.height};};
  const snapshot=()=>({image:canvas.toDataURL("image/webp",.82),hasInk:Boolean(state.drawingHasInk)});
@@ -854,7 +965,8 @@ function sanitizeImportedWorkshop(raw){
  const clean={routes:{}};
  for(const route of routes){
   const source=raw?.routes?.[route.id];if(!source||typeof source!=="object")continue;
-  const drawing=typeof source.drawing==="string"&&/^data:image\/(?:webp|png);base64,/i.test(source.drawing)&&source.drawing.length<=2500000?source.drawing:null;
+  const drawing=safeWorkshopDrawing(source.drawing);
+  if(source.drawing!=null&&source.drawing!==""&&!drawing)throw new Error("DRAWING_INVALID");
   clean.routes[route.id]={words:Boolean(source.words),research:Boolean(source.research),creation:Boolean(source.creation),text:String(source.text||"").slice(0,500),wordResponses:{match:Array.isArray(source.wordResponses?.match)?source.wordResponses.match.slice(0,12).map(v=>String(v).slice(0,120)):[],fill:Array.isArray(source.wordResponses?.fill)?source.wordResponses.fill.slice(0,12).map(v=>String(v).slice(0,120)):[]},researchResponses:Array.isArray(source.researchResponses)?source.researchResponses.slice(0,2).map(v=>Number.isInteger(v)&&v>=0&&v<3?v:null):[],researchEvidence:String(source.researchEvidence||"").slice(0,600),drawing,drawingHasInk:Boolean(source.drawingHasInk&&drawing),secondaryCreation:Boolean(source.secondaryCreation),secondaryText:String(source.secondaryText||"").slice(0,5000),secondaryChoice:String(source.secondaryChoice||"").slice(0,180),secondaryChecks:Array.isArray(source.secondaryChecks)?source.secondaryChecks.slice(0,4).map(Boolean):[]};
  }
  return clean;
@@ -868,10 +980,11 @@ async function importProgressFile(file){
   const payload=JSON.parse(await file.text());
   if(payload?.app!=="mitomapa-canario"||!payload.progress)throw new Error("Formato no reconocido");
   if(!confirm("¿Quieres sustituir el progreso de este navegador por el del archivo seleccionado?")){status.textContent="Importación cancelada.";return;}
+  const importedWorkshop=await normalizeImportedDrawings(sanitizeImportedWorkshop(payload.workshop));
   sourcePassed=normalize(payload.progress.sourcePassed);truthPassed=normalize(payload.progress.truthPassed);earned=normalize(payload.progress.earned);
   learningLevel=Object.prototype.hasOwnProperty.call(learningLevelCopy,payload.learningLevel)?payload.learningLevel:"middle";
   learnerName=String(payload.learnerName||"").replace(/\s+/g," ").trim().slice(0,80);
-  workshopState=sanitizeImportedWorkshop(payload.workshop);
+  workshopState=importedWorkshop;
   finalState={passed:Boolean(payload.final?.passed)};
   itineraries=sanitizeItineraries(payload.itineraries);saveItineraries();
   window.MitoMapaStories?.importState(payload.interactive?.stories);
@@ -882,7 +995,7 @@ async function importProgressFile(file){
   renderRoutes();setLearningLevel(learningLevel,false);updateTeacherDialog();updateFinalExperience();
   window.MitoMapaNavigation?.refresh();
   status.textContent="Seguimiento cargado correctamente.";
- }catch(error){status.textContent="No se pudo cargar: el archivo no tiene un formato válido del MitoMapa.";}
+ }catch(error){status.textContent=error.message==="DRAWING_INVALID"?"No se pudo cargar: contiene un dibujo dañado, animado o demasiado grande. Se conserva el progreso anterior.":"No se pudo cargar: el archivo no tiene un formato válido del MitoMapa.";}
 }
 
 function clearPrintMode(){

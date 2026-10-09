@@ -16,19 +16,25 @@ jobs:
     environment: production
     permissions:
       contents: read
+    env:
+      WRANGLER_SEND_METRICS: 'false'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4 (backport #2524)
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22'
+      - name: Check deployment policy and drawing imports
+        run: |
+          python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
+          node --test tests/drawing-import.test.js
       - name: Verify and stage static files
         run: python3 tools/prepare_deploy.py
       - name: Install Wrangler
-        run: npm install --no-save wrangler@4.147.0
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Deploy existing Worker
-        run: npx wrangler deploy --config wrangler.jsonc
+        run: ./node_modules/.bin/wrangler deploy --config wrangler.jsonc
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
