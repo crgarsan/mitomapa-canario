@@ -1,4 +1,4 @@
-MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.4.2 · REA editable 4.4.0, adaptación GobCan · aplicación interactiva 4.4.0
+MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.4.3 · REA editable 4.4.0, adaptación GobCan · aplicación interactiva 4.4.0
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
 Se conserva la licencia CC BY-NC-SA 4.0 declarada en el recurso original.
@@ -18,8 +18,8 @@ MitoMapa canario: ocho islas, ocho pintaderas (web 4.4.2; REA 4.4.0, adaptación
 https://mitomapa-canario.cgarcias.workers.dev/
 Si adaptas: añade tu autoría, fecha y descripción de los cambios.
 
-Ilustraciones: según los créditos originales, facilitadas por la autoría y
-elaboradas con OpenAI ImageGen en agosto de 2026. Son recreaciones contemporáneas,
+Mapa: esquema original del proyecto generado mediante código el 09/10/2026, con ocho islas y una variante para los botones interactivos. Formas simbólicas originales; no es cartografía oficial. CC BY-NC-SA 4.0. Fuente vectorial en assets/images/mapa_canarias_original.svg.
+Ilustraciones: ocho escenas y diez pintaderas generadas para el recurso; los créditos originales consignan OpenAI ImageGen y agosto de 2026. El mapa no forma parte de estas dieciocho imágenes. Son recreaciones contemporáneas,
 no descripciones históricas. La narración de los ocho cuentos de la web,
 del REA y de su aplicación portable corresponde a Jesica Fortes Regalado,
 mediante grabaciones aportadas por la
@@ -50,3 +50,5 @@ se revisan la guía didáctica, las fuentes y los créditos. La versión del mod
 ImageGen de las imágenes originales no quedó registrada y así se indica.
 No hay nuevas imágenes, cambio de licencia ni alteración de los juegos web.
 La tarjeta de adaptación web se sustituye por un enlace al repositorio GitHub.
+
+Revisión web 4.4.3 (09/10/2026): pintaderas y nombres seleccionables sobre las ocho islas también en móvil, con desplazamiento táctil y por teclado. Nuevo mapa esquemático propio y fuente SVG; se acredita la inspiración documental de las pintaderas en El Museo Canario. Se conserva la voz de Jesica, el progreso y los juegos. La edición GobCan preparada en archivos de entrega se gestiona de forma independiente de la descarga pública existente.

@@ -1,4 +1,4 @@
-/* El mapa conserva los mismos ocho botones en cualquier tamaño de pantalla. */
+/* Ocho zonas seleccionables sobre el mapa; el lienzo se desplaza en pantallas pequeñas. */
 .map-explorer{--explore-earth:#5f4b3b;--explore-yellow:#e6c86b;--explore-sky:#d8eaed;--explore-paper:#fffdf8;color:var(--explore-earth);background:var(--explore-paper);border-color:#d2c6b5;margin:2rem 0;scroll-margin-top:6rem}
 .map-explorer [hidden]{display:none!important}
 .explore-visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
@@ -34,19 +34,15 @@
 .explore-pin-earned .explore-pin-label{border:2px solid #3e6b49;background:#f0f7ee}
 .explore-pin-found .explore-pin-badge{background:var(--explore-yellow);border-color:#24442c;box-shadow:0 0 0 5px #ffffffdf}
 .explore-progress{font-size:.88rem;margin:1rem 0 0;padding:.8rem 1rem;border-radius:.65rem;background:#f1ede5;color:var(--explore-earth)}
-@media(max-width:1000px){
- .explore-map-islands{position:static;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;margin-top:.85rem}
- .explore-pin,.explore-pin-north{position:static;transform:none;flex-direction:row;justify-content:flex-start;gap:.55rem;padding:.65rem;border:1px solid #bfb09b;background:#fff;min-height:76px;text-align:left}
- .explore-pin-north .explore-pin-badge{order:-1}
- .explore-pin-label{align-items:flex-start;border:0;box-shadow:none;padding:0;min-width:0;background:transparent}
- .explore-pin-name{white-space:normal;overflow-wrap:anywhere}
- .explore-pin-state{white-space:normal;font-size:.7rem}
- .explore-pin-earned{border:2px solid #3e6b49;background:#f0f7ee}
- .explore-pin-earned .explore-pin-label{border:0;background:transparent}
- .explore-pin-found{box-shadow:inset 0 0 0 2px #24442c;background:#fff9dc}
- .explore-pin:hover{background:#f8f1d9}
-}
-@media(max-width:750px){.explore-map-islands{grid-template-columns:repeat(2,minmax(0,1fr))}.explore-pin{min-height:80px}.explore-pin-name{font-size:.86rem}}
-@media(max-width:380px){.explore-map-islands{gap:.5rem}.explore-pin{padding:.5rem;gap:.35rem;flex-direction:column;align-items:center;text-align:center}.explore-pin-label{align-items:center}.explore-pin-name{font-size:.8rem}.explore-pin-state{font-size:.65rem}.explore-actions .explore-button{width:100%}}
+.explore-map-viewport{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;border-radius:1rem;border:1px solid #9dbbc4;scrollbar-color:#5f4b3b #e5eff1;scrollbar-width:thin}
+.explore-map-viewport:focus-visible{outline:3px solid #18242c;outline-offset:4px}
+.explore-map-stage{min-width:960px}
+.explore-map-image{border:0}
+.explore-pan-controls{display:flex;gap:.65rem;align-items:center;justify-content:space-between;margin:.75rem 0 1rem}
+.explore-pan-help{margin:0;line-height:1.45;font-size:.9rem}
+.explore-pan-controls button{flex-shrink:0;min-width:44px}
+.explore-pan-controls button:disabled{opacity:.45;cursor:default}
+.map-explorer > .explore-actions{margin-top:1rem}
+@media(max-width:380px){.explore-actions .explore-button{width:100%}}
 @media(prefers-reduced-motion:reduce){.map-explorer *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 @media print{.map-explorer{display:none}}

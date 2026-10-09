@@ -1,14 +1,14 @@
 {
-  "web_version": "4.4.2",
+  "web_version": "4.4.3",
   "rea_exelearning_version": "4.4.0",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-07",
+  "prepared_at": "2026-10-09",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
     "sha256": "a6ca9d3468097d21f15b00fc8b775e2e11cd6d69036d077d9d5cc8cf199e9504",
     "bytes": 18355877
   },
-  "previous_web_version": "4.4.1",
+  "previous_web_version": "4.4.2",
   "previous_rea_version": "4.4.0",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_4_2.md",
+  "release_notes": "CAMBIOS_WEB_4_4_3.md",
   "rea_release_notes": "CAMBIOS_REA_GOBCAN.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {

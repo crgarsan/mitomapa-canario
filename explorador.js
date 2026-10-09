@@ -130,7 +130,7 @@
     controls.game.hidden = !playing;
     controls.mapInstruction.textContent = playing && !complete
       ? 'Toca la pintadera de la isla que responde a la pista. Con el teclado, usa Tab para recorrer las islas y Enter para elegir.'
-      : 'Empieza por la isla que quieras. Toca una pintadera para abrir su cuento. Con el teclado, usa Tab para recorrer las islas y Enter para abrir.';
+      : 'Empieza por la isla que quieras. Toca la pintadera o el nombre para abrir su cuento. Con el teclado, usa Tab para recorrer las islas y Enter para abrir.';
     controls.pins.forEach(pin => {
       pin.classList.remove('explore-pin-found');
       pin.setAttribute('aria-describedby', 'exploreMapInstruction');
@@ -203,16 +203,15 @@
     section.setAttribute('aria-labelledby', 'exploreMapTitle');
     const intro = element('div', 'explore-intro');
     intro.appendChild(element('p', 'explore-kicker', 'El archipiélago, a tu ritmo'));
-    const title = element('h2', 'section-title', 'Explora las islas y sus historias');
+    const title = element('h2', 'section-title', 'Selecciona una isla en el mapa');
     title.id = 'exploreMapTitle';
     intro.appendChild(title);
-    intro.appendChild(element('p', 'explore-description', 'Abre cualquier cuento desde el mapa o descubre cinco historias con pistas. Puedes leer con ayuda, probar de nuevo y seguir a tu ritmo.'));
+    intro.appendChild(element('p', 'explore-description', 'Pulsa una pintadera o el nombre de la isla para abrir su cuento. Puedes empezar por donde quieras.'));
     const toolbar = element('div', 'explore-actions');
     controls.start = button('Jugar con cinco pistas', 'explore-button', startGame);
     controls.resume = button('Retomar mis pistas', 'explore-button explore-button-secondary', resumeGame);
     controls.leave = button('Volver a explorar libremente', 'explore-button explore-button-secondary', leaveGame);
     toolbar.append(controls.start, controls.resume, controls.leave);
-    intro.appendChild(toolbar);
     section.appendChild(intro);
 
     controls.game = element('div', 'explore-game');
@@ -246,10 +245,10 @@
     section.appendChild(controls.mapInstruction);
     const stage = element('div', 'explore-map-stage');
     const image = element('img', 'explore-map-image');
-    image.src = context.assets && context.assets['mapa_canarias.webp'] || 'assets/images/mapa_canarias.webp';
-    image.width = 1600;
-    image.height = 807;
-    image.alt = 'Relieve de las ocho islas habitadas de Canarias. Las pintaderas junto a los nombres permiten abrir cada cuento.';
+    image.src = context.assets && context.assets['mapa_canarias_interactivo.webp'] || 'assets/images/mapa_canarias_interactivo.webp';
+    image.width = 1200;
+    image.height = 620;
+    image.alt = 'Mapa esquemático de las ocho islas de Canarias. Las pintaderas junto a los nombres permiten abrir cada cuento.';
     stage.appendChild(image);
     const islands = element('div', 'explore-map-islands');
     islands.setAttribute('role', 'group');
@@ -281,7 +280,37 @@
       return pin;
     });
     stage.appendChild(islands);
-    section.appendChild(stage);
+    const viewport = element('div', 'explore-map-viewport');
+    viewport.tabIndex = 0;
+    viewport.setAttribute('role', 'region');
+    viewport.setAttribute('aria-label', 'Mapa de Canarias con ocho islas seleccionables');
+    viewport.setAttribute('aria-describedby', 'exploreMapInstruction explorePanHelp');
+    viewport.appendChild(stage);
+    section.appendChild(viewport);
+    const panControls = element('div', 'explore-pan-controls');
+    panControls.hidden = true;
+    const panHelp = element('p', 'explore-pan-help', 'Desliza el mapa para ver las demás islas, o utiliza las flechas.');
+    panHelp.id = 'explorePanHelp';
+    const pan = direction => viewport.scrollBy({
+      left: direction * Math.max(200, viewport.clientWidth * .8),
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+    });
+    const previous = button('←', 'explore-button explore-button-secondary', () => pan(-1));
+    previous.setAttribute('aria-label', 'Ver las islas hacia el oeste');
+    const next = button('→', 'explore-button explore-button-secondary', () => pan(1));
+    next.setAttribute('aria-label', 'Ver las islas hacia el este');
+    panControls.append(previous, panHelp, next);
+    section.appendChild(panControls);
+    const refreshPan = () => {
+      panControls.hidden = viewport.clientWidth === 0 || viewport.scrollWidth <= viewport.clientWidth + 1;
+      previous.disabled = viewport.scrollLeft <= 1;
+      next.disabled = viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 1;
+    };
+    viewport.addEventListener('scroll', refreshPan, {passive: true});
+    window.addEventListener('resize', refreshPan);
+    if (window.ResizeObserver) new ResizeObserver(refreshPan).observe(viewport);
+    requestAnimationFrame(refreshPan);
+    section.appendChild(toolbar);
     controls.progress = element('p', 'explore-progress');
     section.appendChild(controls.progress);
     anchor.parentNode.insertBefore(section, anchor);
