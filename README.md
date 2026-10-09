@@ -6,7 +6,7 @@ Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.
 
 ## Descargas y edición
 
-La distribución web 4.4.2 ofrece como descarga principal la adaptación GobCan
+La distribución web 4.4.3 ofrece como descarga principal la adaptación GobCan
 del REA 4.4.0. Contiene 39 páginas y 118 iDevices, conservando las 95 identidades
 de la edición base, sus 42 juegos y los 16 MP3. Utiliza la plantilla Flux,
 Andika, contador de páginas, guía didáctica práctica y fundamentación curricular.
@@ -20,7 +20,7 @@ y las narraciones. El archivo publicado es idéntico al de la entrega GobCan.
 - [REA adaptado a GobCan](downloads/MitoMapa_canario_GobCan.elpx).
 - [Código en GitHub](https://github.com/crgarsan/mitomapa-canario); el repositorio
   mantiene su visibilidad privada y requiere acceso autorizado.
-- [Fuentes de la web 4.4.2](downloads/MitoMapa_fuentes_web_v4_4_2.zip).
+- [Fuentes de la web 4.4.3](downloads/MitoMapa_fuentes_web_v4_4_3.zip).
 
 Las ediciones anteriores 4.4.0 conservan 15 páginas y 95 iDevices. La selección
 del informe determina qué juegos figuran en él:
@@ -86,7 +86,7 @@ Antes de distribuir un cambio, abre, guarda y exporta el resultado con
 eXeLearning 4.0.5 y verifica las rutas afectadas.
 
 Las notas actuales están en [CAMBIOS_REA_GOBCAN.md](CAMBIOS_REA_GOBCAN.md) y
-[CAMBIOS_WEB_4_4_2.md](CAMBIOS_WEB_4_4_2.md). Las comprobaciones de la descarga
+[CAMBIOS_WEB_4_4_3.md](CAMBIOS_WEB_4_4_3.md). Las comprobaciones de la descarga
 y la publicación se recogen en [VALIDACION_WEB_4_4_2.txt](VALIDACION_WEB_4_4_2.txt).
 La validación de la edición histórica permanece en
 [VALIDACION_4_4_0.txt](VALIDACION_4_4_0.txt).
