@@ -1,14 +1,14 @@
 {
-  "web_version": "4.4.3",
+  "web_version": "4.4.4",
   "rea_exelearning_version": "4.4.0",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-09",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "dc63366d7b1862b34e593b92974978e899f4561f2f446f858d587a741707df31",
-    "bytes": 18681004
+    "sha256": "7e5d71a5de93530db24b597a9aaa85babf36a06102a9a8ed8e32ab88f2789eab",
+    "bytes": 20059462
   },
-  "previous_web_version": "4.4.2",
+  "previous_web_version": "4.4.3",
   "previous_rea_version": "4.4.0",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_4_3.md",
+  "release_notes": "CAMBIOS_WEB_4_4_4.md",
   "rea_release_notes": "CAMBIOS_REA_GOBCAN.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -55,5 +55,15 @@
     "selected_islands": 2
   },
   "rea_revision": "2026-10-09",
-  "teacher_guide": "GUIA_DOCENTE_GOBCAN.html"
+  "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
+  "rea_revision_label": "Mapa de relieve restaurado desde el archivo aportado",
+  "map": {
+    "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
+    "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
+    "width": 3000,
+    "height": 1514,
+    "visual_pixels_unchanged": true,
+    "specific_license": "Libre uso por la comunidad educativa según aviso de TongApp aportado por la autoría; se mantienen sus condiciones originales",
+    "usage_notice": "Los contenidos y programas que constituyen esta obra son propiedad del Gobierno de Canarias que ha promovido su creación y desarrollo con el propósito de que la comunidad educativa haga libre uso de los mismos."
+  }
 }

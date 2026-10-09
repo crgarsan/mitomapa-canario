@@ -3,9 +3,9 @@
   'use strict';
 
   const positions = {
-    tenerife: [39, 55], 'gran-canaria': [54, 68], 'la-palma': [17.5, 42],
-    'la-gomera': [27.5, 61], 'el-hierro': [14.5, 75],
-    fuerteventura: [77.6, 51], lanzarote: [84.4, 29], 'la-graciosa': [86.7, 19.4]
+    tenerife: [38.32, 55.86], 'gran-canaria': [53.59, 65.92], 'la-palma': [18.10, 41.27],
+    'la-gomera': [27.85, 61.01], 'el-hierro': [15.36, 74.38],
+    fuerteventura: [77.91, 51.24], lanzarote: [83.70, 29.53], 'la-graciosa': [85.67, 21.68]
   };
   const clues = [
     { id: 'tenerife', text: 'Busco el cuento en el que Magec regresa y una línea dorada ilumina Echeyde. ¿Qué isla debo elegir?', help: 'Dácil cuida cabras cerca del gran volcán de esta isla.', explanation: 'En «Dácil y el regreso de Magec», la comunidad pide ayuda a Achamán para que vuelva la luz.' },
@@ -246,9 +246,9 @@
     const stage = element('div', 'explore-map-stage');
     const image = element('img', 'explore-map-image');
     image.src = context.assets && context.assets['mapa_canarias_interactivo.webp'] || 'assets/images/mapa_canarias_interactivo.webp';
-    image.width = 1200;
-    image.height = 620;
-    image.alt = 'Mapa esquemático de las ocho islas de Canarias. Las pintaderas junto a los nombres permiten abrir cada cuento.';
+    image.width = 3000;
+    image.height = 1514;
+    image.alt = 'Mapa de relieve de las ocho islas de Canarias. Las pintaderas junto a los nombres permiten abrir cada cuento.';
     stage.appendChild(image);
     const islands = element('div', 'explore-map-islands');
     islands.setAttribute('role', 'group');
