@@ -25,13 +25,28 @@ repositorio los cambios destinados a la web. El seguimiento del alumnado
 permanece en su navegador mientras se mantenga el mismo origen; antes de cambiar
 de dominio, exporta el seguimiento desde Docente.
 
-Para comprobar la preparación local sin credenciales:
+Para comprobar la preparación local sin credenciales, usa Node.js 22 o superior:
 
 ```sh
 python3 tools/update_release.py
 python3 tools/prepare_deploy.py
-npx wrangler@4.147.0 deploy --config wrangler.jsonc --dry-run
+npm ci --ignore-scripts --no-audit --no-fund
+python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
+node --test tests/drawing-import.test.js
+WRANGLER_SEND_METRICS=false ./node_modules/.bin/wrangler deploy --config wrangler.jsonc --dry-run
 ```
+
+Wrangler está fijado a una versión exacta en `package.json`. `package-lock.json`
+fija también sus dependencias y sus integridades; `npm ci` falla si ambos archivos
+no coinciden. La instalación no ejecuta scripts de los paquetes y el despliegue
+usa el ejecutable local. Las acciones de GitHub están fijadas a commits completos.
+
+Para actualizar Wrangler, cambia su versión exacta en `package.json` y ejecuta
+`npm install --package-lock-only --ignore-scripts --no-audit --no-fund`. Revisa en
+el diff las versiones, los orígenes del registro y las integridades del lockfile;
+después repite las comprobaciones anteriores y sube ambos archivos juntos. Para
+actualizar una acción, verifica el commit de su versión oficial y sustituye el
+SHA completo y el comentario de versión en el flujo.
 
 Ejecuta `tools/update_release.py` antes de subir cambios de los archivos
 públicos. Actualiza el ZIP editable y sus huellas. El flujo de GitHub comprueba

@@ -1,0 +1,150 @@
+"""Guard the dependency and workflow boundaries before deployment credentials."""
+
+import base64
+import binascii
+import copy
+import json
+from pathlib import Path, PurePosixPath
+import re
+import unittest
+from urllib.parse import urlsplit
+
+
+ROOT = Path(__file__).resolve().parent.parent
+EXACT_VERSION = re.compile(r"\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?")
+
+
+def lock_errors(manifest, lock):
+    """Check every tarball and every required/optional edge, not just Wrangler."""
+    errors = []
+    packages = lock.get("packages", {})
+    if lock.get("lockfileVersion") != 3 or "" not in packages:
+        return ["Missing npm v3 package graph"]
+    root = packages[""]
+    if root.get("devDependencies") != manifest.get("devDependencies"):
+        errors.append("Manifest and lock root dependencies differ")
+    version = manifest.get("devDependencies", {}).get("wrangler", "")
+    if not EXACT_VERSION.fullmatch(version):
+        errors.append("Wrangler must have an exact version")
+    if packages.get("node_modules/wrangler", {}).get("version") != version:
+        errors.append("Wrangler lock version differs from manifest")
+
+    for name, package in packages.items():
+        if name:
+            if not EXACT_VERSION.fullmatch(package.get("version", "")):
+                errors.append(f"Unpinned package: {name}")
+            url = urlsplit(package.get("resolved", ""))
+            if (url.scheme != "https" or url.netloc != "registry.npmjs.org"
+                    or not url.path.endswith(".tgz") or url.query or url.fragment):
+                errors.append(f"Unexpected package origin: {name}")
+            algorithm, _, digest = package.get("integrity", "").partition("-")
+            try:
+                valid_integrity = algorithm == "sha512" and len(
+                    base64.b64decode(digest, validate=True)
+                ) == 64
+            except (ValueError, binascii.Error):
+                valid_integrity = False
+            if not valid_integrity:
+                errors.append(f"Missing or invalid SHA-512 integrity: {name}")
+
+        # npm resolves a dependency from the package's nearest node_modules
+        # directory, then from its ancestors. Optional platform packages must
+        # also be retained in the lock even when this runner does not install them.
+        dependencies = {
+            **package.get("dependencies", {}),
+            **package.get("optionalDependencies", {}),
+        }
+        dependencies.update({
+            dependency: version
+            for dependency, version in package.get("peerDependencies", {}).items()
+            if not package.get("peerDependenciesMeta", {}).get(dependency, {}).get("optional")
+        })
+        if not name:
+            dependencies.update(package.get("devDependencies", {}))
+        for dependency in dependencies:
+            directory = PurePosixPath(name)
+            while True:
+                candidate = (directory / "node_modules" / dependency).as_posix()
+                if candidate in packages:
+                    break
+                if directory == PurePosixPath("."):
+                    errors.append(f"Missing graph edge: {name} -> {dependency}")
+                    break
+                directory = directory.parent
+    return errors
+
+
+class DeployPolicyTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.workflow = (ROOT / ".github/workflows/deploy-cloudflare.yml").read_text()
+        cls.manifest = json.loads((ROOT / "package.json").read_text())
+        cls.lock = json.loads((ROOT / "package-lock.json").read_text())
+        cls.steps = re.findall(r"(?ms)^      - (.*?)(?=^      - |\Z)", cls.workflow)
+
+    def test_actions_use_full_commit_ids(self):
+        actions = re.findall(r"^\s*- uses: (\S+)(.*)$", self.workflow, re.MULTILINE)
+        self.assertEqual(len(actions), 2)
+        self.assertEqual({action.split("@")[0] for action, _ in actions},
+                         {"actions/checkout", "actions/setup-node"})
+        for action, comment in actions:
+            with self.subTest(action=action):
+                self.assertRegex(action, r"^actions/[a-z-]+@[0-9a-f]{40}$")
+                self.assertRegex(comment, r"^\s+# (?:v\d+\.\d+\.\d+|v\d+ \(backport #\d+\))\s*$")
+
+    def test_manifest_and_complete_lock_have_integrity(self):
+        self.assertTrue(self.manifest.get("private"))
+        self.assertEqual(self.manifest.get("engines", {}).get("node"), ">=22")
+        self.assertEqual(lock_errors(self.manifest, self.lock), [])
+
+    def test_lock_policy_rejects_tampered_transitive_entries(self):
+        dependency = next(iter(self.lock["packages"]["node_modules/wrangler"]["dependencies"]))
+        dependency_path = "node_modules/" + dependency
+        for mutation in ("integrity", "origin", "missing"):
+            with self.subTest(mutation=mutation):
+                damaged = copy.deepcopy(self.lock)
+                package = damaged["packages"][dependency_path]
+                if mutation == "integrity":
+                    del package["integrity"]
+                elif mutation == "origin":
+                    package["resolved"] = "https://example.com/package.tgz"
+                else:
+                    del damaged["packages"][dependency_path]
+                self.assertTrue(lock_errors(self.manifest, damaged))
+
+    def test_install_and_deploy_cannot_fetch_an_unlocked_cli(self):
+        self.assertNotRegex(self.workflow, r"\b(?:npx|npm\s+(?:install|i|exec))\b")
+        install = next(step for step in self.steps if step.startswith("name: Install Wrangler\n"))
+        deploy = next(step for step in self.steps if step.startswith("name: Deploy existing Worker\n"))
+        self.assertIn("        run: npm ci --ignore-scripts --no-audit --no-fund\n", install)
+        self.assertIn("        run: ./node_modules/.bin/wrangler deploy --config wrangler.jsonc\n", deploy)
+        self.assertLess(self.steps.index(install), self.steps.index(deploy))
+        self.assertIn("      WRANGLER_SEND_METRICS: 'false'\n", self.workflow)
+
+    def test_checks_run_before_credentials(self):
+        deploy_index = next(i for i, step in enumerate(self.steps)
+                            if "secrets.CLOUDFLARE_API_TOKEN" in step)
+        prior_steps = "\n".join(self.steps[:deploy_index])
+        self.assertNotIn("secrets.", prior_steps)
+        self.assertIn("python3 -m unittest discover -s tests -p 'test_deploy_policy.py'", prior_steps)
+        self.assertIn("node --test tests/drawing-import.test.js", prior_steps)
+        self.assertIn("python3 tools/prepare_deploy.py", prior_steps)
+        self.assertEqual(self.workflow.count("secrets."), 2)
+        self.assertIn("CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}", self.steps[deploy_index])
+        self.assertIn("CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}", self.steps[deploy_index])
+
+    def test_deployment_contracts_remain_restricted(self):
+        self.assertIn("  push:\n    branches: [main]\n  workflow_dispatch:\n", self.workflow)
+        self.assertIn("    if: github.ref == 'refs/heads/main' && github.repository == 'crgarsan/mitomapa-canario'\n", self.workflow)
+        self.assertIn("    environment: production\n", self.workflow)
+        permissions = re.search(r"^    permissions:\n((?:      .+\n)+)",
+                                self.workflow, re.MULTILINE)
+        self.assertIsNotNone(permissions)
+        self.assertEqual(permissions.group(1), "      contents: read\n")
+        self.assertIn("          persist-credentials: false\n", self.workflow)
+        self.assertIn("          node-version: '22'\n", self.workflow)
+        self.assertIn("  cancel-in-progress: false\n", self.workflow)
+
+
+if __name__ == "__main__":
+    unittest.main()
