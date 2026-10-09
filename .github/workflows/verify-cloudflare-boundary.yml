@@ -1,0 +1,26 @@
+name: Verify Cloudflare production boundary
+
+on:
+  push:
+    branches: [codex/security-cloudflare-production]
+
+permissions:
+  contents: read
+
+jobs:
+  regression-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest discover -s tests -v
+      - run: bash -n tools/deploy_cloudflare.sh
+  production-environment-probe:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions: {}
+    steps:
+      - run: |
+          echo 'ERROR: production accepted a non-main branch.'
+          exit 1
