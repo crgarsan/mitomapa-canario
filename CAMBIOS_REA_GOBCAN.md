@@ -38,3 +38,5 @@ Revisión del 09/10/2026, sincronizada con la descarga pública principal:
 - Selección curricular y referencias de evaluación vigentes, con cuatro sesiones para dos islas de libre elección. La propuesta aún no se ha probado con alumnado.
 
 Se conservan 39 páginas, 118 identidades de iDevices, 42 juegos y 16 MP3. El ELPX público es idéntico al archivo de entrega: SHA-256 dc63366d7b1862b34e593b92974978e899f4561f2f446f858d587a741707df31; 18.681.004 bytes. Las ediciones históricas se identifican como anteriores.
+
+Restauración del mapa de relieve del 09/10/2026: se recupera el SVG aportado y se conserva exactamente su imagen de 3000 × 1514 píxeles. Web 4.4.4, ELPX y entrega GobCan comparten el mapa restaurado. Se actualizan portada, puzle, explorador, textos alternativos, fuentes, miniaturas, ficha y créditos. Se recoge el aviso de TongApp de titularidad del Gobierno de Canarias y libre uso por la comunidad educativa. Las referencias al mapa propio de los párrafos anteriores describen revisiones históricas.

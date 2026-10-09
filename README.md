@@ -6,7 +6,7 @@ Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.
 
 ## Descargas y edición
 
-La distribución web 4.4.3 ofrece como descarga principal la adaptación GobCan
+La distribución web 4.4.4 ofrece como descarga principal la adaptación GobCan
 del REA 4.4.0. Contiene 39 páginas y 118 iDevices, conservando las 95 identidades
 de la edición base, sus 42 juegos y los 16 MP3. Utiliza la plantilla Flux,
 Andika, contador de páginas, guía didáctica práctica y fundamentación curricular.
@@ -15,12 +15,12 @@ del tercer ciclo de Primaria y adaptación a 5.º. Las ocho islas siguen disponi
 
 La aplicación portable incluida conserva las vistas Inicio, Islas, Juegos y
 Recursos, las pintaderas, las pistas, los pasos Cuento/Retos/Taller, la comparación
-y las narraciones. El archivo publicado es idéntico al ELPX de la entrega GobCan revisada el 09/10/2026. Incluye el mapa propio con pintaderas seleccionables y una pauta cualitativa sin puntuaciones ni pesos.
+y las narraciones. El archivo publicado es idéntico al ELPX de la entrega GobCan revisada el 09/10/2026. Incluye el mapa de relieve aportado con pintaderas seleccionables y una pauta cualitativa sin puntuaciones ni pesos.
 
 - [REA adaptado a GobCan](downloads/MitoMapa_canario_GobCan.elpx).
 - [Código en GitHub](https://github.com/crgarsan/mitomapa-canario); el repositorio
   mantiene su visibilidad privada y requiere acceso autorizado.
-- [Fuentes de la web 4.4.3](downloads/MitoMapa_fuentes_web_v4_4_3.zip).
+- [Fuentes de la web 4.4.4](downloads/MitoMapa_fuentes_web_v4_4_4.zip).
 
 Las ediciones anteriores 4.4.0 conservan 15 páginas y 95 iDevices. La selección
 del informe determina qué juegos figuran en él:
@@ -86,7 +86,9 @@ Antes de distribuir un cambio, abre, guarda y exporta el resultado con
 eXeLearning 4.0.5 y verifica las rutas afectadas.
 
 Las notas actuales están en [CAMBIOS_REA_GOBCAN.md](CAMBIOS_REA_GOBCAN.md) y
-[CAMBIOS_WEB_4_4_3.md](CAMBIOS_WEB_4_4_3.md). Las comprobaciones de la descarga
-y la publicación se recogen en [VALIDACION_WEB_4_4_3.txt](VALIDACION_WEB_4_4_3.txt).
+[CAMBIOS_WEB_4_4_4.md](CAMBIOS_WEB_4_4_4.md). Las comprobaciones de la descarga
+y la publicación se recogen en [VALIDACION_WEB_4_4_4.txt](VALIDACION_WEB_4_4_4.txt).
 La validación de la edición histórica permanece en
 [VALIDACION_4_4_0.txt](VALIDACION_4_4_0.txt).
+
+El mapa de relieve se restaura desde el archivo aportado el 09/10/2026, sin alterar sus píxeles. La fuente indicada por la autoría es TongApp del Gobierno de Canarias; El aviso de TongApp facilitado por la autoría declara la titularidad del Gobierno de Canarias y el libre uso por la comunidad educativa. El mapa conserva esas condiciones originales; no se le atribuye la licencia de los materiales propios del proyecto. Las pintaderas y los nombres siguen siendo accesos libres a cada isla.

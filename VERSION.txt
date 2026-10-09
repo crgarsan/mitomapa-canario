@@ -1,4 +1,4 @@
-MitoMapa web 4.4.3 / REA eXeLearning 4.4.0 — adaptación GobCan
+MitoMapa web 4.4.4 / REA eXeLearning 4.4.0 — adaptación GobCan
 Distribución actualizada el 09/10/2026. Formato del REA: eXeLearning 4.0.5.
 Descarga principal: MitoMapa_canario_GobCan.elpx; 39 páginas y 118 iDevices.
 Se conservan 95 identidades de iDevices, 42 juegos y 16 MP3 de la edición base.
@@ -8,4 +8,4 @@ El despliegue se ejecuta desde GitHub Actions al actualizar main.
 VERSION.json conserva la huella y el tamaño de la descarga principal.
 
 REVISIÓN GOBCAN 09/10/2026
-La descarga principal coincide byte por byte con la entrega GobCan revisada. Incluye mapa propio con pintaderas seleccionables y pauta cualitativa sin puntuaciones ni pesos. La guía completa está en GUIA_DOCENTE_GOBCAN.html; la guía práctica añade la propuesta de cuatro sesiones como apartado desplegable. Los archivos CSV y HTML de revisión corresponden a esta edición.
+La descarga principal coincide byte por byte con la entrega GobCan revisada. Incluye mapa de relieve aportado con pintaderas seleccionables y pauta cualitativa sin puntuaciones ni pesos. La guía completa está en GUIA_DOCENTE_GOBCAN.html; la guía práctica añade la propuesta de cuatro sesiones como apartado desplegable. Los archivos CSV y HTML de revisión corresponden a esta edición.

@@ -292,3 +292,9 @@ html{scroll-padding-top:var(--header-offset,8rem)}
 .narrator-controls .narration-ambient-label{min-height:44px;cursor:pointer;gap:.6rem}
 .narration-ambient{width:20px;height:20px;flex:none;accent-color:var(--earth-dark)}
 .narration-ambient:focus-visible{outline:3px solid var(--earth-dark);outline-offset:3px}
+
+/* Mapa de relieve restaurado: presentación discreta, sin modificar la imagen. */
+.hero-map{padding:.35rem;border:1px solid #b6cbd5;border-radius:.9rem;overflow:hidden;box-shadow:0 4px 14px #163a5412}
+.hero-map img{border-radius:.55rem;aspect-ratio:3000/1514}
+
+.puzzle-board{aspect-ratio:3000/1514}

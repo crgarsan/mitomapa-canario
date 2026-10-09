@@ -1,0 +1,51 @@
+Validación de MitoMapa canario · GobCan · mapa restaurado · 09/10/2026
+
+RECURSO
+XML válido con DTD, archivos ZIP íntegros, buscador y manifiestos sincronizados, referencias locales resueltas.
+39 páginas y 118 identidades de iDevices con sus relaciones y tipos conservados. 63 Text y 0 Rubric; la pauta cualitativa mantiene seis aspectos y 24 descripciones sin puntuaciones ni pesos.
+42 juegos con HTML/JSON idénticos. 16 MP3, 18 imágenes IA y cinco recursos Andika conservados byte por byte.
+Tres copias del mapa WebP de 3000 × 1514; todos sus píxeles RGBA coinciden con la imagen PNG del SVG aportado. SVG incluido byte por byte. Conversión sin pérdida, sin nueva generación ni redibujo.
+Solo cuatro textos nativos se ajustan a portada, metodología, fuentes y créditos. El resto de componentes nativos se conserva.
+Portada, puzle y aplicación portable comprobados en Chromium. La aplicación mantiene Andika y sus ocho rutas se abren con Enter/Espacio en escritorio y móvil, con botones de al menos 44 píxeles, sin errores ni desbordamiento de página.
+Web: 32 aperturas por teclado en 1366, 768, 390 y 320 píxeles; 48 clics/toques sobre pintadera y nombre en 1366, 390 y 320. Sin errores JavaScript/peticiones fallidas ni etiquetas ocultas. Marco y proporción del puzle ajustados, geometría de la imagen intacta.
+La estructura y pauta se validaron con eXeLearning 4.0.5 en la revisión previa. Esta modificación conserva las identidades, los tipos, las fuentes y las actividades. La copia final mantiene Andika, que el exportador temporal del editor omite.
+
+DOCUMENTOS
+Ficha oficial: ocho tablas, nueve páginas, contacto y autoría conservados. 34 destinos HTTPS únicos; 39 anotaciones PDF, sin enlaces file:, relativos, Launch o GoToR. Mapa PNG incrustado intacto y destinos ODT/PDF coincidentes.
+Fuentes y créditos: 19 miniaturas (mapa TongApp y 18 ilustraciones IA), 16 audios y 22 referencias documentales. La guía de cuatro sesiones se conserva en sus tres formatos.
+Aviso de TongApp facilitado por la autoría: Gobierno de Canarias titular, libre uso por la comunidad educativa. Se conservan las condiciones originales del mapa y se separan de CC BY-NC-SA 4.0 para los materiales propios. El portal no se ha verificado directamente por la política de red.
+
+ENLACES
+12 de 34 destinos HTTPS responden HTTP 200. Los otros 22 no se pudieron solicitar por la política de red; no se clasifican como enlaces rotos. Borrador de permisos guardado, pendiente de revisión y publicación en la configuración del entorno.
+
+ALCANCE
+La integración curricular y la valoración de evidencias corresponden al profesorado. No se declara una certificación integral de accesibilidad, aplicación con alumnado, prueba en Moodle ni aceptación de GobCan.
+Herramienta original de imágenes: OpenAI ImageGen; asistente indicado por la autoría: Astra 6. La versión técnica del motor de imágenes no está expuesta y puede requerir completar el dato editorial. Se mantienen las fechas documentadas de generación/revisión.
+La licencia de materiales propios y narración fue confirmada por las tres personas autoras. El recurso todavía no se ha aplicado con alumnado.
+
+ELPX SHA-256: 7e5d71a5de93530db24b597a9aaa85babf36a06102a9a8ed8e32ab88f2789eab
+HTML ZIP SHA-256: 856ed36be1f53a4a007210043e6b36f3136c20187a5e3f5adb26cf03627226fb
+
+Destinos pendientes por permisos de red:
+https://accedacris.ulpgc.es/bitstream/10553/11423/1/0536490_00000_0000.pdf
+https://biosfera.lagomera.es/arqueologia/
+https://bk.memoriadelanzarote.com/media/docs/items/20110708111921AVENDAO-E-ICO.pdf
+https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
+https://elhierro.travel/museos-y-visitas-de-interes/el-hierro/arbol-garoe/
+https://guanchismos.ulpgc.es/item/11674
+https://guanchismos.ulpgc.es/item/11747
+https://guanchismos.ulpgc.es/item/12149
+https://guanchismos.ulpgc.es/item/12378
+https://guanchismos.ulpgc.es/item/12617
+https://guanchismos.ulpgc.es/page/estudio18
+https://museosfuerteventura.com/museos/museo-arqueologico-de-fuerteventura/
+https://revistas.grancanaria.com/index.php/aea/article/view/9321
+https://www.academiacanarialengua.org/palabra/tabaiba/
+https://www.academiacanarialengua.org/palabra/tea/
+https://www.cabildofuer.es/documentos/Patrimonio_cultural/jornadas_ftv_lzt/volumenes/15_jornadas_ftv_lzt_tomo2.pdf#page=285
+https://www.elmuseocanario.com/category/pintadera/
+https://www.elmuseocanario.com/images/documentospdf/pintaderaselmuseocanario.pdf
+https://www.rae.es/tdhle/tibicena
+https://www3.gobiernodecanarias.org/medusa/apps/tongapp/
+https://www3.gobiernodecanarias.org/medusa/wiki/index.php/Isla_de_La_Graciosa
+https://www3.gobiernodecanarias.org/medusa/wiki/index.php?title=Antiguos_canarios

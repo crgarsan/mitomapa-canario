@@ -1,4 +1,4 @@
-MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.4.3 · REA editable 4.4.0, adaptación GobCan · aplicación interactiva 4.4.0
+MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.4.4 · REA editable 4.4.0, adaptación GobCan · aplicación interactiva 4.4.0
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
 Se conserva la licencia CC BY-NC-SA 4.0 declarada en el recurso original.
@@ -14,11 +14,11 @@ No se ha realizado una auditoría independiente de titularidad de cada imagen.
 
 Crédito sugerido:
 Fortes Regalado, J.; González Martín, G. E.; García Santana, C. (2026).
-MitoMapa canario: ocho islas, ocho pintaderas (web 4.4.3; REA 4.4.0, adaptación GobCan). CC BY-NC-SA 4.0.
+MitoMapa canario: ocho islas, ocho pintaderas (web 4.4.4; REA 4.4.0, adaptación GobCan). CC BY-NC-SA 4.0.
 https://mitomapa-canario.cgarcias.workers.dev/
 Si adaptas: añade tu autoría, fecha y descripción de los cambios.
 
-Mapa: esquema original del proyecto generado mediante código el 09/10/2026, con ocho islas y una variante para los botones interactivos. Formas simbólicas originales; no es cartografía oficial. CC BY-NC-SA 4.0. Fuente vectorial en assets/images/mapa_canarias_original.svg.
+Mapa: Mapa de relieve aportado por la autoría en el archivo imagen_20261009_200406.svg. Procedencia indicada por la autoría: TongApp del Gobierno de Canarias (https://www3.gobiernodecanarias.org/medusa/apps/tongapp/). Se conserva su imagen, con conversión WebP sin pérdida; el SVG contiene una imagen PNG incrustada. El aviso de TongApp facilitado por la autoría declara la titularidad del Gobierno de Canarias y el libre uso por la comunidad educativa. El mapa conserva esas condiciones originales; no se le atribuye la licencia de los materiales propios del proyecto. La licencia CC BY-NC-SA 4.0 del proyecto corresponde a sus materiales propios.
 Ilustraciones: ocho escenas y diez pintaderas generadas para el recurso; los créditos originales consignan OpenAI ImageGen y agosto de 2026. El mapa no forma parte de estas dieciocho imágenes. Son recreaciones contemporáneas,
 no descripciones históricas. La narración de los ocho cuentos de la web,
 del REA y de su aplicación portable corresponde a Jesica Fortes Regalado,
@@ -54,3 +54,8 @@ La tarjeta de adaptación web se sustituye por un enlace al repositorio GitHub.
 Revisión web 4.4.3 (09/10/2026): pintaderas y nombres seleccionables sobre las ocho islas también en móvil, con desplazamiento táctil y por teclado. Nuevo mapa esquemático propio y fuente SVG; se acredita la inspiración documental de las pintaderas en El Museo Canario. Se conserva la voz de Jesica, el progreso y los juegos. La descarga pública principal se sincroniza con el ELPX de la entrega GobCan revisada el 09/10/2026. Se publican su pauta cualitativa y su guía de aplicación.
 
 Revisión GobCan del 09/10/2026: mapa propio, crédito documental de El Museo Canario y pauta de revisión cualitativa sin puntuaciones ni pesos. Las dieciocho imágenes ilustrativas conservan sus archivos; Astra 6 identifica al asistente indicado por la autoría, no una versión técnica verificada del motor de imágenes. Las narraciones de Jesica, los 42 juegos, las 39 páginas y las 118 identidades de iDevices se conservan.
+
+Restauración web 4.4.4 y revisión GobCan del 09/10/2026: por petición de la autoría, se recupera el mapa de relieve del SVG aportado, conservando todos sus píxeles, formas y colores. Se ajustan únicamente el marco y los accesos interactivos sobre las islas. Los créditos y la documentación sustituyen la atribución actual a un mapa propio por la procedencia indicada de TongApp; las anotaciones anteriores describen sus respectivas ediciones.
+
+Aviso de TongApp facilitado por la autoría (09/10/2026): «Los contenidos y programas que constituyen esta obra son propiedad del Gobierno de Canarias que ha promovido su creación y desarrollo con el propósito de que la comunidad educativa haga libre uso de los mismos.»
+https://www3.gobiernodecanarias.org/medusa/apps/tongapp/
