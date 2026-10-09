@@ -15,7 +15,7 @@ del tercer ciclo de Primaria y adaptación a 5.º. Las ocho islas siguen disponi
 
 La aplicación portable incluida conserva las vistas Inicio, Islas, Juegos y
 Recursos, las pintaderas, las pistas, los pasos Cuento/Retos/Taller, la comparación
-y las narraciones. El archivo publicado es idéntico al de la entrega GobCan.
+y las narraciones. El archivo publicado es idéntico al ELPX de la entrega GobCan revisada el 09/10/2026. Incluye el mapa propio con pintaderas seleccionables y una pauta cualitativa sin puntuaciones ni pesos.
 
 - [REA adaptado a GobCan](downloads/MitoMapa_canario_GobCan.elpx).
 - [Código en GitHub](https://github.com/crgarsan/mitomapa-canario); el repositorio
@@ -46,7 +46,7 @@ Se puede empezar por cualquier isla y elegir otra cuando convenga. La guía
 práctica aparece primero en Docente y ofrece preparación, una sesión flexible,
 apoyos de lectura y creación y juegos opcionales. Ajustes y seguimiento reúne
 las herramientas locales para acordar tareas y guardar el trabajo. También
-está disponible [la guía docente imprimible](GUIA_DOCENTE.html).
+está disponible [la guía docente imprimible](GUIA_DOCENTE.html) y [la guía de aplicación del REA GobCan](GUIA_DOCENTE_GOBCAN.html).
 
 ## Narraciones
 
@@ -87,6 +87,6 @@ eXeLearning 4.0.5 y verifica las rutas afectadas.
 
 Las notas actuales están en [CAMBIOS_REA_GOBCAN.md](CAMBIOS_REA_GOBCAN.md) y
 [CAMBIOS_WEB_4_4_3.md](CAMBIOS_WEB_4_4_3.md). Las comprobaciones de la descarga
-y la publicación se recogen en [VALIDACION_WEB_4_4_2.txt](VALIDACION_WEB_4_4_2.txt).
+y la publicación se recogen en [VALIDACION_WEB_4_4_3.txt](VALIDACION_WEB_4_4_3.txt).
 La validación de la edición histórica permanece en
 [VALIDACION_4_4_0.txt](VALIDACION_4_4_0.txt).

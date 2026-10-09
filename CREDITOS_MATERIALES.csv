@@ -21,8 +21,8 @@ assets/images/scene_tenerife.webp,"Mapa, escena o pintadera del recurso","Crédi
 scripts.js,"Relatos, actividades y programación",Paquete MitoMapa 3.7.1 con revisión 3.8; revisión web 4.3.0,Se mantiene la licencia general declarada; no se certifica licencia de software libre
 downloads/MitoMapa_eXeLearning_v3_7.elpx,Implementación editable complementaria,MitoMapa eXeLearning 3.7 del proyecto,Ver créditos internos; no es la web 3.8
 downloads/Cuaderno_de_ruta_MitoMapa_web_4_0.html,Cuaderno del REA 4.0 adaptado al seguimiento de web y eXeLearning,Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana,CC BY-NC-SA 4.0
-downloads/Rubrica_lectura_MitoMapa_4_0.html,Rúbrica de lectura e impresión del REA 4.0,Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana,CC BY-NC-SA 4.0
-downloads/Rubrica_MitoMapa_4_0.csv,Rúbrica editable del REA 4.0,Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana,CC BY-NC-SA 4.0
+downloads/Rubrica_lectura_MitoMapa_4_0.html,Pauta cualitativa de lectura e impresión de la revisión GobCan del 09/10/2026,Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana,CC BY-NC-SA 4.0
+downloads/Rubrica_MitoMapa_4_0.csv,Pauta cualitativa editable de la revisión GobCan del 09/10/2026,Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana,CC BY-NC-SA 4.0
 explorador.js,Mapa interactivo y expediciones con pistas,Revisión web 4.1.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
 explorador.css,Presentación accesible del mapa interactivo,Revisión web 4.1.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
 historias.js,Secuencias de las recreaciones literarias,Revisión web 4.1.0 del recurso MitoMapa,Se mantiene la licencia general declarada; ver LICENCIA_Y_CREDITOS.txt
@@ -56,3 +56,4 @@ narraciones.js,Registro de las ocho grabaciones de la web,Revisión web 4.4.0 de
 tools/prepare_narrations.py,Preparación reproducible de voz y entrada sonora recreada,Revisión web 4.4.0 de MitoMapa,Se mantiene la licencia general; ver LICENCIA_Y_CREDITOS.txt
 assets/images/mapa_canarias_interactivo.webp,Variante del mapa para las pintaderas seleccionables,"Mismo diagrama original del proyecto, sin rótulos fijos; 09/10/2026",CC BY-NC-SA 4.0
 assets/images/mapa_canarias_original.svg,Fuente vectorial del mapa esquemático,Proyecto MitoMapa canario; diagrama original generado mediante código; 09/10/2026,CC BY-NC-SA 4.0
+GUIA_DOCENTE_GOBCAN.html,Guía de aplicación del REA GobCan revisada el 09/10/2026,Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana,CC BY-NC-SA 4.0

@@ -14,7 +14,7 @@ No se ha realizado una auditoría independiente de titularidad de cada imagen.
 
 Crédito sugerido:
 Fortes Regalado, J.; González Martín, G. E.; García Santana, C. (2026).
-MitoMapa canario: ocho islas, ocho pintaderas (web 4.4.2; REA 4.4.0, adaptación GobCan). CC BY-NC-SA 4.0.
+MitoMapa canario: ocho islas, ocho pintaderas (web 4.4.3; REA 4.4.0, adaptación GobCan). CC BY-NC-SA 4.0.
 https://mitomapa-canario.cgarcias.workers.dev/
 Si adaptas: añade tu autoría, fecha y descripción de los cambios.
 
@@ -51,4 +51,6 @@ ImageGen de las imágenes originales no quedó registrada y así se indica.
 No hay nuevas imágenes, cambio de licencia ni alteración de los juegos web.
 La tarjeta de adaptación web se sustituye por un enlace al repositorio GitHub.
 
-Revisión web 4.4.3 (09/10/2026): pintaderas y nombres seleccionables sobre las ocho islas también en móvil, con desplazamiento táctil y por teclado. Nuevo mapa esquemático propio y fuente SVG; se acredita la inspiración documental de las pintaderas en El Museo Canario. Se conserva la voz de Jesica, el progreso y los juegos. La edición GobCan preparada en archivos de entrega se gestiona de forma independiente de la descarga pública existente.
+Revisión web 4.4.3 (09/10/2026): pintaderas y nombres seleccionables sobre las ocho islas también en móvil, con desplazamiento táctil y por teclado. Nuevo mapa esquemático propio y fuente SVG; se acredita la inspiración documental de las pintaderas en El Museo Canario. Se conserva la voz de Jesica, el progreso y los juegos. La descarga pública principal se sincroniza con el ELPX de la entrega GobCan revisada el 09/10/2026. Se publican su pauta cualitativa y su guía de aplicación.
+
+Revisión GobCan del 09/10/2026: mapa propio, crédito documental de El Museo Canario y pauta de revisión cualitativa sin puntuaciones ni pesos. Las dieciocho imágenes ilustrativas conservan sus archivos; Astra 6 identifica al asistente indicado por la autoría, no una versión técnica verificada del motor de imágenes. Las narraciones de Jesica, los 42 juegos, las 39 páginas y las 118 identidades de iDevices se conservan.

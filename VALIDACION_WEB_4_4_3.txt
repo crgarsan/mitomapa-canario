@@ -1,0 +1,37 @@
+MitoMapa canario · web 4.4.3 · revisión GobCan del 09/10/2026
+
+MAPA Y NAVEGACIÓN
+Ocho pintaderas con nombre sobre un mapa esquemático propio. Se abren las ocho
+rutas mediante Enter y Espacio en 1366, 768, 390 y 320 píxeles. El mapa conserva
+sus puntos interactivos en móvil mediante desplazamiento horizontal; no hay
+desbordamiento de la página ni errores JavaScript en estas comprobaciones.
+La primera publicación del mapa se desplegó correctamente desde GitHub Actions
+(run 37975935035, commit 04048766fb52147cf8a0d1f34db4a3bf0c1743fb).
+
+DESCARGA PRINCIPAL
+downloads/MitoMapa_canario_GobCan.elpx coincide byte por byte con el ELPX de la
+entrega GobCan revisada. SHA-256:
+dc63366d7b1862b34e593b92974978e899f4561f2f446f858d587a741707df31
+Tamaño: 18.681.004 bytes. Integridad ZIP comprobada.
+Contiene 39 páginas, 118 iDevices, 42 juegos y 16 MP3. La revisión nativa contiene
+63 textos y ninguna rúbrica numérica. Se conservan los cinco recursos Andika.
+Las ediciones históricas se identifican como anteriores en los apartados de descarga.
+
+ACOMPAÑAMIENTO
+CSV y HTML imprimible coinciden con los materiales cualitativos de este ELPX:
+seis aspectos y cuatro descripciones de progreso, sin puntuaciones ni pesos.
+La guía práctica añade una propuesta desplegable de cuatro sesiones para dos
+islas; GUIA_DOCENTE_GOBCAN.html desarrolla la actividad y su selección curricular.
+Los enlaces locales de las páginas modificadas apuntan a archivos existentes.
+El porcentaje de aciertos de los juegos no se interpreta como calificación.
+
+ALCANCE
+La exportación GobCan se comprobó con eXeLearning 4.0.5; se conserva la estructura,
+los recursos de accesibilidad, las actividades y la narración humana de Jesica.
+El recurso aún no se ha aplicado con alumnado. Estas pruebas no acreditan su
+eficacia didáctica, una certificación WCAG ni su aceptación editorial por GobCan.
+La versión técnica exacta del motor de imágenes no consta en los materiales;
+Astra 6 identifica al asistente indicado por la autoría.
+En la ficha de presentación se han verificado 12 de 33 destinos HTTPS. Los otros
+21 quedan pendientes de habilitar sus dominios en la configuración del entorno;
+esta restricción no demuestra que sean enlaces rotos.

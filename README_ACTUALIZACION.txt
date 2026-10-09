@@ -1,4 +1,4 @@
-MITOMAPA WEB 4.4.2 / REA 4.4.0 — ADAPTACIÓN GOBCAN · 07/10/2026
+MITOMAPA WEB 4.4.3 / REA 4.4.0 — ADAPTACIÓN GOBCAN · 09/10/2026
 
 DESCARGA PRINCIPAL
 MitoMapa_canario_GobCan.elpx se abre en eXeLearning 4.0.5 o compatible.
@@ -17,7 +17,7 @@ El apartado de adaptación web enlaza al repositorio
 https://github.com/crgarsan/mitomapa-canario
 El repositorio conserva su visibilidad privada: requiere acceso autorizado.
 El ELPX y los paquetes de fuentes siguen disponibles como descargas públicas.
-El ZIP de fuentes web 4.4.2 excluye todos los ELPX y otros ZIP anidados.
+El ZIP de fuentes web 4.4.3 excluye todos los ELPX y otros ZIP anidados.
 
 DESPLIEGUE AUTOMÁTICO
 Cada push a main ejecuta GitHub Actions y publica el Worker existente.
@@ -43,5 +43,8 @@ y naturaleza es una recreación digital opcional, sin reproducción automática.
 LICENCIA Y FUENTES
 CC BY-NC-SA 4.0 para los materiales propios. Se mantiene autoría y créditos.
 La versión del modelo ImageGen usado en las imágenes originales no quedó
-registrada y así se indica en la adaptación. No hay nuevas imágenes.
-Consultar CAMBIOS_WEB_4_4_2.md, CAMBIOS_REA_GOBCAN.md y VALIDACION_WEB_4_4_2.txt.
+registrada y así se indica en la adaptación. El mapa se sustituye por un esquema propio; las 18 imágenes ilustrativas conservan sus archivos.
+Consultar CAMBIOS_WEB_4_4_3.md, CAMBIOS_REA_GOBCAN.md y VALIDACION_WEB_4_4_3.txt.
+
+REVISIÓN GOBCAN 09/10/2026
+La descarga principal coincide byte por byte con la entrega GobCan revisada. Incluye mapa propio con pintaderas seleccionables y pauta cualitativa sin puntuaciones ni pesos. La guía completa está en GUIA_DOCENTE_GOBCAN.html; la guía práctica añade la propuesta de cuatro sesiones como apartado desplegable. Los archivos CSV y HTML de revisión corresponden a esta edición.
