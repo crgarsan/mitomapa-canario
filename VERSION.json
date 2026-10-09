@@ -5,8 +5,8 @@
   "prepared_at": "2026-10-09",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "a6ca9d3468097d21f15b00fc8b775e2e11cd6d69036d077d9d5cc8cf199e9504",
-    "bytes": 18355877
+    "sha256": "dc63366d7b1862b34e593b92974978e899f4561f2f446f858d587a741707df31",
+    "bytes": 18681004
   },
   "previous_web_version": "4.4.2",
   "previous_rea_version": "4.4.0",
@@ -42,7 +42,10 @@
     "idevices": 118,
     "preserved_idevices": 95,
     "native_games": 42,
-    "audio_tracks": 16
+    "audio_tracks": 16,
+    "qualitative_review": true,
+    "numeric_rubrics": 0,
+    "text_idevices": 63
   },
   "curricular_reference": {
     "stage": "Educación Primaria",
@@ -50,5 +53,7 @@
     "course": "6.º, adaptable a 5.º",
     "sessions": 4,
     "selected_islands": 2
-  }
+  },
+  "rea_revision": "2026-10-09",
+  "teacher_guide": "GUIA_DOCENTE_GOBCAN.html"
 }
