@@ -16,6 +16,7 @@ from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
 
 from lxml import etree, html
 from build_portable_web import build_portable_web
+from harden_jspdf_exports import harden_directory
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "4.4.0"
@@ -381,6 +382,7 @@ def build(source, destination):
             dtd = etree.DTD(stream)
         if not dtd.validate(tree):
             raise ValueError(dtd.error_log)
+        harden_directory(folder)
         files = sorted(str(file.relative_to(folder)) for file in folder.rglob("*") if file.is_file())
         manifest = {"version": 1, "files": files, "projectTitle": "MitoMapa canario: ocho islas, ocho pintaderas"}
         (folder / "libs/elpx-manifest.js").write_text("window.__ELPX_MANIFEST__=" + json.dumps(manifest, ensure_ascii=False, indent=2) + ";\n")
