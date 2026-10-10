@@ -5,8 +5,8 @@
   "prepared_at": "2026-10-09",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "219f5310f7090fe0b2f477c78baa0ffed41e469c1542fa4b261673e0c046f03a",
-    "bytes": 20061894
+    "sha256": "0c2c815c0a1358f2594902f3d9f642963de6e8628a9517b6d2e5d8e222f5943f",
+    "bytes": 20062226
   },
   "previous_web_version": "4.4.3",
   "previous_rea_version": "4.4.0",
@@ -17,16 +17,16 @@
       "name": "Esencial",
       "report_count": 9,
       "path": "downloads/MitoMapa_REA_v4_4_0_Esencial.elpx",
-      "sha256": "6c20dd009ec5e91a7d48355685aefa99cdf2580d319b385c464e3814b20bc12b",
-      "bytes": 16853030,
+      "sha256": "b8d397bd341e74a41148b82f255987a585d975d1fd10d513a4034c247d352e38",
+      "bytes": 16853362,
       "edition": "4.4.0 — edición anterior a la adaptación GobCan"
     },
     {
       "name": "Intermedio",
       "report_count": 33,
       "path": "downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx",
-      "sha256": "209e4fcb7bd8270139c6e7f6ec4f17d67a36fccd7c76538da9df34f311f26fc1",
-      "bytes": 16853248,
+      "sha256": "523b4d724da71683e387c797c10f09b6f90ac58058438106490a404b75c2b907",
+      "bytes": 16853580,
       "edition": "4.4.0 — edición anterior a la adaptación GobCan"
     }
   ],

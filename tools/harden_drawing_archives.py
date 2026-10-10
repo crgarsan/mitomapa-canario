@@ -19,6 +19,8 @@ import re
 import subprocess
 import zipfile
 
+from harden_jspdf_exports import SCRIPT_PATHS as JSPDF_SCRIPT_PATHS, patch_loader
+
 
 ROOT = Path(__file__).resolve().parent.parent
 HELPER_MARKER = "// Comprueba los contenedores completos antes de que el navegador decodifique un dibujo.\n"
@@ -253,7 +255,9 @@ def verify_public(path: Path, patch, verify) -> bool:
                 f"Stale drawing manifest: {path.name}")
         allowed = {script, portable}
         require(files.keys() == baseline.keys(), f"Native archive inventory changed: {path.name}")
-        require(all(files[name] == baseline[name] for name in files if name not in allowed),
+        require(all(files[name] == (patch_loader(baseline[name].decode("utf-8")).encode("utf-8")
+                                   if name in JSPDF_SCRIPT_PATHS else baseline[name])
+                    for name in files if name not in allowed),
                 f"Native XML/search/pages/media changed: {path.name}")
     return True
 

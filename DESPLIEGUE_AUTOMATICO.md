@@ -28,10 +28,13 @@ de dominio, exporta el seguimiento desde Docente.
 Para comprobar la preparación local sin credenciales, usa Node.js 22 o superior:
 
 ```sh
+python3 tools/harden_jspdf_exports.py
 python3 tools/update_release.py
+python3 tools/harden_jspdf_exports.py --check
 python3 tools/prepare_deploy.py
 npm ci --ignore-scripts --no-audit --no-fund
 python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
+python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
 node --test tests/drawing-import.test.js
 WRANGLER_SEND_METRICS=false ./node_modules/.bin/wrangler deploy --config wrangler.jsonc --dry-run
 ```
@@ -47,6 +50,26 @@ el diff las versiones, los orígenes del registro y las integridades del lockfil
 después repite las comprobaciones anteriores y sube ambos archivos juntos. Para
 actualizar una acción, verifica el commit de su versión oficial y sustituye el
 SHA completo y el comentario de versión en el flujo.
+
+Los informes PDF nativos de los ELPX cargan jsPDF 4.2.1 con la integridad
+registrada en `JSPDF_DEPENDENCY.json` y CORS anónimo. Una respuesta con bytes
+distintos se rechaza y conserva la alternativa PNG del editor. La generación de
+PDF mantiene su requisito de conexión; el cambio no añade envío de respuestas.
+Las pruebas de archivos de Actions comprueban esta política antes de publicar.
+
+Al guardar o exportar de nuevo con eXeLearning, el editor puede sustituir los
+archivos de sus iDevices por los de su instalación. Vuelve a aplicar la
+corrección al archivo resultante y compruébalo antes de incorporarlo al repositorio:
+
+```sh
+python3 tools/harden_jspdf_exports.py --artifact /ruta/al/recurso.elpx
+python3 tools/harden_jspdf_exports.py --artifact /ruta/al/recurso.elpx --check
+```
+
+El generador `tools/build_elpx.py` aplica la misma protección. Para cambiar la
+versión de jsPDF, verifica los bytes del paquete oficial y la URL exacta,
+actualiza la versión, las huellas y el material de prueba, y repite las pruebas.
+La biblioteca conserva su licencia MIT; las licencias de los iDevices no cambian.
 
 Ejecuta `tools/update_release.py` antes de subir cambios de los archivos
 públicos. Actualiza el ZIP editable y sus huellas. El flujo de GitHub comprueba
