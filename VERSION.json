@@ -84,5 +84,11 @@
       "lanzarote": "3e17d7299e6dc27cff7d47a17a2024d88d89b9d7bcf52636f70bf919134c338a",
       "la-graciosa": "2d962596f2696a361175e1378d5d976f2bd4d7ed14472bcbc0bfe18a3bf6993c"
     }
+  },
+  "map_hotspots_revision": {
+    "date": "2026-10-13",
+    "placement": "above_islands",
+    "geography_uncovered": true,
+    "web_only": true
   }
 }
