@@ -87,8 +87,9 @@
   },
   "map_hotspots_revision": {
     "date": "2026-10-13",
-    "placement": "above_islands",
+    "placement": "above_or_beside_islands",
     "geography_uncovered": true,
+    "guide_lines": false,
     "web_only": true
   }
 }

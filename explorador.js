@@ -5,12 +5,7 @@
   const positions = {
     tenerife: [38.32, 43.5], 'gran-canaria': [53.59, 58], 'la-palma': [18.10, 34.5],
     'la-gomera': [26.5, 55.5], 'el-hierro': [12.4, 69.5],
-    fuerteventura: [67.5, 38], lanzarote: [79.5, 24], 'la-graciosa': [92.5, 20]
-  };
-  // Short guides stay over the sea and identify the labels offset from their islands.
-  const guideEnds = {
-    'la-gomera': [27.2, 56.5], 'el-hierro': [16.3, 70.4], fuerteventura: [78.6, 38.4],
-    lanzarote: [84.5, 24.5], 'la-graciosa': [86.1, 20]
+    fuerteventura: [89.5, 62.5], lanzarote: [93, 41.5], 'la-graciosa': [92.5, 20]
   };
   const clues = [
     { id: 'tenerife', text: 'Busco el cuento en el que Magec regresa y una línea dorada ilumina Echeyde. ¿Qué isla debo elegir?', help: 'Dácil cuida cabras cerca del gran volcán de esta isla.', explanation: 'En «Dácil y el regreso de Magec», la comunidad pide ayuda a Achamán para que vuelva la luz.' },
@@ -253,22 +248,8 @@
     image.src = context.assets && context.assets['mapa_canarias_interactivo.webp'] || 'assets/images/mapa_canarias_interactivo.webp';
     image.width = 3000;
     image.height = 1514;
-    image.alt = 'Mapa de relieve de las ocho islas de Canarias. Las pintaderas y los nombres situados por encima de las islas permiten abrir cada cuento.';
+    image.alt = 'Mapa de relieve de las ocho islas de Canarias. Las pintaderas y los nombres situados encima o al lado de las islas permiten abrir cada cuento.';
     stage.appendChild(image);
-    const svgNamespace = 'http://www.w3.org/2000/svg';
-    const guides = document.createElementNS(svgNamespace, 'svg');
-    guides.setAttribute('class', 'explore-map-guides');
-    guides.setAttribute('viewBox', '0 0 100 100');
-    guides.setAttribute('preserveAspectRatio', 'none');
-    guides.setAttribute('aria-hidden', 'true');
-    guides.setAttribute('focusable', 'false');
-    Object.entries(guideEnds).forEach(([id, end]) => {
-      const guide = document.createElementNS(svgNamespace, 'path');
-      guide.setAttribute('d', 'M ' + positions[id].join(' ') + ' L ' + end.join(' '));
-      guide.setAttribute('vector-effect', 'non-scaling-stroke');
-      guides.appendChild(guide);
-    });
-    stage.appendChild(guides);
     const islands = element('div', 'explore-map-islands');
     islands.setAttribute('role', 'group');
     islands.setAttribute('aria-label', 'Elige una de las ocho rutas insulares');

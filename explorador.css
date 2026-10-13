@@ -23,7 +23,6 @@
 .explore-map-stage{position:relative;isolation:isolate;--explore-marker-size:2.5rem;--explore-map-top-space:2rem;padding-top:var(--explore-map-top-space);background:linear-gradient(#2170b6cf,#2170b6cf) top / 100% var(--explore-map-top-space) no-repeat}
 .explore-map-image{display:block;width:100%;height:auto;border-radius:1rem;border:1px solid #9dbbc4}
 .explore-map-islands{position:absolute;inset:var(--explore-map-top-space) 0 0}
-.explore-map-guides{position:absolute;top:var(--explore-map-top-space);left:0;width:100%;height:calc(100% - var(--explore-map-top-space));fill:none;stroke:#fff9dc;stroke-width:1.5;pointer-events:none}
 .explore-pin{position:absolute;left:var(--explore-x);top:var(--explore-y);transform:translate(-50%,calc(-100% - .625rem));z-index:1;appearance:none;display:flex;align-items:center;flex-direction:column;gap:4px;min-width:44px;min-height:44px;padding:0;border:0;color:var(--explore-earth);background:transparent;font:inherit;line-height:1.2;cursor:pointer;border-radius:.65rem}
 .explore-pin-badge{display:grid;place-items:center;width:var(--explore-marker-size);height:var(--explore-marker-size);flex-shrink:0;border:2px solid var(--explore-earth);background:#fff9dc;border-radius:50%;box-shadow:0 2px 8px #0003}
 .explore-pin-image{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 1px 1px #0002)}
