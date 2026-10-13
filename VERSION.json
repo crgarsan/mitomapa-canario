@@ -5,8 +5,8 @@
   "prepared_at": "2026-10-09",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "0c2c815c0a1358f2594902f3d9f642963de6e8628a9517b6d2e5d8e222f5943f",
-    "bytes": 20062226
+    "sha256": "80f8c846ab317438d8a2bfa82e983ca51662869b415f595b730850afd9cca3bb",
+    "bytes": 25817501
   },
   "previous_web_version": "4.4.3",
   "previous_rea_version": "4.4.0",
@@ -65,5 +65,24 @@
     "visual_pixels_unchanged": true,
     "specific_license": "Libre uso por la comunidad educativa según aviso de TongApp aportado por la autoría; se mantienen sus condiciones originales",
     "usage_notice": "Los contenidos y programas que constituyen esta obra son propiedad del Gobierno de Canarias que ha promovido su creación y desarrollo con el propósito de que la comunidad educativa haga libre uso de los mismos."
+  },
+  "graphics_revision": {
+    "date": "2026-10-12",
+    "source_chat": "Set up mitomapa-canario",
+    "scene_count": 8,
+    "format": "WebP",
+    "quality": 96,
+    "original_dimensions_preserved": true,
+    "elpx_scene_copies_updated": 16,
+    "source_png_sha256": {
+      "tenerife": "f9821312f3462d7f80227f214b89dbc612bd1079a07fbb7d4f933114aa73517e",
+      "gran-canaria": "d5901e45691c19839fc894dc929de525bbddd9dbb7abab7b16c41ba17cd304a3",
+      "la-palma": "b9bbb24b93823382b563265eb4be9587c0e4107ff370074844c19446f5295bab",
+      "la-gomera": "ca2daaef81c74e5085873f973072921750cc4797191535aaa957139fbf4f909e",
+      "el-hierro": "39f789e16c2147968947a85312537c313ef553c068db1837814e4bb907b0ec2f",
+      "fuerteventura": "24ece28ff83fd0b3e72145086e10abfbe9f2cd9762425250d48343d6c99b991d",
+      "lanzarote": "3e17d7299e6dc27cff7d47a17a2024d88d89b9d7bcf52636f70bf919134c338a",
+      "la-graciosa": "2d962596f2696a361175e1378d5d976f2bd4d7ed14472bcbc0bfe18a3bf6993c"
+    }
   }
 }
