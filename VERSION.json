@@ -121,6 +121,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.5.1"
+    "downloaded_response_version": "4.5.1",
+    "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones"
   }
 }

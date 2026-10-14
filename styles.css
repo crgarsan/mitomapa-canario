@@ -312,3 +312,9 @@ html{scroll-padding-top:var(--header-offset,8rem)}
 .footer a{overflow-wrap:anywhere}
 .footer a:focus-visible,.footer summary:focus-visible{outline:3px solid #fff;outline-offset:3px}
 @media print{.footer{color:#000;background:#fff;border-top:1px solid #000}.footer a{color:#000}}
+
+/* Espacio entre la encuesta y sus acciones, con el correo visible al final. */
+#studentFeedback .feedback-actions{margin-top:1.5rem;margin-bottom:1rem;gap:1rem;justify-content:flex-start;align-items:center}
+#studentFeedback .feedback-mail-suggestion{margin:0 0 .65rem;line-height:1.6;max-width:80ch}
+#studentFeedback .feedback-mail-suggestion a{overflow-wrap:anywhere}
+#studentFeedback #feedbackEmailHelp{margin:.65rem 0 0;line-height:1.5}
