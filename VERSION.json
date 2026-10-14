@@ -91,6 +91,7 @@
     "geography_uncovered": true,
     "guide_lines": false,
     "badge_background": "none",
+    "artificial_top_band": false,
     "web_only": true
   }
 }

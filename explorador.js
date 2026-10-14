@@ -5,7 +5,7 @@
   const positions = {
     tenerife: [38.32, 43.5], 'gran-canaria': [53.59, 58], 'la-palma': [18.10, 34.5],
     'la-gomera': [26.5, 55.5], 'el-hierro': [12.4, 69.5],
-    fuerteventura: [89.5, 62.5], lanzarote: [93, 41.5], 'la-graciosa': [92.5, 20]
+    fuerteventura: [89.5, 65], lanzarote: [93, 44], 'la-graciosa': [92.5, 23]
   };
   const clues = [
     { id: 'tenerife', text: 'Busco el cuento en el que Magec regresa y una línea dorada ilumina Echeyde. ¿Qué isla debo elegir?', help: 'Dácil cuida cabras cerca del gran volcán de esta isla.', explanation: 'En «Dácil y el regreso de Magec», la comunidad pide ayuda a Achamán para que vuelva la luz.' },
