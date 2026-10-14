@@ -2,3 +2,6 @@ Edición mediante herramienta integrada OpenAI ImageGen, 23/09/2026. Entradas: e
 Gran Canaria: retirar el quinqué sin sustituirlo por otro objeto; mano relajada; conservar personas, poses, paisaje, composición e iluminación; convertir prendas lanosas en piel lisa mate sin pelo, lana ni flecos; sin texto añadido.
 Tenerife y Lanzarote: cambiar exclusivamente las texturas de indumentaria por piel lisa mate sin pelo, lana ni flecos; conservar rostros, poses, cobertura, objetos, paisaje y encuadre; sin texto añadido.
 Archivos finales: assets/images/scene_gran-canaria.webp, scene_tenerife.webp, scene_lanzarote.webp. Conversión técnica a WebP posterior a la edición. Los resultados fueron inspeccionados visualmente.
+
+EDICIÓN VIGENTE · incorporación 12/10/2026
+Se sustituyen las ocho escenas por las imágenes finales recuperadas del chat Set up mitomapa-canario. Conversión a WebP de calidad 96, sin modificar dimensiones. OpenAI ImageGen según la procedencia del proyecto; no consta una versión técnica verificable del motor. VERSION.json conserva las huellas de los originales PNG. El 14/10/2026 se contrastan las descripciones alternativas con las ocho imágenes vigentes. Las anotaciones de septiembre corresponden a versiones anteriores.

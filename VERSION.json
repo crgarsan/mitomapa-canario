@@ -1,14 +1,14 @@
 {
-  "web_version": "4.4.4",
-  "rea_exelearning_version": "4.4.0",
+  "web_version": "4.5.0",
+  "rea_exelearning_version": "4.5.0",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-09",
+  "prepared_at": "2026-10-14",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "80f8c846ab317438d8a2bfa82e983ca51662869b415f595b730850afd9cca3bb",
-    "bytes": 25817501
+    "sha256": "2ac11611acf300b55275a30601095bf5d6efc4a5c8b246f6fff025d348379e45",
+    "bytes": 25813507
   },
-  "previous_web_version": "4.4.3",
+  "previous_web_version": "4.4.4",
   "previous_rea_version": "4.4.0",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_4_4.md",
-  "rea_release_notes": "CAMBIOS_REA_GOBCAN.md",
+  "release_notes": "CAMBIOS_WEB_4_5_0.md",
+  "rea_release_notes": "CAMBIOS_REA_4_5_0.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 39,
@@ -54,9 +54,9 @@
     "sessions": 4,
     "selected_islands": 2
   },
-  "rea_revision": "2026-10-09",
+  "rea_revision": "2026-10-14",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Mapa de relieve restaurado desde el archivo aportado",
+  "rea_revision_label": "Mejoras de coherencia, accesibilidad y trazabilidad de fuentes",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -93,5 +93,26 @@
     "badge_background": "none",
     "artificial_top_band": false,
     "web_only": true
+  },
+  "quality_revision": {
+    "date": "2026-10-14",
+    "priorities_addressed": [
+      "stage_aligned_qualitative_checklists",
+      "current_image_alternatives_and_credits",
+      "interactive_accessibility",
+      "traceable_sources_per_story"
+    ],
+    "suggestions_email": "sugerencias.mitomapacanario@gmail.com",
+    "qualitative_checklists_score_enabled": false
+  },
+  "sharing_archive": {
+    "path": "downloads/MitoMapa_REA_v4_5_0.zip",
+    "contents": "REA editable ELPX y documentación de la edición vigente",
+    "sha256": "cfd20686a38c492344fde3cb05765e0dd32bd2056ff5cb9385105d2a7e639156",
+    "bytes": 25553710
+  },
+  "source_archive": {
+    "path": "downloads/MitoMapa_fuentes_web_v4_5_0.zip",
+    "contains_elpx": false
   }
 }

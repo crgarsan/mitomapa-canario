@@ -1,50 +1,46 @@
-MITOMAPA WEB 4.4.4 / REA 4.4.0 — ADAPTACIÓN GOBCAN · 09/10/2026
+MITOMAPA CANARIO · WEB Y REA 4.5.0 · 14/10/2026
 
-DESCARGA PRINCIPAL
-MitoMapa_canario_GobCan.elpx se abre en eXeLearning 4.0.5 o compatible.
-Contiene 39 páginas y 118 iDevices. Se conservan 95 identidades de iDevices,
-42 juegos y 16 MP3 de Jesica Fortes Regalado. El archivo es idéntico a la
-entrega preparada con la plantilla Flux y las orientaciones de GobCan.
-Se organizan Cuento, Retos y Taller por isla; se añaden Andika, contador,
-guía didáctica y fundamento curricular. Las islas se eligen libremente.
-La propuesta principal trabaja dos islas en cuatro sesiones de unos 50 minutos,
-con 6.º como referencia del tercer ciclo de Primaria y adaptación a 5.º.
-Las variantes Esencial e Intermedio y las descargas históricas permanecen
-como ediciones anteriores; no son la adaptación GobCan.
+WEB PUBLICADA
+https://mitomapa-canario.cgarcias.workers.dev/
 
-CÓDIGO EN GITHUB
-El apartado de adaptación web enlaza al repositorio
-https://github.com/crgarsan/mitomapa-canario
-El repositorio conserva su visibilidad privada: requiere acceso autorizado.
-El ELPX y los paquetes de fuentes siguen disponibles como descargas públicas.
-El ZIP de fuentes web 4.4.4 excluye todos los ELPX y otros ZIP anidados.
+EDITABLE VIGENTE
+downloads/MitoMapa_canario_GobCan.elpx
+Abrir con eXeLearning 4.0.5 o compatible y guardar una copia para adaptar.
+La descarga principal contiene el REA nativo y el Explorador interactivo local,
+los ocho cuentos, las ocho escenas actuales y las 16 pistas de audio.
 
-DESPLIEGUE AUTOMÁTICO
-Cada push a main ejecuta GitHub Actions y publica el Worker existente.
-Antes de subir archivos públicos, ejecutar python3 tools/update_release.py
-y python3 tools/prepare_deploy.py. El despliegue verifica SHA256SUMS.txt.
-No modificar directamente .deploy: se genera a partir de ese manifiesto.
-VERSION.json identifica el archivo principal, su tamaño y su SHA-256.
+PAQUETES PARA COMPARTIR
+downloads/MitoMapa_REA_v4_5_0.zip: editable ELPX y documentación de esta edición.
+downloads/MitoMapa_fuentes_web_v4_5_0.zip: fuentes, imágenes, audios y herramientas
+de la web, sin ELPX ni ZIP anidados. Leer su guía antes de editar o desplegar.
+Las variantes Esencial e Intermedio 4.4.0 son ediciones históricas.
 
-EDICIÓN DEL PROYECTO
-Para adaptar GobCan, abrir y guardar una copia del ELPX con eXeLearning.
-tools/build_elpx.py corresponde a la edición histórica original 4.4.0,
-con 15 páginas y 95 iDevices, y no regenera la adaptación GobCan.
-El Explorador conserva su código local dentro del proyecto. La edición nativa
-y el código de la aplicación son independientes; comprobar ambas al adaptarlas.
+MEJORAS DE ESTA EDICIÓN
+Listas de creación alineadas con la etapa y la modalidad de respuesta, con
+No procede y sin suma de puntos en las listas cualitativas. Descripciones de
+las ocho escenas contrastadas con las ilustraciones vigentes. Mejora del foco,
+de los nombres de los controles y del feedback textual. Fundamentación
+disponible también en lectura acompañada. Fichas por cuento que identifican
+fuentes, motivos, contexto y decisiones de adaptación.
 
-SEGUIMIENTO Y SONIDO
-Las claves de almacenamiento, rutas y juegos web se conservan. El progreso
-permanece en el navegador y el mismo origen. Docente permite guardar/cargar
-seguimiento. El informe nativo y el Explorador tienen seguimiento independiente.
-Los ocho cuentos incluyen voz humana de Jesica. El ambiente breve de percusión
-y naturaleza es una recreación digital opcional, sin reproducción automática.
+PROPUESTA DE AULA
+Tercer ciclo de Primaria, 6.º adaptable a 5.º. Dos islas a elección en cuatro
+sesiones orientativas de 50 minutos. Las ampliaciones son opcionales.
+La pieza de museo y las explicaciones requieren revisión docente; las
+pintaderas reconocen retos concretos. La propuesta todavía no está pilotada.
+GUIA_DOCENTE_GOBCAN.html contiene las orientaciones y selección curricular.
 
-LICENCIA Y FUENTES
-CC BY-NC-SA 4.0 para los materiales propios. Se mantiene autoría y créditos.
-La versión del modelo ImageGen usado en las imágenes originales no quedó
-registrada y así se indica en la adaptación. El mapa se sustituye por un mapa de relieve aportado; las 18 imágenes ilustrativas conservan sus archivos.
-Consultar CAMBIOS_WEB_4_4_4.md, CAMBIOS_REA_GOBCAN.md y VALIDACION_WEB_4_4_4.txt.
+ADAPTACIÓN Y PUBLICACIÓN
+La edición nativa y el código del Explorador tienen seguimiento independiente.
+Después de editar, comprobar ambos. tools/build_elpx.py corresponde al proyecto
+histórico 4.4.0 y no reconstruye la adaptación GobCan actual.
+Reaplicar tools/harden_jspdf_exports.py a exportaciones nuevas de eXeLearning
+cuando la herramienta lo requiera; conserva la política de dependencia revisada.
+El despliegue de main en GitHub publica el Worker. SHA256SUMS.txt determina los
+archivos públicos y VERSION.json identifica la huella de la descarga vigente.
+tools/prepare_deploy.py comprueba el manifiesto antes de generar .deploy.
 
-REVISIÓN GOBCAN 09/10/2026
-La descarga principal coincide byte por byte con la entrega GobCan revisada. Incluye mapa de relieve aportado con pintaderas seleccionables y pauta cualitativa sin puntuaciones ni pesos. La guía completa está en GUIA_DOCENTE_GOBCAN.html; la guía práctica añade la propuesta de cuatro sesiones como apartado desplegable. Los archivos CSV y HTML de revisión corresponden a esta edición.
+LICENCIA Y CONTACTO
+CC BY-NC-SA 4.0 para los materiales propios; materiales externos con sus
+condiciones específicas. Conservar autoría, referencias y créditos.
+Sugerencias y propuestas de mejora: sugerencias.mitomapacanario@gmail.com
