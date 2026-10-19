@@ -81,9 +81,9 @@ def portable_index(html: str, version: str) -> str:
         'Para conservar el archivo editable completo, vuelve al documento eXeLearning y utiliza '
         '<strong>«Descargar el REA editable (.elpx)»</strong>, en Créditos, fuentes y licencia. '
         'No necesitas descargar otra copia de la web.</p>'
-        '<p>Puedes adaptar y compartir los materiales propios con atribución, sin fines comerciales y '
-        'manteniendo la licencia <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">'
-        'CC BY-NC-SA 4.0</a>. Indica los cambios y conserva los créditos.</p>'
+        '<p>Puedes adaptar y compartir los materiales propios con atribución, también con fines comerciales y '
+        'manteniendo la licencia <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es">'
+        'CC BY-SA 4.0</a>. Indica los cambios y conserva los créditos.</p>'
         '<div class="rea-downloads"><article class="download-card"><h3>Preparar la actividad</h3>'
         '<p>Consulta las orientaciones de lectura, creación y acompañamiento.</p>'
         '<a class="button secondary" href="GUIA_DOCENTE.html">Abrir la guía docente</a></article>'
@@ -257,7 +257,7 @@ def build_portable_web(targetdir: str | Path, *, application_version: str = APPL
         "Imágenes: assets/images. Grabaciones: assets/audio. Narradora: Jesica Fortes Regalado.\n"
         "Créditos: AUDIO_CREDITOS.html, AUDIO_ORIGENES.json, CREDITOS_MATERIALES.csv, LICENCIA_Y_CREDITOS.txt.\n"
         "Los efectos son una recreación sonora. Los WAV originales no se incluyen; hacen falta para preparar nuevas mezclas.\n"
-        "Conserva la autoría y la licencia CC BY-NC-SA 4.0 e indica tus cambios.\n"
+        "Conserva la autoría y la licencia CC BY-SA 4.0 e indica tus cambios.\n"
     )
     (target / "README_PORTABLE.txt").write_text(readme, encoding="utf-8")
     validation = verify_portable_web(target)

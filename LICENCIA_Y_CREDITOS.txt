@@ -1,24 +1,25 @@
 MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.5.1 · REA editable 4.5.1, adaptación GobCan · aplicación interactiva 4.5.1
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
-Se conserva la licencia CC BY-NC-SA 4.0 declarada en el recurso original.
-https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
-Texto legal: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.es
+Los materiales propios de esta edición se publican bajo CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+Texto legal: https://creativecommons.org/licenses/by-sa/4.0/legalcode.es
 
-Permite copiar, redistribuir y adaptar con atribución, enlace a la licencia,
-indicación de cambios, uso no comercial y distribución de adaptaciones con la
-misma licencia. No constituye una cesión de derechos sobre fuentes externas.
+Permite copiar, redistribuir y adaptar, también con fines comerciales, con
+atribución, enlace a la licencia, indicación de cambios y distribución de
+adaptaciones con la misma licencia. No constituye una cesión de derechos sobre
+fuentes externas.
 La licencia cubre los materiales propios en la medida en que la autoría dispone
 de derechos; no genera derechos exclusivos sobre materiales no protegidos.
 No se ha realizado una auditoría independiente de titularidad de cada imagen.
 
 Crédito sugerido:
 Fortes Regalado, J.; González Martín, G. E.; García Santana, C. (2026).
-MitoMapa canario: ocho islas, ocho pintaderas (web 4.5.1; REA 4.5.1, adaptación GobCan). CC BY-NC-SA 4.0.
+MitoMapa canario: ocho islas, ocho pintaderas (web 4.5.1; REA 4.5.1, adaptación GobCan). CC BY-SA 4.0.
 https://mitomapa-canario.cgarcias.workers.dev/
 Si adaptas: añade tu autoría, fecha y descripción de los cambios.
 
-Mapa: Mapa de relieve aportado por la autoría en el archivo imagen_20261009_200406.svg. Procedencia indicada por la autoría: TongApp del Gobierno de Canarias (https://www3.gobiernodecanarias.org/medusa/apps/tongapp/). Se conserva su imagen, con conversión WebP sin pérdida; el SVG contiene una imagen PNG incrustada. El aviso de TongApp facilitado por la autoría declara la titularidad del Gobierno de Canarias y el libre uso por la comunidad educativa. El mapa conserva esas condiciones originales; no se le atribuye la licencia de los materiales propios del proyecto. La licencia CC BY-NC-SA 4.0 del proyecto corresponde a sus materiales propios.
+Mapa: Mapa de relieve aportado por la autoría en el archivo imagen_20261009_200406.svg. Procedencia indicada por la autoría: TongApp del Gobierno de Canarias (https://www3.gobiernodecanarias.org/medusa/apps/tongapp/). Se conserva su imagen, con conversión WebP sin pérdida; el SVG contiene una imagen PNG incrustada. El aviso de TongApp facilitado por la autoría declara la titularidad del Gobierno de Canarias y el libre uso por la comunidad educativa. El mapa conserva esas condiciones originales; no se le atribuye la licencia de los materiales propios del proyecto. La licencia CC BY-SA 4.0 del proyecto corresponde a sus materiales propios.
 Ilustraciones: ocho escenas y diez pintaderas generadas para el recurso; los créditos originales consignan OpenAI ImageGen y agosto de 2026. El mapa no forma parte de estas dieciocho imágenes. Son recreaciones contemporáneas,
 no descripciones históricas. La narración de los ocho cuentos de la web,
 del REA y de su aplicación portable corresponde a Jesica Fortes Regalado,
@@ -28,10 +29,16 @@ percusión y naturaleza recreadas digitalmente. Estos efectos no son grabaciones
 documentales de instrumentos tradicionales ni de paisajes canarios.
 Consulta AUDIO_CREDITOS.html y AUDIO_ORIGENES.json para las tomas seleccionadas.
 
-La cláusula NoComercial limita la reutilización. No se presenta este paquete
-como software libre certificado ni como contenido libre para cualquier fin.
-Cambiar a CC BY o CC BY-SA requiere la decisión de quienes ostenten los derechos;
-esta revisión no cambia la licencia elegida por la autoría.
+Por decisión de la autoría, desde el 19/10/2026 los materiales propios se
+publican bajo CC BY-SA 4.0, que permite su reutilización comercial y no comercial
+con atribución, indicación de cambios y la misma licencia para las adaptaciones.
+Los materiales de terceros conservan sus condiciones originales. Las notas
+históricas siguientes corresponden a las licencias de sus respectivas ediciones.
+
+Distintivo CC BY-SA: imagen oficial de Creative Commons, procedente de
+https://raw.githubusercontent.com/creativecommons/cc-assets/main/license_badges/big/by_sa.svg
+Las marcas de Creative Commons conservan su política de uso y no se incluyen
+en la licencia de los materiales propios: https://creativecommons.org/policies#trademark
 
 Revisión histórica de septiembre de 2026 (web 3.9 / eXe 3.8): se editan con OpenAI ImageGen las escenas de Gran Canaria, Tenerife y Lanzarote. Se retira el quinqué y se alisan las prendas de aspecto lanoso. Todas las escenas se etiquetan como imágenes ilustrativas, no descripciones históricas. El audio aportado se usa como referencia de revisión; no se redistribuye ni se licencia dentro del REA.
 
