@@ -1,111 +1,131 @@
-# MitoMapa canario
+# MitoMapa canario · 4.6.0
 
-Recurso educativo abierto sobre mitos, leyendas y patrimonio canario para
-Primaria y Secundaria, con lectura acompañada para Infantil. Autoría: Jesica
-Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.
+Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
+canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
+su grupo. Las ocho islas se pueden explorar en cualquier orden.
+
+Autoría: Jesica Fortes Regalado, Gloria Elsa González Martín y Cristian García
+Santana. Narración: Jesica Fortes Regalado.
+
+## Edición vigente
+
+La web y el REA editable corresponden a la edición **4.6.0**, revisada el
+19/10/2026. La adaptación GobCan conserva **39 páginas, 118 iDevices, las 95
+identidades de la edición base, 42 juegos nativos y 16 MP3**. Utiliza el formato
+de eXeLearning **4.0.5**, la plantilla Flux y Andika. La aplicación portable
+incluida reúne el mapa, los ocho cuentos, las escenas, los juegos, los apoyos
+de lectura y la narración local.
+
+- [Web publicada](https://mitomapa-canario.cgarcias.workers.dev/).
+- [REA editable vigente](downloads/MitoMapa_canario_GobCan.elpx).
+- [Paquete de esta edición](downloads/MitoMapa_REA_v4_6_0.zip).
+- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_6_0.zip).
+
+`VERSION.json` identifica la edición y las huellas de las descargas.
+`SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub es
+privado y requiere autorización; las descargas públicas no requieren entrar
+en él. Las ediciones y los paquetes anteriores siguen disponibles públicamente
+en sus direcciones originales, con las condiciones que tenían al publicarse.
+
+## Trabajar en el aula
+
+La [guía docente práctica](GUIA_DOCENTE.html) ofrece tres posibilidades:
+
+- **Una sesión de unos 45 minutos:** una isla y una tarea acordada.
+- **Itinerario corto de cuatro sesiones de unos 50 minutos:** dos islas, una
+  comparación, contraste de fuentes y una creación compartida.
+- **Banco completo opcional:** ocho a diez sesiones de 35–50 minutos, ajustadas
+  a las tareas y a los apoyos. No hay obligación de recorrer las ocho islas.
+
+La [guía de aplicación GobCan](GUIA_DOCENTE_GOBCAN.html) desarrolla el itinerario
+corto y un **ejemplo** curricular del tercer ciclo de Primaria, con 6.º como
+referencia y adaptable a 5.º. Ese ejemplo no fija el nivel destinatario del
+recurso. Cada docente concreta competencias, criterios, tareas y evidencias
+según su programación y la normativa aplicable.
+
+En Docente → Ajustes y seguimiento se acuerdan las islas y las tareas. La ruta
+se cierra tras revisar las evidencias pactadas: «2/2» puede representar una
+ruta de dos islas terminada. La colección de ocho pintaderas es independiente.
+Las listas cualitativas ayudan a mejorar las producciones; no suman puntos ni
+generan calificaciones. La práctica de los juegos no sustituye la revisión
+de la lectura, la investigación o la creación.
+
+**El recurso aún no se ha pilotado con alumnado.** El
+[protocolo de pilotaje imprimible](PROTOCOLO_PILOTAJE.html) permite registrar
+tiempos, apoyos, dificultades, accesibilidad y propuestas de mejora sin recoger
+identificadores del alumnado. La valoración voluntaria admite comentarios
+escritos aunque no se hayan respondido las escalas y se descarga localmente.
+
+## Editar y publicar
+
+Para adaptar el REA, abre una copia del ELPX vigente con eXeLearning 4.0.5 o una
+instalación compatible. Las actividades nativas se editan en eXeLearning; el
+Explorador portable se adapta desde sus fuentes HTML, CSS y JavaScript.
+Ambos tienen seguimiento independiente. Editar un iDevice no cambia
+automáticamente la aplicación portable ni incorpora sus resultados al informe
+nativo o a SCORM. Comprueba la apertura, la navegación y la exportación antes
+de distribuir una adaptación.
+
+Las herramientas de la edición vigente sincronizan la aplicación y los
+documentos con el proyecto actual, conservando su estructura nativa:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install -r requirements-browser-tests.txt
+python3 tools/sync_current_elpx.py
+python3 tools/update_release.py
+python3 tools/sync_current_elpx.py --check
+python3 tools/update_release.py --check
+python3 tools/prepare_deploy.py
+```
+
+LXML permite comprobar el modelo nativo y su DTD. Playwright y Pillow se usan
+en las pruebas de navegador, no durante la lectura del recurso por el alumnado.
+
+Revisa el resultado antes de publicar. `tools/build_elpx.py` corresponde a la
+edición histórica 4.4.0 y **no reconstruye la adaptación GobCan vigente**.
+Las políticas de despliegue y de dependencias se comprueban con las pruebas
+del repositorio. El despliegue de `main` mediante GitHub Actions publica el
+Worker; las descargas históricas deben conservarse en el manifiesto público.
+
+Las fuentes web no incluyen proyectos ELPX, archivos ZIP anidados ni los WAV
+originales. El paquete del REA incluye el editable y su documentación.
+
+## Narraciones, imágenes y fuentes
+
+Las 16 pistas locales son ocho grabaciones de Jesica Fortes Regalado y ocho
+alternativas con una entrada sonora tenue de percusión y naturaleza recreadas.
+No se presentan como grabaciones documentales y no se reproducen
+automáticamente. El registro es `narraciones.js`; la procedencia y la atribución
+están en `AUDIO_ORIGENES.json` y `AUDIO_CREDITOS.html`.
+
+Para preparar de nuevo el audio se necesitan los WAV originales, Python 3,
+NumPy y FFmpeg con libmp3lame. Las selecciones están en `AUDIO_SELECCION.json`;
+después de modificar los MP3, ejecuta la sincronización y las comprobaciones
+de publicación anteriores.
+
+Las escenas y las pintaderas son recreaciones contemporáneas. Una ilustración
+no demuestra cómo fue el pasado ni representa una pintadera arqueológica
+propia de cada isla. [Las fichas de fuentes](FUENTES_CUENTOS.html) distinguen
+testimonios, tradición, contexto y decisiones de adaptación. La consulta
+crítica de esas fuentes forma parte de la propuesta cuando se acuerda una
+tarea de investigación.
 
 ## Licencia
 
 [![CC BY-SA 4.0](assets/images/cc-by-sa-4.0.svg)](https://creativecommons.org/licenses/by-sa/4.0/deed.es)
 
-Los materiales propios de la edición vigente 4.5.1 se ofrecen bajo
-**Creative Commons Reconocimiento-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)**.
-Se permite copiar, compartir y adaptar, también con fines comerciales, con
-atribución, enlace a la licencia, indicación de cambios y la misma licencia
-en las adaptaciones. Este cambio retira la condición NoComercial y conserva
-el contenido y la numeración de la edición.
+Los materiales propios se ofrecen bajo **Creative Commons
+Reconocimiento-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)**. Se permite
+copiar, compartir y adaptar, también con fines comerciales, con atribución,
+enlace a la licencia, indicación de cambios y la misma licencia para las
+adaptaciones. Consulta el [texto legal](LICENSE) y los
+[créditos y condiciones específicas](LICENCIA_Y_CREDITOS.txt).
 
-El [texto legal completo](LICENSE) y los
-[créditos y condiciones específicas](LICENCIA_Y_CREDITOS.txt) acompañan al recurso.
-El mapa de TongApp, las dependencias y las fuentes externas conservan sus
-condiciones originales. Las notas y los paquetes de ediciones anteriores
-documentan la licencia que tenían al publicarse.
+El mapa de relieve procede de TongApp del Gobierno de Canarias y conserva
+el aviso facilitado por la autoría sobre su titularidad y libre uso por la
+comunidad educativa. No se le atribuye la licencia de los materiales propios.
+Las dependencias y las fuentes externas conservan sus condiciones originales.
 
-## Descargas y edición
-
-La distribución web 4.4.4 ofrece como descarga principal la adaptación GobCan
-del REA 4.4.0. Contiene 39 páginas y 118 iDevices, conservando las 95 identidades
-de la edición base, sus 42 juegos y los 16 MP3. Utiliza la plantilla Flux,
-Andika, contador de páginas, guía didáctica práctica y fundamentación curricular.
-Propone cuatro sesiones para dos islas de libre elección, con 6.º como referencia
-del tercer ciclo de Primaria y adaptación a 5.º. Las ocho islas siguen disponibles.
-
-La aplicación portable incluida conserva las vistas Inicio, Islas, Juegos y
-Recursos, las pintaderas, las pistas, los pasos Cuento/Retos/Taller, la comparación
-y las narraciones. El archivo publicado es idéntico al ELPX de la entrega GobCan revisada el 09/10/2026. Incluye el mapa de relieve aportado con pintaderas seleccionables y una pauta cualitativa sin puntuaciones ni pesos.
-
-- [REA adaptado a GobCan](downloads/MitoMapa_canario_GobCan.elpx).
-- [Código en GitHub](https://github.com/crgarsan/mitomapa-canario); el repositorio
-  mantiene su visibilidad privada y requiere acceso autorizado.
-- [Fuentes de la web 4.4.4](downloads/MitoMapa_fuentes_web_v4_4_4.zip).
-
-Las ediciones anteriores 4.4.0 conservan 15 páginas y 95 iDevices. La selección
-del informe determina qué juegos figuran en él:
-
-- [Edición original: 42 juegos en el informe](downloads/MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx).
-- [Esencial anterior: 9 juegos en el informe](downloads/MitoMapa_REA_v4_4_0_Esencial.elpx).
-- [Intermedio anterior: 33 juegos en el informe](downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx).
-
-El ZIP de fuentes contiene la aplicación web, sus guías y los 16 MP3. Los
-proyectos ELPX se descargan por separado: no se incluyen en ese ZIP, para
-evitar duplicar los proyectos que ya contienen la aplicación portable. Se
-conservan las ediciones y los paquetes históricos.
-
-Para adaptar el REA, abre una copia del ELPX con una instalación de eXeLearning
-compatible con su formato 4.0.5. Las actividades nativas se editan desde
-eXeLearning; el componente portable se adapta editando sus fuentes HTML, CSS y
-JavaScript. Antes de distribuir una adaptación, comprueba su apertura y
-exportación en tu instalación.
-
-## Trabajar en el aula
-
-Se puede empezar por cualquier isla y elegir otra cuando convenga. La guía
-práctica aparece primero en Docente y ofrece preparación, una sesión flexible,
-apoyos de lectura y creación y juegos opcionales. Ajustes y seguimiento reúne
-las herramientas locales para acordar tareas y guardar el trabajo. También
-está disponible [la guía docente imprimible](GUIA_DOCENTE.html) y [la guía de aplicación del REA GobCan](GUIA_DOCENTE_GOBCAN.html).
-
-## Narraciones
-
-La web y la aplicación portable del REA contienen 16 MP3: ocho grabaciones de
-Jesica Fortes Regalado y ocho alternativas con una entrada sonora suave,
-identificada como recreación. El registro público
-es `narraciones.js`; la procedencia y las medidas están en
-`AUDIO_ORIGENES.json`, y la atribución en `AUDIO_CREDITOS.html`.
-
-Para preparar de nuevo los MP3 se necesitan los WAV originales, Python3,
-NumPy y FFmpeg con libmp3lame. Usa `AUDIO_SELECCION.json` y ejecuta:
-
-```sh
-python3 tools/prepare_narrations.py --input-dir /ruta/a/los/WAV --selection AUDIO_SELECCION.json --output-dir assets/audio --report /tmp/informe-audio.json
-python3 tools/update_release.py
-python3 tools/prepare_deploy.py
-```
-
-Los WAV originales no se incluyen en el ZIP de fuentes ni en el ELPX. El ambiente
-opcional recrea percusión y naturaleza; no se presenta como una grabación
-documental de instrumentos o paisajes canarios. Las grabaciones no se reproducen
-automáticamente.
-
-## Regenerar el proyecto editable
-
-Para adaptar la edición GobCan, abre una copia de
-`downloads/MitoMapa_canario_GobCan.elpx` en eXeLearning. El generador siguiente
-corresponde a la edición original 4.4.0 y no reproduce la adaptación GobCan.
-
-Para regenerar esa edición histórica desde este repositorio, que conserva los
-tres ELPX de partida 4.0.2, usa Python 3 con `lxml` y ejecuta
-`python3 tools/build_elpx.py`. El generador actualiza
-el modelo ODE, los iDevices Texto, la exportación HTML, los recursos locales,
-el buscador y el manifiesto de descarga del proyecto. El ZIP de fuentes web
-no incluye los ELPX de partida; se ofrecen como descargas históricas separadas.
-Antes de distribuir un cambio, abre, guarda y exporta el resultado con
-eXeLearning 4.0.5 y verifica las rutas afectadas.
-
-Las notas actuales están en [CAMBIOS_REA_GOBCAN.md](CAMBIOS_REA_GOBCAN.md) y
-[CAMBIOS_WEB_4_4_4.md](CAMBIOS_WEB_4_4_4.md). Las comprobaciones de la descarga
-y la publicación se recogen en [VALIDACION_WEB_4_4_4.txt](VALIDACION_WEB_4_4_4.txt).
-La validación de la edición histórica permanece en
-[VALIDACION_4_4_0.txt](VALIDACION_4_4_0.txt).
-
-El mapa de relieve se restaura desde el archivo aportado el 09/10/2026, sin alterar sus píxeles. La fuente indicada por la autoría es TongApp del Gobierno de Canarias; El aviso de TongApp facilitado por la autoría declara la titularidad del Gobierno de Canarias y el libre uso por la comunidad educativa. El mapa conserva esas condiciones originales; no se le atribuye la licencia de los materiales propios del proyecto. Las pintaderas y los nombres siguen siendo accesos libres a cada isla.
+Sugerencias: [sugerencias.mitomapacanario@gmail.com](mailto:sugerencias.mitomapacanario@gmail.com).

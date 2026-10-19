@@ -1,15 +1,15 @@
 {
-  "web_version": "4.5.1",
-  "rea_exelearning_version": "4.5.1",
+  "web_version": "4.6.0",
+  "rea_exelearning_version": "4.6.0",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-14",
+  "prepared_at": "2026-10-19",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "a806f618d0e3794a8d317e834b7f665a26ceb0bd095dfb0a1aa29923de5add60",
-    "bytes": 25793687
+    "sha256": "a98291c5fe5b3ed37618f7134d8cfd5ca2e84775705dcf1dcd41453971358561",
+    "bytes": 25821740
   },
-  "previous_web_version": "4.5.0",
-  "previous_rea_version": "4.5.0",
+  "previous_web_version": "4.5.1",
+  "previous_rea_version": "4.5.1",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_5_1.md",
-  "rea_release_notes": "CAMBIOS_REA_4_5_1.md",
+  "release_notes": "CAMBIOS_WEB_4_6_0.md",
+  "rea_release_notes": "CAMBIOS_REA_4_6_0.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 39,
@@ -52,11 +52,12 @@
     "cycle": "3.er ciclo",
     "course": "6.º, adaptable a 5.º",
     "sessions": 4,
-    "selected_islands": 2
+    "selected_islands": 2,
+    "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
   },
-  "rea_revision": "2026-10-14",
+  "rea_revision": "2026-10-19",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Invitación voluntaria a compartir la valoración por correo",
+  "rea_revision_label": "Ruta acordada multinivel, navegación y seguimiento revisados",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -92,7 +93,8 @@
     "guide_lines": false,
     "badge_background": "none",
     "artificial_top_band": false,
-    "web_only": true
+    "web_only": false,
+    "included_in_portable_explorer_since": "4.6.0"
   },
   "quality_revision": {
     "date": "2026-10-14",
@@ -106,13 +108,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_5_1.zip",
+    "path": "downloads/MitoMapa_REA_v4_6_0.zip",
     "contents": "REA editable ELPX y documentación de la edición vigente",
-    "sha256": "8003e1b0d916a8594126ef90a1b74771ed022ef8a2189b250aed34288cdb69d2",
-    "bytes": 25546652
+    "sha256": "8114c49a598317468f13b517ddb55c3159115fdd3b879c2971a9318c3cc59b32",
+    "bytes": 25615779
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_5_1.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_6_0.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -121,7 +123,27 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.5.1",
-    "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones"
+    "downloaded_response_version": "4.6.0",
+    "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
+    "open_comment_only": true
+  },
+  "license": {
+    "spdx": "CC-BY-SA-4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/deed.es",
+    "scope": "Materiales propios; materiales de terceros con sus condiciones originales"
+  },
+  "experience_revision": {
+    "date": "2026-10-19",
+    "agreed_route_separate_from_collection": true,
+    "recording_seek_controls": true,
+    "reset_clears_visible_answers": true,
+    "pilot_status": "Pendiente de aplicación con alumnado",
+    "public_historical_downloads": true
+  },
+  "elpx_source": {
+    "path": "downloads/MitoMapa_canario_GobCan_v4_5_1.elpx",
+    "sha256": "a806f618d0e3794a8d317e834b7f665a26ceb0bd095dfb0a1aa29923de5add60",
+    "edition": "4.5.1",
+    "immutable": true
   }
 }

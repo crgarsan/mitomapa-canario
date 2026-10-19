@@ -1,4 +1,6 @@
-/* MitoMapa canario · versión web 4.5.1 · octubre de 2026 */
+/* MitoMapa canario · la versión de distribución procede de VERSION.json. */
+const RESOURCE_VERSION=typeof window.MitoMapaVersion?.version==="string"?window.MitoMapaVersion.version:"sin identificar";
+const EXPORT_SCHEMA_VERSION=1;
 const ASSETS=Object.freeze({"mapa_canarias.webp":"assets/images/mapa_canarias.webp","pintadera_dentada.webp":"assets/images/pintadera_dentada.webp","pintadera_rombos.webp":"assets/images/pintadera_rombos.webp","pintadera_roseta.webp":"assets/images/pintadera_roseta.webp","pintadera_sol.webp":"assets/images/pintadera_sol.webp","pintadera_triangulo.webp":"assets/images/pintadera_triangulo.webp","scene_el-hierro.webp":"assets/images/scene_el-hierro.webp","scene_fuerteventura.webp":"assets/images/scene_fuerteventura.webp","scene_gran-canaria.webp":"assets/images/scene_gran-canaria.webp","scene_la-gomera.webp":"assets/images/scene_la-gomera.webp","scene_la-graciosa.webp":"assets/images/scene_la-graciosa.webp","scene_la-palma.webp":"assets/images/scene_la-palma.webp","scene_lanzarote.webp":"assets/images/scene_lanzarote.webp","scene_tenerife.webp":"assets/images/scene_tenerife.webp","pintadera_seis_triangulos.webp":"assets/images/pintadera_seis_triangulos.webp","pintadera_chevron.webp":"assets/images/pintadera_chevron.webp","pintadera_circulos.webp":"assets/images/pintadera_circulos.webp","pintadera_doble_triangulo.webp":"assets/images/pintadera_doble_triangulo.webp","pintadera_espiral_cuadrada.webp":"assets/images/pintadera_espiral_cuadrada.webp"});
 function resolveAssetPaths(markup){return markup.replace(/content\/resources\/([A-Za-z0-9_.-]+\.webp)/g,(match,name)=>ASSETS[name]||match);}
 const routes=[{"id":"tenerife","island":"Tenerife","title":"Dácil y el regreso de Magec","image":"scene_tenerife.webp","imageAlt":"Una joven y otras tres personas miran hacia la luz del cielo junto al Teide. Ilustración ficticia del cuento de Dácil y Magec; no es una reconstrucción histórica.","badge":"pintadera_sol.webp","badgeName":"Pintadera de la luz","quick":[{"q":"¿Quién había escondido a Magec dentro de Echeyde?","options":["Dácil","Guayota","Achamán","El rebaño"],"answer":1,"hit":"Guayota había encerrado a Magec, el Sol, según el mito.","error":"Recuerda quién vivía en las entrañas del volcán."},{"q":"¿A quién pidió ayuda la comunidad?","options":["A Acorán","A Abora","A Achamán","A Orahan"],"answer":2,"hit":"La comunidad pidió ayuda a Achamán, señor del cielo.","error":"Busca el nombre del ser que devolvió la luz."},{"q":"¿Cómo supo Dácil que Magec había regresado?","options":["Oyó una campana","Vio una línea dorada sobre Echeyde","Encontró una vasija","Llegó una embarcación"],"answer":1,"hit":"La línea dorada iluminó primero la cumbre y después las laderas.","error":"Fíjate en la última escena del cuento."}],"questions":[{"q":"Guayota ayudó a Magec a iluminar la isla.","answer":false,"feedback":"Guayota había atrapado a Magec y lo mantenía escondido en el volcán; quien lo libera es Achamán.","hint":"Busca quién provoca la oscuridad y quién devuelve la luz."},{"q":"Achamán cerró la entrada del volcán con una gran roca.","answer":true,"feedback":"Después de liberar a Magec, Achamán cierra la entrada con una enorme roca para impedir que Guayota escape.","hint":"Relee lo que hace Achamán después de vencer a Guayota."},{"q":"Dácil cuidaba cabras cerca de Echeyde.","answer":true,"feedback":"Al comienzo del cuento, Dácil cuida cabras cerca de Echeyde y espera el primer rayo del Sol.","hint":"Busca el lugar y la tarea de Dácil al inicio."}]},{"id":"gran-canaria","island":"Gran Canaria","title":"Guayarmina y el tibicena del barranco","image":"scene_gran-canaria.webp","imageAlt":"Una joven se agacha en un sendero de barranco mientras otras tres personas observan a su espalda. Ilustración ficticia del cuento de Guayarmina; no es una reconstrucción histórica.","badge":"pintadera_seis_triangulos.webp","badgeName":"Pintadera de la memoria","quick":[{"q":"¿Dónde apareció el tibicena?","options":["En el mar","Entre las tabaibas del barranco","Dentro del tagoror","Sobre una embarcación"],"answer":1,"hit":"La figura apareció entre las tabaibas, cerca del campamento.","error":"Recuerda el paisaje donde Guayarmina cuidaba las cabras."},{"q":"¿Qué hicieron Guayarmina y los demás pastores?","options":["Corrieron cada uno por su lado","Persiguieron a la criatura","Permanecieron juntos y levantaron las teas","Apagaron el fuego"],"answer":2,"hit":"Se protegieron permaneciendo juntos y con luz.","error":"El estribillo ofrece una pista."},{"q":"¿Qué encontraron al amanecer?","options":["Una corona","Huellas grandes mezcladas con las de las cabras","Una carta","La tea convertida en piedra"],"answer":1,"hit":"Las huellas quedaron mezcladas con las marcas del rebaño.","error":"Piensa en la pista que dejó la criatura."}],"questions":[{"q":"Guayarmina navegaba por el mar con un rebaño.","answer":false,"feedback":"Guayarmina guía un rebaño por un sendero de barranco de Gran Canaria; no navega por el mar.","hint":"Vuelve al primer párrafo y localiza el paisaje."},{"q":"Los pastores persiguieron solos al tibicena durante la noche.","answer":false,"feedback":"Los pastores permanecen juntos con el rebaño y levantan las teas; nadie se adentra solo en el barranco.","hint":"Observa qué hacen los pastores cuando Guayarmina los llama."},{"q":"Al amanecer encontraron huellas mezcladas con las de las cabras.","answer":true,"feedback":"Cuando la criatura desaparece al aclararse el cielo, quedan huellas grandes mezcladas con marcas de cabras.","hint":"Relee qué queda en el suelo al amanecer."}]},{"id":"la-palma","island":"La Palma","title":"Acerina y el roque que sostenía el cielo","image":"scene_la-palma.webp","imageAlt":"Una persona adulta y una niña contemplan un roque alto entre montañas y nubes. Ilustración ficticia del cuento de Acerina y el roque Idafe; no reproduce con exactitud el lugar.","badge":"pintadera_dentada.webp","badgeName":"Pintadera de Idafe","quick":[{"q":"¿Qué parecía sostener el roque de Idafe?","options":["El mar","El cielo","Una cueva","El poblado"],"answer":1,"hit":"Idafe parecía sostener el cielo sobre la Caldera.","error":"La respuesta aparece al comienzo del cuento."},{"q":"¿Por qué se alejó el grupo de la ladera?","options":["Comenzó a nevar","Llegó un barco","La tierra vibró y cayeron piedras","Se perdió una cabra"],"answer":2,"hit":"El grupo se puso a salvo cuando la tierra vibró.","error":"Recuerda qué hizo el abuelo al escuchar el ruido."},{"q":"¿Qué hizo Acerina cuando fue mayor?","options":["Olvidó la ceremonia","Se convirtió en narradora","Abandonó Benahoare","Derribó el roque"],"answer":1,"hit":"Acerina contó la historia para conservar la memoria del lugar.","error":"Busca cómo cumplió Acerina su promesa."}],"questions":[{"q":"Acerina vivía en Benahoare.","answer":true,"feedback":"El relato sitúa a Acerina en Benahoare, nombre con el que presenta a la isla de La Palma.","hint":"Relee la primera oración del cuento."},{"q":"Acerina conservó la historia convirtiéndose en narradora.","answer":true,"feedback":"Acerina se convierte en narradora y cuenta a los niños lo vivido para conservar la memoria de Idafe.","hint":"Busca qué hace Acerina cuando pasan los años."},{"q":"El grupo permaneció junto al risco mientras caían piedras.","answer":false,"feedback":"El abuelo toma a Acerina de la mano y el grupo se aleja del risco mientras bajan las piedras.","hint":"Busca cómo reaccionan al temblor y a la caída de piedras."}]},{"id":"la-gomera","island":"La Gomera","title":"Gara y Jonay, dos voces en la cumbre","image":"scene_la-gomera.webp","imageAlt":"Una joven con las manos abiertas se dirige a dos grupos situados a ambos lados de un barranco. Ilustración ficticia del cuento de Gara y Jonay; no es una reconstrucción histórica.","badge":"pintadera_triangulo.webp","badgeName":"Pintadera del encuentro","quick":[{"q":"¿Cómo llegó Jonay desde Tenerife?","options":["En una gran nave","Sobre odres de piel de cabra","Por un puente","Volando"],"answer":1,"hit":"La leyenda cuenta que cruzó el mar sobre odres de piel de cabra.","error":"Recuerda cómo se lanzó Jonay al agua."},{"q":"¿Por qué se oponían las familias?","options":["Temían la advertencia que unía el agua y el fuego","No conocían el camino","Habían perdido el rebaño","Querían viajar a otra isla"],"answer":0,"hit":"Las familias interpretaban el agua de Gara y el fuego de Jonay como un peligro.","error":"Vuelve a la advertencia del manantial."},{"q":"¿Qué enseñanza conserva el cuento?","options":["Que no debe escucharse a nadie","Que la enemistad y la falta de diálogo causan dolor","Que el mar siempre separa","Que las leyendas no cambian"],"answer":1,"hit":"El relato invita a dialogar antes de cerrar el camino a otras personas.","error":"Piensa en lo que comprendieron las comunidades."}],"questions":[{"q":"Jonay llegó a La Gomera desde Lanzarote.","answer":false,"feedback":"Jonay parte de Tenerife y cruza el mar sobre odres de piel de cabra para llegar a La Gomera.","hint":"Localiza la isla donde vive Jonay antes de cruzar el mar."},{"q":"La leyenda invita a reflexionar sobre la falta de diálogo.","answer":true,"feedback":"El final relaciona el dolor con la enemistad y la falta de escucha, e invita a abrir el diálogo.","hint":"Relee la reflexión de las comunidades al final."},{"q":"Las familias apoyaron la relación desde el primer momento.","answer":false,"feedback":"Las familias temen la advertencia y se oponen a que el agua de Gara y el fuego de Jonay se encuentren.","hint":"Busca la reacción de las familias antes de la huida."}]},{"id":"el-hierro","island":"El Hierro","title":"Agarfa y las gotas del Garoé","image":"scene_el-hierro.webp","imageAlt":"Una niña y dos personas adultas recogen agua bajo un árbol entre la niebla, usando recipientes de aspecto flexible. Ilustración ficticia del cuento de Agarfa y el Garoé; no es una reconstrucción histórica.","badge":"pintadera_circulos.webp","badgeName":"Pintadera de la niebla","quick":[{"q":"¿Cómo proporcionaba agua el Garoé?","options":["Convertía la niebla en gotas","Derretía la nieve","Sacaba agua del mar","Abría un pozo"],"answer":0,"hit":"La niebla se condensaba en sus ramas y caía a las piletas.","error":"El estribillo habla de ramas y gotas."},{"q":"¿Por qué ocultaron el sendero?","options":["Para jugar","Para proteger la fuente de agua","Porque estaba nevando","Para encontrar otro árbol"],"answer":1,"hit":"La comunidad temía perder la fuente que permitía vivir en la isla.","error":"Recuerda qué apareció en el horizonte."},{"q":"¿Qué ocurrió después de que una tormenta derribara el árbol?","options":["Su historia desapareció","La comunidad olvidó el agua","Su memoria continuó en los relatos","El mar cubrió la isla"],"answer":2,"hit":"Las familias continuaron narrando la historia del Garoé.","error":"El final explica qué no pudo derribar la tormenta."}],"questions":[{"q":"El Garoé recogía agua de la niebla.","answer":true,"feedback":"La niebla se enreda en las ramas del Garoé y forma gotas que se recogen en piletas de piedra.","hint":"Relee cómo llega el agua a las piletas."},{"q":"La comunidad desperdiciaba el agua de las piletas.","answer":false,"feedback":"Agarfa llena las vasijas despacio para no desperdiciar agua; la comunidad depende de ella.","hint":"Busca con qué cuidado Agarfa llena las vasijas."},{"q":"La memoria del árbol continuó después de la tormenta.","answer":true,"feedback":"Aunque una tormenta derriba el árbol, las familias siguen contando cómo recogía agua de la niebla.","hint":"Observa qué permanece después de la caída del árbol."}]},{"id":"fuerteventura","island":"Fuerteventura","title":"La luz de Mafasca en el camino","image":"scene_fuerteventura.webp","imageAlt":"Una mujer y una niña observan una pequeña luz en un paisaje pedregoso al anochecer. Ilustración ficticia del cuento de la Luz de Mafasca; no es una reconstrucción histórica.","badge":"pintadera_doble_triangulo.webp","badgeName":"Pintadera de Mafasca","quick":[{"q":"¿Qué utilizaron los pastores para encender la hoguera?","options":["Un trozo de una vieja cruz","Una vela del barco","Hojas del Garoé","Una pintadera"],"answer":0,"hit":"Arrancaron un trozo de madera de una cruz del camino.","error":"Busca el objeto al que no mostraron respeto."},{"q":"¿Cómo se comportaba la luz?","options":["Se quedó dentro del fuego","Los siguió y se detenía cuando ellos se detenían","Cayó al mar","Se convirtió en una cabra"],"answer":1,"hit":"La luz avanzaba o se detenía con los pastores.","error":"Recuerda por qué no consiguieron dejarla atrás."},{"q":"¿Cómo repararon su falta?","options":["Ocultaron lo ocurrido","Repararon la cruz y contaron la historia","Persiguieron la luz","Abandonaron el rebaño"],"answer":1,"hit":"Cumplieron su promesa y advirtieron a otros pastores.","error":"Piensa en lo que hicieron al amanecer."}],"questions":[{"q":"Guise y Ayose eran pastores.","answer":true,"feedback":"En esta recreación, Guise y Ayose son dos pastores que regresan con sus cabras; no representan a los dirigentes históricos.","hint":"Relee el comienzo y distingue los personajes del cuento de sus homónimos históricos."},{"q":"La luz desapareció en cuanto empezaron a caminar.","answer":false,"feedback":"La luz sigue a los pastores cuando caminan y se detiene cuando ellos se detienen; desaparece tras su promesa.","hint":"Compara qué hace la luz mientras caminan y cuándo desaparece."},{"q":"Los pastores decidieron dejar la cruz rota.","answer":false,"feedback":"Los pastores prometen reparar la cruz y cumplen su promesa al día siguiente.","hint":"Busca la promesa de Guise y Ayose y qué hacen al amanecer."}]},{"id":"lanzarote","island":"Lanzarote","title":"Ico y la prueba del humo","image":"scene_lanzarote.webp","imageAlt":"Una joven habla ante un grupo sentado en un paisaje volcánico, acompañada por una mujer mayor. Ilustración ficticia del cuento de Ico; no es una reconstrucción histórica.","badge":"pintadera_chevron.webp","badgeName":"Pintadera de Ico","quick":[{"q":"¿Por qué desconfiaban algunas personas de Ico?","options":["Porque no sabía caminar","Porque su piel era más clara","Porque perdió una vasija","Porque llegó en barco"],"answer":1,"hit":"El consejo convirtió una diferencia física en una sospecha injusta.","error":"La razón aparece en el primer párrafo."},{"q":"¿Qué le entregó la anciana?","options":["Una esponja mojada","Una tea","Una piedra","Una carta"],"answer":0,"hit":"La esponja húmeda ayudó a Ico a respirar durante la prueba.","error":"Recuerda el objeto que Ico colocó sobre su boca."},{"q":"¿Por qué cuestionó Ico la prueba?","options":["Era demasiado corta","Ponía a una persona en peligro para demostrar quién era","No había público","Se celebró de noche"],"answer":1,"hit":"Ico comprendió que ninguna prueba injusta debía decidir la pertenencia.","error":"Piensa en la pregunta que dejó al consejo sin respuesta."}],"questions":[{"q":"Ico consideró justa la decisión del consejo.","answer":false,"feedback":"Ico agradece la ayuda, pero cuestiona que alguien deba ponerse en peligro para demostrar quién es.","hint":"Relee la pregunta que Ico dirige al consejo."},{"q":"Una anciana ayudó a Ico antes de la prueba.","answer":true,"feedback":"Antes de la prueba, una anciana entrega a Ico una esponja mojada y le explica cómo usarla.","hint":"Busca quién ayuda a Ico y qué le entrega."},{"q":"La solidaridad ayudó a Ico a sobrevivir.","answer":true,"feedback":"La ayuda de la anciana y la inteligencia de Ico permiten que salga del recinto; el cuento destaca esa solidaridad.","hint":"Relaciona la ayuda recibida con el desenlace."}]},{"id":"la-graciosa","island":"La Graciosa","title":"Guadarfía y la isla de San Borondón","image":"scene_la-graciosa.webp","imageAlt":"Dos personas observan desde la costa una silueta de isla entre la bruma; una se protege los ojos con la mano. Ilustración ficticia de San Borondón, no de la época indígena.","badge":"pintadera_espiral_cuadrada.webp","badgeName":"Pintadera del horizonte","quick":[{"q":"¿Qué trabajo realizaba Guadarfía?","options":["Era pastor","Era grumete","Era agricultor","Era alfarero"],"answer":1,"hit":"Guadarfía era un joven grumete en una embarcación de vela.","error":"La respuesta aparece en la primera oración."},{"q":"¿Qué ocurrió al acercarse a la isla?","options":["La isla parecía alejarse y llegó la niebla","Encontraron un puerto","El mar se secó","La montaña habló"],"answer":0,"hit":"La isla se alejaba y una niebla espesa ocultó el horizonte.","error":"Recuerda por qué tuvieron que bajar las velas."},{"q":"¿Cómo llegó San Borondón a algunos mapas?","options":["Los navegantes contaron visiones y dibujaron lo recordado","La fotografiaron","La trasladaron","La vieron desde un avión"],"answer":0,"hit":"Los relatos y dibujos de navegantes llevaron la isla a algunas cartas.","error":"Piensa en lo que hicieron Guadarfía y el capitán."}],"questions":[{"q":"El capitán marcó el lugar en su carta.","answer":true,"feedback":"Tras retirarse la bruma, el capitán marca el lugar del avistamiento en su carta y Guadarfía dibuja la forma que recuerda.","hint":"Busca qué hace cada personaje al amanecer."},{"q":"La isla desapareció cuando se retiró la bruma.","answer":true,"feedback":"Cuando la bruma se marcha al amanecer, delante del barco solo queda el mar y ya no se ve la isla.","hint":"Relee el paisaje que encuentran después de la niebla."},{"q":"Guadarfía era el capitán de la embarcación.","answer":false,"feedback":"Guadarfía es grumete; el capitán es otro personaje de la tripulación.","hint":"Relee cómo se presenta a Guadarfía al principio."}]}];
@@ -96,6 +98,7 @@ function updateItineraryUI(){
   const tasks=section.querySelector(".assigned-tasks");
   if(tasks){tasks.textContent=itineraryFor(id).tasks;tasks.hidden=!itineraryFor(id).tasks;}
  });
+ window.MitoMapaJourney?.refresh();
 }
 const itinerarySteps={
  early:["Escucha o lee el cuento con ayuda y repite el estribillo.","Responde las tres preguntas de comprensión para conseguir la pintadera.","Realiza la actividad oral, el dibujo u otra tarea que te indique tu docente.","Comparte tu trabajo y revisa con tu docente el itinerario acordado."],
@@ -204,7 +207,39 @@ function narrationMarkup(route){
  const note=recording?`Narración: ${narrationLabel(recording.narrator||"grabación del cuento")}.`:speechSupported?"Comprobando las voces del dispositivo…":voiceDescription();
  const voice=recording?"":`<label class="narration-setting">Voz <select class="narration-voice" aria-label="Voz para la lectura"><option value="">Automática (recomendada)</option></select></label>`;
  const ambient=recording?.ambientSrc?`<label class="narration-setting narration-ambient-label"><input class="narration-ambient" type="checkbox" checked> Ambiente suave</label>`:"";
- return `<section class="narrator" data-narration-source="${recording?"recording":"device"}" aria-labelledby="narrator-title-${route.id}"><div class="narrator-copy"><p class="narrator-kicker">Escucha el cuento</p><h3 id="narrator-title-${route.id}">${recording?"Narración grabada":"Lectura en voz alta"}</h3><p class="voice-note"${recording?"":" data-device-voice"}>${note}</p></div><div class="narrator-controls"><button class="button narration-play" type="button" data-route="${route.id}">▶ Reproducir</button><button class="button secondary narration-pause" type="button" data-route="${route.id}" disabled>⏸ Pausar</button><button class="button secondary narration-stop" type="button" data-route="${route.id}" disabled>■ Detener</button>${voice}<label class="narration-setting">Velocidad <select class="narration-rate" aria-label="Velocidad de lectura"><option value="0.82">Lenta</option><option value="${recording?"1":"0.94"}" selected>Normal</option><option value="1.08">Ágil</option></select></label>${ambient}<p class="narration-status" role="status" aria-live="polite">Lista para comenzar.</p></div></section>`;
+ const timeline=recording?`<div class="narration-timeline"><button class="text-button narration-back" type="button" aria-label="Retroceder diez segundos" disabled>−10 s</button><div class="narration-position"><label for="narration-position-${route.id}">Posición de la narración</label><input class="narration-seek" id="narration-position-${route.id}" type="range" min="0" max="0" step="1" value="0" aria-valuetext="Duración pendiente" disabled><p class="narration-time"><span class="narration-current">0:00</span> / <span class="narration-duration">--:--</span></p></div><button class="text-button narration-forward" type="button" aria-label="Avanzar diez segundos" disabled>+10 s</button></div>`:"";
+ return `<section class="narrator" data-narration-source="${recording?"recording":"device"}" aria-labelledby="narrator-title-${route.id}"><div class="narrator-copy"><p class="narrator-kicker">Escucha el cuento</p><h3 id="narrator-title-${route.id}">${recording?"Narración grabada":"Lectura en voz alta"}</h3><p class="voice-note"${recording?"":" data-device-voice"}>${note}</p></div><div class="narrator-controls"><button class="button narration-play" type="button" data-route="${route.id}">▶ Reproducir</button><button class="button secondary narration-pause" type="button" data-route="${route.id}" disabled>⏸ Pausar</button><button class="button secondary narration-stop" type="button" data-route="${route.id}" disabled>■ Detener</button>${timeline}${voice}<label class="narration-setting">Velocidad <select class="narration-rate" aria-label="Velocidad de lectura"><option value="0.82">Lenta</option><option value="${recording?"1":"0.94"}" selected>Normal</option><option value="1.08">Ágil</option></select></label>${ambient}<p class="narration-status" role="status" aria-live="polite">Lista para comenzar.</p></div></section>`;
+}
+function narrationTime(value){
+ const seconds=Math.max(0,Math.floor(Number(value)||0));
+ return `${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,"0")}`;
+}
+function recordingIsSeekable(audio){
+ if(!audio||audio.readyState<1||!Number.isFinite(audio.duration)||audio.duration<=0)return false;
+ for(let index=0;index<audio.seekable.length;index++)if(audio.seekable.end(index)>audio.seekable.start(index))return true;
+ return false;
+}
+function syncRecordingTimeline(routeId,finished=null){
+ const section=byId(`route-${routeId}`),slider=section?.querySelector(".narration-seek");if(!slider)return;
+ const audio=narrationState.routeId===routeId?narrationState.audio:null;
+ const duration=finished?.duration??audio?.duration;
+ const available=recordingIsSeekable(audio);
+ const known=Number.isFinite(duration)&&duration>0;
+ const position=known?Math.min(duration,Math.max(0,finished?.position??audio?.currentTime??0)):0;
+ slider.disabled=!available;slider.max=known?String(duration):"0";slider.value=String(position);
+ slider.setAttribute("aria-valuetext",known?`${narrationTime(position)} de ${narrationTime(duration)}`:"Duración pendiente");
+ section.querySelector(".narration-current").textContent=narrationTime(position);
+ section.querySelector(".narration-duration").textContent=known?narrationTime(duration):"--:--";
+ section.querySelectorAll(".narration-back,.narration-forward").forEach(button=>{button.disabled=!available;});
+}
+function seekNarration(routeId,value,{relative=false}={}){
+ if(narrationState.routeId!==routeId)return;
+ const audio=narrationState.audio,duration=audio?.duration;
+ if(!recordingIsSeekable(audio))return;
+ const requested=Number(value);if(!Number.isFinite(requested))return;
+ try{audio.currentTime=Math.max(0,Math.min(duration,relative?audio.currentTime+requested:requested));}
+ catch(error){return;}
+ syncRecordingTimeline(routeId);
 }
 function splitSpeechText(text,maxLength=230){
  const sentences=text.match(/[^.!?…]+[.!?…]+|[^.!?…]+$/g)||[text];
@@ -253,10 +288,11 @@ function stopNarration(message="Lectura detenida."){
  narrationState={routeId:null,index:0,chunks:[],paused:false,token:narrationToken,audio:null};
  if(audio){
   audio.onplaying=null;audio.onended=null;audio.onerror=null;
+  audio.onloadedmetadata=null;audio.ondurationchange=null;audio.ontimeupdate=null;audio.oncanplay=null;audio.onseeked=null;audio.onprogress=null;
   audio.pause();audio.removeAttribute("src");audio.load();
  }
  if(speechSupported)window.speechSynthesis.cancel();
- if(previous){clearNarrationHighlight(previous);updateNarrationUi(previous,"idle",message);}
+ if(previous){clearNarrationHighlight(previous);updateNarrationUi(previous,"idle",message);syncRecordingTimeline(previous);}
 }
 function playRecording(audio,routeId,token){
  const request=++recordingPlayRequest;
@@ -284,13 +320,18 @@ function startRecording(routeId,recording){
  audio.playbackRate=Number(section.querySelector(".narration-rate")?.value)||1;
  audio.src=ambient&&recording.ambientSrc?recording.ambientSrc:recording.src;
  const current=()=>token===narrationToken&&narrationState.audio===audio;
+ const sync=()=>{if(current())syncRecordingTimeline(routeId);};
+ audio.onloadedmetadata=sync;audio.ondurationchange=sync;audio.ontimeupdate=sync;audio.oncanplay=sync;audio.onseeked=sync;audio.onprogress=sync;
  audio.onplaying=()=>{
   if(!current()||narrationState.paused){audio.pause();return;}
+  sync();
   updateNarrationUi(routeId,"playing","Reproduciendo la narración grabada.");
  };
  audio.onended=()=>{
   if(!current())return;
+  const duration=audio.duration;
   stopNarration();updateNarrationUi(routeId,"finished","Cuento terminado. Puedes escucharlo de nuevo.");
+  syncRecordingTimeline(routeId,{duration,position:duration});
  };
  audio.onerror=()=>{if(current())stopNarration("No se pudo cargar la grabación. Puedes volver a intentarlo o leer el texto.");};
  updateNarrationUi(routeId,"playing","Cargando la narración grabada…");
@@ -717,7 +758,7 @@ function showDraftStatus(id,ok,zone="creation"){
 }
 function downloadWorkshopDraft(id){
  const state=getWorkshopRouteState(id),route=routes.find(r=>r.id===id);
- const text=`MitoMapa 4.4.2 · ${route.island} · ${learningLevelLabel()}\n\nCREACIÓN\n${learningLevel==="secondary"?state.secondaryText:state.text}\n\nFUENTE Y CONTRASTE\n${state.researchEvidence}\n\nBorrador personal; requiere revisión con el docente.`;
+ const text=`MitoMapa ${RESOURCE_VERSION} · ${route.island} · ${learningLevelLabel()}\nVersión del esquema de exportación: ${EXPORT_SCHEMA_VERSION}\n\nCREACIÓN\n${learningLevel==="secondary"?state.secondaryText:state.text}\n\nFUENTE Y CONTRASTE\n${state.researchEvidence}\n\nBorrador personal; requiere revisión con el docente.`;
  downloadLocalText(text,`borrador-mitomapa-${id}.txt`,"text/plain");
 }
 function downloadLocalText(content,filename,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
@@ -1029,10 +1070,11 @@ function updateTeacherDialog(){
 
 function exportProgress(){
  const payload={
-  app:"mitomapa-canario",version:"4.4.2",exportedAt:new Date().toISOString(),learningLevel,learnerName,
+  app:"mitomapa-canario",version:RESOURCE_VERSION,schemaVersion:EXPORT_SCHEMA_VERSION,exportedAt:new Date().toISOString(),learningLevel,learnerName,
   progress:{sourcePassed:[...sourcePassed],truthPassed:[...truthPassed],earned:[...earned]},
   workshop:workshopState,
   itineraries,
+  journey:window.MitoMapaJourney?.exportState(),
   final:{passed:Boolean(finalState.passed)},
   interactive:{stories:window.MitoMapaStories?.exportState(),comparison:window.MitoMapaCompare?.exportState()}
  };
@@ -1063,17 +1105,18 @@ async function importProgressFile(file){
   if(payload?.app!=="mitomapa-canario"||!payload.progress)throw new Error("Formato no reconocido");
   if(!confirm("¿Quieres sustituir el progreso de este navegador por el del archivo seleccionado?")){status.textContent="Importación cancelada.";return;}
   const importedWorkshop=await normalizeImportedDrawings(sanitizeImportedWorkshop(payload.workshop));
+  clearLearnerResponses();
   sourcePassed=normalize(payload.progress.sourcePassed);truthPassed=normalize(payload.progress.truthPassed);earned=normalize(payload.progress.earned);
   learningLevel=Object.prototype.hasOwnProperty.call(learningLevelCopy,payload.learningLevel)?payload.learningLevel:"middle";
   learnerName=String(payload.learnerName||"").replace(/\s+/g," ").trim().slice(0,80);
   workshopState=importedWorkshop;
   finalState={passed:Boolean(payload.final?.passed)};
   itineraries=sanitizeItineraries(payload.itineraries);saveItineraries();
+  window.MitoMapaJourney?.importState(payload.journey);
   window.MitoMapaStories?.importState(payload.interactive?.stories);
   window.MitoMapaCompare?.importState(payload.interactive?.comparison);
   window.MitoMapaExplorer?.reset();
   save();savePreferences();saveWorkshopState();saveFinalState();
-  document.querySelectorAll(".route").forEach(section=>{const route=routes.find(item=>section.id===`route-${item.id}`);section.querySelector(".activity-workshop")?.remove();if(route){injectWorkshop(section,route);applyLearningLevelToRoute(section);}});
   renderRoutes();setLearningLevel(learningLevel,false);updateTeacherDialog();updateFinalExperience();
   window.MitoMapaNavigation?.refresh();
   status.textContent="Seguimiento cargado correctamente.";
@@ -1110,6 +1153,39 @@ function resetV34State(){
  byId("finalMatchGrid")?.querySelectorAll(".final-match-feedback").forEach(feedback=>{feedback.textContent="";});
  if(byId("finalChallengeStatus"))byId("finalChallengeStatus").textContent="";
  savePreferences();renderFinalChallenge();updateFinalExperience();
+}
+
+// Los aciertos guardados y las respuestas visibles son estados diferentes.
+// Al reiniciar o importar otro seguimiento, no deben sobrevivir respuestas de
+// la persona anterior, ni siquiera en actividades que no se exportan.
+function clearLearnerResponses(){
+ stopNarration();
+ document.querySelectorAll(".route .quiz").forEach(quiz=>{
+  quiz.querySelectorAll("input[type=radio]").forEach(input=>{input.checked=false;});
+  quiz.querySelectorAll(".feedback").forEach(feedback=>{feedback.className="feedback";feedback.textContent="";});
+  quiz.querySelectorAll(".source-status,.quiz-status").forEach(status=>{status.textContent="";});
+  quiz._showQuestion?.(0);
+ });
+ document.querySelectorAll(".route-step.complete").forEach(step=>step.classList.remove("complete"));
+ document.querySelectorAll(".reward.show").forEach(reward=>reward.classList.remove("show"));
+ document.querySelectorAll(".route").forEach(section=>{section.dataset.routeFlowQuiz="comprension";});
+ byId("finalMatchGrid")?.querySelectorAll("select").forEach(select=>{select.value="";select.closest(".final-match-item")?.removeAttribute("data-result");});
+ byId("finalMatchGrid")?.querySelectorAll(".final-match-feedback").forEach(feedback=>{feedback.textContent="";});
+ if(byId("finalChallengeStatus"))byId("finalChallengeStatus").textContent="";
+ document.querySelectorAll("[data-feedback-rating]").forEach(select=>{select.value="";});
+ document.querySelectorAll("[data-feedback-open]").forEach(textarea=>{textarea.value="";});
+ if(byId("feedbackStatus"))byId("feedbackStatus").textContent="";
+}
+
+function resetProgress(){
+ if(!confirm("¿Quieres borrar los retos, las pintaderas, el gran reto, el cuaderno y las nuevas actividades guardadas en este navegador?"))return;
+ sourcePassed.clear();truthPassed.clear();earned.clear();
+ try{localStorage.removeItem(legacyKey);}catch(error){}
+ clearLearnerResponses();resetV34State();window.MitoMapaJourney?.reset();resetAllWorkshops();
+ document.querySelectorAll(".route").forEach(applyLearningLevelToRoute);
+ window.MitoMapaStories?.reset();window.MitoMapaCompare?.reset();window.MitoMapaExplorer?.reset();
+ shuffle();save();updateProgress();updateTeacherDialog();syncTeacherScroll();
+ if(byId("teacherImportStatus"))byId("teacherImportStatus").textContent="Progreso reiniciado. No quedan respuestas de la sesión anterior.";
 }
 
 function setupV34Features(){
@@ -1169,6 +1245,9 @@ function enhanceRoute(section,route){
  section.querySelector(".narration-play")?.addEventListener("click",()=>startNarration(route.id));
  section.querySelector(".narration-pause")?.addEventListener("click",()=>toggleNarrationPause(route.id));
  section.querySelector(".narration-stop")?.addEventListener("click",()=>stopNarration());
+ section.querySelector(".narration-back")?.addEventListener("click",()=>seekNarration(route.id,-10,{relative:true}));
+ section.querySelector(".narration-forward")?.addEventListener("click",()=>seekNarration(route.id,10,{relative:true}));
+ section.querySelector(".narration-seek")?.addEventListener("input",event=>seekNarration(route.id,event.currentTarget.value));
  section.querySelector(".narration-voice")?.addEventListener("change",event=>{
   selectedVoiceURI=event.currentTarget.value;savePreferences();
   document.querySelectorAll(".narration-voice").forEach(select=>{if([...select.options].some(option=>option.value===selectedVoiceURI))select.value=selectedVoiceURI;});
@@ -1199,33 +1278,35 @@ function renderRoutes(){
  updateProgress();refreshVoices();
 }
 function checkSource(id){
- const route=routes.find(item=>item.id===id),box=byId(`source-${id}`);let correct=0,complete=true,firstIncomplete=-1;
+ const route=routes.find(item=>item.id===id),box=byId(`source-${id}`);let correct=0,complete=true,firstIncomplete=-1,firstIncorrect=-1;
  route.quick.forEach((question,index)=>{
   const choice=box.querySelector(`input[name="source-${id}-${index}"]:checked`),feedback=box.querySelectorAll(".feedback")[index];
   if(!choice){complete=false;if(firstIncomplete<0)firstIncomplete=index;feedback.className="feedback ko";feedback.textContent="Selecciona una respuesta.";return;}
   const ok=Number(choice.value)===question.answer;if(ok)correct++;
+  if(!ok&&firstIncorrect<0)firstIncorrect=index;
   feedback.className=`feedback ${ok?"ok":"ko"}`;feedback.textContent=ok?question.hit:question.error;
  });
  const status=box.querySelector(".source-status");
  if(!complete){status.textContent="Completa las tres preguntas antes de comprobar.";box._showQuestion?.(firstIncomplete,{focus:true});return;}
  if(correct===route.quick.length){sourcePassed.add(id);save();status.textContent=`Resultado: ${correct} de ${route.quick.length}. Comprensión superada.`;}
- else status.textContent=`Resultado: ${correct} de ${route.quick.length}. Revisa las pistas e inténtalo de nuevo.`;
+ else{status.textContent=`Resultado: ${correct} de ${route.quick.length}. Revisa las pistas e inténtalo de nuevo.`;box._showQuestion?.(firstIncorrect,{focus:true});}
  updateProgress();
  if(badgeRequirementsMet(id))tryAward(id);
  else if(sourcePassed.has(id))status.textContent+=" Ahora supera «Reto de la pintadera».";
 }
 function checkQuiz(id){
- const route=routes.find(item=>item.id===id),box=byId(`quiz-${id}`);let correct=0,complete=true,firstIncomplete=-1;
+ const route=routes.find(item=>item.id===id),box=byId(`quiz-${id}`);let correct=0,complete=true,firstIncomplete=-1,firstIncorrect=-1;
  route.questions.forEach((question,index)=>{
   const choice=box.querySelector(`input[name="truth-${id}-${index}"]:checked`),feedback=box.querySelectorAll(".feedback")[index];
   if(!choice){complete=false;if(firstIncomplete<0)firstIncomplete=index;feedback.className="feedback ko";feedback.textContent="Selecciona una respuesta.";return;}
   const ok=(choice.value==="true")===question.answer;if(ok)correct++;
+  if(!ok&&firstIncorrect<0)firstIncorrect=index;
   feedback.className=`feedback ${ok?"ok":"ko"}`;feedback.textContent=`${ok?"Correcto.":"Revisa tu respuesta."} ${question.feedback}`;
  });
  const status=box.querySelector(".quiz-status");
  if(!complete){status.textContent="Completa las tres afirmaciones antes de comprobar.";box._showQuestion?.(firstIncomplete,{focus:true});return;}
  if(correct===route.questions.length){truthPassed.add(id);save();status.textContent="Resultado: 3 de 3. Reto superado.";}
- else status.textContent=`Resultado: ${correct} de 3. Revisa las pistas e inténtalo de nuevo.`;
+ else{status.textContent=`Resultado: ${correct} de 3. Revisa las pistas e inténtalo de nuevo.`;box._showQuestion?.(firstIncorrect,{focus:true});}
  updateProgress();
  if(badgeRequirementsMet(id))tryAward(id);
  else if(truthPassed.has(id))status.textContent+=" Ahora supera «Comprendemos el cuento».";
@@ -1271,7 +1352,7 @@ byId("openPassport").addEventListener("click",showPassport);
 byId("closePassport").addEventListener("click",()=>closeDialog(byId("passportDialog")));
 byId("viewPassport").addEventListener("click",()=>{closeDialog(byId("badgeDialog"));showPassport();});
 byId("dismissBadge").addEventListener("click",()=>closeDialog(byId("badgeDialog")));
-byId("resetProgress").addEventListener("click",()=>{if(confirm("¿Quieres borrar los retos, las pintaderas, el gran reto, el cuaderno y las nuevas actividades guardadas en este navegador?")){sourcePassed.clear();truthPassed.clear();earned.clear();try{localStorage.removeItem(legacyKey);}catch(error){}resetAllWorkshops();resetV34State();document.querySelectorAll(".route").forEach(applyLearningLevelToRoute);window.MitoMapaStories?.reset();window.MitoMapaCompare?.reset();window.MitoMapaExplorer?.reset();save();updateProgress();}});
+byId("resetProgress").addEventListener("click",resetProgress);
 if(speechSupported){window.speechSynthesis.addEventListener?.("voiceschanged",refreshVoices);refreshVoices();}
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&narrationState.routeId&&!narrationState.paused)toggleNarrationPause(narrationState.routeId);});
 window.addEventListener("pagehide",()=>stopNarration());
@@ -1282,6 +1363,7 @@ injectExperienceTools();renderRoutes();setupV34Features();shuffle();
 updateHeaderOffset();
 window.MitoMapaNavigation?.mount({routes,openRoute:showRoute,stopNarration,lastRoute:()=>lastRouteId});
 window.MitoMapaTeacher?.init({setLevel:level=>{setLearningLevel(level);updateTeacherDialog();},refresh:syncTeacherScroll});
+window.MitoMapaJourney?.init({routes,getLevel:()=>learningLevel,isReviewed:id=>itineraryFor(id).reviewed,badgeCount:currentBadgeCount,readJSON,writeJSON,onChange:()=>updateItineraryUI()});
 
 // Ajustar el salto a la altura real de la cabecera, también al ampliar el texto.
 function updateHeaderOffset(){const header=document.querySelector("header"),navigation=document.querySelector(".main-navigation");if(header){const height=Math.ceil(header.getBoundingClientRect().height);document.documentElement.style.setProperty("--topbar-height",`${height}px`);document.documentElement.style.setProperty("--header-offset",`${height+Math.ceil(navigation?.getBoundingClientRect().height||0)+24}px`);}}
@@ -1316,4 +1398,11 @@ byId("feedbackQuestions").innerHTML=feedbackLabels.map((label,i)=>`<label><span>
 const savedFeedbackConfig=readJSON(feedbackConfigKey,null);
 applyFeedbackURL(savedFeedbackConfig?.url??window.MitoMapaConfig?.feedbackFormURL??"");
 byId("webFeedbackURL").addEventListener("change",event=>{const value=event.target.value.trim(),url=validFeedbackURL(value);if(value&&!url){byId("feedbackURLStatus").textContent="Utiliza un enlace público de respuesta de Google Forms (viewform o forms.gle), no el enlace de edición.";return;}const ok=writeJSON(feedbackConfigKey,{url});applyFeedbackURL(url);byId("feedbackURLStatus").textContent=ok?"Enlace actualizado en este navegador.":"No se ha podido guardar el enlace en este navegador.";});
-byId("downloadFeedback").addEventListener("click",()=>{const ratings=[...document.querySelectorAll("[data-feedback-rating]")].map((select,i)=>({question:feedbackLabels[i],response:select.value||null}));if(ratings.every(r=>r.response===null)){byId("feedbackStatus").textContent="Responde al menos una pregunta antes de descargar tu valoración.";return;}const response={resource:"MitoMapa web",version:"4.5.1",stage:learningLevelLabel(),ratings,liked:document.querySelector('[data-feedback-open="liked"]').value,improve:document.querySelector('[data-feedback-open="improve"]').value};downloadLocalText(JSON.stringify(response,null,2),"valoracion-mitomapa-web.json","application/json");byId("feedbackStatus").textContent="Valoración preparada para descargar. Si quieres compartirla con MitoMapa, abre «Enviar valoración por correo» y adjunta manualmente el archivo descargado.";});
+byId("downloadFeedback").addEventListener("click",()=>{
+ const ratings=[...document.querySelectorAll("[data-feedback-rating]")].map((select,i)=>({question:feedbackLabels[i],response:select.value||null}));
+ const liked=document.querySelector('[data-feedback-open="liked"]').value.trim(),improve=document.querySelector('[data-feedback-open="improve"]').value.trim();
+ if(ratings.every(r=>r.response===null)&&!liked&&!improve){byId("feedbackStatus").textContent="Responde al menos una pregunta de la escala o escribe un comentario antes de descargar tu valoración.";return;}
+ const response={resource:"MitoMapa web",version:RESOURCE_VERSION,schemaVersion:EXPORT_SCHEMA_VERSION,stage:learningLevelLabel(),ratings,liked,improve};
+ downloadLocalText(JSON.stringify(response,null,2),"valoracion-mitomapa-web.json","application/json");
+ byId("feedbackStatus").textContent="Valoración preparada para descargar. Si quieres compartirla con MitoMapa, abre «Enviar valoración por correo» y adjunta manualmente el archivo descargado.";
+});

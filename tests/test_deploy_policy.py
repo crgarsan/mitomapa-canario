@@ -84,7 +84,7 @@ class DeployPolicyTests(unittest.TestCase):
 
     def test_actions_use_full_commit_ids(self):
         actions = re.findall(r"^\s*- uses: (\S+)(.*)$", self.workflow, re.MULTILINE)
-        self.assertEqual(len(actions), 2)
+        self.assertEqual(len(actions), 4)
         self.assertEqual({action.split("@")[0] for action, _ in actions},
                          {"actions/checkout", "actions/setup-node"})
         for action, comment in actions:
@@ -129,11 +129,15 @@ class DeployPolicyTests(unittest.TestCase):
         self.assertIn("python3 -m unittest discover -s tests -p 'test_deploy_policy.py'", prior_steps)
         self.assertIn("node --test tests/drawing-import.test.js", prior_steps)
         self.assertIn("python3 tools/prepare_deploy.py", prior_steps)
+        self.assertIn("python3 tools/update_release.py --check", prior_steps)
+        self.assertIn("python3 tools/sync_current_elpx.py --check", prior_steps)
+        self.assertIn("test_experience_browser.py", prior_steps)
         self.assertEqual(self.workflow.count("secrets."), 2)
         self.assertIn("CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}", self.steps[deploy_index])
         self.assertIn("CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}", self.steps[deploy_index])
 
     def test_deployment_contracts_remain_restricted(self):
+        self.assertIn("  pull_request:\n", self.workflow)
         self.assertIn("  push:\n    branches: [main]\n  workflow_dispatch:\n", self.workflow)
         self.assertIn("    if: github.ref == 'refs/heads/main' && github.repository == 'crgarsan/mitomapa-canario'\n", self.workflow)
         self.assertIn("    environment: production\n", self.workflow)
@@ -144,6 +148,20 @@ class DeployPolicyTests(unittest.TestCase):
         self.assertIn("          persist-credentials: false\n", self.workflow)
         self.assertIn("          node-version: '22'\n", self.workflow)
         self.assertIn("  cancel-in-progress: false\n", self.workflow)
+        self.assertIn("  group: mitomapa-cloudflare-${{ github.ref }}\n", self.workflow)
+
+    def test_validation_is_separate_and_cannot_access_production(self):
+        validation = self.workflow.split("  validate:\n", 1)[1].split("  deploy:\n", 1)[0]
+        deployment = self.workflow.split("  deploy:\n", 1)[1]
+        self.assertNotIn("secrets.", validation)
+        self.assertNotIn("environment:", validation)
+        self.assertIn("    needs: validate\n", deployment)
+        self.assertIn("    environment: production\n", deployment)
+        self.assertNotIn("pull_request_target", self.workflow)
+        requirements = (ROOT / "requirements-browser-tests.txt").read_text()
+        for line in requirements.splitlines():
+            if line and not line.startswith("#"):
+                self.assertRegex(line, r"^[A-Za-z][A-Za-z0-9_-]*==\d+\.\d+\.\d+$")
 
 
 if __name__ == "__main__":

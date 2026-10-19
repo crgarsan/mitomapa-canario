@@ -1,4 +1,5 @@
 .deploy/
+.venv/
 __pycache__/
 node_modules/
 .wrangler/
