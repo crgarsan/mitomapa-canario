@@ -163,6 +163,14 @@ class DeployPolicyTests(unittest.TestCase):
             if line and not line.startswith("#"):
                 self.assertRegex(line, r"^[A-Za-z][A-Za-z0-9_-]*==\d+\.\d+\.\d+$")
 
+    def test_audio_loading_remains_limited_to_the_resource_origin(self):
+        headers = (ROOT / "_headers").read_text()
+        policy = next(line for line in headers.splitlines() if "Content-Security-Policy:" in line)
+        directives = dict(part.strip().split(" ", 1) for part in policy.split(":", 1)[1].split(";") if part.strip())
+        self.assertEqual(directives["connect-src"], "'self'")
+        self.assertEqual(directives["script-src"], "'self'")
+        self.assertEqual(directives["media-src"], "'self' data: blob:")
+
 
 if __name__ == "__main__":
     unittest.main()

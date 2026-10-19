@@ -39,10 +39,9 @@ jobs:
           python3 tools/update_release.py --check
       - name: Check browser behaviour
         run: |
-          .venv/bin/python -m unittest discover -s tests -p 'test_experience_browser.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_journey_browser.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_drawing_browser.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_jspdf_browser.py'
+          .venv/bin/python tools/run_browser_checks.py \
+            test_experience_browser.py test_journey_browser.py \
+            test_drawing_browser.py test_jspdf_browser.py
       - name: Verify and stage static files
         run: python3 tools/prepare_deploy.py
   deploy:

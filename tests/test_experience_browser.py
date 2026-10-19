@@ -15,17 +15,23 @@ from playwright.sync_api import sync_playwright
 
 
 ROOT = Path(__file__).resolve().parents[1]
+CSP = next(line.split(":", 1)[1].strip() for line in (ROOT / "_headers").read_text().splitlines() if line.strip().startswith("Content-Security-Policy:"))
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
+    supports_ranges = True
+
     def log_message(self, *_):
         pass
 
+    def end_headers(self):
+        self.send_header("Content-Security-Policy", CSP)
+        super().end_headers()
+
     def do_GET(self):
-        # Chromium needs byte ranges to exercise the same MP3 seeking supported
-        # by the deployed static host. SimpleHTTPRequestHandler omits them.
+        # Exercise both servers with Range and ordinary HTTP 200 static hosts.
         path = Path(self.translate_path(self.path))
-        if path.suffix != ".mp3" or not path.is_file():
+        if not self.supports_ranges or path.suffix != ".mp3" or not path.is_file():
             return super().do_GET()
         size = path.stat().st_size
         match = re.fullmatch(r"bytes=(\d+)-(\d*)", self.headers.get("Range", ""))
@@ -49,6 +55,29 @@ class QuietHandler(SimpleHTTPRequestHandler):
                 pass
 
 
+class NoRangeHandler(QuietHandler):
+    supports_ranges = False
+
+
+AUDIT_AUDIO = """
+(()=>{
+if(window.__audioAudit)return;
+window.__audioAudit={created:[],revoked:[],fetches:[],signals:[],settled:0};
+const nativeCreate=URL.createObjectURL.bind(URL),nativeRevoke=URL.revokeObjectURL.bind(URL);
+URL.createObjectURL=blob=>{const url=nativeCreate(blob);window.__audioAudit.created.push(url);return url;};
+URL.revokeObjectURL=url=>{window.__audioAudit.revoked.push(url);nativeRevoke(url);};
+const nativeFetch=window.fetch.bind(window);
+window.fetch=(source,options={})=>{
+ window.__audioAudit.fetches.push(String(source));window.__audioAudit.signals.push(options.signal);
+ return nativeFetch(source,options).then(
+  response=>{window.__audioAudit.settled++;return response;},
+  error=>{window.__audioAudit.settled++;throw error;}
+ );
+};
+})();
+"""
+
+
 class ExperienceBrowserTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -56,6 +85,10 @@ class ExperienceBrowserTest(unittest.TestCase):
         cls.thread = threading.Thread(target=cls.server.serve_forever, daemon=True)
         cls.thread.start()
         cls.base = f"http://127.0.0.1:{cls.server.server_port}/"
+        cls.no_range_server = ThreadingHTTPServer(("127.0.0.1", 0), partial(NoRangeHandler, directory=str(ROOT)))
+        cls.no_range_thread = threading.Thread(target=cls.no_range_server.serve_forever, daemon=True)
+        cls.no_range_thread.start()
+        cls.no_range_base = f"http://127.0.0.1:{cls.no_range_server.server_port}/"
         cls.playwright = sync_playwright().start()
         cls.browser = cls.playwright.chromium.launch(
             executable_path=shutil.which("chromium"),
@@ -69,6 +102,9 @@ class ExperienceBrowserTest(unittest.TestCase):
         cls.server.shutdown()
         cls.server.server_close()
         cls.thread.join()
+        cls.no_range_server.shutdown()
+        cls.no_range_server.server_close()
+        cls.no_range_thread.join()
 
     def setUp(self):
         self.context = self.browser.new_context(accept_downloads=True)
@@ -128,7 +164,7 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.page.locator("#importProgressFile").set_input_files(
             {"name": "anterior.json", "mimeType": "application/json", "buffer": json.dumps(payload).encode()}
         )
-        self.page.wait_for_function("document.getElementById('teacherImportStatus').textContent.includes('correctamente')")
+        self.page.wait_for_function("()=>document.getElementById('teacherImportStatus').textContent.includes('correctamente')")
         self.assertEqual(self.page.locator("#source-tenerife input:checked").count(), 0)
         self.assertEqual(self.page.locator("#source-tenerife .source-status").text_content(), "")
         self.assertEqual(self.page.locator("#source-tenerife .question-counter").text_content(), "Pregunta 1 de 3")
@@ -171,7 +207,8 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.assertTrue(narrator.locator(".narration-seek").is_disabled())
         self.assertTrue(narrator.locator(".narration-back").is_disabled())
         narrator.locator(".narration-play").click()
-        self.page.wait_for_function("!document.querySelector('#route-tenerife .narration-seek').disabled")
+        self.page.wait_for_function("()=>!document.querySelector('#route-tenerife .narration-seek').disabled")
+        self.assertIsNone(self.page.evaluate("narrationState.objectUrl"))
         narrator.locator(".narration-pause").click()
         self.assertIn("Continuar", narrator.locator(".narration-pause").text_content())
         narrator.locator(".narration-seek").fill("20")
@@ -191,9 +228,9 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.assertTrue(narrator.locator(".narration-seek").is_disabled())
         self.assertEqual(narrator.locator(".narration-current").text_content(), "0:00")
         narrator.locator(".narration-play").click()
-        self.page.wait_for_function("!document.querySelector('#route-tenerife .narration-seek').disabled")
+        self.page.wait_for_function("()=>!document.querySelector('#route-tenerife .narration-seek').disabled")
         self.page.evaluate("location.hash='#isla/la-palma/cuento'")
-        self.page.wait_for_function("document.querySelector('#route-la-palma.active')!==null")
+        self.page.wait_for_function("()=>document.querySelector('#route-la-palma.active')!==null")
         self.assertTrue(self.page.evaluate("narrationState.audio===null"))
         self.assertTrue(narrator.locator(".narration-seek").is_disabled())
         self.assertIn("cambiar", narrator.locator(".narration-status").text_content())
@@ -203,12 +240,122 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.page.goto(self.base + "#isla/tenerife/cuento", wait_until="networkidle")
         narrator = self.page.locator("#route-tenerife .narrator")
         narrator.locator(".narration-play").click()
-        self.page.wait_for_function("document.querySelector('#route-tenerife .narration-status').textContent.includes('No se pudo')")
+        self.page.wait_for_function("()=>document.querySelector('#route-tenerife .narration-status').textContent.includes('No se pudo')")
         self.assertTrue(narrator.locator(".narration-seek").is_disabled())
         self.assertTrue(narrator.locator(".narration-back").is_disabled())
         self.assertTrue(narrator.locator(".narration-forward").is_disabled())
         self.assertTrue(narrator.locator(".narration-play").is_enabled())
         self.assertTrue(self.page.evaluate("narrationState.audio===null"))
+
+    def open_no_range_recording(self, hold_fetch=False):
+        self.context.add_init_script(AUDIT_AUDIO)
+        pending = []
+        if hold_fetch:
+            def hold_audio_fetch(route):
+                if route.request.resource_type != "fetch":
+                    route.continue_()
+                    return
+                pending.append(route)
+                self.page.evaluate("()=>{window.__audioRouteHeld=true;}")
+            self.page.route("**/assets/audio/**", hold_audio_fetch)
+        self.no_range_navigation = getattr(self, "no_range_navigation", 0) + 1
+        response = self.page.goto(self.no_range_base + f"?audio-test={self.no_range_navigation}#isla/tenerife/cuento", wait_until="networkidle")
+        self.assertIn("connect-src 'self'", response.headers["content-security-policy"])
+        self.assertIn("blob:", response.headers["content-security-policy"])
+        self.assertEqual(self.page.evaluate("window.__audioAudit.fetches.length"), 0)
+        narrator = self.page.locator("#route-tenerife .narrator")
+        narrator.locator(".narration-rate").select_option("0.82")
+        narrator.locator(".narration-play").click()
+        if hold_fetch:
+            self.page.wait_for_function("()=>window.__audioRouteHeld===true")
+            self.assertEqual(self.page.evaluate("window.__audioAudit.fetches.length"), 1)
+            self.assertEqual(len(pending), 1)
+            self.assertFalse(self.page.evaluate("recordingIsSeekable(narrationState.audio)"))
+        return narrator, pending
+
+    def test_server_without_ranges_prepares_seekable_audio_and_releases_blob(self):
+        narrator, _ = self.open_no_range_recording()
+        self.page.wait_for_function("()=>narrationState.objectUrl&&recordingIsSeekable(narrationState.audio)")
+        self.assertEqual(self.page.evaluate("window.__audioAudit.fetches"), ["assets/audio/tenerife-ambiente.mp3"])
+        self.assertEqual(self.page.evaluate("narrationState.audio.playbackRate"), 0.82)
+        narrator.locator(".narration-pause").click()
+        narrator.locator(".narration-seek").fill("20")
+        narrator.locator(".narration-forward").click()
+        self.assertEqual(narrator.locator(".narration-current").text_content(), "0:30")
+        narrator.locator(".narration-back").click()
+        self.assertEqual(narrator.locator(".narration-current").text_content(), "0:20")
+        narrator.locator(".narration-stop").click()
+        self.assertEqual(self.page.evaluate("window.__audioAudit.revoked"), self.page.evaluate("window.__audioAudit.created"))
+        self.assertEqual(self.page.evaluate("window.__audioAudit.created.length"), 1)
+        self.assertTrue(narrator.locator(".narration-seek").is_disabled())
+
+    def test_no_range_fallback_preserves_pause_resume_position_and_rate(self):
+        narrator, pending = self.open_no_range_recording(hold_fetch=True)
+        narrator.locator(".narration-pause").click()
+        self.assertTrue(self.page.evaluate("narrationState.paused&&narrationState.audio.paused"))
+        narrator.locator(".narration-pause").click()
+        self.page.wait_for_function("()=>!narrationState.paused&&!narrationState.audio.paused")
+        narrator.locator(".narration-pause").click()
+        position = self.page.evaluate("narrationState.audio.currentTime")
+        narrator.locator(".narration-rate").select_option("1.08")
+        pending[0].fulfill(status=200, content_type="audio/mpeg", body=(ROOT / "assets/audio/tenerife-ambiente.mp3").read_bytes())
+        self.page.wait_for_function("()=>narrationState.objectUrl&&recordingIsSeekable(narrationState.audio)")
+        self.assertTrue(self.page.evaluate("narrationState.paused&&narrationState.audio.paused"))
+        self.assertAlmostEqual(self.page.evaluate("narrationState.audio.currentTime"), position, delta=0.1)
+        self.assertEqual(self.page.evaluate("narrationState.audio.playbackRate"), 1.08)
+        narrator.locator(".narration-seek").fill("25")
+        self.assertEqual(narrator.locator(".narration-current").text_content(), "0:25")
+
+    def test_stopping_or_changing_island_aborts_pending_seek_preparation(self):
+        for change_island in [False, True]:
+            narrator, pending = self.open_no_range_recording(hold_fetch=True)
+            if change_island:
+                self.page.evaluate("location.hash='#isla/la-palma/cuento'")
+                self.page.wait_for_function("()=>document.querySelector('#route-la-palma.active')!==null")
+            else:
+                narrator.locator(".narration-stop").click()
+            self.assertTrue(self.page.evaluate("narrationState.audio===null"))
+            self.assertTrue(self.page.evaluate("window.__audioAudit.signals[0].aborted"))
+            pending[0].fulfill(status=200, content_type="audio/mpeg", body=(ROOT / "assets/audio/tenerife-ambiente.mp3").read_bytes())
+            self.page.wait_for_function("()=>window.__audioAudit.settled===1")
+            self.assertEqual(self.page.evaluate("window.__audioAudit.created"), [])
+            self.assertTrue(self.page.evaluate("narrationState.audio===null"))
+            self.page.unroute("**/assets/audio/**")
+
+    def test_blob_autoplay_rejection_reuses_prepared_audio_on_direct_click(self):
+        self.context.add_init_script("""
+        const nativePlay=HTMLMediaElement.prototype.play;
+        HTMLMediaElement.prototype.play=function(...args){
+         if(this.src.startsWith('blob:')&&!window.__blobRejected){
+          window.__blobRejected=true;
+          return Promise.reject(new DOMException('Use a new gesture','NotAllowedError'));
+         }
+         return nativePlay.apply(this,args);
+        };
+        """)
+        narrator, _ = self.open_no_range_recording()
+        self.page.wait_for_function("()=>narrationState.awaitingGesture===true")
+        self.assertIn("Pulsa Reproducir o Continuar", narrator.locator(".narration-status").text_content())
+        self.page.evaluate("window.__preparedAudio=narrationState.audio")
+        original = self.page.evaluate("narrationState.objectUrl")
+        narrator.locator(".narration-play").click()
+        self.page.wait_for_function("()=>!narrationState.paused&&!narrationState.awaitingGesture&&!narrationState.audio.paused")
+        self.assertTrue(self.page.evaluate("window.__preparedAudio===narrationState.audio"))
+        self.assertEqual(self.page.evaluate("narrationState.objectUrl"), original)
+        self.assertEqual(self.page.evaluate("window.__audioAudit.fetches.length"), 1)
+        self.assertEqual(self.page.evaluate("window.__audioAudit.created.length"), 1)
+        narrator.locator(".narration-stop").click()
+        self.assertEqual(self.page.evaluate("window.__audioAudit.revoked"), [original])
+
+    def test_failed_seek_download_keeps_original_narration_available(self):
+        narrator, pending = self.open_no_range_recording(hold_fetch=True)
+        pending[0].abort()
+        self.page.wait_for_function("()=>document.querySelector('#route-tenerife .narration-status').textContent.includes('Puedes seguir escuchando')")
+        self.assertTrue(self.page.evaluate("narrationState.audio!==null&&!narrationState.audio.paused"))
+        self.assertIsNone(self.page.evaluate("narrationState.objectUrl"))
+        self.assertTrue(narrator.locator(".narration-seek").is_disabled())
+        narrator.locator(".narration-pause").click()
+        self.assertTrue(self.page.evaluate("narrationState.audio.paused"))
 
     def test_progress_and_draft_export_use_distribution_version(self):
         expected = json.loads((ROOT / "VERSION.json").read_text())["web_version"]

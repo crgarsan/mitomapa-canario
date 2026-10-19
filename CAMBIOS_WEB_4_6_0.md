@@ -11,6 +11,9 @@ Edición preparada el 19 de octubre de 2026.
 - Las narraciones incluyen duración, posición, barra de avance accesible y
   saltos de diez segundos. La comprobación dirige el foco a la primera pregunta
   que necesita revisión.
+- El avance de las narraciones también funciona cuando el servidor entrega el
+  MP3 completo sin permitir peticiones por fragmentos. Solo se carga el cuento
+  elegido después de pulsar Reproducir.
 - Las guías distinguen una sesión de unos 45 minutos, un itinerario de cuatro
   sesiones de unos 50 minutos y la exploración opcional del banco completo en
   ocho a diez sesiones de 35–50 minutos. La propuesta es multinivel; el ejemplo
