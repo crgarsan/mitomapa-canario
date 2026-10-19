@@ -28,6 +28,7 @@ jobs:
       - name: Check deployment policy and drawing imports
         run: |
           python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
+          python3 -m unittest discover -s tests -p 'test_elpx_resource_links.py'
           python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
           node --test tests/drawing-import.test.js
       - name: Verify and stage static files
