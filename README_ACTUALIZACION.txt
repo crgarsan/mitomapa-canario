@@ -41,6 +41,6 @@ archivos públicos y VERSION.json identifica la huella de la descarga vigente.
 tools/prepare_deploy.py comprueba el manifiesto antes de generar .deploy.
 
 LICENCIA Y CONTACTO
-CC BY-NC-SA 4.0 para los materiales propios; materiales externos con sus
+CC BY-SA 4.0 para los materiales propios; materiales externos con sus
 condiciones específicas. Conservar autoría, referencias y créditos.
 Sugerencias y propuestas de mejora: sugerencias.mitomapacanario@gmail.com

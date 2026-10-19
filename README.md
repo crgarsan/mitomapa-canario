@@ -4,6 +4,23 @@ Recurso educativo abierto sobre mitos, leyendas y patrimonio canario para
 Primaria y Secundaria, con lectura acompañada para Infantil. Autoría: Jesica
 Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.
 
+## Licencia
+
+[![CC BY-SA 4.0](assets/images/cc-by-sa-4.0.svg)](https://creativecommons.org/licenses/by-sa/4.0/deed.es)
+
+Los materiales propios de la edición vigente 4.5.1 se ofrecen bajo
+**Creative Commons Reconocimiento-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)**.
+Se permite copiar, compartir y adaptar, también con fines comerciales, con
+atribución, enlace a la licencia, indicación de cambios y la misma licencia
+en las adaptaciones. Este cambio retira la condición NoComercial y conserva
+el contenido y la numeración de la edición.
+
+El [texto legal completo](LICENSE) y los
+[créditos y condiciones específicas](LICENCIA_Y_CREDITOS.txt) acompañan al recurso.
+El mapa de TongApp, las dependencias y las fuentes externas conservan sus
+condiciones originales. Las notas y los paquetes de ediciones anteriores
+documentan la licencia que tenían al publicarse.
+
 ## Descargas y edición
 
 La distribución web 4.4.4 ofrece como descarga principal la adaptación GobCan
