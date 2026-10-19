@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Valoración de la expedición · MitoMapa canario</title>
+</head>
+<body>
+  <main>
+    <h1>Valoración de la expedición</h1>
+    <p>Se abrirá el apartado «Compartir mi opinión» del Explorador.</p>
+    <p>Si no se abre automáticamente, <a href="index.html">abre el Explorador</a>,
+      entra en «Recursos» y elige «Compartir mi opinión».</p>
+  </main>
+  <script>
+    (() => {
+      // In eXe's blob/data preview, use its HTML link handler and the fallback.
+      if (!["http:", "https:", "file:"].includes(window.location.protocol)) return;
+      const destination = new URL("index.html", window.location.href);
+      destination.hash = "studentFeedback";
+      window.location.replace(destination.href);
+    })();
+  </script>
+</body>
+</html>
