@@ -282,31 +282,72 @@ function updateNarrationUi(routeId,state,message){
  section.querySelector(".narrator")?.classList.toggle("is-speaking",state==="playing");
 }
 function stopNarration(message="Lectura detenida."){
- const previous=narrationState.routeId,audio=narrationState.audio;
+ const previous=narrationState.routeId,audio=narrationState.audio,controller=narrationState.blobController,objectUrl=narrationState.objectUrl;
  narrationToken++;
  recordingPlayRequest++;
  narrationState={routeId:null,index:0,chunks:[],paused:false,token:narrationToken,audio:null};
+ controller?.abort();
  if(audio){
   audio.onplaying=null;audio.onended=null;audio.onerror=null;
   audio.onloadedmetadata=null;audio.ondurationchange=null;audio.ontimeupdate=null;audio.oncanplay=null;audio.onseeked=null;audio.onprogress=null;
   audio.pause();audio.removeAttribute("src");audio.load();
  }
+ if(objectUrl)URL.revokeObjectURL(objectUrl);
  if(speechSupported)window.speechSynthesis.cancel();
  if(previous){clearNarrationHighlight(previous);updateNarrationUi(previous,"idle",message);syncRecordingTimeline(previous);}
 }
 function playRecording(audio,routeId,token){
  const request=++recordingPlayRequest;
  const current=()=>token===narrationToken&&narrationState.audio===audio&&narrationState.routeId===routeId;
+ const failed=error=>{
+  if(!current()||request!==recordingPlayRequest||narrationState.paused)return;
+  if(error?.name==="NotAllowedError"){
+   narrationState.paused=true;narrationState.awaitingGesture=true;recordingPlayRequest++;audio.pause();
+   updateNarrationUi(routeId,"paused","Narración lista. Pulsa Reproducir o Continuar para escuchar.");
+   return;
+  }
+  stopNarration("No se pudo reproducir la grabación. Puedes volver a intentarlo o leer el texto.");
+ };
  let pending;
  try{pending=audio.play();}
- catch(error){if(current())stopNarration("No se pudo reproducir la grabación. Puedes volver a intentarlo o leer el texto.");return;}
+ catch(error){failed(error);return;}
  Promise.resolve(pending).then(()=>{
   if(!current()){audio.pause();return;}
   if(narrationState.paused){audio.pause();return;}
-  if(request===recordingPlayRequest)updateNarrationUi(routeId,"playing","Reproduciendo la narración grabada.");
+  if(request===recordingPlayRequest){narrationState.awaitingGesture=false;updateNarrationUi(routeId,"playing","Reproduciendo la narración grabada.");}
+ }).catch(failed);
+}
+function prepareRecordingSeek(audio,routeId,token,source){
+ const state=narrationState;
+ const current=()=>token===narrationToken&&narrationState===state&&narrationState.audio===audio;
+ // Un audio HTTP ya iniciado puede reproducirse, pero algunos servidores no
+ // permiten buscar aunque el MP3 esté entero en el búfer. Solo en ese caso
+ // se prepara una URL local; los servidores con rangos conservan su flujo.
+ if(!current()||state.seekFallbackAttempted||state.objectUrl||recordingIsSeekable(audio))return;
+ if(!/^https?:$/.test(location.protocol)||typeof fetch!=="function"||typeof AbortController!=="function")return;
+ if(audio.readyState<3||!Number.isFinite(audio.duration)||audio.duration<=0||!audio.buffered.length)return;
+ if(audio.buffered.end(audio.buffered.length-1)<audio.duration-.25)return;
+ state.seekFallbackAttempted=true;
+ const controller=new AbortController();state.blobController=controller;
+ fetch(source,{signal:controller.signal,cache:"force-cache"}).then(response=>{
+  if(!response.ok)throw new Error("AUDIO_HTTP");
+  return response.blob();
+ }).then(blob=>{
+  if(!current())return;
+  if(!blob.size)throw new Error("AUDIO_EMPTY");
+  state.blobController=null;
+  state.objectUrl=URL.createObjectURL(blob);
+  state.blobResumePosition=Math.max(0,audio.currentTime||0);state.sourceLoading=true;
+  recordingPlayRequest++;audio.pause();
+  audio.src=state.objectUrl;audio.load();
+  syncRecordingTimeline(routeId);
+  updateNarrationUi(routeId,state.paused?"paused":"playing",state.paused?"Narración en pausa. Preparando el avance…":"Preparando el avance de la narración…");
  }).catch(error=>{
-  if(!current()||request!==recordingPlayRequest||narrationState.paused)return;
-  stopNarration("No se pudo reproducir la grabación. Puedes volver a intentarlo o leer el texto.");
+  if(!current())return;
+  state.blobController=null;
+  // La descarga auxiliar no sustituye el audio hasta completarse: si falla,
+  // la reproducción directa sigue disponible, también en aplicaciones locales.
+  updateNarrationUi(routeId,state.paused?"paused":"playing","Puedes seguir escuchando. No se ha podido preparar el avance; vuelve a intentarlo desde el principio si lo necesitas.");
  });
 }
 function startRecording(routeId,recording){
@@ -315,12 +356,25 @@ function startRecording(routeId,recording){
  const ambient=section.querySelector(".narration-ambient")?.checked;
  const audio=new Audio();
  const token=++narrationToken;
- narrationState={routeId,index:0,chunks:[],paused:false,token,audio};
+ narrationState={routeId,index:0,chunks:[],paused:false,token,audio,blobController:null,objectUrl:null,blobResumePosition:null,sourceLoading:false,seekFallbackAttempted:false,awaitingGesture:false};
  audio.preload="none";
- audio.playbackRate=Number(section.querySelector(".narration-rate")?.value)||1;
- audio.src=ambient&&recording.ambientSrc?recording.ambientSrc:recording.src;
+ audio.defaultPlaybackRate=Number(section.querySelector(".narration-rate")?.value)||1;
+ audio.playbackRate=audio.defaultPlaybackRate;
+ const source=ambient&&recording.ambientSrc?recording.ambientSrc:recording.src;
+ audio.src=source;
  const current=()=>token===narrationToken&&narrationState.audio===audio;
- const sync=()=>{if(current())syncRecordingTimeline(routeId);};
+ const sync=()=>{
+  if(!current())return;
+  if(narrationState.sourceLoading&&audio.readyState>=1&&Number.isFinite(audio.duration)){
+   const position=narrationState.blobResumePosition;
+   narrationState.sourceLoading=false;narrationState.blobResumePosition=null;
+   try{audio.currentTime=Math.min(audio.duration,position||0);}catch(error){}
+   if(narrationState.paused)updateNarrationUi(routeId,"paused","Narración preparada, en pausa.");
+   else playRecording(audio,routeId,token);
+  }
+  syncRecordingTimeline(routeId);
+  prepareRecordingSeek(audio,routeId,token,source);
+ };
  audio.onloadedmetadata=sync;audio.ondurationchange=sync;audio.ontimeupdate=sync;audio.oncanplay=sync;audio.onseeked=sync;audio.onprogress=sync;
  audio.onplaying=()=>{
   if(!current()||narrationState.paused){audio.pause();return;}
@@ -358,6 +412,12 @@ function speakNextChunk(){
  window.speechSynthesis.speak(utterance);
 }
 function startNarration(routeId){
+ if(narrationState.routeId===routeId&&narrationState.audio&&narrationState.awaitingGesture){
+  narrationState.paused=false;narrationState.awaitingGesture=false;
+  updateNarrationUi(routeId,"playing","Reanudando la narración…");
+  if(!narrationState.sourceLoading)playRecording(narrationState.audio,routeId,narrationState.token);
+  return;
+ }
  const recording=routeRecording(routeId);
  if(recording){startRecording(routeId,recording);return;}
  if(!speechSupported){updateNarrationUi(routeId,"idle","Este navegador no ofrece lectura automática.");return;}
@@ -372,8 +432,8 @@ function toggleNarrationPause(routeId){
  if(narrationState.routeId!==routeId)return;
  if(narrationState.audio){
   if(narrationState.paused){
-   narrationState.paused=false;updateNarrationUi(routeId,"playing","Reanudando la narración…");
-   playRecording(narrationState.audio,routeId,narrationState.token);
+   narrationState.paused=false;narrationState.awaitingGesture=false;updateNarrationUi(routeId,"playing","Reanudando la narración…");
+   if(!narrationState.sourceLoading)playRecording(narrationState.audio,routeId,narrationState.token);
   }else{
    narrationState.paused=true;recordingPlayRequest++;narrationState.audio.pause();
    updateNarrationUi(routeId,"paused","Narración en pausa.");
@@ -1255,7 +1315,10 @@ function enhanceRoute(section,route){
   if(narrationState.routeId&&!narrationState.audio)stopNarration("Voz actualizada. Pulsa Reproducir para comenzar de nuevo.");
  });
  section.querySelector(".narration-rate")?.addEventListener("change",event=>{
-  if(narrationState.routeId===route.id&&narrationState.audio)narrationState.audio.playbackRate=Number(event.currentTarget.value)||1;
+  if(narrationState.routeId===route.id&&narrationState.audio){
+   narrationState.audio.defaultPlaybackRate=Number(event.currentTarget.value)||1;
+   narrationState.audio.playbackRate=narrationState.audio.defaultPlaybackRate;
+  }
  });
  section.querySelector(".narration-ambient")?.addEventListener("change",()=>{
   if(narrationState.routeId===route.id)stopNarration("Ambiente actualizado. Pulsa Reproducir para comenzar de nuevo.");

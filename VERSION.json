@@ -5,8 +5,8 @@
   "prepared_at": "2026-10-19",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "21c24affea61117d92e534b70333c4e0933550d8015ba2b3498355837a931d04",
-    "bytes": 25821743
+    "sha256": "f37a749192b65f68f6469fe54712a5bb575641e0ac39ae434a34293b9ab2601f",
+    "bytes": 25822840
   },
   "previous_web_version": "4.5.1",
   "previous_rea_version": "4.5.1",
@@ -110,8 +110,8 @@
   "sharing_archive": {
     "path": "downloads/MitoMapa_REA_v4_6_0.zip",
     "contents": "REA editable ELPX y documentación de la edición vigente",
-    "sha256": "7caf075ade4cf0cccd73858cc47469b17af33a85db0b08069d09c282e0b0f5f8",
-    "bytes": 25615802
+    "sha256": "ae9101e5477da9f9eeea31ea435fcc017b13d46a2e7907138707dc41cd8e0372",
+    "bytes": 25617015
   },
   "source_archive": {
     "path": "downloads/MitoMapa_fuentes_web_v4_6_0.zip",
@@ -138,7 +138,8 @@
     "recording_seek_controls": true,
     "reset_clears_visible_answers": true,
     "pilot_status": "Pendiente de aplicación con alumnado",
-    "public_historical_downloads": true
+    "public_historical_downloads": true,
+    "recording_seek_without_http_ranges": true
   },
   "elpx_source": {
     "path": "downloads/MitoMapa_canario_GobCan_v4_5_1.elpx",
