@@ -5,8 +5,8 @@
   "prepared_at": "2026-10-19",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "a98291c5fe5b3ed37618f7134d8cfd5ca2e84775705dcf1dcd41453971358561",
-    "bytes": 25821740
+    "sha256": "21c24affea61117d92e534b70333c4e0933550d8015ba2b3498355837a931d04",
+    "bytes": 25821743
   },
   "previous_web_version": "4.5.1",
   "previous_rea_version": "4.5.1",
@@ -110,8 +110,8 @@
   "sharing_archive": {
     "path": "downloads/MitoMapa_REA_v4_6_0.zip",
     "contents": "REA editable ELPX y documentación de la edición vigente",
-    "sha256": "8114c49a598317468f13b517ddb55c3159115fdd3b879c2971a9318c3cc59b32",
-    "bytes": 25615779
+    "sha256": "7caf075ade4cf0cccd73858cc47469b17af33a85db0b08069d09c282e0b0f5f8",
+    "bytes": 25615802
   },
   "source_archive": {
     "path": "downloads/MitoMapa_fuentes_web_v4_6_0.zip",
