@@ -1,62 +1,286 @@
 #!/usr/bin/env python3
-"""Package web sources without ELPX archives and refresh public checksums."""
+"""Package the current editable release; --check validates without writing.
 
-from hashlib import sha256
+VERSION.json is the release authority. Historical downloads stay in the public
+allowlist, but are never nested inside the current sources or sharing archive.
+The ELPX is synchronized separately by sync_current_elpx.py; this command does
+not regenerate the learning activities from the historical 4.4 generator.
+"""
+
+import argparse
+import copy
+from html import escape, unescape
 import json
-from pathlib import Path, PurePosixPath
-from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
+from pathlib import Path
+import re
+from urllib.parse import urljoin, urlsplit
+
+from release_support import (
+    MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries,
+    read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
+    zip_bytes,
+)
 
 
 ROOT = Path(__file__).resolve().parent.parent
-CHECKSUMS = ROOT / "SHA256SUMS.txt"
+SOURCE_SPECIAL = {"SOURCE_MANIFEST.json", "FUENTES_WEB_LEEME.txt"}
+DOCUMENTS = (
+    "GUIA_DOCENTE.html", "GUIA_DOCENTE_GOBCAN.html", "GUIA_REUTILIZACION.html",
+    "FUENTES_CUENTOS.html", "LICENCIA_Y_CREDITOS.txt", "CREDITOS_MATERIALES.csv",
+    "EDICION_ILUSTRACIONES.txt", "LICENSE", "assets/images/cc-by-sa-4.0.svg",
+    "styles.css", "docente.css",
+    "downloads/Cuaderno_de_ruta_MitoMapa_web_4_0.html",
+    "downloads/Rubrica_lectura_MitoMapa_4_0.html", "downloads/Rubrica_MitoMapa_4_0.csv",
+)
+PUBLIC_URL = "https://mitomapa-canario.cgarcias.workers.dev/"
 
 
-def main() -> None:
-    version = json.loads((ROOT / "VERSION.json").read_text(encoding="utf-8"))
-    archive_name = (
-        "downloads/MitoMapa_fuentes_web_v"
-        + version["web_version"].replace(".", "_")
-        + ".zip"
-    )
-    names = []
-    for line in CHECKSUMS.read_text(encoding="utf-8").splitlines():
-        _, separator, name = line.partition("  ")
-        if not separator:
-            raise ValueError(f"Invalid checksum entry: {line!r}")
-        path = PurePosixPath(name)
-        if path.is_absolute() or ".." in path.parts or name in names:
-            raise ValueError(f"Unsafe or duplicate asset path: {name!r}")
-        names.append(name)
-    if archive_name not in names:
-        raise ValueError(f"Current source ZIP is missing from {CHECKSUMS}")
+def sharing_document(payload, name, documents, version):
+    """Keep printable guides local; route web/download navigation explicitly."""
+    if name.endswith(".html"):
+        def link(match):
+            prefix, quote, raw = match.groups()
+            target = unescape(raw)
+            parts = urlsplit(target)
+            if parts.scheme or target.startswith(("#", "//")):
+                return match.group(0)
+            if parts.path == version["download"]["path"]:
+                target = "../MitoMapa_canario_GobCan.elpx"
+            elif parts.path not in documents:
+                target = urljoin(PUBLIC_URL, target)
+            return prefix + quote + escape(target, quote=True) + quote
+        return re.sub(r'''(\b(?:href|src|poster)\s*=\s*)(["'])(.*?)\2''',
+                      link, payload.decode("utf-8"), flags=re.IGNORECASE).encode("utf-8")
+    if name.endswith(".css"):
+        # The shared stylesheet also contains rules for the web's puzzle. The
+        # printed guides do not use its map; keep that optional image online
+        # instead of duplicating 310 KiB beside an ELPX near the host's limit.
+        return payload.replace(b"url('assets/", ("url('" + PUBLIC_URL + "assets/").encode())
+    return payload
 
-    archive_entries = [
-        name
-        for name in names
-        if not name.startswith("downloads/MitoMapa_fuentes_web_")
-        and not name.lower().endswith(".elpx")
-    ]
-    archive = ROOT / archive_name
-    temporary = archive.with_suffix(".zip.tmp")
-    with ZipFile(temporary, "w") as output:
-        for name in sorted(archive_entries):
-            source = ROOT / name
-            if not source.is_file() or source.is_symlink():
-                raise FileNotFoundError(source)
-            entry = ZipInfo(name, (1980, 1, 1, 0, 0, 0))
-            entry.compress_type = ZIP_DEFLATED
-            entry.external_attr = 0o644 << 16
-            output.writestr(entry, source.read_bytes(), compresslevel=6)
-    temporary.replace(archive)
 
-    lines = []
-    for name in names:
-        source = ROOT / name
-        if not source.is_file() or source.is_symlink():
-            raise FileNotFoundError(source)
-        lines.append(f"{sha256(source.read_bytes()).hexdigest()}  {name}")
-    CHECKSUMS.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"Updated {archive_name} and {len(lines)} checksums")
+def release_paths(version):
+    current = version["web_version"]
+    if not re.fullmatch(r"\d+\.\d+\.\d+", current):
+        raise ValueError("The current version must have three numeric components")
+    if version["rea_exelearning_version"] != current:
+        raise ValueError("The web and editable release versions differ")
+    expected = {
+        "download": "downloads/MitoMapa_canario_GobCan.elpx",
+        "sharing_archive": f"downloads/MitoMapa_REA_v{current.replace('.', '_')}.zip",
+        "source_archive": f"downloads/MitoMapa_fuentes_web_v{current.replace('.', '_')}.zip",
+    }
+    for key, path in expected.items():
+        safe_name(version[key]["path"])
+        if version[key]["path"] != path:
+            raise ValueError(f"Current release path differs from its version: {key}")
+    return expected
+
+
+def sharing_version(version):
+    result = copy.deepcopy(version)
+    # A ZIP cannot contain its own final checksum or byte length. The public
+    # VERSION.json and SHA256SUMS.txt hold that information after packaging.
+    for key in ("sharing_archive", "source_archive"):
+        for field in ("sha256", "bytes"):
+            result[key].pop(field, None)
+    return result
+
+
+def sharing_files(root, version, elpx):
+    current = version["web_version"]
+    files = {"MitoMapa_canario_GobCan.elpx": elpx}
+    documents = set(DOCUMENTS)
+    for key in ("release_notes", "rea_release_notes"):
+        documents.add(version[key])
+    if (root / "PROTOCOLO_PILOTAJE.html").is_file():
+        documents.add("PROTOCOLO_PILOTAJE.html")
+    for name in sorted(documents):
+        files[f"documentacion/{name}"] = sharing_document(
+            source_path(root, name).read_bytes(), name, documents, version)
+    files["documentacion/VERSION.json"] = json_bytes(sharing_version(version))
+    files["LEEME.txt"] = (
+        f"MITOMAPA CANARIO · REA {current}\n\n"
+        "Web: https://mitomapa-canario.cgarcias.workers.dev/\n\n"
+        "1. Descomprime este ZIP.\n"
+        "2. Abre MitoMapa_canario_GobCan.elpx con eXeLearning 4.0.5 o compatible.\n"
+        "3. Guarda una copia si quieres adaptar el recurso.\n\n"
+        "Incluye ocho cuentos, escenas, narraciones, actividades nativas y el\n"
+        "Explorador interactivo local. La propuesta es multinivel: el profesorado\n"
+        "elige y ancla curricularmente la ruta. Consulta la guía docente general;\n"
+        "la guía GobCan ofrece un ejemplo curricular adaptable.\n"
+        "El recurso está pendiente de pilotaje con alumnado.\n\n"
+        "Las guías y las plantillas se pueden consultar sin conexión; sus\n"
+        "enlaces a la web y a otras descargas requieren conexión.\n\n"
+        "Los progresos de las actividades nativas de eXe y del Explorador local\n"
+        "se guardan por separado. La valoración y su envío por correo son\n"
+        "voluntarios; cualquier archivo se adjunta manualmente y sin nombres.\n\n"
+        "Autoría: Jesica Fortes Regalado, Gloria Elsa González Martín y\n"
+        "Cristian García Santana. Materiales propios: CC BY-SA 4.0.\n"
+        "El mapa y los componentes de terceros conservan sus condiciones.\n"
+        "Sugerencias: sugerencias.mitomapacanario@gmail.com\n"
+    ).encode("utf-8")
+    files["SHA256SUMS.txt"] = sums_bytes(files)
+    return files
+
+
+def source_inventory(root, version):
+    # Seed from the curated current/previous source inventory, then include new
+    # source modules, guides and checks. Never derive it from public downloads.
+    candidates = [version["source_archive"]["path"]]
+    previous = version.get("previous_web_version", "").replace(".", "_")
+    if previous:
+        candidates.append(f"downloads/MitoMapa_fuentes_web_v{previous}.zip")
+    names = set()
+    for candidate in candidates:
+        if (root / candidate).is_file():
+            names.update(read_zip((root / candidate).read_bytes()))
+            break
+    names.difference_update(SOURCE_SPECIAL | {"SHA256SUMS.txt"})
+    for extension in ("*.html", "*.css", "*.js", "*.md", "*.txt", "*.json", "*.svg", "*.png"):
+        names.update(path.relative_to(root).as_posix() for path in root.glob(extension) if path.is_file())
+    for directory, patterns in {
+        "assets": ("**/*",), "tools": ("*.py",), "tests": ("**/*.py", "**/*.js", "**/*.json"),
+        ".github/workflows": ("*.yml", "*.yaml"),
+    }.items():
+        for pattern in patterns:
+            names.update(path.relative_to(root).as_posix() for path in (root / directory).glob(pattern) if path.is_file())
+    names.update(name for name in ("LICENSE", "_headers", "wrangler.jsonc", "requirements-browser-tests.txt") if (root / name).is_file())
+    return sorted(name for name in names if name not in SOURCE_SPECIAL | {"SHA256SUMS.txt"}
+                  and not name.lower().endswith((".zip", ".elpx")) and (root / name).is_file())
+
+
+def source_files(root, version, version_payload):
+    files = {name: source_path(root, name).read_bytes() for name in source_inventory(root, version)}
+    files["VERSION.json"] = version_payload
+    files["FUENTES_WEB_LEEME.txt"] = (
+        f"MitoMapa canario · Fuentes web {version['web_version']}\n\n"
+        "Estas fuentes contienen la web, sus recursos locales, documentación,\n"
+        "pruebas y herramientas de la edición vigente. No contienen ZIP ni ELPX.\n"
+        "Para consultar la web localmente, ejecuta python3 -m http.server y abre\n"
+        "http://localhost:8000/. VERSION.json identifica la edición actual;\n"
+        "SOURCE_MANIFEST.json verifica cada archivo sin incluirse a sí mismo.\n"
+        "Los descargables históricos siguen disponibles en la web pública.\n\n"
+        "Materiales propios: CC BY-SA 4.0; consulta LICENSE y LICENCIA_Y_CREDITOS.txt.\n"
+        "El mapa y las dependencias conservan sus condiciones originales.\n"
+    ).encode("utf-8")
+    files["SOURCE_MANIFEST.json"] = json_bytes({name: metadata(payload) for name, payload in sorted(files.items())})
+    return files
+
+
+def public_names(root, previous, paths):
+    names = set(previous) | set(paths.values())
+    # Only browser modules, teaching documents and the existing static assets
+    # are added. CI files, dependency manifests and tests stay in the sources ZIP.
+    for extension in ("*.html", "*.css", "*.js", "*.md", "*.txt"):
+        names.update(path.name for path in root.glob(extension) if path.is_file())
+    names.discard("SHA256SUMS.txt")
+    names.discard("requirements-browser-tests.txt")
+    names.update(path.relative_to(root).as_posix() for path in (root / "assets").rglob("*") if path.is_file())
+    names.update({"VERSION.json", "LICENSE"})
+    return sorted(names)
+
+
+def check_elpx(payload, version, root=ROOT):
+    files = read_zip(payload)
+    script = files["libs/elpx-manifest.js"].decode("utf-8")
+    assignment = re.search(r"window\.__ELPX_MANIFEST__\s*=\s*({.*})\s*;?\s*$", script, re.DOTALL)
+    if not assignment:
+        raise ValueError("Invalid ELPX inventory assignment")
+    manifest = json.loads(assignment.group(1))
+    if len(manifest["files"]) != len(set(manifest["files"])) or set(manifest["files"]) != set(files):
+        raise ValueError("Incomplete ELPX inventory")
+    prefix = "content/resources/mitomapa/"
+    portable = {name[len(prefix):]: data for name, data in files.items() if name.startswith(prefix)}
+    portable_manifest = json.loads(portable["PORTABLE_MANIFEST.json"])
+    verify_manifest(portable, portable_manifest["assets"], {"PORTABLE_MANIFEST.json"})
+    if "files" in portable_manifest and set(portable_manifest["files"]) != set(portable):
+        raise ValueError("Incomplete portable file inventory")
+    if portable_manifest["web_version"] != version["web_version"]:
+        raise ValueError("Portable version differs from the release")
+    portable_version = json.loads(portable["VERSION.json"])
+    if portable_version["web_version"] != version["web_version"]:
+        raise ValueError("Embedded VERSION.json differs from the release")
+    if b"by-nc-sa/4.0" in portable["index.html"].lower():
+        raise ValueError("The active portable page links the former NC licence")
+    if "version.js" in portable and portable["version.js"] != source_path(root, "version.js").read_bytes():
+        raise ValueError("Embedded release module differs from the current web")
+    return files
+
+
+def check_release(root=ROOT):
+    version = json.loads((root / "VERSION.json").read_text(encoding="utf-8"))
+    paths = release_paths(version)
+    public = public_entries(root)
+    if not set(paths.values()) <= set(public):
+        raise ValueError("Current downloads are missing from the public allowlist")
+    for name, path in public.items():
+        if name.lower().endswith((".zip", ".elpx")):
+            read_zip(path.read_bytes())
+    elpx = public[paths["download"]].read_bytes()
+    for key in ("download", "sharing_archive"):
+        details = metadata(public[paths[key]].read_bytes())
+        if any(version[key].get(field) != value for field, value in details.items()):
+            raise ValueError(f"VERSION.json download metadata differs: {key}")
+    check_elpx(elpx, version, root)
+    sharing = read_zip(public[paths["sharing_archive"]].read_bytes())
+    verify_sums(sharing)
+    if sharing != sharing_files(root, version, elpx):
+        raise ValueError("The sharing archive is not synchronized with this release")
+    sources = read_zip(public[paths["source_archive"]].read_bytes())
+    if any(name.lower().endswith((".zip", ".elpx")) for name in sources):
+        raise ValueError("A source archive contains another ZIP or ELPX")
+    verify_manifest(sources, json.loads(sources["SOURCE_MANIFEST.json"]), {"SOURCE_MANIFEST.json"})
+    if sources != source_files(root, version, (root / "VERSION.json").read_bytes()):
+        raise ValueError("The source archive is not synchronized with current sources")
+    for name in ("index.html", "version.js"):
+        data = source_path(root, name).read_bytes()
+        if name == "index.html" and b"by-nc-sa/4.0" in data.lower():
+            raise ValueError("The active web page links the former NC licence")
+        if name == "version.js" and version["web_version"].encode() not in data:
+            raise ValueError("The release module has a different version")
+    return len(public)
+
+
+def update_release(root=ROOT):
+    version = json.loads((root / "VERSION.json").read_text(encoding="utf-8"))
+    paths = release_paths(version)
+    previous = parse_sums((root / "SHA256SUMS.txt").read_text(encoding="utf-8"))
+    # Historical packages are immutable, and their existing URLs stay public.
+    for name, expected in previous.items():
+        if name not in paths.values() and name.lower().endswith((".zip", ".elpx")):
+            if digest(source_path(root, name).read_bytes()) != expected:
+                raise ValueError(f"Historical download changed: {name}")
+    elpx = source_path(root, paths["download"]).read_bytes()
+    check_elpx(elpx, version, root)
+    version["download"].update(metadata(elpx))
+    sharing = zip_bytes(sharing_files(root, version, elpx))
+    version["sharing_archive"].update(metadata(sharing))
+    version_payload = json_bytes(version)
+    sources = zip_bytes(source_files(root, version, version_payload))
+    overrides = {"VERSION.json": version_payload, paths["sharing_archive"]: sharing,
+                 paths["source_archive"]: sources}
+    files = {name: overrides[name] if name in overrides else source_path(root, name).read_bytes()
+             for name in public_names(root, previous, paths)}
+    oversized = [name for name, data in files.items() if len(data) > MAX_ASSET_BYTES]
+    if oversized:
+        raise ValueError(f"Public assets exceed the 25 MiB limit: {', '.join(oversized)}")
+    for name, data in overrides.items():
+        destination = root / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        temporary = destination.with_name(destination.name + ".tmp")
+        temporary.write_bytes(data)
+        temporary.replace(destination)
+    (root / "SHA256SUMS.txt").write_bytes(sums_bytes(files))
+    return len(files)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="Validate current packages without writing files")
+    args = parser.parse_args()
+    count = check_release() if args.check else update_release()
+    print(f"{'Verified' if args.check else 'Updated'} the current release and {count} public assets")
 
 
 if __name__ == "__main__":

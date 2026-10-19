@@ -1,6 +1,2 @@
-MitoMapa web 4.5.0 / REA eXeLearning 4.5.0 — adaptación GobCan
-Revisión 14/10/2026. Runtime eXeLearning 4.0.5.
-Descarga principal: downloads/MitoMapa_canario_GobCan.elpx.
-Ocho escenas actualizadas, listas cualitativas por etapa, accesibilidad y fichas de fuentes.
-Sugerencias: sugerencias.mitomapacanario@gmail.com
-Consultar VERSION.json para estructura y huella de la entrega vigente.
+MitoMapa canario · web y REA 4.6.0 · 19/10/2026
+Formato eXeLearning 4.0.5 · CC BY-SA 4.0 para los materiales propios

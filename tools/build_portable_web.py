@@ -69,8 +69,8 @@ def replace_section(html: str, heading: str, replacement: str) -> str:
 def portable_index(html: str, version: str) -> str:
     template_links = "".join((
         '<li><a href="downloads/Cuaderno_de_ruta_MitoMapa_web_4_0.html">Abrir el cuaderno de ruta</a></li>',
-        '<li><a href="downloads/Rubrica_lectura_MitoMapa_4_0.html">Abrir la rúbrica de lectura e impresión</a></li>',
-        '<li><a href="downloads/Rubrica_MitoMapa_4_0.csv" download>Descargar la rúbrica editable (CSV)</a></li>',
+        '<li><a href="downloads/Rubrica_lectura_MitoMapa_4_0.html">Abrir la pauta cualitativa de lectura e impresión</a></li>',
+        '<li><a href="downloads/Rubrica_MitoMapa_4_0.csv" download>Descargar la pauta cualitativa editable (CSV)</a></li>',
     ))
     replacement = (
         '<section class="section panel reuse-panel" aria-labelledby="reuseTitle">'
