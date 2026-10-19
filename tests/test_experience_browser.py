@@ -62,14 +62,17 @@ class NoRangeHandler(QuietHandler):
 AUDIT_AUDIO = """
 (()=>{
 if(window.__audioAudit)return;
-window.__audioAudit={created:[],revoked:[],fetches:[],signals:[]};
+window.__audioAudit={created:[],revoked:[],fetches:[],signals:[],settled:0};
 const nativeCreate=URL.createObjectURL.bind(URL),nativeRevoke=URL.revokeObjectURL.bind(URL);
 URL.createObjectURL=blob=>{const url=nativeCreate(blob);window.__audioAudit.created.push(url);return url;};
 URL.revokeObjectURL=url=>{window.__audioAudit.revoked.push(url);nativeRevoke(url);};
 const nativeFetch=window.fetch.bind(window);
 window.fetch=(source,options={})=>{
  window.__audioAudit.fetches.push(String(source));window.__audioAudit.signals.push(options.signal);
- return nativeFetch(source,options);
+ return nativeFetch(source,options).then(
+  response=>{window.__audioAudit.settled++;return response;},
+  error=>{window.__audioAudit.settled++;throw error;}
+ );
 };
 })();
 """
@@ -248,7 +251,13 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.context.add_init_script(AUDIT_AUDIO)
         pending = []
         if hold_fetch:
-            self.page.route("**/assets/audio/**", lambda route: pending.append(route) if route.request.resource_type == "fetch" else route.continue_())
+            def hold_audio_fetch(route):
+                if route.request.resource_type != "fetch":
+                    route.continue_()
+                    return
+                pending.append(route)
+                self.page.evaluate("()=>{window.__audioRouteHeld=true;}")
+            self.page.route("**/assets/audio/**", hold_audio_fetch)
         self.no_range_navigation = getattr(self, "no_range_navigation", 0) + 1
         response = self.page.goto(self.no_range_base + f"?audio-test={self.no_range_navigation}#isla/tenerife/cuento", wait_until="networkidle")
         self.assertIn("connect-src 'self'", response.headers["content-security-policy"])
@@ -258,7 +267,8 @@ class ExperienceBrowserTest(unittest.TestCase):
         narrator.locator(".narration-rate").select_option("0.82")
         narrator.locator(".narration-play").click()
         if hold_fetch:
-            self.page.wait_for_function("()=>window.__audioAudit.fetches.length===1")
+            self.page.wait_for_function("()=>window.__audioRouteHeld===true")
+            self.assertEqual(self.page.evaluate("window.__audioAudit.fetches.length"), 1)
             self.assertEqual(len(pending), 1)
             self.assertFalse(self.page.evaluate("recordingIsSeekable(narrationState.audio)"))
         return narrator, pending
@@ -307,7 +317,7 @@ class ExperienceBrowserTest(unittest.TestCase):
             self.assertTrue(self.page.evaluate("narrationState.audio===null"))
             self.assertTrue(self.page.evaluate("window.__audioAudit.signals[0].aborted"))
             pending[0].fulfill(status=200, content_type="audio/mpeg", body=(ROOT / "assets/audio/tenerife-ambiente.mp3").read_bytes())
-            self.page.wait_for_timeout(100)
+            self.page.wait_for_function("()=>window.__audioAudit.settled===1")
             self.assertEqual(self.page.evaluate("window.__audioAudit.created"), [])
             self.assertTrue(self.page.evaluate("narrationState.audio===null"))
             self.page.unroute("**/assets/audio/**")
