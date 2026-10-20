@@ -1,4 +1,4 @@
-# MitoMapa canario · 4.6.0
+# MitoMapa canario · 4.7.0
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,8 +9,8 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La web y el REA editable corresponden a la edición **4.6.0**, revisada el
-19/10/2026. La adaptación GobCan conserva **39 páginas, 118 iDevices, las 95
+La web y el REA editable corresponden a la edición **4.7.0**, revisada el
+20/10/2026. La adaptación GobCan conserva **39 páginas, 118 iDevices, las 95
 identidades de la edición base, 42 juegos nativos y 16 MP3**. Utiliza el formato
 de eXeLearning **4.0.5**, la plantilla Flux y Andika. La aplicación portable
 incluida reúne el mapa, los ocho cuentos, las escenas, los juegos, los apoyos
@@ -18,8 +18,8 @@ de lectura y la narración local.
 
 - [Web publicada](https://mitomapa-canario.cgarcias.workers.dev/).
 - [REA editable vigente](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de esta edición](downloads/MitoMapa_REA_v4_6_0.zip).
-- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_6_0.zip).
+- [Paquete de esta edición](downloads/MitoMapa_REA_v4_7_0.zip).
+- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_7_0.zip).
 
 `VERSION.json` identifica la edición y las huellas de las descargas.
 `SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub es
@@ -36,6 +36,17 @@ La [guía docente práctica](GUIA_DOCENTE.html) ofrece tres posibilidades:
   comparación, contraste de fuentes y una creación compartida.
 - **Banco completo opcional:** ocho a diez sesiones de 35–50 minutos, ajustadas
   a las tareas y a los apoyos. No hay obligación de recorrer las ocho islas.
+
+El juego opcional [Nombres de las islas](index.html#nombres-islas) propone
+asociar siete denominaciones y la ficha «Sin nombre documentado» con el mapa.
+Admite arrastre y selección con toque, clic o teclado. No concede pintaderas,
+no genera calificaciones ni condiciona la ruta. Su apariencia de carta antigua
+es una recreación contemporánea que conserva la geografía del mapa, no un
+documento de la conquista. La [nota de procedencia y cautelas](FUENTES_CUENTOS.html#nombres-islas)
+distingue la selección aportada por la autoría, que informa de consultas con
+personas expertas, de la documentación bibliográfica. Las formas, grafías y
+cronologías siguen abiertas a contraste; «Sin nombre documentado» no supone
+ausencia absoluta de presencia humana en La Graciosa.
 
 La [guía de aplicación GobCan](GUIA_DOCENTE_GOBCAN.html) desarrolla el itinerario
 corto y un **ejemplo** curricular del tercer ciclo de Primaria, con 6.º como

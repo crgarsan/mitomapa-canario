@@ -1,15 +1,15 @@
 {
-  "web_version": "4.6.0",
-  "rea_exelearning_version": "4.6.0",
+  "web_version": "4.7.0",
+  "rea_exelearning_version": "4.7.0",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-19",
+  "prepared_at": "2026-10-20",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "f37a749192b65f68f6469fe54712a5bb575641e0ac39ae434a34293b9ab2601f",
-    "bytes": 25822840
+    "sha256": "6896d1753e7b7928106a4e492fc97959033aca4cae366a17559a0457cd3e2c1e",
+    "bytes": 25839571
   },
-  "previous_web_version": "4.5.1",
-  "previous_rea_version": "4.5.1",
+  "previous_web_version": "4.6.0",
+  "previous_rea_version": "4.6.0",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_6_0.md",
-  "rea_release_notes": "CAMBIOS_REA_4_6_0.md",
+  "release_notes": "CAMBIOS_WEB_4_7_0.md",
+  "rea_release_notes": "CAMBIOS_REA_4_7_0.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 39,
@@ -55,9 +55,9 @@
     "selected_islands": 2,
     "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
   },
-  "rea_revision": "2026-10-19",
+  "rea_revision": "2026-10-20",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Ruta acordada multinivel, navegación y seguimiento revisados",
+  "rea_revision_label": "Juego opcional de nombres históricos y carta de aspecto antiguo",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -108,13 +108,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_6_0.zip",
+    "path": "downloads/MitoMapa_REA_v4_7_0.zip",
     "contents": "REA editable ELPX y documentación de la edición vigente",
-    "sha256": "ae9101e5477da9f9eeea31ea435fcc017b13d46a2e7907138707dc41cd8e0372",
-    "bytes": 25617015
+    "sha256": "0982950bc3d3409e1321197f04dc1f90d7917e6347c5a2d15151f0ab119b59ef",
+    "bytes": 25636503
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_6_0.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_7_0.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -123,7 +123,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.6.0",
+    "downloaded_response_version": "4.7.0",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -146,5 +146,19 @@
     "sha256": "a806f618d0e3794a8d317e834b7f665a26ceb0bd095dfb0a1aa29923de5add60",
     "edition": "4.5.1",
     "immutable": true
+  },
+  "historical_names_game": {
+    "date": "2026-10-20",
+    "route": "#nombres-islas",
+    "associations": 8,
+    "historical_name_cards": 7,
+    "undocumented_name_category": "La Graciosa",
+    "drag_and_drop": true,
+    "keyboard_and_select_alternatives": true,
+    "modern_antique_map_recreation": true,
+    "map_geometry_preserved": true,
+    "expert_consultation": "Según la información aportada por la autoría; sin atribución de unanimidad ni aval institucional",
+    "counts_towards_passport": false,
+    "included_in_portable_explorer": true
   }
 }
