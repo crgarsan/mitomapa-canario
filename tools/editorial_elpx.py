@@ -38,6 +38,9 @@ TEACHER_CHILDREN = (
 AUTHORS = "Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana"
 LICENSE_URL = "https://creativecommons.org/licenses/by-sa/4.0/deed.es"
 PUBLIC_WEB = "https://mitomapa-canario.cgarcias.workers.dev/"
+PASSPORT_DEVICE = "20260823155836CHKPAS"
+PASSPORT_OLD_FOOTER = "MitoMapa canario · CC BY-NC-SA 4.0"
+PASSPORT_FOOTER = "MitoMapa canario · CC BY-SA 4.0"
 STORY_IDS = (
     "20260823155836ST1CG9", "20260823155837ST28I4", "20260823155837ST3GFP",
     "20260823155837ST48OR", "20260823155837ST577Q", "20260823155837ST6CHF",
@@ -206,6 +209,34 @@ def remove_game_author(component):
             raise ValueError("A native game's pedagogical data changed while removing its author credit")
     if view != original:
         set_field(component, "htmlView", view)
+
+
+def correct_passport_license(component):
+    """Correct only the legacy licence footer in the native passport."""
+    if field(component, "odeIdeviceId") != PASSPORT_DEVICE:
+        raise ValueError("The passport licence correction targets one reviewed iDevice only")
+    original = field(component, "htmlView")
+    nodes = fragment(original).xpath(".//div[contains(concat(' ',normalize-space(@class),' '),' listacotejo-DataGame ')]")
+    if len(nodes) != 1:
+        raise ValueError("Expected the single native passport checklist payload")
+    payload = nodes[0].text_content()
+    decoded, encoded = decode_native_payload(payload)
+    before = json.loads(decoded)
+    if not encoded or before.get("footer") != PASSPORT_OLD_FOOTER:
+        raise ValueError("The pinned passport footer differs from the reviewed legacy value")
+    # Preserve JSON formatting and every other field, including checklist
+    # criteria and scoring settings, rather than reserializing the object.
+    pattern = re.compile(r'("footer"\s*:\s*)("(?:[^"\\]|\\.)*")')
+    matches = [match for match in pattern.finditer(decoded) if json.loads(match[2]) == PASSPORT_OLD_FOOTER]
+    if len(matches) != 1:
+        raise ValueError("Expected one exact legacy footer value in the passport")
+    match = matches[0]
+    updated = decoded[:match.start(2)] + json.dumps(PASSPORT_FOOTER, ensure_ascii=False) + decoded[match.end(2):]
+    expected = deepcopy(before)
+    expected["footer"] = PASSPORT_FOOTER
+    if json.loads(updated) != expected or payload not in original:
+        raise ValueError("The passport changed beyond its reviewed licence footer")
+    set_field(component, "htmlView", original.replace(payload, encode_native_payload(updated), 1))
 
 
 def node_remove(node):
@@ -771,6 +802,7 @@ def apply_editorial(files, root, version):
     for component in components.values():
         if field(component, "odeIdeviceTypeName") not in {"text", "file-attachment", "download-source-file", "progress-report", "checklist"}:
             remove_game_author(component)
+    correct_passport_license(components[PASSPORT_DEVICE])
     # Merge teacher pages without changing component identities or payloads.
     teacher_blocks = pages[TEACHER].find("o:odePagStructures", NS)
     for pid in TEACHER_CHILDREN:

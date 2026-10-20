@@ -9,6 +9,7 @@ from lxml import etree, html
 NS = {"o": "http://www.intef.es/xsd/ode"}
 AUTHORS = "Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana"
 ATTACHMENT_ID = "20260930IMATERIALES40"
+PASSPORT_ID = "20260823155836CHKPAS"
 ATTACHMENT_LABELS = {
     "Cuaderno_de_ruta_MitoMapa_4_0.html": ("Mi cuaderno de ruta", "Planifica las tareas y registra lectura, fuentes, creación, revisión y cierre. HTML para imprimir o adaptar en un editor de textos."),
     "Rubrica_lectura_MitoMapa_4_0.html": ("Pauta cualitativa de lectura e impresión", "Criterios y descriptores cualitativos con espacio para evidencias, avances y un siguiente paso; sin puntuaciones."),
@@ -51,7 +52,7 @@ def game_payloads(view):
 
 
 def verify_component(original, current, files):
-    """Allow project-author removal and the explicitly reviewed attachment only."""
+    """Allow only reviewed author, attachment and passport-footer changes."""
     iid = field(original, "odeIdeviceId")
     expected = deepcopy(original)
     if iid == ATTACHMENT_ID:
@@ -73,6 +74,17 @@ def verify_component(original, current, files):
             raise ValueError("The attachment changed outside its labels, page and measured sizes")
         expected.find("o:jsonProperties", NS).text = field(current, "jsonProperties")
         expected.find("o:htmlView", NS).text = view
+    elif iid == PASSPORT_ID:
+        before, original_markup = game_payloads(field(original, "htmlView"))
+        after, current_markup = game_payloads(field(current, "htmlView"))
+        if (field(original, "odeIdeviceTypeName") != "checklist" or len(before) != 1
+                or before[0].get("footer") != "MitoMapa canario · CC BY-NC-SA 4.0"):
+            raise ValueError("The passport differs from the reviewed native checklist")
+        permitted = deepcopy(before)
+        permitted[0]["footer"] = "MitoMapa canario · CC BY-SA 4.0"
+        if permitted != after or original_markup != current_markup:
+            raise ValueError("The native passport changed beyond its reviewed licence footer")
+        expected.find("o:htmlView", NS).text = field(current, "htmlView")
     elif field(original, "odeIdeviceTypeName") in {"puzzle", "quick-questions", "relate"}:
         before, original_markup = game_payloads(field(original, "htmlView"))
         after, current_markup = game_payloads(field(current, "htmlView"))

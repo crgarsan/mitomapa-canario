@@ -27,6 +27,8 @@ WEB_EXTRA = "20261006EXPLORER440"
 VERSION_COMPONENT = "20260929THISTORIAL39"
 AUTHORS = ("Jesica Fortes Regalado", "Gloria Elsa González Martín", "Cristian García Santana")
 PROJECT_AUTHORS = "; ".join(AUTHORS)
+PASSPORT = "20260823155836CHKPAS"
+PASSPORT_FOOTER = "MitoMapa canario · CC BY-SA 4.0"
 REMOVED_TEACHER_PAGES = {
     "GBC20261006CURRICULO", "GBC20261006METODO", "GBC20261006RECURSOS",
     "GBC20261006SEGUIMIENTO", "20260823155836LOCUT0",
@@ -35,6 +37,9 @@ GAMES = {"puzzle", "scrambled-list", "quick-questions", "trueorfalse", "relate",
 MEDIA = {".webp", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".mp3", ".wav", ".opus", ".woff", ".woff2", ".ico"}
 PLURAL = re.compile(r"\b(?:vosotr[oa]s|vuestro?s?|vuestra?s?|vais|habéis|sois|estáis|tenéis|podéis|debéis|sabéis|necesitéis|acordad|elegid|leed|escuchad|comparad|anotad|buscad|completad|compartid|trabajad|utilizad|realizad|formad|decid|escribid|recordad|revisad|señalad|explicad)\b", re.I)
 EDITION = re.compile(r"\b(?:edici[oó]n|versi[oó]n|web|REA|aplicaci[oó]n)\s+(?:web\s+)?\d+\.\d+(?:\.\d+)?\b", re.I)
+NON_COMMERCIAL_LICENSE = re.compile(
+    r"\b(?:CC[\s-]*)?BY[\s-]+NC(?:[\s-]+(?:SA|ND))?\b|creativecommons\.org/licenses/by-nc(?:-|/)", re.I,
+)
 
 
 def field(node, name):
@@ -95,6 +100,17 @@ def without_project_credit(value):
         return {key: "" if key == "author" and child == PROJECT_AUTHORS else without_project_credit(child)
                 for key, child in value.items()}
     return value
+
+
+def payload_strings(value, path="$"):
+    if isinstance(value, str):
+        yield path, value
+    elif isinstance(value, dict):
+        for key, child in value.items():
+            yield from payload_strings(child, path + "." + key)
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            yield from payload_strings(child, f"{path}[{index}]")
 
 
 class EditorialElpxTests(unittest.TestCase):
@@ -339,6 +355,57 @@ class EditorialElpxTests(unittest.TestCase):
         self.assertRegex(credits.casefold(), r"agradeci")
         for area in ("históric", "técnic", "didáctic"):
             self.assertIn(area, credits.casefold())
+
+    def test_all_activity_payloads_use_no_active_noncommercial_licence(self):
+        # Native checklists and the progress report also have DataGame data;
+        # checking only the 42 game iDevices misses the passport's report footer.
+        checked = {"editable-preview": 0, "search": 0, "export": 0}
+        for page in self.search.values():
+            document = html.fromstring(self.files[page["fileUrl"]])
+            for block in page["blocks"].values():
+                for iid, entry in block["idevices"].items():
+                    exported = document.xpath("//*[@id=$id]", id=iid)
+                    self.assertEqual(len(exported), 1, iid)
+                    representations = {
+                        "editable-preview": field(self.components[iid], "htmlView"),
+                        "search": entry["htmlView"],
+                        "export": html.tostring(exported[0], encoding="unicode"),
+                    }
+                    for representation, markup in representations.items():
+                        nodes = fragment(markup).xpath(".//*[contains(@class,'-DataGame')]")
+                        for node in nodes:
+                            payload = native_payload(payload_markup(node))
+                            for path, text in payload_strings(payload):
+                                self.assertIsNone(NON_COMMERCIAL_LICENSE.search(text), (iid, representation, path, text))
+                            if iid == PASSPORT:
+                                self.assertEqual(payload["footer"], PASSPORT_FOOTER, representation)
+                            checked[representation] += 1
+        self.assertEqual(checked, {"editable-preview": 44, "search": 44, "export": 44})
+
+    def test_passport_changes_only_its_exact_legacy_licence_footer(self):
+        original = self.old_components[PASSPORT]
+        current = self.components[PASSPORT]
+        self.assertEqual(field(original, "odeIdeviceTypeName"), "checklist")
+        before = fragment(field(original, "htmlView"))
+        after = fragment(field(current, "htmlView"))
+        old_nodes = before.xpath(".//*[contains(@class,'listacotejo-DataGame')]")
+        new_nodes = after.xpath(".//*[contains(@class,'listacotejo-DataGame')]")
+        self.assertEqual(len(old_nodes), 1)
+        self.assertEqual(len(new_nodes), 1)
+        expected = native_payload(payload_markup(old_nodes[0]))
+        self.assertEqual(expected["footer"], "MitoMapa canario · CC BY-NC-SA 4.0")
+        expected["footer"] = PASSPORT_FOOTER
+        self.assertEqual(native_payload(payload_markup(new_nodes[0])), expected)
+        for node in (old_nodes[0], new_nodes[0]):
+            for child in list(node):
+                node.remove(child)
+            node.text = "VERIFIED_PASSPORT_DATA"
+        self.assertEqual(html.tostring(before), html.tostring(after))
+        old_component = copy.deepcopy(original)
+        new_component = copy.deepcopy(current)
+        old_component.find("o:htmlView", NS).text = "VERIFIED_PASSPORT_HTML"
+        new_component.find("o:htmlView", NS).text = "VERIFIED_PASSPORT_HTML"
+        self.assertEqual(etree.tostring(old_component), etree.tostring(new_component))
 
 
 if __name__ == "__main__":

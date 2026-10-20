@@ -22,6 +22,7 @@ WEB_EXTRA = "20261006EXPLORER440"
 TENERIFE = "20260823155836ISL1QG"
 RETOS = "GBC20261006RETOS1"
 TALLER = "GBC20261006TALLER1"
+PASSPORT_PAGE = "20260823155836PASSID"
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -201,6 +202,18 @@ class EditorialElpxBrowserTests(unittest.TestCase):
         expect(link).to_be_visible()
         expect(link).to_have_attribute("target", "_blank")
         self.assertFalse(self.external)
+
+    def test_passport_report_shows_the_current_by_sa_licence(self):
+        self.open_page(PASSPORT_PAGE)
+        passport = self.page.locator('[id="20260823155836CHKPAS"]')
+        box = passport.locator("xpath=ancestor::article[1]")
+        if passport.is_hidden():
+            box.locator(":scope > header button.box-toggle").click()
+            self.page.wait_for_function("()=>window.$exeExport && !$exeExport.isTogglingBox")
+        footer = passport.locator(".CTJP-Footer")
+        expect(footer).to_be_visible()
+        expect(footer).to_have_text("MitoMapa canario · CC BY-SA 4.0")
+        self.assertNotRegex(passport.inner_text(), r"CC\s+BY-NC")
 
 
 if __name__ == "__main__":

@@ -5,8 +5,8 @@
   "prepared_at": "2026-10-20",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "1bffd7212d73112a5da287b87ac91551a30b88234d3e812caad53cb6a34f7dbe",
-    "bytes": 25380146
+    "sha256": "29cbb02435ab450d18bc23f2bf33497d3d405efe6c3475feaca91b2159b1872a",
+    "bytes": 25380136
   },
   "previous_web_version": "4.8.0",
   "previous_rea_version": "4.8.0",
@@ -59,7 +59,7 @@
   },
   "rea_revision": "2026-10-20",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Portada con cuatro pintaderas, mapa y cuatro pintaderas",
+  "rea_revision_label": "Portada con mapa entre las pintaderas y licencia del pasaporte corregida",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -112,8 +112,8 @@
   "sharing_archive": {
     "path": "downloads/MitoMapa_REA_v4_8_1.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "11bf1b1a461eb22c6d865d2573fbef92ef60b00ac75e8248fd7cd0604322a4e3",
-    "bytes": 25192064
+    "sha256": "f35505a0be6971338084ab9c2d2c5babe6b3502451058722ee6b2975b1c615a2",
+    "bytes": 25192101
   },
   "source_archive": {
     "path": "downloads/MitoMapa_fuentes_web_v4_8_1.zip",

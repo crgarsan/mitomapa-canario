@@ -18,6 +18,12 @@ downloads/MitoMapa_fuentes_web_v4_8_1.zip: fuentes, imágenes, audios y herramie
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
 
+REVISIÓN 4.8.1 · 20/10/2026
+La portada combina cuatro pintaderas arriba, el mapa original completo y las
+otras cuatro debajo, manteniendo las proporciones del mapa. Se corrige a
+CC BY-SA 4.0 el pie del Pasaporte de pintaderas, también en sus datos internos.
+La web conserva su edición 4.8.0.
+
 REVISIÓN EDITORIAL 4.8.0 · 20/10/2026
 Portada más limpia, con autoría, licencia y pintaderas decorativas en dos filas,
 sin referencia curricular. Justificación para el alumnado y navegación nativa
@@ -94,7 +100,3 @@ originales de titularidad y libre uso educativo; no se relicencia como propio.
 Las dependencias y fuentes externas mantienen sus condiciones específicas.
 Conservar autoría, referencias y créditos.
 Sugerencias y propuestas de mejora: sugerencias.mitomapacanario@gmail.com
-
-REVISIÓN DE PORTADA DEL ELPX 4.8.1 · 20/10/2026
-Cuatro pintaderas arriba, mapa original completo y cuatro pintaderas debajo.
-La web conserva su edición 4.8.0; las actividades nativas no cambian.
