@@ -10,11 +10,12 @@ not regenerate the learning activities from the historical 4.4 generator.
 import argparse
 import copy
 from html import escape, unescape
+from html.parser import HTMLParser
 import json
 from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import parse_qs, urljoin, urlsplit
 
 from release_support import (
     MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries,
@@ -34,6 +35,44 @@ DOCUMENTS = (
     "downloads/Rubrica_lectura_MitoMapa_4_0.html", "downloads/Rubrica_MitoMapa_4_0.csv",
 )
 PUBLIC_URL = "https://mitomapa-canario.cgarcias.workers.dev/"
+
+
+def check_download_button(markup, version):
+    """Tie the advertised edition, saved filename and revision to the ELPX."""
+    class Buttons(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.buttons = []
+            self.current = None
+
+        def handle_starttag(self, tag, attrs):
+            attributes = dict(attrs)
+            if tag == "a" and attributes.get("id") == "currentReaDownload":
+                self.current = {"attrs": attributes, "text": ""}
+                self.buttons.append(self.current)
+
+        def handle_data(self, data):
+            if self.current is not None:
+                self.current["text"] += data
+
+        def handle_endtag(self, tag):
+            if tag == "a":
+                self.current = None
+
+    parser = Buttons()
+    parser.feed(markup)
+    if len(parser.buttons) != 1:
+        raise ValueError("Expected one current REA download button")
+    button = parser.buttons[0]
+    attrs = button["attrs"]
+    edition = version["rea_exelearning_version"]
+    link = urlsplit(attrs.get("href", ""))
+    if (" ".join(button["text"].split()) != f"Descargar REA {edition}"
+            or attrs.get("data-rea-version") != edition
+            or attrs.get("download") != f"MitoMapa_canario_{edition.replace('.', '_')}.elpx"
+            or link.scheme or link.netloc or link.path != version["download"]["path"]
+            or parse_qs(link.query).get("revision") != [version["download"]["sha256"][:12]]):
+        raise ValueError("The download button differs from the current ELPX edition or revision")
 
 
 def sharing_document(payload, name, documents, version):
@@ -247,6 +286,8 @@ def check_release(root=ROOT):
         if any(version[key].get(field) != value for field, value in details.items()):
             raise ValueError(f"VERSION.json download metadata differs: {key}")
     check_elpx(elpx, version, root)
+    if version.get("elpx_distribution", {}).get("mode") == "native_only":
+        check_download_button(source_path(root, "index.html").read_text(), version)
     sharing = read_zip(public[paths["sharing_archive"]].read_bytes())
     verify_sums(sharing)
     if sharing != sharing_files(root, version, elpx):
@@ -278,6 +319,8 @@ def update_release(root=ROOT):
     elpx = source_path(root, paths["download"]).read_bytes()
     check_elpx(elpx, version, root)
     version["download"].update(metadata(elpx))
+    if version.get("elpx_distribution", {}).get("mode") == "native_only":
+        check_download_button(source_path(root, "index.html").read_text(), version)
     sharing = zip_bytes(sharing_files(root, version, elpx))
     version["sharing_archive"].update(metadata(sharing))
     version_payload = json_bytes(version)

@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB 4.8.0 · REA 4.8.1 · 20/10/2026
+MITOMAPA CANARIO · WEB 4.8.1 · REA 4.8.1 · 20/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -22,7 +22,8 @@ REVISIÓN 4.8.1 · 20/10/2026
 La portada combina cuatro pintaderas arriba, el mapa original completo y las
 otras cuatro debajo, manteniendo las proporciones del mapa. Se corrige a
 CC BY-SA 4.0 el pie del Pasaporte de pintaderas, también en sus datos internos.
-La web conserva su edición 4.8.0.
+La web se actualiza a 4.8.1 para mostrar la versión de la descarga y retirar
+GobCan del botón y de su descripción. El ELPX 4.8.1 conserva sus bytes.
 
 REVISIÓN EDITORIAL 4.8.0 · 20/10/2026
 Portada más limpia, con autoría, licencia y pintaderas decorativas en dos filas,

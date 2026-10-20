@@ -1,5 +1,5 @@
 {
-  "web_version": "4.8.0",
+  "web_version": "4.8.1",
   "rea_exelearning_version": "4.8.1",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-20",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_0.md",
+  "release_notes": "CAMBIOS_WEB_4_8_1.md",
   "rea_release_notes": "CAMBIOS_REA_4_8_1.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -112,8 +112,8 @@
   "sharing_archive": {
     "path": "downloads/MitoMapa_REA_v4_8_1.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "f35505a0be6971338084ab9c2d2c5babe6b3502451058722ee6b2975b1c615a2",
-    "bytes": 25192101
+    "sha256": "5f26d57a4fb31309623d2c0b3555d5a122c2b9008b5d6749eae2db9a2d182e96",
+    "bytes": 25192084
   },
   "source_archive": {
     "path": "downloads/MitoMapa_fuentes_web_v4_8_1.zip",
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.0",
+    "downloaded_response_version": "4.8.1",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },

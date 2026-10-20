@@ -18,7 +18,7 @@ from release_support import (
     digest, json_bytes, metadata, parse_sums, read_zip, sums_bytes,
     verify_manifest, zip_bytes,
 )
-from update_release import DOCUMENTS, check_elpx, check_release, release_paths, update_release
+from update_release import DOCUMENTS, check_download_button, check_elpx, check_release, release_paths, update_release
 
 
 class ReleasePipelineTests(unittest.TestCase):
@@ -183,6 +183,20 @@ class ReleasePipelineTests(unittest.TestCase):
         version["rea_exelearning_version"] = "4.6.2"
         with self.assertRaisesRegex(ValueError, "differs from its delivery"):
             release_paths(version)
+
+    def test_download_advertises_the_actual_editable_version_and_revision(self):
+        version = {**self.version, "download": {**self.version["download"], "sha256": "a" * 64}}
+        markup = ('<a id="currentReaDownload" data-rea-version="4.6.0" '
+                  'href="downloads/MitoMapa_canario_GobCan.elpx?revision=aaaaaaaaaaaa" '
+                  'download="MitoMapa_canario_4_6_0.elpx">Descargar REA 4.6.0</a>')
+        check_download_button(markup, version)
+        for wrong in (markup.replace('Descargar REA 4.6.0', 'Descargar REA 4.5.1'),
+                      markup.replace('data-rea-version="4.6.0"', 'data-rea-version="4.5.1"'),
+                      markup.replace('4_6_0.elpx', '4_5_1.elpx'),
+                      markup.replace('revision=aaaaaaaaaaaa', 'revision=bbbbbbbbbbbb'),
+                      markup.replace('_GobCan.elpx?', '_antiguo.elpx?'), '', markup * 2):
+            with self.subTest(markup=wrong), self.assertRaises(ValueError):
+                check_download_button(wrong, version)
 
     @staticmethod
     def raw_zip(entries):

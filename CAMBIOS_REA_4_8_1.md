@@ -13,5 +13,6 @@ del iDevice y se elimina de la edición vigente, incluido su informe imprimible.
 
 El contenido y la organización del Objeto de Aprendizaje conservan la revisión
 editorial 4.8.0. No cambian sus cuentos, juegos, grabaciones ni escenas.
-La web mantiene su edición 4.8.0. Los archivos de entrega identifican por
-separado la versión de la web y la del ELPX.
+La revisión posterior de la descarga actualiza también la web a 4.8.1,
+sin modificar los bytes del ELPX. Los archivos de entrega identifican
+por separado ambas ediciones.
