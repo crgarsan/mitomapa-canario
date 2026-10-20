@@ -1,4 +1,4 @@
-# MitoMapa canario · 4.8.0
+# MitoMapa canario · 4.8.1
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La web mantiene la edición **4.8.0** y el REA editable se revisa a **4.8.1**, el
+La web y el REA editable comparten la versión **4.8.1**, revisada el
 20/10/2026. Son dos recursos diferenciados. La adaptación GobCan tiene
 **34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
 de eXeLearning **4.0.5**, la plantilla Flux y Andika. El ELPX conserva los ocho
