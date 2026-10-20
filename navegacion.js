@@ -4,7 +4,7 @@
   let context;
   let current = "inicio";
   const titles = {inicio:"Inicio",islas:"Islas",juegos:"Juegos",recursos:"Recursos",puzle:"Puzle",comparar:"Comparar cuentos","nombres-islas":"Los nombres de las islas","gran-reto":"Gran reto",ruta:"Cuento"};
-  const aliases = {main:"inicio",exploreMap:"islas",islandGrid:"islas",missionTitle:"puzle",compareStories:"comparar",finalMission:"gran-reto",finalTitle:"gran-reto",reuseTitle:"recursos",creditsTitle:"recursos",passportTitle:"recursos",studentFeedback:"recursos",feedbackTitle:"recursos"};
+  const aliases = {main:"inicio",exploreMap:"islas",islandGrid:"islas",missionTitle:"puzle",compareStories:"comparar",finalMission:"gran-reto",finalTitle:"gran-reto",reuseTitle:"recursos",creditsTitle:"recursos",passportTitle:"recursos",studentFeedback:"recursos",feedbackTitle:"recursos",acknowledgements:"recursos",acknowledgementsTitle:"recursos"};
   const byId = id => document.getElementById(id);
   function record(hash, replace = false) {
     if (location.hash === hash) return;
@@ -104,7 +104,7 @@
     resources.innerHTML = '<p class="eyebrow">Para consultar cuando lo necesites</p><h1>Recursos y ayuda</h1><p>Abre el apartado que buscas.</p>';
     resources.append(
       disclosure(byId("reuseTitle").closest("section"),"Descargas y materiales editables","resourceDownloads"),
-      disclosure(byId("creditsTitle").closest("section"),"Guía, autoría y fuentes","resourceCredits"),
+      disclosure(byId("creditsTitle").closest("section"),"Guía, autoría, fuentes y agradecimientos","resourceCredits"),
       disclosure(main.querySelector(".historical-review"),"Historia e interpretación de las imágenes","resourceHistory"),
       disclosure(passport,"Pasaporte y criterios de los retos","resourcePassport"),
       disclosure(byId("studentFeedback"),"Compartir mi opinión","resourceFeedback")

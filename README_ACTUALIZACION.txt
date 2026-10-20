@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB Y REA 4.7.1 · 20/10/2026
+MITOMAPA CANARIO · WEB Y REA 4.8.0 · 20/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -6,22 +6,36 @@ https://mitomapa-canario.cgarcias.workers.dev/
 EDITABLE VIGENTE
 downloads/MitoMapa_canario_GobCan.elpx
 Abrir con eXeLearning 4.0.5 o compatible y guardar una copia antes de adaptar.
-Contiene 39 páginas, 118 iDevices y las 95 identidades de la edición base,
-42 juegos nativos y 16 MP3. Incluye el Explorador interactivo local, los ocho
-cuentos, las ocho escenas vigentes, las guías y la narración de Jesica.
+Contiene 34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3. Conserva los ocho
+cuentos, las ocho escenas vigentes, las actividades editables, las guías y la
+narración de Jesica. No contiene la aplicación web local ni la incrusta.
+La última página incluye un enlace opcional a la web como recurso extra;
+el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_7_1.zip: editable ELPX y documentación.
-downloads/MitoMapa_fuentes_web_v4_7_1.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_0.zip: editable ELPX y documentación.
+downloads/MitoMapa_fuentes_web_v4_8_0.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
 
-REVISIÓN VISUAL 4.7.1 · 20/10/2026
+REVISIÓN EDITORIAL 4.8.0 · 20/10/2026
+Portada más limpia, con autoría, licencia y pintaderas decorativas en dos filas,
+sin referencia curricular. Justificación para el alumnado y navegación nativa
+reorganizada sin perder los cuentos ni las actividades. Las fuentes se reúnen
+por subapartados en cajas; las orientaciones docentes se despliegan en cajas.
+Autoría y versión se concentran en sus apartados. Se escribe Objeto de
+Aprendizaje sin abreviarlo y se revisan las formas de ustedes.
+La web se ofrece únicamente mediante un enlace extra al final del ELPX;
+no se incorpora como aplicación local ni se muestra incrustada. En ambos recursos se
+incorporan agradecimientos y se mantiene CC BY-SA 4.0 para materiales propios,
+con las condiciones específicas de terceros.
+
+REVISIÓN VISUAL ANTERIOR 4.7.1 · 20/10/2026
 Se retira la rosa de los vientos y se compactan el banco de fichas y las
 cartelas del juego de nombres para facilitar el arrastre junto al mapa.
 La selección de nombres, sus cautelas y la propuesta didáctica se conservan.
 
-MEJORAS INTRODUCIDAS EN 4.7.0
+MEJORAS DE LA EDICIÓN ANTERIOR 4.7.0
 Nuevo juego opcional Nombres de las islas, incluido en el Explorador portable:
 asocia siete denominaciones y la ficha «Sin nombre documentado» con el mapa.
 Permite arrastrar o seleccionar y colocar mediante toque, clic o teclado.
@@ -59,10 +73,13 @@ PROTOCOLO_PILOTAJE.html ofrece una hoja imprimible para recoger tiempos,
 apoyos, dificultades, accesibilidad y mejoras sin identificadores del alumnado.
 
 ADAPTACIÓN Y PUBLICACIÓN
-La edición nativa y el Explorador tienen seguimiento independiente. Después de
-editar, comprobar ambos. tools/build_elpx.py corresponde al proyecto histórico
-4.4.0 y no reconstruye la adaptación GobCan vigente.
-Usar tools/sync_current_elpx.py para sincronizar el proyecto actual y
+El ELPX y la web independiente tienen seguimiento separado. Editar un iDevice
+no modifica la web ni integra su progreso en el informe nativo. La web enlazada
+desde la última página es un complemento opcional que requiere conexión.
+tools/build_elpx.py corresponde al proyecto histórico 4.4.0 y no reconstruye
+la adaptación GobCan vigente.
+Usar tools/sync_current_elpx.py para preparar el proyecto nativo actual sin
+incorporar la aplicación web, y
 tools/update_release.py para preparar manifiestos y paquetes. Comprobar después
 ambas herramientas con --check y ejecutar tools/prepare_deploy.py.
 El despliegue de main en GitHub publica el Worker. SHA256SUMS.txt determina los

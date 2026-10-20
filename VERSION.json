@@ -1,15 +1,15 @@
 {
-  "web_version": "4.7.1",
-  "rea_exelearning_version": "4.7.1",
+  "web_version": "4.8.0",
+  "rea_exelearning_version": "4.8.0",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-20",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "10b3abb0575bb2526006508e8a69e541623dda2b6c242c4d2d94dd49dafe0a05",
-    "bytes": 25839166
+    "sha256": "e73d7d42476d2bba7a5d1a6d6bf5ef55a963a8d37e31b202f1a54df99a4495f4",
+    "bytes": 25379944
   },
-  "previous_web_version": "4.7.0",
-  "previous_rea_version": "4.7.0",
+  "previous_web_version": "4.7.1",
+  "previous_rea_version": "4.7.1",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,18 +34,20 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_7_1.md",
-  "rea_release_notes": "CAMBIOS_REA_4_7_1.md",
+  "release_notes": "CAMBIOS_WEB_4_8_0.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_0.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
-    "pages": 39,
+    "pages": 34,
     "idevices": 118,
     "preserved_idevices": 95,
     "native_games": 42,
     "audio_tracks": 16,
     "qualitative_review": true,
     "numeric_rubrics": 0,
-    "text_idevices": 63
+    "text_idevices": 63,
+    "portable_web_app": false,
+    "native_tracking_separate_from_external_web": true
   },
   "curricular_reference": {
     "stage": "Educación Primaria",
@@ -57,7 +59,7 @@
   },
   "rea_revision": "2026-10-20",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Juego de nombres más compacto y sin rosa de los vientos",
+  "rea_revision_label": "Revisión editorial GobCan y separación del recurso web",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -94,7 +96,7 @@
     "badge_background": "none",
     "artificial_top_band": false,
     "web_only": false,
-    "included_in_portable_explorer_since": "4.6.0"
+    "included_in_portable_explorer_since": "4.6.0 hasta 4.7.1; desde 4.8.0 el ELPX enlaza la web como recurso externo"
   },
   "quality_revision": {
     "date": "2026-10-14",
@@ -108,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_7_1.zip",
-    "contents": "REA editable ELPX y documentación de la edición vigente",
-    "sha256": "207b697cadec6b035a6b29715781eaae74d91874636f5442c682dc2a64484cc5",
-    "bytes": 25635794
+    "path": "downloads/MitoMapa_REA_v4_8_0.zip",
+    "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
+    "sha256": "5cd1fc4ee3a3e07bee81c4b116398d1a4f1f39808c08ee4b2fb4dd5a99a0881a",
+    "bytes": 25191963
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_7_1.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_0.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -123,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.7.1",
+    "downloaded_response_version": "4.8.0",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -142,9 +144,9 @@
     "recording_seek_without_http_ranges": true
   },
   "elpx_source": {
-    "path": "downloads/MitoMapa_canario_GobCan_v4_5_1.elpx",
-    "sha256": "a806f618d0e3794a8d317e834b7f665a26ceb0bd095dfb0a1aa29923de5add60",
-    "edition": "4.5.1",
+    "path": "downloads/MitoMapa_canario_GobCan_v4_7_1.elpx",
+    "sha256": "10b3abb0575bb2526006508e8a69e541623dda2b6c242c4d2d94dd49dafe0a05",
+    "edition": "4.7.1",
     "immutable": true
   },
   "historical_names_game": {
@@ -159,9 +161,18 @@
     "map_geometry_preserved": true,
     "expert_consultation": "Según la información aportada por la autoría; sin atribución de unanimidad ni aval institucional",
     "counts_towards_passport": false,
-    "included_in_portable_explorer": true,
+    "included_in_portable_explorer": false,
     "compass_rose": false,
     "compact_drag_workspace": true,
-    "layout_revision": "4.7.1"
+    "layout_revision": "4.7.1",
+    "availability": "Web independiente; acceso adicional mediante enlace final del ELPX"
+  },
+  "elpx_distribution": {
+    "mode": "native_only",
+    "web_is_external_extra": true,
+    "embedded_web_app": false,
+    "editorial_review": "GobCan: portada, fuentes, autoría, navegación y cajas docentes",
+    "collective_acknowledgements": true,
+    "group_address": "ustedes"
   }
 }

@@ -18,7 +18,7 @@ from release_support import (
     digest, json_bytes, metadata, parse_sums, read_zip, sums_bytes,
     verify_manifest, zip_bytes,
 )
-from update_release import DOCUMENTS, check_release, update_release
+from update_release import DOCUMENTS, check_elpx, check_release, update_release
 
 
 class ReleasePipelineTests(unittest.TestCase):
@@ -147,6 +147,31 @@ class ReleasePipelineTests(unittest.TestCase):
             duplicate = self.raw_zip([("same", b"a"), ("same", b"b")])
         with self.assertRaisesRegex(ValueError, "Duplicate ZIP"):
             read_zip(duplicate)
+
+    def test_native_delivery_rejects_an_embedded_web_or_a_different_license(self):
+        version = {**self.version, "elpx_distribution": {"mode": "native_only"}}
+        files = {
+            "content.xml": b'''<ode xmlns="http://www.intef.es/xsd/ode"><odeProperty><key>pp_license</key><value>creative commons: attribution - share alike 4.0</value></odeProperty><odeNavStructure><odePageId>page</odePageId><odeComponent><odeIdeviceId>activity</odeIdeviceId></odeComponent></odeNavStructure></ode>''',
+            "EDITORIAL_MANIFEST.json": json_bytes({
+                "distribution": "native_only", "embedded_web_app": False,
+                "edition": version["rea_exelearning_version"], "pages": ["page"],
+                "idevices": ["activity"],
+            }),
+        }
+
+        def payload():
+            files["libs/elpx-manifest.js"] = b"window.__ELPX_MANIFEST__=" + json_bytes({
+                "files": sorted(set(files) | {"libs/elpx-manifest.js"})}) + b";"
+            return zip_bytes(files)
+
+        check_elpx(payload(), version, self.root)
+        files["content/resources/mitomapa/index.html"] = b"<p>Old embedded application</p>"
+        with self.assertRaisesRegex(ValueError, "still contains the web"):
+            check_elpx(payload(), version, self.root)
+        del files["content/resources/mitomapa/index.html"]
+        files["content.xml"] = files["content.xml"].replace(b"share alike 4.0", b"non commercial - share alike 4.0")
+        with self.assertRaisesRegex(ValueError, "licence must be CC BY-SA 4.0"):
+            check_elpx(payload(), version, self.root)
 
     @staticmethod
     def raw_zip(entries):
