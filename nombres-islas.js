@@ -67,10 +67,10 @@
         ? 'Has relacionado las ocho fichas. Puedes revisar las cautelas y volver a practicar cuando quieras.'
         : placed.size + ' de 8 relaciones colocadas por ti. Puedes probar de nuevo y pedir ayuda.';
     controls.selection.textContent = reference
-      ? 'Consulta las relaciones. Pulsa «Volver a practicar» para continuar donde lo dejaste.'
+      ? 'Referencia visible. Pulsa «Volver a practicar» para continuar.'
       : selected
-        ? 'Ficha seleccionada: ' + byId(selected).name + '. Ahora elige su isla en el mapa.'
-        : 'Elige una ficha y después su isla, o arrastra la ficha hasta la cartela de la isla.';
+        ? 'Ficha: ' + byId(selected).name + '. Elige su isla.'
+        : 'Elige una ficha y después su isla, o arrástrala a su cartela.';
     islands.forEach(island => {
       const card = cards.get(island.id);
       const target = targets.get(island.id);
@@ -264,21 +264,6 @@
       rhumbs.append(svg('line', {x1: points[0], y1: points[1], x2: points[2], y2: points[3]}));
     });
     drawing.append(rhumbs);
-    const compass = svg('g', {class: 'names-compass', transform: 'translate(1920 350)'});
-    compass.append(svg('circle', {r: '102', class: 'names-compass-circle'}));
-    compass.append(svg('circle', {r: '77', class: 'names-compass-circle'}));
-    const compassPoints = svg('g');
-    [0, 45, 90, 135, 180, 225, 270, 315].forEach(angle => {
-      const spoke = svg('g', {transform: 'rotate(' + angle + ')'});
-      const length = angle % 90 === 0 ? 115 : 81;
-      spoke.append(svg('path', {d: 'M 0 -' + length + ' L -14 0 L 0 15 Z', class: 'names-compass-dark'}), svg('path', {d: 'M 0 -' + length + ' L 14 0 L 0 15 Z', class: 'names-compass-light'}));
-      compassPoints.append(spoke);
-    });
-    compass.append(compassPoints);
-    const north = svg('text', {x: '0', y: '-145', 'text-anchor': 'middle'});
-    north.textContent = 'N';
-    compass.append(north);
-    drawing.append(compass);
     islands.forEach(island => {
       const [cx, cy] = [island.centre[0] * 30, island.centre[1] * 15.14];
       drawing.append(svg('line', {'data-name-leader': island.id, x1: cx, y1: cy, x2: island.label[0] * 30, y2: island.label[1] * 15.14, class: 'names-leader'}));
@@ -305,6 +290,7 @@
     help.id = 'namesPanHelp';
     pan.append(left, help, right);
     function updatePan() {
+      pan.hidden = viewport.scrollWidth <= viewport.clientWidth + 2;
       left.disabled = viewport.scrollLeft < 2;
       right.disabled = viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 2;
     }
@@ -370,15 +356,21 @@
     const kicker = node('p', 'names-kicker', 'Un archipiélago, distintas memorias');
     const title = node('h1', 'section-title', 'Los nombres de las islas');
     title.id = 'namesMapTitle';
-    section.append(kicker, title, node('p', 'names-intro', 'Relaciona las denominaciones recogidas con las islas actuales. Empieza por la que quieras: es una práctica sin puntuación y puedes pedir ayuda.'));
-    const note = node('p', 'names-source-note', 'Los nombres antiguos presentan dudas y variantes. La ficha de La Graciosa indica una falta de documentación; no propone un nombre antiguo.');
+    section.append(kicker, title, node('p', 'names-intro', 'Elige una ficha y su isla, o arrástrala a su cartela. Practica en cualquier orden, sin puntuación.'));
+    const note = node('p', 'names-source-note', 'Los nombres antiguos presentan dudas y variantes. La ficha de La Graciosa indica que no se ha documentado un nombre indígena.');
     const instructions = node('details', 'names-details names-context');
     instructions.append(node('summary', '', 'Qué sabemos de estos nombres y cómo jugar'));
     instructions.append(node('p', '', CAUTION), node('p', '', 'La Graciosa: ' + GRACIOSA_NOTE), node('p', '', 'Las siete denominaciones son la selección aportada por la autoría tras sus consultas. «Gomara» se incorpora en ese marco; el juego no afirma una etimología demostrada ni la misma certeza documental para todos los nombres.'));
     const instructionList = node('ul');
     ['Toca o pulsa una ficha y después la cartela de su isla. Con teclado, utiliza Tab para recorrerlas y Enter o Espacio para elegir y colocar.', 'También puedes arrastrar las fichas con ratón o pantalla táctil. Escape cancela la selección o el arrastre.', 'Si prefieres desplegables, abre «Colocar sin arrastrar». Las relaciones colocadas se conservan al volver a intentarlo.', 'El mapa de referencia muestra las relaciones como apoyo; no las cuenta como colocadas por ti. Nada se guarda cuando cierras o recargas la página.'].forEach(text => instructionList.append(node('li', '', text)));
     instructions.append(instructionList);
-    section.append(note, instructions);
+    const contextRow = node('div', 'names-context-row');
+    contextRow.append(note, instructions);
+    section.append(contextRow);
+    const workspace = node('div', 'names-workspace');
+    workspace.id = 'namesWorkspace';
+    const cardPane = node('div', 'names-card-pane');
+    const mapPane = node('div', 'names-map-pane');
     const bank = node('div', 'names-card-bank');
     bank.id = 'namesCardBank';
     bank.setAttribute('role', 'group');
@@ -399,7 +391,7 @@
     });
     controls.selection = node('p', 'names-selection');
     controls.selection.id = 'namesSelection';
-    section.append(bank, controls.selection);
+    cardPane.append(bank, controls.selection);
     const mapToolbar = node('div', 'names-map-toolbar');
     const label = node('label', 'names-current-toggle');
     controls.showCurrent = node('input');
@@ -409,7 +401,9 @@
     controls.showCurrent.addEventListener('change', () => section.classList.toggle('names-hide-current', !controls.showCurrent.checked));
     label.append(controls.showCurrent, node('span', '', 'Mostrar nombres actuales como apoyo'));
     mapToolbar.append(label);
-    section.append(mapToolbar, buildMap());
+    mapPane.append(mapToolbar, buildMap());
+    workspace.append(cardPane, mapPane);
+    section.append(workspace);
     const actions = node('div', 'names-actions');
     controls.hint = button('Pedir una pista', 'names-button names-button-secondary', () => {
       const island = byId(selected || controls.nameSelect.value);

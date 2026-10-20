@@ -122,6 +122,7 @@ class NamesBrowserTest(unittest.TestCase):
             "aria-current", "page"
         )
         expect(self.page.locator("#namesMapTitle")).to_be_visible()
+        expect(self.page.locator("#namesMapImage .names-compass")).to_have_count(0)
         self.assertEqual(self.page.locator("[data-name-card]").count(), 8)
         self.assertEqual(self.page.locator("[data-name-island]").count(), 8)
         self.assertEqual(self.page.locator("#passportCount").text_content(), "0/8")
@@ -251,6 +252,54 @@ class NamesBrowserTest(unittest.TestCase):
         expect(self.island("tenerife")).to_have_attribute("data-placed", "true")
         session.detach()
 
+    def test_desktop_drag_keeps_names_and_all_destinations_in_one_view(self):
+        for width, height in [(1280, 720), (1366, 768), (1440, 900)]:
+            with self.subTest(width=width, height=height):
+                self.page.set_viewport_size({"width": width, "height": height})
+                self.page.reload(wait_until="networkidle")
+                workspace = self.page.locator("#namesWorkspace")
+                covered_top = workspace.evaluate("""node=>{
+                    node.scrollIntoView({block:'center',inline:'nearest',behavior:'instant'});
+                    const covered=Math.max(0,...[...document.querySelectorAll(
+                        '.topbar,.main-navigation')].filter(header=>
+                        ['sticky','fixed'].includes(getComputedStyle(header).position))
+                        .map(header=>header.getBoundingClientRect().bottom));
+                    const rect=node.getBoundingClientRect();
+                    const top=covered+Math.max(0,(innerHeight-covered-rect.height)/2);
+                    window.scrollBy({top:rect.top-top,behavior:'instant'});
+                    return covered;
+                }""")
+                initial_scroll = self.page.evaluate("window.scrollY")
+                # The learner can see and point to every origin and destination
+                # after centring the workspace, without scrolling between them.
+                for selector in ["[data-name-card]", "[data-name-island]"]:
+                    for control in self.page.locator(selector).all():
+                        bounds = control.evaluate("""node=>{
+                            const r=node.getBoundingClientRect();
+                            const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
+                            return {left:r.left,top:r.top,right:r.right,bottom:r.bottom,
+                                width:r.width,height:r.height,
+                                reachable:hit===node||node.contains(hit)};
+                        }""")
+                        self.assertGreaterEqual(bounds["left"], -1, bounds)
+                        self.assertGreaterEqual(bounds["top"], covered_top - 1, bounds)
+                        self.assertLessEqual(bounds["right"], width + 1, bounds)
+                        self.assertLessEqual(bounds["bottom"], height + 1, bounds)
+                        self.assertGreaterEqual(bounds["width"], 44, bounds)
+                        self.assertGreaterEqual(bounds["height"], 44, bounds)
+                        self.assertTrue(bounds["reachable"], bounds)
+
+                card = self.card("tenerife").bounding_box()
+                target = self.island("tenerife").bounding_box()
+                self.page.mouse.move(card["x"] + card["width"] / 2,
+                                     card["y"] + card["height"] / 2)
+                self.page.mouse.down()
+                self.page.mouse.move(target["x"] + target["width"] / 2,
+                                     target["y"] + target["height"] / 2, steps=12)
+                self.page.mouse.up()
+                expect(self.island("tenerife")).to_have_attribute("data-placed", "true")
+                self.assertAlmostEqual(self.page.evaluate("window.scrollY"), initial_scroll, delta=1)
+
     def test_global_reset_and_import_clear_the_previous_learners_practice(self):
         self.place("tenerife")
         self.page.locator("#openTeacher").click()
@@ -303,10 +352,15 @@ class NamesBrowserTest(unittest.TestCase):
                 # They must fit the same cartelas without colliding.
                 self.page.locator("#namesReference").click()
                 boxes = []
+                board = self.page.locator("#namesMapBoard").bounding_box()
                 for target in self.page.locator("[data-name-island]").all():
                     box = target.bounding_box()
                     self.assertGreaterEqual(box["width"], 44)
                     self.assertGreaterEqual(box["height"], 44)
+                    self.assertGreaterEqual(box["x"], board["x"] - 1)
+                    self.assertGreaterEqual(box["y"], board["y"] - 1)
+                    self.assertLessEqual(box["x"] + box["width"], board["x"] + board["width"] + 1)
+                    self.assertLessEqual(box["y"] + box["height"], board["y"] + board["height"] + 1)
                     boxes.append(box)
                 for index, first in enumerate(boxes):
                     for second in boxes[index + 1:]:

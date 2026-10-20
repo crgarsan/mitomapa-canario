@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB Y REA 4.7.0 · 20/10/2026
+MITOMAPA CANARIO · WEB Y REA 4.7.1 · 20/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -11,12 +11,17 @@ Contiene 39 páginas, 118 iDevices y las 95 identidades de la edición base,
 cuentos, las ocho escenas vigentes, las guías y la narración de Jesica.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_7_0.zip: editable ELPX y documentación.
-downloads/MitoMapa_fuentes_web_v4_7_0.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_7_1.zip: editable ELPX y documentación.
+downloads/MitoMapa_fuentes_web_v4_7_1.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
 
-MEJORAS DE ESTA EDICIÓN
+REVISIÓN VISUAL 4.7.1 · 20/10/2026
+Se retira la rosa de los vientos y se compactan el banco de fichas y las
+cartelas del juego de nombres para facilitar el arrastre junto al mapa.
+La selección de nombres, sus cautelas y la propuesta didáctica se conservan.
+
+MEJORAS INTRODUCIDAS EN 4.7.0
 Nuevo juego opcional Nombres de las islas, incluido en el Explorador portable:
 asocia siete denominaciones y la ficha «Sin nombre documentado» con el mapa.
 Permite arrastrar o seleccionar y colocar mediante toque, clic o teclado.

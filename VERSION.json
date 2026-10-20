@@ -1,15 +1,15 @@
 {
-  "web_version": "4.7.0",
-  "rea_exelearning_version": "4.7.0",
+  "web_version": "4.7.1",
+  "rea_exelearning_version": "4.7.1",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-20",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "6896d1753e7b7928106a4e492fc97959033aca4cae366a17559a0457cd3e2c1e",
-    "bytes": 25839571
+    "sha256": "10b3abb0575bb2526006508e8a69e541623dda2b6c242c4d2d94dd49dafe0a05",
+    "bytes": 25839166
   },
-  "previous_web_version": "4.6.0",
-  "previous_rea_version": "4.6.0",
+  "previous_web_version": "4.7.0",
+  "previous_rea_version": "4.7.0",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_7_0.md",
-  "rea_release_notes": "CAMBIOS_REA_4_7_0.md",
+  "release_notes": "CAMBIOS_WEB_4_7_1.md",
+  "rea_release_notes": "CAMBIOS_REA_4_7_1.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 39,
@@ -57,7 +57,7 @@
   },
   "rea_revision": "2026-10-20",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Juego opcional de nombres históricos y carta de aspecto antiguo",
+  "rea_revision_label": "Juego de nombres más compacto y sin rosa de los vientos",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -108,13 +108,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_7_0.zip",
+    "path": "downloads/MitoMapa_REA_v4_7_1.zip",
     "contents": "REA editable ELPX y documentación de la edición vigente",
-    "sha256": "0982950bc3d3409e1321197f04dc1f90d7917e6347c5a2d15151f0ab119b59ef",
-    "bytes": 25636503
+    "sha256": "207b697cadec6b035a6b29715781eaae74d91874636f5442c682dc2a64484cc5",
+    "bytes": 25635794
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_7_0.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_7_1.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -123,7 +123,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.7.0",
+    "downloaded_response_version": "4.7.1",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -159,6 +159,9 @@
     "map_geometry_preserved": true,
     "expert_consultation": "Según la información aportada por la autoría; sin atribución de unanimidad ni aval institucional",
     "counts_towards_passport": false,
-    "included_in_portable_explorer": true
+    "included_in_portable_explorer": true,
+    "compass_rose": false,
+    "compact_drag_workspace": true,
+    "layout_revision": "4.7.1"
   }
 }

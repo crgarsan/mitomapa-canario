@@ -1,4 +1,4 @@
-# MitoMapa canario · 4.7.0
+# MitoMapa canario · 4.7.1
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La web y el REA editable corresponden a la edición **4.7.0**, revisada el
+La web y el REA editable corresponden a la edición **4.7.1**, revisada el
 20/10/2026. La adaptación GobCan conserva **39 páginas, 118 iDevices, las 95
 identidades de la edición base, 42 juegos nativos y 16 MP3**. Utiliza el formato
 de eXeLearning **4.0.5**, la plantilla Flux y Andika. La aplicación portable
@@ -18,8 +18,8 @@ de lectura y la narración local.
 
 - [Web publicada](https://mitomapa-canario.cgarcias.workers.dev/).
 - [REA editable vigente](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de esta edición](downloads/MitoMapa_REA_v4_7_0.zip).
-- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_7_0.zip).
+- [Paquete de esta edición](downloads/MitoMapa_REA_v4_7_1.zip).
+- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_7_1.zip).
 
 `VERSION.json` identifica la edición y las huellas de las descargas.
 `SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub es
