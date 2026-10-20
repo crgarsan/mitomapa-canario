@@ -1,4 +1,4 @@
-MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.6.0 · REA editable 4.6.0, adaptación GobCan · aplicación interactiva 4.6.0
+MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.7.0 · REA editable 4.7.0, adaptación GobCan · aplicación interactiva 4.7.0
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
 Los materiales propios de esta edición se publican bajo CC BY-SA 4.0.
@@ -15,9 +15,18 @@ No se ha realizado una auditoría independiente de titularidad de cada imagen.
 
 Crédito sugerido:
 Fortes Regalado, J.; González Martín, G. E.; García Santana, C. (2026).
-MitoMapa canario: ocho islas, ocho pintaderas (web 4.6.0; REA 4.6.0, adaptación GobCan). CC BY-SA 4.0.
+MitoMapa canario: ocho islas, ocho pintaderas (web 4.7.0; REA 4.7.0, adaptación GobCan). CC BY-SA 4.0.
 https://mitomapa-canario.cgarcias.workers.dev/
 Si adaptas: añade tu autoría, fecha y descripción de los cambios.
+
+Revisión 4.7.0 (20/10/2026): juego opcional de asociación de nombres e islas,
+con alternativas al arrastre y cautelas sobre las denominaciones. La consulta
+a especialistas se recoge según la información facilitada por la autoría;
+no supone unanimidad ni un aval institucional. La carta del juego es una
+recreación contemporánea mediante presentación visual del mapa existente;
+no reproduce un documento histórico y conserva la geografía del mapa base.
+La estilización y el código propios se acogen a la licencia del proyecto;
+la imagen del mapa conserva las condiciones originales indicadas a continuación.
 
 Mapa: Mapa de relieve aportado por la autoría en el archivo imagen_20261009_200406.svg. Procedencia indicada por la autoría: TongApp del Gobierno de Canarias (https://www3.gobiernodecanarias.org/medusa/apps/tongapp/). Se conserva su imagen, con conversión WebP sin pérdida; el SVG contiene una imagen PNG incrustada. El aviso de TongApp facilitado por la autoría declara la titularidad del Gobierno de Canarias y el libre uso por la comunidad educativa. El mapa conserva esas condiciones originales; no se le atribuye la licencia de los materiales propios del proyecto. La licencia CC BY-SA 4.0 del proyecto corresponde a sus materiales propios.
 Ilustraciones: ocho escenas y diez pintaderas generadas para el recurso; los créditos originales consignan OpenAI ImageGen y agosto de 2026. El mapa no forma parte de estas dieciocho imágenes. Son recreaciones contemporáneas,
@@ -70,7 +79,7 @@ https://www3.gobiernodecanarias.org/medusa/apps/tongapp/
 EDICIÓN ANTERIOR 4.5.1 · 14/10/2026
 Las ocho escenas vigentes se recuperaron del chat «Set up mitomapa-canario» y fueron incorporadas el 12/10/2026. Se mantiene su condición de recreaciones realizadas con IA; la versión técnica del motor no quedó registrada. Conversión a WebP de calidad 96 sin redimensionar. Las pintaderas conservan sus créditos anteriores. El 14/10/2026 se revisan las descripciones alternativas, las listas cualitativas por etapa, la accesibilidad de las actividades y las fichas de fuentes. El historial anterior describe las ediciones respectivas.
 
-EDICIÓN VIGENTE 4.6.0 · 19/10/2026
+EDICIÓN ANTERIOR 4.6.0 · 19/10/2026
 Se revisan el reinicio, la valoración voluntaria y la identificación de la edición.
 La guía multinivel presenta tres duraciones y un ejemplo curricular GobCan.
 La ruta acordada y revisada se distingue de la colección de ocho pintaderas.

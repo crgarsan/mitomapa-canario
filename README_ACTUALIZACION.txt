@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB Y REA 4.6.0 · 19/10/2026
+MITOMAPA CANARIO · WEB Y REA 4.7.0 · 20/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -11,18 +11,31 @@ Contiene 39 páginas, 118 iDevices y las 95 identidades de la edición base,
 cuentos, las ocho escenas vigentes, las guías y la narración de Jesica.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_6_0.zip: editable ELPX y documentación.
-downloads/MitoMapa_fuentes_web_v4_6_0.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_7_0.zip: editable ELPX y documentación.
+downloads/MitoMapa_fuentes_web_v4_7_0.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
 
 MEJORAS DE ESTA EDICIÓN
-Reinicio coherente del progreso y de las respuestas visibles. Valoración
-voluntaria que admite comentarios sin completar las escalas. Documentación
-unificada con la edición vigente. Ruta acordada y revisada por el profesorado,
-separada de la colección de ocho pintaderas. Herramientas de sincronización y
-publicación de la edición actual con comprobación previa. Protocolo imprimible
-para preparar un pilotaje y registrar dificultades y propuestas.
+Nuevo juego opcional Nombres de las islas, incluido en el Explorador portable:
+asocia siete denominaciones y la ficha «Sin nombre documentado» con el mapa.
+Permite arrastrar o seleccionar y colocar mediante toque, clic o teclado.
+El aspecto de carta antigua es una recreación actual sobre la geografía del
+mapa de MitoMapa; no es un mapa auténtico de los primeros conquistadores.
+No concede pintaderas, no genera calificaciones ni condiciona la ruta.
+
+FUENTES_CUENTOS.html#nombres-islas documenta la selección aportada por la autoría,
+que informa de consultas con personas expertas en la época prehispánica de
+Canarias. Se advierte de las incertidumbres de formas, grafías, cronología y
+significado; la actividad no prueba fechas ni etimologías. Para La Graciosa,
+«Sin nombre documentado» expresa que no se ha establecido aquí una denominación
+indígena documentada, sin descartar visitas o usos ocasionales. Las fichas de
+los ocho cuentos conservan su revisión del 14/10/2026 y no se modifica su texto.
+
+Se conservan el reinicio coherente del progreso, la valoración voluntaria,
+la ruta acordada y revisada por el profesorado, las herramientas de
+sincronización y publicación y el protocolo imprimible para preparar un
+pilotaje. Las guías incorporan el nuevo juego como ampliación opcional.
 
 PROPUESTA MULTINIVEL
 El profesorado selecciona las tareas, apoyos y anclaje curricular según su grupo.

@@ -158,6 +158,15 @@ def native_texts(root, components, version):
         f'<li><a href="{APP}GUIA_DOCENTE_GOBCAN.html">Ejemplo curricular GobCan del itinerario corto</a>.</li>'
         f'<li><a href="{APP}PROTOCOLO_PILOTAJE.html">Protocolo de pilotaje y hoja imprimible</a>. '
         'Propuesta todavía no aplicada con alumnado.</li></ul>'
+        f'<p><strong>Juego opcional: los nombres de las islas.</strong> Abre el '
+        f'<a href="{APP}index.html">Explorador interactivo</a> y elige Juegos → Los nombres de las islas. '
+        'Relaciona siete denominaciones históricas y una categoría sin nombre documentado para La Graciosa. '
+        'Puedes arrastrar, seleccionar una ficha y una isla o usar el formulario accesible. La carta es una '
+        'recreación actual de aspecto antiguo que conserva la geografía del mapa base; no es un documento histórico. '
+        'Las denominaciones tienen distintos grados de respaldo y variantes. Según la información aportada por '
+        'la autoría, la selección se ha consultado con especialistas; eso no elimina las incertidumbres. '
+        'Esta actividad no concede pintaderas ni bloquea la ruta. Consulta '
+        f'<a href="{APP}FUENTES_CUENTOS.html">las fuentes y las cautelas de los nombres</a>.</p>'
     )
     result["20260823155837TCRED0"] = re.sub(
         r"<p><strong>Edición:</strong>.*?</p>",
@@ -172,6 +181,9 @@ def native_texts(root, components, version):
         "la valoración escrita, los controles de narración y la ruta acordada del Explorador. Conserva los 39 "
         "capítulos, 118 identidades de iDevices, 42 juegos nativos y los medios de la edición anterior. "
         "Materiales propios: CC BY-SA 4.0; los materiales de terceros conservan sus condiciones.</p>"
+        "<p>Incorpora al Explorador el juego opcional de nombres históricos sobre una recreación de carta antigua, "
+        "con alternativas al arrastre y cautelas sobre la documentación. La consulta a especialistas se consigna "
+        "según lo informado por la autoría, sin atribuir unanimidad. El juego no altera las pintaderas.</p>"
     )
     return result
 
