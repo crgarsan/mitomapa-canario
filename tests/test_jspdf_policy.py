@@ -92,9 +92,9 @@ class JsPdfPolicyTests(unittest.TestCase):
                     policy.verify_dependency_manifest(path)
 
     def test_all_public_and_nested_native_loaders_are_verified(self):
-        # 4.8.0 preserves all 37 prior public packages, adds an immutable 4.7.1
+        # 4.8.1 preserves all 40 prior public packages, adds an immutable 4.8.0
         # ELPX snapshot and publishes the current source and sharing ZIPs.
-        self.assertEqual(len(self.public), 40)
+        self.assertEqual(len(self.public), 43)
         affected = loaders = nested_elpx = direct_loaders = 0
         for path in self.public:
             with self.subTest(archive=path.name):
@@ -104,7 +104,7 @@ class JsPdfPolicyTests(unittest.TestCase):
                 nested_elpx += nested
                 if path.suffix == ".elpx":
                     direct_loaders += count
-        self.assertEqual((affected, loaders, nested_elpx, direct_loaders), (29, 122, 27, 41))
+        self.assertEqual((affected, loaders, nested_elpx, direct_loaders), (31, 128, 28, 44))
 
     def test_native_loader_mutations_are_rejected(self):
         for name, original in self.scripts.items():

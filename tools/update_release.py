@@ -61,11 +61,11 @@ def sharing_document(payload, name, documents, version):
 
 
 def release_paths(version):
-    current = version["web_version"]
-    if not re.fullmatch(r"\d+\.\d+\.\d+", current):
+    current = version.get("release_version", version["rea_exelearning_version"])
+    if not all(re.fullmatch(r"\d+\.\d+\.\d+", value) for value in (current, version["web_version"])):
         raise ValueError("The current version must have three numeric components")
     if version["rea_exelearning_version"] != current:
-        raise ValueError("The web and editable release versions differ")
+        raise ValueError("The editable edition differs from its delivery version")
     expected = {
         "download": "downloads/MitoMapa_canario_GobCan.elpx",
         "sharing_archive": f"downloads/MitoMapa_REA_v{current.replace('.', '_')}.zip",
@@ -89,7 +89,7 @@ def sharing_version(version):
 
 
 def sharing_files(root, version, elpx):
-    current = version["web_version"]
+    current = version["rea_exelearning_version"]
     files = {"MitoMapa_canario_GobCan.elpx": elpx}
     documents = set(DOCUMENTS)
     for key in ("release_notes", "rea_release_notes"):

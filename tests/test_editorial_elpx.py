@@ -156,7 +156,7 @@ class EditorialElpxTests(unittest.TestCase):
                 with self.subTest(media=name):
                     self.assertEqual(self.files.get(name), payload)
 
-    def test_cover_only_adds_authorship_license_and_two_decorative_rows(self):
+    def test_cover_has_four_pintaderas_above_the_original_map_and_four_below(self):
         markup = "".join(text_markup(c) for c in page_components(self.pages[COVER]))
         document = fragment(markup)
         text = readable(markup)
@@ -164,11 +164,20 @@ class EditorialElpxTests(unittest.TestCase):
         for author in AUTHORS:
             self.assertIn(author, text)
         self.assertIn("CC BY-SA 4.0", text)
-        for unwanted in ("curricular", "Primaria", "Lengua Castellana", "Conocimiento del Medio", "TongApp", "El Museo Canario", "ImageGen", "Astra", "4.8.0"):
+        for unwanted in ("curricular", "Primaria", "Lengua Castellana", "Conocimiento del Medio", "TongApp", "El Museo Canario", "ImageGen", "Astra", self.version["rea_exelearning_version"]):
             self.assertNotIn(unwanted.casefold(), text.casefold())
         decorations = document.xpath(".//img[contains(@src,'pintadera')]")
         self.assertEqual(len(decorations), 8)
         self.assertTrue(all(image.get("alt") == "" for image in decorations))
+        map_images = document.xpath(".//img[substring(@src,string-length(@src)-string-length('mapa_canarias.webp')+1)='mapa_canarias.webp']")
+        self.assertEqual(len(map_images), 1)
+        map_image = map_images[0]
+        self.assertEqual(map_image.get("src"), "{{context_path}}/content/resources/mapa_canarias.webp")
+        self.assertTrue(map_image.get("alt"))
+        visuals = document.xpath(".//img[contains(@src,'pintadera') or substring(@src,string-length(@src)-string-length('mapa_canarias.webp')+1)='mapa_canarias.webp']")
+        self.assertEqual(visuals[:4], decorations[:4])
+        self.assertIs(visuals[4], map_image)
+        self.assertEqual(visuals[5:], decorations[4:])
         references = document.xpath(".//a/@href")
         self.assertTrue(references)
         self.assertTrue(all(url.startswith("https://creativecommons.org/licenses/by-sa/4.0/") for url in references), references)

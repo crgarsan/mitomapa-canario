@@ -90,7 +90,7 @@ class EditorialElpxBrowserTests(unittest.TestCase):
         if switch.count() and switch.is_visible():
             switch.check()
 
-    def test_cover_uses_two_decorative_rows_without_horizontal_overflow(self):
+    def test_cover_has_four_pintaderas_above_and_below_the_uncropped_map(self):
         for width in (320, 1280):
             with self.subTest(width=width):
                 self.page.set_viewport_size({"width": width, "height": 1000})
@@ -107,6 +107,22 @@ class EditorialElpxBrowserTests(unittest.TestCase):
                     self.assertGreaterEqual(box["left"], 0)
                     self.assertLessEqual(box["right"], width + 1)
                 self.assertEqual(sorted(rows.values()), [4, 4])
+                map_image = self.page.locator("#GBCTPORTADA img[src$='mapa_canarias.webp']")
+                expect(map_image).to_have_count(1)
+                expect(map_image).to_be_visible()
+                geometry = map_image.evaluate("""img=>{const r=img.getBoundingClientRect();return {
+                    loaded:img.complete&&img.naturalWidth>0,naturalWidth:img.naturalWidth,
+                    naturalHeight:img.naturalHeight,width:r.width,height:r.height,
+                    top:r.top,bottom:r.bottom,left:r.left,right:r.right,
+                    objectFit:getComputedStyle(img).objectFit}}""")
+                self.assertTrue(geometry["loaded"])
+                self.assertEqual((geometry["naturalWidth"], geometry["naturalHeight"]), (3000, 1514))
+                self.assertAlmostEqual(geometry["width"] / geometry["height"], 3000 / 1514, delta=.01)
+                self.assertNotEqual(geometry["objectFit"], "cover")
+                self.assertGreaterEqual(geometry["left"], 0)
+                self.assertLessEqual(geometry["right"], width + 1)
+                self.assertTrue(all(box["bottom"] <= geometry["top"] for box in boxes[:4]))
+                self.assertTrue(all(box["top"] >= geometry["bottom"] for box in boxes[4:]))
                 self.assertTrue(self.page.evaluate("document.documentElement.scrollWidth<=innerWidth+1"))
 
     def test_teacher_boxes_and_source_sections_open_with_keyboard(self):

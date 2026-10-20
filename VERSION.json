@@ -1,15 +1,15 @@
 {
   "web_version": "4.8.0",
-  "rea_exelearning_version": "4.8.0",
+  "rea_exelearning_version": "4.8.1",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-20",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "e73d7d42476d2bba7a5d1a6d6bf5ef55a963a8d37e31b202f1a54df99a4495f4",
-    "bytes": 25379944
+    "sha256": "1bffd7212d73112a5da287b87ac91551a30b88234d3e812caad53cb6a34f7dbe",
+    "bytes": 25380146
   },
-  "previous_web_version": "4.7.1",
-  "previous_rea_version": "4.7.1",
+  "previous_web_version": "4.8.0",
+  "previous_rea_version": "4.8.0",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -35,7 +35,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
   "release_notes": "CAMBIOS_WEB_4_8_0.md",
-  "rea_release_notes": "CAMBIOS_REA_4_8_0.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_1.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 34,
@@ -59,7 +59,7 @@
   },
   "rea_revision": "2026-10-20",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Revisión editorial GobCan y separación del recurso web",
+  "rea_revision_label": "Portada con cuatro pintaderas, mapa y cuatro pintaderas",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_0.zip",
+    "path": "downloads/MitoMapa_REA_v4_8_1.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "5cd1fc4ee3a3e07bee81c4b116398d1a4f1f39808c08ee4b2fb4dd5a99a0881a",
-    "bytes": 25191963
+    "sha256": "11bf1b1a461eb22c6d865d2573fbef92ef60b00ac75e8248fd7cd0604322a4e3",
+    "bytes": 25192064
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_0.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_1.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -173,6 +173,8 @@
     "embedded_web_app": false,
     "editorial_review": "GobCan: portada, fuentes, autoría, navegación y cajas docentes",
     "collective_acknowledgements": true,
-    "group_address": "ustedes"
-  }
+    "group_address": "ustedes",
+    "cover_layout": "four_badges_map_four_badges"
+  },
+  "release_version": "4.8.1"
 }

@@ -18,7 +18,7 @@ from release_support import (
     digest, json_bytes, metadata, parse_sums, read_zip, sums_bytes,
     verify_manifest, zip_bytes,
 )
-from update_release import DOCUMENTS, check_elpx, check_release, update_release
+from update_release import DOCUMENTS, check_elpx, check_release, release_paths, update_release
 
 
 class ReleasePipelineTests(unittest.TestCase):
@@ -172,6 +172,17 @@ class ReleasePipelineTests(unittest.TestCase):
         files["content.xml"] = files["content.xml"].replace(b"share alike 4.0", b"non commercial - share alike 4.0")
         with self.assertRaisesRegex(ValueError, "licence must be CC BY-SA 4.0"):
             check_elpx(payload(), version, self.root)
+
+    def test_editable_revision_can_advance_without_changing_the_web_edition(self):
+        version = {**self.version, "release_version": "4.6.1", "rea_exelearning_version": "4.6.1",
+                   "sharing_archive": {"path": "downloads/MitoMapa_REA_v4_6_1.zip"},
+                   "source_archive": {"path": "downloads/MitoMapa_fuentes_web_v4_6_1.zip"}}
+        paths = release_paths(version)
+        self.assertEqual(version["web_version"], "4.6.0")
+        self.assertEqual(paths["sharing_archive"], "downloads/MitoMapa_REA_v4_6_1.zip")
+        version["rea_exelearning_version"] = "4.6.2"
+        with self.assertRaisesRegex(ValueError, "differs from its delivery"):
+            release_paths(version)
 
     @staticmethod
     def raw_zip(entries):

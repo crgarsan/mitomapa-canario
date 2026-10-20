@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La web y el REA editable corresponden a la edición **4.8.0**, revisada el
+La web mantiene la edición **4.8.0** y el REA editable se revisa a **4.8.1**, el
 20/10/2026. Son dos recursos diferenciados. La adaptación GobCan tiene
 **34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
 de eXeLearning **4.0.5**, la plantilla Flux y Andika. El ELPX conserva los ocho
@@ -19,8 +19,8 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 
 - [Web publicada](https://mitomapa-canario.cgarcias.workers.dev/).
 - [REA editable vigente](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de esta edición](downloads/MitoMapa_REA_v4_8_0.zip).
-- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_8_0.zip).
+- [Paquete de esta edición](downloads/MitoMapa_REA_v4_8_1.zip).
+- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_8_1.zip).
 
 `VERSION.json` identifica la edición y las huellas de las descargas.
 `SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub es

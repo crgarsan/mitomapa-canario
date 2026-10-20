@@ -704,7 +704,9 @@ def apply_editorial(files, root, version):
     texts["GBCTPORTADA"] = (
         '<section aria-label="Portada de MitoMapa canario" style="max-width:760px;margin:auto;padding:1.5rem;text-align:center">'
         '<h1 style="font-family:Arial,Helvetica,sans-serif;font-size:18pt;line-height:1.25;margin:.5rem 0 1.5rem">MitoMapa canario<br><span style="font-size:14pt">Ocho islas, ocho pintaderas</span></h1>'
-        + "".join(rows) + f'<p style="margin:1.7rem 0 .5rem"><strong>Autoría</strong><br>{AUTHORS.replace("; ", "<br>")}</p>'
+        + rows[0]
+        + f'<img src="{CONTEXT}/content/resources/mapa_canarias.webp" alt="Mapa de las ocho islas de Canarias" width="3000" height="1514" style="display:block;width:100%;max-width:100%;height:auto;object-fit:contain;margin:1rem auto">'
+        + rows[1] + f'<p style="margin:1.7rem 0 .5rem"><strong>Autoría</strong><br>{AUTHORS.replace("; ", "<br>")}</p>'
         '<p>Narración: Jesica Fortes Regalado.</p>'
         f'<p><a href="{LICENSE_URL}" rel="license"><img src="{APP}assets/images/cc-by-sa-4.0.svg" width="88" height="31" alt="CC BY-SA 4.0"></a><br>'
         f'<a href="{LICENSE_URL}" rel="license">CC BY-SA 4.0</a> · Materiales propios</p></section>'
