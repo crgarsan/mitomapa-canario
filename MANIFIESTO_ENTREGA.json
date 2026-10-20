@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "titulo": "MitoMapa canario: ocho islas, ocho pintaderas",
+  "version_entrega": "4.8.1",
+  "version_elpx": "4.8.1",
+  "version_web": "4.8.1",
+  "fecha": "2026-10-20",
+  "fuente_git": "2bfd1d79e7f082d065ddf3d6466bab4eb9ab5b7f",
+  "autoria": [
+    "Jesica Fortes Regalado",
+    "Gloria Elsa González Martín",
+    "Cristian García Santana"
+  ],
+  "narracion": "Jesica Fortes Regalado",
+  "contacto": {
+    "nombre": "Cristian García Santana",
+    "correo": "crgarsann@gobiernodecanarias.org",
+    "entidad": "Área de Tecnología Educativa"
+  },
+  "licencia_materiales_propios": {
+    "spdx": "CC-BY-SA-4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/deed.es",
+    "condicion_no_comercial": false
+  },
+  "terceros": "El mapa TongApp, los distintivos, las fuentes externas, la plantilla y las bibliotecas conservan sus condiciones originales. Consultar LICENCIA_Y_CREDITOS_GobCan.txt.",
+  "estructura_elpx": {
+    "paginas": 34,
+    "idevices": 118,
+    "juegos_nativos": 42,
+    "archivos_mp3": 16,
+    "aplicacion_web_incrustada": false
+  },
+  "caracter_didactico": "Multinivel; el profesorado elige el itinerario y concreta el anclaje curricular.",
+  "pilotaje_alumnado": "Todavía no realizado",
+  "web": "https://mitomapa-canario.cgarcias.workers.dev/",
+  "plantilla_ficha": "https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/plantila_publicacion_recursos_editable.odt",
+  "archivo_elpx": {
+    "ruta": "MitoMapa_canario_GobCan.elpx",
+    "bytes": 25380136,
+    "sha256": "29cbb02435ab450d18bc23f2bf33497d3d405efe6c3475feaca91b2159b1872a"
+  },
+  "archivos": [
+    {
+      "ruta": "LEEME_PRESENTACION.txt",
+      "bytes": 3355,
+      "sha256": "d8f84f8a882e1590bbd426a13e8982746b61436bc5732725f1f798752e529ad9"
+    },
+    {
+      "ruta": "LICENCIA_Y_CREDITOS_GobCan.txt",
+      "bytes": 5198,
+      "sha256": "a8ea18146337e4e3bd0adb37fbe3da3869ca0056909d4aff76edcca150f52d33"
+    },
+    {
+      "ruta": "MitoMapa_canario_GobCan.elpx",
+      "bytes": 25380136,
+      "sha256": "29cbb02435ab450d18bc23f2bf33497d3d405efe6c3475feaca91b2159b1872a"
+    },
+    {
+      "ruta": "VALIDACION_GOBCAN.txt",
+      "bytes": 3727,
+      "sha256": "f37cf6761791fcba1823abd3a7f1ca457da7cdee4317ccf3c4f6c9ee4686fc9d"
+    },
+    {
+      "ruta": "documentacion/Actualizacion_creditos_IA_2026_10_20.pdf",
+      "bytes": 51809,
+      "sha256": "91f7585c2901a79c43b3b7ea8a4619d7bf9f5f78cc4b409db6ba88b7a3b28416"
+    },
+    {
+      "ruta": "documentacion/Ficha_presentacion_MitoMapa.odt",
+      "bytes": 3771838,
+      "sha256": "dc00458826f8246e3f9f414bb9cff0f82788c40c6a313e9b5c1ebc5b5de72c5d"
+    },
+    {
+      "ruta": "documentacion/Ficha_presentacion_MitoMapa.pdf",
+      "bytes": 731890,
+      "sha256": "53ae9845218ec7405348c0616d5ec7e711845af93b8fa48807df58286aee037c"
+    },
+    {
+      "ruta": "documentacion/Fuentes_y_creditos.csv",
+      "bytes": 83436,
+      "sha256": "79194b345465f1d19597f5729436f2400cdfa787888998a7448e55d3e919cac0"
+    },
+    {
+      "ruta": "documentacion/Fuentes_y_creditos.html",
+      "bytes": 6403990,
+      "sha256": "8b209c6e2f837a9bbe0defd0ef425df7f19e9391998de162438301754be2b431"
+    },
+    {
+      "ruta": "documentacion/Fuentes_y_creditos.json",
+      "bytes": 146810,
+      "sha256": "eca4af1281325849af2052084c8778c4d1263e954ebda1bb19f32d39426c27b5"
+    },
+    {
+      "ruta": "documentacion/Fuentes_y_creditos.pdf",
+      "bytes": 3997611,
+      "sha256": "4906f3180babe8ae3ff02e5c869080506a8bf0669342d8221e0e33b5feb27b3d"
+    },
+    {
+      "ruta": "documentacion/Guia_docente_MitoMapa_GobCan.docx",
+      "bytes": 2369227,
+      "sha256": "b96cf7d51fd944f26159de8677cc5c235c459559d71cbfb6ae43babeec0c6713"
+    },
+    {
+      "ruta": "documentacion/Guia_docente_MitoMapa_GobCan.odt",
+      "bytes": 2364734,
+      "sha256": "439e0f048a18574bf861662190209c6b80c3a3d803a762b805fc55209bfacb0a"
+    },
+    {
+      "ruta": "documentacion/Guia_docente_MitoMapa_GobCan.pdf",
+      "bytes": 3527486,
+      "sha256": "72c23fae567184bbc8bffb5898542a9586dd792a493b58b399c81b792f5d147a"
+    },
+    {
+      "ruta": "documentacion/Mapa_canarias_original.svg",
+      "bytes": 713570,
+      "sha256": "9bb01d1131544314ecadbd8feb3f1028cf2c27b4ce002e4908e0d701af0dacc8"
+    },
+    {
+      "ruta": "documentacion/Portada_MitoMapa_GobCan.png",
+      "bytes": 863482,
+      "sha256": "438cc8ce8a5cdb5649ecff6958af7f62cb5d63aedcf6c2d55746815d0cf73a05"
+    }
+  ],
+  "integridad": "El manifiesto no se incluye en su propio inventario. SHA256SUMS.txt incluye el manifiesto y todos los archivos salvo el propio archivo de sumas."
+}

@@ -1,0 +1,60 @@
+VALIDACIÓN DE ENTREGA · MITOMAPA CANARIO 4.8.1 · 20/10/2026
+
+RECURSO EDITABLE
+ELPX idéntico a la versión vigente, con 34 páginas, 118 iDevices,
+42 juegos nativos y 16 archivos MP3. ZIP y modelo XML comprobados.
+La sincronización de la edición nativa y el empaquetado vigente se han
+comprobado en modo de solo lectura. Pasan las 12 comprobaciones estructurales
+y de referencias del recurso aplicables a la revisión editorial.
+La prueba de extracción y reescritura de recursos del importador oficial de
+eXeLearning (revisión 710c77cc61916561b31e1c75d320d504644baa39) informa de
+365 miembros, 62 recursos importados y 118 iDevices, sin archivos ausentes ni
+advertencias. Se usa almacenamiento simulado en memoria: esta comprobación
+no inicia ni acredita una apertura completa de la interfaz del editor.
+El ELPX contiene actividades nativas. La web se enlaza al final como recurso
+extra independiente y no se incluye como aplicación local incrustada.
+
+DOCUMENTACIÓN
+Se conserva la organización indicada en las capturas de la entrega anterior:
+seis archivos en la raíz y doce documentos dentro de documentacion.
+Ficha oficial: ocho tablas en el editable ODT y ocho páginas en el PDF.
+Guía docente en DOCX, ODT y PDF, con contenido común y propuesta multinivel;
+el ejemplo de dos islas y cuatro sesiones se presenta como una opción.
+Fuentes y créditos en CSV, HTML, JSON y PDF; nota de créditos IA actualizada.
+115 registros: 88 archivos con sus huellas comprobadas y 27 referencias externas.
+Los 79 registros de materiales anteriores se conservan en el inventario actual.
+ZIP/XML de los editables comprobados; contenido y enlaces revisados. No se
+ha abierto esta entrega en LibreOffice, que no está instalado en el entorno.
+Los cuatro PDF tienen enlaces exclusivamente HTTPS, sin acciones Launch o
+GoToR. No se han detectado palabras fuera de sus páginas A4. Se han revisado
+visualmente portada y páginas interiores. El formato de los enlaces se valida;
+no se afirma una comprobación HTTP de todos sus destinos remotos.
+
+IMÁGENES, AUDIO Y LICENCIA
+Mapa SVG idéntico al original de la edición vigente. Portada PNG de 2280 × 2889
+píxeles, capturada del ELPX actual: cuatro pintaderas, mapa y cuatro pintaderas.
+Las escenas, pintaderas y narraciones originales del ELPX no se modifican.
+El PDF de fuentes utiliza compresión de exportación a 200 ppp/JPEG 95 para sus
+miniaturas. No sustituye los archivos originales del recurso.
+Materiales propios: CC BY-SA 4.0, sin condición No Comercial. El pasaporte
+muestra CC BY-SA 4.0. El mapa de TongApp, los distintivos y las dependencias
+mantienen sus condiciones originales. Los documentos explicitan esa distinción.
+La autoría y la narración de Jesica se conservan, así como el contacto indicado.
+La herramienta de imágenes y los límites de su identificación técnica se
+recogen en la ficha y en la nota de créditos IA, sin inventar versiones.
+
+ALCANCE
+La propuesta es multinivel y el profesorado concreta su anclaje curricular.
+El recurso todavía no se ha aplicado con alumnado. No se declara una
+certificación integral de accesibilidad ni la aceptación editorial del Gobierno
+de Canarias. La documentación no equivale por sí sola a aprobación de publicación.
+El contenido y el código de la web publicada no se han modificado.
+El ELPX se conserva como una copia exacta del archivo vigente.
+
+ELPX SHA-256: 29cbb02435ab450d18bc23f2bf33497d3d405efe6c3475feaca91b2159b1872a
+
+PDF Y PÁGINAS
+Actualizacion_creditos_IA_2026_10_20.pdf: 3 páginas; 4 enlaces HTTPS.
+Ficha_presentacion_MitoMapa.pdf: 8 páginas; 22 enlaces HTTPS.
+Fuentes_y_creditos.pdf: 22 páginas; 57 enlaces HTTPS.
+Guia_docente_MitoMapa_GobCan.pdf: 13 páginas; 15 enlaces HTTPS.
