@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB Y REA 4.8.0 · 20/10/2026
+MITOMAPA CANARIO · WEB 4.8.0 · REA 4.8.1 · 20/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -13,10 +13,16 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_0.zip: editable ELPX y documentación.
-downloads/MitoMapa_fuentes_web_v4_8_0.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_1.zip: editable ELPX y documentación.
+downloads/MitoMapa_fuentes_web_v4_8_1.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
+
+REVISIÓN 4.8.1 · 20/10/2026
+La portada combina cuatro pintaderas arriba, el mapa original completo y las
+otras cuatro debajo, manteniendo las proporciones del mapa. Se corrige a
+CC BY-SA 4.0 el pie del Pasaporte de pintaderas, también en sus datos internos.
+La web conserva su edición 4.8.0.
 
 REVISIÓN EDITORIAL 4.8.0 · 20/10/2026
 Portada más limpia, con autoría, licencia y pintaderas decorativas en dos filas,

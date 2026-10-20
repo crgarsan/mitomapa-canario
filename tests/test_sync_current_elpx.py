@@ -108,10 +108,10 @@ class SynchronizationTests(unittest.TestCase):
 
     def test_release_metadata_generates_the_web_version_module(self):
         next_version = copy.deepcopy(self.version)
-        next_version.update(web_version="4.8.1", rea_exelearning_version="4.8.1")
+        next_version.update(web_version="4.8.0", rea_exelearning_version="4.8.1")
         module = version_module(next_version).decode()
         values = json.loads(module.split("Object.freeze(", 1)[1].removesuffix(");\n"))
-        self.assertEqual(values, {"version": "4.8.1", "reaVersion": "4.8.1", "schemaVersion": 1})
+        self.assertEqual(values, {"version": "4.8.0", "reaVersion": "4.8.1", "schemaVersion": 1})
         script = (ROOT / "scripts.js").read_text()
         self.assertIn("const RESOURCE_VERSION=typeof window.MitoMapaVersion?.version", script)
         self.assertIn('app:"mitomapa-canario",version:RESOURCE_VERSION', script)
