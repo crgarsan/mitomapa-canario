@@ -16,10 +16,10 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 from release_support import digest, read_zip, zip_bytes
 from harden_jspdf_exports import ZIP_INFO_FIELDS, read_archive
+from native_preservation import verify_component
 from sync_current_elpx import (
-    APP, MEDIA_EXTENSIONS, NS, PORTABLE, TEXT_IDS, build_archive, build_current, field,
-    native_structure, portable_version, synchronize,
-    update_portable, version_module,
+    APP, MEDIA_EXTENSIONS, NS, PORTABLE, MERGED_TEACHER_PAGES, build_archive, build_current, field,
+    native_structure, synchronize, version_module,
 )
 
 
@@ -32,21 +32,21 @@ class SynchronizationTests(unittest.TestCase):
         cls.after = native_structure(cls.result)
 
     def test_native_structure_and_all_untouched_activities_are_preserved(self):
-        self.assertEqual(len(self.after["pages"]), 39)
+        self.assertEqual(len(self.after["pages"]), 34)
         self.assertEqual(len(self.after["components"]), 118)
-        self.assertEqual(self.before["pages"], self.after["pages"])
+        self.assertEqual(set(self.before["pages"]) - set(self.after["pages"]), MERGED_TEACHER_PAGES)
         self.assertEqual(set(self.before["components"]), set(self.after["components"]))
         unchanged = 0
         games = 0
         for iid, original in self.before["components"].items():
-            if iid in TEXT_IDS:
+            if field(original, "odeIdeviceTypeName") == "text":
                 continue
             with self.subTest(idevice=iid):
-                self.assertEqual(etree.tostring(original), etree.tostring(self.after["components"][iid]))
+                verify_component(original, self.after["components"][iid], self.result)
             unchanged += 1
             if field(original, "odeIdeviceTypeName") in {"puzzle", "scrambled-list", "quick-questions", "trueorfalse", "relate", "complete"}:
                 games += 1
-        self.assertGreater(unchanged, 100)
+        self.assertEqual(unchanged, 55)
         self.assertEqual(games, 42)
 
     def test_all_existing_scenes_audio_and_runtime_dependencies_are_byte_identical(self):
@@ -72,7 +72,7 @@ class SynchronizationTests(unittest.TestCase):
             document = html.fromstring(self.result[page["fileUrl"]])
             for block in page["blocks"].values():
                 for iid, entry in block["idevices"].items():
-                    if iid not in TEXT_IDS:
+                    if field(native[iid], "odeIdeviceTypeName") != "text":
                         continue
                     with self.subTest(idevice=iid):
                         editable = json.loads(field(native[iid], "jsonProperties"))["textTextarea"]
@@ -91,46 +91,28 @@ class SynchronizationTests(unittest.TestCase):
                                 self.assertNotIn("?", reference)
                                 self.assertIn(reference.removeprefix("{{context_path}}/"), self.result)
                     compared += 1
-        self.assertEqual(compared, len(TEXT_IDS))
+        self.assertEqual(compared, 63)
         guide = json.loads(field(native["20260823155837TGUID1"], "jsonProperties"))["textTextarea"]
         self.assertIn("multinivel", guide)
-        self.assertIn("PROTOCOLO_PILOTAJE.html", guide)
-        historical = json.loads(field(native["20260930IHISTORIA40"], "jsonProperties"))["textTextarea"]
-        self.assertIn("Edición anterior 4.4.0", historical)
 
-    def test_portable_is_current_local_and_has_no_nested_archives(self):
-        portable = {name[len(PORTABLE):]: data for name, data in self.result.items() if name.startswith(PORTABLE)}
-        for name in ("version.js", "itinerario.js", "itinerario.css", "narracion.css", "GUIA_DOCENTE.html", "PROTOCOLO_PILOTAJE.html"):
-            self.assertIn(name, portable)
-            self.assertEqual(portable[name], (ROOT / name).read_bytes())
-        self.assertFalse(any(name.endswith((".zip", ".elpx")) for name in portable))
-        embedded_version = json.loads(portable["VERSION.json"])
-        self.assertEqual(embedded_version["web_version"], self.version["web_version"])
-        for key in ("download", "sharing_archive", "source_archive"):
-            self.assertNotIn("sha256", embedded_version[key])
-            self.assertNotIn("bytes", embedded_version[key])
+    def test_native_distribution_excludes_the_web_application(self):
+        self.assertNotIn(PORTABLE + "index.html", self.result)
+        self.assertFalse(any(name.startswith(PORTABLE) and Path(name).suffix.lower() not in MEDIA_EXTENSIONS for name in self.result))
+        manifest = json.loads(self.result["EDITORIAL_MANIFEST.json"])
+        self.assertEqual(manifest["distribution"], "native_only")
+        self.assertFalse(manifest["embedded_web_app"])
+        self.assertEqual(manifest["edition"], self.version["rea_exelearning_version"])
+        self.assertEqual(set(manifest["pages"]), set(self.after["pages"]))
+        self.assertEqual(set(manifest["idevices"]), set(self.after["components"]))
+        self.assertFalse(any(name.endswith((".zip", ".elpx")) for name in self.result))
 
-    def test_portable_version_is_independent_of_derived_package_hashes(self):
-        version = copy.deepcopy(self.version)
-        before = portable_version(version)
-        for key in ("download", "sharing_archive", "source_archive"):
-            version[key].update(sha256="0" * 64, bytes=123)
-        self.assertEqual(portable_version(version), before)
-        self.assertIn("sha256", version["download"])
-
-    def test_release_metadata_generates_the_version_module_without_a_manual_js_edit(self):
+    def test_release_metadata_generates_the_web_version_module(self):
         next_version = copy.deepcopy(self.version)
-        next_version.update(web_version="4.6.1", rea_exelearning_version="4.6.1")
-        refreshed = dict(self.baseline)
-        update_portable(refreshed, ROOT, next_version)
-        module = refreshed[PORTABLE + "version.js"].decode()
+        next_version.update(web_version="4.8.1", rea_exelearning_version="4.8.1")
+        module = version_module(next_version).decode()
         values = json.loads(module.split("Object.freeze(", 1)[1].removesuffix(");\n"))
-        self.assertEqual(values, {"version": "4.6.1", "reaVersion": "4.6.1", "schemaVersion": 1})
-        self.assertEqual(refreshed[PORTABLE + "version.js"], version_module(next_version))
-        self.assertEqual(json.loads(refreshed[PORTABLE + "VERSION.json"])["web_version"], values["version"])
-        # The production export reads this generated value. It has no separate
-        # edition literal that also needs editing when VERSION.json changes.
-        script = refreshed[PORTABLE + "scripts.js"].decode()
+        self.assertEqual(values, {"version": "4.8.1", "reaVersion": "4.8.1", "schemaVersion": 1})
+        script = (ROOT / "scripts.js").read_text()
         self.assertIn("const RESOURCE_VERSION=typeof window.MitoMapaVersion?.version", script)
         self.assertIn('app:"mitomapa-canario",version:RESOURCE_VERSION', script)
 
@@ -142,6 +124,8 @@ class SynchronizationTests(unittest.TestCase):
         by_name = {info.filename: info for info in current_infos}
         self.assertEqual(original_comment, current_comment)
         for original in original_infos:
+            if original.filename not in self.result:
+                continue
             with self.subTest(member=original.filename):
                 self.assertEqual({name: getattr(original, name) for name in ZIP_INFO_FIELDS},
                                  {name: getattr(by_name[original.filename], name) for name in ZIP_INFO_FIELDS})

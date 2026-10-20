@@ -1,4 +1,4 @@
-# MitoMapa canario · 4.7.1
+# MitoMapa canario · 4.8.0
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,17 +9,18 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La web y el REA editable corresponden a la edición **4.7.1**, revisada el
-20/10/2026. La adaptación GobCan conserva **39 páginas, 118 iDevices, las 95
-identidades de la edición base, 42 juegos nativos y 16 MP3**. Utiliza el formato
-de eXeLearning **4.0.5**, la plantilla Flux y Andika. La aplicación portable
-incluida reúne el mapa, los ocho cuentos, las escenas, los juegos, los apoyos
-de lectura y la narración local.
+La web y el REA editable corresponden a la edición **4.8.0**, revisada el
+20/10/2026. Son dos recursos diferenciados. La adaptación GobCan tiene
+**34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
+de eXeLearning **4.0.5**, la plantilla Flux y Andika. El ELPX conserva los ocho
+cuentos, las escenas, las actividades editables, sus apoyos y la narración local;
+no incorpora la aplicación web ni la muestra en un marco incrustado. Su última
+página ofrece únicamente un enlace opcional a la web como recurso extra.
 
 - [Web publicada](https://mitomapa-canario.cgarcias.workers.dev/).
 - [REA editable vigente](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de esta edición](downloads/MitoMapa_REA_v4_7_1.zip).
-- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_7_1.zip).
+- [Paquete de esta edición](downloads/MitoMapa_REA_v4_8_0.zip).
+- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_8_0.zip).
 
 `VERSION.json` identifica la edición y las huellas de las descargas.
 `SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub es
@@ -37,7 +38,7 @@ La [guía docente práctica](GUIA_DOCENTE.html) ofrece tres posibilidades:
 - **Banco completo opcional:** ocho a diez sesiones de 35–50 minutos, ajustadas
   a las tareas y a los apoyos. No hay obligación de recorrer las ocho islas.
 
-El juego opcional [Nombres de las islas](index.html#nombres-islas) propone
+En la web, el juego opcional [Nombres de las islas](index.html#nombres-islas) propone
 asociar siete denominaciones y la ficha «Sin nombre documentado» con el mapa.
 Admite arrastre y selección con toque, clic o teclado. No concede pintaderas,
 no genera calificaciones ni condiciona la ruta. Su apariencia de carta antigua
@@ -54,31 +55,35 @@ referencia y adaptable a 5.º. Ese ejemplo no fija el nivel destinatario del
 recurso. Cada docente concreta competencias, criterios, tareas y evidencias
 según su programación y la normativa aplicable.
 
-En Docente → Ajustes y seguimiento se acuerdan las islas y las tareas. La ruta
+En la web, Docente → Ajustes y seguimiento permite acordar las islas y las tareas. La ruta
 se cierra tras revisar las evidencias pactadas: «2/2» puede representar una
 ruta de dos islas terminada. La colección de ocho pintaderas es independiente.
 Las listas cualitativas ayudan a mejorar las producciones; no suman puntos ni
-generan calificaciones. La práctica de los juegos no sustituye la revisión
-de la lectura, la investigación o la creación.
+generan calificaciones. En el ELPX, la ruta y el pasaporte se acuerdan y revisan
+con el profesorado; las orientaciones docentes se organizan en cajas
+desplegables. La práctica de los juegos no sustituye la revisión de la lectura,
+la investigación o la creación.
 
 **El recurso aún no se ha pilotado con alumnado.** El
 [protocolo de pilotaje imprimible](PROTOCOLO_PILOTAJE.html) permite registrar
 tiempos, apoyos, dificultades, accesibilidad y propuestas de mejora sin recoger
 identificadores del alumnado. La valoración voluntaria admite comentarios
-escritos aunque no se hayan respondido las escalas y se descarga localmente.
+escritos aunque no se hayan respondido las escalas y se descarga localmente
+en la web independiente.
 
 ## Editar y publicar
 
 Para adaptar el REA, abre una copia del ELPX vigente con eXeLearning 4.0.5 o una
-instalación compatible. Las actividades nativas se editan en eXeLearning; el
-Explorador portable se adapta desde sus fuentes HTML, CSS y JavaScript.
-Ambos tienen seguimiento independiente. Editar un iDevice no cambia
-automáticamente la aplicación portable ni incorpora sus resultados al informe
-nativo o a SCORM. Comprueba la apertura, la navegación y la exportación antes
-de distribuir una adaptación.
+instalación compatible. Sus actividades nativas se editan en eXeLearning.
+La web se adapta por separado desde sus fuentes HTML, CSS y JavaScript:
+editar el ELPX no modifica la web, ni sus resultados se incorporan al informe
+nativo o a SCORM. El enlace final es un complemento externo y no una actividad
+incrustada ni un requisito del recorrido. Comprueba la apertura, la navegación
+y la exportación antes de distribuir una adaptación.
 
-Las herramientas de la edición vigente sincronizan la aplicación y los
-documentos con el proyecto actual, conservando su estructura nativa:
+Las herramientas de la edición vigente preparan el proyecto nativo y los
+documentos con la revisión editorial actual, sin añadir la aplicación web al
+ELPX:
 
 ```sh
 python3 -m venv .venv
@@ -108,8 +113,9 @@ originales. El paquete del REA incluye el editable y su documentación.
 Las 16 pistas locales son ocho grabaciones de Jesica Fortes Regalado y ocho
 alternativas con una entrada sonora tenue de percusión y naturaleza recreadas.
 No se presentan como grabaciones documentales y no se reproducen
-automáticamente. El registro es `narraciones.js`; la procedencia y la atribución
-están en `AUDIO_ORIGENES.json` y `AUDIO_CREDITOS.html`.
+automáticamente. La web las registra en `narraciones.js`; el ELPX las conserva
+en sus reproductores nativos. La procedencia y la atribución están en
+`AUDIO_ORIGENES.json` y `AUDIO_CREDITOS.html`.
 
 Para preparar de nuevo el audio se necesitan los WAV originales, Python 3,
 NumPy y FFmpeg con libmp3lame. Las selecciones están en `AUDIO_SELECCION.json`;

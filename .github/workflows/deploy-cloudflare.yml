@@ -34,6 +34,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
           python3 -m unittest discover -s tests -p 'test_release_pipeline.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_sync_current_elpx.py'
+          .venv/bin/python -m unittest discover -s tests -p 'test_editorial_elpx.py'
           node --test tests/drawing-import.test.js
           .venv/bin/python3 tools/sync_current_elpx.py --check
           python3 tools/update_release.py --check
@@ -41,7 +42,8 @@ jobs:
         run: |
           .venv/bin/python tools/run_browser_checks.py \
             test_experience_browser.py test_journey_browser.py \
-            test_drawing_browser.py test_jspdf_browser.py test_names_browser.py
+            test_drawing_browser.py test_jspdf_browser.py test_names_browser.py \
+            test_editorial_elpx_browser.py
       - name: Verify and stage static files
         run: python3 tools/prepare_deploy.py
   deploy:

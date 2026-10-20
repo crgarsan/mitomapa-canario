@@ -69,7 +69,7 @@
     const result = summary();
     const message = result.selected
       ? `Ruta acordada: ${result.reviewed}/${result.selected} islas revisadas con tu docente.`
-      : "Acordad las islas que vais a trabajar. La exploración sigue siendo libre.";
+      : "Acuerden las islas que van a trabajar. La exploración sigue siendo libre.";
     const status = byId("agreedRouteSummary");
     if (status) {
       status.hidden = result.selected === 0;
@@ -83,7 +83,7 @@
     if (completion) {
       completion.hidden = !result.complete;
       const text = byId("agreedRouteCompletionText");
-      if (text) text.textContent = `Habéis revisado el trabajo acordado en ${result.selected} ${result.selected === 1 ? "isla" : "islas"}. Comparte qué has aprendido y qué probarías la próxima vez. Puedes seguir explorando otras rutas cuando quieras.`;
+      if (text) text.textContent = `Han revisado el trabajo acordado en ${result.selected} ${result.selected === 1 ? "isla" : "islas"}. Comparte qué has aprendido y qué probarías la próxima vez. Puedes seguir explorando otras rutas cuando quieras.`;
     }
     const itinerarySummary = byId("itinerarySummary");
     if (itinerarySummary && result.selected) itinerarySummary.textContent = `${message} Colección: ${context.badgeCount()}/${context.routes.length} pintaderas.`;

@@ -13,6 +13,7 @@ from html import escape, unescape
 import json
 from pathlib import Path
 import re
+import xml.etree.ElementTree as ET
 from urllib.parse import urljoin, urlsplit
 
 from release_support import (
@@ -105,15 +106,16 @@ def sharing_files(root, version, elpx):
         "1. Descomprime este ZIP.\n"
         "2. Abre MitoMapa_canario_GobCan.elpx con eXeLearning 4.0.5 o compatible.\n"
         "3. Guarda una copia si quieres adaptar el recurso.\n\n"
-        "Incluye ocho cuentos, escenas, narraciones, actividades nativas y el\n"
-        "Explorador interactivo local. La propuesta es multinivel: el profesorado\n"
+        "Incluye ocho cuentos, escenas, narraciones y actividades nativas.\n"
+        "La web se enlaza al final como recurso adicional, sin embeberla.\n"
+        "La propuesta es multinivel: el profesorado\n"
         "elige y ancla curricularmente la ruta. Consulta la guía docente general;\n"
         "la guía GobCan ofrece un ejemplo curricular adaptable.\n"
         "El recurso está pendiente de pilotaje con alumnado.\n\n"
         "Las guías y las plantillas se pueden consultar sin conexión; sus\n"
         "enlaces a la web y a otras descargas requieren conexión.\n\n"
-        "Los progresos de las actividades nativas de eXe y del Explorador local\n"
-        "se guardan por separado. La valoración y su envío por correo son\n"
+        "El progreso de las actividades nativas de eXe y el de la web externa\n"
+        "son independientes. La valoración y su envío por correo son\n"
         "voluntarios; cualquier archivo se adjunta manualmente y sin nombres.\n\n"
         "Autoría: Jesica Fortes Regalado, Gloria Elsa González Martín y\n"
         "Cristian García Santana. Materiales propios: CC BY-SA 4.0.\n"
@@ -190,6 +192,28 @@ def check_elpx(payload, version, root=ROOT):
     manifest = json.loads(assignment.group(1))
     if len(manifest["files"]) != len(set(manifest["files"])) or set(manifest["files"]) != set(files):
         raise ValueError("Incomplete ELPX inventory")
+    if version.get("elpx_distribution", {}).get("mode") == "native_only":
+        editorial = json.loads(files["EDITORIAL_MANIFEST.json"])
+        if editorial.get("distribution") != "native_only" or editorial.get("embedded_web_app") is not False:
+            raise ValueError("The current ELPX must be independent of the web application")
+        if editorial["edition"] != version["rea_exelearning_version"]:
+            raise ValueError("The native ELPX edition differs from the release")
+        if "content/resources/mitomapa/index.html" in files or any(
+                name.startswith("content/resources/mitomapa/") and name.endswith((".js", ".html", ".css"))
+                for name in files):
+            raise ValueError("The native ELPX still contains the web application")
+        ns = {"o": "http://www.intef.es/xsd/ode"}
+        model = ET.fromstring(files["content.xml"])
+        native_license = model.findtext(".//o:odeProperty[o:key='pp_license']/o:value", namespaces=ns)
+        if native_license != "creative commons: attribution - share alike 4.0":
+            raise ValueError("The native project licence must be CC BY-SA 4.0")
+        pages = model.findall(".//o:odeNavStructure", ns)
+        components = model.findall(".//o:odeComponent", ns)
+        if set(editorial["pages"]) != {page.findtext("o:odePageId", namespaces=ns) for page in pages}:
+            raise ValueError("The editorial page inventory differs from the native project")
+        if set(editorial["idevices"]) != {item.findtext("o:odeIdeviceId", namespaces=ns) for item in components}:
+            raise ValueError("The editorial activity inventory differs from the native project")
+        return files
     prefix = "content/resources/mitomapa/"
     portable = {name[len(prefix):]: data for name, data in files.items() if name.startswith(prefix)}
     portable_manifest = json.loads(portable["PORTABLE_MANIFEST.json"])
