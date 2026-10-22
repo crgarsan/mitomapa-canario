@@ -1,0 +1,12 @@
+PROPUESTA DE EL HIERRO CON ASAS · 22/10/2026
+
+Propuesta visual pendiente de aprobación por la autoría. No se ha aplicado en la
+web publicada ni en el ELPX.
+
+El_Hierro_con_asas.png: PNG RGBA de1254×1254, con transparencia real.
+Conserva el diseño general de la vasija de El Hierro y añade dos apéndices de
+agarre laterales, cortos y macizos, inspirados en la fotografía facilitada.
+Es una recreación contemporánea, no una reproducción arqueológica certificada.
+
+La vasija original, los demás diseños y el ZIP de las siete vasijas se conservan.
+Datos de procedencia, herramienta y huellas en MANIFIESTO.json.

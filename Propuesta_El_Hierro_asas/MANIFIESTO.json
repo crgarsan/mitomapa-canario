@@ -1,0 +1,20 @@
+{
+  "file": "El_Hierro_con_asas.png",
+  "status": "Propuesta pendiente de aprobación; no aplicada en web ni ELPX",
+  "date": "2026-10-22",
+  "format": "PNG",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "real_transparency": true,
+  "bytes": 2272628,
+  "sha256": "aab1e8a21927844ada059f0c0c6da2159e7c7cc6e069fa564a11f9fd6544f655",
+  "source_file": "Vasijas_Canarias/El_Hierro.png",
+  "source_sha256": "4a8b0341377429146b58255fe7b7a4da8203a2d5f54259dd61d1c582d998b148",
+  "reference": "Fotografía de vasijas de El Hierro facilitada por la autoría en esta conversación",
+  "tool": "OpenAI image_gen.imagegen; versión técnica exacta no expuesta",
+  "change": "Dos asas laterales cortas y macizas inspiradas en la fotografía; se conserva el diseño general de la vasija aprobada",
+  "license": "CC-BY-SA-4.0 sobre los derechos propios que correspondan; referencia con sus condiciones originales"
+}

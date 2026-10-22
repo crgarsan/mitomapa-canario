@@ -31,3 +31,12 @@ Son recreaciones visuales para revisión, con pequeñas variaciones respecto a l
 Las [notas de fuentes y generación](Vasijas_Canarias/LEEME_FUENTES.txt) y el [manifiesto de imágenes](Vasijas_Canarias/MANIFIESTO.json) acompañan la entrega.
 
 Esta rama contiene únicamente la propuesta de imágenes. La web, el ELPX y la rama `main` mantienen su contenido anterior.
+
+## Propuesta de El Hierro con asas
+
+[Ver o descargar el PNG transparente](Propuesta_El_Hierro_asas/El_Hierro_con_asas.png).
+
+Revisión del22/10/2026: se añaden dos asas de agarre cortas y macizas inspiradas
+en la fotografía facilitada por la autoría. Mantiene el diseño general de la
+vasija. **Pendiente de aprobación; no aplicada en la web ni en el ELPX.**
+La versión original y el ZIP anterior permanecen sin cambios.
