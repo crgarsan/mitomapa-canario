@@ -1,0 +1,53 @@
+VASIJAS DE CANARIAS — PROPUESTA VISUAL
+22 de octubre de 2026
+
+Siete ilustraciones originales en PNG con transparencia real, una por cada
+isla recogida en la documentación aportada. Son propuestas visuales inspiradas
+en tipologías y técnicas; no se presentan como reproducciones exactas de
+piezas arqueológicas concretas ni como una validación histórica externa.
+
+ARCHIVOS
+Gran_Canaria.png: vasija de hombros anchos, base plana pequeña, apéndices y
+triángulos pintados en tonos terrosos.
+La_Palma.png: recipiente globular bajo, hombro inclinado e incisiones
+organizadas en bandas y trazos verticales.
+Lanzarote.png: cuenco abierto con bandas incisas y engobe claro «tegue».
+Fuerteventura.png: tofio o tabajoste, con base plana y amplio vertedero lateral.
+Tenerife.png: recipiente alto de cuello largo, pequeñas orejetas y fondo afinado.
+La_Gomera.png: cuenco semiesférico de borde irregular, sin ornamentación añadida.
+El_Hierro.png: recipiente globular sencillo inspirado en las vasijas de la
+fotografía facilitada, con textura de barro trabajado a mano.
+
+FUENTES
+Infografía «Diferencias de la cerámica canario-amazigh en cada isla»,
+Gobierno de Canarias / Área de Tecnología Educativa:
+https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf
+La infografía incluye siete islas y representa El Hierro mediante fragmentos.
+Para la forma completa de El Hierro se ha utilizado además la fotografía
+aportada por la persona usuaria, con vasijas y el nombre de Manuel J. Lorenzo
+Perera. La fotografía por sí sola no permite fechar las vasijas ni atribuirlas
+a una pieza prehispánica excavada concreta; su título y fecha no se han identificado.
+
+La Graciosa no aparece en las fuentes aportadas: no se le ha inventado una
+tipología de vasija propia. La elección de un modelo por isla no significa
+que fuera su única forma cerámica.
+
+CRITERIO GRÁFICO
+Acabado de barro mate y textura manual, con iluminación suave, en consonancia
+con las pintaderas del recurso. Se mantienen las diferencias de forma y
+ornamentación documentadas. El tono burdeos de los dibujos de la infografía
+no se ha tratado como color real de las piezas. Lanzarote conserva su acabado
+claro expresamente descrito en la fuente. Las demás tonalidades terrosas
+son una decisión de esta recreación visual.
+
+GENERACIÓN Y ENTREGA
+Imágenes creadas con la herramienta de generación de imágenes de OpenAI
+(image_gen.imagegen). La herramienta no expone aquí la versión técnica exacta
+del modelo. Se han utilizado las fuentes como referencia visual, con pequeñas
+variaciones de ejecución y acabado, sin copiar literalmente los dibujos.
+Los PNG conservan los píxeles y la resolución entregados por el generador,
+sin ampliación artificial ni conversión con pérdida. Las dimensiones y las
+sumas de comprobación figuran en el manifiesto de entrega.
+
+Este paquete es independiente. No se ha sustituido ningún archivo en la web,
+en el ELPX ni en los paquetes anteriores del recurso.

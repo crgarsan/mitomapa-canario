@@ -1,0 +1,125 @@
+{
+  "titulo": "Vasijas de Canarias: propuesta visual independiente",
+  "fecha": "2026-10-22",
+  "numero_imagenes": 7,
+  "version_tecnica_generador": "no expuesta por la herramienta",
+  "herramienta": "OpenAI image_gen.imagegen",
+  "procesado": "PNG originales del generador, sin redimensionar ni aplicar compresión con pérdida",
+  "fuente_principal": "https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf",
+  "fuente_el_hierro": "Fotografía de vasijas aportada por la persona usuaria; título y fecha no identificados.",
+  "la_graciosa": "No incluida: no aparece una tipología documentada en las fuentes aportadas.",
+  "imagenes": [
+    {
+      "archivo": "Gran_Canaria.png",
+      "ancho": 1254,
+      "alto": 1254,
+      "modo": "RGBA",
+      "fondo": "transparente",
+      "porcentaje_totalmente_transparente": 59.5,
+      "contorno_alpha_mayor_8": [
+        204,
+        120,
+        1088,
+        1145
+      ],
+      "bytes": 1674160,
+      "sha256": "0a30550805abd88bdad17f8f9384b3ea3ab0f0e98ef55f10048e2e9854db4125"
+    },
+    {
+      "archivo": "La_Palma.png",
+      "ancho": 1254,
+      "alto": 1254,
+      "modo": "RGBA",
+      "fondo": "transparente",
+      "porcentaje_totalmente_transparente": 53.65,
+      "contorno_alpha_mayor_8": [
+        95,
+        239,
+        1176,
+        1085
+      ],
+      "bytes": 1854420,
+      "sha256": "1230a4fd1e19548efb05553c373db34779f4fc999ad424ee2b3d1a53e6a735b0"
+    },
+    {
+      "archivo": "Lanzarote.png",
+      "ancho": 1254,
+      "alto": 1254,
+      "modo": "RGBA",
+      "fondo": "transparente",
+      "porcentaje_totalmente_transparente": 53.26,
+      "contorno_alpha_mayor_8": [
+        106,
+        236,
+        1157,
+        1064
+      ],
+      "bytes": 1834980,
+      "sha256": "ba2638ffe42250f096d845db2f6c60367ad192c013d377c9d6073d5f09bb2ea9"
+    },
+    {
+      "archivo": "Fuerteventura.png",
+      "ancho": 1254,
+      "alto": 1254,
+      "modo": "RGBA",
+      "fondo": "transparente",
+      "porcentaje_totalmente_transparente": 70.51,
+      "contorno_alpha_mayor_8": [
+        110,
+        340,
+        1202,
+        946
+      ],
+      "bytes": 1171236,
+      "sha256": "81164e564bc402b968d2fe6b10a34bc792ece75fc3eb73cf88f26c2947d495fa"
+    },
+    {
+      "archivo": "Tenerife.png",
+      "ancho": 1254,
+      "alto": 1254,
+      "modo": "RGBA",
+      "fondo": "transparente",
+      "porcentaje_totalmente_transparente": 75.63,
+      "contorno_alpha_mayor_8": [
+        386,
+        123,
+        891,
+        1160
+      ],
+      "bytes": 991013,
+      "sha256": "c0ff3c0d35ebf6fc8e8c643980ee56350c7c580da086e703b442573a7dc7d835"
+    },
+    {
+      "archivo": "La_Gomera.png",
+      "ancho": 1254,
+      "alto": 1254,
+      "modo": "RGBA",
+      "fondo": "transparente",
+      "porcentaje_totalmente_transparente": 59.78,
+      "contorno_alpha_mayor_8": [
+        61,
+        315,
+        1200,
+        1003
+      ],
+      "bytes": 1538754,
+      "sha256": "77e92426e8de2b0cdfc1d3821cd5589dbcc3e323b661a00b8b9d345b29716f00"
+    },
+    {
+      "archivo": "El_Hierro.png",
+      "ancho": 1254,
+      "alto": 1254,
+      "modo": "RGBA",
+      "fondo": "transparente",
+      "porcentaje_totalmente_transparente": 37.91,
+      "contorno_alpha_mayor_8": [
+        26,
+        127,
+        1232,
+        1174
+      ],
+      "bytes": 2333793,
+      "sha256": "4a8b0341377429146b58255fe7b7a4da8203a2d5f54259dd61d1c582d998b148"
+    }
+  ]
+}
