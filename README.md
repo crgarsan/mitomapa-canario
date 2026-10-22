@@ -1,4 +1,4 @@
-# MitoMapa canario · 4.8.4
+# MitoMapa canario · web 4.8.5 · REA 4.8.4
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,8 +9,9 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La web y el REA editable comparten la versión **4.8.4**, revisada el
-22/10/2026. Son dos recursos diferenciados. La adaptación GobCan tiene
+La web se publica como **4.8.5**. El REA editable conserva la versión
+**4.8.4**, revisada el 22/10/2026, con el mismo archivo y la misma huella.
+Son dos recursos diferenciados. La adaptación GobCan tiene
 **34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
 de eXeLearning **4.0.5**, la plantilla Flux y Andika. El ELPX conserva los ocho
 cuentos, las escenas, las actividades editables, sus apoyos y la narración local;
@@ -18,9 +19,9 @@ no incorpora la aplicación web ni la muestra en un marco incrustado. Su última
 página ofrece únicamente un enlace opcional a la web como recurso extra.
 
 - [Web publicada](https://mitomapa-canario.cgarcias.workers.dev/).
-- [REA editable vigente](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de esta edición](downloads/MitoMapa_REA_v4_8_4.zip).
-- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_8_4.zip).
+- [REA editable vigente · 4.8.4](downloads/MitoMapa_canario_GobCan.elpx).
+- [Paquete de la publicación 4.8.5 · incluye el REA 4.8.4](downloads/MitoMapa_REA_v4_8_5.zip).
+- [Fuentes web 4.8.5](downloads/MitoMapa_fuentes_web_v4_8_5.zip).
 
 `VERSION.json` identifica la edición y las huellas de las descargas.
 `SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub y las descargas son públicos; el archivo editable
@@ -36,6 +37,14 @@ La [guía docente práctica](GUIA_DOCENTE.html) ofrece tres posibilidades:
   comparación, contraste de fuentes y una creación compartida.
 - **Banco completo opcional:** ocho a diez sesiones de 35–50 minutos, ajustadas
   a las tareas y a los apoyos. No hay obligación de recorrer las ocho islas.
+
+La web incorpora [Las piezas y sus islas](index.html#piezas-islas), una práctica
+opcional para asociar las siete vasijas y la caracola contemporánea de La Graciosa
+con las islas que representan en el recurso. Admite arrastre y selección con
+toque, clic o teclado. No genera puntuaciones ni premios y no cambia el pasaporte
+ni los requisitos del diploma. Las imágenes son recreaciones contemporáneas;
+acertar no acredita su presencia arqueológica en cada isla. Las piezas también
+se muestran más grandes en el mapa principal para facilitar su reconocimiento.
 
 En la web, el juego opcional [Nombres de las islas](index.html#nombres-islas) propone
 asociar siete denominaciones y la ficha «Sin nombre documentado» con el mapa.
@@ -80,20 +89,21 @@ nativo o a SCORM. El enlace final es un complemento externo y no una actividad
 incrustada ni un requisito del recorrido. Comprueba la apertura, la navegación
 y la exportación antes de distribuir una adaptación.
 
-Las herramientas de la edición vigente preparan el proyecto nativo y los
-documentos con la revisión editorial actual, sin añadir la aplicación web al
-ELPX:
+Para publicar cambios exclusivos de la web, prepara y comprueba sus paquetes
+sin regenerar el ELPX:
 
 ```sh
 python3 -m venv .venv
 . .venv/bin/activate
 python3 -m pip install -r requirements-browser-tests.txt
-python3 tools/sync_current_elpx.py
 python3 tools/update_release.py
-python3 tools/sync_current_elpx.py --check
 python3 tools/update_release.py --check
 python3 tools/prepare_deploy.py
 ```
+
+Si se prepara una revisión del proyecto nativo, utiliza por separado
+`tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
+empaquetar. La publicación 4.8.5 conserva el ELPX 4.8.4 sin cambios.
 
 LXML permite comprobar el modelo nativo y su DTD. Playwright y Pillow se usan
 en las pruebas de navegador, no durante la lectura del recurso por el alumnado.
@@ -103,6 +113,9 @@ edición histórica 4.4.0 y **no reconstruye la adaptación GobCan vigente**.
 Las políticas de despliegue y de dependencias se comprueban con las pruebas
 del repositorio. El despliegue de `main` mediante GitHub Actions publica el
 Worker; las descargas históricas deben conservarse en el manifiesto público.
+La publicación usa Wrangler **4.152.0**, fijado en el manifiesto y el bloqueo de
+dependencias. El flujo instala con `npm ci` y Dependabot propone actualizaciones
+de las herramientas y las acciones de GitHub.
 
 Las fuentes web no incluyen proyectos ELPX, archivos ZIP anidados ni los WAV
 originales. El paquete del REA incluye el editable y su documentación.

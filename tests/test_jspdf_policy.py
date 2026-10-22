@@ -92,9 +92,10 @@ class JsPdfPolicyTests(unittest.TestCase):
                     policy.verify_dependency_manifest(path)
 
     def test_all_public_and_nested_native_loaders_are_verified(self):
-        # 4.8.4 preserves all 49 prior public packages, adds an immutable 4.8.3
-        # ELPX snapshot and publishes the current source and sharing ZIPs.
-        self.assertEqual(len(self.public), 52)
+        # Web 4.8.5 preserves all 52 prior public packages and adds source and
+        # sharing ZIPs. The sharing ZIP embeds the identical 4.8.4 ELPX;
+        # this web-only release adds no native snapshot.
+        self.assertEqual(len(self.public), 54)
         affected = loaders = nested_elpx = direct_loaders = 0
         for path in self.public:
             with self.subTest(archive=path.name):
@@ -104,7 +105,7 @@ class JsPdfPolicyTests(unittest.TestCase):
                 nested_elpx += nested
                 if path.suffix == ".elpx":
                     direct_loaders += count
-        self.assertEqual((affected, loaders, nested_elpx, direct_loaders), (37, 146, 31, 53))
+        self.assertEqual((affected, loaders, nested_elpx, direct_loaders), (38, 149, 32, 53))
 
     def test_native_loader_mutations_are_rejected(self):
         for name, original in self.scripts.items():
@@ -220,10 +221,9 @@ class JsPdfPolicyTests(unittest.TestCase):
 
     def test_current_source_download_can_harden_a_fresh_editor_export(self):
         version = json.loads((ROOT / "VERSION.json").read_text())
-        name = "MitoMapa_fuentes_web_v" + version["web_version"].replace(".", "_") + ".zip"
         member = "idevices/checklist/checklist.js"
         old = self.scripts[member].replace(policy.NEW_ASSIGNMENTS, policy.OLD_ASSIGNMENT)
-        with zipfile.ZipFile(ROOT / "downloads" / name) as sources, tempfile.TemporaryDirectory() as directory:
+        with zipfile.ZipFile(ROOT / version["source_archive"]["path"]) as sources, tempfile.TemporaryDirectory() as directory:
             unpacked = Path(directory)
             for path in ("tools/build_elpx.py", "tools/harden_jspdf_exports.py", "JSPDF_DEPENDENCY.json"):
                 data = sources.read(path)

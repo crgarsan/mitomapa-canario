@@ -3,7 +3,7 @@
   "use strict";
   let context;
   let current = "inicio";
-  const titles = {inicio:"Inicio",islas:"Islas",juegos:"Juegos",recursos:"Recursos",puzle:"Puzle",comparar:"Comparar cuentos","nombres-islas":"Los nombres de las islas","gran-reto":"Gran reto",ruta:"Cuento"};
+  const titles = {inicio:"Inicio",islas:"Islas",juegos:"Juegos",recursos:"Recursos",puzle:"Puzle",comparar:"Comparar cuentos","nombres-islas":"Los nombres de las islas","piezas-islas":"Las piezas y sus islas","gran-reto":"Gran reto",ruta:"Cuento"};
   const aliases = {main:"inicio",exploreMap:"islas",islandGrid:"islas",missionTitle:"puzle",compareStories:"comparar",finalMission:"gran-reto",finalTitle:"gran-reto",reuseTitle:"recursos",creditsTitle:"recursos",passportTitle:"recursos",studentFeedback:"recursos",feedbackTitle:"recursos",acknowledgements:"recursos",acknowledgementsTitle:"recursos"};
   const byId = id => document.getElementById(id);
   function record(hash, replace = false) {
@@ -11,9 +11,10 @@
     history[replace ? "replaceState" : "pushState"](null, "", hash);
   }
   function reveal(screen) {
+    if (screen !== "piezas-islas") window.MitoMapaPieces?.cancelDrag();
     current = screen;
     document.querySelectorAll("[data-screen]").forEach(pane => {pane.hidden = pane.dataset.screen !== screen;});
-    const group = screen === "ruta" ? "islas" : ["puzle","comparar","nombres-islas","gran-reto"].includes(screen) ? "juegos" : screen;
+    const group = screen === "ruta" ? "islas" : ["puzle","comparar","nombres-islas","piezas-islas","gran-reto"].includes(screen) ? "juegos" : screen;
     document.querySelectorAll(".main-navigation a").forEach(link => {
       if (link.dataset.nav === group) link.setAttribute("aria-current","page");
       else link.removeAttribute("aria-current");
@@ -91,7 +92,11 @@
     namesChoice.href = "#nombres-islas";namesChoice.className = "activity-choice";
     namesChoice.innerHTML = '<span class="choice-symbol" aria-hidden="true">⌖</span><h2>Los nombres de las islas</h2><p>Relaciona denominaciones históricas con sus islas en una carta de aspecto antiguo.</p><span class="choice-action">Explorar los nombres →</span>';
     games.querySelector(".activity-choices").append(namesChoice);
-    const gamePanes = [[byId("missionTitle").closest("section"),"puzle"],[byId("compareStories"),"comparar"],[byId("namesMapGame"),"nombres-islas"],[byId("finalMission"),"gran-reto"]];
+    const piecesChoice = document.createElement("a");
+    piecesChoice.href = "#piezas-islas";piecesChoice.className = "activity-choice";
+    piecesChoice.innerHTML = '<span class="choice-symbol" aria-hidden="true">◈</span><h2>Las piezas y sus islas</h2><p>Observa las siete vasijas y la caracola y relaciona cada pieza con su isla en el recurso.</p><span class="choice-action">Colocar las piezas →</span>';
+    games.querySelector(".activity-choices").append(piecesChoice);
+    const gamePanes = [[byId("missionTitle").closest("section"),"puzle"],[byId("compareStories"),"comparar"],[byId("namesMapGame"),"nombres-islas"],[byId("piecesMapGame"),"piezas-islas"],[byId("finalMission"),"gran-reto"]];
     for (const [pane, screen] of gamePanes) {
       pane.dataset.screen = screen;
       const back = document.createElement("a");back.href = "#juegos";back.className = "view-back";back.textContent = "← Volver a Juegos";pane.prepend(back);

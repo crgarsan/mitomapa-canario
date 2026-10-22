@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB 4.8.4 · REA 4.8.4 · 22/10/2026
+MITOMAPA CANARIO · WEB 4.8.5 · REA 4.8.4 · 22/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -13,10 +13,19 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_4.zip: editable ELPX y documentación.
-downloads/MitoMapa_fuentes_web_v4_8_4.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_5.zip: mismo editable ELPX 4.8.4 y documentación actual.
+downloads/MitoMapa_fuentes_web_v4_8_5.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
+
+REVISIÓN WEB 4.8.5 · 22/10/2026
+Nuevo juego opcional «Las piezas y sus islas», con arrastre, toque, clic y
+teclado, referencia, pistas y reintentos. No modifica el pasaporte ni guarda
+la práctica. Las siete vasijas y la caracola son recreaciones contemporáneas.
+Las piezas del mapa principal se amplían ligeramente sin cambiar la geografía.
+Wrangler y su bloqueo se actualizan a 4.152.0; se proponen actualizaciones
+mensuales mediante Dependabot, sin fusión automática. El ELPX y la entrega
+completa 4.8.4 conservan exactamente los mismos archivos.
 
 REVISIÓN 4.8.4 · 22/10/2026
 El pasaporte, los premios y las orientaciones actuales se refieren a piezas.
@@ -92,10 +101,10 @@ no modifica la web ni integra su progreso en el informe nativo. La web enlazada
 desde la última página es un complemento opcional que requiere conexión.
 tools/build_elpx.py corresponde al proyecto histórico 4.4.0 y no reconstruye
 la adaptación GobCan vigente.
-Usar tools/sync_current_elpx.py para preparar el proyecto nativo actual sin
-incorporar la aplicación web, y
-tools/update_release.py para preparar manifiestos y paquetes. Comprobar después
-ambas herramientas con --check y ejecutar tools/prepare_deploy.py.
+Para cambios solo en la web, conservar el ELPX y usar tools/update_release.py
+para preparar manifiestos y paquetes. Para revisiones del proyecto nativo,
+usar por separado tools/sync_current_elpx.py sin incorporar la aplicación web.
+Comprobar ambas herramientas con --check y ejecutar tools/prepare_deploy.py.
 El despliegue de main en GitHub publica el Worker. SHA256SUMS.txt determina los
 archivos públicos y VERSION.json identifica las huellas de la descarga vigente.
 Las descargas anteriores siguen siendo públicas. Abrir y exportar una copia del

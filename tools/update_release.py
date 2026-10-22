@@ -101,11 +101,15 @@ def sharing_document(payload, name, documents, version):
 
 
 def release_paths(version):
-    current = version.get("release_version", version["rea_exelearning_version"])
-    if not all(re.fullmatch(r"\d+\.\d+\.\d+", value) for value in (current, version["web_version"])):
+    editions = (version["web_version"], version["rea_exelearning_version"])
+    if not all(isinstance(value, str) and re.fullmatch(r"\d+\.\d+\.\d+", value) for value in editions):
         raise ValueError("The current version must have three numeric components")
-    if version["rea_exelearning_version"] != current:
-        raise ValueError("The editable edition differs from its delivery version")
+    latest = max(editions, key=lambda value: tuple(map(int, value.split("."))))
+    current = version.get("release_version", latest)
+    if not isinstance(current, str) or not re.fullmatch(r"\d+\.\d+\.\d+", current):
+        raise ValueError("The current version must have three numeric components")
+    if current != latest:
+        raise ValueError("The release version differs from its delivery maximum")
     expected = {
         "download": "downloads/MitoMapa_canario_GobCan.elpx",
         "sharing_archive": f"downloads/MitoMapa_REA_v{current.replace('.', '_')}.zip",
@@ -187,7 +191,8 @@ def source_inventory(root, version):
     }.items():
         for pattern in patterns:
             names.update(path.relative_to(root).as_posix() for path in (root / directory).glob(pattern) if path.is_file())
-    names.update(name for name in ("LICENSE", "_headers", "wrangler.jsonc", "requirements-browser-tests.txt") if (root / name).is_file())
+    names.update(name for name in ("LICENSE", "_headers", "wrangler.jsonc", "requirements-browser-tests.txt",
+                                  ".github/dependabot.yml") if (root / name).is_file())
     return sorted(name for name in names if name not in SOURCE_SPECIAL | {"SHA256SUMS.txt"}
                   and not name.lower().endswith((".zip", ".elpx")) and (root / name).is_file())
 

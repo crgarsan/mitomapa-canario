@@ -8,10 +8,29 @@ Worker de la cuenta configurada.
 Cada push a `main` inicia el despliegue. Una persona con acceso a la cuenta de
 Cloudflare debe comprobar que el Worker `mitomapa-canario` pertenece a esa cuenta
 y crear un token de API limitado a la edición de Workers Scripts.
-En **GitHub → Settings → Secrets and variables → Actions**, añade estos secretos:
+En **GitHub → Settings → Environments → production → Environment secrets**,
+añade estos secretos:
 
 - `CLOUDFLARE_API_TOKEN`: token de esa cuenta, sin incluirlo en archivos.
 - `CLOUDFLARE_ACCOUNT_ID`: identificador de esa cuenta.
+
+El entorno `production` debe permitir despliegues únicamente desde `main`.
+El flujo ya separa las comprobaciones sin secretos del trabajo de despliegue;
+solo el paso final necesita el token. Los secretos se deben guardar en ese
+entorno, para que otros flujos o ramas no puedan obtenerlos como secretos
+generales del repositorio. La declaración `environment: production` por sí sola
+no demuestra que se haya hecho esa migración.
+
+Si existen copias en **Settings → Secrets and variables → Actions**, crea
+primero los secretos de entorno y comprueba un despliegue desde `main`.
+Después elimina las copias generales. GitHub no permite recuperar el valor de
+un secreto guardado: si no se conserva el token, crea uno nuevo limitado a la
+cuenta y a los permisos necesarios para Workers Scripts. Comprueba el nombre
+del Worker destino en `wrangler.jsonc` y revoca el token anterior tras validar
+el despliegue.
+No copies credenciales a incidencias, comentarios, capturas ni archivos del
+repositorio. Añade revisores de despliegue solo si se desea un paso manual: no
+son necesarios para el flujo automático actual.
 
 Después de configurar los secretos, comprueba la ejecución de **Deploy MitoMapa
 to Cloudflare** en Actions. También puedes iniciarla manualmente con **Run
@@ -76,5 +95,33 @@ públicos. Actualiza el ZIP editable y sus huellas. El flujo de GitHub comprueba
 esas huellas y se detiene si faltan archivos o no coinciden.
 
 `wrangler.jsonc` apunta a `.deploy/`, generado a partir de las huellas
-verificadas. `.deploy/`, `.git/`, la configuración de GitHub y este documento
-no se publican como recursos del sitio.
+verificadas. `.deploy/`, `.git/`, la configuración de GitHub y los manifiestos de npm no se
+sirven como archivos sueltos. El inventario puede incluir documentación de
+reutilización y código público: nunca deben contener credenciales.
+
+## Seguridad de la cuenta y mantenimiento
+
+Activa la autenticación en dos pasos de Cloudflare en **Perfil → Autenticación**.
+Necesita la intervención de la persona titular y su dispositivo. Guarda los
+códigos de recuperación en un lugar seguro. Esta protección del inicio de
+sesión no cambia la web ni sustituye el token limitado de GitHub Actions.
+
+El aviso «No Turnstile enabled» es una sugerencia de configuración de cuenta.
+La web actual es estática, no tiene una API propia de recepción de formularios
+y guarda las actividades localmente. Añadir solo el componente Turnstile, sin
+validación de su resultado en un servidor, no protegería esos datos. Si se
+incorpora una recepción de envíos en el futuro, habrá que revisar esa función
+y su protección en el servidor antes de decidir si corresponde usarlo.
+
+`.github/dependabot.yml` propone mensualmente actualizaciones de npm y de las
+acciones. Crea pull requests para revisión; no activa su fusión automática.
+Las alertas de Dependabot son un ajuste adicional de GitHub: en **Settings →
+Advanced Security** (o **Code security**, según la interfaz), comprueba que estén
+activadas. Añadir el archivo de configuración no demuestra que esas alertas se
+hayan habilitado. Las credenciales de la integración de edición pueden permitir
+cambiar código sin permitir administrar esas opciones o los secretos.
+
+Usa el `package-lock.json` de la edición vigente para preparar despliegues.
+Las fuentes históricas se mantienen para reproducibilidad y pueden contener
+versiones antiguas de herramientas; no son la configuración de mantenimiento
+recomendada. Las dependencias de Wrangler no se sirven al navegador del alumnado.

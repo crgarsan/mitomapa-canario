@@ -1,5 +1,5 @@
 {
-  "web_version": "4.8.4",
+  "web_version": "4.8.5",
   "rea_exelearning_version": "4.8.4",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-22",
@@ -8,7 +8,7 @@
     "sha256": "d9969e284f1d473f1df8cf780f9551d539121e966b1ed75a5e2bd63fc3e4be49",
     "bytes": 25779268
   },
-  "previous_web_version": "4.8.3",
+  "previous_web_version": "4.8.4",
   "previous_rea_version": "4.8.3",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_4.md",
+  "release_notes": "CAMBIOS_WEB_4_8_5.md",
   "rea_release_notes": "CAMBIOS_REA_4_8_4.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_4.zip",
+    "path": "downloads/MitoMapa_REA_v4_8_5.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "e731789c1e76fa813b6d9926b00daf73706550179c45f6e892897d95410da4a2",
-    "bytes": 25595844
+    "sha256": "a3228d18cf750f9ff46dccfe20414c1ff133686db220d33c632fcf5de9b93ec7",
+    "bytes": 25596553
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_4.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_5.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.4",
+    "downloaded_response_version": "4.8.5",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +176,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.8.4",
+  "release_version": "4.8.5",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -189,5 +189,19 @@
     "el_hierro_handles_revision": "4.8.3",
     "terminology_revision": "4.8.4: piezas como nombre general de la colección; pintaderas conservadas como decoración y referencias documentales",
     "reference_infographic_in_sources": true
+  },
+  "pieces_islands_game": {
+    "date": "2026-10-22",
+    "route": "#piezas-islas",
+    "web_only": true,
+    "pieces": 8,
+    "vessel_count": 7,
+    "contemporary_shell_count": 1,
+    "drag_and_drop": true,
+    "click_touch_keyboard_alternatives": true,
+    "scores": false,
+    "awards": false,
+    "counts_towards_passport": false,
+    "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
   }
 }

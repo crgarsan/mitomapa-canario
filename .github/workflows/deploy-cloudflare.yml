@@ -44,6 +44,7 @@ jobs:
           .venv/bin/python tools/run_browser_checks.py \
             test_experience_browser.py test_journey_browser.py \
             test_drawing_browser.py test_jspdf_browser.py test_names_browser.py \
+            test_pieces_browser.py \
             test_editorial_elpx_browser.py
       - name: Verify and stage static files
         run: python3 tools/prepare_deploy.py
