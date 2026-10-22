@@ -1,4 +1,4 @@
-# MitoMapa canario · 4.8.1
+# MitoMapa canario · 4.8.2
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,8 +9,8 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La web y el REA editable comparten la versión **4.8.1**, revisada el
-20/10/2026. Son dos recursos diferenciados. La adaptación GobCan tiene
+La web y el REA editable comparten la versión **4.8.2**, revisada el
+22/10/2026. Son dos recursos diferenciados. La adaptación GobCan tiene
 **34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
 de eXeLearning **4.0.5**, la plantilla Flux y Andika. El ELPX conserva los ocho
 cuentos, las escenas, las actividades editables, sus apoyos y la narración local;
@@ -19,13 +19,12 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 
 - [Web publicada](https://mitomapa-canario.cgarcias.workers.dev/).
 - [REA editable vigente](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de esta edición](downloads/MitoMapa_REA_v4_8_1.zip).
-- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_8_1.zip).
+- [Paquete de esta edición](downloads/MitoMapa_REA_v4_8_2.zip).
+- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_8_2.zip).
 
 `VERSION.json` identifica la edición y las huellas de las descargas.
-`SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub es
-privado y requiere autorización; las descargas públicas no requieren entrar
-en él. Las ediciones y los paquetes anteriores siguen disponibles públicamente
+`SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub y las descargas son públicos; el archivo editable
+se puede descargar directamente desde la web. Las ediciones y los paquetes anteriores siguen disponibles públicamente
 en sus direcciones originales, con las condiciones que tenían al publicarse.
 
 ## Trabajar en el aula

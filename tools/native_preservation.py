@@ -10,6 +10,17 @@ NS = {"o": "http://www.intef.es/xsd/ode"}
 AUTHORS = "Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana"
 ATTACHMENT_ID = "20260930IMATERIALES40"
 PASSPORT_ID = "20260823155836CHKPAS"
+# Keep the verifier's reviewed artwork independent of the code applying it.
+PASSPORT_BADGES = {
+    "20260823155837TF1RWN": ("sol", "Pintadera de la luz", "tenerife", "Vasija de barro de Tenerife"),
+    "20260823155837TF2UX8": ("seis_triangulos", "Pintadera de la memoria", "gran_canaria", "Vasija de barro de Gran Canaria"),
+    "20260823155837TF3PNS": ("dentada", "Pintadera de Idafe", "la_palma", "Vasija de barro de La Palma"),
+    "20260823155837TF4ICZ": ("triangulo", "Pintadera del encuentro", "la_gomera", "Vasija de barro de La Gomera"),
+    "20260823155837TF58IT": ("circulos", "Pintadera de la niebla", "el_hierro", "Vasija de barro de El Hierro"),
+    "20260823155837TF6TMM": ("doble_triangulo", "Pintadera de Mafasca", "fuerteventura", "Vasija de barro de Fuerteventura"),
+    "20260823155837TF7K1Z": ("chevron", "Pintadera de Ico", "lanzarote", "Vasija de barro de Lanzarote"),
+    "20260823155837TF8283": ("espiral_cuadrada", "Pintadera del horizonte", "la_graciosa", "Caracola de barro, símbolo contemporáneo de La Graciosa"),
+}
 ATTACHMENT_LABELS = {
     "Cuaderno_de_ruta_MitoMapa_4_0.html": ("Mi cuaderno de ruta", "Planifica las tareas y registra lectura, fuentes, creación, revisión y cierre. HTML para imprimir o adaptar en un editor de textos."),
     "Rubrica_lectura_MitoMapa_4_0.html": ("Pauta cualitativa de lectura e impresión", "Criterios y descriptores cualitativos con espacio para evidencias, avances y un siguiente paso; sin puntuaciones."),
@@ -52,7 +63,7 @@ def game_payloads(view):
 
 
 def verify_component(original, current, files):
-    """Allow only reviewed author, attachment and passport-footer changes."""
+    """Allow only reviewed author, attachment, badge and passport-footer changes."""
     iid = field(original, "odeIdeviceId")
     expected = deepcopy(original)
     if iid == ATTACHMENT_ID:
@@ -74,6 +85,34 @@ def verify_component(original, current, files):
             raise ValueError("The attachment changed outside its labels, page and measured sizes")
         expected.find("o:jsonProperties", NS).text = field(current, "jsonProperties")
         expected.find("o:htmlView", NS).text = view
+    elif iid in PASSPORT_BADGES:
+        if field(original, "odeIdeviceTypeName") != "trueorfalse":
+            raise ValueError(f"The reviewed badge is not in its native true-or-false activity: {iid}")
+        old_name, old_alt, slug, new_alt = PASSPORT_BADGES[iid]
+        resource = "{{context_path}}/content/resources/"
+        old_src = resource + f"pintadera_{old_name}.webp"
+        new_src = resource + f"insignia_{slug}.webp"
+        old_image = f'src="{old_src}" alt="{old_alt}"'
+        new_image = f'src="{new_src}" alt="{new_alt}"'
+        properties = field(original, "jsonProperties")
+        after_text = json.loads(properties).get("eXeIdeviceTextAfter", "")
+        view = field(original, "htmlView")
+        document = html.fragment_fromstring(view, create_parent=True)
+        after_nodes = document.xpath(".//div[contains(concat(' ',normalize-space(@class),' '),' TOFP-After ')]")
+        if (not isinstance(after_text, str) or after_text.count(old_image) != 1
+                or view.count(old_image) != 1 or len(after_nodes) != 1
+                or len(after_nodes[0].xpath(".//img[@src=$src and @alt=$alt]", src=old_src, alt=old_alt)) != 1):
+            raise ValueError(f"The badge differs from the reviewed native image: {iid}")
+        quoted_after = json.dumps(after_text, ensure_ascii=False)
+        if properties.count(quoted_after) != 1:
+            raise ValueError(f"The reviewed badge's editable after-text is not unique: {iid}")
+        # Substitute inside the original serialized fields, so formatting and
+        # all questions, answers, settings and remaining markup stay exact.
+        updated_after = after_text.replace(old_image, new_image, 1)
+        expected.find("o:jsonProperties", NS).text = properties.replace(
+            quoted_after, json.dumps(updated_after, ensure_ascii=False), 1,
+        )
+        expected.find("o:htmlView", NS).text = view.replace(old_image, new_image, 1)
     elif iid == PASSPORT_ID:
         before, original_markup = game_payloads(field(original, "htmlView"))
         after, current_markup = game_payloads(field(current, "htmlView"))

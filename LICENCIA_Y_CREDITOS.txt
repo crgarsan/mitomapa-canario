@@ -1,4 +1,4 @@
-MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.8.1 · REA editable 4.8.1, adaptación GobCan · aplicación interactiva 4.8.1
+MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.8.2 · REA editable 4.8.2, adaptación GobCan · aplicación interactiva 4.8.2
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
 Los materiales propios de esta edición se publican bajo CC BY-SA 4.0.
@@ -111,3 +111,12 @@ y mejorar los contenidos, el funcionamiento y las propuestas de aprendizaje
 del recurso.
 
 Sugerencias y propuestas de mejora: sugerencias.mitomapacanario@gmail.com
+
+INSIGNIAS DEL PASAPORTE · 22/10/2026
+Siete vasijas y una caracola marina de La Graciosa como recreaciones
+contemporáneas generadas con la herramienta de imágenes de OpenAI. La versión
+técnica exacta del modelo no se expone. Procedencia, PNG originales y huellas:
+assets/images/insignias_pasaporte.json. Fuentes y alcance:
+assets/passport_icon_credits.html. Se aplica CC BY-SA 4.0 sobre los derechos
+propios que correspondan; las fuentes documentales conservan sus condiciones.
+Las pintaderas originales se conservan como decoración.
