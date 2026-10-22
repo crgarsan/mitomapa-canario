@@ -78,7 +78,7 @@
     const teacherStatus = byId("agreedRouteTeacherStatus");
     if (teacherStatus) teacherStatus.textContent = message;
     const collection = byId("agreedRouteCollection");
-    if (collection) collection.textContent = `Colección completa: ${context.badgeCount()}/${context.routes.length} pintaderas. Es independiente de la ruta acordada.`;
+    if (collection) collection.textContent = `Colección completa: ${context.badgeCount()}/${context.routes.length} piezas. Es independiente de la ruta acordada.`;
     const completion = byId("agreedRouteCompletion");
     if (completion) {
       completion.hidden = !result.complete;
@@ -86,9 +86,9 @@
       if (text) text.textContent = `Han revisado el trabajo acordado en ${result.selected} ${result.selected === 1 ? "isla" : "islas"}. Comparte qué has aprendido y qué probarías la próxima vez. Puedes seguir explorando otras rutas cuando quieras.`;
     }
     const itinerarySummary = byId("itinerarySummary");
-    if (itinerarySummary && result.selected) itinerarySummary.textContent = `${message} Colección: ${context.badgeCount()}/${context.routes.length} pintaderas.`;
+    if (itinerarySummary && result.selected) itinerarySummary.textContent = `${message} Colección: ${context.badgeCount()}/${context.routes.length} piezas.`;
     const progress = byId("progressText");
-    if (progress) progress.title = "Colección de ocho pintaderas; no mide las tareas acordadas con tu docente";
+    if (progress) progress.title = "Colección de ocho piezas; no mide las tareas acordadas con tu docente";
   }
 
   function importState(value) {

@@ -81,11 +81,11 @@
     islandChooser.innerHTML = '<summary>Ver las ocho islas en una lista</summary>';
     islandChooser.append(byId("islandGrid"));map.append(islandChooser);
     const passport = byId("passportTitle").closest("section");
-    byId("passportTitle").textContent = "Cómo funciona el pasaporte";
+    byId("passportTitle").textContent = "Pasaporte de piezas";
     passport.querySelector(":scope > h3")?.remove();
     const games = document.createElement("section");
     games.className = "section screen-intro";games.dataset.screen = "juegos";
-    games.innerHTML = `<p class="eyebrow">Sigue explorando</p><h1>Juegos para compartir</h1><p>Elige una actividad. Puedes volver a los cuentos cuando quieras.</p><div class="activity-choices"><a href="#puzle" class="activity-choice"><span class="choice-symbol" aria-hidden="true">▦</span><h2>Reconstruye el mapa</h2><p>Coloca las doce piezas del archipiélago.</p><span class="choice-action">Abrir puzle →</span></a><a href="#comparar" class="activity-choice"><span class="choice-symbol" aria-hidden="true">↔</span><h2>Compara dos cuentos</h2><p>Descubre sus semejanzas y guarda tus ideas.</p><span class="choice-action">Elegir cuentos →</span></a><a href="#gran-reto" class="activity-choice"><span class="choice-symbol" aria-hidden="true">✦</span><h2>Conecta las ocho islas</h2><p>Reúne las ocho pintaderas para abrir el reto final.</p><span class="choice-action">Ver gran reto →</span></a></div>`;
+    games.innerHTML = `<p class="eyebrow">Sigue explorando</p><h1>Juegos para compartir</h1><p>Elige una actividad. Puedes volver a los cuentos cuando quieras.</p><div class="activity-choices"><a href="#puzle" class="activity-choice"><span class="choice-symbol" aria-hidden="true">▦</span><h2>Reconstruye el mapa</h2><p>Coloca las doce piezas del archipiélago.</p><span class="choice-action">Abrir puzle →</span></a><a href="#comparar" class="activity-choice"><span class="choice-symbol" aria-hidden="true">↔</span><h2>Compara dos cuentos</h2><p>Descubre sus semejanzas y guarda tus ideas.</p><span class="choice-action">Elegir cuentos →</span></a><a href="#gran-reto" class="activity-choice"><span class="choice-symbol" aria-hidden="true">✦</span><h2>Conecta las ocho islas</h2><p>Reúne las ocho piezas para abrir el reto final.</p><span class="choice-action">Ver gran reto →</span></a></div>`;
     main.append(games);
     const namesChoice = document.createElement("a");
     namesChoice.href = "#nombres-islas";namesChoice.className = "activity-choice";
@@ -106,7 +106,7 @@
       disclosure(byId("reuseTitle").closest("section"),"Descargas y materiales editables","resourceDownloads"),
       disclosure(byId("creditsTitle").closest("section"),"Guía, autoría, fuentes y agradecimientos","resourceCredits"),
       disclosure(main.querySelector(".historical-review"),"Historia e interpretación de las imágenes","resourceHistory"),
-      disclosure(passport,"Pasaporte y criterios de los retos","resourcePassport"),
+      disclosure(passport,"Pasaporte de piezas y criterios de los retos","resourcePassport"),
       disclosure(byId("studentFeedback"),"Compartir mi opinión","resourceFeedback")
     );
     main.append(resources);

@@ -7,13 +7,14 @@ import sys
 import unittest
 from zipfile import ZipFile
 
-from lxml import etree
+from lxml import etree, html
 
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
-from native_preservation import field, verify_component
+from editorial_elpx import encode_native_payload
+from native_preservation import field, game_payloads, verify_component
 
 
 NS = {"o": "http://www.intef.es/xsd/ode"}
@@ -29,6 +30,9 @@ BADGES = {
     "20260823155837TF7K1Z": ("chevron", "Pintadera de Ico", "lanzarote", "Vasija de barro de Lanzarote"),
     "20260823155837TF8283": ("espiral_cuadrada", "Pintadera del horizonte", "la_graciosa", "Caracola de barro, símbolo contemporáneo de La Graciosa"),
 }
+PASSPORT = "20260823155836CHKPAS"
+FINAL_CHECKLIST = "20260823155837CHKFIN"
+CREATION_CHECKLISTS = tuple(f"20260823155837CHKCR{index}" for index in range(1, 9))
 
 
 def components(path):
@@ -44,13 +48,48 @@ def approved_badge(original):
     new_src = RESOURCE + f"insignia_{slug}.webp"
     before = json.loads(field(original, "jsonProperties"))["eXeIdeviceTextAfter"]
     after = before.replace(f'src="{old_src}" alt="{old_alt}"', f'src="{new_src}" alt="{new_alt}"', 1)
+    old_label = f"<strong>{old_alt}</strong>"
+    new_label = f'<strong>{old_alt.replace("Pintadera", "Pieza", 1)}</strong>'
+    after = after.replace(old_label, new_label, 1)
     current.find("o:jsonProperties", NS).text = field(original, "jsonProperties").replace(
         json.dumps(before, ensure_ascii=False), json.dumps(after, ensure_ascii=False), 1,
     )
     current.find("o:htmlView", NS).text = field(original, "htmlView").replace(
         f'src="{old_src}" alt="{old_alt}"', f'src="{new_src}" alt="{new_alt}"', 1,
-    )
+    ).replace(old_label, new_label, 1)
     return current
+
+
+def with_payload(original, payload):
+    current = deepcopy(original)
+    view = field(original, "htmlView")
+    document = html.fragment_fromstring(view, create_parent=True)
+    nodes = document.xpath(".//div[contains(@class, 'DataGame')]")
+    if len(nodes) != 1:
+        raise AssertionError("The native test fixture must contain one game payload")
+    encoded = nodes[0].text_content()
+    replacement = encode_native_payload(json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
+    current.find("o:htmlView", NS).text = view.replace(encoded, replacement, 1)
+    return current
+
+
+def approved_checklist(original):
+    payloads, _ = game_payloads(field(original, "htmlView"))
+    data = deepcopy(payloads[0])
+    iid = field(original, "odeIdeviceId")
+    data["msgs"]["msgList"] = "pasaporte de piezas"
+    if iid == PASSPORT:
+        data["footer"] = "MitoMapa canario · CC BY-SA 4.0"
+        data["title"] = "Pasaporte de piezas"
+        data["levels"][0]["item"] = "Pasaporte de piezas"
+        for level in data["levels"][1:]:
+            level["item"] = level["item"].replace("Pintadera", "Pieza", 1)
+    elif iid == FINAL_CHECKLIST:
+        data["title"] = "Revisión del museo de piezas"
+        data["levels"][0]["item"] = "Revisión del museo de piezas"
+    elif iid not in CREATION_CHECKLISTS:
+        raise AssertionError("The test helper must only update reviewed checklists")
+    return with_payload(original, data)
 
 
 class PassportNativeGuardTests(unittest.TestCase):
@@ -58,7 +97,6 @@ class PassportNativeGuardTests(unittest.TestCase):
     def setUpClass(cls):
         version = json.loads((ROOT / "VERSION.json").read_text())
         cls.originals = components(ROOT / version["elpx_source"]["path"])
-        cls.published = components(ROOT / version["download"]["path"])
 
     def test_all_eight_reviewed_badge_images_are_accepted(self):
         for iid in BADGES:
@@ -67,6 +105,86 @@ class PassportNativeGuardTests(unittest.TestCase):
                     verify_component(self.originals[iid], approved_badge(self.originals[iid]), {})
                 except ValueError as error:
                     self.fail(f"The reviewed badge artwork was rejected: {error}")
+
+    def test_only_the_exact_reviewed_reward_label_is_accepted(self):
+        for iid, (_, old_alt, _, _) in BADGES.items():
+            new_label = f'<strong>{old_alt.replace("Pintadera", "Pieza", 1)}</strong>'
+            for field_name in ("jsonProperties", "htmlView"):
+                with self.subTest(idevice=iid, field=field_name):
+                    current = approved_badge(self.originals[iid])
+                    current.find("o:" + field_name, NS).text = field(current, field_name).replace(
+                        new_label, "<strong>Otra pieza</strong>", 1,
+                    )
+                    with self.assertRaises(ValueError):
+                        verify_component(self.originals[iid], current, {})
+
+    def test_reviewed_piece_names_are_accepted_in_all_ten_checklists(self):
+        for iid in (PASSPORT, FINAL_CHECKLIST, *CREATION_CHECKLISTS):
+            with self.subTest(idevice=iid):
+                try:
+                    verify_component(self.originals[iid], approved_checklist(self.originals[iid]), {})
+                except ValueError as error:
+                    self.fail(f"The reviewed checklist labels were rejected: {error}")
+
+    def test_checklist_academic_criteria_levels_scoring_and_other_messages_are_preserved(self):
+        mutations = {
+            "academic item": lambda data: data["levels"][1].update(item="Otro criterio académico"),
+            "level type": lambda data: data["levels"][1].update(type="99"),
+            "level depth": lambda data: data["levels"][1].update(nivel="2"),
+            "points": lambda data: data["levels"][1].update(points="1"),
+            "score": lambda data: data.update(useScore=True),
+            "save setting": lambda data: data.update(saveData=False),
+            "other message": lambda data: data["msgs"].update(msgDelete="¿Borrar?"),
+            "subtitle": lambda data: data.update(subtitle="Otra instrucción"),
+            "unreviewed title": lambda data: data.update(title="Otro título"),
+            "footer": lambda data: data.update(footer="Otro pie"),
+        }
+        for iid in (PASSPORT, FINAL_CHECKLIST, *CREATION_CHECKLISTS):
+            approved = approved_checklist(self.originals[iid])
+            approved_payload, _ = game_payloads(field(approved, "htmlView"))
+            for label, mutate in mutations.items():
+                with self.subTest(idevice=iid, change=label):
+                    data = deepcopy(approved_payload[0])
+                    mutate(data)
+                    with self.assertRaises(ValueError):
+                        verify_component(self.originals[iid], with_payload(approved, data), {})
+
+    def test_factual_pintadera_answer_in_fuerteventura_stays_unchanged(self):
+        iid = "20260823155837QC6OQI"
+        original = self.originals[iid]
+        payloads, _ = game_payloads(field(original, "htmlView"))
+        data = deepcopy(payloads[0])
+        data["author"] = ""
+        for question in data["questionsGame"]:
+            question["author"] = ""
+        self.assertEqual(data["questionsGame"][0]["options"][3], "Una pintadera")
+        verify_component(original, with_payload(original, data), {})
+        data["questionsGame"][0]["options"][3] = "Una pieza"
+        with self.assertRaises(ValueError):
+            verify_component(original, with_payload(original, data), {})
+
+    def test_download_component_accepts_only_the_reviewed_project_title(self):
+        iid = "20260930IDESCARGA40"
+        original = self.originals[iid]
+        current = deepcopy(original)
+        current.find("o:htmlView", NS).text = field(original, "htmlView").replace(
+            "MitoMapa canario: ocho islas, ocho pintaderas",
+            "MitoMapa canario: ocho islas, ocho piezas", 1,
+        )
+        try:
+            verify_component(original, current, {})
+        except ValueError as error:
+            self.fail(f"The reviewed download title was rejected: {error}")
+        for before, after in (
+            ('href="exe-package:elp"', 'href="otro.elpx"'),
+            ("Descargar el archivo .elpx", "Descargar otro archivo"),
+            ("Información general sobre este recurso educativo", "Otra información"),
+        ):
+            with self.subTest(change=before):
+                invalid = deepcopy(current)
+                invalid.find("o:htmlView", NS).text = field(invalid, "htmlView").replace(before, after, 1)
+                with self.assertRaises(ValueError):
+                    verify_component(original, invalid, {})
 
     def test_questions_solutions_messages_and_settings_remain_protected(self):
         iid = "20260823155837TF1RWN"
@@ -119,11 +237,10 @@ class PassportNativeGuardTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     verify_component(self.originals[iid], current, {})
 
-    def test_passport_checklist_exception_still_allows_only_its_licence_footer(self):
-        iid = "20260823155836CHKPAS"
+    def test_passport_checklist_label_exception_does_not_allow_images(self):
+        iid = PASSPORT
         original = self.originals[iid]
-        current = deepcopy(self.published[iid])
-        verify_component(original, current, {})
+        current = approved_checklist(original)
         new_image = '<img src="' + RESOURCE + 'insignia_tenerife.webp" alt="Vasija de barro de Tenerife">'
         current.find("o:htmlView", NS).text = field(current, "htmlView").replace("</div>", new_image + "</div>", 1)
         with self.assertRaises(ValueError):

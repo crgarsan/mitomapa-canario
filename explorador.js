@@ -1,4 +1,4 @@
-/* Exploración y pistas: una actividad voluntaria que no modifica las pintaderas. */
+/* Exploración y pistas: una actividad voluntaria que no modifica las piezas. */
 (function () {
   'use strict';
 
@@ -129,8 +129,8 @@
     controls.leave.hidden = !playing;
     controls.game.hidden = !playing;
     controls.mapInstruction.textContent = playing && !complete
-      ? 'Toca la pintadera de la isla que responde a la pista. Con el teclado, usa Tab para recorrer las islas y Enter para elegir.'
-      : 'Empieza por la isla que quieras. Toca la pintadera o el nombre para abrir su cuento. Con el teclado, usa Tab para recorrer las islas y Enter para abrir.';
+      ? 'Toca la pieza de la isla que responde a la pista. Con el teclado, usa Tab para recorrer las islas y Enter para elegir.'
+      : 'Empieza por la isla que quieras. Toca la pieza o el nombre para abrir su cuento. Con el teclado, usa Tab para recorrer las islas y Enter para abrir.';
     controls.pins.forEach(pin => {
       pin.classList.remove('explore-pin-found');
       pin.setAttribute('aria-describedby', 'exploreMapInstruction');
@@ -145,7 +145,7 @@
     if (complete) {
       controls.counter.textContent = 'Expedición de ' + expedition.length + ' pistas completada';
       controls.clue.textContent = 'Has recorrido las cinco pistas. ¿Quieres descubrir otros cuentos?';
-      controls.gameNote.textContent = 'Puedes comenzar otra expedición o volver a explorar el mapa. Este juego no cambia tu pasaporte ni concede pintaderas.';
+      controls.gameNote.textContent = 'Puedes comenzar otra expedición o volver a explorar el mapa. Este juego no cambia tu pasaporte ni concede piezas.';
       announce('Expedición terminada. Las ocho rutas siguen abiertas para que leas, releas y compares sus historias.', 'success');
       return;
     }
@@ -171,7 +171,7 @@
       pin.querySelector('.explore-pin-state-value').textContent = earned ? 'Conseguida' : 'Por conseguir';
       updatePinLabel(pin);
     });
-    controls.progress.textContent = 'En la etapa seleccionada: ' + earnedCount + ' de ' + controls.pins.length + ' pintaderas conseguidas. Las pistas son una actividad libre y no modifican ese progreso.';
+    controls.progress.textContent = 'En la etapa seleccionada: ' + earnedCount + ' de ' + controls.pins.length + ' piezas conseguidas. Las pistas son una actividad libre y no modifican ese progreso.';
   }
 
   function reset() {
@@ -206,7 +206,7 @@
     const title = element('h2', 'section-title', 'Selecciona una isla en el mapa');
     title.id = 'exploreMapTitle';
     intro.appendChild(title);
-    intro.appendChild(element('p', 'explore-description', 'Pulsa una pintadera o el nombre de la isla para abrir su cuento. Puedes empezar por donde quieras.'));
+    intro.appendChild(element('p', 'explore-description', 'Pulsa una pieza o el nombre de la isla para abrir su cuento. Puedes empezar por donde quieras.'));
     const toolbar = element('div', 'explore-actions');
     controls.start = button('Jugar con cinco pistas', 'explore-button', startGame);
     controls.resume = button('Retomar mis pistas', 'explore-button explore-button-secondary', resumeGame);
@@ -248,7 +248,7 @@
     image.src = context.assets && context.assets['mapa_canarias_interactivo.webp'] || 'assets/images/mapa_canarias_interactivo.webp';
     image.width = 3000;
     image.height = 1514;
-    image.alt = 'Mapa de relieve de las ocho islas de Canarias. Las pintaderas y los nombres situados encima o al lado de las islas permiten abrir cada cuento.';
+    image.alt = 'Mapa de relieve de las ocho islas de Canarias. Las piezas y los nombres situados encima o al lado de las islas permiten abrir cada cuento.';
     stage.appendChild(image);
     const islands = element('div', 'explore-map-islands');
     islands.setAttribute('role', 'group');
@@ -271,7 +271,7 @@
       marker.appendChild(badge);
       const label = element('span', 'explore-pin-label');
       const state = element('span', 'explore-pin-state');
-      state.append(element('span', 'explore-visually-hidden', 'Pintadera: '), element('span', 'explore-pin-state-value'));
+      state.append(element('span', 'explore-visually-hidden', 'Pieza: '), element('span', 'explore-pin-state-value'));
       label.append(element('strong', 'explore-pin-name', route.island), state);
       pin.append(marker, label);
       islands.appendChild(pin);

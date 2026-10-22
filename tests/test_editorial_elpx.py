@@ -163,6 +163,10 @@ class EditorialElpxTests(unittest.TestCase):
                             after_image = json.dumps(after_image, ensure_ascii=False)[1:-1]
                         self.assertEqual(field(expected, name).count(before_image), 1)
                         expected.find("o:" + name, NS).text = field(expected, name).replace(before_image, after_image, 1)
+                        expected.find("o:" + name, NS).text = field(expected, name).replace(
+                            "<strong>" + old_alt + "</strong>",
+                            "<strong>" + old_alt.replace("Pintadera", "Pieza", 1) + "</strong>", 1,
+                        )
                     self.assertEqual(etree.tostring(expected), etree.tostring(current), iid)
                     changed_badges += 1
                     continue
@@ -410,7 +414,7 @@ class EditorialElpxTests(unittest.TestCase):
                             checked[representation] += 1
         self.assertEqual(checked, {"editable-preview": 44, "search": 44, "export": 44})
 
-    def test_passport_changes_only_its_exact_legacy_licence_footer(self):
+    def test_passport_changes_only_its_legacy_licence_and_collection_labels(self):
         original = self.old_components[PASSPORT]
         current = self.components[PASSPORT]
         self.assertEqual(field(original, "odeIdeviceTypeName"), "checklist")
@@ -423,6 +427,11 @@ class EditorialElpxTests(unittest.TestCase):
         expected = native_payload(payload_markup(old_nodes[0]))
         self.assertEqual(expected["footer"], "MitoMapa canario · CC BY-NC-SA 4.0")
         expected["footer"] = PASSPORT_FOOTER
+        expected["title"] = "Pasaporte de piezas"
+        expected["levels"][0]["item"] = "Pasaporte de piezas"
+        for level in expected["levels"][1:]:
+            level["item"] = level["item"].replace("Pintadera", "Pieza")
+        expected["msgs"]["msgList"] = "pasaporte de piezas"
         self.assertEqual(native_payload(payload_markup(new_nodes[0])), expected)
         for node in (old_nodes[0], new_nodes[0]):
             for child in list(node):

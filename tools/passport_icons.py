@@ -47,4 +47,6 @@ def apply_passport_icons(files, root, components):
                     quote = '\\"' if name == "jsonProperties" else '"'
                     value = replace_once(value, "alt=" + quote + old_alt + quote,
                                          "alt=" + quote + alternative + quote)
+                    value = replace_once(value, "<strong>" + old_alt + "</strong>",
+                                         "<strong>" + old_alt.replace("Pintadera", "Pieza", 1) + "</strong>")
                 node.text = value
