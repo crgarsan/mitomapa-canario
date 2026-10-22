@@ -184,6 +184,57 @@ class ReleasePipelineTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "differs from its delivery"):
             release_paths(version)
 
+    def test_web_revision_can_advance_without_changing_the_editable_edition(self):
+        version = {**self.version, "release_version": "4.6.1", "web_version": "4.6.1",
+                   "sharing_archive": {"path": "downloads/MitoMapa_REA_v4_6_1.zip"},
+                   "source_archive": {"path": "downloads/MitoMapa_fuentes_web_v4_6_1.zip"}}
+        try:
+            paths = release_paths(version)
+        except ValueError as error:
+            self.fail(f"A web-only revision must retain the existing editable: {error}")
+        self.assertEqual(version["rea_exelearning_version"], "4.6.0")
+        self.assertEqual(paths["source_archive"], "downloads/MitoMapa_fuentes_web_v4_6_1.zip")
+
+    def test_delivery_uses_the_numeric_maximum_of_web_and_editable_versions(self):
+        version = {**self.version, "release_version": "4.10.0", "web_version": "4.10.0",
+                   "rea_exelearning_version": "4.9.9",
+                   "sharing_archive": {"path": "downloads/MitoMapa_REA_v4_10_0.zip"},
+                   "source_archive": {"path": "downloads/MitoMapa_fuentes_web_v4_10_0.zip"}}
+        try:
+            paths = release_paths(version)
+        except ValueError as error:
+            self.fail(f"The numeric latest edition must define the delivery: {error}")
+        self.assertEqual(paths["sharing_archive"], "downloads/MitoMapa_REA_v4_10_0.zip")
+
+    def test_delivery_rejects_a_version_behind_or_ahead_of_both_editions(self):
+        for release in ("4.6.0", "4.6.2"):
+            version = {**self.version, "release_version": release, "web_version": "4.6.1",
+                       "sharing_archive": {"path": f"downloads/MitoMapa_REA_v{release.replace('.', '_')}.zip"},
+                       "source_archive": {"path": f"downloads/MitoMapa_fuentes_web_v{release.replace('.', '_')}.zip"}}
+            with self.subTest(release=release), self.assertRaisesRegex(ValueError, "differs from its delivery"):
+                release_paths(version)
+
+    def test_delivery_rejects_malformed_edition_metadata_and_paths(self):
+        for key in ("release_version", "web_version", "rea_exelearning_version"):
+            for malformed in ("4.6", "4.6.0-beta", "four.6.0"):
+                version = {**self.version, "release_version": "4.6.0", key: malformed}
+                with self.subTest(field=key, value=malformed), self.assertRaises(ValueError):
+                    release_paths(version)
+        version = {**self.version, "release_version": "4.6.1", "web_version": "4.6.1",
+                   "sharing_archive": {"path": "downloads/MitoMapa_REA_v4_6_1.zip"},
+                   "source_archive": {"path": "downloads/MitoMapa_fuentes_web_v4_6_1.zip"}}
+        for key in ("sharing_archive", "source_archive"):
+            invalid = {**version, key: self.version[key]}
+            with self.subTest(path=key), self.assertRaisesRegex(ValueError, key):
+                release_paths(invalid)
+
+    def test_source_archive_includes_dependabot_configuration_when_present(self):
+        config = b"version: 2\nupdates: []\n"
+        self.write(".github/dependabot.yml", config)
+        update_release(self.root)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        self.assertEqual(sources.get(".github/dependabot.yml"), config)
+
     def test_download_advertises_the_actual_editable_version_and_revision(self):
         version = {**self.version, "download": {**self.version["download"], "sha256": "a" * 64}}
         markup = ('<a id="currentReaDownload" data-rea-version="4.6.0" '

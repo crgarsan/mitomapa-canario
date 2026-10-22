@@ -1176,7 +1176,7 @@ async function importProgressFile(file){
   window.MitoMapaStories?.importState(payload.interactive?.stories);
   window.MitoMapaCompare?.importState(payload.interactive?.comparison);
   window.MitoMapaExplorer?.reset();
-  window.MitoMapaNames?.reset();
+  window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
   save();savePreferences();saveWorkshopState();saveFinalState();
   renderRoutes();setLearningLevel(learningLevel,false);updateTeacherDialog();updateFinalExperience();
   window.MitoMapaNavigation?.refresh();
@@ -1244,7 +1244,7 @@ function resetProgress(){
  try{localStorage.removeItem(legacyKey);}catch(error){}
  clearLearnerResponses();resetV34State();window.MitoMapaJourney?.reset();resetAllWorkshops();
  document.querySelectorAll(".route").forEach(applyLearningLevelToRoute);
- window.MitoMapaStories?.reset();window.MitoMapaCompare?.reset();window.MitoMapaExplorer?.reset();window.MitoMapaNames?.reset();
+ window.MitoMapaStories?.reset();window.MitoMapaCompare?.reset();window.MitoMapaExplorer?.reset();window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
  shuffle();save();updateProgress();updateTeacherDialog();syncTeacherScroll();
  if(byId("teacherImportStatus"))byId("teacherImportStatus").textContent="Progreso reiniciado. No quedan respuestas de la sesión anterior.";
 }
@@ -1426,6 +1426,7 @@ window.MitoMapaCompare?.init({routes,assets:ASSETS,openRoute:id=>showRoute(id,{s
 injectExperienceTools();renderRoutes();setupV34Features();shuffle();
 updateHeaderOffset();
 window.MitoMapaNames?.mount();
+window.MitoMapaPieces?.mount({routes,assets:ASSETS});
 window.MitoMapaNavigation?.mount({routes,openRoute:showRoute,stopNarration,lastRoute:()=>lastRouteId});
 window.MitoMapaTeacher?.init({setLevel:level=>{setLearningLevel(level);updateTeacherDialog();},refresh:syncTeacherScroll});
 window.MitoMapaJourney?.init({routes,getLevel:()=>learningLevel,isReviewed:id=>itineraryFor(id).reviewed,badgeCount:currentBadgeCount,readJSON,writeJSON,onChange:()=>updateItineraryUI()});
