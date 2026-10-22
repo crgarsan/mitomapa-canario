@@ -1,15 +1,15 @@
 {
-  "web_version": "4.8.1",
-  "rea_exelearning_version": "4.8.1",
+  "web_version": "4.8.2",
+  "rea_exelearning_version": "4.8.2",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-20",
+  "prepared_at": "2026-10-22",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "29cbb02435ab450d18bc23f2bf33497d3d405efe6c3475feaca91b2159b1872a",
-    "bytes": 25380136
+    "sha256": "644202d05715fc584e5ec900413f9ca66ed4e9a8a4e49419611c6e4ae1bcf16c",
+    "bytes": 25783573
   },
-  "previous_web_version": "4.8.0",
-  "previous_rea_version": "4.8.0",
+  "previous_web_version": "4.8.1",
+  "previous_rea_version": "4.8.1",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_1.md",
-  "rea_release_notes": "CAMBIOS_REA_4_8_1.md",
+  "release_notes": "CAMBIOS_WEB_4_8_2.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_2.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 34,
@@ -57,9 +57,9 @@
     "selected_islands": 2,
     "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
   },
-  "rea_revision": "2026-10-20",
+  "rea_revision": "2026-10-22",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Portada con mapa entre las pintaderas y licencia del pasaporte corregida",
+  "rea_revision_label": "Insignias de vasijas y caracola; pintaderas decorativas conservadas",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_1.zip",
+    "path": "downloads/MitoMapa_REA_v4_8_2.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "5f26d57a4fb31309623d2c0b3555d5a122c2b9008b5d6749eae2db9a2d182e96",
-    "bytes": 25192084
+    "sha256": "2e148fffecb368495badb91eb76661bcd7e6ebd37ed11ed79d65cba9b704bed5",
+    "bytes": 25599369
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_1.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_2.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.1",
+    "downloaded_response_version": "4.8.2",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,5 +176,15 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.8.1"
+  "release_version": "4.8.2",
+  "passport_icons_revision": {
+    "date": "2026-10-22",
+    "vessel_count": 7,
+    "contemporary_shell_count": 1,
+    "manifest": "assets/images/insignias_pasaporte.json",
+    "original_pngs_preserved": true,
+    "decorative_pintaderas_preserved": true,
+    "layout_and_progress_unchanged": true,
+    "web_and_native_elpx": true
+  }
 }

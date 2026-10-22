@@ -29,6 +29,16 @@ AUTHORS = ("Jesica Fortes Regalado", "Gloria Elsa González Martín", "Cristian 
 PROJECT_AUTHORS = "; ".join(AUTHORS)
 PASSPORT = "20260823155836CHKPAS"
 PASSPORT_FOOTER = "MitoMapa canario · CC BY-SA 4.0"
+BADGE_IMAGES = {
+    "20260823155837TF1RWN": ("sol", "Pintadera de la luz", "tenerife", "Vasija de barro de Tenerife"),
+    "20260823155837TF2UX8": ("seis_triangulos", "Pintadera de la memoria", "gran_canaria", "Vasija de barro de Gran Canaria"),
+    "20260823155837TF3PNS": ("dentada", "Pintadera de Idafe", "la_palma", "Vasija de barro de La Palma"),
+    "20260823155837TF4ICZ": ("triangulo", "Pintadera del encuentro", "la_gomera", "Vasija de barro de La Gomera"),
+    "20260823155837TF58IT": ("circulos", "Pintadera de la niebla", "el_hierro", "Vasija de barro de El Hierro"),
+    "20260823155837TF6TMM": ("doble_triangulo", "Pintadera de Mafasca", "fuerteventura", "Vasija de barro de Fuerteventura"),
+    "20260823155837TF7K1Z": ("chevron", "Pintadera de Ico", "lanzarote", "Vasija de barro de Lanzarote"),
+    "20260823155837TF8283": ("espiral_cuadrada", "Pintadera del horizonte", "la_graciosa", "Caracola de barro, símbolo contemporáneo de La Graciosa"),
+}
 REMOVED_TEACHER_PAGES = {
     "GBC20261006CURRICULO", "GBC20261006METODO", "GBC20261006RECURSOS",
     "GBC20261006SEGUIMIENTO", "20260823155836LOCUT0",
@@ -135,10 +145,27 @@ class EditorialElpxTests(unittest.TestCase):
         games = {iid for iid, node in self.components.items() if field(node, "odeIdeviceTypeName") in GAMES}
         self.assertEqual(len(games), 42)
         changed_games = 0
+        changed_badges = 0
         for iid in games:
             with self.subTest(game=iid):
                 original = self.old_components[iid]
                 current = self.components[iid]
+                if iid in BADGE_IMAGES:
+                    old_name, old_alt, slug, new_alt = BADGE_IMAGES[iid]
+                    prefix = "{{context_path}}/content/resources/"
+                    old_image = f'src="{prefix}pintadera_{old_name}.webp" alt="{old_alt}"'
+                    new_image = f'src="{prefix}insignia_{slug}.webp" alt="{new_alt}"'
+                    expected = copy.deepcopy(original)
+                    for name in ("jsonProperties", "htmlView"):
+                        before_image, after_image = old_image, new_image
+                        if name == "jsonProperties":
+                            before_image = json.dumps(before_image, ensure_ascii=False)[1:-1]
+                            after_image = json.dumps(after_image, ensure_ascii=False)[1:-1]
+                        self.assertEqual(field(expected, name).count(before_image), 1)
+                        expected.find("o:" + name, NS).text = field(expected, name).replace(before_image, after_image, 1)
+                    self.assertEqual(etree.tostring(expected), etree.tostring(current), iid)
+                    changed_badges += 1
+                    continue
                 before = fragment(field(original, "htmlView"))
                 after = fragment(field(current, "htmlView"))
                 old_data = before.xpath(".//*[contains(@class,'-DataGame')]")
@@ -167,6 +194,7 @@ class EditorialElpxTests(unittest.TestCase):
                 else:
                     self.assertEqual(etree.tostring(original), etree.tostring(current), iid)
         self.assertEqual(changed_games, 25)
+        self.assertEqual(changed_badges, 8)
         for name, payload in self.baseline.items():
             if Path(name).suffix.lower() in MEDIA:
                 with self.subTest(media=name):

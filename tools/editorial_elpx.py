@@ -17,6 +17,8 @@ from urllib.parse import urlsplit
 
 from lxml import etree, html
 
+from passport_icons import TF_ICON_IDS, apply_passport_icons
+
 
 NS = {"o": "http://www.intef.es/xsd/ode"}
 CONTEXT = "{{context_path}}"
@@ -577,6 +579,8 @@ def render_exports(files, tree, original_search, templates, block_templates, ali
                 replace_content(target, view)
                 if "textTextarea" in target.get("data-idevice-json-data", ""):
                     target.set("data-idevice-json-data", field(component, "jsonProperties"))
+                elif iid in TF_ICON_IDS:
+                    target.set("data-idevice-json-data", render_content(field(component, "jsonProperties"), path, paths, aliases))
                 block_info["idevices"][iid] = {"order": int(field(component, "odeComponentsOrder")), "htmlView": view, "jsonProperties": field(component, "jsonProperties")}
             info["blocks"][bid] = block_info
             body.append(article)
@@ -798,11 +802,15 @@ def apply_editorial(files, root, version):
         markup = rewrite_local_html_links(markup)
         markup = clean_markup(markup, allow_authors=iid in {"GBCTPORTADA", "20260823155837TCRED0"}, allow_versions=iid == "20260929THISTORIAL39")
         markup = re.sub(r"exe-node:(" + "|".join(TEACHER_CHILDREN) + r")(?=[#\"'])", "exe-node:" + TEACHER, markup)
+        if iid == "GBCTFUENTES":
+            markup += (root / "assets/passport_icon_credits.html").read_text()
         set_text(components[iid], markup)
     for component in components.values():
         if field(component, "odeIdeviceTypeName") not in {"text", "file-attachment", "download-source-file", "progress-report", "checklist"}:
             remove_game_author(component)
     correct_passport_license(components[PASSPORT_DEVICE])
+    # The cover has already captured the original decorative pintaderas.
+    apply_passport_icons(files, root, components)
     # Merge teacher pages without changing component identities or payloads.
     teacher_blocks = pages[TEACHER].find("o:odePagStructures", NS)
     for pid in TEACHER_CHILDREN:

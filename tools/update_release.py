@@ -30,6 +30,7 @@ DOCUMENTS = (
     "GUIA_DOCENTE.html", "GUIA_DOCENTE_GOBCAN.html", "GUIA_REUTILIZACION.html",
     "FUENTES_CUENTOS.html", "LICENCIA_Y_CREDITOS.txt", "CREDITOS_MATERIALES.csv",
     "EDICION_ILUSTRACIONES.txt", "LICENSE", "assets/images/cc-by-sa-4.0.svg",
+    "assets/images/insignias_pasaporte.json", "assets/passport_icon_credits.html",
     "styles.css", "docente.css",
     "downloads/Cuaderno_de_ruta_MitoMapa_web_4_0.html",
     "downloads/Rubrica_lectura_MitoMapa_4_0.html", "downloads/Rubrica_MitoMapa_4_0.csv",
