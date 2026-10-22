@@ -77,10 +77,11 @@
       "alt": "Vasija de barro de El Hierro",
       "width": 512,
       "height": 512,
-      "bytes": 68920,
-      "sha256": "f902c9d99162d6fd1e0867c70b2487ab4ece4e2540ef24d765df5837ef662260",
-      "source_png_sha256": "4a8b0341377429146b58255fe7b7a4da8203a2d5f54259dd61d1c582d998b148",
-      "source_png_url": "https://raw.githubusercontent.com/crgarsan/mitomapa-canario/c79b137bb00a161b3183cbb819cee34f6f0005e3/Vasijas_Canarias/El_Hierro.png"
+      "bytes": 63626,
+      "sha256": "42c6a774e05842fac73df2184fc92ba08c821651cc516e246ad21d8f8a49ee0b",
+      "source_png_sha256": "aab1e8a21927844ada059f0c0c6da2159e7c7cc6e069fa564a11f9fd6544f655",
+      "source_png_url": "https://raw.githubusercontent.com/crgarsan/mitomapa-canario/8953e7dc6fd08d6543f9da548da1522541e576e5/Propuesta_El_Hierro_asas/El_Hierro_con_asas.png",
+      "revision": "4.8.3: asas laterales cortas aprobadas por la autoría"
     },
     {
       "island_id": "fuerteventura",
