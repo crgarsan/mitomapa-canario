@@ -1,0 +1,12 @@
+LA GRACIOSA — CARACOLA MARINA EN BARRO
+Propuesta visual contemporánea, 22 de octubre de 2026.
+
+Representa simbólicamente el vínculo de La Graciosa con el mar. No se atribuye
+a la isla una tipología cerámica ni una pieza arqueológica documentada.
+Se ha creado con la herramienta de generación de imágenes de OpenAI a partir
+del acabado visual de las siete vasijas, con fondo transparente.
+La versión técnica exacta del generador no se expone en esta herramienta.
+Se conserva el PNG original, sin redimensionarlo ni aplicar compresión con pérdida.
+
+Esta propuesta se entrega aparte para valoración. Los siete PNG y su ZIP
+anteriores permanecen iguales. La web y el ELPX no se han modificado.
