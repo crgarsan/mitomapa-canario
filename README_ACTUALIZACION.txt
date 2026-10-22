@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB 4.8.1 · REA 4.8.1 · 20/10/2026
+MITOMAPA CANARIO · WEB 4.8.4 · REA 4.8.4 · 22/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -13,10 +13,17 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_1.zip: editable ELPX y documentación.
-downloads/MitoMapa_fuentes_web_v4_8_1.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_4.zip: editable ELPX y documentación.
+downloads/MitoMapa_fuentes_web_v4_8_4.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
+
+REVISIÓN 4.8.4 · 22/10/2026
+El pasaporte, los premios y las orientaciones actuales se refieren a piezas.
+Se documenta la infografía de cerámica por isla entre los recursos consultados.
+Las siete vasijas y la caracola, incluida la vasija de El Hierro con asas,
+conservan sus imágenes, tamaños y posición. Las pintaderas siguen como decoración.
+Las notas siguientes describen ediciones históricas.
 
 REVISIÓN 4.8.1 · 20/10/2026
 La portada combina cuatro pintaderas arriba, el mapa original completo y las
@@ -71,7 +78,7 @@ de ocho a diez sesiones de 35–50 minutos. Los tiempos son orientativos.
 GUIA_DOCENTE.html explica el desarrollo. GUIA_DOCENTE_GOBCAN.html contiene un
 ejemplo curricular del tercer ciclo de Primaria, con 6.º como referencia y
 adaptable a 5.º; no establece un nivel obligatorio para todo el recurso.
-La ruta se cierra tras revisar las tareas pactadas. Las pintaderas reconocen
+La ruta se cierra tras revisar las tareas pactadas. Las piezas reconocen
 retos concretos y no sustituyen esa revisión ni son una calificación.
 
 PILOTAJE PENDIENTE

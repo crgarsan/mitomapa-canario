@@ -1,4 +1,4 @@
-# MitoMapa canario · 4.8.3
+# MitoMapa canario · 4.8.4
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La web y el REA editable comparten la versión **4.8.3**, revisada el
+La web y el REA editable comparten la versión **4.8.4**, revisada el
 22/10/2026. Son dos recursos diferenciados. La adaptación GobCan tiene
 **34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
 de eXeLearning **4.0.5**, la plantilla Flux y Andika. El ELPX conserva los ocho
@@ -19,8 +19,8 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 
 - [Web publicada](https://mitomapa-canario.cgarcias.workers.dev/).
 - [REA editable vigente](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de esta edición](downloads/MitoMapa_REA_v4_8_3.zip).
-- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_8_3.zip).
+- [Paquete de esta edición](downloads/MitoMapa_REA_v4_8_4.zip).
+- [Fuentes web de esta edición](downloads/MitoMapa_fuentes_web_v4_8_4.zip).
 
 `VERSION.json` identifica la edición y las huellas de las descargas.
 `SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub y las descargas son públicos; el archivo editable
@@ -39,7 +39,7 @@ La [guía docente práctica](GUIA_DOCENTE.html) ofrece tres posibilidades:
 
 En la web, el juego opcional [Nombres de las islas](index.html#nombres-islas) propone
 asociar siete denominaciones y la ficha «Sin nombre documentado» con el mapa.
-Admite arrastre y selección con toque, clic o teclado. No concede pintaderas,
+Admite arrastre y selección con toque, clic o teclado. No concede piezas,
 no genera calificaciones ni condiciona la ruta. Su apariencia de carta antigua
 es una recreación contemporánea que conserva la geografía del mapa, no un
 documento de la conquista. La [nota de procedencia y cautelas](FUENTES_CUENTOS.html#nombres-islas)
@@ -56,7 +56,7 @@ según su programación y la normativa aplicable.
 
 En la web, Docente → Ajustes y seguimiento permite acordar las islas y las tareas. La ruta
 se cierra tras revisar las evidencias pactadas: «2/2» puede representar una
-ruta de dos islas terminada. La colección de ocho pintaderas es independiente.
+ruta de dos islas terminada. La colección de ocho piezas es independiente.
 Las listas cualitativas ayudan a mejorar las producciones; no suman puntos ni
 generan calificaciones. En el ELPX, la ruta y el pasaporte se acuerdan y revisan
 con el profesorado; las orientaciones docentes se organizan en cajas
@@ -121,9 +121,10 @@ NumPy y FFmpeg con libmp3lame. Las selecciones están en `AUDIO_SELECCION.json`;
 después de modificar los MP3, ejecuta la sincronización y las comprobaciones
 de publicación anteriores.
 
-Las escenas y las pintaderas son recreaciones contemporáneas. Una ilustración
-no demuestra cómo fue el pasado ni representa una pintadera arqueológica
-propia de cada isla. [Las fichas de fuentes](FUENTES_CUENTOS.html) distinguen
+Las escenas, las piezas del pasaporte y las pintaderas decorativas son
+recreaciones contemporáneas. Las piezas son siete vasijas y una caracola
+simbólica de La Graciosa; no reproducen piezas arqueológicas concretas ni
+demuestran cómo fue el pasado. [Las fichas de fuentes](FUENTES_CUENTOS.html) distinguen
 testimonios, tradición, contexto y decisiones de adaptación. La consulta
 crítica de esas fuentes forma parte de la propuesta cuando se acuerda una
 tarea de investigación.

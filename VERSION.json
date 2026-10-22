@@ -1,15 +1,15 @@
 {
-  "web_version": "4.8.3",
-  "rea_exelearning_version": "4.8.3",
+  "web_version": "4.8.4",
+  "rea_exelearning_version": "4.8.4",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-22",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "d9c9c0f5bfe4855f371c188a0552fb684147d694cfdadc13d23c33d61036e2ae",
-    "bytes": 25778457
+    "sha256": "d9969e284f1d473f1df8cf780f9551d539121e966b1ed75a5e2bd63fc3e4be49",
+    "bytes": 25779268
   },
-  "previous_web_version": "4.8.2",
-  "previous_rea_version": "4.8.2",
+  "previous_web_version": "4.8.3",
+  "previous_rea_version": "4.8.3",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_3.md",
-  "rea_release_notes": "CAMBIOS_REA_4_8_3.md",
+  "release_notes": "CAMBIOS_WEB_4_8_4.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_4.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 34,
@@ -59,7 +59,7 @@
   },
   "rea_revision": "2026-10-22",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Vasija de El Hierro con asas aprobada; resto del recurso conservado",
+  "rea_revision_label": "Pasaporte de piezas y fuente sobre cerámica canario-amazigh",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_3.zip",
+    "path": "downloads/MitoMapa_REA_v4_8_4.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "957d20a56812e6ba1c219ecb29bcf174b4c1721ca1ccd2441bd90589d66be775",
-    "bytes": 25594072
+    "sha256": "e731789c1e76fa813b6d9926b00daf73706550179c45f6e892897d95410da4a2",
+    "bytes": 25595844
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_3.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_4.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.3",
+    "downloaded_response_version": "4.8.4",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +176,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.8.3",
+  "release_version": "4.8.4",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -186,6 +186,8 @@
     "decorative_pintaderas_preserved": true,
     "layout_and_progress_unchanged": true,
     "web_and_native_elpx": true,
-    "el_hierro_handles_revision": "4.8.3"
+    "el_hierro_handles_revision": "4.8.3",
+    "terminology_revision": "4.8.4: piezas como nombre general de la colección; pintaderas conservadas como decoración y referencias documentales",
+    "reference_infographic_in_sources": true
   }
 }

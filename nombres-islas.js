@@ -1,4 +1,4 @@
-/* Práctica voluntaria de nombres: no guarda respuestas ni modifica las pintaderas. */
+/* Práctica voluntaria de nombres: no guarda respuestas ni modifica las piezas. */
 (function () {
   'use strict';
 

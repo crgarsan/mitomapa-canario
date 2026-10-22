@@ -6,7 +6,7 @@ Archivos finales: assets/images/scene_gran-canaria.webp, scene_tenerife.webp, sc
 EDICIÓN VIGENTE · incorporación 12/10/2026
 Se sustituyen las ocho escenas por las imágenes finales recuperadas del chat Set up mitomapa-canario. Conversión a WebP de calidad 96, sin modificar dimensiones. OpenAI ImageGen según la procedencia del proyecto; no consta una versión técnica verificable del motor. VERSION.json conserva las huellas de los originales PNG. El 14/10/2026 se contrastan las descripciones alternativas con las ocho imágenes vigentes. Las anotaciones de septiembre corresponden a versiones anteriores.
 
-INSIGNIAS DEL PASAPORTE · 22/10/2026
+PIEZAS DEL PASAPORTE · 22/10/2026
 Se incorporan siete vasijas y una caracola simbólica de La Graciosa aprobadas
 por la autoría. Herramienta: OpenAI image_gen.imagegen; versión técnica exacta
 no expuesta por la herramienta. Copias para uso de 512 × 512 en WebP, calidad92

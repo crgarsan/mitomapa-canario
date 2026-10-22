@@ -89,7 +89,7 @@ def build_current(root=ROOT):
     names = sorted(set(result) | {"libs/elpx-manifest.js"})
     result["libs/elpx-manifest.js"] = (
         b"/** Complete native MitoMapa project inventory. */\nwindow.__ELPX_MANIFEST__="
-        + json_bytes({"version": 1, "files": names, "projectTitle": "MitoMapa canario: ocho islas, ocho pintaderas"}).rstrip() + b";\n"
+        + json_bytes({"version": 1, "files": names, "projectTitle": "MitoMapa canario: ocho islas, ocho piezas"}).rstrip() + b";\n"
     )
     tree = etree.fromstring(result["content.xml"], etree.XMLParser(resolve_entities=False, load_dtd=False, no_network=True))
     if not etree.DTD(BytesIO(result["content.dtd"])).validate(tree):

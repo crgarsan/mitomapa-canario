@@ -10,6 +10,18 @@ NS = {"o": "http://www.intef.es/xsd/ode"}
 AUTHORS = "Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana"
 ATTACHMENT_ID = "20260930IMATERIALES40"
 PASSPORT_ID = "20260823155836CHKPAS"
+FINAL_CHECKLIST_ID = "20260823155837CHKFIN"
+CREATION_CHECKLIST_IDS = frozenset(f"20260823155837CHKCR{index}" for index in range(1, 9))
+PASSPORT_ITEMS = (
+    "<strong>Tenerife</strong> · Pintadera de la luz",
+    "<strong>Gran Canaria</strong> · Pintadera de la memoria",
+    "<strong>La Palma</strong> · Pintadera de Idafe",
+    "<strong>La Gomera</strong> · Pintadera del encuentro",
+    "<strong>El Hierro</strong> · Pintadera de la niebla",
+    "<strong>Fuerteventura</strong> · Pintadera de Mafasca",
+    "<strong>Lanzarote</strong> · Pintadera de Ico",
+    "<strong>La Graciosa</strong> · Pintadera del horizonte",
+)
 # Keep the verifier's reviewed artwork independent of the code applying it.
 PASSPORT_BADGES = {
     "20260823155837TF1RWN": ("sol", "Pintadera de la luz", "tenerife", "Vasija de barro de Tenerife"),
@@ -63,7 +75,7 @@ def game_payloads(view):
 
 
 def verify_component(original, current, files):
-    """Allow only reviewed author, attachment, badge and passport-footer changes."""
+    """Allow only reviewed author, attachment, badge and checklist-label changes."""
     iid = field(original, "odeIdeviceId")
     expected = deepcopy(original)
     if iid == ATTACHMENT_ID:
@@ -94,6 +106,8 @@ def verify_component(original, current, files):
         new_src = resource + f"insignia_{slug}.webp"
         old_image = f'src="{old_src}" alt="{old_alt}"'
         new_image = f'src="{new_src}" alt="{new_alt}"'
+        old_label = f"<strong>{old_alt}</strong>"
+        new_label = f'<strong>{old_alt.replace("Pintadera", "Pieza", 1)}</strong>'
         properties = field(original, "jsonProperties")
         after_text = json.loads(properties).get("eXeIdeviceTextAfter", "")
         view = field(original, "htmlView")
@@ -101,29 +115,61 @@ def verify_component(original, current, files):
         after_nodes = document.xpath(".//div[contains(concat(' ',normalize-space(@class),' '),' TOFP-After ')]")
         if (not isinstance(after_text, str) or after_text.count(old_image) != 1
                 or view.count(old_image) != 1 or len(after_nodes) != 1
-                or len(after_nodes[0].xpath(".//img[@src=$src and @alt=$alt]", src=old_src, alt=old_alt)) != 1):
+                or len(after_nodes[0].xpath(".//img[@src=$src and @alt=$alt]", src=old_src, alt=old_alt)) != 1
+                or after_text.count(old_label) != 1 or view.count(old_label) != 1
+                or len(after_nodes[0].xpath(".//strong[text()=$label]", label=old_alt)) != 1):
             raise ValueError(f"The badge differs from the reviewed native image: {iid}")
         quoted_after = json.dumps(after_text, ensure_ascii=False)
         if properties.count(quoted_after) != 1:
             raise ValueError(f"The reviewed badge's editable after-text is not unique: {iid}")
         # Substitute inside the original serialized fields, so formatting and
         # all questions, answers, settings and remaining markup stay exact.
-        updated_after = after_text.replace(old_image, new_image, 1)
+        updated_after = after_text.replace(old_image, new_image, 1).replace(old_label, new_label, 1)
         expected.find("o:jsonProperties", NS).text = properties.replace(
             quoted_after, json.dumps(updated_after, ensure_ascii=False), 1,
         )
-        expected.find("o:htmlView", NS).text = view.replace(old_image, new_image, 1)
-    elif iid == PASSPORT_ID:
+        expected.find("o:htmlView", NS).text = view.replace(old_image, new_image, 1).replace(old_label, new_label, 1)
+    elif iid in {PASSPORT_ID, FINAL_CHECKLIST_ID} | CREATION_CHECKLIST_IDS:
         before, original_markup = game_payloads(field(original, "htmlView"))
         after, current_markup = game_payloads(field(current, "htmlView"))
         if (field(original, "odeIdeviceTypeName") != "checklist" or len(before) != 1
-                or before[0].get("footer") != "MitoMapa canario · CC BY-NC-SA 4.0"):
-            raise ValueError("The passport differs from the reviewed native checklist")
+                or before[0].get("typeGame") != "Cotejo"
+                or before[0].get("msgs", {}).get("msgList") != "pasaporte de pintaderas"):
+            raise ValueError(f"The checklist differs from the reviewed native labels: {iid}")
         permitted = deepcopy(before)
-        permitted[0]["footer"] = "MitoMapa canario · CC BY-SA 4.0"
+        permitted[0]["msgs"]["msgList"] = "pasaporte de piezas"
+        if iid == PASSPORT_ID:
+            old_title = "Pasaporte de pintaderas"
+            levels = before[0].get("levels", [])
+            if (before[0].get("footer") != "MitoMapa canario · CC BY-NC-SA 4.0"
+                    or before[0].get("title") != old_title
+                    or [level.get("item") for level in levels] != [old_title, *PASSPORT_ITEMS]):
+                raise ValueError("The passport differs from its reviewed footer and award labels")
+            permitted[0]["footer"] = "MitoMapa canario · CC BY-SA 4.0"
+            permitted[0]["title"] = "Pasaporte de piezas"
+            permitted[0]["levels"][0]["item"] = "Pasaporte de piezas"
+            for level, old_item in zip(permitted[0]["levels"][1:], PASSPORT_ITEMS, strict=True):
+                level["item"] = old_item.replace("Pintadera", "Pieza", 1)
+        elif iid == FINAL_CHECKLIST_ID:
+            old_title = "Revisión del museo de pintaderas"
+            levels = before[0].get("levels", [])
+            if (before[0].get("title") != old_title or not levels
+                    or levels[0].get("item") != old_title):
+                raise ValueError("The museum checklist differs from its reviewed heading")
+            permitted[0]["title"] = "Revisión del museo de piezas"
+            permitted[0]["levels"][0]["item"] = "Revisión del museo de piezas"
         if permitted != after or original_markup != current_markup:
-            raise ValueError("The native passport changed beyond its reviewed licence footer")
+            raise ValueError(f"The native checklist changed beyond its reviewed labels and footer: {iid}")
         expected.find("o:htmlView", NS).text = field(current, "htmlView")
+    elif iid == "20260930IDESCARGA40":
+        old_title = "MitoMapa canario: ocho islas, ocho pintaderas"
+        view = field(original, "htmlView")
+        if (field(original, "odeIdeviceTypeName") != "download-source-file"
+                or field(original, "jsonProperties") != "" or view.count(old_title) != 1):
+            raise ValueError("The source download differs from its reviewed project title")
+        expected.find("o:htmlView", NS).text = view.replace(
+            old_title, "MitoMapa canario: ocho islas, ocho piezas", 1,
+        )
     elif field(original, "odeIdeviceTypeName") in {"puzzle", "quick-questions", "relate"}:
         before, original_markup = game_payloads(field(original, "htmlView"))
         after, current_markup = game_payloads(field(current, "htmlView"))

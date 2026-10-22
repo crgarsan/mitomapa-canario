@@ -59,6 +59,15 @@ ISLANDS = (
     ("el-hierro", "El Hierro"), ("fuerteventura", "Fuerteventura"),
     ("lanzarote", "Lanzarote"), ("la-graciosa", "La Graciosa"),
 )
+FUNCTIONAL_PIECE_TEXTS = frozenset({
+    "GBCTPORTADA", "20260823155836TINTRO", "20260823155836TITINW", "20260823155836TPASSI",
+    *STORY_IDS, "20260823155837TFINTI", "20260930IRUBRICA40", "20260823155837TGUID1",
+    "20260929TIMAGEN39", "20260823155837TCRED0",
+})
+COLLECTION_CHECKLISTS = frozenset({
+    PASSPORT_DEVICE, "20260823155837CHKFIN",
+    *("20260823155837CHKCR" + str(index) for index in range(1, 9)),
+})
 LANGUAGE_SUBSTITUTIONS = {
     "vais": "van", "hayáis": "hayan", "habéis": "han", "necesitéis": "necesiten",
     "vosotros": "ustedes", "vosotras": "ustedes", "vuestro": "su", "vuestra": "su",
@@ -142,6 +151,58 @@ def plural_text(value):
     for old, new in LANGUAGE_SUBSTITUTIONS.items():
         value = re.sub(r"\b" + re.escape(old) + r"\b", lambda m: new.capitalize() if m[0][0].isupper() else new, value, flags=re.I)
     return re.sub(r"\bOA\b", "Objeto de Aprendizaje", value)
+
+
+def piece_words(value):
+    """Rename collection labels while retaining case and singular/plural."""
+    def replacement(match):
+        word = "piezas" if match[0].lower().endswith("s") else "pieza"
+        return word.upper() if match[0].isupper() else word.capitalize() if match[0][0].isupper() else word
+    return re.sub(r"\bpintaderas?\b", replacement, value, flags=re.I)
+
+
+def piece_markup(markup):
+    """Change readable labels in reviewed texts, preserving resource URLs."""
+    document = fragment(markup)
+    for node in document.iter():
+        for attribute in ("text", "tail"):
+            value = getattr(node, attribute)
+            if value:
+                setattr(node, attribute, piece_words(value))
+        for attribute in ("alt", "title", "aria-label"):
+            if node.get(attribute):
+                node.set(attribute, piece_words(node.get(attribute)))
+    return inner(document)
+
+
+def rename_checklist_collection(component):
+    """Rename only the collection's reviewed checklist presentation fields."""
+    iid = field(component, "odeIdeviceId")
+    if iid not in COLLECTION_CHECKLISTS:
+        raise ValueError("Unreviewed collection checklist: " + iid)
+    view = field(component, "htmlView")
+    nodes = fragment(view).xpath(".//div[contains(concat(' ',normalize-space(@class),' '),' listacotejo-DataGame ')]")
+    if len(nodes) != 1:
+        raise ValueError("Expected the single native checklist payload: " + iid)
+    payload = nodes[0].text_content()
+    decoded, encoded = decode_native_payload(payload)
+    data = json.loads(decoded)
+    if data["msgs"]["msgList"] != "pasaporte de pintaderas":
+        raise ValueError("The native checklist report label differs: " + iid)
+    data["msgs"]["msgList"] = "pasaporte de piezas"
+    if iid in {PASSPORT_DEVICE, "20260823155837CHKFIN"}:
+        old_title = "Pasaporte de pintaderas" if iid == PASSPORT_DEVICE else "Revisión del museo de pintaderas"
+        if data["title"] != old_title or data["levels"][0]["item"] != old_title:
+            raise ValueError("The native collection checklist title differs: " + iid)
+        data["title"] = piece_words(old_title)
+        data["levels"][0]["item"] = piece_words(old_title)
+    if iid == PASSPORT_DEVICE:
+        for level in data["levels"][1:]:
+            level["item"] = piece_words(level["item"])
+    updated = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    if view.count(payload) != 1:
+        raise ValueError("The native collection checklist payload is not unique: " + iid)
+    set_field(component, "htmlView", view.replace(payload, encode_native_payload(updated) if encoded else updated, 1))
 
 
 AUTHOR_FIELD = re.compile(r'("author"\s*:\s*)("(?:[^"\\]|\\.)*")')
@@ -601,6 +662,8 @@ def render_exports(files, tree, original_search, templates, block_templates, ali
             node_remove(node)
         document.xpath("//h1[@class='page-title']")[0].text = field(page, "pageName")
         document.xpath("//title")[0].text = field(page, "pageName") + " | MitoMapa canario"
+        for title in document.xpath("//p[contains(concat(' ',normalize-space(@class),' '),' package-title ')]"):
+            title.text = tree.findtext(".//o:odeProperty[o:key='pp_title']/o:value", namespaces=NS)
         nav = document.xpath("//nav[@id='siteNav']")[0]
         replace_content(nav, "")
         nav.append(nav_list("", pid, path))
@@ -718,6 +781,12 @@ def apply_editorial(files, root, version):
     # The source table is historical material, not another teaching page. Its
     # native box moves to Sources and adopts the current cautious selection.
     names_doc = html.fromstring((root / "FUENTES_CUENTOS.html").read_bytes())
+    ceramics = names_doc.xpath("//*[@id='ceramica-pasaporte']")
+    if len(ceramics) != 1:
+        raise ValueError("Expected the consulted ceramic reference section")
+    ceramics = deepcopy(ceramics[0])
+    ceramics.attrib.pop("id", None)
+    texts["GBCTFUENTES"] += box("Recursos consultados: cerámica por isla", html.tostring(ceramics, encoding="unicode"), "ceramica-pasaporte")
     names = names_doc.xpath("//*[@id='nombres-islas']")
     if names:
         names = deepcopy(names[0])
@@ -804,6 +873,8 @@ def apply_editorial(files, root, version):
         markup = re.sub(r"exe-node:(" + "|".join(TEACHER_CHILDREN) + r")(?=[#\"'])", "exe-node:" + TEACHER, markup)
         if iid == "GBCTFUENTES":
             markup += (root / "assets/passport_icon_credits.html").read_text()
+        if iid in FUNCTIONAL_PIECE_TEXTS:
+            markup = piece_markup(markup)
         set_text(components[iid], markup)
     for component in components.values():
         if field(component, "odeIdeviceTypeName") not in {"text", "file-attachment", "download-source-file", "progress-report", "checklist"}:
@@ -811,6 +882,14 @@ def apply_editorial(files, root, version):
     correct_passport_license(components[PASSPORT_DEVICE])
     # The cover has already captured the original decorative pintaderas.
     apply_passport_icons(files, root, components)
+    for iid in COLLECTION_CHECKLISTS:
+        rename_checklist_collection(components[iid])
+    download = components["20260930IDESCARGA40"]
+    download_view = field(download, "htmlView")
+    old_title = "MitoMapa canario: ocho islas, ocho pintaderas"
+    if download_view.count(old_title) != 1:
+        raise ValueError("The native project download differs from its reviewed title")
+    set_field(download, "htmlView", download_view.replace(old_title, "MitoMapa canario: ocho islas, ocho piezas", 1))
     # Merge teacher pages without changing component identities or payloads.
     teacher_blocks = pages[TEACHER].find("o:odePagStructures", NS)
     for pid in TEACHER_CHILDREN:
@@ -871,6 +950,12 @@ def apply_editorial(files, root, version):
     for page in ordered:
         container.remove(page); container.append(page)
     set_property(tree, "odeProperty", "footer", "")
+    set_property(tree, "odeProperty", "pp_title", "MitoMapa canario: ocho islas, ocho piezas")
+    # Navigation/block labels are presentation; page URLs and source titles
+    # remain their original references.
+    for node in tree.xpath(".//o:odeNavStructure/o:pageName | .//o:odePagStructure/o:blockName | .//o:odeNavStructureProperty[o:key='titlePage' or o:key='titleNode' or o:key='description']/o:value", namespaces=NS):
+        if node.text:
+            node.text = piece_words(node.text)
     set_property(tree, "odeProperty", "pp_subtitle", "")
     # The saved editor thumbnail still depicts the former cover. Leaving it
     # empty lets eXe generate a current preview when the project is saved.
