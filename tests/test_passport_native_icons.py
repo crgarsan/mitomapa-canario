@@ -102,6 +102,9 @@ class NativePassportIconsTests(unittest.TestCase):
             self.assertEqual(self.files[name], (ROOT / "assets/images" / Path(name).name).read_bytes())
             self.assertIn(name, inventory)
         for name, payload in self.baseline.items():
+            # Only the project's two stored previews are refreshed separately.
+            if name in {"screenshot.png", "content/resources/screenshot.png"}:
+                continue
             if Path(name).suffix.lower() in {".webp", ".png", ".mp3", ".svg"}:
                 self.assertEqual(self.files[name], payload, name)
         cover = json.loads(field(self.components["GBCTPORTADA"], "jsonProperties"))["textTextarea"]

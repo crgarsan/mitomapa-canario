@@ -1,15 +1,15 @@
 {
-  "web_version": "4.8.8",
-  "rea_exelearning_version": "4.8.4",
+  "web_version": "4.8.9",
+  "rea_exelearning_version": "4.8.5",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-22",
+  "prepared_at": "2026-10-23",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "d9969e284f1d473f1df8cf780f9551d539121e966b1ed75a5e2bd63fc3e4be49",
-    "bytes": 25779268
+    "sha256": "02db5449d65e7bb2ea145692a17969efdce130fcc34f8d664521903ef0c602d9",
+    "bytes": 25841851
   },
-  "previous_web_version": "4.8.7",
-  "previous_rea_version": "4.8.3",
+  "previous_web_version": "4.8.8",
+  "previous_rea_version": "4.8.4",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_8.md",
-  "rea_release_notes": "CAMBIOS_REA_4_8_4.md",
+  "release_notes": "CAMBIOS_WEB_4_8_9.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_5.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 34,
@@ -57,9 +57,9 @@
     "selected_islands": 2,
     "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
   },
-  "rea_revision": "2026-10-22",
+  "rea_revision": "2026-10-23",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Pasaporte de piezas y fuente sobre cerámica canario-amazigh",
+  "rea_revision_label": "Miniatura de la portada vigente del REA",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_8.zip",
+    "path": "downloads/MitoMapa_REA_v4_8_9.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "40bb8fc5d021fa128b844472afeb2053a58bfc5f7ea4c4ba905f9ab67e60e68e",
-    "bytes": 25597438
+    "sha256": "96a1e2f7062f9ef3aa171f198b4c790b5afc83b4e7137a3dc62c84e0437f0b74",
+    "bytes": 25656999
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_8.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_9.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.8",
+    "downloaded_response_version": "4.8.9",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +176,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.8.8",
+  "release_version": "4.8.9",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -204,5 +204,13 @@
     "counts_towards_passport": false,
     "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
   },
-  "web_revision_date": "2026-10-23"
+  "web_revision_date": "2026-10-23",
+  "elpx_thumbnail": {
+    "path": "assets/images/miniatura_elpx.png",
+    "sha256": "614768b1fa733f2b2c155c4508a8446dbcdd94d7bf543abee21bf4c2b2cfbda0",
+    "width": 758,
+    "height": 962,
+    "source": "Captura de la portada actual del ELPX; conserva mapa, pintaderas decorativas, autoría y CC BY-SA 4.0",
+    "captured_at": "2026-10-23"
+  }
 }

@@ -132,6 +132,9 @@ class NativeCollectionCopyTests(unittest.TestCase):
         self.assertEqual(len(document.xpath(".//*[@id='ceramica-pasaporte']")), 1)
         self.assertIn(INFOGRAPHIC, resources[0].xpath(".//a/@href"))
         for name, payload in self.baseline.items():
+            # Only the project's two stored previews are refreshed separately.
+            if name in {"screenshot.png", "content/resources/screenshot.png"}:
+                continue
             if Path(name).suffix.lower() in {".webp", ".png", ".mp3", ".svg"}:
                 self.assertEqual(self.files[name], payload, name)
 
