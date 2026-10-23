@@ -1,4 +1,4 @@
-MitoMapa canario: ocho islas, ocho piezas — distribución web 4.8.6 · REA editable 4.8.4, adaptación GobCan · aplicación interactiva 4.8.6
+MitoMapa canario: ocho islas, ocho piezas — distribución web 4.8.7 · REA editable 4.8.4, adaptación GobCan · aplicación interactiva 4.8.7
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
 Los materiales propios de esta edición se publican bajo CC BY-SA 4.0.
@@ -18,7 +18,7 @@ No se ha realizado una auditoría independiente de titularidad de cada imagen.
 
 Crédito sugerido:
 Fortes Regalado, J.; González Martín, G. E.; García Santana, C. (2026).
-MitoMapa canario: ocho islas, ocho piezas (web 4.8.6; REA 4.8.4, adaptación GobCan). CC BY-SA 4.0.
+MitoMapa canario: ocho islas, ocho piezas (web 4.8.7; REA 4.8.4, adaptación GobCan). CC BY-SA 4.0.
 https://mitomapa-canario.cgarcias.workers.dev/
 Si adaptas: añade tu autoría, fecha y descripción de los cambios.
 
@@ -120,3 +120,10 @@ assets/images/insignias_pasaporte.json. Fuentes y alcance:
 assets/passport_icon_credits.html. Se aplica CC BY-SA 4.0 sobre los derechos
 propios que correspondan; las fuentes documentales conservan sus condiciones.
 Las pintaderas originales se conservan como decoración.
+
+Vista previa web 4.8.7 · 23/10/2026: se corrige el PNG del cartel para compartir
+para que indique «Ocho piezas». Edición mediante OpenAI image_gen.imagegen,
+sin versión técnica expuesta. Los archivos og-image.png y og-image-v4-8-7.png
+comparten la misma imagen optimizada; se conserva el SVG editable. Materiales
+propios bajo CC BY-SA 4.0 sobre los derechos que correspondan. Esta revisión no
+modifica la entrega ELPX 4.8.4.
