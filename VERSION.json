@@ -1,5 +1,5 @@
 {
-  "web_version": "4.8.7",
+  "web_version": "4.8.8",
   "rea_exelearning_version": "4.8.4",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-22",
@@ -8,7 +8,7 @@
     "sha256": "d9969e284f1d473f1df8cf780f9551d539121e966b1ed75a5e2bd63fc3e4be49",
     "bytes": 25779268
   },
-  "previous_web_version": "4.8.6",
+  "previous_web_version": "4.8.7",
   "previous_rea_version": "4.8.3",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_7.md",
+  "release_notes": "CAMBIOS_WEB_4_8_8.md",
   "rea_release_notes": "CAMBIOS_REA_4_8_4.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_7.zip",
+    "path": "downloads/MitoMapa_REA_v4_8_8.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "d4be20a70f42738cae9b2e533d9982815a0ed68242031710e962dd2442033f5b",
-    "bytes": 25596886
+    "sha256": "40bb8fc5d021fa128b844472afeb2053a58bfc5f7ea4c4ba905f9ab67e60e68e",
+    "bytes": 25597438
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_7.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_8.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.7",
+    "downloaded_response_version": "4.8.8",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +176,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.8.7",
+  "release_version": "4.8.8",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,

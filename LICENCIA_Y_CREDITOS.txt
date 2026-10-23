@@ -1,4 +1,4 @@
-MitoMapa canario: ocho islas, ocho piezas — distribución web 4.8.7 · REA editable 4.8.4, adaptación GobCan · aplicación interactiva 4.8.7
+MitoMapa canario: ocho islas, ocho piezas — distribución web 4.8.8 · REA editable 4.8.4, adaptación GobCan · aplicación interactiva 4.8.8
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
 Los materiales propios de esta edición se publican bajo CC BY-SA 4.0.
@@ -18,7 +18,7 @@ No se ha realizado una auditoría independiente de titularidad de cada imagen.
 
 Crédito sugerido:
 Fortes Regalado, J.; González Martín, G. E.; García Santana, C. (2026).
-MitoMapa canario: ocho islas, ocho piezas (web 4.8.7; REA 4.8.4, adaptación GobCan). CC BY-SA 4.0.
+MitoMapa canario: ocho islas, ocho piezas (web 4.8.8; REA 4.8.4, adaptación GobCan). CC BY-SA 4.0.
 https://mitomapa-canario.cgarcias.workers.dev/
 Si adaptas: añade tu autoría, fecha y descripción de los cambios.
 
@@ -127,3 +127,11 @@ sin versión técnica expuesta. Los archivos og-image.png y og-image-v4-8-7.png
 comparten la misma imagen optimizada; se conserva el SVG editable. Materiales
 propios bajo CC BY-SA 4.0 sobre los derechos que correspondan. Esta revisión no
 modifica la entrega ELPX 4.8.4.
+
+Vista previa web 4.8.8 · 23/10/2026: fondo azul degradado y una vasija
+decorativa, conservando el texto del cartel. Referencia: la recreación propia
+assets/images/insignia_gran_canaria.webp. Edición mediante OpenAI
+image_gen.imagegen, sin versión técnica expuesta. PNG actual: og-image.png
+y og-image-v4-8-8.png; composición editable: og-image.svg. Materiales propios
+bajo CC BY-SA 4.0 sobre los derechos que correspondan; las fuentes documentales
+conservan sus condiciones. El ELPX 4.8.4 y los paquetes anteriores no cambian.

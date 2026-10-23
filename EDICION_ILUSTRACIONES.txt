@@ -23,3 +23,15 @@ la vista previa. Archivos: og-image.png y og-image-v4-8-7.png (mismos bytes).
 El SVG editable og-image.svg conserva su texto «Ocho piezas». Los metadatos de
 Open Graph y Twitter apuntan al PNG con nombre versionado. Esta revisión solo
 afecta a la web; no cambia el ELPX 4.8.4, sus escenas ni sus piezas.
+
+VISTA PREVIA CON VASIJA · 23/10/2026 · web 4.8.8
+Se retiran las ocho formas abstractas y el sello triangular de la miniatura.
+El cartel conserva todo su texto sobre un fondo azul degradado e incorpora
+una única vasija decorativa, inspirada en la imagen propia ya aprobada
+assets/images/insignia_gran_canaria.webp. Recreación contemporánea, sin atribuir
+al cartel valor documental arqueológico. Edición con OpenAI image_gen.imagegen;
+versión técnica exacta no expuesta. Original generado conservado fuera del
+despliegue; PNG optimizado de 1200 × 630 en og-image.png y og-image-v4-8-8.png.
+La composición editable og-image.svg conserva textos, gradiente y una copia
+incrustada de la vasija de referencia. El PNG versionado 4.8.7 se conserva como
+histórico. No cambia el ELPX 4.8.4 ni las escenas o piezas del recurso.
