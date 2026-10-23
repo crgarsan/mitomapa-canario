@@ -13,3 +13,13 @@ no expuesta por la herramienta. Copias para uso de 512 × 512 en WebP, calidad92
 y alfa100; los PNG originales de1254 ×1254 permanecen sin cambios en la galería.
 Detalle por isla y huellas: assets/images/insignias_pasaporte.json. No se modifica
 ninguna de las ocho escenas del cuento, las narraciones ni las pintaderas decorativas.
+
+VISTA PREVIA PARA COMPARTIR · 23/10/2026 · web 4.8.7
+Se corrige la miniatura PNG que todavía decía «Ocho pintaderas» para mostrar
+«Ocho piezas», manteniendo la composición del cartel del recurso. Edición con
+OpenAI image_gen.imagegen; versión técnica exacta no expuesta. Original editado
+conservado fuera del despliegue; copias web PNG de 1200 × 630 optimizadas para
+la vista previa. Archivos: og-image.png y og-image-v4-8-7.png (mismos bytes).
+El SVG editable og-image.svg conserva su texto «Ocho piezas». Los metadatos de
+Open Graph y Twitter apuntan al PNG con nombre versionado. Esta revisión solo
+afecta a la web; no cambia el ELPX 4.8.4, sus escenas ni sus piezas.

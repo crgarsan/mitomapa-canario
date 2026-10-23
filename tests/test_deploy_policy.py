@@ -4,6 +4,9 @@ import base64
 import binascii
 import copy
 import json
+import hashlib
+from html.parser import HTMLParser
+import struct
 from pathlib import Path, PurePosixPath
 import re
 import unittest
@@ -162,6 +165,37 @@ class DeployPolicyTests(unittest.TestCase):
         for line in requirements.splitlines():
             if line and not line.startswith("#"):
                 self.assertRegex(line, r"^[A-Za-z][A-Za-z0-9_-]*==\d+\.\d+\.\d+$")
+
+    def test_share_preview_is_versioned_and_matches_the_actual_png(self):
+        class MetaTags(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.values = {}
+            def handle_starttag(self, tag, attrs):
+                attrs = dict(attrs)
+                if tag == "meta":
+                    self.values[attrs.get("property", attrs.get("name"))] = attrs.get("content")
+        parser = MetaTags()
+        parser.feed((ROOT / "index.html").read_text())
+        meta = parser.values
+        image = urlsplit(meta["og:image"])
+        self.assertEqual(image.scheme, "https")
+        self.assertEqual(image.netloc, urlsplit(meta["og:url"]).netloc)
+        self.assertRegex(image.path, r"^/og-image-v[0-9]+-[0-9]+-[0-9]+\.png$")
+        self.assertEqual(meta["twitter:image"], meta["og:image"])
+        self.assertEqual(meta["og:image:secure_url"], meta["og:image"])
+        self.assertEqual(meta["og:image:type"], "image/png")
+        payload = (ROOT / image.path.lstrip("/")).read_bytes()
+        self.assertEqual(payload[:8], b"\x89PNG\r\n\x1a\n")
+        dimensions = struct.unpack(">II", payload[16:24])
+        self.assertEqual(dimensions, (int(meta["og:image:width"]), int(meta["og:image:height"])))
+        self.assertEqual(dimensions, (1200, 630))
+        self.assertLess(len(payload), 300 * 1024)
+        self.assertEqual(payload, (ROOT / "og-image.png").read_bytes())
+        public_entry = hashlib.sha256(payload).hexdigest() + "  " + image.path.lstrip("/")
+        self.assertTrue(public_entry in (ROOT / "SHA256SUMS.txt").read_text().splitlines(),
+                        "The versioned preview must be in the verified public asset inventory")
+        self.assertIn("piezas", meta["og:image:alt"].lower())
 
     def test_audio_loading_remains_limited_to_the_resource_origin(self):
         headers = (ROOT / "_headers").read_text()

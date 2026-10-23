@@ -1,4 +1,5 @@
-MITOMAPA CANARIO · WEB 4.8.6 · REA 4.8.4 · 22/10/2026
+MITOMAPA CANARIO · WEB 4.8.7 · REVISIÓN WEB 23/10/2026
+REA EDITABLE 4.8.4 · REVISIÓN 22/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -13,10 +14,16 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_6.zip: mismo editable ELPX 4.8.4 y documentación actual.
-downloads/MitoMapa_fuentes_web_v4_8_6.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_7.zip: mismo editable ELPX 4.8.4 y documentación actual.
+downloads/MitoMapa_fuentes_web_v4_8_7.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
+
+REVISIÓN WEB 4.8.7 · 23/10/2026
+La miniatura compartida muestra «Ocho piezas» y su dirección versionada solicita
+renovar la vista previa. Los mensajes ya enviados por WhatsApp pueden conservar
+la imagen almacenada; no se garantiza que se actualicen retrospectivamente.
+El REA editable y la entrega completa 4.8.4 conservan sus mismos archivos.
 
 REVISIÓN WEB 4.8.6 · 22/10/2026
 Las tarjetas del banco de «Las piezas y sus islas» muestran solo las imágenes.
