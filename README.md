@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.8.7 · REA 4.8.4
+# MitoMapa canario · web 4.8.8 · REA 4.8.4
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La web se publica como **4.8.7**. El REA editable conserva la versión
+La web se publica como **4.8.8**. El REA editable conserva la versión
 **4.8.4**, revisada el 22/10/2026, con el mismo archivo y la misma huella.
 Son dos recursos diferenciados. La adaptación GobCan tiene
 **34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
@@ -20,12 +20,14 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 
 - [Web publicada](https://mitomapa-canario.cgarcias.workers.dev/).
 - [REA editable vigente · 4.8.4](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.8.7 · incluye el REA 4.8.4](downloads/MitoMapa_REA_v4_8_7.zip).
-- [Fuentes web 4.8.7](downloads/MitoMapa_fuentes_web_v4_8_7.zip).
+- [Paquete de la publicación 4.8.8 · incluye el REA 4.8.4](downloads/MitoMapa_REA_v4_8_8.zip).
+- [Fuentes web 4.8.8](downloads/MitoMapa_fuentes_web_v4_8_8.zip).
 
-La revisión web del 23/10/2026 actualiza la miniatura compartida a «Ocho piezas»
-y utiliza una dirección versionada para solicitar su renovación. Los mensajes
-ya compartidos en WhatsApp pueden conservar la vista previa almacenada.
+La revisión web del 23/10/2026 rediseña la miniatura compartida con un fondo
+azul degradado y una vasija decorativa. Retira las figuras similares a ojos y
+conserva el texto completo del cartel, incluido «Ocho piezas». La imagen utiliza
+una dirección versionada para solicitar su renovación. Los mensajes ya
+compartidos en WhatsApp pueden conservar la vista previa almacenada.
 
 `VERSION.json` identifica la edición y las huellas de las descargas.
 `SHA256SUMS.txt` determina los archivos públicos. El repositorio GitHub y las descargas son públicos; el archivo editable
@@ -110,7 +112,7 @@ python3 tools/prepare_deploy.py
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.8.7 conserva el ELPX 4.8.4 sin cambios.
+empaquetar. La publicación 4.8.8 conserva el ELPX 4.8.4 sin cambios.
 
 LXML permite comprobar el modelo nativo y su DTD. Playwright y Pillow se usan
 en las pruebas de navegador, no durante la lectura del recurso por el alumnado.
