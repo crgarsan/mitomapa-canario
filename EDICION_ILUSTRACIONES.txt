@@ -35,3 +35,15 @@ despliegue; PNG optimizado de 1200 × 630 en og-image.png y og-image-v4-8-8.png.
 La composición editable og-image.svg conserva textos, gradiente y una copia
 incrustada de la vasija de referencia. El PNG versionado 4.8.7 se conserva como
 histórico. No cambia el ELPX 4.8.4 ni las escenas o piezas del recurso.
+
+MINIATURA NATIVA DEL ELPX · 23/10/2026 · REA 4.8.5
+Se sustituye la captura antigua guardada en screenshot.png y
+content/resources/screenshot.png por una captura de la portada actual.
+El campo de vista previa pp_screenshot contiene la misma imagen en formato
+PNG incrustado. La captura muestra «Ocho islas, ocho piezas», el mapa,
+las dos filas de pintaderas decorativas, la autoría y CC BY-SA 4.0.
+Archivo de referencia reproducible: assets/images/miniatura_elpx.png.
+Captura realizada con el navegador local a partir del ELPX vigente, sin
+retocar sus ilustraciones. Los materiales conservan sus créditos y condiciones.
+El mapa de TongApp mantiene las condiciones originales del Gobierno de Canarias.
+Las escenas, los audios y las actividades del ELPX permanecen sin cambios.

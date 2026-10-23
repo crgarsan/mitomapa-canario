@@ -1,5 +1,5 @@
-MITOMAPA CANARIO · WEB 4.8.8 · REVISIÓN WEB 23/10/2026
-REA EDITABLE 4.8.4 · REVISIÓN 22/10/2026
+MITOMAPA CANARIO · WEB 4.8.9 · REVISIÓN WEB 23/10/2026
+REA EDITABLE 4.8.5 · REVISIÓN 23/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -14,10 +14,19 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_8.zip: mismo editable ELPX 4.8.4 y documentación actual.
-downloads/MitoMapa_fuentes_web_v4_8_8.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_9.zip: editable ELPX 4.8.5 y documentación actual.
+downloads/MitoMapa_fuentes_web_v4_8_9.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
+
+REVISIÓN NATIVA 4.8.5 Y PUBLICACIÓN WEB 4.8.9 · 23/10/2026
+El ELPX incorpora una miniatura de su portada vigente para las vistas previas
+de eXeLearning y los catálogos que utilizan la imagen del archivo. Se mantienen
+los cuentos, las actividades, las narraciones y la organización del recurso.
+La interfaz web, sus juegos y la miniatura social de la versión 4.8.8 conservan
+su presentación. La web identifica y ofrece la descarga nativa actualizada.
+La edición nativa anterior se conserva por separado en:
+downloads/MitoMapa_canario_GobCan_v4_8_4.elpx
 
 REVISIÓN WEB 4.8.8 · 23/10/2026
 La miniatura social presenta un fondo azul degradado y una vasija decorativa.

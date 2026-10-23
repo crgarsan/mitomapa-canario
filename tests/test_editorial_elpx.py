@@ -5,6 +5,7 @@ editable model as well as the generated HTML and search data, rather than
 accepting a tidy-looking export with stale editor content.
 """
 
+import base64
 import copy
 import json
 from pathlib import Path
@@ -200,9 +201,22 @@ class EditorialElpxTests(unittest.TestCase):
         self.assertEqual(changed_games, 25)
         self.assertEqual(changed_badges, 8)
         for name, payload in self.baseline.items():
+            if name in {"screenshot.png", "content/resources/screenshot.png"}:
+                continue
             if Path(name).suffix.lower() in MEDIA:
                 with self.subTest(media=name):
                     self.assertEqual(self.files.get(name), payload)
+
+    def test_publication_thumbnail_and_editor_metadata_use_the_current_cover(self):
+        specification = self.version["elpx_thumbnail"]
+        image = (ROOT / specification["path"]).read_bytes()
+        for name in ("screenshot.png", "content/resources/screenshot.png"):
+            with self.subTest(thumbnail=name):
+                self.assertTrue(self.files[name] == image, "Published thumbnail differs from the reviewed cover")
+        self.assertTrue(image != self.baseline["screenshot.png"], "Published thumbnail still depicts the old cover")
+        screenshot = self.tree.findtext(".//o:odeProperty[o:key='pp_screenshot']/o:value", namespaces=NS)
+        self.assertTrue(screenshot == "data:image/png;base64," + base64.b64encode(image).decode("ascii"),
+                        "Editor preview differs from the published thumbnail")
 
     def test_cover_has_four_pintaderas_above_the_original_map_and_four_below(self):
         markup = "".join(text_markup(c) for c in page_components(self.pages[COVER]))

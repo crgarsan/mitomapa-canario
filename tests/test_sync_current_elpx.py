@@ -1,5 +1,6 @@
 """Protect the native project and media while refreshing its local web app."""
 
+import base64
 import copy
 import json
 from pathlib import Path
@@ -19,7 +20,7 @@ from harden_jspdf_exports import ZIP_INFO_FIELDS, read_archive
 from native_preservation import verify_component
 from sync_current_elpx import (
     APP, MEDIA_EXTENSIONS, NS, PORTABLE, MERGED_TEACHER_PAGES, build_archive, build_current, field,
-    native_structure, synchronize, version_module,
+    native_structure, synchronize, verify_preservation, version_module,
 )
 
 
@@ -52,6 +53,8 @@ class SynchronizationTests(unittest.TestCase):
     def test_all_existing_scenes_audio_and_runtime_dependencies_are_byte_identical(self):
         scenes = audio = 0
         for name, payload in self.baseline.items():
+            if name in {"screenshot.png", "content/resources/screenshot.png"}:
+                continue
             if Path(name).suffix.lower() in MEDIA_EXTENSIONS or (
                     name.startswith(("libs/", "idevices/", "theme/")) and name != "libs/elpx-manifest.js"):
                 with self.subTest(asset=name):
@@ -62,6 +65,60 @@ class SynchronizationTests(unittest.TestCase):
                 audio += 1
         self.assertEqual(scenes, 16)
         self.assertEqual(audio, 16)
+
+    def test_current_thumbnail_replaces_the_stale_cover_in_both_project_locations(self):
+        self.assertNotEqual(
+            digest(self.result["screenshot.png"]), digest(self.baseline["screenshot.png"]),
+            "The project still contains its obsolete cover thumbnail",
+        )
+        specification = self.version["elpx_thumbnail"]
+        image = (ROOT / specification["path"]).read_bytes()
+        self.assertEqual(digest(image), specification["sha256"])
+        self.assertEqual(self.result["screenshot.png"], image)
+        self.assertEqual(self.result["content/resources/screenshot.png"], image)
+        tree = etree.fromstring(self.result["content.xml"])
+        screenshot = tree.findtext(".//o:odeProperty[o:key='pp_screenshot']/o:value", namespaces=NS)
+        self.assertEqual(screenshot, "data:image/png;base64," + base64.b64encode(image).decode("ascii"))
+
+    def test_preservation_rejects_desynchronized_thumbnail_copies_or_metadata(self):
+        for name in ("screenshot.png", "content/resources/screenshot.png", "pp_screenshot"):
+            with self.subTest(thumbnail=name):
+                changed = dict(self.result)
+                if name == "pp_screenshot":
+                    tree = etree.fromstring(changed["content.xml"])
+                    tree.find(".//o:odeProperty[o:key='pp_screenshot']/o:value", NS).text = ""
+                    changed["content.xml"] = etree.tostring(tree)
+                else:
+                    changed[name] = self.baseline[name]
+                with self.assertRaisesRegex(ValueError, "thumbnail"):
+                    verify_preservation(self.baseline, changed)
+
+    def test_preservation_still_rejects_changed_theme_preview_and_story_media(self):
+        for name in ("theme/screenshot.png", "content/resources/scene_tenerife.webp"):
+            with self.subTest(asset=name):
+                changed = dict(self.result)
+                changed[name] = b"changed resource"
+                with self.assertRaisesRegex(ValueError, "media asset"):
+                    verify_preservation(self.baseline, changed)
+
+    def test_thumbnail_loader_rejects_wrong_digest_dimensions_and_invalid_png(self):
+        from project_thumbnail import load_project_thumbnail
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            payload = self.baseline["screenshot.png"]
+            (root / "cover.png").write_bytes(payload)
+            specification = {"path": "cover.png", "sha256": digest(payload), "width": 1280, "height": 720}
+            self.assertEqual(load_project_thumbnail(root, {"elpx_thumbnail": specification}), payload)
+            for changes, error in (({"sha256": "0" * 64}, "checksum"), ({"width": 1279}, "dimensions")):
+                with self.subTest(metadata=changes):
+                    invalid = {**specification, **changes}
+                    with self.assertRaisesRegex(ValueError, error):
+                        load_project_thumbnail(root, {"elpx_thumbnail": invalid})
+            (root / "cover.png").write_bytes(b"not a PNG")
+            specification["sha256"] = digest(b"not a PNG")
+            with self.assertRaisesRegex(ValueError, "valid PNG"):
+                load_project_thumbnail(root, {"elpx_thumbnail": specification})
 
     def test_edited_text_matches_its_editable_preview_search_and_export(self):
         source = self.result["search_index.js"].decode()

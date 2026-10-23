@@ -18,6 +18,7 @@ from urllib.parse import urlsplit
 from lxml import etree, html
 
 from passport_icons import TF_ICON_IDS, apply_passport_icons
+from project_thumbnail import THUMBNAIL_MEMBERS, load_project_thumbnail, thumbnail_data_uri
 
 
 NS = {"o": "http://www.intef.es/xsd/ode"}
@@ -755,6 +756,7 @@ def update_attachment(component, files):
 
 def apply_editorial(files, root, version):
     """Mutate an unpacked native 4.7.1 project into its clean publication form."""
+    thumbnail = load_project_thumbnail(root, version)
     parser = etree.XMLParser(resolve_entities=False, load_dtd=False, no_network=True)
     tree = etree.fromstring(files["content.xml"], parser)
     source = files["search_index.js"].decode()
@@ -957,9 +959,9 @@ def apply_editorial(files, root, version):
         if node.text:
             node.text = piece_words(node.text)
     set_property(tree, "odeProperty", "pp_subtitle", "")
-    # The saved editor thumbnail still depicts the former cover. Leaving it
-    # empty lets eXe generate a current preview when the project is saved.
-    set_property(tree, "odeProperty", "pp_screenshot", "")
+    # Editors and publication platforms may use different stored previews.
+    # Update the metadata and both project images from one reviewed capture.
+    set_property(tree, "odeProperty", "pp_screenshot", thumbnail_data_uri(thumbnail))
     set_property(tree, "odeProperty", "pp_license", "creative commons: attribution - share alike 4.0")
     set_property(tree, "odeProperty", "pp_licenseUrl", "https://creativecommons.org/licenses/by-sa/4.0/")
     set_property(tree, "odeProperty", "pp_description", "Objeto de Aprendizaje multinivel con ocho cuentos de Canarias, actividades de lectura, investigación y creación, narraciones y orientaciones docentes. La web se ofrece como complemento externo independiente.")
@@ -976,3 +978,5 @@ def apply_editorial(files, root, version):
     if not etree.DTD(BytesIO(files["content.dtd"])).validate(tree):
         raise ValueError("The editorial ODE model does not match its DTD")
     files["content.xml"] = etree.tostring(tree, encoding="UTF-8", xml_declaration=True, doctype='<!DOCTYPE ode SYSTEM "content.dtd">')
+    for name in THUMBNAIL_MEMBERS:
+        files[name] = thumbnail

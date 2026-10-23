@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Build the native GobCan project from its pinned source, independently of the web.
 
-Editorial changes affect Text components and navigation. Games, media and native
-runtime dependencies are preserved; --check is read-only and never repairs files.
+Editorial changes affect Text components, navigation and the stored project
+thumbnail. Games, other media and native runtime dependencies are preserved;
+--check is read-only and never repairs files.
 """
 import argparse
 from io import BytesIO
@@ -14,6 +15,7 @@ from lxml import etree
 
 from editorial_elpx import apply_editorial
 from native_preservation import verify_component
+from project_thumbnail import THUMBNAIL_MEMBERS, verify_project_thumbnail
 from harden_jspdf_exports import ZIP_INFO_FIELDS, read_archive, write_archive
 from release_support import MAX_ASSET_BYTES, digest, json_bytes, read_zip, source_path
 
@@ -43,6 +45,7 @@ def version_module(version):
 
 
 def verify_preservation(baseline, result):
+    verify_project_thumbnail(result)
     before, after = native_structure(baseline), native_structure(result)
     if set(before["pages"]) - set(after["pages"]) != MERGED_TEACHER_PAGES or set(after["pages"]) - set(before["pages"]):
         raise ValueError("The editorial merge changed pages outside the five teacher sections")
@@ -56,7 +59,7 @@ def verify_preservation(baseline, result):
         if kind != "text":
             verify_component(original, current, result)
     for name, payload in baseline.items():
-        if Path(name).suffix.lower() in MEDIA_EXTENSIONS and result.get(name) != payload:
+        if name not in THUMBNAIL_MEMBERS and Path(name).suffix.lower() in MEDIA_EXTENSIONS and result.get(name) != payload:
             raise ValueError(f"The editorial revision changed a media asset: {name}")
         if name.startswith(("libs/", "idevices/", "theme/")) and name != "libs/elpx-manifest.js" and result.get(name) != payload:
             raise ValueError(f"The editorial revision changed a runtime dependency: {name}")
