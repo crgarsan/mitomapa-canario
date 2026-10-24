@@ -1,5 +1,5 @@
-MITOMAPA CANARIO · WEB 4.8.10 · REVISIÓN WEB 24/10/2026
-REA EDITABLE 4.8.5 · REVISIÓN 23/10/2026
+MITOMAPA CANARIO · WEB 4.8.11 · REVISIÓN WEB 24/10/2026
+REA EDITABLE 4.8.6 · REVISIÓN 24/10/2026
 
 WEB PUBLICADA
 https://mitomapa-canario.cgarcias.workers.dev/
@@ -14,10 +14,24 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_10.zip: editable ELPX 4.8.5 y documentación actual.
-downloads/MitoMapa_fuentes_web_v4_8_10.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_11.zip: editable ELPX 4.8.6 y documentación actual.
+downloads/MitoMapa_fuentes_web_v4_8_11.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
+
+REVISIÓN WEB 4.8.11 Y REA EDITABLE 4.8.6 · 24/10/2026
+Recursos presenta los materiales actuales de aula: cuaderno de ruta y pauta
+cualitativa en HTML y CSV. Son opcionales, multinivel y adaptables a las tareas,
+las modalidades y los apoyos acordados, sin puntuaciones ni calificaciones.
+Se retira de la presentación actual el bloque de otras versiones, manteniendo
+sus archivos publicados. Se revisan las guías y los textos de progreso y se
+conservan los juegos, sus reglas y la miniatura social.
+El ELPX 4.8.6 aclara que el pasaporte nativo se registra y revisa manualmente;
+no se completa con premios automáticos ni se sincroniza con la web. Los cuentos,
+las actividades, los audios y las imágenes conservan su contenido. La edición
+nativa 4.8.5 se conserva en downloads/MitoMapa_canario_GobCan_v4_8_5.elpx.
+El ejemplo curricular de tercer ciclo de Primaria es una posibilidad optativa;
+el profesorado concreta la ruta y su anclaje curricular. Pilotaje pendiente.
 
 REVISIÓN WEB 4.8.10 · 24/10/2026
 Recursos muestra primero el acceso a la ficha de MitoMapa en la Mediateca,

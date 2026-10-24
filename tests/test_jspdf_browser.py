@@ -111,10 +111,10 @@ class JsPdfBrowserTest(unittest.TestCase):
         cls.representatives = {}
         cls.variants = set()
         archives = sorted((ROOT / "downloads").glob("*.elpx"))
-        # The 4.8.5 release also preserves the former current ELPX at a
+        # The 4.8.6 release also preserves the former current ELPX at a
         # versioned public URL. Its loaders need the same browser checks.
-        if len(archives) != 19:
-            raise AssertionError("Expected all nineteen public native ELPX archives")
+        if len(archives) != 20:
+            raise AssertionError("Expected all twenty public native ELPX archives")
         for path in archives:
             with zipfile.ZipFile(path) as archive:
                 for kind in GLOBALS:
@@ -130,8 +130,8 @@ class JsPdfBrowserTest(unittest.TestCase):
                     cls.variants.add(hashlib.sha256(source.encode("utf-8")).hexdigest())
         # Includes the qualitative-checklist runtime of the current GobCan
         # edition, distinct from the checklist kept in older downloads.
-        if len(cls.scripts) != 56 or len(cls.variants) != 5:
-            raise AssertionError("Expected 56 native loader copies and five source variants")
+        if len(cls.scripts) != 59 or len(cls.variants) != 5:
+            raise AssertionError("Expected 59 native loader copies and five source variants")
 
         executable = shutil.which("chromium")
         if not executable:
@@ -231,7 +231,7 @@ class JsPdfBrowserTest(unittest.TestCase):
             },
         )
 
-    def test_all_56_archive_loaders_accept_only_the_pinned_release(self):
+    def test_all_59_archive_loaders_accept_only_the_pinned_release(self):
         for archive, kind, source in self.scripts:
             with self.subTest(archive=archive, module=kind):
                 with self.page_for([source]) as (page, requests):

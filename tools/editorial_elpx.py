@@ -426,6 +426,18 @@ def source_sections(original, story_sources, curricular):
                 if re.search(r"/boc/|/rubricas/|rubricas-primaria", urls):
                     legislation.append(html.tostring(item, encoding="unicode"))
                     listing.remove(item)
+    for paragraph in sections["Imágenes y pintaderas"]:
+        if paragraph.tag != "p":
+            continue
+        for node in paragraph.iter():
+            for attribute in ("text", "tail"):
+                value = getattr(node, attribute)
+                if value:
+                    setattr(node, attribute, value.replace(
+                        "Se utilizan como símbolos del pasaporte",
+                        "Se conservan como elementos decorativos del recurso"))
+        if paragraph.text_content().startswith("Las otras 18 imágenes") and "Generación: agosto de 2026" in paragraph.text_content():
+            paragraph.text = "Historial de la edición original: " + (paragraph.text or "")
     bibliography = "".join(html.tostring(n, encoding="unicode") for n in sections["Bibliografía y consultas"])
     images = "".join(html.tostring(n, encoding="unicode") for n in sections["Imágenes y pintaderas"])
     audio = "".join(html.tostring(n, encoding="unicode") for n in sections["Audio y herramientas"])
@@ -533,6 +545,10 @@ def adapt_native_guidance(texts):
                 elif any(marker in text for marker in ("Nombres de las islas:", "Ordena el cuento:", "Compara dos cuentos:", "Mapa y pistas:")):
                     node_remove(node)
                 elif "El juego de nombres es una práctica" in text:
+                    node_remove(node)
+                elif node.tag == "p" and node.xpath("./small") and "Reunir las ocho desbloquea el gran reto" in text:
+                    # This web-only unlock rule contradicts the manual native
+                    # passport already explained in the surrounding guide.
                     node_remove(node)
         texts[iid] = inner(doc)
     # Native narration guidance remains useful; the web-player controls do not.

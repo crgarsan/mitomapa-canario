@@ -481,8 +481,8 @@ function updateProgress(){
   section.querySelector(".reward")?.classList.toggle("show",badgeCountsForLevel(id));
   const sourceStatus=section.querySelector(".source-status");
   const truthStatus=section.querySelector(".quiz-status");
-  if(sourcePassed.has(id)&&sourceStatus&&!sourceStatus.textContent)sourceStatus.textContent="Reto superado en esta sesión.";
-  if(truthPassed.has(id)&&truthStatus&&!truthStatus.textContent)truthStatus.textContent="Reto superado en esta sesión.";
+  if(sourcePassed.has(id)&&sourceStatus&&!sourceStatus.textContent)sourceStatus.textContent="Reto superado.";
+  if(truthPassed.has(id)&&truthStatus&&!truthStatus.textContent)truthStatus.textContent="Reto superado.";
  });
  const unlocked=count===routes.length;
  byId("finalContent").classList.toggle("unlocked",unlocked);

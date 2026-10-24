@@ -1,6 +1,8 @@
 """Exercise release packaging boundaries with small, independent fixtures."""
 
 from io import BytesIO
+import csv
+from html.parser import HTMLParser
 import json
 from pathlib import Path
 import sys
@@ -18,7 +20,7 @@ from release_support import (
     digest, json_bytes, metadata, parse_sums, read_zip, sums_bytes,
     verify_manifest, zip_bytes,
 )
-from update_release import DOCUMENTS, check_download_button, check_elpx, check_release, release_paths, update_release
+from update_release import DOCUMENTS, check_download_button, check_elpx, check_release, release_paths, sharing_document, update_release
 
 
 class ReleasePipelineTests(unittest.TestCase):
@@ -101,7 +103,7 @@ class ReleasePipelineTests(unittest.TestCase):
 
     def test_sharing_guides_have_local_styles_templates_and_editable_link(self):
         self.write("GUIA_DOCENTE.html", b'''<link href="styles.css"><link href="docente.css">
-<a href="downloads/Rubrica_lectura_MitoMapa_4_0.html">Pauta</a>
+<a href="downloads/Pauta_de_revision_MitoMapa.html">Pauta</a>
 <a href="index.html#recursos">Web</a>
 <a href="downloads/MitoMapa_canario_GobCan.elpx">Editar</a>''')
         update_release(self.root)
@@ -110,7 +112,8 @@ class ReleasePipelineTests(unittest.TestCase):
         self.assertIn('href="styles.css"', guide)
         self.assertIn("documentacion/styles.css", sharing)
         self.assertIn("documentacion/docente.css", sharing)
-        self.assertIn("documentacion/downloads/Rubrica_lectura_MitoMapa_4_0.html", sharing)
+        self.assertIn("documentacion/downloads/Pauta_de_revision_MitoMapa.html", set(sharing))
+        self.assertIn('href="downloads/Pauta_de_revision_MitoMapa.html"', guide)
         self.assertIn('href="https://mitomapa-canario.cgarcias.workers.dev/index.html#recursos"', guide)
         self.assertIn('href="../MitoMapa_canario_GobCan.elpx"', guide)
 
@@ -249,6 +252,18 @@ class ReleasePipelineTests(unittest.TestCase):
             with self.subTest(markup=wrong), self.assertRaises(ValueError):
                 check_download_button(wrong, version)
 
+    def test_shared_classroom_documents_keep_their_relative_companion_links_local(self):
+        documents = {"downloads/Cuaderno_de_ruta_MitoMapa.html", "downloads/Pauta_de_revision_MitoMapa.html", "downloads/Pauta_de_revision_MitoMapa.csv"}
+        markup = ('<a href="Pauta_de_revision_MitoMapa.html#revision">Pauta</a>'
+                  '<a href="Pauta_de_revision_MitoMapa.csv">CSV</a>'
+                  '<a href="../downloads/MitoMapa_canario_GobCan.elpx">ELPX</a>'
+                  '<a href="../index.html#recursos">Web</a>')
+        actual = sharing_document(markup.encode(), "downloads/Cuaderno_de_ruta_MitoMapa.html", documents, self.version).decode()
+        self.assertIn('href="Pauta_de_revision_MitoMapa.html#revision"', actual)
+        self.assertIn('href="Pauta_de_revision_MitoMapa.csv"', actual)
+        self.assertIn('href="../../MitoMapa_canario_GobCan.elpx"', actual)
+        self.assertIn('href="https://mitomapa-canario.cgarcias.workers.dev/index.html#recursos"', actual)
+
     @staticmethod
     def raw_zip(entries):
         output = BytesIO()
@@ -256,6 +271,58 @@ class ReleasePipelineTests(unittest.TestCase):
             for name, payload in entries:
                 archive.writestr(name, payload)
         return output.getvalue()
+
+
+class CurrentClassroomMaterialsTests(unittest.TestCase):
+    class Document(HTMLParser):
+        def __init__(self, markup):
+            super().__init__(convert_charrefs=True)
+            self.links = []
+            self.words = []
+            self.feed(markup)
+        def handle_starttag(self, tag, attrs):
+            if tag == "a":
+                self.links.append(dict(attrs).get("href", ""))
+        def handle_data(self, data):
+            self.words.append(data)
+
+    def test_current_site_and_guides_link_the_current_classroom_materials(self):
+        current = {"downloads/Cuaderno_de_ruta_MitoMapa.html", "downloads/Pauta_de_revision_MitoMapa.html", "downloads/Pauta_de_revision_MitoMapa.csv"}
+        legacy = {"downloads/Cuaderno_de_ruta_MitoMapa_web_4_0.html", "downloads/Rubrica_lectura_MitoMapa_4_0.html", "downloads/Rubrica_MitoMapa_4_0.csv"}
+        self.assertTrue(current <= set(DOCUMENTS), "The current shared package still uses the historical classroom files")
+        self.assertFalse(legacy & set(DOCUMENTS))
+        index = (ROOT / "index.html").read_text()
+        self.assertNotIn("Otras versiones 4.4.0", index)
+        for name in ("index.html", "GUIA_DOCENTE.html", "GUIA_DOCENTE_GOBCAN.html", "GUIA_REUTILIZACION.html"):
+            with self.subTest(document=name):
+                links = self.Document((ROOT / name).read_text()).links
+                self.assertFalse(legacy & set(links), "A current guide still links a historical classroom sheet")
+                self.assertFalse(any("_Esencial.elpx" in link or "_Intermedio.elpx" in link for link in links))
+        self.assertTrue(current <= set(self.Document(index).links))
+        for name in current:
+            self.assertTrue((ROOT / name).is_file(), name)
+        version = json.loads((ROOT / "VERSION.json").read_text())
+        for key, prefix in (("sharing_archive", "documentacion/"), ("source_archive", "")):
+            with ZipFile(ROOT / version[key]["path"]) as archive:
+                names = set(archive.namelist())
+                self.assertTrue({prefix + name for name in current} <= names)
+                self.assertFalse({prefix + name for name in legacy} & names)
+
+    def test_editable_pauta_contains_the_same_six_questions_as_the_printable_sheet(self):
+        sheet = self.Document((ROOT / "downloads/Pauta_de_revision_MitoMapa.html").read_text())
+        text = " ".join(" ".join(sheet.words).split())
+        with (ROOT / "downloads/Pauta_de_revision_MitoMapa.csv").open(encoding="utf-8-sig", newline="") as stream:
+            reader = csv.DictReader(stream)
+            self.assertEqual(reader.fieldnames, ["Aspecto", "Pregunta orientadora", "Evidencia", "Avance", "Siguiente paso", "Procede"])
+            rows = list(reader)
+        self.assertEqual(len(rows), 6)
+        self.assertEqual(len({row["Aspecto"] for row in rows}), 6)
+        for row in rows:
+            self.assertIn(row["Aspecto"], text)
+            self.assertTrue(row["Pregunta orientadora"])
+            self.assertIn(row["Pregunta orientadora"], text)
+            self.assertTrue(all(row[column] == "" for column in ["Evidencia", "Avance", "Siguiente paso", "Procede"]))
+        self.assertIn("https://creativecommons.org/licenses/by-sa/4.0/deed.es", sheet.links)
 
 
 if __name__ == "__main__":

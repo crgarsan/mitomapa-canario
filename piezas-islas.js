@@ -12,7 +12,7 @@
     {id: 'gran-canaria', current: 'Gran Canaria', name: 'Pieza 5', centre: [53.6, 66.9], label: [56, 84], description: 'Vasija de cuerpo ancho, dos asas y decoración de triángulos.', hint: 'Busca la isla casi circular situada al este de Tenerife.'},
     {id: 'fuerteventura', current: 'Fuerteventura', name: 'Pieza 6', centre: [76.7, 51.5], label: [77, 78], description: 'Recipiente pequeño con un extremo alargado que forma un pico.', hint: 'Busca la isla alargada situada al sur de Lanzarote.'},
     {id: 'lanzarote', current: 'Lanzarote', name: 'Pieza 7', centre: [84.3, 28.3], label: [88, 44], description: 'Cuenco claro de boca ancha, con bandas horizontales de color beige.', hint: 'Busca la isla situada al norte de Fuerteventura y al sur de La Graciosa.'},
-    {id: 'la-graciosa', current: 'La Graciosa', name: 'Pieza 8', centre: [85.7, 21.5], label: [90, 10], description: 'Caracola de concha en espiral, con punta alargada y abertura lateral.', hint: 'Busca la pequeña isla situada al norte de Lanzarote.'}
+    {id: 'la-graciosa', current: 'La Graciosa', name: 'Pieza 8', centre: [85.7, 21.5], label: [90, 10], description: 'Caracola en espiral, con punta alargada y abertura lateral.', hint: 'Busca la pequeña isla situada al norte de Lanzarote.'}
   ];
   let assetContext = {routes: [], assets: {}};
   const byId = id => islands.find(island => island.id === id);
