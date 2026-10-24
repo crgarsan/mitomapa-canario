@@ -36,11 +36,20 @@ class CustomDomainPreflightTests(unittest.TestCase):
         with self.assertRaises(self.module.PreflightError):
             self.module.check_changeset(self.preview(conflicting=[{"hostname": "mitomapacanario.org"}]))
 
-    def test_rejects_reassigning_or_modifying_an_existing_binding(self):
+    def test_allows_updating_the_requested_domain_binding(self):
         for update in [{"hostname": "mitomapacanario.org", "modified": True},
                        {"hostname": "mitomapacanario.org"}]:
-            with self.subTest(update=update), self.assertRaises(self.module.PreflightError):
-                self.module.check_changeset(self.preview(updated=[update]))
+            with self.subTest(update=update):
+                try:
+                    self.module.check_changeset(self.preview(updated=[update]))
+                except self.module.PreflightError as error:
+                    self.fail(f"The requested hostname update was rejected: {error}")
+
+    def test_rejects_updating_an_unrequested_domain_binding(self):
+        with self.assertRaises(self.module.PreflightError):
+            self.module.check_changeset(self.preview(updated=[{
+                "hostname": "other.example", "modified": True
+            }]))
 
     def test_rejects_an_unrequested_hostname(self):
         with self.assertRaises(self.module.PreflightError):
