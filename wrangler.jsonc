@@ -1,6 +1,13 @@
 {
   "name": "mitomapa-canario",
   "compatibility_date": "2026-10-05",
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "mitomapacanario.org",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": "./.deploy",
     "html_handling": "auto-trailing-slash",
