@@ -4,6 +4,7 @@ Runs the actual local resource in Chromium. No public site is modified or used.
 """
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -356,6 +357,37 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.assertTrue(narrator.locator(".narration-seek").is_disabled())
         narrator.locator(".narration-pause").click()
         self.assertTrue(self.page.evaluate("narrationState.audio.paused"))
+
+    def test_resources_offer_mediateca_first_and_keep_the_direct_editable_download(self):
+        version = json.loads((ROOT / "VERSION.json").read_text())
+        self.page.goto(self.base + "#recursos", wait_until="networkidle")
+        self.page.locator("#resourceDownloads > summary").click()
+        first = self.page.locator(".reuse-panel > .rea-downloads > .download-card").first
+        self.assertEqual(first.get_attribute("id"), "mediatecaResource")
+        for width in (320, 1280):
+            with self.subTest(width=width):
+                self.page.set_viewport_size({"width": width, "height": 1000})
+                logo = first.locator("img")
+                self.assertEqual(logo.get_attribute("alt"), "Mediateca del Gobierno de Canarias")
+                logo.scroll_into_view_if_needed()
+                self.page.wait_for_function("()=>{const image=document.querySelector('#mediatecaResource img');return image.complete&&image.naturalWidth>0}")
+                self.assertTrue(logo.evaluate("img=>img.complete&&img.naturalWidth>0"))
+                link = first.locator("a.button")
+                self.assertEqual(link.get_attribute("href"), "https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363")
+                self.assertEqual(link.get_attribute("target"), "_blank")
+                self.assertTrue({"noopener", "noreferrer"} <= set(link.get_attribute("rel").split()))
+                link.focus()
+                self.assertTrue(link.evaluate("node=>document.activeElement===node"))
+                self.assertTrue(self.page.evaluate("document.documentElement.scrollWidth<=innerWidth+1"))
+                self.assertLessEqual(logo.bounding_box()["width"], first.bounding_box()["width"])
+        self.assertEqual(self.page.locator("#currentReaZipDownload").get_attribute("href"), version["sharing_archive"]["path"])
+        with self.page.expect_download() as download_event:
+            self.page.locator("#currentReaDownload").click()
+        download = download_event.value
+        self.assertIsNone(download.failure())
+        filename = "MitoMapa_canario_" + version["rea_exelearning_version"].replace(".", "_") + ".elpx"
+        self.assertEqual(download.suggested_filename, filename)
+        self.assertEqual(hashlib.sha256(Path(download.path()).read_bytes()).hexdigest(), version["download"]["sha256"])
 
     def test_progress_and_draft_export_use_distribution_version(self):
         expected = json.loads((ROOT / "VERSION.json").read_text())["web_version"]
