@@ -48,8 +48,9 @@ El dominio personalizado `mitomapacanario.org` se declara en `wrangler.jsonc`.
 `workers_dev: true` conserva el acceso anterior y los enlaces ya distribuidos.
 Antes de publicar, `tools/check_custom_domain.py` consulta la propuesta de
 cambios de Cloudflare y detiene el despliegue si falta acceso o si se eliminaría
-otro dominio, se modificaría una vinculación existente o se reemplazaría un
-registro DNS. El dominio debe estar activo en la cuenta de Cloudflare del
+otro dominio, se modificaría la vinculación de otro dominio o se reemplazaría
+un registro DNS. Se permite actualizar la vinculación del dominio solicitado.
+El dominio debe estar activo en la cuenta de Cloudflare del
 despliegue. Esta primera vinculación no redirige automáticamente el progreso
 guardado en la dirección anterior.
 
