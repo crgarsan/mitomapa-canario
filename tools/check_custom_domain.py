@@ -70,4 +70,7 @@ if __name__ == "__main__":
         main()
     except PreflightError as error:
         print(f"Domain preflight: {error}", file=sys.stderr)
+        if os.environ.get("GITHUB_ACTIONS") == "true":
+            message = str(error).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+            print(f"::error title=Cloudflare domain preflight::{message}")
         sys.exit(1)

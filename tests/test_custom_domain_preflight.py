@@ -2,6 +2,8 @@
 
 import importlib.util
 from pathlib import Path
+import subprocess
+import sys
 import unittest
 
 
@@ -49,6 +51,14 @@ class CustomDomainPreflightTests(unittest.TestCase):
                         self.preview(added=[{}]), self.preview(added=["mitomapacanario.org"])]:
             with self.subTest(preview=preview), self.assertRaises(self.module.PreflightError):
                 self.module.check_changeset(preview)
+
+    def test_missing_credentials_stop_deployment_with_an_actionable_annotation(self):
+        result = subprocess.run([sys.executable, str(SCRIPT)],
+                                env={"GITHUB_ACTIONS": "true"},
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("::error title=Cloudflare domain preflight::", result.stdout)
+        self.assertIn("Cloudflare deployment credentials are missing.", result.stdout)
 
 
 if __name__ == "__main__":
