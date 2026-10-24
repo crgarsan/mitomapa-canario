@@ -258,6 +258,13 @@ html{scroll-padding-top:var(--header-offset,8rem)}
 .download-card p{margin:.6rem 0 1rem}
 .download-card .download-format{margin:0;font-size:.75rem;font-weight:700;letter-spacing:.06em;color:#5f4b3b}
 .download-card .button{margin-top:auto;overflow-wrap:anywhere}
+.mediateca-card{grid-column:1/-1;display:grid;grid-template-columns:minmax(160px,.7fr) minmax(0,1.3fr);align-items:center;gap:1.5rem}
+.mediateca-brand{display:flex;align-items:center;justify-content:center;padding:.75rem}
+.mediateca-logo{display:block;width:100%;max-width:320px;height:auto}
+.mediateca-card .button{display:inline-flex;align-items:center;justify-content:center;max-width:100%;min-height:44px;box-sizing:border-box;margin-top:.25rem;text-align:center}
+.download-card .download-help{margin:.75rem 0 0;font-size:.9rem;overflow-wrap:anywhere}
+.download-help a{display:inline-flex;align-items:center;min-height:44px;color:#5f4b3b;text-underline-offset:3px}
+@media(max-width:650px){.mediateca-card{grid-template-columns:1fr;gap:.5rem}.mediateca-brand{justify-content:flex-start;padding:.4rem 0}.mediateca-logo{max-width:280px}}
 .classroom-materials{border-left:4px solid #8c6548;background:#f3e7cf;padding:1rem 1.25rem}
 .classroom-materials h3{margin:0}
 .classroom-materials ul{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;padding-left:1.2rem;margin-bottom:0}

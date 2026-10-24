@@ -5,6 +5,7 @@ import binascii
 import copy
 import json
 import hashlib
+from fnmatch import fnmatchcase
 from html.parser import HTMLParser
 import struct
 from pathlib import Path, PurePosixPath
@@ -204,6 +205,29 @@ class DeployPolicyTests(unittest.TestCase):
         self.assertEqual(directives["connect-src"], "'self'")
         self.assertEqual(directives["script-src"], "'self'")
         self.assertEqual(directives["media-src"], "'self' data: blob:")
+
+    def test_current_editable_download_has_one_attachment_header_and_its_native_filename(self):
+        version = json.loads((ROOT / "VERSION.json").read_text())
+        download = "/" + version["download"]["path"]
+        headers = (ROOT / "_headers").read_text()
+        rules = re.findall(r"(?m)^(\S[^\n]*)\n((?:[ \t]+[^\n]*\n?)+)", headers)
+        exact = [block for route, block in rules if route == download]
+        self.assertEqual(len(exact), 1, "The current ELPX needs one exact download rule")
+        matching = [block for route, block in rules if fnmatchcase(download, route)]
+        values = [(name.strip().lower(), value.strip()) for block in matching
+                  for name, _, value in (line.partition(":") for line in block.splitlines())]
+        filename = "MitoMapa_canario_" + version["rea_exelearning_version"].replace(".", "_") + ".elpx"
+        self.assertEqual([value for name, value in values if name == "content-type"],
+                         ["application/octet-stream"])
+        self.assertEqual([value for name, value in values if name == "content-disposition"],
+                         ['attachment; filename="' + filename + '"'])
+        global_blocks = [block for route, block in rules if route == "/*"]
+        global_headers = {line.partition(":")[0].strip().lower()
+                          for block in global_blocks for line in block.splitlines()}
+        for protection in ("content-security-policy", "permissions-policy", "referrer-policy",
+                           "x-content-type-options", "x-frame-options", "cross-origin-resource-policy"):
+            with self.subTest(protection=protection):
+                self.assertIn(protection, global_headers)
 
 
 if __name__ == "__main__":

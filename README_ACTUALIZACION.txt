@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB 4.8.9 · REVISIÓN WEB 23/10/2026
+MITOMAPA CANARIO · WEB 4.8.10 · REVISIÓN WEB 24/10/2026
 REA EDITABLE 4.8.5 · REVISIÓN 23/10/2026
 
 WEB PUBLICADA
@@ -14,10 +14,22 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_9.zip: editable ELPX 4.8.5 y documentación actual.
-downloads/MitoMapa_fuentes_web_v4_8_9.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_10.zip: editable ELPX 4.8.5 y documentación actual.
+downloads/MitoMapa_fuentes_web_v4_8_10.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
+
+REVISIÓN WEB 4.8.10 · 24/10/2026
+Recursos muestra primero el acceso a la ficha de MitoMapa en la Mediateca,
+con su logo y las opciones de uso o descarga que ofrece la ficha:
+https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363
+La ficha de la Mediateca identifica la edición 4.8.4. La descarga directa de
+esta web corresponde al REA 4.8.5 e indica al navegador que guarde el archivo
+como adjunto.
+Si un navegador integrado no permite guardarlo, abre el enlace en un navegador
+externo o descarga el paquete ZIP.
+El REA 4.8.5 conserva exactamente sus bytes, su miniatura y su revisión nativa
+del 23/10/2026. Las descargas anteriores mantienen sus archivos.
 
 REVISIÓN NATIVA 4.8.5 Y PUBLICACIÓN WEB 4.8.9 · 23/10/2026
 El ELPX incorpora una miniatura de su portada vigente para las vistas previas
