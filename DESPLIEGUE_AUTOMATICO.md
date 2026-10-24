@@ -44,6 +44,15 @@ repositorio los cambios destinados a la web. El seguimiento del alumnado
 permanece en su navegador mientras se mantenga el mismo origen; antes de cambiar
 de dominio, exporta el seguimiento desde Docente.
 
+El dominio personalizado `mitomapacanario.org` se declara en `wrangler.jsonc`.
+`workers_dev: true` conserva el acceso anterior y los enlaces ya distribuidos.
+Antes de publicar, `tools/check_custom_domain.py` consulta la propuesta de
+cambios de Cloudflare y detiene el despliegue si falta acceso o si se eliminaría
+otro dominio, se modificaría una vinculación existente o se reemplazaría un
+registro DNS. El dominio debe estar activo en la cuenta de Cloudflare del
+despliegue. Esta primera vinculación no redirige automáticamente el progreso
+guardado en la dirección anterior.
+
 Para comprobar la preparación local sin credenciales, usa Node.js 22 o superior:
 
 ```sh

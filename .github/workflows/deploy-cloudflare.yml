@@ -30,6 +30,7 @@ jobs:
       - name: Check deployment policy and release packages
         run: |
           python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
+          python3 -m unittest discover -s tests -p 'test_custom_domain_preflight.py'
           python3 -m unittest discover -s tests -p 'test_elpx_resource_links.py'
           python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
           python3 -m unittest discover -s tests -p 'test_release_pipeline.py'
@@ -69,7 +70,9 @@ jobs:
       - name: Install Wrangler
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Deploy existing Worker
-        run: ./node_modules/.bin/wrangler deploy --config wrangler.jsonc
+        run: |
+          python3 tools/check_custom_domain.py
+          ./node_modules/.bin/wrangler deploy --config wrangler.jsonc
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

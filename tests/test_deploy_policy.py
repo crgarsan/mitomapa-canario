@@ -121,7 +121,9 @@ class DeployPolicyTests(unittest.TestCase):
         install = next(step for step in self.steps if step.startswith("name: Install Wrangler\n"))
         deploy = next(step for step in self.steps if step.startswith("name: Deploy existing Worker\n"))
         self.assertIn("        run: npm ci --ignore-scripts --no-audit --no-fund\n", install)
-        self.assertIn("        run: ./node_modules/.bin/wrangler deploy --config wrangler.jsonc\n", deploy)
+        self.assertIn("          ./node_modules/.bin/wrangler deploy --config wrangler.jsonc\n", deploy)
+        self.assertLess(deploy.index("python3 tools/check_custom_domain.py"),
+                        deploy.index("./node_modules/.bin/wrangler deploy"))
         self.assertLess(self.steps.index(install), self.steps.index(deploy))
         self.assertIn("      WRANGLER_SEND_METRICS: 'false'\n", self.workflow)
 
