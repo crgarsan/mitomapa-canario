@@ -163,6 +163,29 @@ class SynchronizationTests(unittest.TestCase):
         self.assertEqual(set(manifest["idevices"]), set(self.after["components"]))
         self.assertFalse(any(name.endswith((".zip", ".elpx")) for name in self.result))
 
+    def test_native_teacher_guide_uses_the_manual_passport_without_web_unlock_rules(self):
+        component = self.after["components"]["20260823155837TGUID1"]
+        markup = json.loads(field(component, "jsonProperties"))["textTextarea"]
+        guide = " ".join(html.fragment_fromstring(markup, create_parent=True).text_content().split())
+        self.assertNotIn("Reunir las ocho desbloquea el gran reto", guide)
+        self.assertNotIn("superarlo permite preparar el diploma", guide)
+        self.assertIn("marquen manualmente el pasaporte", guide)
+        self.assertIn("itinerario corto sin recorrer las ocho", guide)
+
+    def test_native_image_sources_distinguish_current_decoration_from_original_history(self):
+        component = self.after["components"]["GBCTFUENTES"]
+        markup = json.loads(field(component, "jsonProperties"))["textTextarea"]
+        section = html.fragment_fromstring(markup, create_parent=True).xpath(".//*[@id='fuentes-imagenes']")[0]
+        paragraphs = section.xpath("./div/p")
+        decoration = next(p for p in paragraphs if "Las pintaderas se inspiran" in p.text_content())
+        self.assertNotIn("como símbolos del pasaporte", decoration.text_content())
+        self.assertIn("Se conservan como elementos decorativos del recurso", decoration.text_content())
+        self.assertIn("https://www.elmuseocanario.com/images/documentospdf/pintaderaselmuseocanario.pdf",
+                      decoration.xpath(".//a/@href"))
+        history = [p for p in paragraphs if "Generación: agosto de 2026" in p.text_content()]
+        self.assertEqual(len(history), 1)
+        self.assertTrue(history[0].text_content().startswith("Historial de la edición original: "))
+
     def test_release_metadata_generates_the_web_version_module(self):
         next_version = copy.deepcopy(self.version)
         next_version.update(web_version="4.8.0", rea_exelearning_version="4.8.1")

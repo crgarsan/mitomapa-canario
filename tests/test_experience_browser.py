@@ -389,6 +389,24 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.assertEqual(download.suggested_filename, filename)
         self.assertEqual(hashlib.sha256(Path(download.path()).read_bytes()).hexdigest(), version["download"]["sha256"])
 
+    def test_current_classroom_sheets_are_readable_on_mobile_and_printable(self):
+        self.page.goto(self.base + "#recursos", wait_until="networkidle")
+        self.page.locator("#resourceDownloads > summary").click()
+        self.assertEqual(self.page.get_by_role("heading", name="Otras versiones 4.4.0").count(), 0)
+        materials = self.page.locator("#classroomMaterials")
+        self.assertEqual(materials.locator("a").count(), 3)
+        for name in ("Cuaderno_de_ruta_MitoMapa.html", "Pauta_de_revision_MitoMapa.html"):
+            with self.subTest(sheet=name):
+                self.page.goto(self.base + "downloads/" + name, wait_until="networkidle")
+                self.assertEqual(self.page.locator("html").get_attribute("lang"), "es")
+                self.assertEqual(self.page.locator("h1").count(), 1)
+                for width in (320, 1280):
+                    self.page.set_viewport_size({"width": width, "height": 1000})
+                    self.assertTrue(self.page.evaluate("document.documentElement.scrollWidth<=innerWidth+1"))
+                pdf = self.page.pdf(format="A4", print_background=True)
+                self.assertTrue(pdf.startswith(b"%PDF-"))
+                self.assertGreater(len(pdf), 1000)
+
     def test_progress_and_draft_export_use_distribution_version(self):
         expected = json.loads((ROOT / "VERSION.json").read_text())["web_version"]
         with self.page.expect_download() as download_info:

@@ -13,6 +13,7 @@ from html import escape, unescape
 from html.parser import HTMLParser
 import json
 from pathlib import Path
+import posixpath
 import re
 import xml.etree.ElementTree as ET
 from urllib.parse import parse_qs, urljoin, urlsplit
@@ -32,9 +33,13 @@ DOCUMENTS = (
     "EDICION_ILUSTRACIONES.txt", "LICENSE", "assets/images/cc-by-sa-4.0.svg",
     "assets/images/insignias_pasaporte.json", "assets/passport_icon_credits.html",
     "styles.css", "docente.css",
+    "downloads/Cuaderno_de_ruta_MitoMapa.html",
+    "downloads/Pauta_de_revision_MitoMapa.html", "downloads/Pauta_de_revision_MitoMapa.csv",
+)
+LEGACY_CLASSROOM_DOCUMENTS = {
     "downloads/Cuaderno_de_ruta_MitoMapa_web_4_0.html",
     "downloads/Rubrica_lectura_MitoMapa_4_0.html", "downloads/Rubrica_MitoMapa_4_0.csv",
-)
+}
 PUBLIC_URL = "https://mitomapa-canario.cgarcias.workers.dev/"
 
 
@@ -85,10 +90,11 @@ def sharing_document(payload, name, documents, version):
             parts = urlsplit(target)
             if parts.scheme or target.startswith(("#", "//")):
                 return match.group(0)
-            if parts.path == version["download"]["path"]:
-                target = "../MitoMapa_canario_GobCan.elpx"
-            elif parts.path not in documents:
-                target = urljoin(PUBLIC_URL, target)
+            resolved = posixpath.normpath(posixpath.join(posixpath.dirname(name), parts.path))
+            if resolved == version["download"]["path"]:
+                target = posixpath.relpath("MitoMapa_canario_GobCan.elpx", "documentacion/" + posixpath.dirname(name))
+            elif resolved not in documents:
+                target = urljoin(urljoin(PUBLIC_URL, name), target)
             return prefix + quote + escape(target, quote=True) + quote
         return re.sub(r'''(\b(?:href|src|poster)\s*=\s*)(["'])(.*?)\2''',
                       link, payload.decode("utf-8"), flags=re.IGNORECASE).encode("utf-8")
@@ -183,6 +189,8 @@ def source_inventory(root, version):
             names.update(read_zip((root / candidate).read_bytes()))
             break
     names.difference_update(SOURCE_SPECIAL | {"SHA256SUMS.txt"})
+    names.update(DOCUMENTS)
+    names.difference_update(LEGACY_CLASSROOM_DOCUMENTS)
     for extension in ("*.html", "*.css", "*.js", "*.md", "*.txt", "*.json", "*.svg", "*.png"):
         names.update(path.relative_to(root).as_posix() for path in root.glob(extension) if path.is_file())
     for directory, patterns in {

@@ -1,15 +1,15 @@
 {
-  "web_version": "4.8.10",
-  "rea_exelearning_version": "4.8.5",
+  "web_version": "4.8.11",
+  "rea_exelearning_version": "4.8.6",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-23",
+  "prepared_at": "2026-10-24",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "02db5449d65e7bb2ea145692a17969efdce130fcc34f8d664521903ef0c602d9",
-    "bytes": 25841851
+    "sha256": "f9d564292ba7e493cf99560291b22c8139e11f78ff0aef0b8a2c17c00b7e4854",
+    "bytes": 25841563
   },
-  "previous_web_version": "4.8.9",
-  "previous_rea_version": "4.8.4",
+  "previous_web_version": "4.8.10",
+  "previous_rea_version": "4.8.5",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_10.md",
-  "rea_release_notes": "CAMBIOS_REA_4_8_5.md",
+  "release_notes": "CAMBIOS_WEB_4_8_11.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_6.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 34,
@@ -57,9 +57,9 @@
     "selected_islands": 2,
     "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
   },
-  "rea_revision": "2026-10-23",
+  "rea_revision": "2026-10-24",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Miniatura de la portada vigente del REA",
+  "rea_revision_label": "Guía coherente con el registro manual del pasaporte nativo",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_10.zip",
+    "path": "downloads/MitoMapa_REA_v4_8_11.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "689cd436d7b67d8710e885abf4d47c69390629f7aa37f32fd34a40e232df9d80",
-    "bytes": 25657940
+    "sha256": "d1c806d86d51cf78dd516a7cdbf58bcc11e488a33064381daccd0b0e6b24503a",
+    "bytes": 25661021
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_10.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_11.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.10",
+    "downloaded_response_version": "4.8.11",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +176,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.8.10",
+  "release_version": "4.8.11",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,

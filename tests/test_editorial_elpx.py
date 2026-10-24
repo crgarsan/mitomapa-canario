@@ -296,6 +296,25 @@ class EditorialElpxTests(unittest.TestCase):
             self.assertIn("minimized", box.get("class", "").split())
             self.assertTrue(box.xpath("./header//button[contains(@class,'box-toggle')]"))
 
+    def test_teacher_guide_does_not_confuse_the_native_passport_with_web_unlocks(self):
+        guide = readable(text_markup(self.components["20260823155837TGUID1"]))
+        self.assertNotIn("Reunir las ocho desbloquea el gran reto", guide)
+        self.assertNotIn("superarlo permite preparar el diploma", guide)
+        self.assertIn("marquen manualmente el pasaporte", guide)
+        self.assertIn("itinerario corto sin recorrer las ocho", guide)
+
+    def test_image_sources_mark_original_history_and_the_current_decorative_role(self):
+        section = fragment(text_markup(self.components["GBCTFUENTES"])).xpath(".//*[@id='fuentes-imagenes']")[0]
+        paragraphs = section.xpath("./div/p")
+        decoration = next(p for p in paragraphs if "Las pintaderas se inspiran" in p.text_content())
+        self.assertNotIn("como símbolos del pasaporte", decoration.text_content())
+        self.assertIn("Se conservan como elementos decorativos del recurso", decoration.text_content())
+        self.assertIn("https://www.elmuseocanario.com/images/documentospdf/pintaderaselmuseocanario.pdf",
+                      decoration.xpath(".//a/@href"))
+        history = [p for p in paragraphs if "Generación: agosto de 2026" in p.text_content()]
+        self.assertEqual(len(history), 1)
+        self.assertTrue(history[0].text_content().startswith("Historial de la edición original: "))
+
     def test_story_sources_and_uncertainties_are_collected_in_source_boxes(self):
         markup = "".join(text_markup(c) for c in page_components(self.pages[SOURCES]))
         source_document = fragment(markup)
