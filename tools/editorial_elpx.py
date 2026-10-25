@@ -40,7 +40,7 @@ TEACHER_CHILDREN = (
 )
 AUTHORS = "Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana"
 LICENSE_URL = "https://creativecommons.org/licenses/by-sa/4.0/deed.es"
-PUBLIC_WEB = "https://mitomapa-canario.cgarcias.workers.dev/"
+PUBLIC_WEB = "https://mitomapacanario.org/"
 PASSPORT_DEVICE = "20260823155836CHKPAS"
 PASSPORT_OLD_FOOTER = "MitoMapa canario · CC BY-NC-SA 4.0"
 PASSPORT_FOOTER = "MitoMapa canario · CC BY-SA 4.0"
@@ -77,6 +77,147 @@ LANGUAGE_SUBSTITUTIONS = {
     "anotad": "anoten", "compartid": "compartan", "podéis": "pueden", "debéis": "deben",
     "haced": "hagan", "tenéis": "tienen", "sois": "son", "estáis": "están",
 }
+
+
+# Exact before/after fields reviewed after the native vocabulary audit.
+NATIVE_VOCABULARY = {'20260823155837COM1YD': {'instructions': ('<p>Busca en el cuento el sinónimo de cada verbo.</p>',
+                                           '<p>Selecciona el sinónimo de cada verbo. Puedes volver al '
+                                           'cuento.</p>'),
+                          'textText': ('<p>Busca en el cuento el sinónimo de cada '
+                                       'verbo.</p><ol><li><strong>habitaban</strong>: @@vivían | vivian@@ '
+                                       '<em>(Pista: Aparece en la primera '
+                                       'oración.)</em></li><li><strong>iniciar</strong>: @@comenzar@@ '
+                                       '<em>(Pista: Dácil esperaba la luz para hacerlo con el '
+                                       'camino.)</em></li><li><strong>narra</strong>: @@cuenta@@ <em>(Pista: '
+                                       'La tradición lo hace en el quinto '
+                                       'párrafo.)</em></li><li><strong>finalizar</strong>: @@terminar@@ '
+                                       '<em>(Pista: Aparece cerca del final.)</em></li></ol>',
+                                       '<p>Selecciona el sinónimo de cada verbo. Puedes volver al '
+                                       'cuento.</p><ol><li><strong>habitaban</strong>: @@vivían@@ '
+                                       '<em>(Pista: Aparece en la primera '
+                                       'oración.)</em></li><li><strong>iniciar</strong>: @@comenzar@@ '
+                                       '<em>(Pista: Dácil esperaba la luz para hacerlo con el '
+                                       'camino.)</em></li><li><strong>narra</strong>: @@cuenta@@ <em>(Pista: '
+                                       'La tradición lo hace en el quinto '
+                                       'párrafo.)</em></li><li><strong>finalizar</strong>: @@terminar@@ '
+                                       '<em>(Pista: Aparece cerca del final.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM2J3': {'instructions': ('<p>Escribe el antónimo que aparece en el cuento.</p>',
+                                           '<p>Selecciona el antónimo de cada palabra; utiliza el cuento '
+                                           'como apoyo.</p>'),
+                          'textText': ('<p>Escribe el antónimo que aparece en el '
+                                       'cuento.</p><ol><li><strong>grande</strong>: @@pequeño | pequeno@@ '
+                                       '<em>(Pista: Está en el '
+                                       'estribillo.)</em></li><li><strong>apagó</strong>: @@encendió | '
+                                       'encendio@@ <em>(Pista: Guayarmina lo hizo con una '
+                                       'tea.)</em></li><li><strong>oscuridad</strong>: @@luz@@ <em>(Pista: '
+                                       'Protegió al grupo durante la '
+                                       'noche.)</em></li><li><strong>día</strong>: @@noche@@ <em>(Pista: Es '
+                                       'el momento en el que aparece la criatura.)</em></li></ol>',
+                                       '<p>Selecciona el antónimo de cada palabra; utiliza el cuento como '
+                                       'apoyo.</p><ol><li><strong>grande</strong>: @@pequeño@@ <em>(Pista: '
+                                       'Está en el estribillo.)</em></li><li><strong>apagó</strong>: '
+                                       '@@encendió@@ <em>(Pista: Guayarmina lo hizo con una '
+                                       'tea.)</em></li><li><strong>oscuridad</strong>: @@luz@@ <em>(Pista: '
+                                       'Protegió al grupo durante la '
+                                       'noche.)</em></li><li><strong>día</strong>: @@noche@@ <em>(Pista: Es '
+                                       'el momento en el que aparece la criatura.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM3VY': {'instructions': ('<p>Completa con la expresión del cuento que tiene un significado '
+                                           'parecido.</p>',
+                                           '<p>Selecciona una expresión con significado parecido. Puedes '
+                                           'volver al cuento.</p>'),
+                          'textText': ('<p>Completa con la expresión del cuento que tiene un significado '
+                                       'parecido.</p><ol><li><strong>permanece erguido</strong>: @@sigue en '
+                                       'pie | continuaba erguido@@ <em>(Pista: La primera opción aparece en '
+                                       'el estribillo.)</em></li><li><strong>conservar el recuerdo</strong>: '
+                                       '@@guardar la memoria | conservar la memoria@@ <em>(Pista: Aparece en '
+                                       'el estribillo y al final.)</em></li></ol>',
+                                       '<p>Selecciona una expresión con significado parecido. Puedes volver '
+                                       'al cuento.</p><ol><li><strong>permanece erguido</strong>: @@sigue en '
+                                       'pie | continuaba erguido@@ <em>(Pista: Recuerda el estribillo y lo '
+                                       'que sucede después del temblor.)</em></li><li><strong>conservar el '
+                                       'recuerdo</strong>: @@guardamos su memoria | guardar la memoria | '
+                                       'conservar la memoria@@ <em>(Pista: Puedes apoyarte en el estribillo '
+                                       'y en el final.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM4HJ': {'instructions': ('<p>Escribe un término con significado opuesto.</p>',
+                                           '<p>Selecciona un término de significado opuesto; puedes '
+                                           'deducirlo por el sentido del relato.</p>'),
+                          'textText': ('<p>Escribe un término con significado '
+                                       'opuesto.</p><ol><li><strong>enemistad</strong>: @@amistad@@ '
+                                       '<em>(Pista: Piensa en una relación de afecto y '
+                                       'apoyo.)</em></li><li><strong>callar</strong>: @@hablar | decir@@ '
+                                       '<em>(Pista: El cuento invita a escuchar y dialogar.)</em></li></ol>',
+                                       '<p>Selecciona un término de significado opuesto; puedes deducirlo '
+                                       'por el sentido del relato.</p><ol><li><strong>enemistad</strong>: '
+                                       '@@amistad@@ <em>(Pista: Piensa en una relación de afecto y '
+                                       'apoyo.)</em></li><li><strong>callar</strong>: @@hablar | decir@@ '
+                                       '<em>(Pista: El cuento invita a escuchar y dialogar.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM571': {'instructions': ('<p>Escribe el antónimo que aparece o se deduce del cuento.</p>',
+                                           '<p>Selecciona el antónimo que aparece o se deduce del '
+                                           'cuento.</p>'),
+                          'textText': ('<p>Escribe el antónimo que aparece o se deduce del '
+                                       'cuento.</p><ol><li><strong>aparecieron</strong>: @@desaparecieron | '
+                                       'desapareció | desaparecio@@ <em>(Pista: La historia del árbol no lo '
+                                       'hizo.)</em></li><li><strong>ocultar</strong>: @@mostrar | revelar | '
+                                       'descubrir@@ <em>(Pista: Es lo contrario de guardar un '
+                                       'secreto.)</em></li></ol>',
+                                       '<p>Selecciona el antónimo que aparece o se deduce del '
+                                       'cuento.</p><ol><li><strong>aparecieron</strong>: @@desaparecieron@@ '
+                                       '<em>(Pista: Es lo contrario de hacerse '
+                                       'visibles.)</em></li><li><strong>ocultar</strong>: @@mostrar | '
+                                       'revelar | descubrir@@ <em>(Pista: Es lo contrario de guardar un '
+                                       'secreto.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM6WT': {'instructions': ('<p>Escribe el antónimo que aparece en el cuento.</p>',
+                                           '<p>Selecciona un antónimo para cada palabra; puede aparecer o '
+                                           'deducirse del cuento.</p>'),
+                          'textText': ('<p>Escribe el antónimo que aparece en el '
+                                       'cuento.</p><ol><li><strong>apareció</strong>: @@desapareció | '
+                                       'desaparecio@@ <em>(Pista: La claridad lo hizo al final de la '
+                                       'noche.)</em></li><li><strong>noche</strong>: @@día | dia | '
+                                       'amanecer@@ <em>(Pista: Los pastores volvieron '
+                                       'después.)</em></li><li><strong>vieja</strong>: @@nueva | nuevo@@ '
+                                       '<em>(Pista: Es su opuesto habitual.)</em></li></ol>',
+                                       '<p>Selecciona un antónimo para cada palabra; puede aparecer o '
+                                       'deducirse del cuento.</p><ol><li><strong>apareció</strong>: '
+                                       '@@desapareció@@ <em>(Pista: La claridad se hizo pequeña hasta '
+                                       'desaparecer.)</em></li><li><strong>noche</strong>: @@día | '
+                                       'amanecer@@ <em>(Pista: Recuerda cuándo volvieron los '
+                                       'pastores.)</em></li><li><strong>vieja</strong>: @@nueva@@ '
+                                       '<em>(Pista: Es su opuesto habitual.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM7Z9': {'instructions': ('<p>Escribe un término de significado opuesto.</p>',
+                                           '<p>Selecciona un término de significado opuesto; puedes '
+                                           'deducirlo por el sentido del relato.</p>'),
+                          'textText': ('<p>Escribe un término de significado '
+                                       'opuesto.</p><ol><li><strong>entrar</strong>: @@salir@@ <em>(Pista: '
+                                       'Ico lo hizo caminando al abrirse la '
+                                       'puerta.)</em></li><li><strong>húmeda</strong>: @@seca | seco@@ '
+                                       '<em>(Pista: Describe algo que no tiene agua.)</em></li></ol>',
+                                       '<p>Selecciona un término de significado opuesto; puedes deducirlo '
+                                       'por el sentido del relato.</p><ol><li><strong>entrar</strong>: '
+                                       '@@salir@@ <em>(Pista: Ico lo hizo caminando al abrirse la '
+                                       'puerta.)</em></li><li><strong>húmeda</strong>: @@seca@@ <em>(Pista: '
+                                       'Describe algo que no tiene agua.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM843': {'instructions': ('<p>Escribe el antónimo que aparece en el cuento.</p>',
+                                           '<p>Selecciona el antónimo que aparece en el cuento.</p>'),
+                          'textText': ('<p>Escribe el antónimo que aparece en el '
+                                       'cuento.</p><ol><li><strong>apareció</strong>: @@desapareció | '
+                                       'desaparecio@@ <em>(Pista: La isla lo hacía según la '
+                                       'leyenda.)</em></li><li><strong>cerca</strong>: @@lejos | lejos de@@ '
+                                       '<em>(Pista: Cuanto más avanzaban, así parecía estar la '
+                                       'isla.)</em></li></ol>',
+                                       '<p>Selecciona el antónimo que aparece en el '
+                                       'cuento.</p><ol><li><strong>aparecía</strong>: @@desaparecía@@ '
+                                       '<em>(Pista: La isla lo hacía según la '
+                                       'leyenda.)</em></li><li><strong>cerca</strong>: @@lejos | lejos de@@ '
+                                       '<em>(Pista: Cuanto más avanzaban, así parecía estar la '
+                                       'isla.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')}}
 
 
 def field(node, key):
@@ -152,6 +293,17 @@ def plural_text(value):
     for old, new in LANGUAGE_SUBSTITUTIONS.items():
         value = re.sub(r"\b" + re.escape(old) + r"\b", lambda m: new.capitalize() if m[0][0].isupper() else new, value, flags=re.I)
     return re.sub(r"\bOA\b", "Objeto de Aprendizaje", value)
+
+
+def aboriginal_text(value):
+    """Update project prose, without altering URLs or bibliographic titles."""
+    return re.sub(
+        r"\bindígenas?\b",
+        lambda match: ("Aborígenes" if match[0].lower().endswith("s") else "Aborigen")
+        if match[0][0].isupper() else ("aborígenes" if match[0].lower().endswith("s") else "aborigen"),
+        value,
+        flags=re.I,
+    )
 
 
 def piece_words(value):
@@ -230,6 +382,57 @@ def encode_native_payload(value):
         char = chr(code)
         encoded.append(char if char in safe else f"%{code:02X}" if code < 256 else f"%u{code:04X}")
     return "".join(encoded)
+
+
+def encode_native_text(value):
+    """Encode the official Completa text field with JavaScript escape rules."""
+    safe = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@*_+-./"
+    units = value.encode("utf-16-be", errors="surrogatepass")
+    return "".join(
+        chr(code) if chr(code) in safe else f"%{code:02X}" if code < 256 else f"%u{code:04X}"
+        for code in (int.from_bytes(units[index:index + 2], "big") for index in range(0, len(units), 2))
+    )
+
+
+def revise_native_vocabulary(component):
+    """Apply only the eight reviewed selection/instruction corrections."""
+    iid = field(component, "odeIdeviceId")
+    if iid not in NATIVE_VOCABULARY or field(component, "odeIdeviceTypeName") != "complete":
+        raise ValueError("Unreviewed native vocabulary activity: " + iid)
+    view = field(component, "htmlView")
+    nodes = fragment(view).xpath(".//div[contains(concat(' ',normalize-space(@class),' '),' completa-DataGame ')]")
+    if len(nodes) != 1:
+        raise ValueError("The native vocabulary payload is not unique: " + iid)
+    payload = nodes[0].text_content()
+    decoded, encoded = decode_native_payload(payload)
+    before = json.loads(decoded)
+    if not encoded or before.get("typeGame") != "Completa" or before.get("type") != 2:
+        raise ValueError("The native vocabulary mode differs from the reviewed selection: " + iid)
+    permitted = deepcopy(before)
+    for name, (old_value, new_value) in NATIVE_VOCABULARY[iid].items():
+        if name == "textText":
+            old_value, new_value = encode_native_text(old_value), encode_native_text(new_value)
+        if before.get(name) != old_value:
+            raise ValueError(f"The reviewed vocabulary field differs: {iid}/{name}")
+        pattern = re.compile(r'("' + re.escape(name) + r'"\s*:\s*)("(?:[^"\\]|\\.)*")')
+        matches = list(pattern.finditer(decoded))
+        if len(matches) != 1:
+            raise ValueError(f"The reviewed vocabulary field is not unique: {iid}/{name}")
+        match = matches[0]
+        decoded = decoded[:match.start(2)] + json.dumps(new_value, ensure_ascii=False) + decoded[match.end(2):]
+        permitted[name] = new_value
+    if json.loads(decoded) != permitted or view.count(payload) != 1:
+        raise ValueError("The vocabulary changed outside its reviewed fields: " + iid)
+    old_instruction, new_instruction = NATIVE_VOCABULARY[iid]["instructions"]
+    old_text, new_text = NATIVE_VOCABULARY[iid]["textText"]
+    if view.count(old_instruction) != 2 or view.count(old_text) != 1:
+        raise ValueError("The visible vocabulary instructions differ: " + iid)
+    view = view.replace(payload, encode_native_payload(decoded), 1)
+    # The official runtime reads this separate source when building selects;
+    # keeping only the encoded textText field current would leave old options.
+    view = view.replace(old_text, new_text, 1)
+    view = view.replace(old_instruction, new_instruction, 1)
+    set_field(component, "htmlView", view)
 
 
 def remove_game_author(component):
@@ -323,6 +526,10 @@ def clean_markup(markup, *, allow_authors=False, allow_versions=False):
             if not value:
                 continue
             value = plural_text(value)
+            # Linked/cited publication titles retain their source wording;
+            # a link's following tail is our own explanatory prose.
+            if attribute == "tail" or element.tag not in {"a", "cite"}:
+                value = aboriginal_text(value)
             if not allow_authors:
                 replacements = {
                     "Escucha a Jesica Fortes Regalado": "Escucha el cuento",
@@ -350,6 +557,10 @@ def clean_markup(markup, *, allow_authors=False, allow_versions=False):
                 if not allow_authors:
                     label = label.replace(", voz de Jesica Fortes Regalado", "").replace("Jesica Fortes Regalado", "la narradora")
                 element.set(key, label)
+        for key in ("href", "src"):
+            target = element.get(key, "")
+            if target.startswith("https://mitomapa-canario.cgarcias.workers.dev/"):
+                element.set(key, PUBLIC_WEB + target.removeprefix("https://mitomapa-canario.cgarcias.workers.dev/"))
     return inner(doc)
 
 
@@ -522,6 +733,9 @@ def adapt_native_guidance(texts):
             if paragraph.xpath(".//a[@href='exe-node:" + EXTRA + "']"):
                 node_remove(paragraph)
         if iid == "20260823155837TGUID1":
+            for cell in doc.xpath(".//td"):
+                if cell.text and cell.text.startswith("Abre Islas."):
+                    cell.text = cell.text.replace("Abre Islas.", "Abre «Los cuentos: elijan su isla».", 1)
             for paragraph in list(doc.xpath(".//p")):
                 if paragraph.text_content().strip().startswith("Propuesta multinivel · edición"):
                     replace_content(paragraph, "Propuesta multinivel. El profesorado concreta el anclaje curricular, las tareas y los apoyos para su grupo; los ejemplos no fijan un nivel obligatorio.")
@@ -570,6 +784,17 @@ def rewrite_local_html_links(markup):
                 node_remove(node)
                 continue
             name = target.removeprefix(APP).split("#", 1)[0]
+            documents = {
+                "downloads/Pauta_de_revision_MitoMapa.html": CONTEXT + "/content/resources/Rubrica_lectura_MitoMapa_4_0.html",
+                "downloads/Rubrica_lectura_MitoMapa_4_0.html": CONTEXT + "/content/resources/Rubrica_lectura_MitoMapa_4_0.html",
+                "PROTOCOLO_PILOTAJE.html": CONTEXT + "/content/resources/PROTOCOLO_PILOTAJE.html",
+            }
+            if name in documents:
+                node.set(attribute, documents[name])
+                continue
+            if name == "GUIA_DOCENTE_GOBCAN.html":
+                node.set(attribute, "exe-node:" + TEACHER + "#20260823155837BGUID2")
+                continue
             destination = SOURCES if any(part in name for part in ("FUENTES", "AUDIO", "LICENCIA")) else TEACHER
             node.set(attribute, "exe-node:" + destination)
     return inner(doc)
@@ -662,19 +887,32 @@ def render_exports(files, tree, original_search, templates, block_templates, ali
                 block_info["idevices"][iid] = {"order": int(field(component, "odeComponentsOrder")), "htmlView": view, "jsonProperties": field(component, "jsonProperties")}
             info["blocks"][bid] = block_info
             body.append(article)
-        # Merged boxes may use a native iDevice type not loaded by the former
-        # guide page. Copy its original official declarations unchanged.
+        # Merged boxes may use an iDevice type not loaded by the former page.
+        # Resource identity belongs to the package root, not to whichever
+        # template supplied a relative declaration.
         head = document.xpath("//head")[0]
-        known = {(n.tag, n.get("src") or n.get("href")) for n in head}
+        for asset in list(head.xpath("./script[@src] | ./link[@href]")):
+            ref = asset.get("src") or asset.get("href")
+            if ref and (ref.startswith("idevices/") or ref.startswith("../idevices/")):
+                head.remove(asset)
+        known = set()
         kinds = {field(c, "odeIdeviceTypeName") for c in page.findall(".//o:odeComponent", NS)}
         for template in templates.values():
             for asset in template.xpath("//head/script[@src] | //head/link[@href]"):
                 ref = asset.get("src") or asset.get("href")
                 if not ref or not any("idevices/" + kind + "/" in ref for kind in kinds):
                     continue
-                key = asset.tag, ref
+                resource = ref[3:] if ref.startswith("../idevices/") else ref
+                if not resource.startswith("idevices/") or resource not in files:
+                    raise ValueError("The native iDevice declaration is not a package resource: " + ref)
+                key = asset.tag, resource
                 if key not in known:
-                    head.append(deepcopy(asset)); known.add(key)
+                    declaration = deepcopy(asset)
+                    declaration.set("src" if asset.tag == "script" else "href",
+                                    posixpath.relpath(resource, posixpath.dirname(path) or "."))
+                    head.append(declaration); known.add(key)
+        for skip in document.xpath("//*[@id='skipNav']"):
+            skip.text = "Saltar al contenido"
         for node in document.xpath("//p[contains(concat(' ',normalize-space(@class),' '),' package-subtitle ')]"):
             node_remove(node)
         document.xpath("//h1[@class='page-title']")[0].text = field(page, "pageName")
@@ -711,6 +949,35 @@ def render_exports(files, tree, original_search, templates, block_templates, ali
     if old_extra not in retained:
         files.pop(old_extra, None)
     files["search_index.js"] = b"window.exeSearchData = " + json.dumps(search, ensure_ascii=False, separators=(",", ":")).encode() + b";\n"
+
+
+def include_native_protocol(files, root):
+    """Retain the complete printable protocol with local styling and links."""
+    document = html.fromstring((root / "PROTOCOLO_PILOTAJE.html").read_bytes())
+    destinations = {
+        "GUIA_DOCENTE.html": "../../html/guia-didactica.html",
+        "GUIA_DOCENTE_GOBCAN.html": "../../html/guia-didactica.html#20260823155837BGUID2",
+        "FUENTES_CUENTOS.html": "../../html/fuentes-de-referencia.html",
+        "index.html": "../../index.html",
+        "assets/images/cc-by-sa-4.0.svg": "mitomapa/assets/images/cc-by-sa-4.0.svg",
+    }
+    for node in document.xpath(".//*[@href] | .//*[@src]"):
+        for attribute in ("href", "src"):
+            target = node.get(attribute, "")
+            if target in destinations:
+                node.set(attribute, destinations[target])
+            elif target.startswith("index.html#"):
+                node.set(attribute, PUBLIC_WEB + target.removeprefix("index.html"))
+    for node in document.iter():
+        if node.tag in {"script", "style"}:
+            continue
+        for attribute in ("text", "tail"):
+            value = getattr(node, attribute)
+            if value and (attribute == "tail" or node.tag not in {"a", "cite"}):
+                setattr(node, attribute, aboriginal_text(value))
+    files["content/resources/PROTOCOLO_PILOTAJE.html"] = html.tostring(
+        document, encoding="utf-8", method="html", doctype="<!DOCTYPE html>",
+    )
 
 
 def clean_attached_documents(files):
@@ -897,6 +1164,8 @@ def apply_editorial(files, root, version):
     for component in components.values():
         if field(component, "odeIdeviceTypeName") not in {"text", "file-attachment", "download-source-file", "progress-report", "checklist"}:
             remove_game_author(component)
+    for iid in NATIVE_VOCABULARY:
+        revise_native_vocabulary(components[iid])
     correct_passport_license(components[PASSPORT_DEVICE])
     # The cover has already captured the original decorative pintaderas.
     apply_passport_icons(files, root, components)
@@ -988,6 +1257,7 @@ def apply_editorial(files, root, version):
         raise ValueError("Editorial reorganisation changed native component identities")
     if len(ordered) != 34:
         raise ValueError("Editorial navigation should contain 34 native pages")
+    include_native_protocol(files, root)
     clean_attached_documents(files)
     update_attachment(components["20260930IMATERIALES40"], files)
     render_exports(files, tree, original_search, templates, block_templates, {pid: TEACHER for pid in TEACHER_CHILDREN})

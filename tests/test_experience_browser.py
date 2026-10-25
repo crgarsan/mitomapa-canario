@@ -421,5 +421,123 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.assertIn("Versión del esquema de exportación: 1", text)
 
 
+    def _import_snapshot(self):
+        return self.page.evaluate("""() => ({
+          storage: Object.fromEntries(Object.keys(localStorage).sort().map(key => [key, localStorage.getItem(key)])),
+          source: [...sourcePassed], truth: [...truthPassed], earned: [...earned],
+          level: learningLevel, learnerName, workshop: workshopState, itineraries,
+          journey: window.MitoMapaJourney.exportState(),
+          comparison: window.MitoMapaCompare.exportState(),
+          stories: window.MitoMapaStories.exportState(),
+          checked: [...document.querySelectorAll('.route input:checked')].map(input => [input.name, input.value]),
+          sourceFeedback: document.querySelector('#source-tenerife .source-status').textContent,
+          opinion: document.querySelector('[data-feedback-open=liked]').value
+        })""")
+
+    def _import_payload(self, payload):
+        self.page.evaluate("document.getElementById('teacherImportStatus').textContent = ''")
+        self.page.locator("#importProgressFile").set_input_files({
+            "name": "seguimiento.json", "mimeType": "application/json",
+            "buffer": json.dumps(payload).encode(),
+        })
+        self.page.wait_for_function("document.getElementById('teacherImportStatus').textContent !== ''")
+        return self.page.locator("#teacherImportStatus").text_content()
+
+    def test_rejected_import_preserves_memory_visible_answers_and_storage(self):
+        baseline = {
+            "app": "mitomapa-canario", "schemaVersion": 1, "learningLevel": "middle",
+            "progress": {"sourcePassed": [], "truthPassed": [], "earned": []},
+        }
+        cases = [
+            {"learnerName": {"toString": None}},
+            {"progress": True},
+            {"progress": {"sourcePassed": "tenerife", "truthPassed": [], "earned": []}},
+            {"final": {"passed": "false"}},
+            {"interactive": []},
+            {"itineraries": {"middle": {"tenerife": {"tasks": {"toString": None}}}}},
+            {"schemaVersion": 999},
+        ]
+        for malformed in cases:
+            with self.subTest(fields=malformed):
+                self.page.reload(wait_until="networkidle")
+                self.answer_quiz("source", [1, 2, 1])
+                self.page.evaluate("document.querySelector('[data-feedback-open=liked]').value = 'Mi opinión anterior'")
+                before = self._import_snapshot()
+                status = self._import_payload({**baseline, **malformed})
+                self.assertIn("No se pudo cargar", status)
+                self.assertEqual(self._import_snapshot(), before)
+
+    def test_rejected_import_cannot_erase_prior_progress_on_next_quiz_save(self):
+        self.answer_quiz("source", [1, 2, 1])
+        status = self._import_payload({
+            "app": "mitomapa-canario", "learnerName": {"toString": None},
+            "progress": {"sourcePassed": [], "truthPassed": [], "earned": []},
+        })
+        self.assertIn("No se pudo cargar", status)
+        self.page.evaluate("""() => {
+          ensureRoute('gran-canaria');
+          routes.find(route => route.id === 'gran-canaria').quick.forEach((question, index) => {
+            document.querySelector(`input[name="source-gran-canaria-${index}"][value="${question.answer}"]`).checked = true;
+          });
+          checkSource('gran-canaria');
+        }""")
+        self.page.reload(wait_until="networkidle")
+        self.assertEqual(set(self.page.evaluate("[...sourcePassed]")), {"tenerife", "gran-canaria"})
+
+    def test_current_progress_round_trip_preserves_optional_activities(self):
+        self.answer_quiz("source", [1, 2, 1])
+        self.page.evaluate("""() => {
+          syncLearnerName('Equipo del aula');
+          const draft = getWorkshopRouteState('tenerife');
+          draft.text = 'Una creación preparada'; draft.creation = true;
+          draft.creationReviewV1.middle.relation = 'reviewed'; saveWorkshopState();
+          itineraries.middle.tenerife.tasks = 'Contrastar la fuente'; saveItineraries();
+          window.MitoMapaJourney.importState({version:1,levels:{middle:['tenerife','gran-canaria'],advanced:['lanzarote']}});
+          window.MitoMapaStories.importState({version:1,routes:{tenerife:{order:[3,2,1,0],checked:true,hint:true,support:true}}});
+          window.MitoMapaCompare.importState({pair:['la-palma','el-hierro'],notes:{'la-palma|el-hierro':'Dos relatos y dos paisajes'}});
+        }""")
+        with self.page.expect_download() as download_info:
+            self.page.evaluate("exportProgress()")
+        exported = json.loads(Path(download_info.value.path()).read_text())
+        self.page.evaluate("resetProgress()")
+        self.assertIn("correctamente", self._import_payload(exported))
+        with self.page.expect_download() as download_info:
+            self.page.evaluate("exportProgress()")
+        restored = json.loads(Path(download_info.value.path()).read_text())
+        for field in ["learningLevel", "learnerName", "progress", "itineraries", "journey", "final", "interactive"]:
+            self.assertEqual(restored[field], exported[field], field)
+        # Opening the teacher view can add empty route records; existing work must survive.
+        for island, entry in exported["workshop"]["routes"].items():
+            self.assertEqual(restored["workshop"]["routes"][island], entry, island)
+
+    def test_invalid_preference_records_recover_defaults_without_blocking_routes(self):
+        for invalid in [None, [], True, "old format"]:
+            with self.subTest(value=invalid):
+                self.page.evaluate("value => localStorage.setItem('mitomapa-canario-preferencias-v3', JSON.stringify(value))", invalid)
+                self.page.reload(wait_until="networkidle")
+                self.assertEqual(self.page.locator("#islandGrid .island-card").count(), 8)
+                self.assertEqual(self.page.evaluate("learningLevel"), "middle")
+                self.assertEqual(self.page.evaluate("readerMode"), "guided")
+                self.assertTrue(self.page.locator("#route-tenerife").is_visible())
+
+    def test_vocabulary_accepts_the_expressions_given_in_the_stories(self):
+        cases = [
+            ("la-palma", ["Benahoare", "Idafe", "Abora", "vasija"], ["sigue en pie", "guardamos su memoria"]),
+            ("la-graciosa", ["grumete", "pergamino", "bruma", "carta náutica"], ["desaparecía", "lejos"]),
+        ]
+        for island, meanings, expressions in cases:
+            with self.subTest(island=island):
+                self.page.goto(self.base + f"#isla/{island}/taller", wait_until="networkidle")
+                panel = self.page.locator(f'#activity-{island} [data-activity-panel="words"]')
+                for select, value in zip(panel.locator(".activity-match-row select").all(), meanings, strict=True):
+                    select.select_option(value)
+                for field, expression in zip(panel.locator(".activity-fill-row input").all(), expressions, strict=True):
+                    field.fill(expression)
+                panel.locator(".activity-check-words").click()
+                self.assertEqual(panel.locator('[aria-invalid="true"]').count(), 0)
+                self.assertIn("superada", panel.locator(".activity-panel-status").text_content())
+                self.assertEqual(self.page.locator("#passportCount").text_content(), "0/8")
+
+
 if __name__ == "__main__":
     unittest.main()

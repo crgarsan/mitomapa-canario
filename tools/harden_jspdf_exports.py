@@ -4,6 +4,8 @@
 Uses only the standard library and the reviewed dependency manifest. No download
 is needed. --check is read-only; --artifact handles a fresh editor ELPX/HTML ZIP.
 Reapply this tool after editor saves/exports that restore the editor's loaders.
+The global mode is read-only and follows the checked public inventory. Use
+--artifact explicitly when hardening a newly edited copy of one project.
 """
 from __future__ import annotations
 
@@ -15,7 +17,6 @@ import json
 from pathlib import Path
 import re
 import zipfile
-
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "4.2.1"
@@ -214,6 +215,61 @@ def verify_archive(payload: bytes) -> tuple[int, int]:
     return loaders, nested_elpx
 
 
+def public_archives(root: Path) -> list[Path]:
+    """Resolve the current archive allowlist without trusting a release count."""
+    # The explicit single-artifact tool remains standalone (stdlib + manifest).
+    # Only repository-wide inventory checks need the release helper module.
+    from release_support import MAX_ASSET_BYTES, parse_sums, source_path
+    inventory = parse_sums((root / "SHA256SUMS.txt").read_text("utf-8"))
+    names = {name for name in inventory
+             if name.startswith("downloads/") and Path(name).suffix.lower() in {".zip", ".elpx"}}
+    present = {path.relative_to(root).as_posix() for path in (root / "downloads").rglob("*")
+               if path.suffix.lower() in {".zip", ".elpx"}}
+    require(bool(names) and names == present, "Public archive inventory differs from SHA256SUMS.txt")
+    paths = []
+    for name in sorted(names):
+        path = source_path(root, name)
+        require(path.stat().st_size <= MAX_ASSET_BYTES, "Public archive exceeds the hosting size limit")
+        require(digest(path.read_bytes()) == inventory[name], "Checksum mismatch: " + name)
+        paths.append(path)
+    return paths
+
+
+def verify_public_archives(root: Path) -> dict:
+    """Check every published/nested loader and the current native projects."""
+    from release_support import source_path
+    paths = public_archives(root)
+    affected = loaders = nested_elpx = direct_loaders = 0
+    checked = {}
+    for path in paths:
+        payload = path.read_bytes()
+        count, nested = verify_archive(payload)
+        checked[path.relative_to(root).as_posix()] = count
+        affected += bool(count)
+        loaders += count
+        nested_elpx += nested
+        if path.suffix.lower() == ".elpx":
+            with zipfile.ZipFile(BytesIO(payload)) as archive:
+                direct = len(SCRIPT_PATHS & set(archive.namelist()))
+            require(direct > 0, "Native public archive has no reviewed PDF loaders: " + path.name)
+            direct_loaders += direct
+    version = json.loads((root / "VERSION.json").read_text("utf-8"))
+    for record in [version["download"], *version.get("presets", [])]:
+        name = record["path"]
+        require(name in checked, "The current native project is missing from the public archive inventory: " + name)
+        payload = source_path(root, name).read_bytes()
+        with zipfile.ZipFile(BytesIO(payload)) as archive:
+            require(SCRIPT_PATHS <= set(archive.namelist()),
+                    "The current native project must retain all reviewed PDF loaders at their root paths: " + name)
+            for script in SCRIPT_PATHS:
+                verify_loader(archive.read(script).decode("utf-8"))
+        require(record["sha256"] == digest(payload) and record["bytes"] == len(payload),
+                "Stale release download metadata: " + name)
+    return {"public_archives": len(paths), "affected_archives": affected,
+            "loaders": loaders, "direct_loaders": direct_loaders,
+            "nested_loaders": loaders - direct_loaders, "nested_elpx": nested_elpx}
+
+
 def checksum_text(directory: Path, text: str) -> str:
     lines = []
     for line in text.splitlines():
@@ -291,40 +347,11 @@ def main() -> None:
         print(json.dumps({"mode": "checked" if args.check else "updated", "artifact": str(path),
                           "loaders": loaders, "nested_elpx": nested}))
         return
-    public = sorted(path for path in (ROOT / "downloads").iterdir() if path.suffix in (".zip", ".elpx"))
-    require(len(public) == 24, "Unexpected public archive inventory")
-    affected = loaders = nested_elpx = direct_loaders = 0
-    for path in public:
-        before = path.read_bytes()
-        if args.check:
-            count, nested = verify_archive(before)
-        else:
-            after, count, nested = patched_archive(before)
-            if after != before:
-                path.write_bytes(after)
-        affected += bool(count)
-        loaders += count
-        nested_elpx += nested
-        if path.suffix == ".elpx":
-            direct_loaders += count
-    require((affected, loaders, nested_elpx, direct_loaders) == (19, 92, 21, 29),
-            "Unexpected public native PDF loader inventory")
-    version_path = ROOT / "VERSION.json"
-    version = json.loads(version_path.read_text("utf-8"))
-    for record in [version["download"], *version["presets"]]:
-        data = (ROOT / record["path"]).read_bytes()
-        if args.check:
-            require(record["sha256"] == digest(data) and record["bytes"] == len(data),
-                    "Stale release download metadata: " + record["path"])
-        else:
-            record.update(sha256=digest(data), bytes=len(data))
-    if not args.check:
-        version_path.write_text(json.dumps(version, ensure_ascii=False, indent=2) + "\n", "utf-8")
+    require(args.check, "Global mode is read-only; use --check or explicitly harden one --artifact copy")
+    summary = verify_public_archives(ROOT)
     if args.delivery_dir:
-        delivery_update(args.delivery_dir.resolve(), args.check)
-    print(json.dumps({"mode": "checked" if args.check else "updated", "public_archives": len(public),
-                      "affected_archives": affected, "loaders": loaders, "direct_loaders": direct_loaders,
-                      "nested_loaders": loaders - direct_loaders, "nested_elpx": nested_elpx,
+        delivery_update(args.delivery_dir.resolve(), True)
+    print(json.dumps({"mode": "checked", **summary,
                       "native_XML_search_pages_media_preserved": True,
                       "delivery_included": bool(args.delivery_dir)}))
 

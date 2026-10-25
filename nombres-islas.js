@@ -3,7 +3,7 @@
   'use strict';
 
   const CAUTION = 'Las denominaciones y sus grafías no son completamente seguras: las fuentes difieren y a menudo son posteriores a la conquista. Según la información aportada por la autoría, esta selección se ha consultado con especialistas en la época prehispánica de Canarias; esa consulta no elimina las incertidumbres.';
-  const GRACIOSA_NOTE = 'No se ha establecido aquí una denominación indígena documentada. La ausencia de un poblado permanente no excluye visitas o usos ocasionales.';
+  const GRACIOSA_NOTE = 'No se ha establecido aquí una denominación aborigen documentada. La ausencia de un poblado permanente no excluye visitas o usos ocasionales.';
   const MAP_NOTE = 'Recreación contemporánea inspirada en cartas antiguas; no es un mapa histórico.';
   const islands = [
     {id: 'el-hierro', current: 'El Hierro', name: 'Esero / Eceró', centre: [15.3, 74.8], label: [10, 88], hint: 'Busca la isla situada más al suroeste del archipiélago.'},
@@ -357,7 +357,7 @@
     const title = node('h1', 'section-title', 'Los nombres de las islas');
     title.id = 'namesMapTitle';
     section.append(kicker, title, node('p', 'names-intro', 'Elige una ficha y su isla, o arrástrala a su cartela. Practica en cualquier orden, sin puntuación.'));
-    const note = node('p', 'names-source-note', 'Los nombres antiguos presentan dudas y variantes. La ficha de La Graciosa indica que no se ha documentado un nombre indígena.');
+    const note = node('p', 'names-source-note', 'Los nombres antiguos presentan dudas y variantes. La ficha de La Graciosa indica que no se ha documentado un nombre aborigen.');
     const instructions = node('details', 'names-details names-context');
     instructions.append(node('summary', '', 'Qué sabemos de estos nombres y cómo jugar'));
     instructions.append(node('p', '', CAUTION), node('p', '', 'La Graciosa: ' + GRACIOSA_NOTE), node('p', '', 'Las siete denominaciones son la selección aportada por la autoría tras sus consultas. «Gomara» se incorpora en ese marco; el juego no afirma una etimología demostrada ni la misma certeza documental para todos los nombres.'));

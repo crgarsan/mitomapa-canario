@@ -40,6 +40,147 @@ ATTACHMENT_LABELS = {
 }
 
 
+# Exact before/after fields reviewed after the native vocabulary audit.
+REVIEWED_VOCABULARY = {'20260823155837COM1YD': {'instructions': ('<p>Busca en el cuento el sinónimo de cada verbo.</p>',
+                                           '<p>Selecciona el sinónimo de cada verbo. Puedes volver al '
+                                           'cuento.</p>'),
+                          'textText': ('<p>Busca en el cuento el sinónimo de cada '
+                                       'verbo.</p><ol><li><strong>habitaban</strong>: @@vivían | vivian@@ '
+                                       '<em>(Pista: Aparece en la primera '
+                                       'oración.)</em></li><li><strong>iniciar</strong>: @@comenzar@@ '
+                                       '<em>(Pista: Dácil esperaba la luz para hacerlo con el '
+                                       'camino.)</em></li><li><strong>narra</strong>: @@cuenta@@ <em>(Pista: '
+                                       'La tradición lo hace en el quinto '
+                                       'párrafo.)</em></li><li><strong>finalizar</strong>: @@terminar@@ '
+                                       '<em>(Pista: Aparece cerca del final.)</em></li></ol>',
+                                       '<p>Selecciona el sinónimo de cada verbo. Puedes volver al '
+                                       'cuento.</p><ol><li><strong>habitaban</strong>: @@vivían@@ '
+                                       '<em>(Pista: Aparece en la primera '
+                                       'oración.)</em></li><li><strong>iniciar</strong>: @@comenzar@@ '
+                                       '<em>(Pista: Dácil esperaba la luz para hacerlo con el '
+                                       'camino.)</em></li><li><strong>narra</strong>: @@cuenta@@ <em>(Pista: '
+                                       'La tradición lo hace en el quinto '
+                                       'párrafo.)</em></li><li><strong>finalizar</strong>: @@terminar@@ '
+                                       '<em>(Pista: Aparece cerca del final.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM2J3': {'instructions': ('<p>Escribe el antónimo que aparece en el cuento.</p>',
+                                           '<p>Selecciona el antónimo de cada palabra; utiliza el cuento '
+                                           'como apoyo.</p>'),
+                          'textText': ('<p>Escribe el antónimo que aparece en el '
+                                       'cuento.</p><ol><li><strong>grande</strong>: @@pequeño | pequeno@@ '
+                                       '<em>(Pista: Está en el '
+                                       'estribillo.)</em></li><li><strong>apagó</strong>: @@encendió | '
+                                       'encendio@@ <em>(Pista: Guayarmina lo hizo con una '
+                                       'tea.)</em></li><li><strong>oscuridad</strong>: @@luz@@ <em>(Pista: '
+                                       'Protegió al grupo durante la '
+                                       'noche.)</em></li><li><strong>día</strong>: @@noche@@ <em>(Pista: Es '
+                                       'el momento en el que aparece la criatura.)</em></li></ol>',
+                                       '<p>Selecciona el antónimo de cada palabra; utiliza el cuento como '
+                                       'apoyo.</p><ol><li><strong>grande</strong>: @@pequeño@@ <em>(Pista: '
+                                       'Está en el estribillo.)</em></li><li><strong>apagó</strong>: '
+                                       '@@encendió@@ <em>(Pista: Guayarmina lo hizo con una '
+                                       'tea.)</em></li><li><strong>oscuridad</strong>: @@luz@@ <em>(Pista: '
+                                       'Protegió al grupo durante la '
+                                       'noche.)</em></li><li><strong>día</strong>: @@noche@@ <em>(Pista: Es '
+                                       'el momento en el que aparece la criatura.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM3VY': {'instructions': ('<p>Completa con la expresión del cuento que tiene un significado '
+                                           'parecido.</p>',
+                                           '<p>Selecciona una expresión con significado parecido. Puedes '
+                                           'volver al cuento.</p>'),
+                          'textText': ('<p>Completa con la expresión del cuento que tiene un significado '
+                                       'parecido.</p><ol><li><strong>permanece erguido</strong>: @@sigue en '
+                                       'pie | continuaba erguido@@ <em>(Pista: La primera opción aparece en '
+                                       'el estribillo.)</em></li><li><strong>conservar el recuerdo</strong>: '
+                                       '@@guardar la memoria | conservar la memoria@@ <em>(Pista: Aparece en '
+                                       'el estribillo y al final.)</em></li></ol>',
+                                       '<p>Selecciona una expresión con significado parecido. Puedes volver '
+                                       'al cuento.</p><ol><li><strong>permanece erguido</strong>: @@sigue en '
+                                       'pie | continuaba erguido@@ <em>(Pista: Recuerda el estribillo y lo '
+                                       'que sucede después del temblor.)</em></li><li><strong>conservar el '
+                                       'recuerdo</strong>: @@guardamos su memoria | guardar la memoria | '
+                                       'conservar la memoria@@ <em>(Pista: Puedes apoyarte en el estribillo '
+                                       'y en el final.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM4HJ': {'instructions': ('<p>Escribe un término con significado opuesto.</p>',
+                                           '<p>Selecciona un término de significado opuesto; puedes '
+                                           'deducirlo por el sentido del relato.</p>'),
+                          'textText': ('<p>Escribe un término con significado '
+                                       'opuesto.</p><ol><li><strong>enemistad</strong>: @@amistad@@ '
+                                       '<em>(Pista: Piensa en una relación de afecto y '
+                                       'apoyo.)</em></li><li><strong>callar</strong>: @@hablar | decir@@ '
+                                       '<em>(Pista: El cuento invita a escuchar y dialogar.)</em></li></ol>',
+                                       '<p>Selecciona un término de significado opuesto; puedes deducirlo '
+                                       'por el sentido del relato.</p><ol><li><strong>enemistad</strong>: '
+                                       '@@amistad@@ <em>(Pista: Piensa en una relación de afecto y '
+                                       'apoyo.)</em></li><li><strong>callar</strong>: @@hablar | decir@@ '
+                                       '<em>(Pista: El cuento invita a escuchar y dialogar.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM571': {'instructions': ('<p>Escribe el antónimo que aparece o se deduce del cuento.</p>',
+                                           '<p>Selecciona el antónimo que aparece o se deduce del '
+                                           'cuento.</p>'),
+                          'textText': ('<p>Escribe el antónimo que aparece o se deduce del '
+                                       'cuento.</p><ol><li><strong>aparecieron</strong>: @@desaparecieron | '
+                                       'desapareció | desaparecio@@ <em>(Pista: La historia del árbol no lo '
+                                       'hizo.)</em></li><li><strong>ocultar</strong>: @@mostrar | revelar | '
+                                       'descubrir@@ <em>(Pista: Es lo contrario de guardar un '
+                                       'secreto.)</em></li></ol>',
+                                       '<p>Selecciona el antónimo que aparece o se deduce del '
+                                       'cuento.</p><ol><li><strong>aparecieron</strong>: @@desaparecieron@@ '
+                                       '<em>(Pista: Es lo contrario de hacerse '
+                                       'visibles.)</em></li><li><strong>ocultar</strong>: @@mostrar | '
+                                       'revelar | descubrir@@ <em>(Pista: Es lo contrario de guardar un '
+                                       'secreto.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM6WT': {'instructions': ('<p>Escribe el antónimo que aparece en el cuento.</p>',
+                                           '<p>Selecciona un antónimo para cada palabra; puede aparecer o '
+                                           'deducirse del cuento.</p>'),
+                          'textText': ('<p>Escribe el antónimo que aparece en el '
+                                       'cuento.</p><ol><li><strong>apareció</strong>: @@desapareció | '
+                                       'desaparecio@@ <em>(Pista: La claridad lo hizo al final de la '
+                                       'noche.)</em></li><li><strong>noche</strong>: @@día | dia | '
+                                       'amanecer@@ <em>(Pista: Los pastores volvieron '
+                                       'después.)</em></li><li><strong>vieja</strong>: @@nueva | nuevo@@ '
+                                       '<em>(Pista: Es su opuesto habitual.)</em></li></ol>',
+                                       '<p>Selecciona un antónimo para cada palabra; puede aparecer o '
+                                       'deducirse del cuento.</p><ol><li><strong>apareció</strong>: '
+                                       '@@desapareció@@ <em>(Pista: La claridad se hizo pequeña hasta '
+                                       'desaparecer.)</em></li><li><strong>noche</strong>: @@día | '
+                                       'amanecer@@ <em>(Pista: Recuerda cuándo volvieron los '
+                                       'pastores.)</em></li><li><strong>vieja</strong>: @@nueva@@ '
+                                       '<em>(Pista: Es su opuesto habitual.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM7Z9': {'instructions': ('<p>Escribe un término de significado opuesto.</p>',
+                                           '<p>Selecciona un término de significado opuesto; puedes '
+                                           'deducirlo por el sentido del relato.</p>'),
+                          'textText': ('<p>Escribe un término de significado '
+                                       'opuesto.</p><ol><li><strong>entrar</strong>: @@salir@@ <em>(Pista: '
+                                       'Ico lo hizo caminando al abrirse la '
+                                       'puerta.)</em></li><li><strong>húmeda</strong>: @@seca | seco@@ '
+                                       '<em>(Pista: Describe algo que no tiene agua.)</em></li></ol>',
+                                       '<p>Selecciona un término de significado opuesto; puedes deducirlo '
+                                       'por el sentido del relato.</p><ol><li><strong>entrar</strong>: '
+                                       '@@salir@@ <em>(Pista: Ico lo hizo caminando al abrirse la '
+                                       'puerta.)</em></li><li><strong>húmeda</strong>: @@seca@@ <em>(Pista: '
+                                       'Describe algo que no tiene agua.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')},
+ '20260823155837COM843': {'instructions': ('<p>Escribe el antónimo que aparece en el cuento.</p>',
+                                           '<p>Selecciona el antónimo que aparece en el cuento.</p>'),
+                          'textText': ('<p>Escribe el antónimo que aparece en el '
+                                       'cuento.</p><ol><li><strong>apareció</strong>: @@desapareció | '
+                                       'desaparecio@@ <em>(Pista: La isla lo hacía según la '
+                                       'leyenda.)</em></li><li><strong>cerca</strong>: @@lejos | lejos de@@ '
+                                       '<em>(Pista: Cuanto más avanzaban, así parecía estar la '
+                                       'isla.)</em></li></ol>',
+                                       '<p>Selecciona el antónimo que aparece en el '
+                                       'cuento.</p><ol><li><strong>aparecía</strong>: @@desaparecía@@ '
+                                       '<em>(Pista: La isla lo hacía según la '
+                                       'leyenda.)</em></li><li><strong>cerca</strong>: @@lejos | lejos de@@ '
+                                       '<em>(Pista: Cuanto más avanzaban, así parecía estar la '
+                                       'isla.)</em></li></ol>'),
+                          'wordsErrors': (' Cilios, Nueclolo', '')}}
+
+
 def field(node, name):
     return node.findtext("o:" + name, default="", namespaces=NS)
 
@@ -72,6 +213,18 @@ def game_payloads(view):
         payloads.insert(0, data)
         normalized = normalized[:start] + "[verified native game data]" + normalized[end:]
     return payloads, normalized
+
+
+def reviewed_escaped_text(value):
+    """Independently reproduce the official text-field encoding for checks."""
+    safe = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@*_+-./"
+    encoded = []
+    units = value.encode("utf-16-be", errors="surrogatepass")
+    for offset in range(0, len(units), 2):
+        number = int.from_bytes(units[offset:offset + 2], "big")
+        character = chr(number)
+        encoded.append(character if character in safe else f"%{number:02X}" if number < 256 else f"%u{number:04X}")
+    return "".join(encoded)
 
 
 def verify_component(original, current, files):
@@ -170,6 +323,27 @@ def verify_component(original, current, files):
         expected.find("o:htmlView", NS).text = view.replace(
             old_title, "MitoMapa canario: ocho islas, ocho piezas", 1,
         )
+    elif iid in REVIEWED_VOCABULARY:
+        before, original_markup = game_payloads(field(original, "htmlView"))
+        after, current_markup = game_payloads(field(current, "htmlView"))
+        if (field(original, "odeIdeviceTypeName") != "complete" or len(before) != 1
+                or before[0].get("typeGame") != "Completa" or before[0].get("type") != 2):
+            raise ValueError("The reviewed vocabulary mode differs: " + iid)
+        permitted = without_project_authors(before)
+        for name, (old_value, new_value) in REVIEWED_VOCABULARY[iid].items():
+            if name == "textText":
+                old_value, new_value = reviewed_escaped_text(old_value), reviewed_escaped_text(new_value)
+            if before[0].get(name) != old_value:
+                raise ValueError(f"The reviewed vocabulary source field differs: {iid}/{name}")
+            permitted[0][name] = new_value
+        old_instruction, new_instruction = REVIEWED_VOCABULARY[iid]["instructions"]
+        old_text, new_text = REVIEWED_VOCABULARY[iid]["textText"]
+        if original_markup.count(old_instruction) != 2 or original_markup.count(old_text) != 1:
+            raise ValueError("The original vocabulary instructions differ: " + iid)
+        expected_markup = original_markup.replace(old_text, new_text, 1).replace(old_instruction, new_instruction, 1)
+        if after != permitted or current_markup != expected_markup:
+            raise ValueError("The vocabulary changed outside its reviewed instructions and choices: " + iid)
+        expected.find("o:htmlView", NS).text = field(current, "htmlView")
     elif field(original, "odeIdeviceTypeName") in {"puzzle", "quick-questions", "relate"}:
         before, original_markup = game_payloads(field(original, "htmlView"))
         after, current_markup = game_payloads(field(current, "htmlView"))

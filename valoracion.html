@@ -12,14 +12,6 @@
     <p>Si no se abre automáticamente, <a href="index.html">abre el Explorador</a>,
       entra en «Recursos» y elige «Compartir mi opinión».</p>
   </main>
-  <script>
-    (() => {
-      // In eXe's blob/data preview, use its HTML link handler and the fallback.
-      if (!["http:", "https:", "file:"].includes(window.location.protocol)) return;
-      const destination = new URL("index.html", window.location.href);
-      destination.hash = "studentFeedback";
-      window.location.replace(destination.href);
-    })();
-  </script>
+  <script src="valoracion.js"></script>
 </body>
 </html>

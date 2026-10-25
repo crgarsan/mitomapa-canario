@@ -114,7 +114,7 @@ class ReleasePipelineTests(unittest.TestCase):
         self.assertIn("documentacion/docente.css", sharing)
         self.assertIn("documentacion/downloads/Pauta_de_revision_MitoMapa.html", set(sharing))
         self.assertIn('href="downloads/Pauta_de_revision_MitoMapa.html"', guide)
-        self.assertIn('href="https://mitomapa-canario.cgarcias.workers.dev/index.html#recursos"', guide)
+        self.assertIn('href="https://mitomapacanario.org/index.html#recursos"', guide)
         self.assertIn('href="../MitoMapa_canario_GobCan.elpx"', guide)
 
     def test_historical_archives_cannot_be_silently_replaced(self):
@@ -262,7 +262,7 @@ class ReleasePipelineTests(unittest.TestCase):
         self.assertIn('href="Pauta_de_revision_MitoMapa.html#revision"', actual)
         self.assertIn('href="Pauta_de_revision_MitoMapa.csv"', actual)
         self.assertIn('href="../../MitoMapa_canario_GobCan.elpx"', actual)
-        self.assertIn('href="https://mitomapa-canario.cgarcias.workers.dev/index.html#recursos"', actual)
+        self.assertIn('href="https://mitomapacanario.org/index.html#recursos"', actual)
 
     @staticmethod
     def raw_zip(entries):

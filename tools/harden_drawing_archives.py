@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Patch distributed drawing routines without rebuilding their native projects.
 
-The current scripts.js supplies the reviewed helpers and narrow replacements.
-Historical functions, versions, native XML, pages and media remain unchanged.
-Run with --check for read-only verification; pass --delivery-dir to include the
-presentation ELPX, HTML ZIP, checksum file and nested delivery bundle.
-The exact historical-preservation check requires pre-hardening Git history.
+The maintained CLI is read-only: --check verifies the reviewed drawing helpers
+and import guards in the public inventory, including nested archives. It does
+not require old Git commits or rewrite historical downloads. The lower-level
+migration helpers remain available for the historical one-time migration;
+they are not used by the current check or the normal publication pipeline.
 """
 from __future__ import annotations
 
@@ -19,7 +19,8 @@ import re
 import subprocess
 import zipfile
 
-from harden_jspdf_exports import SCRIPT_PATHS as JSPDF_SCRIPT_PATHS, patch_loader
+from harden_jspdf_exports import SCRIPT_PATHS as JSPDF_SCRIPT_PATHS, patch_loader, public_archives
+from release_support import parse_sums, source_path
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -185,6 +186,93 @@ def drawing_patch(candidate: str):
     return patch, verify
 
 
+def drawing_policy(candidate: str):
+    """Keep image/import checks exact while allowing unrelated later features."""
+    once(candidate, HELPER_MARKER)
+    once(candidate, STORAGE)
+    helpers = between(candidate, HELPER_MARKER, STORAGE)
+    require("function drawingImageSize(" in helpers
+            and "async function normalizeImportedDrawings(" in helpers,
+            "Current drawing helpers are incomplete")
+    getter = line(function(candidate, "getWorkshopRouteState"), " state.drawing=")
+    restore = line(function(candidate, "setupWorkshopCanvas"), " const restore=")
+    sanitizer = function(candidate, "sanitizeImportedWorkshop")
+    source = line(sanitizer, "  const source=")
+    guard = between(sanitizer, source, "  clean.routes[")
+    require("safeWorkshopDrawing(state.drawing)" in getter and "loadWorkshopDrawing(imageData)" in restore
+            and "safeWorkshopDrawing(source.drawing)" in guard and "DRAWING_INVALID" in guard,
+            "Current drawing entry points are incomplete")
+    preparation = "const importedWorkshop=await normalizeImportedDrawings(sanitizeImportedWorkshop(payload.workshop));"
+    assignment = "workshopState=importedWorkshop;"
+
+    def verify(text: str) -> None:
+        require(between(text, HELPER_MARKER, STORAGE) == helpers,
+                "Distributed drawing helpers differ from the reviewed policy")
+        for anchor in (getter, restore):
+            once(text, anchor)
+        current = function(text, "sanitizeImportedWorkshop")
+        require(between(current, source, "  clean.routes[") == guard,
+                "Imported drawing validation differs from the reviewed policy")
+        startup = between(text, ROUTES_GUARD, "\n\nfunction activityEscape(")
+        require("removeUnsafeWorkshopDrawings(workshopState)" in startup,
+                "Missing drawing startup purge")
+        imported = function(text, "importProgressFile")
+        once(imported, preparation)
+        once(imported, assignment)
+        workshop_assignments = list(re.finditer(
+            r"(?<![\w.])workshopState\s*(?:=(?!=)|(?:\*\*|>>>|<<|>>|&&|\|\||\?\?|[+*/%&|^\-])=|\+\+|--)",
+            imported))
+        require(len(workshop_assignments) == 1
+                and workshop_assignments[0].start() == imported.index(assignment),
+                "The import must have one workshopState assignment, from the prepared workshop")
+        require("DRAWING_INVALID" in imported and "file.size>5000000" in imported,
+                "The import size/error guards are incomplete")
+        prepared_at = imported.index(preparation)
+        mutations = [match.start() for match in re.finditer(
+            r"(?<![\w.])(?:sourcePassed|truthPassed|earned|learningLevel|learnerName|workshopState|finalState|itineraries)\s*=(?!=)",
+            imported)]
+        mutations += [match.start() for match in re.finditer(r"\bclearLearnerResponses\s*\(", imported)]
+        require(bool(mutations) and all(prepared_at < position for position in mutations)
+                and prepared_at < imported.index(assignment),
+                "Import mutates progress before drawing validation")
+
+    verify(candidate)
+    return verify
+
+
+def verify_drawing_archive(payload: bytes, verify) -> tuple[int, int]:
+    """Verify drawing entry points in this archive and every nested release."""
+    _, files, _ = read_archive(payload)
+    scripts = nested_archives = 0
+    for name, data in files.items():
+        if (name == "scripts.js" or name.endswith("/scripts.js")) and b"function sanitizeImportedWorkshop(" in data:
+            verify(data.decode("utf-8"))
+            scripts += 1
+            portable = str(Path(name).parent / "PORTABLE_MANIFEST.json")
+            if portable in files:
+                manifest = json.loads(files[portable])
+                require(manifest["assets"]["scripts.js"] == {"sha256": digest(data), "bytes": len(data)},
+                        "Stale drawing manifest: " + name)
+        elif name.lower().endswith((".elpx", ".zip")):
+            found, nested = verify_drawing_archive(data, verify)
+            scripts += found
+            nested_archives += nested + 1
+    return scripts, nested_archives
+
+
+def verify_delivery(directory: Path, verify) -> None:
+    """Check an optional delivery without invoking the historical migrator."""
+    native = directory / "MitoMapa_canario_GobCan.elpx"
+    require(native.read_bytes() == (ROOT / "downloads" / native.name).read_bytes(),
+            "Delivery/public ELPX copies differ")
+    for path in directory.iterdir():
+        if path.suffix in {".zip", ".elpx"}:
+            verify_drawing_archive(path.read_bytes(), verify)
+    for name, expected in parse_sums((directory / "SHA256SUMS.txt").read_text("utf-8")).items():
+        require(digest(source_path(directory, name).read_bytes()) == expected,
+                "Stale delivery checksum: " + name)
+
+
 def read_archive(payload: bytes):
     with zipfile.ZipFile(BytesIO(payload)) as archive:
         require(archive.testzip() is None, "Archive CRC validation failed")
@@ -321,40 +409,24 @@ def delivery_update(directory: Path, patch, verify, check: bool) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="Verify without changing files")
-    parser.add_argument("--delivery-dir", type=Path, help="Include the final presentation package")
+    parser.add_argument("--check", action="store_true", help="Verify the current policy without changing files")
+    parser.add_argument("--delivery-dir", type=Path, help="Also verify a presentation directory without changing it")
     args = parser.parse_args()
-    patch, verify = drawing_patch((ROOT / "scripts.js").read_text("utf-8"))
-    public = sorted(path for path in (ROOT / "downloads").iterdir() if path.suffix in (".zip", ".elpx"))
-    require(len(public) == 24, "Unexpected public archive inventory")
-    affected = []
+    require(args.check, "The maintained global mode is read-only; use --check")
+    verify = drawing_policy((ROOT / "scripts.js").read_text("utf-8"))
+    public = public_archives(ROOT)
+    affected = drawing_scripts = nested_archives = 0
     for path in public:
-        if not args.check:
-            original = path.read_bytes()
-            updated, _ = patched_archive(original, patch, verify)
-            if original != updated:
-                path.write_bytes(updated)
-        if verify_public(path, patch, verify):
-            affected.append(path.name)
-    require(len(affected) == 18 and {name for name in affected if name.endswith(".elpx")} == NATIVE_NAMES,
-            "Unexpected affected public archive inventory")
-    version_path = ROOT / "VERSION.json"
-    version = json.loads(version_path.read_text("utf-8"))
-    for record in [version["download"], *version["presets"]]:
-        payload = (ROOT / record["path"]).read_bytes()
-        if args.check:
-            require(record["sha256"] == digest(payload) and record["bytes"] == len(payload),
-                    "Stale release download metadata: " + record["path"])
-        else:
-            record.update(sha256=digest(payload), bytes=len(payload))
-    if not args.check:
-        version_path.write_text(json.dumps(version, ensure_ascii=False, indent=2) + "\n", "utf-8")
+        count, nested = verify_drawing_archive(path.read_bytes(), verify)
+        affected += bool(count)
+        drawing_scripts += count
+        nested_archives += nested
+    require(drawing_scripts > 0, "The public inventory contains no reviewed drawing import scripts")
     if args.delivery_dir:
-        delivery_update(args.delivery_dir.resolve(), patch, verify, args.check)
-    print(json.dumps({"mode": "checked" if args.check else "updated", "public_archives": len(public),
-                      "hardened_archives": len(affected), "unaffected_archives": len(public) - len(affected),
-                      "historical_script_features_preserved": True,
-                      "native_XML_search_pages_media_byte_identical": True,
+        verify_delivery(args.delivery_dir.resolve(), verify)
+    print(json.dumps({"mode": "checked", "public_archives": len(public),
+                      "affected_archives": affected, "drawing_scripts": drawing_scripts,
+                      "nested_archives": nested_archives,
                       "delivery_included": bool(args.delivery_dir)}, ensure_ascii=False))
 
 

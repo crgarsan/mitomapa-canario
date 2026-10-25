@@ -1,8 +1,8 @@
 /* Controles de posición para las grabaciones, sin reproducción automática. */
-.narration-timeline{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.6rem;flex-basis:100%;width:100%;margin:.25rem 0}
+.narration-timeline{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;flex-basis:100%;width:100%;margin:.25rem 0}
 .narration-timeline .text-button{min-width:3.6rem;min-height:44px;padding:.45rem;font-size:.9rem;white-space:nowrap}
 .narrator-controls .narration-position label{display:block;font-size:.78rem;font-weight:700}
-.narration-position{min-width:0}
+.narration-position{flex:1 1 5rem;min-width:0}
 .narration-seek{display:block;width:100%;height:28px;margin:.15rem 0;accent-color:var(--earth-dark)}
 .narration-seek:focus-visible{outline:3px solid var(--earth-dark);outline-offset:2px}
 .narration-time{margin:0;text-align:center;font-size:.8rem;font-variant-numeric:tabular-nums;color:#43575a}

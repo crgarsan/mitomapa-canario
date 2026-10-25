@@ -16,6 +16,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 import harden_jspdf_exports as policy
+from release_support import parse_sums
 
 
 def archive_bytes(entries):
@@ -92,10 +93,12 @@ class JsPdfPolicyTests(unittest.TestCase):
                     policy.verify_dependency_manifest(path)
 
     def test_all_public_and_nested_native_loaders_are_verified(self):
-        # Publication 4.8.11 preserves all 65 prior public packages and adds
-        # source and sharing ZIPs plus the immutable 4.8.5 native snapshot.
-        # The sharing ZIP embeds the current 4.8.6 ELPX.
-        self.assertEqual(len(self.public), 68)
+        # Every listed download must be exercised, including newly archived
+        # native editions; publication growth must not leave copies untested.
+        listed = {ROOT / name for name in parse_sums((ROOT / "SHA256SUMS.txt").read_text())
+                  if Path(name).suffix in (".zip", ".elpx")}
+        self.assertEqual(set(self.public), listed)
+        self.assertGreaterEqual(len(self.public), 68)
         affected = loaders = nested_elpx = direct_loaders = 0
         for path in self.public:
             with self.subTest(archive=path.name):
@@ -105,7 +108,11 @@ class JsPdfPolicyTests(unittest.TestCase):
                 nested_elpx += nested
                 if path.suffix == ".elpx":
                     direct_loaders += count
-        self.assertEqual((affected, loaders, nested_elpx, direct_loaders), (46, 173, 38, 59))
+        # Preserve the historical coverage floor while checking every current
+        # file above. Exact release counts belong to the public inventory.
+        for observed, historical in zip((affected, loaders, nested_elpx, direct_loaders),
+                                        (46, 173, 38, 59), strict=True):
+            self.assertGreaterEqual(observed, historical)
 
     def test_native_loader_mutations_are_rejected(self):
         for name, original in self.scripts.items():

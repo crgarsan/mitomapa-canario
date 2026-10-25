@@ -37,7 +37,7 @@
 .explore-map-viewport:focus-visible{outline:3px solid #18242c;outline-offset:4px}
 .explore-map-stage{min-width:60rem}
 .explore-map-image{border:0;border-radius:0}
-.explore-pan-controls{display:flex;gap:.65rem;align-items:center;justify-content:space-between;margin:.75rem 0 1rem}
+.explore-pan-controls{display:flex;flex-wrap:wrap;gap:.65rem;align-items:center;justify-content:space-between;margin:.75rem 0 1rem}
 .explore-pan-help{margin:0;line-height:1.45;font-size:.9rem}
 .explore-pan-controls button{flex-shrink:0;min-width:44px}
 .explore-pan-controls button:disabled{opacity:.45;cursor:default}
