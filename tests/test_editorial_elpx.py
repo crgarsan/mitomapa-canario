@@ -147,6 +147,7 @@ class EditorialElpxTests(unittest.TestCase):
         self.assertEqual(len(games), 42)
         changed_games = 0
         changed_badges = 0
+        changed_vocabulary = 0
         for iid in games:
             with self.subTest(game=iid):
                 original = self.old_components[iid]
@@ -177,17 +178,44 @@ class EditorialElpxTests(unittest.TestCase):
                 new_data = after.xpath(".//*[contains(@class,'-DataGame')]")
                 self.assertEqual(len(old_data), len(new_data), iid)
                 changed = False
+                vocabulary = field(original, "odeIdeviceTypeName") == "complete"
                 for old_node, new_node in zip(old_data, new_data, strict=True):
                     old_value = native_payload(payload_markup(old_node))
                     expected = without_project_credit(old_value)
-                    self.assertEqual(native_payload(payload_markup(new_node)), expected, iid)
-                    changed |= old_value != expected
+                    current_value = native_payload(payload_markup(new_node))
+                    if vocabulary:
+                        self.assertEqual(current_value["wordsErrors"], "")
+                        self.assertEqual(current_value["type"], 2)
+                        self.assertIn("Selecciona", current_value["instructions"])
+                        restored = copy.deepcopy(current_value)
+                        for key in ("instructions", "textText", "wordsErrors"):
+                            restored[key] = expected[key]
+                        self.assertEqual(restored, expected, iid)
+                        self.assertNotEqual(current_value["textText"], old_value["textText"])
+                        changed_vocabulary += 1
+                    else:
+                        self.assertEqual(current_value, expected, iid)
+                        changed |= old_value != expected
                     # Compare all other HTML, not just the game data.
                     for node in (old_node, new_node):
                         for child in list(node):
                             node.remove(child)
                         node.text = "VERIFIED_NATIVE_GAME_DATA"
-                if changed:
+                if vocabulary:
+                    old_markup = html.tostring(before, encoding="unicode")
+                    new_markup = html.tostring(after, encoding="unicode")
+                    def text_field(value):
+                        return re.sub(r'%u([0-9A-Fa-f]{4})|%([0-9A-Fa-f]{2})',
+                                      lambda match: chr(int(match[1] or match[2], 16)), value)
+                    expected_markup = old_markup.replace(text_field(old_value["textText"]), text_field(current_value["textText"]), 1)
+                    expected_markup = expected_markup.replace(old_value["instructions"], current_value["instructions"], 1)
+                    self.assertEqual(expected_markup, new_markup, iid)
+                    old_component = copy.deepcopy(original)
+                    new_component = copy.deepcopy(current)
+                    old_component.find("o:htmlView", NS).text = "VERIFIED_NATIVE_VOCABULARY"
+                    new_component.find("o:htmlView", NS).text = "VERIFIED_NATIVE_VOCABULARY"
+                    self.assertEqual(etree.tostring(old_component), etree.tostring(new_component), iid)
+                elif changed:
                     self.assertIn(field(original, "odeIdeviceTypeName"), {"puzzle", "quick-questions", "relate"})
                     changed_games += 1
                     self.assertEqual(html.tostring(before), html.tostring(after), iid)
@@ -200,6 +228,7 @@ class EditorialElpxTests(unittest.TestCase):
                     self.assertEqual(etree.tostring(original), etree.tostring(current), iid)
         self.assertEqual(changed_games, 25)
         self.assertEqual(changed_badges, 8)
+        self.assertEqual(changed_vocabulary, 8)
         for name, payload in self.baseline.items():
             if name in {"screenshot.png", "content/resources/screenshot.png"}:
                 continue
@@ -332,7 +361,11 @@ class EditorialElpxTests(unittest.TestCase):
                 # The complete caution/adaptation text must survive its move.
                 moved = source_document.xpath(".//*[@data-source-route=$route]", route=trace.get("data-source-route"))
                 self.assertTrue(moved)
-                self.assertIn(" ".join(trace.text_content().split()), " ".join(moved[0].text_content().split()))
+                # Preserve the complete source note, allowing only the
+                # terminology replacement explicitly requested for this edition.
+                expected_trace = " ".join(trace.text_content().split()).replace(
+                    "origen indígena", "origen aborigen")
+                self.assertIn(expected_trace, " ".join(moved[0].text_content().split()))
             if traces:
                 self.assertFalse(fragment(text_markup(self.components[iid])).xpath(".//*[@data-source-route]"), iid)
 
@@ -343,7 +376,7 @@ class EditorialElpxTests(unittest.TestCase):
         self.assertIn("web", field(page, "pageName").casefold())
         markup = "".join(text_markup(c) for c in page_components(page))
         links = fragment(markup).xpath(".//a/@href")
-        self.assertTrue(any(url.startswith("https://mitomapa-canario.cgarcias.workers.dev/") for url in links))
+        self.assertTrue(any(url.startswith("https://mitomapacanario.org/") for url in links))
         for component in self.components.values():
             markup = text_markup(component)
             self.assertFalse(fragment(markup).xpath(".//iframe"), field(component, "odeIdeviceId"))

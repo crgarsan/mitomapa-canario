@@ -1,8 +1,8 @@
-MITOMAPA CANARIO · WEB 4.8.11 · REVISIÓN WEB 24/10/2026
-REA EDITABLE 4.8.6 · REVISIÓN 24/10/2026
+MITOMAPA CANARIO · WEB 4.8.12 · REVISIÓN WEB 25/10/2026
+REA EDITABLE 4.8.7 · REVISIÓN 25/10/2026
 
 WEB PUBLICADA
-https://mitomapa-canario.cgarcias.workers.dev/
+https://mitomapacanario.org/
 
 EDITABLE VIGENTE
 downloads/MitoMapa_canario_GobCan.elpx
@@ -14,12 +14,18 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_11.zip: editable ELPX 4.8.6 y documentación actual.
-downloads/MitoMapa_fuentes_web_v4_8_11.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_12.zip: editable ELPX 4.8.7 y documentación actual.
+downloads/MitoMapa_fuentes_web_v4_8_12.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
 
-REVISIÓN WEB 4.8.11 Y REA EDITABLE 4.8.6 · 24/10/2026
+REVISIÓN WEB 4.8.12 Y REA EDITABLE 4.8.7 · 25/10/2026
+Se atiende la auditoría funcional y editorial: vocabulario, importación atómica,
+enlaces docentes, cabecera accesible, créditos y dominio principal. Se emplea
+aborigen/aborígenes en las explicaciones propias. Las escenas y los audios no cambian.
+La edición nativa 4.8.6 se conserva en downloads/MitoMapa_canario_GobCan_v4_8_6.elpx.
+
+REVISIÓN ANTERIOR WEB 4.8.11 Y REA EDITABLE 4.8.6 · 24/10/2026
 Recursos presenta los materiales actuales de aula: cuaderno de ruta y pauta
 cualitativa en HTML y CSV. Son opcionales, multinivel y adaptables a las tareas,
 las modalidades y los apoyos acordados, sin puntuaciones ni calificaciones.
@@ -128,7 +134,7 @@ que informa de consultas con personas expertas en la época prehispánica de
 Canarias. Se advierte de las incertidumbres de formas, grafías, cronología y
 significado; la actividad no prueba fechas ni etimologías. Para La Graciosa,
 «Sin nombre documentado» expresa que no se ha establecido aquí una denominación
-indígena documentada, sin descartar visitas o usos ocasionales. Las fichas de
+aborigen documentada, sin descartar visitas o usos ocasionales. Las fichas de
 los ocho cuentos conservan su revisión del 14/10/2026 y no se modifica su texto.
 
 Se conservan el reinicio coherente del progreso, la valoración voluntaria,

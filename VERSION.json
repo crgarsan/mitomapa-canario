@@ -1,15 +1,15 @@
 {
-  "web_version": "4.8.11",
-  "rea_exelearning_version": "4.8.6",
+  "web_version": "4.8.12",
+  "rea_exelearning_version": "4.8.7",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-24",
+  "prepared_at": "2026-10-25",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "f9d564292ba7e493cf99560291b22c8139e11f78ff0aef0b8a2c17c00b7e4854",
-    "bytes": 25841563
+    "sha256": "3da10fd9e4acd9aa6ae1a36dead66e35830f985bec61a8b79355ad9eaa0090b2",
+    "bytes": 25845251
   },
-  "previous_web_version": "4.8.10",
-  "previous_rea_version": "4.8.5",
+  "previous_web_version": "4.8.11",
+  "previous_rea_version": "4.8.6",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_11.md",
-  "rea_release_notes": "CAMBIOS_REA_4_8_6.md",
+  "release_notes": "CAMBIOS_WEB_4_8_12.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_7.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 34,
@@ -57,9 +57,9 @@
     "selected_islands": 2,
     "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
   },
-  "rea_revision": "2026-10-24",
+  "rea_revision": "2026-10-25",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Guía coherente con el registro manual del pasaporte nativo",
+  "rea_revision_label": "Corrección de vocabulario, enlaces docentes y recursos nativos",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_11.zip",
+    "path": "downloads/MitoMapa_REA_v4_8_12.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "d1c806d86d51cf78dd516a7cdbf58bcc11e488a33064381daccd0b0e6b24503a",
-    "bytes": 25661021
+    "sha256": "3bc3f5da5d00c940545bad69538d7577bcc297caad2b7f228f8a515418c34e56",
+    "bytes": 25666321
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_11.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_12.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.11",
+    "downloaded_response_version": "4.8.12",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +176,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.8.11",
+  "release_version": "4.8.12",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -204,7 +204,7 @@
     "counts_towards_passport": false,
     "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
   },
-  "web_revision_date": "2026-10-24",
+  "web_revision_date": "2026-10-25",
   "elpx_thumbnail": {
     "path": "assets/images/miniatura_elpx.png",
     "sha256": "614768b1fa733f2b2c155c4508a8446dbcdd94d7bf543abee21bf4c2b2cfbda0",
@@ -212,5 +212,13 @@
     "height": 962,
     "source": "Captura de la portada actual del ELPX; conserva mapa, pintaderas decorativas, autoría y CC BY-SA 4.0",
     "captured_at": "2026-10-23"
+  },
+  "audit_revision": {
+    "date": "2026-10-25",
+    "terminology": "aborigen/aborígenes en la prosa propia",
+    "atomic_progress_import": true,
+    "native_vocabulary_review": true,
+    "native_teacher_material_links": true,
+    "primary_web": "https://mitomapacanario.org/"
   }
 }

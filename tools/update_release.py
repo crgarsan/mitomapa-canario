@@ -40,7 +40,7 @@ LEGACY_CLASSROOM_DOCUMENTS = {
     "downloads/Cuaderno_de_ruta_MitoMapa_web_4_0.html",
     "downloads/Rubrica_lectura_MitoMapa_4_0.html", "downloads/Rubrica_MitoMapa_4_0.csv",
 }
-PUBLIC_URL = "https://mitomapa-canario.cgarcias.workers.dev/"
+PUBLIC_URL = "https://mitomapacanario.org/"
 
 
 def check_download_button(markup, version):
@@ -152,7 +152,7 @@ def sharing_files(root, version, elpx):
     files["documentacion/VERSION.json"] = json_bytes(sharing_version(version))
     files["LEEME.txt"] = (
         f"MITOMAPA CANARIO · REA {current}\n\n"
-        "Web: https://mitomapa-canario.cgarcias.workers.dev/\n\n"
+        "Web: https://mitomapacanario.org/\n\n"
         "1. Descomprime este ZIP.\n"
         "2. Abre MitoMapa_canario_GobCan.elpx con eXeLearning 4.0.5 o compatible.\n"
         "3. Guarda una copia si quieres adaptar el recurso.\n\n"

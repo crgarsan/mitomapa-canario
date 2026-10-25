@@ -80,19 +80,29 @@ paquete vigente de fuentes y sus huellas; las comprobaciones rechazan un paquete
 desactualizado. Estos cambios administrativos no requieren alterar el contenido
 educativo, los ELPX ni sus versiones.
 
-Para comprobar la preparación local sin credenciales, usa Node.js 22 o superior:
+Para comprobar la preparación local sin credenciales, usa Python 3.11 o superior
+y Node.js 22 o superior. Conserva primero una copia de los archivos editables y
+sincroniza los paquetes vigentes; los verificadores globales son de solo lectura:
 
 ```sh
-python3 tools/harden_jspdf_exports.py
 python3 tools/update_release.py
 python3 tools/harden_jspdf_exports.py --check
+python3 tools/harden_drawing_archives.py --check
 python3 tools/prepare_deploy.py
 npm ci --ignore-scripts --no-audit --no-fund
 python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
 python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
+python3 -m unittest discover -s tests -p 'test_maintenance_tools.py'
 node --test tests/drawing-import.test.js
 WRANGLER_SEND_METRICS=false ./node_modules/.bin/wrangler deploy --config wrangler.jsonc --dry-run
 ```
+
+Los dos comandos globales `--check` derivan los ZIP y ELPX del inventario
+`SHA256SUMS.txt`, comprueban sus huellas y revisan también los paquetes anidados.
+No dependen del número de archivos de una edición anterior ni modifican las
+descargas históricas. La comprobación de dibujos conserva las guardas de formato,
+tamaño y normalización previa a la importación, sin exigir que toda la interfaz
+coincida con una migración antigua o que se conserve el historial Git.
 
 Wrangler está fijado a una versión exacta en `package.json`. `package-lock.json`
 fija también sus dependencias y sus integridades; `npm ci` falla si ambos archivos
@@ -114,14 +124,20 @@ Las pruebas de archivos de Actions comprueban esta política antes de publicar.
 
 Al guardar o exportar de nuevo con eXeLearning, el editor puede sustituir los
 archivos de sus iDevices por los de su instalación. Vuelve a aplicar la
-corrección al archivo resultante y compruébalo antes de incorporarlo al repositorio:
+corrección **a una copia nueva del archivo resultante** y compruébala antes de
+incorporarla al repositorio. El modo `--artifact` es la operación explícita de
+edición; no se debe utilizar para reescribir las ediciones históricas publicadas:
 
 ```sh
 python3 tools/harden_jspdf_exports.py --artifact /ruta/al/recurso.elpx
 python3 tools/harden_jspdf_exports.py --artifact /ruta/al/recurso.elpx --check
 ```
 
-El generador `tools/build_elpx.py` aplica la misma protección. Para cambiar la
+`tools/build_elpx.py` y las funciones de migración conservadas en
+`tools/harden_drawing_archives.py` corresponden al mantenimiento histórico;
+no reconstruyen la distribución nativa actual. Para sincronizar la edición
+vigente, usa `tools/sync_current_elpx.py` y su opción `--check` según el README.
+Para cambiar la
 versión de jsPDF, verifica los bytes del paquete oficial y la URL exacta,
 actualiza la versión, las huellas y el material de prueba, y repite las pruebas.
 La biblioteca conserva su licencia MIT; las licencias de los iDevices no cambian.

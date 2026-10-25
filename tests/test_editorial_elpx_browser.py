@@ -198,7 +198,7 @@ class EditorialElpxBrowserTests(unittest.TestCase):
     def test_final_extra_is_a_link_without_an_embedded_web_application(self):
         self.open_page(WEB_EXTRA)
         expect(self.page.locator("iframe")).to_have_count(0)
-        link = self.page.locator('[id="20261006TEXPLORER440"] a[href^="https://mitomapa-canario.cgarcias.workers.dev/"]')
+        link = self.page.locator('[id="20261006TEXPLORER440"] a[href^="https://mitomapacanario.org/"]')
         expect(link).to_be_visible()
         expect(link).to_have_attribute("target", "_blank")
         self.assertFalse(self.external)

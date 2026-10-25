@@ -84,7 +84,7 @@ def build_current(root=ROOT):
     structure = native_structure(result)
     result["EDITORIAL_MANIFEST.json"] = json_bytes({
         "edition": version["rea_exelearning_version"], "distribution": "native_only",
-        "external_web": "https://mitomapa-canario.cgarcias.workers.dev/",
+        "external_web": "https://mitomapacanario.org/",
         "embedded_web_app": False, "pages": structure["pages"],
         "idevices": sorted(structure["components"]), "license": "CC-BY-SA-4.0",
     })
