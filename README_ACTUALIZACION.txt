@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB 4.8.12 · REVISIÓN WEB 25/10/2026
+MITOMAPA CANARIO · WEB 4.8.13 · REVISIÓN WEB 25/10/2026
 REA EDITABLE 4.8.7 · REVISIÓN 25/10/2026
 
 WEB PUBLICADA
@@ -14,12 +14,20 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_12.zip: editable ELPX 4.8.7 y documentación actual.
-downloads/MitoMapa_fuentes_web_v4_8_12.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_8_13.zip: editable ELPX 4.8.7 y documentación actual.
+downloads/MitoMapa_fuentes_web_v4_8_13.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
 
-REVISIÓN WEB 4.8.12 Y REA EDITABLE 4.8.7 · 25/10/2026
+REVISIÓN TÉCNICA WEB 4.8.13 · 25/10/2026
+Se atienden cuatro hallazgos de seguridad en las herramientas y la publicación:
+verificación pública HTTPS obligatoria, dependencias Python con hashes,
+lectura acotada de ZIP/ELPX y validación de nuevas entradas WAV autocontenidas.
+Se conserva exactamente el ELPX 4.8.7 y todos los audios, imágenes y descargas
+anteriores. El protocolo y la entrega documental mantienen la base didáctica
+web 4.8.12 / ELPX 4.8.7. Consultar CAMBIOS_WEB_4_8_13.md.
+
+REVISIÓN ANTERIOR WEB 4.8.12 Y REA EDITABLE 4.8.7 · 25/10/2026
 Se atiende la auditoría funcional y editorial: vocabulario, importación atómica,
 enlaces docentes, cabecera accesible, créditos y dominio principal. Se emplea
 aborigen/aborígenes en las explicaciones propias. Las escenas y los audios no cambian.

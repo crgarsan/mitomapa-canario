@@ -23,10 +23,13 @@ jobs:
         with:
           node-version: '22'
           package-manager-cache: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: '3.12'
       - name: Install browser test dependencies
         run: |
           python3 -m venv .venv
-          .venv/bin/python -m pip install --disable-pip-version-check -r requirements-browser-tests.txt
+          .venv/bin/python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
           .venv/bin/python -m playwright install --with-deps chromium
       - name: Check deployment policy and release packages
         run: |
@@ -34,6 +37,10 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
           python3 -m unittest discover -s tests -p 'test_custom_domain_preflight.py'
           python3 -m unittest discover -s tests -p 'test_https_redirect.py'
+          python3 -m unittest discover -s tests -p 'test_public_transport.py'
+          python3 -m unittest discover -s tests -p 'test_python_lock.py'
+          python3 -m unittest discover -s tests -p 'test_archive_limits.py'
+          python3 -m unittest discover -s tests -p 'test_narration_security.py'
           python3 -m unittest discover -s tests -p 'test_maintenance_tools.py'
           python3 -m unittest discover -s tests -p 'test_elpx_resource_links.py'
           python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
@@ -74,10 +81,15 @@ jobs:
         with:
           node-version: '22'
           package-manager-cache: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: '3.12'
       - name: Verify and stage static files
         run: python3 tools/prepare_deploy.py
       - name: Install Wrangler
         run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify public transport before publication
+        run: python3 tools/check_public_transport.py
       - name: Deploy existing Worker
         run: |
           python3 tools/check_custom_domain.py
@@ -86,3 +98,5 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Verify public transport after publication
+        run: python3 tools/check_public_transport.py

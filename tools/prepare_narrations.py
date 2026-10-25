@@ -7,22 +7,30 @@ This is a recreacion sonora, not a recording of authentic Canarian instruments.
 The percussion ends before the voice; nature fades within its first six seconds.
 
 Requires Python 3, numpy, ffmpeg (with libmp3lame) and ffprobe. Originals are
-never modified. Example selection JSON:
+never modified. Inputs must contain self-contained RIFF/WAVE PCM or IEEE float
+audio (mono/stereo, 8-192 kHz, at most 128 MiB and 600 seconds), regardless of
+their filename extension. Playlist inputs and symlink paths are rejected.
+Example selection JSON:
   {"la-graciosa": {"file": "cuento.WAV", "ambience": "sea"}}
 """
 
 from __future__ import annotations
 
 import argparse
+from contextlib import ExitStack
+from dataclasses import dataclass
+from fractions import Fraction
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import re
+import stat
+import struct
 import subprocess
 import sys
-
-import numpy as np
+import threading
 
 
 SAMPLE_RATE = 44_100
@@ -34,28 +42,218 @@ NATURE_RMS_DBFS = -43.0
 MAX_TRUE_PEAK_DBFS = -1.5
 LOUDNESS_FILTER = "loudnorm=I=-19:TP=-2:LRA=11"
 ROOT = Path(__file__).resolve().parent.parent
+MAX_INPUT_BYTES = 128 * 1024 * 1024
+MAX_NARRATION_SECONDS = 600.0
+MAX_WAV_CHUNKS = 4096
+TOOL_TIMEOUT_SECONDS = 120.0
+MAX_TOOL_OUTPUT_BYTES = 1024 * 1024
+MAX_PCM_BYTES = round(MAX_NARRATION_SECONDS * SAMPLE_RATE) * 4
 
 
-def run(command: list[str], *, data: bytes | None = None) -> subprocess.CompletedProcess:
-    result = subprocess.run(command, input=data, capture_output=True, check=False)
+def require_numpy():
+    try:
+        import numpy
+    except ImportError as error:
+        raise RuntimeError("Audio processing requires NumPy; install numpy before preparing narrations") from error
+    return numpy
+
+
+@dataclass(frozen=True)
+class ValidatedWav:
+    name: str
+    data: bytes
+    seconds: float
+    decoder: str
+
+
+def load_narration(input_directory: Path, filename: str) -> ValidatedWav:
+    """Read one regular, contained file once, then accept only bounded PCM WAV."""
+    relative = Path(filename)
+    if relative.is_absolute() or not relative.parts or ".." in relative.parts:
+        raise ValueError(f"Source must be a file inside --input-dir: {filename!r}")
+    # Use descriptor traversal where available. On Windows, resolve containment
+    # and reject exposed reparse points before opening a regular file once.
+    # In either case, decoders receive only the retained bytes, never a path.
+    with ExitStack() as cleanup:
+        try:
+            descriptor_walk = (hasattr(os, "O_DIRECTORY") and hasattr(os, "O_NOFOLLOW")
+                               and os.open in os.supports_dir_fd)
+            if descriptor_walk:
+                directory_fd = os.open(input_directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                cleanup.callback(os.close, directory_fd)
+                for component in relative.parts[:-1]:
+                    directory_fd = os.open(component, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                                           dir_fd=directory_fd)
+                    cleanup.callback(os.close, directory_fd)
+                source_fd = os.open(relative.parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                                    dir_fd=directory_fd)
+            else:
+                directory = input_directory.resolve(strict=True)
+                candidate = directory
+                for component in relative.parts:
+                    candidate /= component
+                    info = candidate.lstat()
+                    if (stat.S_ISLNK(info.st_mode)
+                            or getattr(info, "st_file_attributes", 0) & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)):
+                        raise ValueError(f"Narration paths must not contain symlinks or reparse points: {filename!r}")
+                resolved = candidate.resolve(strict=True)
+                if not resolved.is_relative_to(directory) or not stat.S_ISREG(info.st_mode):
+                    raise ValueError(f"Source must be a regular file inside --input-dir: {filename!r}")
+                source_fd = os.open(resolved, os.O_RDONLY | getattr(os, "O_BINARY", 0)
+                                    | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0))
+            source = cleanup.enter_context(os.fdopen(source_fd, "rb"))
+            info = os.fstat(source.fileno())
+            if not stat.S_ISREG(info.st_mode) or info.st_size > MAX_INPUT_BYTES:
+                raise ValueError(f"Narration must be a regular file of at most {MAX_INPUT_BYTES} bytes: {filename!r}")
+            data = source.read(MAX_INPUT_BYTES + 1)
+        except OSError as error:
+            raise ValueError(f"Source must be a regular file inside --input-dir without symlinks: {filename!r}") from error
+    if len(data) > MAX_INPUT_BYTES:
+        raise ValueError(f"Narration exceeds the input byte limit: {filename!r}")
+    if (len(data) < 12 or data[:4] != b"RIFF" or data[8:12] != b"WAVE"
+            or struct.unpack_from("<I", data, 4)[0] != len(data) - 8):
+        raise ValueError(f"Narration must contain a complete RIFF/WAVE file: {filename!r}")
+
+    audio_format = None
+    data_size = None
+    position = 12
+    chunk_count = 0
+    metadata_chunks = {b"JUNK", b"PAD ", b"bext", b"iXML", b"axml", b"LIST",
+                       b"fact", b"cue ", b"smpl", b"PEAK", b"DISP"}
+    while position < len(data):
+        chunk_count += 1
+        if chunk_count > MAX_WAV_CHUNKS:
+            raise ValueError(f"WAV exceeds the chunk count limit: {filename!r}")
+        if len(data) - position < 8:
+            raise ValueError(f"Truncated WAV chunk: {filename!r}")
+        tag = data[position:position + 4]
+        size = struct.unpack_from("<I", data, position + 4)[0]
+        start = position + 8
+        end = start + size
+        position = end + size % 2
+        if position > len(data):
+            raise ValueError(f"WAV chunk exceeds the file bounds: {filename!r}")
+        if tag == b"fmt ":
+            if audio_format is not None or data_size is not None or size not in (16, 18, 40):
+                raise ValueError(f"Invalid or duplicate WAV format chunk: {filename!r}")
+            codec, channels, rate, byte_rate, alignment, bits = struct.unpack_from("<HHIIHH", data, start)
+            if codec == 0xFFFE:
+                if size != 40 or struct.unpack_from("<H", data, start + 16)[0] != 22:
+                    raise ValueError(f"Invalid extensible WAV format: {filename!r}")
+                valid_bits, mask = struct.unpack_from("<HI", data, start + 18)
+                guid = data[start + 24:start + 40]
+                if (guid[4:] != bytes.fromhex("00001000800000aa00389b71")
+                        or not 1 <= valid_bits <= bits or (mask and mask.bit_count() != channels)):
+                    raise ValueError(f"Invalid extensible WAV audio parameters: {filename!r}")
+                codec = int.from_bytes(guid[:4], "little")
+                if codec == 3 and valid_bits != bits:
+                    raise ValueError(f"Invalid float WAV sample width: {filename!r}")
+            elif size not in (16, 18) or (size == 18 and struct.unpack_from("<H", data, start + 16)[0]):
+                raise ValueError(f"Unsupported WAV format extension: {filename!r}")
+            if (codec not in (1, 3) or bits not in ((8, 16, 24, 32) if codec == 1 else (32, 64))
+                    or channels not in (1, 2) or not 8000 <= rate <= 192000
+                    or alignment != channels * (bits // 8) or byte_rate != rate * alignment):
+                raise ValueError(f"Unsupported or inconsistent PCM/float WAV parameters: {filename!r}")
+            decoder = {(1, 8): "pcm_u8", (1, 16): "pcm_s16le", (1, 24): "pcm_s24le",
+                       (1, 32): "pcm_s32le", (3, 32): "pcm_f32le", (3, 64): "pcm_f64le"}[codec, bits]
+            audio_format = rate, alignment, decoder
+        elif tag == b"data":
+            if audio_format is None or data_size is not None or not size or size % audio_format[1]:
+                raise ValueError(f"Invalid or duplicate WAV sample data: {filename!r}")
+            data_size = size
+        elif tag not in metadata_chunks or (tag == b"LIST" and data[start:start + 4] != b"INFO"):
+            raise ValueError(f"Unsupported WAV chunk {tag!r}: {filename!r}")
+    if audio_format is None or data_size is None:
+        raise ValueError(f"WAV must contain format and sample data: {filename!r}")
+    seconds = data_size / audio_format[1] / audio_format[0]
+    if not 0 < seconds <= MAX_NARRATION_SECONDS:
+        raise ValueError(f"Narration exceeds the {MAX_NARRATION_SECONDS:g}-second duration limit: {filename!r}")
+    return ValidatedWav(relative.as_posix(), data, seconds, audio_format[2])
+
+
+def run(command: list[str], *, data: bytes | None = None,
+        stdout_limit: int = MAX_TOOL_OUTPUT_BYTES) -> subprocess.CompletedProcess:
+    """Drain both pipes concurrently, killing a tool before retaining excess output."""
+    output = [bytearray(), bytearray()]
+    overflow = threading.Event()
+    with subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
+        def read_pipe(stream, destination, limit):
+            with stream:
+                while True:
+                    block = stream.read(min(65536, limit - len(destination) + 1))
+                    if not block:
+                        return
+                    if len(destination) + len(block) > limit:
+                        overflow.set()
+                        process.kill()
+                        return
+                    destination.extend(block)
+
+        def write_input():
+            try:
+                with process.stdin:
+                    if data is not None:
+                        process.stdin.write(data)
+            except (BrokenPipeError, OSError):
+                pass  # A failed, timed-out, or output-limited tool may close stdin.
+
+        workers = [threading.Thread(target=read_pipe, args=(process.stdout, output[0], stdout_limit)),
+                   threading.Thread(target=read_pipe, args=(process.stderr, output[1], MAX_TOOL_OUTPUT_BYTES)),
+                   threading.Thread(target=write_input)]
+        for worker in workers:
+            worker.start()
+        timed_out = False
+        try:
+            process.wait(timeout=TOOL_TIMEOUT_SECONDS)
+        except subprocess.TimeoutExpired:
+            timed_out = True
+            process.kill()
+            process.wait()
+        finally:
+            for worker in workers:
+                worker.join()
+        if timed_out:
+            raise RuntimeError(f"{command[0]} timed out after {TOOL_TIMEOUT_SECONDS:g} seconds")
+        if overflow.is_set():
+            raise RuntimeError(f"{command[0]} exceeded its output limit")
+        result = subprocess.CompletedProcess(command, process.returncode, bytes(output[0]), bytes(output[1]))
     if result.returncode:
         detail = result.stderr.decode("utf-8", errors="replace")[-4000:]
         raise RuntimeError(f"{command[0]} failed ({result.returncode}):\n{detail}")
     return result
 
 
-def ffmpeg(*arguments: str, data: bytes | None = None) -> subprocess.CompletedProcess:
-    return run(["ffmpeg", "-hide_banner", "-nostdin", "-y", *arguments], data=data)
+def ffmpeg(*arguments: str, data: bytes | None = None,
+           stdout_limit: int = MAX_TOOL_OUTPUT_BYTES) -> subprocess.CompletedProcess:
+    return run(["ffmpeg", "-hide_banner", "-nostdin", "-y", *arguments], data=data, stdout_limit=stdout_limit)
 
 
-def duration(path: Path) -> float:
+def duration(source: ValidatedWav) -> float:
+    # Nonseekable WAV inputs do not expose a reliable ffprobe duration. The
+    # validated PCM frame count gives the exact duration without decoding.
+    return source.seconds
+
+
+def wav_input_arguments(source: ValidatedWav) -> list[str]:
+    # FFmpeg may choose a different PCM width from extensible valid-bits fields.
+    # Force the decoder for the validated physical sample container so actual
+    # frames and duration agree with validation, including 24 valid bits in 32.
+    return ["-protocol_whitelist", "pipe", "-f", "wav", "-c:a", source.decoder, "-i", "pipe:0"]
+
+
+def mp3_duration(data: bytes) -> float:
     result = run([
-        "ffprobe", "-v", "error", "-show_entries", "format=duration",
-        "-of", "default=noprint_wrappers=1:nokey=1", str(path),
-    ])
-    value = float(result.stdout)
-    if not math.isfinite(value) or value <= 0:
-        raise ValueError(f"Invalid audio duration: {path.name}")
+        "ffprobe", "-v", "error", "-protocol_whitelist", "pipe", "-f", "mp3", "-i", "pipe:0",
+        "-show_entries", "packet=duration:stream=time_base", "-of", "json",
+    ], data=data, stdout_limit=4 * MAX_TOOL_OUTPUT_BYTES)
+    measurements = json.loads(result.stdout)
+    streams = measurements.get("streams", [])
+    if len(streams) != 1:
+        raise ValueError("Generated MP3 must contain one audio stream")
+    value = float(sum(packet["duration"] for packet in measurements.get("packets", []))
+                  * Fraction(streams[0]["time_base"]))
+    if not math.isfinite(value) or not 0 < value <= MAX_NARRATION_SECONDS + INTRO_SECONDS + 1:
+        raise ValueError("Invalid generated MP3 duration")
     return value
 
 
@@ -79,11 +277,11 @@ def loudness_json(stderr: bytes) -> dict:
     return result
 
 
-def trim_bounds(path: Path, seconds: float) -> tuple[float, float, dict]:
+def trim_bounds(source: ValidatedWav, seconds: float) -> tuple[float, float, dict]:
     result = ffmpeg(
-        "-i", str(path), "-af",
+        *wav_input_arguments(source), "-af",
         "aformat=channel_layouts=mono,silencedetect=noise=-45dB:d=0.35",
-        "-f", "null", "-",
+        "-f", "null", "-", data=source.data,
     )
     entries = re.findall(
         r"silence_(start|end):\s*([-+]?\d+(?:\.\d+)?)",
@@ -123,26 +321,30 @@ def trim_bounds(path: Path, seconds: float) -> tuple[float, float, dict]:
     return start, end, report
 
 
-def normalize_voice(path: Path, start: float, end: float) -> tuple[np.ndarray, dict]:
-    input_arguments = ["-ss", f"{start:.6f}", "-i", str(path), "-t", f"{end-start:.6f}"]
+def normalize_voice(source: ValidatedWav, start: float, end: float) -> tuple[np.ndarray, dict]:
+    np = require_numpy()
+    input_arguments = wav_input_arguments(source)
+    # A pipe cannot seek. Trim decoded frames before loudness analysis, keeping
+    # the same samples that input seeking selected from regular WAV files.
+    trimmed = f"atrim=start={start:.6f}:end={end:.6f},asetpts=PTS-STARTPTS,"
     first = ffmpeg(
-        *input_arguments, "-af", f"aformat=sample_rates=44100:channel_layouts=mono,highpass=f=70,{LOUDNESS_FILTER}:print_format=json",
-        "-ac", "1", "-f", "null", "-",
+        *input_arguments, "-af", f"{trimmed}aformat=sample_rates=44100:channel_layouts=mono,highpass=f=70,{LOUDNESS_FILTER}:print_format=json",
+        "-ac", "1", "-f", "null", "-", data=source.data,
     )
     measured = loudness_json(first.stderr)
     second_filter = (
-        f"aformat=sample_rates=44100:channel_layouts=mono,highpass=f=70,{LOUDNESS_FILTER}:"
+        f"{trimmed}aformat=sample_rates=44100:channel_layouts=mono,highpass=f=70,{LOUDNESS_FILTER}:"
         f"measured_I={measured['input_i']}:measured_TP={measured['input_tp']}:"
         f"measured_LRA={measured['input_lra']}:measured_thresh={measured['input_thresh']}:"
         f"offset={measured['target_offset']}:linear=true:print_format=json"
     )
     second = ffmpeg(
         *input_arguments, "-af", second_filter, "-ar", str(SAMPLE_RATE),
-        "-ac", "1", "-f", "f32le", "-",
+        "-ac", "1", "-f", "f32le", "-", data=source.data, stdout_limit=MAX_PCM_BYTES,
     )
     voice = np.frombuffer(second.stdout, dtype="<f4").copy()
     if not voice.size or not np.isfinite(voice).all():
-        raise ValueError(f"Invalid normalized audio: {path.name}")
+        raise ValueError(f"Invalid normalized audio: {source.name}")
     return voice, {
         "target_integrated_lufs": -19,
         "target_true_peak_dbfs": -2,
@@ -155,6 +357,7 @@ def normalize_voice(path: Path, start: float, end: float) -> tuple[np.ndarray, d
 
 
 def band_noise(size: int, rng: np.random.Generator, low: float, high: float) -> np.ndarray:
+    np = require_numpy()
     white = rng.normal(0.0, 1.0, size)
     frequencies = np.fft.rfftfreq(size, d=1.0 / SAMPLE_RATE)
     spectrum = np.fft.rfft(white)
@@ -166,6 +369,7 @@ def band_noise(size: int, rng: np.random.Generator, low: float, high: float) -> 
 
 def percussion_intro() -> np.ndarray:
     """Return the same quiet, damped drum/wood recreation for every island."""
+    np = require_numpy()
     size = round(INTRO_SECONDS * SAMPLE_RATE)
     sound = np.zeros(size, dtype=np.float64)
     rng = np.random.default_rng(2026100601)
@@ -199,6 +403,7 @@ def percussion_intro() -> np.ndarray:
 
 
 def nature_sound(kind: str) -> np.ndarray:
+    np = require_numpy()
     seconds = INTRO_SECONDS + NATURE_AFTER_VOICE_SECONDS
     size = round(seconds * SAMPLE_RATE)
     timeline = np.arange(size) / SAMPLE_RATE
@@ -222,6 +427,7 @@ def nature_sound(kind: str) -> np.ndarray:
 
 
 def with_ambience(voice: np.ndarray, kind: str) -> tuple[np.ndarray, dict]:
+    np = require_numpy()
     intro = percussion_intro()
     nature = nature_sound(kind)
     offset = intro.size
@@ -252,18 +458,21 @@ def with_ambience(voice: np.ndarray, kind: str) -> tuple[np.ndarray, dict]:
 
 
 def encode_mp3(samples: np.ndarray, path: Path) -> dict:
+    np = require_numpy()
     attenuation_db = 0.0
     for attempt in range(3):
         # A final limiter catches summing peaks without increasing output gain.
         filters = f"volume={attenuation_db:.5f}dB,alimiter=limit=0.794328:level=false:latency=true"
         ffmpeg(
-            "-f", "f32le", "-ar", str(SAMPLE_RATE), "-ac", "1", "-i", "pipe:0",
+            "-protocol_whitelist", "pipe", "-f", "f32le", "-ar", str(SAMPLE_RATE), "-ac", "1", "-i", "pipe:0",
             "-af", filters, "-map_metadata", "-1", "-c:a", "libmp3lame",
             "-b:a", BIT_RATE, "-ar", str(SAMPLE_RATE), "-ac", "1", str(path),
             data=samples.astype("<f4", copy=False).tobytes(),
         )
+        encoded = path.read_bytes()
         measurements = loudness_json(ffmpeg(
-            "-i", str(path), "-af", f"{LOUDNESS_FILTER}:print_format=json", "-f", "null", "-",
+            "-protocol_whitelist", "pipe", "-f", "mp3", "-i", "pipe:0",
+            "-af", f"{LOUDNESS_FILTER}:print_format=json", "-f", "null", "-", data=encoded,
         ).stderr)
         true_peak = float(measurements["input_tp"])
         if true_peak <= MAX_TRUE_PEAK_DBFS:
@@ -271,7 +480,7 @@ def encode_mp3(samples: np.ndarray, path: Path) -> dict:
                 "file": path.name,
                 "sha256": digest(path),
                 "bytes": path.stat().st_size,
-                "duration_seconds": round(duration(path), 6),
+                "duration_seconds": round(mp3_duration(encoded), 6),
                 "sample_rate_hz": SAMPLE_RATE,
                 "channels": 1,
                 "bit_rate": BIT_RATE,
@@ -310,7 +519,7 @@ def main() -> None:
     report = {
         "generator": "tools/prepare_narrations.py",
         "ffmpeg_version": run(["ffmpeg", "-version"]).stdout.decode("utf-8").splitlines()[0],
-        "numpy_version": np.__version__,
+        "numpy_version": None,
         "sample_rate_hz": SAMPLE_RATE,
         "channels": 1,
         "bit_rate": BIT_RATE,
@@ -323,9 +532,8 @@ def main() -> None:
             raise ValueError(f"Unsafe island id: {route_id!r}")
         if not isinstance(entry, dict) or not isinstance(entry.get("file"), str):
             raise ValueError(f"Selection for {route_id} must contain a file name")
-        source = (input_directory / entry["file"]).resolve(strict=True)
-        if not source.is_file() or not source.is_relative_to(input_directory):
-            raise ValueError(f"Source must be a file inside --input-dir: {entry['file']!r}")
+        source = load_narration(input_directory, entry["file"])
+        report["numpy_version"] = require_numpy().__version__
         kind = ambience_kind(route_id, entry)
         original_duration = duration(source)
         start, end, trim = trim_bounds(source, original_duration)
@@ -334,8 +542,8 @@ def main() -> None:
         voice_result = encode_mp3(voice, output_directory / f"{route_id}.mp3")
         ambient_result = encode_mp3(ambient, output_directory / f"{route_id}-ambiente.mp3")
         report["recordings"][route_id] = {
-            "original_file": str(source.relative_to(input_directory)),
-            "original_sha256": digest(source),
+            "original_file": source.name,
+            "original_sha256": hashlib.sha256(source.data).hexdigest(),
             "original_duration_seconds": round(original_duration, 6),
             "trim": trim,
             "normalization": normalization,
