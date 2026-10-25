@@ -1,4 +1,4 @@
 # Browser regressions run locally and in the credential-free validation job.
 playwright==1.62.0
-Pillow==12.3.0
+Pillow==13.0.0
 lxml==6.1.1

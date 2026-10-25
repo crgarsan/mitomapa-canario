@@ -16,12 +16,13 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4 (backport #2524)
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22'
+          package-manager-cache: false
       - name: Install browser test dependencies
         run: |
           python3 -m venv .venv
@@ -29,8 +30,10 @@ jobs:
           .venv/bin/python -m playwright install --with-deps chromium
       - name: Check deployment policy and release packages
         run: |
+          npm audit --package-lock-only --ignore-scripts --audit-level=moderate
           python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
           python3 -m unittest discover -s tests -p 'test_custom_domain_preflight.py'
+          python3 -m unittest discover -s tests -p 'test_https_redirect.py'
           python3 -m unittest discover -s tests -p 'test_elpx_resource_links.py'
           python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
           python3 -m unittest discover -s tests -p 'test_release_pipeline.py'
@@ -59,12 +62,13 @@ jobs:
     env:
       WRANGLER_SEND_METRICS: 'false'
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4 (backport #2524)
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22'
+          package-manager-cache: false
       - name: Verify and stage static files
         run: python3 tools/prepare_deploy.py
       - name: Install Wrangler
@@ -73,6 +77,7 @@ jobs:
         run: |
           python3 tools/check_custom_domain.py
           ./node_modules/.bin/wrangler deploy --config wrangler.jsonc
+          python3 tools/ensure_https_redirect.py
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
