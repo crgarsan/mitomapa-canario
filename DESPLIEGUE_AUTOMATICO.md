@@ -54,6 +54,32 @@ El dominio debe estar activo en la cuenta de Cloudflare del
 despliegue. Esta primera vinculación no redirige automáticamente el progreso
 guardado en la dirección anterior.
 
+## Mantenimiento de seguridad
+
+Las acciones oficiales se fijan por SHA y mantienen Node 22 para el proyecto,
+sin activar la caché automática de paquetes. La validación consulta los avisos
+de npm antes de acceder a las credenciales. Mientras el Wrangler fijado incluya
+Miniflare 5.20261019.2-beta, un override limitado a esa versión resuelve Undici
+7.30.1. Debe revisarse al actualizar Wrangler; no se aplica un retroceso de la
+CLI. Pillow 13.0.0 se utiliza únicamente en validación y preparación local.
+
+El encabezado HSTS se limita al host que responde, sin `includeSubDomains` ni
+`preload`. Después del despliegue, `tools/ensure_https_redirect.py` intenta
+configurar una regla de borde para las solicitudes HTTP de
+`mitomapacanario.org`, conservando ruta, consulta y reglas ajenas. No añade
+código Worker ni cambia las cuotas del alojamiento estático. La API necesita
+Zone Read y Single Redirect Edit. Si faltan permisos, cuota o una respuesta
+verificable, genera una advertencia y mantiene la web publicada; en ese caso
+la redirección queda pendiente de configuración por el titular y de comprobación
+pública. El script no sigue redirecciones autenticadas ni imprime credenciales.
+
+Dependabot incluye npm, Actions y Python. Sus alertas se activan en los ajustes
+del repositorio. Antes de fusionar una actualización de infraestructura o
+dependencias, ejecutar `python3 tools/update_release.py` para sincronizar el
+paquete vigente de fuentes y sus huellas; las comprobaciones rechazan un paquete
+desactualizado. Estos cambios administrativos no requieren alterar el contenido
+educativo, los ELPX ni sus versiones.
+
 Para comprobar la preparación local sin credenciales, usa Node.js 22 o superior:
 
 ```sh
