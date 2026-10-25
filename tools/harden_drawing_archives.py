@@ -19,8 +19,11 @@ import re
 import subprocess
 import zipfile
 
-from harden_jspdf_exports import SCRIPT_PATHS as JSPDF_SCRIPT_PATHS, patch_loader, public_archives
-from release_support import parse_sums, source_path
+from harden_jspdf_exports import (
+    ArchiveBudget, SCRIPT_PATHS as JSPDF_SCRIPT_PATHS, patch_loader, public_archives,
+    read_archive, read_archive_file,
+)
+from release_support import MAX_ASSET_BYTES, parse_sums, source_path
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -240,9 +243,12 @@ def drawing_policy(candidate: str):
     return verify
 
 
-def verify_drawing_archive(payload: bytes, verify) -> tuple[int, int]:
+def verify_drawing_archive(payload: bytes, verify, *, budget: ArchiveBudget | None = None,
+                           depth: int = 0) -> tuple[int, int]:
     """Verify drawing entry points in this archive and every nested release."""
-    _, files, _ = read_archive(payload)
+    if budget is None:
+        budget = ArchiveBudget()
+    _, files, _ = read_archive(payload, budget=budget, depth=depth)
     scripts = nested_archives = 0
     for name, data in files.items():
         if (name == "scripts.js" or name.endswith("/scripts.js")) and b"function sanitizeImportedWorkshop(" in data:
@@ -254,7 +260,7 @@ def verify_drawing_archive(payload: bytes, verify) -> tuple[int, int]:
                 require(manifest["assets"]["scripts.js"] == {"sha256": digest(data), "bytes": len(data)},
                         "Stale drawing manifest: " + name)
         elif name.lower().endswith((".elpx", ".zip")):
-            found, nested = verify_drawing_archive(data, verify)
+            found, nested = verify_drawing_archive(data, verify, budget=budget, depth=depth + 1)
             scripts += found
             nested_archives += nested + 1
     return scripts, nested_archives
@@ -263,24 +269,14 @@ def verify_drawing_archive(payload: bytes, verify) -> tuple[int, int]:
 def verify_delivery(directory: Path, verify) -> None:
     """Check an optional delivery without invoking the historical migrator."""
     native = directory / "MitoMapa_canario_GobCan.elpx"
-    require(native.read_bytes() == (ROOT / "downloads" / native.name).read_bytes(),
+    require(read_archive_file(native) == read_archive_file(ROOT / "downloads" / native.name),
             "Delivery/public ELPX copies differ")
     for path in directory.iterdir():
         if path.suffix in {".zip", ".elpx"}:
-            verify_drawing_archive(path.read_bytes(), verify)
+            verify_drawing_archive(read_archive_file(path), verify)
     for name, expected in parse_sums((directory / "SHA256SUMS.txt").read_text("utf-8")).items():
-        require(digest(source_path(directory, name).read_bytes()) == expected,
+        require(digest(read_archive_file(source_path(directory, name))) == expected,
                 "Stale delivery checksum: " + name)
-
-
-def read_archive(payload: bytes):
-    with zipfile.ZipFile(BytesIO(payload)) as archive:
-        require(archive.testzip() is None, "Archive CRC validation failed")
-        infos = archive.infolist()
-        names = [info.filename for info in infos]
-        require(len(names) == len(set(names)), "Archive has duplicate paths")
-        files = {info.filename: archive.read(info) for info in infos}
-        return infos, files, archive.comment
 
 
 def write_archive(infos, files, comment: bytes) -> bytes:
@@ -325,7 +321,7 @@ def patched_archive(payload: bytes, patch, verify):
 
 
 def verify_public(path: Path, patch, verify) -> bool:
-    _, files, _ = read_archive(path.read_bytes())
+    _, files, _ = read_archive(read_archive_file(path, max_bytes=MAX_ASSET_BYTES))
     script_paths = [name for name in files if name == "scripts.js" or name.endswith("/scripts.js")]
     affected = [name for name in script_paths if b"function sanitizeImportedWorkshop(" in files[name]]
     if not affected:
@@ -355,7 +351,7 @@ def checksum_text(directory: Path, text: str) -> str:
     for entry in text.splitlines():
         old, separator, name = entry.partition("  ")
         require(separator == "  " and len(old) == 64, "Invalid delivery checksum entry")
-        lines.append(digest((directory / name).read_bytes()) + separator + name)
+        lines.append(digest(read_archive_file(directory / name)) + separator + name)
     return "\n".join(lines) + "\n"
 
 
@@ -365,11 +361,11 @@ def delivery_update(directory: Path, patch, verify, check: bool) -> None:
     validation = directory / "VALIDACION_GOBCAN.txt"
     bundle = directory / "Entrega_MitoMapa_GobCan.zip"
     if not check:
-        native_before = native.read_bytes()
+        native_before = read_archive_file(native)
         native_bytes, _ = patched_archive(native_before, patch, verify)
-        require(native_bytes == (ROOT / "downloads" / native.name).read_bytes(),
+        require(native_bytes == read_archive_file(ROOT / "downloads" / native.name),
                 "Delivery ELPX no longer matches public ELPX")
-        exported_bytes, _ = patched_archive(exported.read_bytes(), patch, verify)
+        exported_bytes, _ = patched_archive(read_archive_file(exported), patch, verify)
         native.write_bytes(native_bytes)
         exported.write_bytes(exported_bytes)
         text = validation.read_text("utf-8")
@@ -380,30 +376,30 @@ def delivery_update(directory: Path, patch, verify, check: bool) -> None:
         validation.write_text(text, "utf-8")
         sums = directory / "SHA256SUMS.txt"
         sums.write_text(checksum_text(directory, sums.read_text("utf-8")), "utf-8")
-        infos, files, comment = read_archive(bundle.read_bytes())
+        infos, files, comment = read_archive(read_archive_file(bundle))
         before = dict(files)
         for name in [native.name, exported.name, validation.name, sums.name]:
             require(name in files, "Delivery bundle is missing " + name)
-            files[name] = (directory / name).read_bytes()
+            files[name] = read_archive_file(directory / name)
         allowed = {native.name, exported.name, validation.name, sums.name}
         require(all(files[name] == before[name] for name in files if name not in allowed),
                 "Unrelated delivery document changed")
         if files != before:
             bundle.write_bytes(write_archive(infos, files, comment))
-    require(native.read_bytes() == (ROOT / "downloads" / native.name).read_bytes(),
+    require(read_archive_file(native) == read_archive_file(ROOT / "downloads" / native.name),
             "Delivery/public ELPX copies differ")
     for path in (native, exported):
-        payload = path.read_bytes()
+        payload = read_archive_file(path)
         result, script = patched_archive(payload, patch, verify)
         require(result == payload and script == PORTABLE + "scripts.js", "Delivery drawing patch is stale")
     sums = directory / "SHA256SUMS.txt"
     require(sums.read_text("utf-8") == checksum_text(directory, sums.read_text("utf-8")),
             "Delivery checksums are stale")
     for prefix, path in [("ELPX SHA-256: ", native), ("HTML ZIP SHA-256: ", exported)]:
-        require(prefix + digest(path.read_bytes()) in validation.read_text("utf-8"),
+        require(prefix + digest(read_archive_file(path)) in validation.read_text("utf-8"),
                 "Delivery validation hash is stale")
-    _, files, _ = read_archive(bundle.read_bytes())
-    require(all(files[name] == (directory / name).read_bytes() for name in files),
+    _, files, _ = read_archive(read_archive_file(bundle))
+    require(all(files[name] == read_archive_file(directory / name) for name in files),
             "Nested delivery files differ from final copies")
 
 
@@ -417,7 +413,7 @@ def main() -> None:
     public = public_archives(ROOT)
     affected = drawing_scripts = nested_archives = 0
     for path in public:
-        count, nested = verify_drawing_archive(path.read_bytes(), verify)
+        count, nested = verify_drawing_archive(read_archive_file(path, max_bytes=MAX_ASSET_BYTES), verify)
         affected += bool(count)
         drawing_scripts += count
         nested_archives += nested

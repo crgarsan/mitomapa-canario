@@ -88,9 +88,9 @@ class DeployPolicyTests(unittest.TestCase):
 
     def test_actions_use_full_commit_ids(self):
         actions = re.findall(r"^\s*- uses: (\S+)(.*)$", self.workflow, re.MULTILINE)
-        self.assertEqual(len(actions), 4)
+        self.assertEqual(len(actions), 6)
         self.assertEqual({action.split("@")[0] for action, _ in actions},
-                         {"actions/checkout", "actions/setup-node"})
+                         {"actions/checkout", "actions/setup-node", "actions/setup-python"})
         for action, comment in actions:
             with self.subTest(action=action):
                 self.assertRegex(action, r"^actions/[a-z-]+@[0-9a-f]{40}$")
@@ -164,10 +164,28 @@ class DeployPolicyTests(unittest.TestCase):
         self.assertIn("    needs: validate\n", deployment)
         self.assertIn("    environment: production\n", deployment)
         self.assertNotIn("pull_request_target", self.workflow)
+        self.assertIn("--require-hashes --only-binary=:all:", validation)
+        self.assertEqual(self.workflow.count("          python-version: '3.12'"), 2)
         requirements = (ROOT / "requirements-browser-tests.txt").read_text()
-        for line in requirements.splitlines():
+        logical = re.sub(r"\\\n\s*", " ", requirements)
+        for line in logical.splitlines():
             if line and not line.startswith("#"):
-                self.assertRegex(line, r"^[A-Za-z][A-Za-z0-9_-]*==\d+\.\d+\.\d+$")
+                self.assertRegex(line, r"^[A-Za-z][A-Za-z0-9_-]*==\d+\.\d+\.\d+(?:\s+--hash=sha256:[0-9a-f]{64})+\s*$")
+
+    def test_public_transport_is_required_before_and_after_publication(self):
+        before = next(step for step in self.steps if step.startswith("name: Verify public transport before publication\n"))
+        after = next(step for step in self.steps if step.startswith("name: Verify public transport after publication\n"))
+        deploy = next(step for step in self.steps if step.startswith("name: Deploy existing Worker\n"))
+        self.assertLess(self.steps.index(before), self.steps.index(deploy))
+        self.assertLess(self.steps.index(deploy), self.steps.index(after))
+        for step in (before, after):
+            self.assertIn("run: python3 tools/check_public_transport.py", step)
+            self.assertNotIn("secrets.", step)
+            self.assertNotIn("env:", step)
+        self.assertIn("test_public_transport.py", self.workflow)
+        self.assertIn("test_python_lock.py", self.workflow)
+        self.assertIn("test_archive_limits.py", self.workflow)
+        self.assertIn("test_narration_security.py", self.workflow)
 
     def test_share_preview_is_versioned_and_matches_the_actual_png(self):
         class MetaTags(HTMLParser):

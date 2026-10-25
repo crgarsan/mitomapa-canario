@@ -1,5 +1,5 @@
 {
-  "web_version": "4.8.12",
+  "web_version": "4.8.13",
   "rea_exelearning_version": "4.8.7",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-10-25",
@@ -8,7 +8,7 @@
     "sha256": "3da10fd9e4acd9aa6ae1a36dead66e35830f985bec61a8b79355ad9eaa0090b2",
     "bytes": 25845251
   },
-  "previous_web_version": "4.8.11",
+  "previous_web_version": "4.8.12",
   "previous_rea_version": "4.8.6",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_12.md",
+  "release_notes": "CAMBIOS_WEB_4_8_13.md",
   "rea_release_notes": "CAMBIOS_REA_4_8_7.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_12.zip",
+    "path": "downloads/MitoMapa_REA_v4_8_13.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "3bc3f5da5d00c940545bad69538d7577bcc297caad2b7f228f8a515418c34e56",
-    "bytes": 25666321
+    "sha256": "8edb547257780a3f5ea5c9871550995e7da8b763c9afb35cdc5b064e5f11c07d",
+    "bytes": 25666717
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_12.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_8_13.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.12",
+    "downloaded_response_version": "4.8.13",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +176,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.8.12",
+  "release_version": "4.8.13",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -220,5 +220,16 @@
     "native_vocabulary_review": true,
     "native_teacher_material_links": true,
     "primary_web": "https://mitomapacanario.org/"
+  },
+  "security_maintenance_revision": {
+    "date": "2026-10-25",
+    "baseline_revision": "85aa216f0140b5afbfa8366ed9b576bfae57da4c",
+    "public_https_verification_required": true,
+    "python_dependency_hash_lock": true,
+    "bounded_archive_validation": true,
+    "self_contained_narration_inputs": true,
+    "native_elpx_bytes_unchanged": true,
+    "published_media_bytes_unchanged": true,
+    "didactic_protocol_baseline_web_version": "4.8.12"
   }
 }

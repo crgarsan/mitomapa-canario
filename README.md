@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.8.12 · REA 4.8.7
+# MitoMapa canario · web 4.8.13 · REA 4.8.7
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La publicación web **4.8.12** identifica el REA editable **4.8.7**, revisado el
+La publicación web **4.8.13** identifica el REA editable **4.8.7**, revisado el
 25/10/2026 para corregir vocabulario, enlaces docentes, importación de seguimiento
 y accesibilidad. Se revisan las opciones de los ocho juegos de vocabulario nativos;
 se conservan las identidades de actividades, los cuentos, los audios y las imágenes.
@@ -23,8 +23,8 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 - [Edición publicada en la Mediateca de Canarias](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
 - [Web publicada](https://mitomapacanario.org/).
 - [REA editable vigente · 4.8.7](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.8.12 · incluye el REA 4.8.7](downloads/MitoMapa_REA_v4_8_12.zip).
-- [Fuentes web 4.8.12](downloads/MitoMapa_fuentes_web_v4_8_12.zip).
+- [Paquete de la publicación 4.8.13 · incluye el REA 4.8.7](downloads/MitoMapa_REA_v4_8_13.zip).
+- [Fuentes web 4.8.13](downloads/MitoMapa_fuentes_web_v4_8_13.zip).
 - [REA anterior · 4.8.6](downloads/MitoMapa_canario_GobCan_v4_8_6.elpx).
 
 La miniatura social conserva el diseño de la web 4.8.8: un fondo
@@ -120,9 +120,9 @@ Para publicar cambios exclusivos de la web, prepara y comprueba sus paquetes
 sin regenerar el ELPX:
 
 ```sh
-python3 -m venv .venv
+python3.12 -m venv .venv
 . .venv/bin/activate
-python3 -m pip install -r requirements-browser-tests.txt
+python3 -m pip install --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
 python3 tools/update_release.py
 python3 tools/update_release.py --check
 python3 tools/prepare_deploy.py
@@ -130,7 +130,7 @@ python3 tools/prepare_deploy.py
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.8.12 ofrece el ELPX 4.8.7 con vocabulario y navegación revisados; el archivo
+empaquetar. La publicación 4.8.13 ofrece el ELPX 4.8.7 con vocabulario y navegación revisados; el archivo
 4.8.6 anterior conserva su propia descarga.
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
@@ -148,6 +148,12 @@ de las herramientas y las acciones de GitHub.
 
 Las fuentes web no incluyen proyectos ELPX, archivos ZIP anidados ni los WAV
 originales. El paquete del REA incluye el editable y su documentación.
+
+La revisión técnica web 4.8.13 endurece publicación y mantenimiento. Conserva
+exactamente el ELPX 4.8.7, sus narraciones, imágenes y actividades. El protocolo
+de pilotaje conserva la referencia a la base didáctica web 4.8.12/ELPX 4.8.7;
+esta revisión de herramientas no lo regenera. Las entregas documentales
+anteriores identifican la revisión del recurso con la que fueron preparadas.
 
 ## Narraciones, imágenes y fuentes
 
@@ -188,3 +194,31 @@ comunidad educativa. No se le atribuye la licencia de los materiales propios.
 Las dependencias y las fuentes externas conservan sus condiciones originales.
 
 Sugerencias: [sugerencias.mitomapacanario@gmail.com](mailto:sugerencias.mitomapacanario@gmail.com).
+
+### Controles de mantenimiento
+
+Las pruebas de navegador utilizan CPython 3.12 y un bloqueo completo de seis
+paquetes con hashes SHA-256; la instalación con `--require-hashes
+--only-binary=:all:` admite solo las ruedas revisadas, también para las
+dependencias transitivas. GitHub fija las acciones por commit y separa la
+validación sin secretos del despliegue.
+
+`tools/check_public_transport.py` comprueba mediante HEAD sin credenciales la
+redirección permanente a HTTPS de la portada y una descarga con consulta,
+así como disponibilidad HTTPS y HSTS. El despliegue exige pasar esta comprobación
+antes de publicar y la repite después. La configuración opcional de la regla
+por API no sustituye esta verificación pública.
+
+Los verificadores ZIP/ELPX limitan cada archivo de entrada comprimido a 32 MiB y cada árbol recursivo
+a 96 MiB descomprimidos,
+2000 entradas y cuatro niveles anidados; cada miembro tiene un máximo de 32 MiB
+y una relación de compresión máxima de 100:1. Validan límites antes de leer y
+contabilizan los bytes reales, sin modificar las descargas históricas.
+
+La preparación de nuevas narraciones acepta únicamente RIFF/WAVE autocontenido:
+PCM de 8/16/24/32 bits o flotante de 32/64 bits, incluyendo las variantes extensibles admitidas,
+mono o estéreo a 8–192 kHz; máximo 128 MiB y 600 segundos. Se rechazan rutas que
+escapen de la carpeta de entrada, enlaces simbólicos, formatos con referencias
+secundarias y estructuras no admitidas. Los bytes se validan y retienen una sola
+vez; FFmpeg los recibe por tubería con formato y protocolo explícitos y con
+límites de ejecución/salida. Los MP3 publicados se conservan.

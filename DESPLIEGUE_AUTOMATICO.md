@@ -69,9 +69,16 @@ configurar una regla de borde para las solicitudes HTTP de
 `mitomapacanario.org`, conservando ruta, consulta y reglas ajenas. No añade
 código Worker ni cambia las cuotas del alojamiento estático. La API necesita
 Zone Read y Single Redirect Edit. Si faltan permisos, cuota o una respuesta
-verificable, genera una advertencia y mantiene la web publicada; en ese caso
-la redirección queda pendiente de configuración por el titular y de comprobación
-pública. El script no sigue redirecciones autenticadas ni imprime credenciales.
+verificable, la configuración por API genera una advertencia. Ese aviso no
+sustituye la comprobación pública obligatoria: `tools/check_public_transport.py`
+se ejecuta antes de publicar y después de terminar, sin credenciales ni
+redirecciones automáticas. Exige 301/308 al host HTTPS exacto, conserva ruta y
+consulta, y comprueba respuestas HTTPS 200 con HSTS de al menos un año. Si la
+protección pública falla o no se puede verificar, el paso falla; el control
+previo impide iniciar la publicación. Una regla manual correcta sigue siendo
+válida aunque la API responda 403. El control posterior detecta una regresión
+tras la publicación. El script de API no sigue redirecciones autenticadas ni
+imprime credenciales; no se amplían los permisos del token.
 
 Dependabot incluye npm, Actions y Python. Sus alertas se activan en los ajustes
 del repositorio. Antes de fusionar una actualización de infraestructura o
@@ -177,3 +184,9 @@ Usa el `package-lock.json` de la edición vigente para preparar despliegues.
 Las fuentes históricas se mantienen para reproducibilidad y pueden contener
 versiones antiguas de herramientas; no son la configuración de mantenimiento
 recomendada. Las dependencias de Wrangler no se sirven al navegador del alumnado.
+
+La instalación de las pruebas utiliza Python 3.12, `pip --require-hashes
+--only-binary=:all:` y el cierre completo de dependencias de
+`requirements-browser-tests.txt`. `actions/setup-python` también está fijada
+por commit. Las nuevas pruebas de transporte, bloqueo, ZIP y WAV se ejecutan
+antes del acceso a los secretos de producción.
