@@ -5,6 +5,8 @@ claim usability findings from learners or assistive-technology participants.
 """
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -196,6 +198,7 @@ class GameAccessBrowserTests(unittest.TestCase):
         for route, prefix, item, select_id in GAMES:
             with self.subTest(route=route):
                 access = self.open_game(route, prefix)
+                self.page.evaluate("document.documentElement.style.fontSize='100%'")
                 access.focus()
                 access.press("Enter")
                 select = self.page.locator("#" + select_id)
@@ -205,9 +208,41 @@ class GameAccessBrowserTests(unittest.TestCase):
                 feedback = self.page.locator(f"#{prefix}AlternativeFeedback")
 
                 def assert_contextual_response(kind):
+                    frames = self.page.evaluate("""async prefix=>{
+                        const frames=[];
+                        const box=node=>{
+                            const r=node.getBoundingClientRect();
+                            return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};
+                        };
+                        for(let i=0;i<8;i++){
+                            await new Promise(requestAnimationFrame);
+                            frames.push({
+                                message:box(document.getElementById(prefix+'AlternativeFeedback')),
+                                button:box(document.getElementById(prefix+'PlaceButton')),
+                                active:document.activeElement.id,scrollY,scrollX,
+                                covered:Math.max(0,...[...document.querySelectorAll('.topbar,.main-navigation')]
+                                    .filter(node=>['sticky','fixed'].includes(getComputedStyle(node).position))
+                                    .map(node=>node.getBoundingClientRect().bottom)),
+                                height:innerHeight,width:innerWidth
+                            });
+                        }
+                        return frames;
+                    }""", prefix)
+                    if os.environ.get("MITOMAPA_GAME_FRAMES"):
+                        print("response-frames", prefix, kind, json.dumps(frames))
+                    for frame in frames[-3:]:
+                        self.assertEqual(frame["active"], prefix + "PlaceButton", frames)
+                        for key in ("button", "message"):
+                            self.assertGreaterEqual(frame[key]["top"], frame["covered"] - 1, frames)
+                            self.assertLessEqual(frame[key]["bottom"], frame["height"] + 1, frames)
+                            self.assertGreaterEqual(frame[key]["left"], -1, frames)
+                            self.assertLessEqual(frame[key]["right"], frame["width"] + 1, frames)
                     expect(feedback).to_be_visible()
-                    expect(feedback).to_be_in_viewport(ratio=1)
-                    expect(place).to_be_in_viewport(ratio=1)
+                    # Chromium can report 0.99957 for a fully scrolled element
+                    # due to subpixel rounding. Exact geometry below still
+                    # rejects any meaningful clipping or header occlusion.
+                    expect(feedback).to_be_in_viewport(ratio=.99)
+                    expect(place).to_be_in_viewport(ratio=.99)
                     expect(source).to_have_attribute("data-kind", kind)
                     expect(feedback).to_have_text(source.text_content())
                     for control in (select, island_select):
@@ -217,6 +252,9 @@ class GameAccessBrowserTests(unittest.TestCase):
                     self.assertEqual(self.page.locator(f"#{prefix}MapGame").locator('[role="status"],[aria-live]:not([aria-live="off"])').count(), 1)
                     bounds = feedback.bounding_box()
                     button_bounds = place.bounding_box()
+                    for box in (bounds,button_bounds):
+                        self.assertGreaterEqual(box["x"], -1)
+                        self.assertLessEqual(box["x"] + box["width"], 321)
                     covered = self.page.evaluate("()=>Math.max(0,...[...document.querySelectorAll('.topbar,.main-navigation')].filter(node=>['sticky','fixed'].includes(getComputedStyle(node).position)).map(node=>node.getBoundingClientRect().bottom))")
                     self.assertGreaterEqual(bounds["y"], covered - 1)
                     self.assertLessEqual(bounds["y"] + bounds["height"], 801)
@@ -238,6 +276,12 @@ class GameAccessBrowserTests(unittest.TestCase):
                 island_select.select_option("tenerife")
                 place.focus()
                 place.press("Enter")
+                assert_contextual_response("success")
+                # Text enlargement can finish changing the form and sticky
+                # header after the placement event has already returned.
+                self.page.evaluate("document.documentElement.style.fontSize='125%'")
+                assert_contextual_response("success")
+                self.page.evaluate("document.documentElement.style.fontSize='100%'")
                 assert_contextual_response("success")
                 expect(self.page.locator(f'[data-{item}-card="tenerife"]')).to_have_attribute("data-placed", "true")
                 expect(self.page.locator(f'[data-{item}-island="tenerife"]')).to_have_attribute("data-placed", "true")

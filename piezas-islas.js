@@ -29,6 +29,7 @@
   let dragOver = null;
   let dragFrame = null;
   let suppressClickUntil = 0;
+  let cancelAlternativeReveal = null;
 
   function node(tag, className, text) {
     const result = document.createElement(tag);
@@ -51,17 +52,87 @@
     return result;
   }
 
+  function keepAlternativeFeedbackVisible() {
+    cancelAlternativeReveal?.();
+    if (document.activeElement !== controls.place) return;
+    const details = controls.alternativeFeedback.closest('details');
+    const headers = [...document.querySelectorAll('.topbar,.main-navigation')];
+    let frame = null;
+    let intersection = null;
+    let observedTop = -1;
+    let stopped = false;
+    const request = () => {
+      if (!stopped && frame === null) frame = requestAnimationFrame(reveal);
+    };
+    const resize = new ResizeObserver(request);
+    const stop = () => {
+      stopped = true;
+      if (frame !== null) cancelAnimationFrame(frame);
+      resize.disconnect();
+      intersection?.disconnect();
+      controls.place.removeEventListener('blur', stop);
+      window.removeEventListener('resize', request);
+      window.removeEventListener('blur', stop);
+      ['wheel', 'touchstart', 'pointerdown'].forEach(type => window.removeEventListener(type, stop, true));
+      window.removeEventListener('keydown', stopForScrollKey, true);
+      if (cancelAlternativeReveal === stop) cancelAlternativeReveal = null;
+    };
+    function stopForScrollKey(event) {
+      if (['Tab', 'Escape', 'PageUp', 'PageDown', 'Home', 'End', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) stop();
+    }
+    function reveal() {
+      frame = null;
+      if (stopped || document.activeElement !== controls.place || !details.open || !section.getClientRects().length) {
+        stop();
+        return;
+      }
+      // Run after the input event and layout. Later geometry changes are
+      // observed while this action keeps focus; manual scrolling releases it.
+      window.scrollTo({top: window.scrollY, left: window.scrollX, behavior: 'instant'});
+      const covered = Math.max(0, ...headers
+        .filter(header => ['sticky', 'fixed'].includes(getComputedStyle(header).position))
+        .map(header => header.getBoundingClientRect().bottom));
+      const topEdge = covered + 8;
+      const bottomEdge = window.innerHeight - 8;
+      const buttonBox = controls.place.getBoundingClientRect();
+      const messageBox = controls.alternativeFeedback.getBoundingClientRect();
+      let top = Math.min(buttonBox.top, messageBox.top);
+      let bottom = Math.max(buttonBox.bottom, messageBox.bottom);
+      // Very large text may exceed the available height; reveal the response
+      // without creating a scroll loop trying to fit an impossible union.
+      if (bottom - top > bottomEdge - topEdge) {
+        top = messageBox.top;
+        bottom = Math.min(messageBox.bottom, top + Math.max(0, bottomEdge - topEdge));
+      }
+      const adjustment = top < topEdge ? top - topEdge : bottom > bottomEdge ? bottom - bottomEdge : 0;
+      if (Math.abs(adjustment) > 1) window.scrollBy({top: adjustment, behavior: 'instant'});
+      if (Math.abs(observedTop - topEdge) > 1) {
+        intersection?.disconnect();
+        observedTop = topEdge;
+        intersection = new IntersectionObserver(entries => {
+          if (entries.some(entry => entry.intersectionRatio < 1)) request();
+        }, {rootMargin: `-${Math.max(0, topEdge)}px 0px -8px 0px`, threshold: [0, 1]});
+        intersection.observe(controls.place);
+        intersection.observe(controls.alternativeFeedback);
+      }
+    }
+    cancelAlternativeReveal = stop;
+    resize.observe(details);
+    headers.forEach(header => resize.observe(header));
+    controls.place.addEventListener('blur', stop);
+    window.addEventListener('resize', request);
+    window.addEventListener('blur', stop);
+    ['wheel', 'touchstart', 'pointerdown'].forEach(type => window.addEventListener(type, stop, {capture: true, passive: true}));
+    window.addEventListener('keydown', stopForScrollKey, true);
+    request();
+  }
+
   function announce(message, kind) {
     controls.feedback.textContent = message;
     controls.feedback.dataset.kind = kind || 'note';
     controls.alternativeFeedback.textContent = message;
     controls.alternativeFeedback.dataset.kind = kind || 'note';
-    if (document.activeElement === controls.place) {
-      // Stop an earlier smooth navigation scroll even if the response is
-      // already visible: nearest alone would let that scroll keep moving it.
-      window.scrollTo({top: window.scrollY, left: window.scrollX, behavior: 'instant'});
-      controls.alternativeFeedback.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'instant'});
-    }
+    if (document.activeElement === controls.place) keepAlternativeFeedbackVisible();
   }
 
   function imageFor(island) {
