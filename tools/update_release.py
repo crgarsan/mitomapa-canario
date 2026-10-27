@@ -144,8 +144,9 @@ def sharing_files(root, version, elpx):
     documents = set(DOCUMENTS)
     for key in ("release_notes", "rea_release_notes"):
         documents.add(version[key])
-    if (root / "PROTOCOLO_PILOTAJE.html").is_file():
-        documents.add("PROTOCOLO_PILOTAJE.html")
+    for protocol in ("PROTOCOLO_PILOTAJE.html", "PROTOCOLO_PILOTAJE_WEB_4_9_0.html"):
+        if (root / protocol).is_file():
+            documents.add(protocol)
     for name in sorted(documents):
         files[f"documentacion/{name}"] = sharing_document(
             source_path(root, name).read_bytes(), name, documents, version)

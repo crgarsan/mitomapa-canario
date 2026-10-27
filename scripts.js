@@ -41,6 +41,7 @@ let learningLevel=["early","middle","advanced","secondary"].includes(savedPrefer
 let learnerName=typeof savedPreferences.learnerName==="string"?savedPreferences.learnerName.slice(0,80):"";
 let lastRouteId=validIds.has(savedPreferences.lastRouteId)?savedPreferences.lastRouteId:null;
 let selectedVoiceURI=typeof savedPreferences.selectedVoiceURI==="string"?savedPreferences.selectedVoiceURI:"";
+let narrationAmbient=savedPreferences.narrationAmbient!==false;
 
 // La revisión es una anotación local de acompañamiento, no una certificación.
 const itineraryKey="mitomapa-canario-itinerarios-v1";
@@ -118,7 +119,7 @@ function routeRecording(routeId){
  return recording&&typeof recording.src==="string"&&recording.src.trim()?recording:null;
 }
 function narrationLabel(text){return String(text).replace(/[&<>"']/g,character=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));}
-function savePreferences(){return writeJSON(preferencesKey,{readerMode,learningLevel,learnerName,lastRouteId,selectedVoiceURI});}
+function savePreferences(){return writeJSON(preferencesKey,{readerMode,learningLevel,learnerName,lastRouteId,selectedVoiceURI,narrationAmbient});}
 function setReaderMode(mode){
  readerMode=mode==="complete"?"complete":"guided";
  document.body.classList.toggle("mode-guided",readerMode==="guided");
@@ -142,7 +143,7 @@ function injectExperienceTools(){
  const hero=legend.closest(".hero");if(hero)hero.append(panel);else legend.after(panel);
  panel.querySelectorAll("[data-reader-mode]").forEach(button=>button.addEventListener("click",()=>setReaderMode(button.dataset.readerMode)));
  panel.querySelectorAll("[data-learning-level]").forEach(button=>button.addEventListener("click",()=>setLearningLevel(button.dataset.learningLevel)));
- byId("resumeRoute").addEventListener("click",()=>{if(lastRouteId)showRoute(lastRouteId);});
+  byId("resumeRoute").addEventListener("click",()=>{if(!window.MitoMapaNavigation?.resume?.()&&lastRouteId)showRoute(lastRouteId);});
  byId("printResource").addEventListener("click",()=>{routes.forEach(route=>ensureRoute(route.id));window.setTimeout(()=>window.print(),80);});
  byId("resumeRoute").disabled=!lastRouteId;
  const passportKicker=document.querySelector("#passportDialog .challenge-kicker");
@@ -208,7 +209,7 @@ function narrationMarkup(route){
  const recording=routeRecording(route.id);
  const note=recording?`Narración: ${narrationLabel(recording.narrator||"grabación del cuento")}.`:speechSupported?"Comprobando las voces del dispositivo…":voiceDescription();
  const voice=recording?"":`<label class="narration-setting">Voz <select class="narration-voice" aria-label="Voz para la lectura"><option value="">Automática (recomendada)</option></select></label>`;
- const ambient=recording?.ambientSrc?`<label class="narration-setting narration-ambient-label"><input class="narration-ambient" type="checkbox" checked> Ambiente suave</label>`:"";
+ const ambient=recording?.ambientSrc?`<label class="narration-setting narration-ambient-label"><input class="narration-ambient" type="checkbox"${narrationAmbient?" checked":""}> Ambiente suave</label>`:"";
  const timeline=recording?`<div class="narration-timeline"><button class="text-button narration-back" type="button" aria-label="Retroceder diez segundos" disabled>−10 s</button><div class="narration-position"><label for="narration-position-${route.id}">Posición de la narración</label><input class="narration-seek" id="narration-position-${route.id}" type="range" min="0" max="0" step="1" value="0" aria-valuetext="Duración pendiente" disabled><p class="narration-time"><span class="narration-current">0:00</span> / <span class="narration-duration">--:--</span></p></div><button class="text-button narration-forward" type="button" aria-label="Avanzar diez segundos" disabled>+10 s</button></div>`:"";
  return `<section class="narrator" data-narration-source="${recording?"recording":"device"}" aria-labelledby="narrator-title-${route.id}"><div class="narrator-copy"><p class="narrator-kicker">Escucha el cuento</p><h3 id="narrator-title-${route.id}">${recording?"Narración grabada":"Lectura en voz alta"}</h3><p class="voice-note"${recording?"":" data-device-voice"}>${note}</p></div><div class="narrator-controls"><button class="button narration-play" type="button" data-route="${route.id}">▶ Reproducir</button><button class="button secondary narration-pause" type="button" data-route="${route.id}" disabled>⏸ Pausar</button><button class="button secondary narration-stop" type="button" data-route="${route.id}" disabled>■ Detener</button>${timeline}${voice}<label class="narration-setting">Velocidad <select class="narration-rate" aria-label="Velocidad de lectura"><option value="0.82">Lenta</option><option value="${recording?"1":"0.94"}" selected>Normal</option><option value="1.08">Ágil</option></select></label>${ambient}<p class="narration-status" role="status" aria-live="polite">Lista para comenzar.</p></div></section>`;
 }
@@ -321,14 +322,20 @@ function playRecording(audio,routeId,token){
 }
 function prepareRecordingSeek(audio,routeId,token,source){
  const state=narrationState;
- const current=()=>token===narrationToken&&narrationState===state&&narrationState.audio===audio;
+ const sourceVersion=state.sourceVersion;
+ const current=()=>token===narrationToken&&narrationState===state&&narrationState.audio===audio&&state.sourceVersion===sourceVersion;
  // Un audio HTTP ya iniciado puede reproducirse, pero algunos servidores no
  // permiten buscar aunque el MP3 esté entero en el búfer. Solo en ese caso
  // se prepara una URL local; los servidores con rangos conservan su flujo.
  if(!current()||state.seekFallbackAttempted||state.objectUrl||recordingIsSeekable(audio))return;
  if(!/^https?:$/.test(location.protocol)||typeof fetch!=="function"||typeof AbortController!=="function")return;
- if(audio.readyState<3||!Number.isFinite(audio.duration)||audio.duration<=0||!audio.buffered.length)return;
- if(audio.buffered.end(audio.buffered.length-1)<audio.duration-.25)return;
+ if(audio.readyState<1||!Number.isFinite(audio.duration)||audio.duration<=0)return;
+ // En pausa, preload="auto" puede detenerse con solo unos segundos en búfer.
+ // Un cambio pendiente necesita preparar el avance sin esperar al MP3 entero.
+ if(!state.sourceLoading){
+  if(audio.readyState<3||!audio.buffered.length)return;
+  if(audio.buffered.end(audio.buffered.length-1)<audio.duration-.25)return;
+ }
  state.seekFallbackAttempted=true;
  const controller=new AbortController();state.blobController=controller;
  fetch(source,{signal:controller.signal,cache:"force-cache"}).then(response=>{
@@ -339,7 +346,7 @@ function prepareRecordingSeek(audio,routeId,token,source){
   if(!blob.size)throw new Error("AUDIO_EMPTY");
   state.blobController=null;
   state.objectUrl=URL.createObjectURL(blob);
-  state.blobResumePosition=Math.max(0,audio.currentTime||0);state.sourceLoading=true;
+  state.blobResumePosition=Math.max(0,state.blobResumePosition??audio.currentTime??0);state.sourceLoading=true;
   recordingPlayRequest++;audio.pause();
   audio.src=state.objectUrl;audio.load();
   syncRecordingTimeline(routeId);
@@ -347,6 +354,16 @@ function prepareRecordingSeek(audio,routeId,token,source){
  }).catch(error=>{
   if(!current())return;
   state.blobController=null;
+  if(state.sourceLoading&&!state.objectUrl){
+   // Si el servidor no permite buscar y falla la copia local, la nueva pista
+   // sigue siendo utilizable. Se explica la pérdida de posición sin bloquearla.
+   state.sourceLoading=false;state.blobResumePosition=null;
+   try{audio.currentTime=0;}catch(seekError){}
+   if(!state.paused)playRecording(audio,routeId,token);
+   syncRecordingTimeline(routeId);
+   updateNarrationUi(routeId,state.paused?"paused":"playing","No se ha podido conservar la posición. La nueva pista empieza desde el principio; pueden seguir escuchando.");
+   return;
+  }
   // La descarga auxiliar no sustituye el audio hasta completarse: si falla,
   // la reproducción directa sigue disponible, también en aplicaciones locales.
   updateNarrationUi(routeId,state.paused?"paused":"playing","Puedes seguir escuchando. No se ha podido preparar el avance; vuelve a intentarlo desde el principio si lo necesitas.");
@@ -358,24 +375,26 @@ function startRecording(routeId,recording){
  const ambient=section.querySelector(".narration-ambient")?.checked;
  const audio=new Audio();
  const token=++narrationToken;
- narrationState={routeId,index:0,chunks:[],paused:false,token,audio,blobController:null,objectUrl:null,blobResumePosition:null,sourceLoading:false,seekFallbackAttempted:false,awaitingGesture:false};
+ narrationState={routeId,index:0,chunks:[],paused:false,token,audio,blobController:null,objectUrl:null,blobResumePosition:null,sourceLoading:false,seekFallbackAttempted:false,awaitingGesture:false,sourceVersion:0,source:ambient&&recording.ambientSrc?recording.ambientSrc:recording.src};
  audio.preload="none";
  audio.defaultPlaybackRate=Number(section.querySelector(".narration-rate")?.value)||1;
  audio.playbackRate=audio.defaultPlaybackRate;
- const source=ambient&&recording.ambientSrc?recording.ambientSrc:recording.src;
- audio.src=source;
+ audio.src=narrationState.source;
  const current=()=>token===narrationToken&&narrationState.audio===audio;
  const sync=()=>{
   if(!current())return;
   if(narrationState.sourceLoading&&audio.readyState>=1&&Number.isFinite(audio.duration)){
    const position=narrationState.blobResumePosition;
+   if(position>0&&!recordingIsSeekable(audio)){
+    syncRecordingTimeline(routeId);prepareRecordingSeek(audio,routeId,token,narrationState.source);return;
+   }
    narrationState.sourceLoading=false;narrationState.blobResumePosition=null;
    try{audio.currentTime=Math.min(audio.duration,position||0);}catch(error){}
    if(narrationState.paused)updateNarrationUi(routeId,"paused","Narración preparada, en pausa.");
    else playRecording(audio,routeId,token);
   }
   syncRecordingTimeline(routeId);
-  prepareRecordingSeek(audio,routeId,token,source);
+  prepareRecordingSeek(audio,routeId,token,narrationState.source);
  };
  audio.onloadedmetadata=sync;audio.ondurationchange=sync;audio.ontimeupdate=sync;audio.oncanplay=sync;audio.onseeked=sync;audio.onprogress=sync;
  audio.onplaying=()=>{
@@ -392,6 +411,23 @@ function startRecording(routeId,recording){
  audio.onerror=()=>{if(current())stopNarration("No se pudo cargar la grabación. Puedes volver a intentarlo o leer el texto.");};
  updateNarrationUi(routeId,"playing","Cargando la narración grabada…");
  playRecording(audio,routeId,token);
+}
+function changeRecordingAmbient(routeId){
+ if(narrationState.routeId!==routeId||!narrationState.audio)return;
+ const state=narrationState,audio=state.audio,recording=routeRecording(routeId);if(!recording)return;
+ const source=narrationAmbient&&recording.ambientSrc?recording.ambientSrc:recording.src;
+ if(source===state.source)return;
+ const position=Math.max(0,state.blobResumePosition??audio.currentTime??0);
+ state.sourceVersion++;state.blobController?.abort();state.blobController=null;
+ recordingPlayRequest++;audio.pause();
+ if(state.objectUrl)URL.revokeObjectURL(state.objectUrl);
+ state.objectUrl=null;state.source=source;state.blobResumePosition=position;
+ state.sourceLoading=true;state.seekFallbackAttempted=false;state.awaitingGesture=false;
+ // También se necesita cargar la nueva pista si el cambio se hace en pausa.
+ audio.preload="auto";audio.src=source;audio.load();
+ audio.playbackRate=audio.defaultPlaybackRate;
+ syncRecordingTimeline(routeId);
+ updateNarrationUi(routeId,state.paused?"paused":"playing",state.paused?"Cambiando el ambiente; se conserva la pausa y la posición…":"Cambiando el ambiente; se conserva la posición…");
 }
 function speakNextChunk(){
  if(!speechSupported||!narrationState.routeId)return;
@@ -501,6 +537,7 @@ function showRoute(id,options={}){
  window.MitoMapaRouteFlow?.showStep(section,step||"cuento",{focus:false,notify:false});
  lastRouteId=id;savePreferences();
  const resume=byId("resumeRoute");if(resume)resume.disabled=false;
+ window.MitoMapaNavigation?.refreshResume?.();
  const reduced=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
  section.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
  const heading=section.querySelector("h2");if(heading){heading.setAttribute("tabindex","-1");heading.focus({preventScroll:true});}
@@ -524,6 +561,13 @@ function tryAward(id){
   byId("dialogBadge").alt=route.badgeAlt;
   byId("dialogTitle").textContent=route.badgeName;
   byId("dialogText").textContent=`La insignia de ${route.island} se ha añadido automáticamente a tu pasaporte. Llevas ${currentBadgeCount()} de 8. Recuerda completar también las actividades que te haya indicado tu docente.`;
+   let next=byId("badgeContinueWorkshop");
+   if(!next){
+    next=document.createElement("button");next.id="badgeContinueWorkshop";next.type="button";next.className="button badge-workshop-next";
+    byId("viewPassport").before(next);byId("viewPassport").classList.add("secondary");
+    next.addEventListener("click",()=>{const target=next.dataset.route;if(!validIds.has(target))return;closeDialog(byId("badgeDialog"));if(selectedNotebookTasks(target).length)showRoute(target,{step:"taller"});else window.MitoMapaNavigation?.go("crear");});
+   }
+   next.dataset.route=id;next.textContent=selectedNotebookTasks(id).length?"Continuar con mi taller →":"Preparar una creación →";
   openDialog(byId("badgeDialog"));
  }
  return true;
@@ -834,7 +878,7 @@ function updateWorkshopSummary(routeId){
  updateCreationReviewSummary(workshop,routeId);
  Object.keys(completion).forEach(key=>workshop.querySelector(`[data-activity-tab="${key}"]`)?.classList.toggle("is-complete",completion[key]));
  if(state.words)workshop.querySelector('[data-activity-panel="words"] .activity-panel-status').textContent="Comprobación de vocabulario superada.";
- if(state.research)workshop.querySelector('[data-activity-panel="research"] .activity-panel-status').textContent="Comprobación de investigación superada. Revisa también las fuentes y las tareas acordadas.";
+ if(state.research)workshop.querySelector('[data-activity-panel="research"] .activity-panel-status').textContent="Preguntas de apoyo comprobadas. Comenten con su docente qué permite afirmar la fuente y qué queda sin confirmar.";
  const status=workshop.querySelector('[data-activity-panel="creation"] .activity-panel-status');
  if(status)status.textContent=creationDone?(itineraryFor(routeId).evidenceMode==="external"?"Producción externa revisada y registrada manualmente por tu docente.":"Creación marcada como preparada para compartir con tu docente. No es una calificación automática."):"Creación pendiente de preparar y revisar.";
 }
@@ -874,7 +918,7 @@ function checkWorkshopResearch(routeId){
  });
  const status=panel.querySelector(".activity-panel-status");
  if(missing){status.textContent=`Faltan ${missing} ${missing===1?"respuesta":"respuestas"}.`;return;}
- if(correct===questions.length){const state=getWorkshopRouteState(routeId);state.research=true;const ok=saveWorkshopState();if(!ok)status.textContent="Comprobación superada en pantalla; descarga el seguimiento para conservarla.";status.textContent=`Resultado: ${correct} de ${questions.length}. Investigación superada.`;updateWorkshopSummary(routeId);}
+  if(correct===questions.length){const state=getWorkshopRouteState(routeId);state.research=true;const ok=saveWorkshopState();updateWorkshopSummary(routeId);status.textContent=`Preguntas de apoyo comprobadas: ${correct} de ${questions.length}. Comenten con su docente qué permite afirmar la fuente y qué queda sin confirmar.${ok?"":" Descarguen el seguimiento para conservar el trabajo de esta visita."}`;}
  else status.textContent=`Resultado: ${correct} de ${questions.length}. Lee la explicación y vuelve a intentarlo.`;
 }
 function workshopWordCount(value){const clean=String(value||"").trim();return clean?clean.split(/\s+/).length:0;}
@@ -980,7 +1024,7 @@ function injectWorkshop(section,route){
 function resetAllWorkshops(){
  workshopState={routes:{}};
  saveWorkshopState();
- document.querySelectorAll(".route").forEach(section=>{const route=routes.find(item=>section.id===`route-${item.id}`);if(!route)return;section.querySelector(".activity-workshop")?.remove();injectWorkshop(section,route);window.MitoMapaRouteFlow?.enhance(section,route);});
+ document.querySelectorAll(".route").forEach(section=>{const route=routes.find(item=>section.id===`route-${item.id}`);if(!route)return;section.querySelector(".activity-workshop")?.remove();injectWorkshop(section,route);window.MitoMapaLearning?.enhance(section,route);window.MitoMapaRouteFlow?.enhance(section,route);});
 }
 /* Versión 3.6: opción de Secundaria y producciones discursivas por ruta. */
 const learningLevelCopy=Object.freeze({
@@ -1287,9 +1331,12 @@ function resetV34State(){
 // la persona anterior, ni siquiera en actividades que no se exportan.
 function clearLearnerResponses(){
  stopNarration();
+ window.MitoMapaLearning?.reset?.();
+ window.MitoMapaNavigation?.resetResume?.();
  document.querySelectorAll(".route .quiz").forEach(quiz=>{
   quiz.querySelectorAll("input[type=radio]").forEach(input=>{input.checked=false;});
   quiz.querySelectorAll(".feedback").forEach(feedback=>{feedback.className="feedback";feedback.textContent="";});
+  quiz.querySelectorAll("fieldset[aria-invalid]").forEach(field=>field.removeAttribute("aria-invalid"));
   quiz.querySelectorAll(".source-status,.quiz-status").forEach(status=>{status.textContent="";});
   quiz._showQuestion?.(0);
  });
@@ -1353,7 +1400,7 @@ function setupV34Features(){
 function enhanceRoute(section,route){
  section.querySelectorAll("img").forEach(image=>{image.loading="lazy";image.decoding="async";});
  const story=section.querySelector(".story"),intro=story?.querySelector(".story-intro");
- if(story&&!story.querySelector(".narrator")){
+ if(story&&!section.querySelector(".narrator")){
   const template=document.createElement("template");template.innerHTML=narrationMarkup(route).trim();
   (intro||story.firstElementChild)?.after(template.content.firstElementChild);
  }
@@ -1364,7 +1411,10 @@ function enhanceRoute(section,route){
  sourceBox.querySelector(".source-questions").innerHTML=route.quick.map((question,index)=>`<fieldset class="question"><legend>${index+1}. ${question.q}</legend><div class="source-options">${question.options.map((option,optionIndex)=>`<label><input type="radio" name="source-${route.id}-${index}" value="${optionIndex}"><span>${option}</span></label>`).join("")}</div><div class="feedback" aria-live="polite"></div></fieldset>`).join("");
  const truthBox=section.querySelector(`#quiz-${route.id}`);
  truthBox.querySelector(".questions").innerHTML=route.questions.map((question,index)=>`<fieldset class="question"><legend>${index+1}. ${question.q}</legend><div class="choices"><label><input type="radio" name="truth-${route.id}-${index}" value="true"> Verdadero</label><label><input type="radio" name="truth-${route.id}-${index}" value="false"> Falso</label></div><div class="feedback" aria-live="polite"></div></fieldset>`).join("");
- enhanceQuizStepper(sourceBox);enhanceQuizStepper(truthBox);
+  [sourceBox,truthBox].forEach(box=>box.querySelectorAll(".question").forEach((group,index)=>{
+   const feedback=group.querySelector(".feedback");feedback.id=`${box.id}-feedback-${index}`;feedback.removeAttribute("aria-live");group.setAttribute("aria-describedby",feedback.id);
+  }));
+  enhanceQuizStepper(sourceBox);enhanceQuizStepper(truthBox);
  section.querySelector(".check-source").addEventListener("click",()=>checkSource(route.id));
  section.querySelector(".check-quiz").addEventListener("click",()=>checkQuiz(route.id));
  section.querySelectorAll(".back-map").forEach(button=>{button.textContent="Elegir otra isla";button.addEventListener("click",returnToExploreMap);});
@@ -1387,11 +1437,15 @@ function enhanceRoute(section,route){
    narrationState.audio.playbackRate=narrationState.audio.defaultPlaybackRate;
   }
  });
- section.querySelector(".narration-ambient")?.addEventListener("change",()=>{
-  if(narrationState.routeId===route.id)stopNarration("Ambiente actualizado. Pulsa Reproducir para comenzar de nuevo.");
+ section.querySelector(".narration-ambient")?.addEventListener("change",event=>{
+  narrationAmbient=event.currentTarget.checked;savePreferences();
+  document.querySelectorAll(".narration-ambient").forEach(input=>{input.checked=narrationAmbient;});
+  if(narrationState.routeId)changeRecordingAmbient(narrationState.routeId);
  });
  if(!speechSupported&&!routeRecording(route.id))updateNarrationUi(route.id,"idle","Este navegador no ofrece lectura automática.");
  refreshVoices();updateProgress();
+ window.MitoMapaLearning?.enhance(section,route);
+ window.MitoMapaReading?.enhance(section,route);
  window.MitoMapaRouteFlow?.enhance(section,route);
 }
 function ensureRoute(id){
@@ -1414,7 +1468,8 @@ function checkSource(id){
   if(!choice){complete=false;if(firstIncomplete<0)firstIncomplete=index;feedback.className="feedback ko";feedback.textContent="Selecciona una respuesta.";return;}
   const ok=Number(choice.value)===question.answer;if(ok)correct++;
   if(!ok&&firstIncorrect<0)firstIncorrect=index;
-  feedback.className=`feedback ${ok?"ok":"ko"}`;feedback.textContent=ok?question.hit:question.error;
+   feedback.className=`feedback ${ok?"ok":"ko"}`;feedback.textContent=window.MitoMapaLearning?.feedback(id,"source",index,ok,question.hit,question.error)||(ok?question.hit:question.error);
+   const group=feedback.closest("fieldset");group?.setAttribute("aria-invalid",String(!ok));
  });
  const status=box.querySelector(".source-status");
  if(!complete){status.textContent="Completa las tres preguntas antes de comprobar.";box._showQuestion?.(firstIncomplete,{focus:true});return;}
@@ -1431,7 +1486,8 @@ function checkQuiz(id){
   if(!choice){complete=false;if(firstIncomplete<0)firstIncomplete=index;feedback.className="feedback ko";feedback.textContent="Selecciona una respuesta.";return;}
   const ok=(choice.value==="true")===question.answer;if(ok)correct++;
   if(!ok&&firstIncorrect<0)firstIncorrect=index;
-  feedback.className=`feedback ${ok?"ok":"ko"}`;feedback.textContent=`${ok?"Correcto.":"Revisa tu respuesta."} ${question.feedback}`;
+   feedback.className=`feedback ${ok?"ok":"ko"}`;feedback.textContent=window.MitoMapaLearning?.feedback(id,"quiz",index,ok,question.feedback,question.hint)||`${ok?"Correcto.":"Revisa tu respuesta."} ${question.feedback}`;
+   const group=feedback.closest("fieldset");group?.setAttribute("aria-invalid",String(!ok));
  });
  const status=box.querySelector(".quiz-status");
  if(!complete){status.textContent="Completa las tres afirmaciones antes de comprobar.";box._showQuestion?.(firstIncomplete,{focus:true});return;}
@@ -1486,6 +1542,15 @@ byId("resetProgress").addEventListener("click",resetProgress);
 if(speechSupported){window.speechSynthesis.addEventListener?.("voiceschanged",refreshVoices);refreshVoices();}
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&narrationState.routeId&&!narrationState.paused)toggleNarrationPause(narrationState.routeId);});
 window.addEventListener("pagehide",()=>stopNarration());
+window.MitoMapaReading?.init({readJSON,writeJSON});
+window.MitoMapaLearning?.init({openStory:(id,options={})=>{
+ if(!validIds.has(id))return;
+ showRoute(id,{step:"cuento"});
+ const section=byId(`route-${id}`),target=typeof options.paragraphId==="string"?byId(options.paragraphId):null;
+ if(target&&section?.contains(target)&&target.matches("[data-learning-fragment]")){
+  target.scrollIntoView({block:"center",behavior:"auto"});target.focus({preventScroll:true});
+ }
+}});
 window.MitoMapaStories?.init({readJSON,writeJSON,level:learningLevel});
 window.MitoMapaExplorer?.init({routes,assets:ASSETS,openRoute:showRoute,isEarned:badgeCountsForLevel});
 window.MitoMapaCompare?.init({routes,assets:ASSETS,openRoute:id=>showRoute(id,{step:"cuento"}),eventsFor:id=>window.MitoMapaStories?.eventsFor(id)||[],readJSON,writeJSON,downloadText:downloadLocalText,level:learningLevel});
@@ -1493,9 +1558,9 @@ injectExperienceTools();renderRoutes();setupV34Features();shuffle();
 updateHeaderOffset();
 window.MitoMapaNames?.mount();
 window.MitoMapaPieces?.mount({routes,assets:ASSETS});
-window.MitoMapaNavigation?.mount({routes,openRoute:showRoute,stopNarration,lastRoute:()=>lastRouteId});
+window.MitoMapaNavigation?.mount({routes,openRoute:showRoute,stopNarration,lastRoute:()=>lastRouteId,readJSON,writeJSON});
 window.MitoMapaTeacher?.init({setLevel:level=>{setLearningLevel(level);updateTeacherDialog();},refresh:syncTeacherScroll});
-window.MitoMapaJourney?.init({routes,getLevel:()=>learningLevel,isReviewed:id=>itineraryFor(id).reviewed,badgeCount:currentBadgeCount,readJSON,writeJSON,onChange:()=>updateItineraryUI()});
+window.MitoMapaJourney?.init({routes,getLevel:()=>learningLevel,isReviewed:id=>itineraryFor(id).reviewed,assignment:id=>itineraryFor(id),badgeCount:currentBadgeCount,readJSON,writeJSON,onChange:()=>updateItineraryUI()});
 
 // Ajustar el salto a la altura real de la cabecera, también al ampliar el texto.
 function updateHeaderOffset(){const header=document.querySelector("header"),navigation=document.querySelector(".main-navigation");if(header){const height=Math.ceil(header.getBoundingClientRect().height);document.documentElement.style.setProperty("--topbar-height",`${height}px`);document.documentElement.style.setProperty("--header-offset",`${height+Math.ceil(navigation?.getBoundingClientRect().height||0)+24}px`);}}

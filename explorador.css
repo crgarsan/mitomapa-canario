@@ -1,4 +1,4 @@
-/* Ocho zonas seleccionables sobre el mapa; el lienzo se desplaza en pantallas pequeñas. */
+/* Vista general geográfica, acercamiento opcional y lista de las mismas ocho rutas. */
 .map-explorer{--explore-earth:#5f4b3b;--explore-yellow:#e6c86b;--explore-sky:#d8eaed;--explore-paper:#fffdf8;color:var(--explore-earth);background:var(--explore-paper);border-color:#d2c6b5;margin:2rem 0;scroll-margin-top:6rem}
 .map-explorer [hidden]{display:none!important}
 .explore-visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
@@ -35,13 +35,31 @@
 .explore-progress{font-size:.88rem;margin:1rem 0 0;padding:.8rem 1rem;border-radius:.65rem;background:#f1ede5;color:var(--explore-earth)}
 .explore-map-viewport{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;border-radius:1rem;border:1px solid #b6cbd5;box-shadow:0 4px 14px #163a5412;scrollbar-color:#5f4b3b #e5eff1;scrollbar-width:thin}
 .explore-map-viewport:focus-visible{outline:3px solid #18242c;outline-offset:4px}
-.explore-map-stage{min-width:60rem}
+.explore-map-stage{width:100%;min-width:0}
 .explore-map-image{border:0;border-radius:0}
 .explore-pan-controls{display:flex;flex-wrap:wrap;gap:.65rem;align-items:center;justify-content:space-between;margin:.75rem 0 1rem}
 .explore-pan-help{margin:0;line-height:1.45;font-size:.9rem}
 .explore-pan-controls button{flex-shrink:0;min-width:44px}
 .explore-pan-controls button:disabled{opacity:.45;cursor:default}
 .map-explorer > .explore-actions{margin-top:1rem}
+.explore-view-switch{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
+.explore-view-switch .explore-button{min-width:6rem}
+.explore-view-switch [aria-pressed="true"]{background:var(--explore-earth);color:#fff;border-bottom:5px solid var(--explore-yellow);padding-bottom:calc(.6rem - 3px)}
+.explore-map-tools{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-bottom:.75rem}
+.explore-overview-help{flex:1 1 18rem;min-width:0;margin:0;line-height:1.5;font-size:.9rem}
+.explore-map-zoomed .explore-map-stage{width:max(60rem,180%)}
+.explore-map-viewport{scroll-padding:1rem;overflow-y:hidden}
+.explore-map-compact:not(.explore-map-zoomed) .explore-map-islands{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem;padding:.75rem;background:#edf3f3}
+.explore-map-compact:not(.explore-map-zoomed) .explore-pin{position:static;transform:none;min-width:0;width:100%;min-height:5rem;padding:.5rem;border:1px solid #bfb09b;background:#fff}
+.explore-map-compact:not(.explore-map-zoomed) .explore-pin-label{border:0;box-shadow:none;max-width:100%;padding:.1rem;overflow-wrap:anywhere}
+.explore-map-compact:not(.explore-map-zoomed) .explore-pin-name,.explore-map-compact:not(.explore-map-zoomed) .explore-pin-state{white-space:normal}
+.explore-map-compact:not(.explore-map-zoomed) .explore-pin-earned{border:2px solid #3e6b49;background:#f0f7ee}
+.explore-map-compact:not(.explore-map-zoomed) .explore-pin-found{border:3px solid #24442c;background:#edf5ec}
+.map-explorer .explore-list-panel{margin:0;border:0;padding:0}
+.explore-card-question{font-style:italic;line-height:1.5;font-size:.95rem;color:var(--explore-earth)}
+.explore-list-panel .island-card{min-width:0;overflow-wrap:anywhere}
+.explore-list-panel .island-card:focus-visible{outline:3px solid #18242c;outline-offset:3px;box-shadow:0 0 0 6px var(--explore-yellow)}
+.explore-list-panel .explore-card-found{outline:3px solid #24442c;outline-offset:2px;background:#edf5ec}
 @media(max-width:1199px){
  .explore-map-stage{--explore-marker-size:2.75rem}
  .explore-pin:focus-visible{outline-offset:2px;box-shadow:0 0 0 5px var(--explore-yellow)}

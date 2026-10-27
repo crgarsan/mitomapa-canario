@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.8.13 · REA 4.8.7
+# MitoMapa canario · web 4.9.0 · REA 4.8.7
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La publicación web **4.8.13** identifica el REA editable **4.8.7**, revisado el
+La publicación web **4.9.0** identifica el REA editable **4.8.7**, revisado el
 25/10/2026 para corregir vocabulario, enlaces docentes, importación de seguimiento
 y accesibilidad. Se revisan las opciones de los ocho juegos de vocabulario nativos;
 se conservan las identidades de actividades, los cuentos, los audios y las imágenes.
@@ -23,8 +23,8 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 - [Edición publicada en la Mediateca de Canarias](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
 - [Web publicada](https://mitomapacanario.org/).
 - [REA editable vigente · 4.8.7](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.8.13 · incluye el REA 4.8.7](downloads/MitoMapa_REA_v4_8_13.zip).
-- [Fuentes web 4.8.13](downloads/MitoMapa_fuentes_web_v4_8_13.zip).
+- [Paquete de la publicación 4.9.0 · incluye el REA 4.8.7](downloads/MitoMapa_REA_v4_9_0.zip).
+- [Fuentes web 4.9.0](downloads/MitoMapa_fuentes_web_v4_9_0.zip).
 - [REA anterior · 4.8.6](downloads/MitoMapa_canario_GobCan_v4_8_6.elpx).
 
 La miniatura social conserva el diseño de la web 4.8.8: un fondo
@@ -100,7 +100,7 @@ desplegables. La práctica de los juegos no sustituye la revisión de la lectura
 la investigación o la creación.
 
 **El recurso aún no se ha pilotado con alumnado.** El
-[protocolo de pilotaje imprimible](PROTOCOLO_PILOTAJE.html) permite registrar
+[protocolo de pilotaje imprimible](PROTOCOLO_PILOTAJE_WEB_4_9_0.html) permite registrar
 tiempos, apoyos, dificultades, accesibilidad y propuestas de mejora sin recoger
 identificadores del alumnado. La valoración voluntaria admite comentarios
 escritos aunque no se hayan respondido las escalas y se descarga localmente
@@ -130,7 +130,7 @@ python3 tools/prepare_deploy.py
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.8.13 ofrece el ELPX 4.8.7 con vocabulario y navegación revisados; el archivo
+empaquetar. La publicación 4.9.0 ofrece el ELPX 4.8.7 con vocabulario y navegación revisados; el archivo
 4.8.6 anterior conserva su propia descarga.
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
@@ -149,7 +149,7 @@ de las herramientas y las acciones de GitHub.
 Las fuentes web no incluyen proyectos ELPX, archivos ZIP anidados ni los WAV
 originales. El paquete del REA incluye el editable y su documentación.
 
-La revisión técnica web 4.8.13 endurece publicación y mantenimiento. Conserva
+La revisión técnica anterior, web 4.8.13, endurece publicación y mantenimiento. Conserva
 exactamente el ELPX 4.8.7, sus narraciones, imágenes y actividades. El protocolo
 de pilotaje conserva la referencia a la base didáctica web 4.8.12/ELPX 4.8.7;
 esta revisión de herramientas no lo regenera. Las entregas documentales
@@ -222,3 +222,9 @@ escapen de la carpeta de entrada, enlaces simbólicos, formatos con referencias
 secundarias y estructuras no admitidas. Los bytes se validan y retienen una sola
 vez; FFmpeg los recibe por tubería con formato y protocolo explícitos y con
 límites de ejecución/salida. Los MP3 publicados se conservan.
+
+## Experiencia del alumnado en la web 4.9.0
+
+La web incorpora elección Mapa/Lista, mapa general y acercamiento, lectura ajustable junto a la narración, reanudación del apartado, consigna de la sesión, pistas graduadas y retorno al fragmento del cuento. El cierre Crear y compartir puede trabajarse con una o dos islas; el gran reto de ocho piezas sigue como ampliación. Las preguntas de apoyo no validan por sí solas una investigación ni una producción.
+
+Se conserva el ELPX 4.8.7 byte a byte, las grabaciones y las imágenes. El protocolo web actualizado está separado del protocolo histórico incorporado al ELPX. La sincronización por párrafos de las grabaciones requiere un trabajo posterior de alineación y revisión; no se simula. El pilotaje con alumnado y la comprobación con usuarios de tecnologías de apoyo siguen pendientes.

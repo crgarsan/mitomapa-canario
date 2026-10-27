@@ -53,3 +53,34 @@
 @media(max-width:760px){.navigation-ready .topbar{display:flex;flex-wrap:wrap;gap:.45rem;padding:.5rem .75rem}.navigation-ready .topbar .brand{flex:1 1 4rem;min-width:0;grid-column:auto;font-size:.9rem;white-space:normal}.navigation-ready .topbar .passport-button,.navigation-ready .topbar .teacher-button{width:auto;max-width:100%;white-space:normal;overflow-wrap:anywhere;font-size:.82rem;padding:.55rem .6rem}.activity-choices{grid-template-columns:1fr}.activity-choice{padding:1.1rem}.navigation-ready .hero{grid-template-columns:1fr}.navigation-ready .hero-visual{display:none}.navigation-ready .hero h1{max-width:23ch}.main-navigation{gap:.15rem}.main-navigation a{font-size:.9rem}.home-actions{flex-direction:column;align-items:stretch}.home-actions .button{justify-content:center;text-align:center}.resource-disclosure>.section{padding:1rem}.navigation-ready #exploreMap{padding:.85rem}}
 @media print{.main-navigation,.navigation-location,.view-back,.home-actions,.reading-settings,.screen-intro[data-screen="juegos"],.resource-disclosure>summary,.island-list-disclosure>summary{display:none!important}body:not(.print-diploma):not(.print-passport) [data-screen][hidden]{display:block!important}.resource-disclosure{border:0}.resource-disclosure>section,.island-list-disclosure>.island-grid{display:block!important}.navigation-ready .hero-visual{display:block}.navigation-ready .hero-authors{font-size:.85rem}}
 @media print{body:not(.print-diploma):not(.print-passport) .resource-disclosure::details-content{content-visibility:visible!important}}
+
+/* La entrada visual y las ayudas se mantienen también en teléfono. */
+.hero-visual-link{display:block;min-width:0;width:100%;max-width:440px;justify-self:center;color:var(--earth-dark);text-decoration:none;border-radius:6px}
+.navigation-ready .hero-visual-link .hero-visual{display:block;width:100%;margin:0}
+.hero-visual-link:focus-visible{outline:3px solid var(--earth-dark);outline-offset:5px}
+.hero-map-action{display:block;margin-top:.6rem;font-weight:700;line-height:1.5;font-size:.9rem}
+.choice-purpose{font-size:.78rem;line-height:1.4;font-weight:700;letter-spacing:.04em;color:#65482f}
+.activity-choice .choice-symbol{margin-top:.65rem}
+.games-context-links{padding:1rem;background:var(--beige);border-left:4px solid var(--earth);line-height:1.8}
+.games-context-links a{display:inline-block;min-height:44px;align-content:center;color:var(--earth-dark);font-weight:700}
+.resource-quick-help{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.2rem 0}
+.resource-quick-help a,.resource-quick-help button{display:flex;align-items:center;min-height:44px;max-width:100%;padding:.6rem .8rem;border:1px solid var(--earth);border-radius:4px;background:var(--paper);color:var(--earth-dark);font:700 .95rem/1.4 Arial,Helvetica,sans-serif;text-decoration:none;overflow-wrap:anywhere;cursor:pointer}
+.route-session-brief{margin:.7rem 0 1rem;padding:.7rem .9rem;border-left:4px solid #467a88;background:#e9f2f1;color:#3f3b32;line-height:1.55;overflow-wrap:anywhere}
+.route-session-brief p{margin:.2rem 0}
+.route-session-brief a{display:inline-block;min-height:44px;align-content:center;margin-right:1rem;font-weight:700;color:#4d3a2a}
+.topbar .progress-wrap.session-progress{max-width:22rem;flex:1 1 auto;min-width:0}
+.topbar .session-progress .progress-text{white-space:normal;font-size:.85rem;line-height:1.4}
+.topbar .session-progress .progress{display:none}
+.topbar .session-progress[data-route-agreed="false"]{display:none}
+.navigation-ready .topbar .passport-button{margin-left:auto}
+.badge-workshop-next{width:100%}
+@media(max-width:760px){
+  .navigation-ready .hero-visual-link .hero-visual{display:block}
+  .hero-visual-link{max-width:440px}
+  .navigation-ready .hero-map{margin:0}
+  .topbar .progress-wrap.session-progress{order:5;flex:1 0 100%;display:block;max-width:none;margin:.1rem 0;font-size:.82rem}
+  .topbar .progress-wrap.session-progress[data-route-agreed="false"]{display:none}
+  .resource-quick-help{flex-direction:column}
+  .resource-quick-help a,.resource-quick-help button{width:100%}
+}
+@media print{.resource-quick-help,.hero-map-action,.route-session-brief a,.games-context-links{display:none!important}.hero-visual-link{color:#000}}

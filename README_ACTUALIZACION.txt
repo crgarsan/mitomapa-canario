@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB 4.8.13 · REVISIÓN WEB 25/10/2026
+MITOMAPA CANARIO · WEB 4.9.0 · REVISIÓN WEB 27/10/2026
 REA EDITABLE 4.8.7 · REVISIÓN 25/10/2026
 
 WEB PUBLICADA
@@ -14,12 +14,18 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_8_13.zip: editable ELPX 4.8.7 y documentación actual.
-downloads/MitoMapa_fuentes_web_v4_8_13.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_9_0.zip: editable ELPX 4.8.7 y documentación actual.
+downloads/MitoMapa_fuentes_web_v4_9_0.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
 
-REVISIÓN TÉCNICA WEB 4.8.13 · 25/10/2026
+REVISIÓN WEB 4.9.0 · 27/10/2026
+Mapa/lista y mapa general, lectura contextual y preferencias, tarea de la sesión,
+reanudación, pistas y fragmentos, fuentes con revisión docente y cierre creativo
+para una o dos islas. ELPX 4.8.7, audios e imágenes conservan sus bytes.
+El pilotaje y la sincronía de párrafos de las grabaciones siguen pendientes.
+
+REVISIÓN TÉCNICA ANTERIOR WEB 4.8.13 · 25/10/2026
 Se atienden cuatro hallazgos de seguridad en las herramientas y la publicación:
 verificación pública HTTPS obligatoria, dependencias Python con hashes,
 lectura acotada de ZIP/ELPX y validación de nuevas entradas WAV autocontenidas.
@@ -163,7 +169,7 @@ retos concretos y no sustituyen esa revisión ni son una calificación.
 
 PILOTAJE PENDIENTE
 No se ha aplicado todavía con alumnado y no se afirma eficacia educativa.
-PROTOCOLO_PILOTAJE.html ofrece una hoja imprimible para recoger tiempos,
+PROTOCOLO_PILOTAJE_WEB_4_9_0.html ofrece una hoja imprimible para recoger tiempos,
 apoyos, dificultades, accesibilidad y mejoras sin identificadores del alumnado.
 
 ADAPTACIÓN Y PUBLICACIÓN

@@ -17,8 +17,21 @@
     { id: 'lanzarote', text: 'Una anciana entrega una esponja mojada a Ico, que cuestiona una prueba injusta. ¿Qué isla debo abrir?', help: 'Esta isla volcánica está junto a La Graciosa.', explanation: 'El cuento de Lanzarote presenta la ayuda a Ico y su rechazo a una prueba que pone a una persona en peligro.' },
     { id: 'la-graciosa', text: 'Guadarfía y el capitán ven una isla entre la bruma: San Borondón. ¿A qué ruta del recurso pertenece esta historia?', help: 'El recurso invita a leer esta leyenda desde la más pequeña de sus ocho islas. San Borondón es una isla legendaria distinta.', explanation: 'Esta historia se lee en la ruta de La Graciosa. San Borondón es una isla legendaria; no es otro nombre de La Graciosa.' }
   ];
+  const invitations = {
+    tenerife: '¿Cómo vuelve la luz a Echeyde?',
+    'gran-canaria': '¿Por qué se mantienen juntos los pastores?',
+    'la-palma': '¿Cómo conserva Acerina la memoria de Idafe?',
+    'la-gomera': '¿Qué ocurre cuando dejamos de escuchar?',
+    'el-hierro': '¿Cómo recoge el Garoé el agua de la niebla?',
+    fuerteventura: '¿Cómo pueden reparar los pastores lo que han hecho?',
+    lanzarote: '¿Por qué cuestiona Ico una prueba injusta?',
+    'la-graciosa': '¿Qué hay entre lo que ven y lo que imaginan?'
+  };
   let context = null;
   let section = null;
+  let list = null;
+  let viewMode = 'map';
+  let zoomed = false;
   let expedition = [];
   let clueIndex = 0;
   let playing = false;
@@ -57,6 +70,67 @@
     pin.setAttribute('aria-label', pin.dataset.island + ': ' + action + '. ' + pin.dataset.badgeName + ', ' + state + '.');
   }
 
+  function refreshList() {
+    if (!list || !context) return;
+    const answering = playing && !complete;
+    list.querySelectorAll('#islandGrid [data-route]').forEach(card => {
+      const route = context.routes.find(item => item.id === card.dataset.route);
+      if (!route) return;
+      if (!card.querySelector('.explore-card-question')) {
+        card.querySelector('.card-action').before(element('span', 'explore-card-question', invitations[route.id]));
+      }
+      const action = answering ? 'Responder a la pista' : 'Abrir cuento';
+      card.setAttribute('aria-label', route.island + ': ' + route.title + '. ' + invitations[route.id] + ' ' + action + '.');
+      card.setAttribute('aria-describedby', 'exploreMapInstruction');
+      card.querySelector('.card-action').textContent = action + ' →';
+      card.classList.toggle('explore-card-found', answering && solved && card.dataset.route === expedition[clueIndex].id);
+    });
+  }
+
+  function renderView() {
+    if (!section) return;
+    const showList = viewMode === 'list' && Boolean(list);
+    controls.mapView.setAttribute('aria-pressed', String(!showList));
+    controls.listView.setAttribute('aria-pressed', String(showList));
+    controls.mapPanel.hidden = showList;
+    if (list) list.hidden = !showList;
+    requestAnimationFrame(controls.refreshPan);
+  }
+
+  function setView(name) {
+    viewMode = name;
+    renderView();
+  }
+
+  function attachList(detailsElement) {
+    if (!section || !detailsElement || detailsElement.tagName !== 'DETAILS' || !detailsElement.querySelector('#islandGrid')) return;
+    if (list === detailsElement) return;
+    list = detailsElement;
+    list.id = list.id || 'exploreListPanel';
+    list.classList.add('explore-list-panel');
+    list.setAttribute('aria-label', 'Ocho rutas insulares en lista');
+    list.open = true;
+    const summary = list.querySelector(':scope > summary');
+    if (summary) summary.hidden = true;
+    // The existing card listeners still open stories in free exploration.
+    // Capture answers only while playing, before those navigation listeners run.
+    list.addEventListener('click', event => {
+      const card = event.target.closest('#islandGrid [data-route]');
+      if (!card || !playing || complete) return;
+      const route = context.routes.find(item => item.id === card.dataset.route);
+      if (!route) return;
+      event.preventDefault();
+      event.stopPropagation();
+      chooseIsland(route);
+    }, true);
+    controls.mapPanel.after(list);
+    controls.listView.disabled = false;
+    controls.listView.setAttribute('aria-controls', list.id);
+    viewMode = window.matchMedia('(max-width: 760px)').matches ? 'list' : 'map';
+    refreshList();
+    renderView();
+  }
+
   function chooseIsland(route) {
     if (!playing || complete) {
       openStory(route.id);
@@ -65,16 +139,17 @@
     const clue = expedition[clueIndex];
     if (route.id === clue.id) {
       solved = true;
-      lastMessage = '¡La has encontrado! ' + clue.explanation;
+      lastMessage = '¡La han encontrado! ' + clue.explanation;
       announce(lastMessage, 'success');
     } else {
-      lastMessage = 'Has elegido ' + route.island + '. Esta pista corresponde a otra ruta. Puedes intentarlo de nuevo, pedir apoyo o leer el cuento.';
+      lastMessage = 'Han elegido ' + route.island + '. Esta pista corresponde a otra ruta. Pueden intentarlo de nuevo, pedir apoyo o leer el cuento.';
       announce(lastMessage, 'retry');
     }
     controls.next.hidden = false;
     controls.read.hidden = false;
     controls.pins.forEach(pin => pin.classList.toggle('explore-pin-found', solved && pin.dataset.route === clue.id));
-    controls.gameNote.textContent = 'Son pistas de las recreaciones literarias del recurso. Puedes volver a intentarlo o pasar a la siguiente sin penalización.';
+    refreshList();
+    controls.gameNote.textContent = 'Son pistas de las recreaciones literarias del recurso. Pueden volver a intentarlo o pasar a la siguiente sin penalización.';
   }
 
   function startGame() {
@@ -129,13 +204,14 @@
     controls.leave.hidden = !playing;
     controls.game.hidden = !playing;
     controls.mapInstruction.textContent = playing && !complete
-      ? 'Toca la pieza de la isla que responde a la pista. Con el teclado, usa Tab para recorrer las islas y Enter para elegir.'
-      : 'Empieza por la isla que quieras. Toca la pieza o el nombre para abrir su cuento. Con el teclado, usa Tab para recorrer las islas y Enter para abrir.';
+      ? 'Elijan la isla que responde a la pista, en el mapa o en la lista. Con el teclado, usen Tab para recorrer las islas y Enter para elegir.'
+      : 'Empiecen por la isla que quieran. Elijan una pieza o una tarjeta para abrir su cuento. Con el teclado, usen Tab para recorrer las islas y Enter para abrir.';
     controls.pins.forEach(pin => {
       pin.classList.remove('explore-pin-found');
       pin.setAttribute('aria-describedby', 'exploreMapInstruction');
       updatePinLabel(pin);
     });
+    refreshList();
     if (!playing) return;
     controls.restart.hidden = !complete;
     controls.hintButton.hidden = complete;
@@ -144,9 +220,9 @@
     controls.hint.hidden = complete || !hintVisible;
     if (complete) {
       controls.counter.textContent = 'Expedición de ' + expedition.length + ' pistas completada';
-      controls.clue.textContent = 'Has recorrido las cinco pistas. ¿Quieres descubrir otros cuentos?';
-      controls.gameNote.textContent = 'Puedes comenzar otra expedición o volver a explorar el mapa. Este juego no cambia tu pasaporte ni concede piezas.';
-      announce('Expedición terminada. Las ocho rutas siguen abiertas para que leas, releas y compares sus historias.', 'success');
+      controls.clue.textContent = 'Han recorrido las cinco pistas. ¿Quieren descubrir otros cuentos?';
+      controls.gameNote.textContent = 'Pueden comenzar otra expedición o volver a explorar el mapa. Este juego no cambia su pasaporte ni concede piezas.';
+      announce('Expedición terminada. Las ocho rutas siguen abiertas para que lean, relean y comparen sus historias.', 'success');
       return;
     }
     const clue = expedition[clueIndex];
@@ -156,7 +232,7 @@
     controls.gameNote.textContent = 'Estas pistas se basan en las recreaciones literarias del recurso. San Borondón es una isla legendaria y su cuento se lee en la ruta de La Graciosa.';
     controls.next.textContent = clueIndex + 1 === expedition.length ? 'Terminar expedición' : 'Siguiente pista';
     controls.hintButton.setAttribute('aria-expanded', String(hintVisible));
-    announce(lastMessage || 'Elige una isla. Puedes pedir apoyo, leer el cuento o pasar una pista; tienes todos los intentos que necesites.', solved ? 'success' : 'note');
+    announce(lastMessage || 'Elijan una isla. Pueden pedir apoyo, leer el cuento o pasar una pista; tienen todos los intentos que necesiten.', solved ? 'success' : 'note');
     controls.pins.forEach(pin => pin.classList.toggle('explore-pin-found', solved && pin.dataset.route === clue.id));
   }
 
@@ -172,6 +248,7 @@
       updatePinLabel(pin);
     });
     controls.progress.textContent = 'En la etapa seleccionada: ' + earnedCount + ' de ' + controls.pins.length + ' piezas conseguidas. Las pistas son una actividad libre y no modifican ese progreso.';
+    refreshList();
   }
 
   function reset() {
@@ -202,17 +279,27 @@
     section.id = 'exploreMap';
     section.setAttribute('aria-labelledby', 'exploreMapTitle');
     const intro = element('div', 'explore-intro');
-    intro.appendChild(element('p', 'explore-kicker', 'El archipiélago, a tu ritmo'));
-    const title = element('h2', 'section-title', 'Selecciona una isla en el mapa');
+    intro.appendChild(element('p', 'explore-kicker', 'El archipiélago, a su ritmo'));
+    const title = element('h2', 'section-title', 'Elijan una isla');
     title.id = 'exploreMapTitle';
     intro.appendChild(title);
-    intro.appendChild(element('p', 'explore-description', 'Pulsa una pieza o el nombre de la isla para abrir su cuento. Puedes empezar por donde quieras.'));
+    intro.appendChild(element('p', 'explore-description', 'Ocho islas, ocho historias. Elijan la que despierte su curiosidad: todas las rutas están abiertas.'));
+    section.appendChild(intro);
+    const viewSwitch = element('div', 'explore-view-switch');
+    viewSwitch.setAttribute('role', 'group');
+    viewSwitch.setAttribute('aria-label', 'Cómo elegir una isla');
+    controls.mapView = button('Mapa', 'explore-button explore-button-secondary', () => setView('map'));
+    controls.mapView.setAttribute('aria-controls', 'exploreMapPanel');
+    controls.listView = button('Lista', 'explore-button explore-button-secondary', () => setView('list'));
+    controls.listView.disabled = true;
+    viewSwitch.append(controls.mapView, controls.listView);
+    section.appendChild(viewSwitch);
     const toolbar = element('div', 'explore-actions');
     controls.start = button('Jugar con cinco pistas', 'explore-button', startGame);
     controls.resume = button('Retomar mis pistas', 'explore-button explore-button-secondary', resumeGame);
     controls.leave = button('Volver a explorar libremente', 'explore-button explore-button-secondary', leaveGame);
     toolbar.append(controls.start, controls.resume, controls.leave);
-    section.appendChild(intro);
+    section.appendChild(toolbar);
 
     controls.game = element('div', 'explore-game');
     controls.game.setAttribute('aria-labelledby', 'exploreClue');
@@ -243,6 +330,21 @@
     controls.mapInstruction = element('p', 'explore-map-instruction');
     controls.mapInstruction.id = 'exploreMapInstruction';
     section.appendChild(controls.mapInstruction);
+    controls.mapPanel = element('div', 'explore-map-panel');
+    controls.mapPanel.id = 'exploreMapPanel';
+    const mapTools = element('div', 'explore-map-tools');
+    controls.mapHelp = element('p', 'explore-overview-help');
+    const zoom = button('Acercar mapa', 'explore-button explore-button-secondary', () => {
+      zoomed = !zoomed;
+      viewport.classList.toggle('explore-map-zoomed', zoomed);
+      zoom.setAttribute('aria-pressed', String(zoomed));
+      viewport.scrollLeft = 0;
+      controls.refreshPan();
+    });
+    zoom.setAttribute('aria-pressed', 'false');
+    zoom.setAttribute('aria-controls', 'exploreMapViewport');
+    mapTools.append(zoom, controls.mapHelp);
+    controls.mapPanel.appendChild(mapTools);
     const stage = element('div', 'explore-map-stage');
     const image = element('img', 'explore-map-image');
     image.src = context.assets && context.assets['mapa_canarias_interactivo.webp'] || 'assets/images/mapa_canarias_interactivo.webp';
@@ -252,7 +354,7 @@
     stage.appendChild(image);
     const islands = element('div', 'explore-map-islands');
     islands.setAttribute('role', 'group');
-    islands.setAttribute('aria-label', 'Elige una de las ocho rutas insulares');
+    islands.setAttribute('aria-label', 'Elijan una de las ocho rutas insulares');
     controls.pins = context.routes.filter(route => positions[route.id]).map(route => {
       const pin = button('', 'explore-pin', () => chooseIsland(route));
       pin.dataset.route = route.id;
@@ -279,15 +381,16 @@
     });
     stage.appendChild(islands);
     const viewport = element('div', 'explore-map-viewport');
+    viewport.id = 'exploreMapViewport';
     viewport.tabIndex = 0;
     viewport.setAttribute('role', 'region');
     viewport.setAttribute('aria-label', 'Mapa de Canarias con ocho islas seleccionables');
     viewport.setAttribute('aria-describedby', 'exploreMapInstruction explorePanHelp');
     viewport.appendChild(stage);
-    section.appendChild(viewport);
+    controls.mapPanel.appendChild(viewport);
     const panControls = element('div', 'explore-pan-controls');
     panControls.hidden = true;
-    const panHelp = element('p', 'explore-pan-help', 'Desliza el mapa para ver las demás islas, o utiliza las flechas.');
+    const panHelp = element('p', 'explore-pan-help', 'Desplacen el mapa con las flechas o el teclado. Al elegir con Tab, cada isla entra en la zona visible.');
     panHelp.id = 'explorePanHelp';
     const pan = direction => viewport.scrollBy({
       left: direction * Math.max(200, viewport.clientWidth * .8),
@@ -298,23 +401,32 @@
     const next = button('→', 'explore-button explore-button-secondary', () => pan(1));
     next.setAttribute('aria-label', 'Ver las islas hacia el este');
     panControls.append(previous, panHelp, next);
-    section.appendChild(panControls);
+    controls.mapPanel.appendChild(panControls);
+    section.appendChild(controls.mapPanel);
     const refreshPan = () => {
+      const compact = viewport.clientWidth < parseFloat(getComputedStyle(section).fontSize) * 58;
+      viewport.classList.toggle('explore-map-compact', compact);
+      controls.mapHelp.textContent = zoomed
+        ? 'Mapa ampliado. Desplácense para explorar las islas. Pulsen «Acercar mapa» de nuevo para volver a la vista general.'
+        : compact
+          ? 'Vista general del archipiélago. Elijan una pieza debajo o acerquen el mapa para elegir sobre él.'
+          : 'Vista general del archipiélago. Elijan una pieza o acerquen el mapa para observarlo con más detalle.';
       panControls.hidden = viewport.clientWidth === 0 || viewport.scrollWidth <= viewport.clientWidth + 1;
       previous.disabled = viewport.scrollLeft <= 1;
       next.disabled = viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 1;
     };
+    controls.refreshPan = refreshPan;
     viewport.addEventListener('scroll', refreshPan, {passive: true});
     window.addEventListener('resize', refreshPan);
     if (window.ResizeObserver) new ResizeObserver(refreshPan).observe(viewport);
     requestAnimationFrame(refreshPan);
-    section.appendChild(toolbar);
     controls.progress = element('p', 'explore-progress');
     section.appendChild(controls.progress);
     anchor.parentNode.insertBefore(section, anchor);
     renderMode();
     refresh();
+    renderView();
   }
 
-  window.MitoMapaExplorer = Object.freeze({ init, refresh, reset });
+  window.MitoMapaExplorer = Object.freeze({ init, refresh, reset, attachList });
 })();

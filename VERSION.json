@@ -1,14 +1,14 @@
 {
-  "web_version": "4.8.13",
+  "web_version": "4.9.0",
   "rea_exelearning_version": "4.8.7",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-25",
+  "prepared_at": "2026-10-27",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
     "sha256": "3da10fd9e4acd9aa6ae1a36dead66e35830f985bec61a8b79355ad9eaa0090b2",
     "bytes": 25845251
   },
-  "previous_web_version": "4.8.12",
+  "previous_web_version": "4.8.13",
   "previous_rea_version": "4.8.6",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_8_13.md",
+  "release_notes": "CAMBIOS_WEB_4_9_0.md",
   "rea_release_notes": "CAMBIOS_REA_4_8_7.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_8_13.zip",
+    "path": "downloads/MitoMapa_REA_v4_9_0.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "8edb547257780a3f5ea5c9871550995e7da8b763c9afb35cdc5b064e5f11c07d",
-    "bytes": 25666717
+    "sha256": "e82707538565d4a3055cee9c2263dc93851720809fe5ce7b4b4f2db12c245f93",
+    "bytes": 25673907
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_8_13.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_9_0.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.8.13",
+    "downloaded_response_version": "4.9.0",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +176,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.8.13",
+  "release_version": "4.9.0",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -204,7 +204,7 @@
     "counts_towards_passport": false,
     "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
   },
-  "web_revision_date": "2026-10-25",
+  "web_revision_date": "2026-10-27",
   "elpx_thumbnail": {
     "path": "assets/images/miniatura_elpx.png",
     "sha256": "614768b1fa733f2b2c155c4508a8446dbcdd94d7bf543abee21bf4c2b2cfbda0",
@@ -231,5 +231,21 @@
     "native_elpx_bytes_unchanged": true,
     "published_media_bytes_unchanged": true,
     "didactic_protocol_baseline_web_version": "4.8.12"
+  },
+  "web_teacher_guide": "GUIA_DOCENTE.html",
+  "web_pilot_protocol": "PROTOCOLO_PILOTAJE_WEB_4_9_0.html",
+  "learner_experience_revision": {
+    "date": "2026-10-27",
+    "baseline_revision": "ba32084c5863bd2c03f201e43644c393c11ec967",
+    "free_island_choice": true,
+    "map_list_mobile": true,
+    "contextual_reading_support": true,
+    "agreed_route_separate_from_collection": true,
+    "graduated_hints_and_story_fragments": true,
+    "creative_closure_without_full_collection": true,
+    "classroom_pilot": "pending",
+    "recorded_audio_paragraph_alignment": "future_extension_requires_review",
+    "native_elpx_bytes_unchanged": true,
+    "published_media_bytes_unchanged": true
   }
 }

@@ -63,6 +63,31 @@
     return {selected: ids.length, reviewed, complete: ids.length > 0 && reviewed === ids.length};
   }
 
+  function routeBriefs() {
+    const selected = new Set(selection());
+    for (const section of document.querySelectorAll(".route")) {
+      const id = section.id.replace(/^route-/,"");
+      if (!context.routes.some(route=>route.id===id)) continue;
+      let brief=section.querySelector(".route-session-brief");
+      if (!brief) {
+        brief=document.createElement("div");brief.className="route-session-brief";
+        const title=document.createElement("p"),strong=document.createElement("strong");strong.textContent="Nuestro trabajo de hoy";title.append(strong);
+        const task=document.createElement("p");task.className="route-session-task";
+        const links=document.createElement("p");links.className="route-session-links";
+        const workshop=document.createElement("a");workshop.href=`#isla/${id}/taller`;workshop.textContent="Ir al taller";
+        const closure=document.createElement("a");closure.href="#crear";closure.textContent="Crear y compartir";
+        links.append(workshop,closure);brief.append(title,task,links);
+        section.querySelector(".route-head")?.after(brief);
+      }
+      const assignment=context.assignment?.(id);
+      const tasks=Array.isArray(assignment?.selectedTasks)?assignment.selectedTasks:[];
+      const names={words:"explorar vocabulario",research:"contrastar una fuente",creation:"preparar una creación"};
+      const extra=tasks.filter(key=>Object.hasOwn(names,key)).map(key=>names[key]);
+      const agreed=typeof assignment?.tasks==="string"?assignment.tasks.trim():"";
+      brief.querySelector(".route-session-task").textContent=agreed || `${selected.has(id)?"Ruta acordada":"Propuesta"}: leer o escuchar el cuento${extra.length?", "+extra.join(", "):" y conversar sobre lo que ocurre"}.`;
+    }
+  }
+
   function refresh() {
     if (!context) return;
     renderChoices();
@@ -88,7 +113,14 @@
     const itinerarySummary = byId("itinerarySummary");
     if (itinerarySummary && result.selected) itinerarySummary.textContent = `${message} Colección: ${context.badgeCount()}/${context.routes.length} piezas.`;
     const progress = byId("progressText");
-    if (progress) progress.title = "Colección de ocho piezas; no mide las tareas acordadas con tu docente";
+    if (progress) {
+      progress.textContent=result.selected?`Mi ruta: ${result.reviewed}/${result.selected} islas revisadas`:"Exploración libre";
+      progress.title=result.selected?"Revisión de la ruta acordada con el profesorado; la colección de piezas es independiente":"Pueden elegir cualquier isla. La colección está en el pasaporte.";
+      const wrapper=progress.closest(".progress-wrap");
+      if(wrapper){wrapper.classList.add("session-progress");wrapper.dataset.routeAgreed=String(result.selected>0);wrapper.setAttribute("aria-label","Estado de la ruta acordada");}
+    }
+    routeBriefs();
+    window.MitoMapaNavigation?.refreshResume?.();
   }
 
   function importState(value) {
