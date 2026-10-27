@@ -1,6 +1,8 @@
 /* Carta contemporánea: se conserva la geometría del mapa original. */
 .names-map-game{--names-ink:#493c2b;--names-paper:#fcf6e7;--names-line:#ae9871;--names-accent:#79613b;min-width:0;max-width:100%;color:var(--names-ink);border-color:#c8b798;scroll-margin-top:6rem;background:#fffdf8}
 .names-map-game [hidden]{display:none!important}
+.names-alternative-access{margin:.5rem 0 0;max-width:100%}
+.names-map-game .names-alternative{margin:.6rem 0 1rem}
 .names-map-game .names-kicker{margin:0 0 .15rem;color:#765233;font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
 .names-map-game .section-title{margin-top:0;margin-bottom:.4rem;color:var(--names-ink);font-size:clamp(1.7rem,3vw,2.1rem)}
 .names-intro{max-width:90ch;margin:.4rem 0 .7rem;font-size:.96rem}
@@ -61,6 +63,7 @@
 .names-feedback{min-height:3.5em;margin:.75rem 0 0;padding:.8rem .9rem;border:1px solid #beaa83;border-radius:.35rem;background:#faf4e5;color:#4b3d28;font-size:.94rem;line-height:1.5}
 .names-feedback[data-kind="success"]{border-color:#789069;background:#eef4e8;color:#36502c}
 .names-feedback[data-kind="retry"],.names-feedback[data-kind="hint"]{border-left:4px solid #a1813e;background:#fff5d8}
+.names-alternative .names-alternative-feedback{min-height:0;margin:.65rem 0 .8rem;scroll-margin-top:var(--header-offset,8rem)}
 .names-progress{margin:.6rem 0 1rem;font-size:.88rem;color:#54452f;line-height:1.5}
 .names-place-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:.75rem;align-items:end;margin:1rem 0}
 .names-place-form label{display:flex;flex-direction:column;gap:.35rem;min-width:0;font-size:.9rem;font-weight:700}

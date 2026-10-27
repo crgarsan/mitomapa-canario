@@ -32,6 +32,17 @@ class SynchronizationTests(unittest.TestCase):
         cls.before = native_structure(cls.baseline)
         cls.after = native_structure(cls.result)
 
+    def test_web_preparation_date_does_not_modify_the_native_revision(self):
+        version=copy.deepcopy(self.version)
+        version['prepared_at']='2099-12-31'
+        original=Path.read_text
+        def read_text(path,*args,**kwargs):
+            return json.dumps(version) if path==ROOT/'VERSION.json' else original(path,*args,**kwargs)
+        with patch.object(Path,'read_text',read_text):
+            rebuilt,_=build_current()
+        changed=sorted(name for name in set(rebuilt)|set(self.result) if rebuilt.get(name)!=self.result.get(name))
+        self.assertEqual(changed,[])
+
     def test_native_structure_and_all_untouched_activities_are_preserved(self):
         self.assertEqual(len(self.after["pages"]), 34)
         self.assertEqual(len(self.after["components"]), 118)

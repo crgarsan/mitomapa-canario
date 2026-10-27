@@ -131,6 +131,7 @@ class JourneyBrowserTest(unittest.TestCase):
 
         # Agreement is a learning goal, not a lock on the other six islands.
         self.page.goto(self.base + "#islas", wait_until="networkidle")
+        self.page.locator("#exploreMap").get_by_role("button", name="Lista", exact=True).click()
         island_list = self.page.locator("#islandGrid").locator("xpath=ancestor::details[1]")
         if island_list.get_attribute("open") is None:
             island_list.locator(":scope > summary").click()

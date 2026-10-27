@@ -54,6 +54,14 @@
   function announce(message, kind) {
     controls.feedback.textContent = message;
     controls.feedback.dataset.kind = kind || 'note';
+    controls.alternativeFeedback.textContent = message;
+    controls.alternativeFeedback.dataset.kind = kind || 'note';
+    if (document.activeElement === controls.place) {
+      // Stop an earlier smooth navigation scroll even if the response is
+      // already visible: nearest alone would let that scroll keep moving it.
+      window.scrollTo({top: window.scrollY, left: window.scrollX, behavior: 'instant'});
+      controls.alternativeFeedback.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'instant'});
+    }
   }
 
   function update() {
@@ -78,12 +86,13 @@
       card.setAttribute('aria-pressed', String(selected === island.id));
       card.setAttribute('aria-disabled', String(done || reference));
       card.dataset.placed = String(done);
+      card.setAttribute('aria-label', island.name + '. ' + (island.category ? 'Categoría, no un nombre antiguo. ' : '') + (done ? 'Colocada en ' + island.current + '.' : reference ? 'Sin colocar. Referencia visible.' : 'Sin colocar.'));
       card.querySelector('.names-card-state').textContent = done ? 'Colocado · ' + island.current : island.category ? 'Categoría, no un nombre antiguo' : 'Elegir o arrastrar';
       target.dataset.placed = String(done);
       target.dataset.reference = String(reference);
       target.querySelector('.names-target-answer').textContent = done || reference ? island.name : 'Coloca una ficha';
       target.querySelector('.names-target-state').textContent = reference ? 'Referencia' : done ? '✓ Relacionado' : '';
-      target.setAttribute('aria-label', island.current + '. ' + (reference ? 'Referencia: ' + island.name + '.' : done ? island.name + ', ya relacionado.' : 'Colocar aquí el nombre seleccionado.'));
+      target.setAttribute('aria-label', island.current + '. ' + (reference ? 'Referencia: ' + island.name + '.' : done ? island.name + ', ya relacionado.' : 'Vacía. Colocar aquí el nombre seleccionado.'));
       const option = controls.nameSelect.querySelector('option[value="' + island.id + '"]');
       option.disabled = done;
     });
@@ -311,6 +320,7 @@
 
   function buildAlternative() {
     const details = node('details', 'names-details names-alternative');
+    details.id = 'namesAlternative';
     const summary = node('summary', '', 'Colocar sin arrastrar');
     const description = node('p', '', 'Elige un nombre y una isla actual. Este modo realiza la misma práctica que el mapa.');
     const form = node('div', 'names-place-form');
@@ -342,7 +352,20 @@
       place(controls.islandSelect.value, controls.nameSelect.value);
     }, 'namesPlaceButton');
     form.append(nameLabel, islandLabel, controls.place);
-    details.append(summary, description, form);
+    controls.alternativeFeedback = node('p', 'names-feedback names-alternative-feedback');
+    controls.alternativeFeedback.id = 'namesAlternativeFeedback';
+    controls.nameSelect.setAttribute('aria-describedby', controls.alternativeFeedback.id);
+    controls.islandSelect.setAttribute('aria-describedby', controls.alternativeFeedback.id);
+    details.append(summary, description, form, controls.alternativeFeedback);
+    controls.withoutDrag = button('Sin arrastrar', 'names-button names-button-secondary names-alternative-access', () => {
+      clearDrag();
+      details.open = true;
+      controls.withoutDrag.setAttribute('aria-expanded', 'true');
+      (controls.nameSelect.disabled ? summary : controls.nameSelect).focus();
+    }, 'namesWithoutDrag');
+    controls.withoutDrag.setAttribute('aria-controls', details.id);
+    controls.withoutDrag.setAttribute('aria-expanded', 'false');
+    details.addEventListener('toggle', () => controls.withoutDrag.setAttribute('aria-expanded', String(details.open)));
     return details;
   }
 
@@ -357,6 +380,8 @@
     const title = node('h1', 'section-title', 'Los nombres de las islas');
     title.id = 'namesMapTitle';
     section.append(kicker, title, node('p', 'names-intro', 'Elige una ficha y su isla, o arrástrala a su cartela. Practica en cualquier orden, sin puntuación.'));
+    const alternative = buildAlternative();
+    section.append(controls.withoutDrag, alternative);
     const note = node('p', 'names-source-note', 'Los nombres antiguos presentan dudas y variantes. La ficha de La Graciosa indica que no se ha documentado un nombre aborigen.');
     const instructions = node('details', 'names-details names-context');
     instructions.append(node('summary', '', 'Qué sabemos de estos nombres y cómo jugar'));
@@ -426,7 +451,7 @@
     controls.feedback.setAttribute('aria-atomic', 'true');
     controls.progress = node('p', 'names-progress');
     controls.progress.id = 'namesProgress';
-    section.append(actions, controls.feedback, controls.progress, buildAlternative());
+    section.append(actions, controls.feedback, controls.progress);
     section.addEventListener('keydown', event => {
       if (event.key !== 'Escape') return;
       const previous = selected;

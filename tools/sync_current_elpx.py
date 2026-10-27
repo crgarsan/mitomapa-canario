@@ -75,7 +75,11 @@ def build_current(root=ROOT):
         raise ValueError("The pinned source ELPX has changed")
     baseline = read_zip(payload)
     result = dict(baseline)
-    apply_editorial(result, root, version)
+    # Web publication and native editorial revision have independent dates.
+    # Updating only the web must not rewrite the current native project.
+    native_version = dict(version)
+    native_version["prepared_at"] = version.get("rea_revision", version["prepared_at"])
+    apply_editorial(result, root, native_version)
     # Native recordings, scenes and badges keep their original resource URLs.
     # The former application's documents, scripts and manifests are excluded.
     for name in list(result):

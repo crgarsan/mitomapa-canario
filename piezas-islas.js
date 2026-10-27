@@ -54,6 +54,14 @@
   function announce(message, kind) {
     controls.feedback.textContent = message;
     controls.feedback.dataset.kind = kind || 'note';
+    controls.alternativeFeedback.textContent = message;
+    controls.alternativeFeedback.dataset.kind = kind || 'note';
+    if (document.activeElement === controls.place) {
+      // Stop an earlier smooth navigation scroll even if the response is
+      // already visible: nearest alone would let that scroll keep moving it.
+      window.scrollTo({top: window.scrollY, left: window.scrollX, behavior: 'instant'});
+      controls.alternativeFeedback.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'instant'});
+    }
   }
 
   function imageFor(island) {
@@ -93,13 +101,14 @@
       card.setAttribute('aria-pressed', String(selected === island.id));
       card.setAttribute('aria-disabled', String(done || reference));
       card.dataset.placed = String(done);
+      card.setAttribute('aria-label', island.name + '. ' + island.description + ' ' + (done ? 'Colocada en ' + island.current + '.' : reference ? 'Sin colocar. Referencia visible.' : 'Sin colocar.'));
       card.querySelector('.pieces-card-state').textContent = done ? 'Colocada · ' + island.current : 'Elegir o arrastrar';
       target.dataset.placed = String(done);
       target.dataset.reference = String(reference);
       target.querySelector('.pieces-target-image').hidden = !(done || reference);
       target.querySelector('.pieces-target-answer').textContent = done || reference ? island.name : 'Coloca una pieza';
       target.querySelector('.pieces-target-state').textContent = reference ? 'Referencia' : done ? '✓ Relacionada' : '';
-      target.setAttribute('aria-label', island.current + '. ' + (reference ? 'Referencia: ' + island.name + '. ' + island.description : done ? island.name + ', ya relacionada.' : 'Colocar aquí la pieza seleccionada.'));
+      target.setAttribute('aria-label', island.current + '. ' + (reference ? 'Referencia: ' + island.name + '. ' + island.description : done ? island.name + '. ' + island.description + ' Ya colocada.' : 'Vacía. Colocar aquí la pieza seleccionada.'));
       controls.pieceSelect.querySelector('option[value="' + island.id + '"]').disabled = done;
     });
     controls.pieceSelect.disabled = reference;
@@ -307,6 +316,7 @@
 
   function buildAlternative() {
     const details = node('details', 'pieces-details pieces-alternative');
+    details.id = 'piecesAlternative';
     const summary = node('summary', '', 'Colocar sin arrastrar');
     const description = node('p', '', 'Elige una pieza por su número y descripción, y una isla. Este modo realiza la misma práctica que el mapa.');
     const form = node('div', 'pieces-place-form');
@@ -338,7 +348,20 @@
       place(controls.islandSelect.value, controls.pieceSelect.value);
     }, 'piecesPlaceButton');
     form.append(nameLabel, islandLabel, controls.place);
-    details.append(summary, description, form);
+    controls.alternativeFeedback = node('p', 'pieces-feedback pieces-alternative-feedback');
+    controls.alternativeFeedback.id = 'piecesAlternativeFeedback';
+    controls.pieceSelect.setAttribute('aria-describedby', controls.alternativeFeedback.id);
+    controls.islandSelect.setAttribute('aria-describedby', controls.alternativeFeedback.id);
+    details.append(summary, description, form, controls.alternativeFeedback);
+    controls.withoutDrag = button('Sin arrastrar', 'pieces-button pieces-button-secondary pieces-alternative-access', () => {
+      clearDrag();
+      details.open = true;
+      controls.withoutDrag.setAttribute('aria-expanded', 'true');
+      (controls.pieceSelect.disabled ? summary : controls.pieceSelect).focus();
+    }, 'piecesWithoutDrag');
+    controls.withoutDrag.setAttribute('aria-controls', details.id);
+    controls.withoutDrag.setAttribute('aria-expanded', 'false');
+    details.addEventListener('toggle', () => controls.withoutDrag.setAttribute('aria-expanded', String(details.open)));
     return details;
   }
 
@@ -354,6 +377,8 @@
     const title = node('h1', 'section-title', 'Las piezas y sus islas');
     title.id = 'piecesMapTitle';
     section.append(kicker, title, node('p', 'pieces-intro', 'Relaciona cada pieza con la isla que tiene asignada en MitoMapa. Tócala y elige su isla, o arrástrala. Sin puntuación, premios ni cambios en tu pasaporte.'));
+    const alternative = buildAlternative();
+    section.append(controls.withoutDrag, alternative);
     const note = node('p', 'pieces-source-note', CAUTION);
     const instructions = node('details', 'pieces-details pieces-context');
     instructions.append(node('summary', '', 'Cómo jugar y qué muestra la referencia'));
@@ -418,7 +443,7 @@
     controls.feedback.setAttribute('aria-atomic', 'true');
     controls.progress = node('p', 'pieces-progress');
     controls.progress.id = 'piecesProgress';
-    section.append(actions, controls.feedback, controls.progress, buildAlternative());
+    section.append(actions, controls.feedback, controls.progress);
     section.addEventListener('keydown', event => {
       if (event.key !== 'Escape') return;
       const previous = selected;

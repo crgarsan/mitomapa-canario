@@ -1,0 +1,25 @@
+/* Ajustes del cuento, sin estilos generados ni relación con la etapa. */
+.reading-support{min-width:0;margin:0 0 1.3rem}
+.reading-support .narrator{margin:0 0 .6rem;grid-template-columns:minmax(170px,.65fr) minmax(0,1.35fr)}
+.reading-settings{border:1px solid var(--line);border-radius:3px;background:var(--paper);padding:.65rem .85rem}
+.reading-settings summary{min-height:44px;cursor:pointer;font-weight:800;color:var(--earth-dark)}
+.reading-settings summary:focus-visible,.reading-controls select:focus-visible,.reading-reset:focus-visible{outline:3px solid var(--earth-dark);outline-offset:3px}
+.reading-settings>p{margin:.6rem 0;color:var(--muted);font-size:.9rem}
+.reading-controls{display:flex;flex-wrap:wrap;gap:.7rem;align-items:end}
+.reading-controls label{display:flex;flex:1 1 10rem;min-width:0;flex-direction:column;gap:.3rem;font-weight:750;font-size:.9rem}
+.reading-controls select{min-width:0;width:100%;min-height:44px;border:1px solid #7f9697;border-radius:2px;background:var(--paper);color:var(--ink);font:inherit}
+.reading-reset{min-height:44px;white-space:normal}
+.reading-settings .reading-status{margin:.45rem 0 0;font-weight:700}
+.reading-status:empty{display:none}
+body[data-reading-size="normal"] .route .story{font-size:1.16rem}
+body[data-reading-size="large"] .route .story{font-size:1.32rem}
+body[data-reading-size="xlarge"] .route .story{font-size:1.5rem}
+body[data-reading-spacing="normal"] .route .story{line-height:1.82}
+body[data-reading-spacing="spacious"] .route .story{line-height:2.15}
+body[data-reading-size] .route .story>p:not(.route-meta):not(.story-intro),body[data-reading-size] .route .story>.story-refrain{font-size:inherit;line-height:inherit}
+body[data-reading-width="medium"] .route .story{max-width:70ch}
+body[data-reading-width="narrow"] .route .story{max-width:48ch}
+body[data-reading-width="wide"] .route .story{max-width:90ch}
+body[data-reading-width] .route .story{min-width:0;width:100%;margin-inline:auto;overflow-wrap:anywhere}
+@media(max-width:760px){.reading-support .narrator{grid-template-columns:1fr}.reading-controls{align-items:stretch}}
+@media print{.reading-support{display:none!important}}
