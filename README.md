@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.9.0 · REA 4.8.7
+# MitoMapa canario · web 4.9.1 · REA 4.8.8
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,10 +9,11 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La publicación web **4.9.0** identifica el REA editable **4.8.7**, revisado el
-25/10/2026 para corregir vocabulario, enlaces docentes, importación de seguimiento
-y accesibilidad. Se revisan las opciones de los ocho juegos de vocabulario nativos;
-se conservan las identidades de actividades, los cuentos, los audios y las imágenes.
+La publicación web **4.9.1** identifica el REA editable **4.8.8**, revisado el
+29/10/2026 para limitar la interpretación de metadatos en los componentes
+nativos de informe de progreso y listas de cotejo. Los títulos y mensajes se
+muestran como texto; los ítems y pies conservan formato HTML pasivo saneado.
+Se conservan las identidades, preguntas, seguimiento, cuentos, audios e imágenes.
 Son dos recursos diferenciados. La adaptación GobCan tiene
 **34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
 de eXeLearning **4.0.5**, la plantilla Flux y Andika. El ELPX conserva los ocho
@@ -22,9 +23,9 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 
 - [Edición publicada en la Mediateca de Canarias](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
 - [Web publicada](https://mitomapacanario.org/).
-- [REA editable vigente · 4.8.7](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.9.0 · incluye el REA 4.8.7](downloads/MitoMapa_REA_v4_9_0.zip).
-- [Fuentes web 4.9.0](downloads/MitoMapa_fuentes_web_v4_9_0.zip).
+- [REA editable vigente · 4.8.8](downloads/MitoMapa_canario_GobCan.elpx).
+- [Paquete de la publicación 4.9.1 · incluye el REA 4.8.8](downloads/MitoMapa_REA_v4_9_1.zip).
+- [Fuentes web 4.9.1](downloads/MitoMapa_fuentes_web_v4_9_1.zip).
 - [REA anterior · 4.8.6](downloads/MitoMapa_canario_GobCan_v4_8_6.elpx).
 
 La miniatura social conserva el diseño de la web 4.8.8: un fondo
@@ -36,7 +37,7 @@ compartidos en WhatsApp pueden conservar la vista previa almacenada.
 La revisión web del 24/10/2026 sitúa en primer lugar de Recursos el acceso a
 la ficha de MitoMapa en la Mediateca, con su logo y las opciones de uso o descarga
 que ofrece esa ficha. La Mediateca identifica su edición como 4.8.4; la descarga
-directa de esta web corresponde al REA 4.8.7. El botón del ELPX entrega el archivo e indica
+directa de esta web corresponde al REA 4.8.8. El botón del ELPX entrega el archivo e indica
 al navegador que lo guarde como adjunto. Si un navegador integrado no permite
 guardarlo, abre el enlace en un navegador externo o descarga el paquete ZIP.
 
@@ -130,7 +131,7 @@ python3 tools/prepare_deploy.py
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.9.0 ofrece el ELPX 4.8.7 con vocabulario y navegación revisados; el archivo
+empaquetar. La publicación 4.9.1 ofrece el ELPX 4.8.8 con renderizado nativo revisado; el archivo
 4.8.6 anterior conserva su propia descarga.
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
@@ -227,4 +228,20 @@ límites de ejecución/salida. Los MP3 publicados se conservan.
 
 La web incorpora elección Mapa/Lista, mapa general y acercamiento, lectura ajustable junto a la narración, reanudación del apartado, consigna de la sesión, pistas graduadas y retorno al fragmento del cuento. El cierre Crear y compartir puede trabajarse con una o dos islas; el gran reto de ocho piezas sigue como ampliación. Las preguntas de apoyo no validan por sí solas una investigación ni una producción.
 
-Se conserva el ELPX 4.8.7 byte a byte, las grabaciones y las imágenes. El protocolo web actualizado está separado del protocolo histórico incorporado al ELPX. La sincronización por párrafos de las grabaciones requiere un trabajo posterior de alineación y revisión; no se simula. El pilotaje con alumnado y la comprobación con usuarios de tecnologías de apoyo siguen pendientes.
+En esa revisión se conservó el ELPX 4.8.7 byte a byte, junto con las grabaciones y las imágenes. El protocolo web actualizado está separado del protocolo histórico incorporado al ELPX. La sincronización por párrafos de las grabaciones requiere un trabajo posterior de alineación y revisión; no se simula. El pilotaje con alumnado y la comprobación con usuarios de tecnologías de apoyo siguen pendientes.
+
+## Renderizado nativo revisado — 29/10/2026
+
+La corrección actual se limita a dos runtimes nativos del ELPX y a la identidad
+de su entrega. DOMPurify 3.4.17 se incorpora con versión, integridad y licencia
+fijadas; sus instancias son privadas. Se mantienen negritas y enlaces seguros
+en los campos que admiten formato. Los demás componentes y medios se preservan.
+
+La previsualización de autor de eXe 4.0.5 admite código del proyecto en su mismo
+origen. Este cambio no convierte en confiable un proyecto externo arbitrario ni
+actualiza el software de un servidor eXeLearning. Si el editor regenera sus
+runtimes, es necesario comprobar de nuevo la exportación. Las ediciones
+históricas públicas conservan sus bytes y no se presentan como corregidas.
+
+Ver [cambio nativo 4.8.8](CAMBIOS_REA_4_8_8.md) y
+[publicación web 4.9.1](CAMBIOS_WEB_4_9_1.md).

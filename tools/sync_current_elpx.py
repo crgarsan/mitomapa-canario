@@ -2,8 +2,8 @@
 """Build the native GobCan project from its pinned source, independently of the web.
 
 Editorial changes affect Text components, navigation and the stored project
-thumbnail. Games, other media and native runtime dependencies are preserved;
---check is read-only and never repairs files.
+thumbnail. Games/media are preserved; exactly two native runtime dependencies
+receive a reproducible metadata-rendering fix. --check never repairs files.
 """
 import argparse
 from io import BytesIO
@@ -15,6 +15,7 @@ from lxml import etree
 
 from editorial_elpx import apply_editorial
 from native_preservation import verify_component
+from native_runtime_security import LICENSE_MEMBER, MEMBERS as SECURED_RUNTIMES, apply_runtime_security, verify_runtime_security
 from project_thumbnail import THUMBNAIL_MEMBERS, verify_project_thumbnail
 from harden_jspdf_exports import ZIP_INFO_FIELDS, read_archive, write_archive
 from release_support import MAX_ASSET_BYTES, digest, json_bytes, read_zip, source_path
@@ -44,8 +45,16 @@ def version_module(version):
     return ("/* Generado a partir de VERSION.json. */\nwindow.MitoMapaVersion = Object.freeze(" + json.dumps(values, ensure_ascii=False, separators=(",", ":")) + ");\n").encode()
 
 
-def verify_preservation(baseline, result):
+def verify_preservation(baseline, result, root=ROOT):
     verify_project_thumbnail(result)
+    verify_runtime_security(result, baseline, root)
+    extra_runtimes = {
+        name for name in result
+        if name.startswith(("libs/", "idevices/", "theme/")) and name not in baseline
+        and name not in {LICENSE_MEMBER, "libs/elpx-manifest.js"}
+    }
+    if extra_runtimes:
+        raise ValueError(f"The editorial revision added an unexpected runtime: {sorted(extra_runtimes)}")
     before, after = native_structure(baseline), native_structure(result)
     if set(before["pages"]) - set(after["pages"]) != MERGED_TEACHER_PAGES or set(after["pages"]) - set(before["pages"]):
         raise ValueError("The editorial merge changed pages outside the five teacher sections")
@@ -61,7 +70,7 @@ def verify_preservation(baseline, result):
     for name, payload in baseline.items():
         if name not in THUMBNAIL_MEMBERS and Path(name).suffix.lower() in MEDIA_EXTENSIONS and result.get(name) != payload:
             raise ValueError(f"The editorial revision changed a media asset: {name}")
-        if name.startswith(("libs/", "idevices/", "theme/")) and name != "libs/elpx-manifest.js" and result.get(name) != payload:
+        if name.startswith(("libs/", "idevices/", "theme/")) and name != "libs/elpx-manifest.js" and name not in SECURED_RUNTIMES and result.get(name) != payload:
             raise ValueError(f"The editorial revision changed a runtime dependency: {name}")
 
 
@@ -80,6 +89,7 @@ def build_current(root=ROOT):
     native_version = dict(version)
     native_version["prepared_at"] = version.get("rea_revision", version["prepared_at"])
     apply_editorial(result, root, native_version)
+    apply_runtime_security(result, baseline, root)
     # Native recordings, scenes and badges keep their original resource URLs.
     # The former application's documents, scripts and manifests are excluded.
     for name in list(result):
@@ -101,7 +111,7 @@ def build_current(root=ROOT):
     tree = etree.fromstring(result["content.xml"], etree.XMLParser(resolve_entities=False, load_dtd=False, no_network=True))
     if not etree.DTD(BytesIO(result["content.dtd"])).validate(tree):
         raise ValueError("The editorial ODE model does not match its DTD")
-    verify_preservation(baseline, result)
+    verify_preservation(baseline, result, root)
     return result, version
 
 

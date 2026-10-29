@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 from release_support import digest, read_zip, zip_bytes
 from harden_jspdf_exports import ZIP_INFO_FIELDS, read_archive
 from native_preservation import verify_component
+from native_runtime_security import MEMBERS as SECURED_RUNTIMES
 from sync_current_elpx import (
     APP, MEDIA_EXTENSIONS, NS, PORTABLE, MERGED_TEACHER_PAGES, build_archive, build_current, field,
     native_structure, synchronize, verify_preservation, version_module,
@@ -61,10 +62,13 @@ class SynchronizationTests(unittest.TestCase):
         self.assertEqual(unchanged, 55)
         self.assertEqual(games, 42)
 
-    def test_all_existing_scenes_audio_and_runtime_dependencies_are_byte_identical(self):
+    def test_scenes_audio_and_unaffected_runtime_dependencies_are_byte_identical(self):
         scenes = audio = 0
         for name, payload in self.baseline.items():
             if name in {"screenshot.png", "content/resources/screenshot.png"}:
+                continue
+            if name in SECURED_RUNTIMES:
+                self.assertNotEqual(self.result[name],payload)
                 continue
             if Path(name).suffix.lower() in MEDIA_EXTENSIONS or (
                     name.startswith(("libs/", "idevices/", "theme/")) and name != "libs/elpx-manifest.js"):
