@@ -5,6 +5,7 @@
     "node": ">=22"
   },
   "devDependencies": {
+    "dompurify": "3.4.17",
     "wrangler": "4.152.0"
   },
   "overrides": {

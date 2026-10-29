@@ -131,10 +131,11 @@ class JsPdfBrowserTest(unittest.TestCase):
                     cls.scripts.append((path.name, kind, source))
                     cls.representatives.setdefault(kind, source)
                     cls.variants.add(hashlib.sha256(source.encode("utf-8")).hexdigest())
-        # Includes the qualitative-checklist runtime of the current GobCan
-        # edition, distinct from the checklist kept in older downloads.
-        if len(cls.scripts) < 59 or len(cls.variants) != 5:
-            raise AssertionError("Preserve historical loader coverage and the five reviewed source variants")
+        # Five historical sources remain public. The current progress report
+        # and checklist add two hardened variants; all seven exercise the same
+        # PDF loader contract below.
+        if len(cls.scripts) < 59 or len(cls.variants) != 7:
+            raise AssertionError("Preserve historical loader coverage and the seven reviewed source variants")
 
         executable = shutil.which("chromium")
         if not executable:
@@ -251,8 +252,12 @@ class JsPdfBrowserTest(unittest.TestCase):
                     )
 
     def test_each_module_supports_real_two_page_png_pdf_output(self):
-        for kind, source in self.representatives.items():
-            with self.subTest(module=kind):
+        cases = [("representative", kind, source) for kind, source in self.representatives.items()]
+        current = [(archive, kind, source) for archive, kind, source in self.scripts
+                   if archive == "MitoMapa_canario_GobCan.elpx" and kind in {"progress-report", "checklist"}]
+        self.assertEqual({kind for _, kind, _ in current}, {"progress-report", "checklist"})
+        for archive, kind, source in cases + current:
+            with self.subTest(archive=archive, module=kind):
                 with self.page_for([source]) as (page, requests):
                     self.invoke(page, kind)
                     self.assertEqual(self.settled(page), {"ready": 1, "errors": 0})

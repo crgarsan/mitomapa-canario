@@ -1151,6 +1151,15 @@ def apply_editorial(files, root, version):
         'navegador o entrega puede afectar a su conservación. Preparar un archivo no acredita por sí solo su '
         'publicación institucional.</p>'
     )
+    if version.get("native_runtime_security_revision"):
+        texts["20260929THISTORIAL39"] += (
+            '<p>En esta revisión se limita la interpretación de metadatos en el informe de progreso y '
+            'las listas de cotejo. Se utiliza DOMPurify 3.4.17, de Cure53 y colaboradores, con una '
+            '<a href="https://github.com/cure53/DOMPurify/blob/3.4.17/LICENSE">licencia Apache 2.0</a> '
+            'conservada en el paquete. Los textos simples permanecen inertes y los campos que admiten '
+            'formato conservan HTML pasivo saneado. Esta corrección no actualiza la instalación de un '
+            'editor externo ni hace confiable cualquier proyecto ejecutable de terceros.</p>'
+        )
     # Clean all 63 editable texts, including their preview and later export.
     for iid, markup in texts.items():
         markup = rewrite_local_html_links(markup)
