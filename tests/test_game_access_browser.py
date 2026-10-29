@@ -302,6 +302,9 @@ class GameAccessBrowserTests(unittest.TestCase):
                 access = self.open_game(route, prefix)
                 card = self.page.locator(f'[data-{item}-card="tenerife"]')
                 card.focus()
+                # Focusing can start smooth scrolling. Hover waits for a stable,
+                # pointer-reachable card before taking coordinates for the drag.
+                card.hover()
                 box = card.bounding_box()
                 x, y = box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
                 self.page.mouse.move(x, y)
