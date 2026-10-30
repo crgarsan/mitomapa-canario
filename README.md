@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.9.1 · REA 4.8.8
+# MitoMapa canario · web 4.9.2 · REA 4.8.9
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,10 +9,11 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La publicación web **4.9.1** identifica el REA editable **4.8.8**, revisado el
-29/10/2026 para limitar la interpretación de metadatos en los componentes
-nativos de informe de progreso y listas de cotejo. Los títulos y mensajes se
-muestran como texto; los ítems y pies conservan formato HTML pasivo saneado.
+La publicación web **4.9.2** identifica el REA editable **4.8.9**, revisado el
+30/10/2026 para actualizar la biblioteca incorporada fflate a 0.8.3. Se mantiene
+el renderizado de metadatos nativos revisado de 4.8.8. La web conserva la segunda
+isla de la creación, limita a su etapa la invalidación por criterios, evita
+marcar dibujos sin trazo y corrige los recortes con texto ampliado.
 Se conservan las identidades, preguntas, seguimiento, cuentos, audios e imágenes.
 Son dos recursos diferenciados. La adaptación GobCan tiene
 **34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
@@ -23,9 +24,9 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 
 - [Edición publicada en la Mediateca de Canarias](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
 - [Web publicada](https://mitomapacanario.org/).
-- [REA editable vigente · 4.8.8](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.9.1 · incluye el REA 4.8.8](downloads/MitoMapa_REA_v4_9_1.zip).
-- [Fuentes web 4.9.1](downloads/MitoMapa_fuentes_web_v4_9_1.zip).
+- [REA editable vigente · 4.8.9](downloads/MitoMapa_canario_GobCan.elpx).
+- [Paquete de la publicación 4.9.2 · incluye el REA 4.8.9](downloads/MitoMapa_REA_v4_9_2.zip).
+- [Fuentes web 4.9.2](downloads/MitoMapa_fuentes_web_v4_9_2.zip).
 - [REA anterior · 4.8.6](downloads/MitoMapa_canario_GobCan_v4_8_6.elpx).
 
 La miniatura social conserva el diseño de la web 4.8.8: un fondo
@@ -37,7 +38,7 @@ compartidos en WhatsApp pueden conservar la vista previa almacenada.
 La revisión web del 24/10/2026 sitúa en primer lugar de Recursos el acceso a
 la ficha de MitoMapa en la Mediateca, con su logo y las opciones de uso o descarga
 que ofrece esa ficha. La Mediateca identifica su edición como 4.8.4; la descarga
-directa de esta web corresponde al REA 4.8.8. El botón del ELPX entrega el archivo e indica
+directa de esta web corresponde al REA 4.8.9. El botón del ELPX entrega el archivo e indica
 al navegador que lo guarde como adjunto. Si un navegador integrado no permite
 guardarlo, abre el enlace en un navegador externo o descarga el paquete ZIP.
 
@@ -131,7 +132,7 @@ python3 tools/prepare_deploy.py
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.9.1 ofrece el ELPX 4.8.8 con renderizado nativo revisado; el archivo
+empaquetar. La publicación 4.9.2 ofrece el ELPX 4.8.9 con fflate 0.8.3 y renderizado nativo revisado; el archivo
 4.8.6 anterior conserva su propia descarga.
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
@@ -245,3 +246,9 @@ históricas públicas conservan sus bytes y no se presentan como corregidas.
 
 Ver [cambio nativo 4.8.8](CAMBIOS_REA_4_8_8.md) y
 [publicación web 4.9.1](CAMBIOS_WEB_4_9_1.md).
+
+## Correcciones de la revisión del 30 de octubre
+
+Ver [web 4.9.2](CAMBIOS_WEB_4_9_2.md) y [ELPX 4.8.9](CAMBIOS_REA_4_8_9.md).
+fflate 0.8.3 se fija por hash e integridad en tools/vendor/FFLATE.json y el lockfile;
+el exportador nativo conserva su API. Las ediciones históricas son inmutables.

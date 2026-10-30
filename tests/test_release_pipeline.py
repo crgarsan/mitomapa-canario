@@ -238,6 +238,23 @@ class ReleasePipelineTests(unittest.TestCase):
         sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
         self.assertEqual(sources.get(".github/dependabot.yml"), config)
 
+    def test_source_archive_includes_pinned_native_builder_inputs(self):
+        inputs = {
+            "tools/vendor/FFLATE.json": b'{"version":"0.8.3"}',
+            "tools/vendor/fflate-0.8.3.umd.js": b"upstream fflate fixture",
+            "tools/vendor/fflate-LICENSE.txt": b"MIT fixture",
+            "tools/vendor/DOMPURIFY.json": b'{"version":"3.4.17"}',
+            "tools/vendor/dompurify-3.4.17.min.js": b"upstream sanitizer fixture",
+            "tools/native_runtime_security.js": b"native sanitizer template fixture",
+        }
+        for name, payload in inputs.items():
+            self.write(name, payload)
+        update_release(self.root)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        for name, payload in inputs.items():
+            with self.subTest(input=name):
+                self.assertEqual(sources.get(name), payload)
+
     def test_download_advertises_the_actual_editable_version_and_revision(self):
         version = {**self.version, "download": {**self.version["download"], "sha256": "a" * 64}}
         markup = ('<a id="currentReaDownload" data-rea-version="4.6.0" '

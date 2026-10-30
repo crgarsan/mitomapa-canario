@@ -1,15 +1,15 @@
 {
-  "web_version": "4.9.1",
-  "rea_exelearning_version": "4.8.8",
+  "web_version": "4.9.2",
+  "rea_exelearning_version": "4.8.9",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-29",
+  "prepared_at": "2026-10-30",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "cedaa18b42271e02547847800a8fd8a7094ccf9a021892942f5370a3dc25a477",
-    "bytes": 25875879
+    "sha256": "90f823400580b3678b2a64c351a641fb7ce4d952e71f93fa9e450ca3667c2aa4",
+    "bytes": 25876757
   },
-  "previous_web_version": "4.9.0",
-  "previous_rea_version": "4.8.7",
+  "previous_web_version": "4.9.1",
+  "previous_rea_version": "4.8.8",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_9_1.md",
-  "rea_release_notes": "CAMBIOS_REA_4_8_8.md",
+  "release_notes": "CAMBIOS_WEB_4_9_2.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_9.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 34,
@@ -57,9 +57,9 @@
     "selected_islands": 2,
     "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
   },
-  "rea_revision": "2026-10-29",
+  "rea_revision": "2026-10-30",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Corrección acotada del renderizado de metadatos en componentes nativos",
+  "rea_revision_label": "Actualización fijada de fflate y preservación del renderizado nativo revisado",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_9_1.zip",
+    "path": "downloads/MitoMapa_REA_v4_9_2.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "a9a46e32167ffe421233758db37fa75d031676d271300db38c455e0dc6642ff9",
-    "bytes": 25705072
+    "sha256": "536f282f84c2ad1aa1157be21c999323e2af39674563ac3247906efce756df94",
+    "bytes": 25706687
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_9_1.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_9_2.zip",
     "contains_elpx": false
   },
   "feedback_revision": {
@@ -125,7 +125,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.9.1",
+    "downloaded_response_version": "4.9.2",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +176,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.9.1",
+  "release_version": "4.9.2",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -204,7 +204,7 @@
     "counts_towards_passport": false,
     "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
   },
-  "web_revision_date": "2026-10-29",
+  "web_revision_date": "2026-10-30",
   "elpx_thumbnail": {
     "path": "assets/images/miniatura_elpx.png",
     "sha256": "614768b1fa733f2b2c155c4508a8446dbcdd94d7bf543abee21bf4c2b2cfbda0",
@@ -263,5 +263,24 @@
     "hosted_editor_modified": false,
     "untrusted_project_execution_isolation_guaranteed": false,
     "reference_report_revision": "f5d9864dafb351cd18e1d9dc8287352c3eec5317"
+  },
+  "native_fflate_security_revision": {
+    "date": "2026-10-30",
+    "version": "0.8.3",
+    "member": "libs/fflate/fflate.umd.js",
+    "sha256": "462ef8041fc970e3615a20a9dd2b2e3047a073b2da729ef4f02b634bba8b7b83",
+    "advisory": "GHSA-px8p-9vwx-vf98",
+    "current_packages_only": true,
+    "historical_downloads_unchanged": true,
+    "application_unzip_reachability_established": false
+  },
+  "audit_followup_revision": {
+    "date": "2026-10-30",
+    "reference_commit": "095d10ed63065b3c65326c17940f16bac30caef9",
+    "stage_specific_criteria_invalidation": true,
+    "creative_pair_preserved_during_story_consultation": true,
+    "stationary_canvas_click_preserves_state": true,
+    "enlarged_text_and_dialog_reflow": true,
+    "native_elpx_media_unchanged": true
   }
 }

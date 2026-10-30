@@ -195,7 +195,7 @@ def source_inventory(root, version):
     for extension in ("*.html", "*.css", "*.js", "*.md", "*.txt", "*.json", "*.svg", "*.png"):
         names.update(path.relative_to(root).as_posix() for path in root.glob(extension) if path.is_file())
     for directory, patterns in {
-        "assets": ("**/*",), "tools": ("*.py",), "tests": ("**/*.py", "**/*.js", "**/*.json"),
+        "assets": ("**/*",), "tools": ("*.py", "*.js", "vendor/*"), "tests": ("**/*.py", "**/*.js", "**/*.json"),
         ".github/workflows": ("*.yml", "*.yaml"),
     }.items():
         for pattern in patterns:

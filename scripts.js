@@ -65,9 +65,10 @@ let itineraries=sanitizeItineraries(readJSON(itineraryKey,{}));
 function itineraryFor(id){return itineraries[learningLevel][id];}
 function saveItineraries(){return writeJSON(itineraryKey,itineraries);}
 function selectedNotebookTasks(id){return itineraryFor(id).selectedTasks;}
-function invalidateItineraryTask(id,task,track=null){
+function invalidateItineraryTask(id,task,track=null,levelRestriction=null){
  let changed=false;
  for(const level of itineraryLevels){
+  if(levelRestriction&&level!==levelRestriction)continue;
   if(track==="secondary"&&level!=="secondary"||track==="primary"&&level==="secondary")continue;
   const item=itineraries[level][id];
   if(item.reviewed&&item.selectedTasks.includes(task)&&(task!=="creation"||item.evidenceMode!=="external")){item.reviewed=false;changed=true;}
@@ -951,16 +952,17 @@ function setupWorkshopCanvas(workshop,routeId){
  const canvas=workshop.querySelector(".activity-canvas");if(!canvas)return;
  const context=canvas.getContext("2d");if(!context)return;
  const state=getWorkshopRouteState(routeId),baseColor="#fffdf7";
- let drawing=false,lastPoint=null,currentColor="#2f2b26",history=[];
+ let drawing=false,lastPoint=null,pendingSnapshot=null,strokeStartPixels=null,currentColor="#2f2b26",history=[];
  const clearSurface=()=>{context.save();context.fillStyle=baseColor;context.fillRect(0,0,canvas.width,canvas.height);context.restore();};
  const restore=async imageData=>{const image=await loadWorkshopDrawing(imageData);clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};
  clearSurface();if(state.drawing)restore(state.drawing);
  const pointFromEvent=event=>{const box=canvas.getBoundingClientRect();return{x:(event.clientX-box.left)*canvas.width/box.width,y:(event.clientY-box.top)*canvas.height/box.height};};
  const snapshot=()=>({image:canvas.toDataURL("image/webp",.82),hasInk:Boolean(state.drawingHasInk)});
  const commitDrawing=()=>{state.drawing=canvas.toDataURL("image/webp",.82);state.drawingHasInk=true;state.creation=false;refreshCreationReviewAfterEdit(workshop,routeId,state,"primary");invalidateItineraryTask(routeId,"creation","primary");showDraftStatus(routeId,saveWorkshopState());updateWorkshopSummary(routeId);};
- canvas.addEventListener("pointerdown",event=>{event.preventDefault();history.push(snapshot());if(history.length>18)history.shift();drawing=true;lastPoint=pointFromEvent(event);canvas.setPointerCapture?.(event.pointerId);context.beginPath();context.moveTo(lastPoint.x,lastPoint.y);});
- canvas.addEventListener("pointermove",event=>{if(!drawing)return;event.preventDefault();const next=pointFromEvent(event);context.strokeStyle=currentColor;context.lineWidth=Number(workshop.querySelector(".draw-size")?.value)||7;context.lineCap="round";context.lineJoin="round";context.lineTo(next.x,next.y);context.stroke();lastPoint=next;});
- const finish=event=>{if(!drawing)return;drawing=false;lastPoint=null;try{canvas.releasePointerCapture?.(event.pointerId);}catch(error){}commitDrawing();};
+ // El PNG sin pérdida compara píxeles; el WebP del historial solo se prepara cuando empieza un trazo.
+ canvas.addEventListener("pointerdown",event=>{event.preventDefault();pendingSnapshot=null;strokeStartPixels=null;drawing=true;lastPoint=pointFromEvent(event);canvas.setPointerCapture?.(event.pointerId);context.beginPath();context.moveTo(lastPoint.x,lastPoint.y);});
+ canvas.addEventListener("pointermove",event=>{if(!drawing)return;event.preventDefault();const next=pointFromEvent(event);if(next.x===lastPoint.x&&next.y===lastPoint.y)return;if(!pendingSnapshot){pendingSnapshot=snapshot();strokeStartPixels=canvas.toDataURL("image/png");}context.strokeStyle=currentColor;context.lineWidth=Number(workshop.querySelector(".draw-size")?.value)||7;context.lineCap="round";context.lineJoin="round";context.lineTo(next.x,next.y);context.stroke();lastPoint=next;});
+ const finish=event=>{if(!drawing)return;drawing=false;lastPoint=null;try{canvas.releasePointerCapture?.(event.pointerId);}catch(error){}if(pendingSnapshot&&strokeStartPixels!==canvas.toDataURL("image/png")){history.push(pendingSnapshot);if(history.length>18)history.shift();commitDrawing();}pendingSnapshot=null;strokeStartPixels=null;};
  canvas.addEventListener("pointerup",finish);canvas.addEventListener("pointercancel",finish);canvas.addEventListener("pointerleave",event=>{if(event.buttons===0)finish(event);});
  workshop.querySelectorAll(".draw-color").forEach(button=>button.addEventListener("click",()=>{currentColor=button.dataset.drawColor;workshop.querySelectorAll(".draw-color").forEach(item=>{const selected=item===button;item.classList.toggle("is-selected",selected);item.setAttribute("aria-pressed",String(selected));});}));
  workshop.querySelector(".draw-undo")?.addEventListener("click",async()=>{const previous=history.pop();if(!previous)return;await restore(previous.image);state.drawing=previous.image;state.drawingHasInk=previous.hasInk;state.creation=false;refreshCreationReviewAfterEdit(workshop,routeId,state,"primary");invalidateItineraryTask(routeId,"creation","primary");showDraftStatus(routeId,saveWorkshopState());updateWorkshopSummary(routeId);});
@@ -987,7 +989,7 @@ function bindWorkshop(section,route){
   if(!select||select.dataset.creationReviewLevel!==learningLevel||!creationReviewCriteria(route.id).some(item=>item.id===select.dataset.creationReview)||!creationReviewOptions.some(option=>option[0]===select.value))return;
   state.creationReviewV1[learningLevel][select.dataset.creationReview]=select.value;
   const track=learningLevel==="secondary"?"secondary":"primary";
-  invalidateItineraryTask(route.id,"creation",track);
+  invalidateItineraryTask(route.id,"creation",track,learningLevel);
   showDraftStatus(route.id,saveWorkshopState());updateWorkshopSummary(route.id);
  });
  workshop.querySelectorAll("[data-activity-match]").forEach((input,i)=>input.value=String(state.wordResponses.match?.[i]||""));
@@ -1558,9 +1560,11 @@ injectExperienceTools();renderRoutes();setupV34Features();shuffle();
 updateHeaderOffset();
 window.MitoMapaNames?.mount();
 window.MitoMapaPieces?.mount({routes,assets:ASSETS});
+// Recuperar la ruta acordada antes de resolver un enlace directo a Crear.
+window.MitoMapaJourney?.init({routes,getLevel:()=>learningLevel,isReviewed:id=>itineraryFor(id).reviewed,assignment:id=>itineraryFor(id),badgeCount:currentBadgeCount,readJSON,writeJSON,onChange:()=>updateItineraryUI()});
 window.MitoMapaNavigation?.mount({routes,openRoute:showRoute,stopNarration,lastRoute:()=>lastRouteId,readJSON,writeJSON});
 window.MitoMapaTeacher?.init({setLevel:level=>{setLearningLevel(level);updateTeacherDialog();},refresh:syncTeacherScroll});
-window.MitoMapaJourney?.init({routes,getLevel:()=>learningLevel,isReviewed:id=>itineraryFor(id).reviewed,assignment:id=>itineraryFor(id),badgeCount:currentBadgeCount,readJSON,writeJSON,onChange:()=>updateItineraryUI()});
+window.MitoMapaJourney?.refresh();
 
 // Ajustar el salto a la altura real de la cabecera, también al ampliar el texto.
 function updateHeaderOffset(){const header=document.querySelector("header"),navigation=document.querySelector(".main-navigation");if(header){const height=Math.ceil(header.getBoundingClientRect().height);document.documentElement.style.setProperty("--topbar-height",`${height}px`);document.documentElement.style.setProperty("--header-offset",`${height+Math.ceil(navigation?.getBoundingClientRect().height||0)+24}px`);}}

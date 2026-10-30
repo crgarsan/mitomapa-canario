@@ -47,6 +47,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_release_pipeline.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_sync_current_elpx.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_native_runtime_security.py'
+          .venv/bin/python -m unittest discover -s tests -p 'test_fflate_security.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_editorial_elpx.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_native_audit_fixes.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_passport_native*.py'
@@ -63,6 +64,8 @@ jobs:
             test_pieces_browser.py \
             test_editorial_elpx_browser.py test_native_audit_browser.py \
             test_navigation_accessibility_browser.py
+          .venv/bin/python tools/run_browser_checks.py \
+            test_persistent_state_browser.py test_text_resize_browser.py test_fflate_security_browser.py
           .venv/bin/python tools/run_browser_checks.py \
             test_map_choice_browser.py test_reading_support_browser.py \
             test_learning_support_browser.py test_game_access_browser.py \
