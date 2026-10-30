@@ -5,6 +5,7 @@
  * estado breve para el feedback existente; la explicación requiere su botón.
  * buildClosure() devuelve la vista (el coordinador la inserta y navega a ella).
  * setClosureRoutes(ids) elige una o dos islas en la vista, sin persistencia.
+ * initializeClosureRoutes(ids) propone islas solo antes de la primera elección.
  * reset() cierra las ayudas y limpia elecciones efímeras entre estudiantes.
  */
 (function () {
@@ -39,6 +40,7 @@
   ]);
   let context = {};
   let closure = null;
+  let closureInitialized = false;
 
   function create(tag, className, text) {
     const node = document.createElement(tag);
@@ -263,9 +265,14 @@
     if (!closure || !Array.isArray(ids)) return;
     const selected = [...new Set(ids.filter(safeRoute))].slice(0, 2);
     if (!selected.length) return;
+    closureInitialized = true;
     closure.querySelector("#creative-first-island").value = selected[0];
     closure.querySelector("#creative-second-island").value = selected[1] || "";
     updateClosure();
+  }
+
+  function initializeClosureRoutes(ids) {
+    if (!closureInitialized) setClosureRoutes(ids);
   }
 
   function buildClosure() {
@@ -279,7 +286,7 @@
     closure.append(create("p", "creative-audience", "Destinatario: otro grupo de su aula. Acuerden qué quieren que ese público comprenda sobre el cuento, su isla y la diferencia entre tradición, fuente y recreación."));
     const choices = create("div", "creative-island-choices");
     choices.append(islandSelect("Primera isla", false), islandSelect("Segunda isla (opcional)", true));
-    choices.addEventListener("change", updateClosure);
+    choices.addEventListener("change", () => { closureInitialized = true; updateClosure(); });
     closure.append(choices, create("p", "creative-route-context"), create("p", "creative-route-note"), create("div", "creative-story-returns"));
     const project = document.querySelector(".final-project");
     if (project) closure.append(project); // Conserva el nodo y la pauta ya existente.
@@ -323,6 +330,7 @@
     document.querySelectorAll(".learning-geography select").forEach(select => { select.value = ""; });
     document.querySelectorAll(".learning-geography-feedback,.learning-geography-status").forEach(node => { node.textContent = ""; });
     if (closure) {
+      closureInitialized = false;
       closure.querySelectorAll(".creative-island-choices select").forEach(select=>{select.value="";});
       updateClosure();
       closure.querySelector(".creative-example").open = false;
@@ -330,5 +338,5 @@
     focusTarget?.focus({ preventScroll: true });
   }
 
-  window.MitoMapaLearning = Object.freeze({ init, enhance, feedback, buildClosure, setClosureRoutes, reset });
+  window.MitoMapaLearning = Object.freeze({ init, enhance, feedback, buildClosure, setClosureRoutes, initializeClosureRoutes, reset });
 }());

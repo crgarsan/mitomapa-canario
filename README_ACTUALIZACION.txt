@@ -1,5 +1,5 @@
-MITOMAPA CANARIO · WEB 4.9.1 · REVISIÓN WEB 29/10/2026
-REA EDITABLE 4.8.8 · REVISIÓN 29/10/2026
+MITOMAPA CANARIO · WEB 4.9.2 · REVISIÓN WEB 30/10/2026
+REA EDITABLE 4.8.9 · REVISIÓN 30/10/2026
 
 WEB PUBLICADA
 https://mitomapacanario.org/
@@ -14,12 +14,17 @@ La última página incluye un enlace opcional a la web como recurso extra;
 el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_9_1.zip: editable ELPX 4.8.8 y documentación actual.
-downloads/MitoMapa_fuentes_web_v4_9_1.zip: fuentes, imágenes, audios y herramientas
+downloads/MitoMapa_REA_v4_9_2.zip: editable ELPX 4.8.9 y documentación actual.
+downloads/MitoMapa_fuentes_web_v4_9_2.zip: fuentes, imágenes, audios y herramientas
 de la web, sin ELPX ni ZIP anidados. Las descargas históricas conservan sus
 direcciones públicas, archivos y condiciones de publicación originales.
 
-REVISIÓN WEB 4.9.1 / ELPX 4.8.8 · 29/10/2026
+REVISIÓN WEB 4.9.2 / ELPX 4.8.9 · 30/10/2026
+Actualiza fflate a 0.8.3 con hash y licencia; preserva medios y actividades.
+Corrige revisión entre etapas, segunda isla creativa, dibujos sin trazo y
+recortes con texto ampliado. Ver CAMBIOS_WEB_4_9_2.md y CAMBIOS_REA_4_8_9.md.
+
+REVISIÓN ANTERIOR WEB 4.9.1 / ELPX 4.8.8 · 29/10/2026
 Renderizado de metadatos nativos: texto inerte y formato HTML limitado saneado.
 Se conservan medios, identidades, preguntas y seguimiento. Consultar las notas
 de seguridad; no modifica la instalación de un editor eXe externo.

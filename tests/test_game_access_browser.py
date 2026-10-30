@@ -128,13 +128,14 @@ class GameAccessBrowserTests(unittest.TestCase):
                 access.press("Space")
                 select = self.page.locator("#" + select_id)
                 expect(select).to_be_focused()
-                select.press("Home")
-                select.press("ArrowDown")
+                # Native select Home/ArrowDown does not commit a choice on all
+                # macOS Chromium builds. Typeahead is a real keyboard choice
+                # on both platforms; the rest of the placement stays keyboard-only.
+                select.press("e" if route == "nombres-islas" else "p")
                 self.page.keyboard.press("Tab")
                 island_select = self.page.locator(f"#{prefix}IslandSelect")
                 expect(island_select).to_be_focused()
-                island_select.press("Home")
-                island_select.press("ArrowDown")
+                island_select.press("e")
                 self.page.keyboard.press("Tab")
                 place = self.page.locator(f"#{prefix}PlaceButton")
                 expect(place).to_be_focused()
@@ -150,8 +151,7 @@ class GameAccessBrowserTests(unittest.TestCase):
                 self.page.keyboard.press("Enter")
                 expect(self.page.locator(f"#{prefix}Progress")).to_contain_text("2 de 8")
                 select.focus()
-                select.press("Home")
-                select.press("ArrowDown")
+                select.press("b" if route == "nombres-islas" else "p")
                 expect(select).to_have_value("la-palma")
                 reference = self.page.locator(f"#{prefix}Reference")
                 reference.click()

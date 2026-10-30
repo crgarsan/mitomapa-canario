@@ -2,8 +2,9 @@
 """Build the native GobCan project from its pinned source, independently of the web.
 
 Editorial changes affect Text components, navigation and the stored project
-thumbnail. Games/media are preserved; exactly two native runtime dependencies
-receive a reproducible metadata-rendering fix. --check never repairs files.
+thumbnail. Games/media are preserved; two native renderers receive the pinned
+metadata fix and fflate receives its hash-pinned upstream upgrade.
+--check never repairs files.
 """
 import argparse
 from io import BytesIO
@@ -16,6 +17,7 @@ from lxml import etree
 from editorial_elpx import apply_editorial
 from native_preservation import verify_component
 from native_runtime_security import LICENSE_MEMBER, MEMBERS as SECURED_RUNTIMES, apply_runtime_security, verify_runtime_security
+from native_fflate import MEMBER as FFLATE_MEMBER, LICENSE_MEMBER as FFLATE_LICENSE, apply_fflate_upgrade, verify_fflate_upgrade
 from project_thumbnail import THUMBNAIL_MEMBERS, verify_project_thumbnail
 from harden_jspdf_exports import ZIP_INFO_FIELDS, read_archive, write_archive
 from release_support import MAX_ASSET_BYTES, digest, json_bytes, read_zip, source_path
@@ -48,10 +50,11 @@ def version_module(version):
 def verify_preservation(baseline, result, root=ROOT):
     verify_project_thumbnail(result)
     verify_runtime_security(result, baseline, root)
+    verify_fflate_upgrade(result, baseline, root)
     extra_runtimes = {
         name for name in result
         if name.startswith(("libs/", "idevices/", "theme/")) and name not in baseline
-        and name not in {LICENSE_MEMBER, "libs/elpx-manifest.js"}
+        and name not in {LICENSE_MEMBER, FFLATE_LICENSE, "libs/elpx-manifest.js"}
     }
     if extra_runtimes:
         raise ValueError(f"The editorial revision added an unexpected runtime: {sorted(extra_runtimes)}")
@@ -70,7 +73,7 @@ def verify_preservation(baseline, result, root=ROOT):
     for name, payload in baseline.items():
         if name not in THUMBNAIL_MEMBERS and Path(name).suffix.lower() in MEDIA_EXTENSIONS and result.get(name) != payload:
             raise ValueError(f"The editorial revision changed a media asset: {name}")
-        if name.startswith(("libs/", "idevices/", "theme/")) and name != "libs/elpx-manifest.js" and name not in SECURED_RUNTIMES and result.get(name) != payload:
+        if name.startswith(("libs/", "idevices/", "theme/")) and name not in {"libs/elpx-manifest.js", FFLATE_MEMBER} and name not in SECURED_RUNTIMES and result.get(name) != payload:
             raise ValueError(f"The editorial revision changed a runtime dependency: {name}")
 
 
@@ -90,6 +93,7 @@ def build_current(root=ROOT):
     native_version["prepared_at"] = version.get("rea_revision", version["prepared_at"])
     apply_editorial(result, root, native_version)
     apply_runtime_security(result, baseline, root)
+    apply_fflate_upgrade(result, baseline, root)
     # Native recordings, scenes and badges keep their original resource URLs.
     # The former application's documents, scripts and manifests are excluded.
     for name in list(result):

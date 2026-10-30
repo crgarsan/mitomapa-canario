@@ -32,6 +32,7 @@
     updateResume();
   }
   function continuation() {
+    if (!context) return null;
     const last = context.routes.find(route => route.id === context.lastRoute());
     if (!last) return null;
     const point = resumePoint?.routeId === last.id && resumePoint.level === document.body.dataset.learningLevel ? resumePoint : null;
@@ -106,7 +107,7 @@
     if (screen === "crear") {
       const agreed=window.MitoMapaJourney?.exportState?.()?.levels?.[document.body.dataset.learningLevel] || [];
       const selected=agreed.length?agreed:[context.lastRoute()].filter(Boolean);
-      if (selected.length) window.MitoMapaLearning?.setClosureRoutes?.(selected);
+      if (selected.length) window.MitoMapaLearning?.initializeClosureRoutes?.(selected);
     }
     reveal(screen);
     if (screen === "puzle") document.querySelector(".puzzle-disclosure").open = true;
