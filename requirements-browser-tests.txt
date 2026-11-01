@@ -12,7 +12,7 @@
 #   -r requirements-browser-tests.txt
 
 # Direct dependency.
-playwright==1.64.0 \
+playwright==1.64.1 \
     --hash=sha256:d76a501c9930b5a097b00e2448cda2200122a1e8e4be762ff535c1b076277737 \
     --hash=sha256:8de42430e9a7c8b04ec963856d484d36ffd452882318ebad2df3e6fb49a8197a \
     --hash=sha256:61e4e0801bfd76b30e04635aaec45647df707881ccf14382471fcb0eaeb1d16f \
