@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.9.1 · REA 4.8.8
+# MitoMapa canario · web 4.9.2 · REA 4.8.8
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La publicación web **4.9.1** identifica el REA editable **4.8.8**, revisado el
+La publicación web **4.9.2** identifica el REA editable **4.8.8**, revisado el
 29/10/2026 para limitar la interpretación de metadatos en los componentes
 nativos de informe de progreso y listas de cotejo. Los títulos y mensajes se
 muestran como texto; los ítems y pies conservan formato HTML pasivo saneado.
@@ -24,8 +24,8 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 - [Edición publicada en la Mediateca de Canarias](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
 - [Web publicada](https://mitomapacanario.org/).
 - [REA editable vigente · 4.8.8](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.9.1 · incluye el REA 4.8.8](downloads/MitoMapa_REA_v4_9_1.zip).
-- [Fuentes web 4.9.1](downloads/MitoMapa_fuentes_web_v4_9_1.zip).
+- [Paquete de la publicación 4.9.2 · incluye el REA 4.8.8](downloads/MitoMapa_REA_v4_9_2.zip).
+- [Fuentes web 4.9.2](downloads/MitoMapa_fuentes_web_v4_9_2.zip).
 - [REA anterior · 4.8.6](downloads/MitoMapa_canario_GobCan_v4_8_6.elpx).
 
 La miniatura social conserva el diseño de la web 4.8.8: un fondo
@@ -131,7 +131,7 @@ python3 tools/prepare_deploy.py
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.9.1 ofrece el ELPX 4.8.8 con renderizado nativo revisado; el archivo
+empaquetar. La publicación 4.9.2 ofrece el ELPX 4.8.8 con renderizado nativo revisado; el archivo
 4.8.6 anterior conserva su propia descarga.
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
@@ -244,4 +244,4 @@ runtimes, es necesario comprobar de nuevo la exportación. Las ediciones
 históricas públicas conservan sus bytes y no se presentan como corregidas.
 
 Ver [cambio nativo 4.8.8](CAMBIOS_REA_4_8_8.md) y
-[publicación web 4.9.1](CAMBIOS_WEB_4_9_1.md).
+[publicación web 4.9.2](CAMBIOS_WEB_4_9_2.md).

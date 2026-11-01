@@ -1,4 +1,4 @@
-"""Contextual reading controls and real local MP3 source transitions."""
+"""Contextual reading controls and original/natural-background source transitions."""
 from functools import partial
 from http.server import ThreadingHTTPServer
 from pathlib import Path
@@ -8,10 +8,11 @@ import unittest
 
 from playwright.sync_api import sync_playwright
 
-from test_experience_browser import AUDIT_AUDIO, NoRangeHandler, QuietHandler
+from test_experience_browser import AUDIT_AUDIO, NATURAL_AUDIO, NoRangeHandler, QuietHandler
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PLAIN_AUDIO = "media/tenerife/narracion.mp3"
 
 
 class ReadingSupportBrowserTest(unittest.TestCase):
@@ -118,7 +119,7 @@ class ReadingSupportBrowserTest(unittest.TestCase):
     def test_ambient_choice_is_saved_without_loading_audio_and_preserves_voice_preference(self):
         self.context.add_init_script("if(!localStorage.getItem('mitomapa-canario-preferencias-v3'))localStorage.setItem('mitomapa-canario-preferencias-v3',JSON.stringify({selectedVoiceURI:'voz-elegida'}))")
         requests = []
-        self.page.on("request", lambda request: requests.append(request.url) if "/assets/audio/" in request.url else None)
+        self.page.on("request", lambda request: requests.append(request.url) if request.url.endswith(("/narracion.mp3", "/narracion-con-fondo.m4a")) else None)
         narrator = self.open_story()
         narrator.locator(".narration-ambient").uncheck()
         self.assertEqual(requests, [])
@@ -139,14 +140,14 @@ class ReadingSupportBrowserTest(unittest.TestCase):
         narrator.locator(".narration-ambient").uncheck()
         self.page.wait_for_function("()=>narrationState.audio&&!narrationState.sourceLoading&&recordingIsSeekable(narrationState.audio)&&narrationState.audio.currentTime>=19.9")
         self.assertTrue(self.page.evaluate("narrationState.audio===window.__originalAudio&&narrationState.paused&&narrationState.audio.paused"))
-        self.assertTrue(self.page.evaluate("narrationState.audio.src.endsWith('/tenerife.mp3')"))
+        self.assertTrue(self.page.evaluate("suffix => narrationState.audio.src.endsWith(suffix)", "/" + PLAIN_AUDIO))
         self.assertAlmostEqual(self.page.evaluate("narrationState.audio.currentTime"), 20, delta=0.1)
         self.assertEqual(self.page.evaluate("narrationState.audio.playbackRate"), 0.82)
         narrator.locator(".narration-pause").click()
         self.page.wait_for_function("()=>!narrationState.audio.paused")
         position = self.page.evaluate("narrationState.audio.currentTime")
         narrator.locator(".narration-ambient").check()
-        self.page.wait_for_function("()=>narrationState.audio&&!narrationState.sourceLoading&&!narrationState.audio.paused&&narrationState.audio.src.endsWith('/tenerife-ambiente.mp3')")
+        self.page.wait_for_function("suffix=>narrationState.audio&&!narrationState.sourceLoading&&!narrationState.audio.paused&&narrationState.audio.src.endsWith(suffix)", arg="/" + NATURAL_AUDIO)
         self.assertAlmostEqual(self.page.evaluate("narrationState.audio.currentTime"), position, delta=1)
         self.assertEqual(self.page.locator("#route-tenerife .is-reading").count(), 0)
         self.page.locator('#route-tenerife [data-route-flow-target="retos"]').first.click()
@@ -175,8 +176,8 @@ class ReadingSupportBrowserTest(unittest.TestCase):
     def check_cancel_pending_ambient_change(self, change_route):
         narrator = self.play_recording()
         pending = []
-        self.page.route("**/assets/audio/tenerife.mp3", lambda route: pending.append(route))
-        with self.page.expect_request(lambda request: request.url.endswith("/tenerife.mp3")):
+        self.page.route("**/" + PLAIN_AUDIO, lambda route: pending.append(route))
+        with self.page.expect_request(lambda request: request.url.endswith("/" + PLAIN_AUDIO)):
             narrator.locator(".narration-ambient").uncheck()
         self.page.wait_for_function("()=>narrationState.sourceLoading")
         if change_route:
@@ -185,7 +186,7 @@ class ReadingSupportBrowserTest(unittest.TestCase):
         else:
             narrator.locator(".narration-stop").click()
         for route in pending:
-            route.fulfill(status=200, content_type="audio/mpeg", body=(ROOT / "assets/audio/tenerife.mp3").read_bytes())
+            route.fulfill(status=200, content_type="audio/mpeg", body=(ROOT / PLAIN_AUDIO).read_bytes())
         self.page.wait_for_timeout(100)
         self.assertTrue(self.page.evaluate("narrationState.audio===null"))
 
@@ -208,7 +209,7 @@ class ReadingSupportBrowserTest(unittest.TestCase):
             else:
                 route.continue_()
 
-        self.page.route("**/assets/audio/tenerife.mp3", reject_only_auxiliary_download)
+        self.page.route("**/" + PLAIN_AUDIO, reject_only_auxiliary_download)
         narrator.locator(".narration-ambient").uncheck()
         self.page.wait_for_function("()=>document.querySelector('#route-tenerife .narration-status').textContent.includes('No se ha podido')")
         self.assertFalse(self.page.evaluate("narrationState.sourceLoading"))

@@ -17,6 +17,8 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 CSP = next(line.split(":", 1)[1].strip() for line in (ROOT / "_headers").read_text().splitlines() if line.strip().startswith("Content-Security-Policy:"))
+NATURAL_AUDIO = "media/tenerife/narracion-con-fondo.m4a"
+NARRATION_REQUESTS = "**/media/*/narracion*"
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -32,7 +34,7 @@ class QuietHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         # Exercise both servers with Range and ordinary HTTP 200 static hosts.
         path = Path(self.translate_path(self.path))
-        if not self.supports_ranges or path.suffix != ".mp3" or not path.is_file():
+        if not self.supports_ranges or path.suffix not in (".mp3", ".m4a") or not path.is_file():
             return super().do_GET()
         size = path.stat().st_size
         match = re.fullmatch(r"bytes=(\d+)-(\d*)", self.headers.get("Range", ""))
@@ -42,7 +44,7 @@ class QuietHandler(SimpleHTTPRequestHandler):
             self.send_error(416)
             return
         self.send_response(206 if match else 200)
-        self.send_header("Content-Type", "audio/mpeg")
+        self.send_header("Content-Type", "audio/mp4" if path.suffix == ".m4a" else "audio/mpeg")
         self.send_header("Accept-Ranges", "bytes")
         self.send_header("Content-Length", str(end - start + 1))
         if match:
@@ -137,7 +139,7 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.page.locator("#openTeacher").click()
         self.page.evaluate("document.getElementById('resetProgress').click()")
         self.assertEqual(self.page.locator("#passportCount").text_content(), "0/8")
-        self.assertEqual(self.page.locator(".route input[type=radio]:checked").count(), 0)
+        self.assertEqual(self.page.locator(".route .question input[type=radio]:checked").count(), 0)
         self.assertEqual(self.page.locator(".route .feedback.ok,.route .feedback.ko,.reward.show,.route-step.complete").count(), 0)
         self.assertEqual(self.page.locator("#source-tenerife .question-counter").text_content(), "Pregunta 1 de 3")
         self.assertEqual(self.page.locator("#quiz-tenerife .question-counter").text_content(), "Pregunta 1 de 3")
@@ -149,7 +151,7 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.assertEqual(self.page.locator("#teacherProgressBody [data-review-route]:checked").count(), 0)
         self.page.reload(wait_until="networkidle")
         self.assertEqual(self.page.locator("#passportCount").text_content(), "0/8")
-        self.assertEqual(self.page.locator(".route input[type=radio]:checked").count(), 0)
+        self.assertEqual(self.page.locator(".route .question input[type=radio]:checked").count(), 0)
 
     def test_importing_legacy_progress_replaces_other_learners_answers(self):
         self.answer_quiz("source", [1, 2, 1])
@@ -201,7 +203,7 @@ class ExperienceBrowserTest(unittest.TestCase):
 
     def test_recording_seek_pause_stop_and_island_change(self):
         requests = []
-        self.page.on("request", lambda request: requests.append(request.url) if "/assets/audio/" in request.url else None)
+        self.page.on("request", lambda request: requests.append(request.url) if request.url.endswith(("/narracion.mp3", "/narracion-con-fondo.m4a")) else None)
         self.page.goto(self.base + "#isla/tenerife/cuento", wait_until="networkidle")
         narrator = self.page.locator("#route-tenerife .narrator")
         self.assertEqual(requests, [])
@@ -237,7 +239,7 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.assertIn("cambiar", narrator.locator(".narration-status").text_content())
 
     def test_failed_recording_leaves_position_controls_disabled(self):
-        self.page.route("**/assets/audio/**", lambda route: route.abort())
+        self.page.route(NARRATION_REQUESTS, lambda route: route.abort())
         self.page.goto(self.base + "#isla/tenerife/cuento", wait_until="networkidle")
         narrator = self.page.locator("#route-tenerife .narrator")
         narrator.locator(".narration-play").click()
@@ -258,7 +260,7 @@ class ExperienceBrowserTest(unittest.TestCase):
                     return
                 pending.append(route)
                 self.page.evaluate("()=>{window.__audioRouteHeld=true;}")
-            self.page.route("**/assets/audio/**", hold_audio_fetch)
+            self.page.route(NARRATION_REQUESTS, hold_audio_fetch)
         self.no_range_navigation = getattr(self, "no_range_navigation", 0) + 1
         response = self.page.goto(self.no_range_base + f"?audio-test={self.no_range_navigation}#isla/tenerife/cuento", wait_until="networkidle")
         self.assertIn("connect-src 'self'", response.headers["content-security-policy"])
@@ -277,7 +279,7 @@ class ExperienceBrowserTest(unittest.TestCase):
     def test_server_without_ranges_prepares_seekable_audio_and_releases_blob(self):
         narrator, _ = self.open_no_range_recording()
         self.page.wait_for_function("()=>narrationState.objectUrl&&recordingIsSeekable(narrationState.audio)")
-        self.assertEqual(self.page.evaluate("window.__audioAudit.fetches"), ["assets/audio/tenerife-ambiente.mp3"])
+        self.assertEqual(self.page.evaluate("window.__audioAudit.fetches"), [NATURAL_AUDIO])
         self.assertEqual(self.page.evaluate("narrationState.audio.playbackRate"), 0.82)
         narrator.locator(".narration-pause").click()
         narrator.locator(".narration-seek").fill("20")
@@ -299,7 +301,7 @@ class ExperienceBrowserTest(unittest.TestCase):
         narrator.locator(".narration-pause").click()
         position = self.page.evaluate("narrationState.audio.currentTime")
         narrator.locator(".narration-rate").select_option("1.08")
-        pending[0].fulfill(status=200, content_type="audio/mpeg", body=(ROOT / "assets/audio/tenerife-ambiente.mp3").read_bytes())
+        pending[0].fulfill(status=200, content_type="audio/mp4", body=(ROOT / NATURAL_AUDIO).read_bytes())
         self.page.wait_for_function("()=>narrationState.objectUrl&&recordingIsSeekable(narrationState.audio)")
         self.assertTrue(self.page.evaluate("narrationState.paused&&narrationState.audio.paused"))
         self.assertAlmostEqual(self.page.evaluate("narrationState.audio.currentTime"), position, delta=0.1)
@@ -317,11 +319,11 @@ class ExperienceBrowserTest(unittest.TestCase):
                 narrator.locator(".narration-stop").click()
             self.assertTrue(self.page.evaluate("narrationState.audio===null"))
             self.assertTrue(self.page.evaluate("window.__audioAudit.signals[0].aborted"))
-            pending[0].fulfill(status=200, content_type="audio/mpeg", body=(ROOT / "assets/audio/tenerife-ambiente.mp3").read_bytes())
+            pending[0].fulfill(status=200, content_type="audio/mp4", body=(ROOT / NATURAL_AUDIO).read_bytes())
             self.page.wait_for_function("()=>window.__audioAudit.settled===1")
             self.assertEqual(self.page.evaluate("window.__audioAudit.created"), [])
             self.assertTrue(self.page.evaluate("narrationState.audio===null"))
-            self.page.unroute("**/assets/audio/**")
+            self.page.unroute(NARRATION_REQUESTS)
 
     def test_blob_autoplay_rejection_reuses_prepared_audio_on_direct_click(self):
         self.context.add_init_script("""

@@ -45,12 +45,15 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_elpx_resource_links.py'
           python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
           python3 -m unittest discover -s tests -p 'test_release_pipeline.py'
+          python3 -m unittest discover -s tests -p 'test_story_media_release.py'
+          python3 -m unittest discover -s tests -p 'test_fetch_story_media.py'
+          python3 -m unittest discover -s tests -p 'test_backup_stage.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_sync_current_elpx.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_native_runtime_security.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_editorial_elpx.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_native_audit_fixes.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_passport_native*.py'
-          node --test tests/drawing-import.test.js
+          node --test tests/*.test.js
           .venv/bin/python3 tools/sync_current_elpx.py --check
           python3 tools/update_release.py --check
           python3 tools/harden_jspdf_exports.py --check
@@ -61,6 +64,7 @@ jobs:
             test_experience_browser.py test_journey_browser.py \
             test_drawing_browser.py test_jspdf_browser.py test_names_browser.py \
             test_pieces_browser.py \
+            test_story_formats_browser.py \
             test_editorial_elpx_browser.py test_native_audit_browser.py \
             test_navigation_accessibility_browser.py
           .venv/bin/python tools/run_browser_checks.py \
