@@ -2,11 +2,11 @@
 from functools import partial
 from http.server import ThreadingHTTPServer
 from pathlib import Path
-import shutil
 import threading
 import unittest
 
 from playwright.sync_api import sync_playwright
+from media_browser import launch_media_browser
 
 from test_experience_browser import AUDIT_AUDIO, NATURAL_AUDIO, NoRangeHandler, QuietHandler
 
@@ -26,8 +26,7 @@ class ReadingSupportBrowserTest(unittest.TestCase):
             cls.servers.append((server, thread))
         cls.base, cls.no_range_base = [f"http://127.0.0.1:{server.server_port}/" for server, _ in cls.servers]
         cls.playwright = sync_playwright().start()
-        cls.browser = cls.playwright.chromium.launch(executable_path=shutil.which("chromium"),
-                                                    args=["--no-sandbox", "--disable-dev-shm-usage"])
+        cls.browser = launch_media_browser(cls.playwright)
 
     @classmethod
     def tearDownClass(cls):

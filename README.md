@@ -124,6 +124,7 @@ sin regenerar el ELPX:
 python3.12 -m venv .venv
 . .venv/bin/activate
 python3 -m pip install --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
+python3 -m playwright install --with-deps chromium chrome
 python3 tools/update_release.py
 python3 tools/update_release.py --check
 python3 tools/prepare_deploy.py
@@ -136,7 +137,9 @@ empaquetar. La publicación 4.9.2 ofrece el ELPX 4.8.8 con renderizado nativo re
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
 PNG durante la construcción del ELPX. Playwright se usa en las pruebas de
-navegador. Estas dependencias no se necesitan para leer el recurso.
+navegador. Las pruebas multimedia utilizan Chrome oficial y comprueban su
+soporte MP3 y AAC antes de reproducir las pistas reales. Estas dependencias no
+se necesitan para leer el recurso.
 
 Revisa el resultado antes de publicar. `tools/build_elpx.py` corresponde a la
 edición histórica 4.4.0 y **no reconstruye la adaptación GobCan vigente**.
@@ -207,7 +210,9 @@ validación sin secretos del despliegue.
 `tools/check_public_transport.py` comprueba mediante HEAD sin credenciales la
 redirección permanente a HTTPS de la portada y una descarga con consulta,
 así como disponibilidad HTTPS y HSTS. El despliegue exige pasar esta comprobación
-antes de publicar y la repite después. La configuración opcional de la regla
+antes de publicar y la repite después. También obtiene `VERSION.json` y valida
+su contenido para rechazar avisos de bloqueo que respondan con HTTP 200.
+La configuración opcional de la regla
 por API no sustituye esta verificación pública.
 
 Los verificadores ZIP/ELPX limitan cada archivo de entrada comprimido a 32 MiB y cada árbol recursivo

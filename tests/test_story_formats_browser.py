@@ -6,6 +6,7 @@ import threading
 import unittest
 
 from playwright.sync_api import sync_playwright
+from media_browser import launch_media_browser
 
 ROOT = Path(__file__).resolve().parents[1]
 CSP = next(line.split(":", 1)[1].strip() for line in (ROOT / "_headers").read_text().splitlines()
@@ -31,7 +32,7 @@ class StoryFormatsBrowserTests(unittest.TestCase):
         cls.thread.start()
         cls.base = f"http://127.0.0.1:{cls.server.server_port}/"
         cls.playwright = sync_playwright().start()
-        cls.browser = cls.playwright.chromium.launch(channel="chromium", headless=True)
+        cls.browser = launch_media_browser(cls.playwright)
 
     @classmethod
     def tearDownClass(cls):
