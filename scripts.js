@@ -152,7 +152,7 @@ function injectExperienceTools(){
  const puzzleLead=byId("missionTitle")?.closest("section")?.querySelector(".lead");
  if(puzzleLead)puzzleLead.textContent="Reconstruye el mapa observando sus formas y colores. Arrastra una pieza sobre otra o selecciona dos para intercambiarlas. Con el teclado, usa Tab para recorrer las piezas y Enter o espacio para seleccionarlas. Puedes utilizar «Mostrar solución» como apoyo.";
  const footer=document.querySelector(".footer-inner");
- if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacidad y guardado</summary><p>No necesitas una cuenta. El progreso se guarda solo en este navegador. El nombre o equipo es opcional y se utiliza en el seguimiento y el diploma. Los cuentos con grabación reproducen el audio indicado junto al reproductor; los demás usan las voces disponibles en el dispositivo. El sonido comienza cuando pulsas Reproducir. Para cambiar de navegador, guarda el seguimiento desde Docente.</p></details>`);
+ if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacidad y guardado</summary><p>No necesitas una cuenta. El progreso se guarda solo en este navegador. El nombre o equipo es opcional y se utiliza en el seguimiento docente. El diploma es genérico y no incluye nombres personales. Los cuentos con grabación reproducen el audio indicado junto al reproductor; los demás usan las voces disponibles en el dispositivo. El sonido comienza cuando pulsas Reproducir. Para cambiar de navegador, guarda el seguimiento desde Docente.</p></details>`);
  setReaderMode(readerMode);
  setLearningLevel(learningLevel,false);
 }
@@ -1130,10 +1130,8 @@ function updateFinalExperience(){
  const celebration=byId("finalCelebration");
  const diplomaButton=byId("printDiploma");
  if(challenge)challenge.hidden=!unlocked;
- if(celebration)celebration.hidden=!(unlocked&&finalState.passed);
- if(diplomaButton)diplomaButton.disabled=!(unlocked&&finalState.passed);
- const nameInput=byId("diplomaName");
- if(nameInput&&nameInput.value!==learnerName)nameInput.value=learnerName;
+ if(celebration)celebration.hidden=!unlocked;
+ if(diplomaButton)diplomaButton.disabled=!unlocked;
 }
 
 function checkFinalChallenge(){
@@ -1158,7 +1156,8 @@ function checkFinalChallenge(){
 
 function syncLearnerName(value){
  learnerName=String(value||"").replace(/\s+/g," ").trim().slice(0,80);
- [byId("teacherLearnerName"),byId("diplomaName")].forEach(input=>{if(input&&input.value!==learnerName)input.value=learnerName;});
+ const input=byId("teacherLearnerName");
+ if(input&&input.value!==learnerName)input.value=learnerName;
  savePreferences();
 }
 
@@ -1303,9 +1302,8 @@ function clearPrintMode(){
 }
 
 function printDiploma(){
- if(currentBadgeCount()!==routes.length||!finalState.passed)return;
- const name=learnerName||"Explorador o exploradora del MitoMapa";
- byId("diplomaPrintName").textContent=name;
+ if(currentBadgeCount()!==routes.length)return;
+ byId("diplomaPrintName").textContent="Explorador o exploradora del MitoMapa";
  byId("diplomaPrintDate").textContent=new Intl.DateTimeFormat("es-ES",{dateStyle:"long"}).format(new Date());
  byId("diplomaPrintBadges").innerHTML=routes.map(route=>`<img src="${ASSETS[route.badge]}" alt="">`).join("");
  document.body.classList.add("print-diploma");
@@ -1389,7 +1387,6 @@ function setupV34Features(){
  });
  renderFinalChallenge();
  byId("checkFinalChallenge")?.addEventListener("click",checkFinalChallenge);
- byId("diplomaName")?.addEventListener("change",event=>syncLearnerName(event.target.value));
  byId("printDiploma")?.addEventListener("click",printDiploma);
  byId("openTeacher")?.addEventListener("click",()=>{updateTeacherDialog();window.MitoMapaTeacher?.show("guide",{focus:false});openDialog(byId("teacherDialog"));window.MitoMapaTeacher?.show("guide");});
  byId("closeTeacher")?.addEventListener("click",()=>closeDialog(byId("teacherDialog")));
