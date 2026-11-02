@@ -259,3 +259,5 @@ Las fuentes distribuyen los nuevos medios por separado. Ejecuta
 `python3 tools/fetch_story_media.py` para recuperarlos con sus tamaños y SHA-256
 obligatorios; el origen predeterminado es el respaldo estático de GitHub Pages.
 `--base-url` permite indicar otro origen HTTPS que sirva los mismos bytes.
+El origen debe servir los archivos directamente: la herramienta rechaza las
+redirecciones antes de enviar otra solicitud.

@@ -1,9 +1,14 @@
 """Download approved media without replacing existing files with bad data."""
+from email.message import Message
 from io import BytesIO
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+from urllib.error import HTTPError
+from urllib.request import BaseHandler
+from urllib.response import addinfourl
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
@@ -47,6 +52,69 @@ class FetchStoryMediaTests(unittest.TestCase):
             download_media(self.root, opener=lambda request, timeout: Response(b'x' * len(self.payload)))
         self.assertEqual(target.read_bytes(), b'old media')
         self.assertEqual(list(target.parent.iterdir()), [target])
+
+    def test_redirects_are_rejected_before_any_follow_on_request(self):
+        target = self.root / self.name
+        target.parent.mkdir(parents=True)
+        initial_url = 'https://crgarsan.github.io/mitomapa-canario/' + self.name
+        for code in [300, 301, 302, 303, 304, 305, 306, 307, 308, 399]:
+            for destination in [
+                    'http://127.0.0.1:9/', 'https://127.0.0.1:9/',
+                    'https://169.254.169.254/latest/meta-data/', 'https://10.0.0.1/',
+                    'https://other.example/media.mp4', initial_url + '.redirected',
+                    '/media/elsewhere.mp4']:
+                with self.subTest(code=code, destination=destination):
+                    target.write_bytes(b'old media')
+                    seen = []
+                    payload = self.payload
+
+                    class MediaTransport(BaseHandler):
+                        handler_order = 1
+
+                        def https_open(self, request):
+                            seen.append(request.full_url)
+                            headers = Message()
+                            headers['Location'] = destination
+                            response = addinfourl(BytesIO(payload), headers, request.full_url,
+                                                  code if len(seen) == 1 else 200)
+                            response.msg = 'Redirect' if len(seen) == 1 else 'OK'
+                            return response
+                        http_open = https_open
+
+                    error = None
+                    # Replace only network I/O; retain the real urllib redirect stack.
+                    with patch('urllib.request._opener', None), \
+                            patch('urllib.request.HTTPSHandler', MediaTransport):
+                        try:
+                            download_media(self.root)
+                        except (HTTPError, ValueError) as caught:
+                            error = caught
+                            if isinstance(error, HTTPError):
+                                error.close()
+                    self.assertEqual(seen, [initial_url], 'A redirect must never issue another request')
+                    self.assertIsInstance(error, HTTPError)
+                    self.assertEqual(error.code, code)
+                    self.assertEqual(target.read_bytes(), b'old media')
+                    self.assertEqual(list(target.parent.iterdir()), [target])
+
+    def test_default_transport_installs_pinned_bytes_from_direct_https_mirror(self):
+        seen = []
+        payload = self.payload
+
+        class MediaTransport(BaseHandler):
+            handler_order = 1
+
+            def https_open(self, request):
+                seen.append(request.full_url)
+                response = addinfourl(BytesIO(payload), Message(), request.full_url, 200)
+                response.msg = 'OK'
+                return response
+
+        with patch('urllib.request._opener', None), \
+                patch('urllib.request.HTTPSHandler', MediaTransport):
+            self.assertEqual(download_media(self.root, base_url='https://mirror.example/stories/'), 1)
+        self.assertEqual(seen, ['https://mirror.example/stories/' + self.name])
+        self.assertEqual((self.root / self.name).read_bytes(), self.payload)
 
     def test_default_source_restores_pinned_html_without_hosting_additions(self):
         name = 'media/fuentes-cuentos.html'
