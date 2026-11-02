@@ -202,10 +202,12 @@
     byId("routes").dataset.screen = "ruta";
     const resources = document.createElement("section");
     resources.className = "section screen-intro";resources.dataset.screen = "recursos";
-    resources.innerHTML = '<p class="eyebrow">Para consultar cuando lo necesites</p><h1>Recursos y ayuda</h1><p>Abre el apartado que buscas.</p>';
-    const help=document.createElement("div");help.className="resource-quick-help";
-    help.innerHTML='<a href="GUIA_DOCENTE.html">Cómo empezar y preparar la actividad</a><a href="downloads/Cuaderno_de_ruta_MitoMapa.html">Cuaderno imprimible</a><button type="button" id="resourceSaveHelp">Guardar o recuperar el trabajo</button>';
-    help.querySelector("button").addEventListener("click",()=>byId("storageExportHelp")?.click());resources.append(help);
+    resources.innerHTML = '<p class="eyebrow">Para consultar cuando lo necesites</p><h1>Recursos y ayuda</h1>';
+    const help=document.createElement("nav");help.className="resource-quick-help";
+    help.setAttribute("aria-label","Guías y seguimiento del profesorado");
+    help.innerHTML='<a href="GUIA_DOCENTE.html">Cómo empezar y preparar la actividad</a><a href="downloads/Cuaderno_de_ruta_MitoMapa.html">Cuaderno imprimible</a><button type="button" id="teacherSaveHelp">Guardar o recuperar el trabajo</button>';
+    help.querySelector("button").addEventListener("click",()=>byId("storageExportHelp")?.click());
+    byId("teacherGuidePanel").prepend(help);
     resources.append(
       disclosure(byId("reuseTitle").closest("section"),"Descargas y materiales editables","resourceDownloads"),
       disclosure(byId("creditsTitle").closest("section"),"Guía, autoría, fuentes y agradecimientos","resourceCredits"),

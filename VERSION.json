@@ -1,14 +1,14 @@
 {
-  "web_version": "4.9.1",
+  "web_version": "4.9.2",
   "rea_exelearning_version": "4.8.8",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-29",
+  "prepared_at": "2026-11-01",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
     "sha256": "cedaa18b42271e02547847800a8fd8a7094ccf9a021892942f5370a3dc25a477",
     "bytes": 25875879
   },
-  "previous_web_version": "4.9.0",
+  "previous_web_version": "4.9.1",
   "previous_rea_version": "4.8.7",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_9_1.md",
+  "release_notes": "CAMBIOS_WEB_4_9_2.md",
   "rea_release_notes": "CAMBIOS_REA_4_8_8.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -110,14 +110,16 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_9_1.zip",
+    "path": "downloads/MitoMapa_REA_v4_9_2.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "a9a46e32167ffe421233758db37fa75d031676d271300db38c455e0dc6642ff9",
-    "bytes": 25705072
+    "sha256": "559645fbe58244bb0520b1d427f65003b9be3b5c8cc3f307713fa914be280990",
+    "bytes": 25707358
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_9_1.zip",
-    "contains_elpx": false
+    "path": "downloads/MitoMapa_fuentes_web_v4_9_2.zip",
+    "contains_elpx": false,
+    "story_media_manifest": "MEDIA_MANIFEST.json",
+    "story_media_separate": true
   },
   "feedback_revision": {
     "date": "2026-10-14",
@@ -176,7 +178,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.9.1",
+  "release_version": "4.9.2",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -204,7 +206,7 @@
     "counts_towards_passport": false,
     "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
   },
-  "web_revision_date": "2026-10-29",
+  "web_revision_date": "2026-11-01",
   "elpx_thumbnail": {
     "path": "assets/images/miniatura_elpx.png",
     "sha256": "614768b1fa733f2b2c155c4508a8446dbcdd94d7bf543abee21bf4c2b2cfbda0",
@@ -263,5 +265,27 @@
     "hosted_editor_modified": false,
     "untrusted_project_execution_isolation_guaranteed": false,
     "reference_report_revision": "f5d9864dafb351cd18e1d9dc8287352c3eec5317"
+  },
+  "story_formats_revision": {
+    "date": "2026-11-01",
+    "islands": 8,
+    "views": [
+      "audio-text",
+      "video"
+    ],
+    "pdf_download_always_visible": true,
+    "captions_default": false,
+    "narrator": "Jesica Fortes Regalado",
+    "original_narration_preserved": true,
+    "background": "natural_soft_effects_with_fades",
+    "literal_word_adjustments": 7,
+    "san_borondon_original_story_preserved": true,
+    "native_elpx_bytes_unchanged": true
+  },
+  "resource_navigation_revision": {
+    "date": "2026-11-01",
+    "quick_help_location": "Docente / Guía",
+    "save_help_location": "Docente / Ajustes y seguimiento",
+    "student_resource_shortcuts_removed": true
   }
 }

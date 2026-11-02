@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "files": {
+    "media/creditos-audio.txt": {
+      "sha256": "4ccaac5e7dc04688df0ee99c469a325bdef659ee794b1d59ea96b69cf9a6a87b",
+      "bytes": 20752
+    },
+    "media/el-hierro/cuento-ilustrado.pdf": {
+      "sha256": "171c935fecf2a45b21f99b1b63f92dd9636bde69880824d4cb453c6349eb409f",
+      "bytes": 10941934
+    },
+    "media/el-hierro/cuento.mp4": {
+      "sha256": "50d5129fbfcecead11ba73c93d14db55e4fb010193ff0bc8014ae7d1261c1728",
+      "bytes": 23385797
+    },
+    "media/el-hierro/narracion-con-fondo.m4a": {
+      "sha256": "d6b70726560cf3fb0332e64e4a9399ac28d3c820a7545a7d3ea8e7f37582374d",
+      "bytes": 2381806
+    },
+    "media/el-hierro/narracion.mp3": {
+      "sha256": "fcc46fb1458b139d9825d74907e3a0304e3355c546486c1041291e350f73d65e",
+      "bytes": 655194
+    },
+    "media/el-hierro/pagina-01.webp": {
+      "sha256": "7d14566fcca083eeb7a73ba46b0e325f20b8174a4e6729f1421e616cf9df7f3e",
+      "bytes": 509226
+    },
+    "media/el-hierro/subtitulos.vtt": {
+      "sha256": "d0a62f76c2be918b8c73e9f40b0bec919c6df8da62ebf6af44948009eba2ec99",
+      "bytes": 2058
+    },
+    "media/fuentes-cuentos.html": {
+      "sha256": "744f64a7c9cd8d4715e7b6c167c4f6eafbcde0e6fa9317b2f4637a3291f6f67f",
+      "bytes": 16119
+    },
+    "media/fuerteventura/cuento-ilustrado.pdf": {
+      "sha256": "4a2d8431a50eea173e630bd07926c9971a9d56886b340601be6c8baafff3dbf0",
+      "bytes": 7600441
+    },
+    "media/fuerteventura/cuento.mp4": {
+      "sha256": "2c00298fff7ef33f9cd364ae088308a5137757bfdf0ecbc0f07b982d5e50cf1c",
+      "bytes": 23392272
+    },
+    "media/fuerteventura/narracion-con-fondo.m4a": {
+      "sha256": "156a103cdf9f4ad2904b38857b42375f539eda00f87084f927477f8631882981",
+      "bytes": 2450422
+    },
+    "media/fuerteventura/narracion.mp3": {
+      "sha256": "05edf873c32a921095773edf8f720a70f6f71b5d7b33fe3fa51cb5d06bf5e439",
+      "bytes": 671912
+    },
+    "media/fuerteventura/pagina-01.webp": {
+      "sha256": "9f7648dc1537436ac68d793b55e113033c1071526027b1704c365f484f19acf2",
+      "bytes": 267122
+    },
+    "media/fuerteventura/subtitulos.vtt": {
+      "sha256": "63dd8023d9f693a5b7865c03131ef389617ac392677920ab4a53bc9fc966a362",
+      "bytes": 2073
+    },
+    "media/gran-canaria/cuento-ilustrado.pdf": {
+      "sha256": "1f4507a3c9afabb4243c1d471e17dcfb0883c333760bf51639e5ac5bf36236f0",
+      "bytes": 8768594
+    },
+    "media/gran-canaria/cuento.mp4": {
+      "sha256": "21f6f4367746ad90a4d81676b47dfedbccdc263c6df08c74a840cd01db832deb",
+      "bytes": 23470517
+    },
+    "media/gran-canaria/narracion-con-fondo.m4a": {
+      "sha256": "9375ca9b99898465d25d714e678d769998019edb22aba4cc088512987ef041f5",
+      "bytes": 2738896
+    },
+    "media/gran-canaria/narracion.mp3": {
+      "sha256": "a12d3b9132d02e48d70ba6862e51ab7eacc24c733a792f1f9bc65f666528c056",
+      "bytes": 753205
+    },
+    "media/gran-canaria/pagina-01.webp": {
+      "sha256": "7d60ff7194ce379267199f2d1beee10e517c8330d168a8222454dcf82df398a9",
+      "bytes": 387746
+    },
+    "media/gran-canaria/subtitulos.vtt": {
+      "sha256": "5fb019bb33c813ef4f7565a8781c29ea7a117420db722299c4bdf8e2108c120e",
+      "bytes": 2351
+    },
+    "media/la-gomera/cuento-ilustrado.pdf": {
+      "sha256": "887ce0b062cd7e30c12dafb95fec7a85055198b47f45d6278016c8d18f3cdd87",
+      "bytes": 9534921
+    },
+    "media/la-gomera/cuento.mp4": {
+      "sha256": "9e0e7d3177c12dbd30871d9191599e13ca0042d9ac568683455dbeebae9b58ae",
+      "bytes": 23564034
+    },
+    "media/la-gomera/narracion-con-fondo.m4a": {
+      "sha256": "97af170998324946afdca351e8d273d427ea023269c32e6269a13d18516afbf1",
+      "bytes": 2660811
+    },
+    "media/la-gomera/narracion.mp3": {
+      "sha256": "b7b7d3adad5526656e107451bfe8fc3c3a8b7f713689c219c343f92e85fd6461",
+      "bytes": 731889
+    },
+    "media/la-gomera/pagina-01.webp": {
+      "sha256": "8c4f8725908613ade4acbf0e152573571999e9e13772f177a2203f9d45622693",
+      "bytes": 359460
+    },
+    "media/la-gomera/subtitulos.vtt": {
+      "sha256": "fcf428e4bee7c9930096e040020bb28c259924f6fa687abfbd3582776598deb0",
+      "bytes": 2220
+    },
+    "media/la-graciosa/cuento-ilustrado.pdf": {
+      "sha256": "f8e94228c03a0928c5f5e9abb31a9be44681b07d46bac832abfff0322912c848",
+      "bytes": 8186476
+    },
+    "media/la-graciosa/cuento.mp4": {
+      "sha256": "208d213aeead4d7c3c2e1b82f1cdc76722e1ed0d2543c992d9a85c38e6613b3e",
+      "bytes": 23683378
+    },
+    "media/la-graciosa/narracion-con-fondo.m4a": {
+      "sha256": "8a0efc9ef844de63425e6681343fadc6236936ef733fe68132c73c4a974d11d7",
+      "bytes": 2469456
+    },
+    "media/la-graciosa/narracion.mp3": {
+      "sha256": "be2deb32bbec1a7ba05e8ca8a1d7114a179605feb8c08a5dc9d12f858c06c555",
+      "bytes": 671703
+    },
+    "media/la-graciosa/pagina-01.webp": {
+      "sha256": "4872817aa4d875cbcedd892f07d0243b8673364a8ea915a59d70529a348a4321",
+      "bytes": 294636
+    },
+    "media/la-graciosa/subtitulos.vtt": {
+      "sha256": "2a1c7d2190525c4750f72804319477c78d49641d8ae7b35e6ebf9d24f55af9aa",
+      "bytes": 1933
+    },
+    "media/la-palma/cuento-ilustrado.pdf": {
+      "sha256": "d11f9ee5bd0e7ac5d81042349ca3bbf4e5b67fb7323585628d3913e5ac905200",
+      "bytes": 9131221
+    },
+    "media/la-palma/cuento.mp4": {
+      "sha256": "44457e6e271ad7e5595b58e0f02419de72eb86b3f6a35cd07c39c8ad95bb7648",
+      "bytes": 23621481
+    },
+    "media/la-palma/narracion-con-fondo.m4a": {
+      "sha256": "6e3f2edb44b2e9d621c3bfd89f308ef312ff8d3b9915b39a0b7c8fedc52da86d",
+      "bytes": 2311819
+    },
+    "media/la-palma/narracion.mp3": {
+      "sha256": "f8fa37ce1473a3623e567da30db6a59732ea0887fc52da108f9895a3587b8002",
+      "bytes": 633251
+    },
+    "media/la-palma/pagina-01.webp": {
+      "sha256": "a5b7ea1ec074563418d20944c8de81026a45ec364f0157566100bc6c2b5ba286",
+      "bytes": 350078
+    },
+    "media/la-palma/subtitulos.vtt": {
+      "sha256": "9bfe675db0d04f3a7a9a60e9afd8ccc220b8e1ef03ff86773369f85d911052d5",
+      "bytes": 1997
+    },
+    "media/lanzarote/cuento-ilustrado.pdf": {
+      "sha256": "36c28f93308bb91c6b193e84a176d56e242e3e38c06da26d40b282fdbecb5a68",
+      "bytes": 8314494
+    },
+    "media/lanzarote/cuento.mp4": {
+      "sha256": "9d900b0a609eb125764d52045fb80327e325eed7f97a82531428f50893e21477",
+      "bytes": 23421959
+    },
+    "media/lanzarote/narracion-con-fondo.m4a": {
+      "sha256": "e59a2f25f249f37c10aca822a868a4355d274567f1497b64350a37bcbe3f52b8",
+      "bytes": 2323192
+    },
+    "media/lanzarote/narracion.mp3": {
+      "sha256": "380bde00ef128aba012c0e2ae49cf7d5da052870c6da76f3a343f6376081a95e",
+      "bytes": 645163
+    },
+    "media/lanzarote/pagina-01.webp": {
+      "sha256": "611db57d72c9d8c169a174e0982049be73bed18d74cbde4bb2a62733a818fd8d",
+      "bytes": 277754
+    },
+    "media/lanzarote/subtitulos.vtt": {
+      "sha256": "752c072247237076955c8c5e2b3848c95268a052191593aa92cd1583676f1b44",
+      "bytes": 1965
+    },
+    "media/tenerife/cuento-ilustrado.pdf": {
+      "sha256": "78ebb530ade2d97d64ee93a51235c4a69a71150e09b33927175dca346e52bbda",
+      "bytes": 4788873
+    },
+    "media/tenerife/cuento.mp4": {
+      "sha256": "ec0b74569186ed954cc3fd391710fa9d0d09761d147cc3e4e96e72e29fd7705f",
+      "bytes": 23458009
+    },
+    "media/tenerife/narracion-con-fondo.m4a": {
+      "sha256": "2f7bf65478c2a95801e47931e07d707ab2ec561c5addf58c2321a918b3c3c9ae",
+      "bytes": 3096608
+    },
+    "media/tenerife/narracion.mp3": {
+      "sha256": "95e7ac7f5442664aec96b4aec3d7288e417ad70153a341f8f023e0e21fc5ad0a",
+      "bytes": 880056
+    },
+    "media/tenerife/pagina-01.webp": {
+      "sha256": "4e1f6a112b57eaf6f6bb53d5e01df5e8a353932f788aba81dbad382d35a34d5a",
+      "bytes": 199802
+    },
+    "media/tenerife/subtitulos.vtt": {
+      "sha256": "af73f15ef7142f25d9860d3214e7c7574676fdd0a8533dd58aca9ef62abb7249",
+      "bytes": 2492
+    }
+  }
+}

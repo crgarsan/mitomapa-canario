@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.9.1 · REA 4.8.8
+# MitoMapa canario · web 4.9.2 · REA 4.8.8
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La publicación web **4.9.1** identifica el REA editable **4.8.8**, revisado el
+La publicación web **4.9.2** identifica el REA editable **4.8.8**, revisado el
 29/10/2026 para limitar la interpretación de metadatos en los componentes
 nativos de informe de progreso y listas de cotejo. Los títulos y mensajes se
 muestran como texto; los ítems y pies conservan formato HTML pasivo saneado.
@@ -24,8 +24,8 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 - [Edición publicada en la Mediateca de Canarias](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
 - [Web publicada](https://mitomapacanario.org/).
 - [REA editable vigente · 4.8.8](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.9.1 · incluye el REA 4.8.8](downloads/MitoMapa_REA_v4_9_1.zip).
-- [Fuentes web 4.9.1](downloads/MitoMapa_fuentes_web_v4_9_1.zip).
+- [Paquete de la publicación 4.9.2 · incluye el REA 4.8.8](downloads/MitoMapa_REA_v4_9_2.zip).
+- [Fuentes web 4.9.2](downloads/MitoMapa_fuentes_web_v4_9_2.zip).
 - [REA anterior · 4.8.6](downloads/MitoMapa_canario_GobCan_v4_8_6.elpx).
 
 La miniatura social conserva el diseño de la web 4.8.8: un fondo
@@ -124,6 +124,7 @@ sin regenerar el ELPX:
 python3.12 -m venv .venv
 . .venv/bin/activate
 python3 -m pip install --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
+python3 -m playwright install --with-deps chromium chrome
 python3 tools/update_release.py
 python3 tools/update_release.py --check
 python3 tools/prepare_deploy.py
@@ -131,12 +132,14 @@ python3 tools/prepare_deploy.py
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.9.1 ofrece el ELPX 4.8.8 con renderizado nativo revisado; el archivo
+empaquetar. La publicación 4.9.2 ofrece el ELPX 4.8.8 con renderizado nativo revisado; el archivo
 4.8.6 anterior conserva su propia descarga.
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
 PNG durante la construcción del ELPX. Playwright se usa en las pruebas de
-navegador. Estas dependencias no se necesitan para leer el recurso.
+navegador. Las pruebas multimedia utilizan Chrome oficial y comprueban su
+soporte MP3 y AAC antes de reproducir las pistas reales. Estas dependencias no
+se necesitan para leer el recurso.
 
 Revisa el resultado antes de publicar. `tools/build_elpx.py` corresponde a la
 edición histórica 4.4.0 y **no reconstruye la adaptación GobCan vigente**.
@@ -207,7 +210,9 @@ validación sin secretos del despliegue.
 `tools/check_public_transport.py` comprueba mediante HEAD sin credenciales la
 redirección permanente a HTTPS de la portada y una descarga con consulta,
 así como disponibilidad HTTPS y HSTS. El despliegue exige pasar esta comprobación
-antes de publicar y la repite después. La configuración opcional de la regla
+antes de publicar y la repite después. También obtiene `VERSION.json` y valida
+su contenido para rechazar avisos de bloqueo que respondan con HTTP 200.
+La configuración opcional de la regla
 por API no sustituye esta verificación pública.
 
 Los verificadores ZIP/ELPX limitan cada archivo de entrada comprimido a 32 MiB y cada árbol recursivo
@@ -244,4 +249,4 @@ runtimes, es necesario comprobar de nuevo la exportación. Las ediciones
 históricas públicas conservan sus bytes y no se presentan como corregidas.
 
 Ver [cambio nativo 4.8.8](CAMBIOS_REA_4_8_8.md) y
-[publicación web 4.9.1](CAMBIOS_WEB_4_9_1.md).
+[publicación web 4.9.2](CAMBIOS_WEB_4_9_2.md).
