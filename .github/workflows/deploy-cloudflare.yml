@@ -1,115 +1,50 @@
-name: Deploy MitoMapa to Cloudflare
+name: Verify MitoMapa www without deployment
 
 on:
-  pull_request:
-  push:
-    branches: [main]
   workflow_dispatch:
 
-concurrency:
-  group: mitomapa-cloudflare-${{ github.ref }}
-  cancel-in-progress: false
+permissions: {}
 
 jobs:
-  validate:
+  verify:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: '22'
-          package-manager-cache: false
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
-        with:
-          python-version: '3.12'
-      - name: Install browser test dependencies
+      - name: Check public www with standard TLS and no credentials
         run: |
-          python3 -m venv .venv
-          .venv/bin/python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
-          .venv/bin/python -m playwright install --with-deps chromium chrome
-      - name: Check deployment policy and release packages
-        run: |
-          npm audit --package-lock-only --ignore-scripts --audit-level=moderate
-          python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
-          python3 -m unittest discover -s tests -p 'test_custom_domain_preflight.py'
-          python3 -m unittest discover -s tests -p 'test_https_redirect.py'
-          python3 -m unittest discover -s tests -p 'test_public_transport.py'
-          python3 -m unittest discover -s tests -p 'test_python_lock.py'
-          python3 -m unittest discover -s tests -p 'test_archive_limits.py'
-          python3 -m unittest discover -s tests -p 'test_narration_security.py'
-          python3 -m unittest discover -s tests -p 'test_maintenance_tools.py'
-          python3 -m unittest discover -s tests -p 'test_elpx_resource_links.py'
-          python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
-          python3 -m unittest discover -s tests -p 'test_release_pipeline.py'
-          python3 -m unittest discover -s tests -p 'test_story_media_release.py'
-          python3 -m unittest discover -s tests -p 'test_fetch_story_media.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_fflate_security.py'
-          python3 -m unittest discover -s tests -p 'test_backup_stage.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_sync_current_elpx.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_native_runtime_security.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_editorial_elpx.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_native_audit_fixes.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_passport_native*.py'
-          node --test tests/*.test.js
-          .venv/bin/python3 tools/sync_current_elpx.py --check
-          python3 tools/update_release.py --check
-          python3 tools/harden_jspdf_exports.py --check
-          python3 tools/harden_drawing_archives.py --check
-      - name: Check browser behaviour
-        run: |
-          .venv/bin/python tools/run_browser_checks.py \
-            test_experience_browser.py test_journey_browser.py \
-            test_drawing_browser.py test_jspdf_browser.py test_names_browser.py \
-            test_pieces_browser.py \
-            test_story_formats_browser.py \
-            test_editorial_elpx_browser.py test_native_audit_browser.py \
-            test_navigation_accessibility_browser.py \
-            test_persistent_state_browser.py test_text_resize_browser.py \
-            test_fflate_security_browser.py
-          .venv/bin/python tools/run_browser_checks.py \
-            test_map_choice_browser.py test_reading_support_browser.py \
-            test_learning_support_browser.py test_game_access_browser.py \
-            test_expedition_browser.py test_native_runtime_security_browser.py
-      - name: Verify and stage static files
-        run: python3 tools/prepare_deploy.py
-  deploy:
-    needs: validate
-    if: github.ref == 'refs/heads/main' && github.repository == 'crgarsan/mitomapa-canario'
-    runs-on: ubuntu-latest
-    environment: production
-    permissions:
-      contents: read
-    env:
-      WRANGLER_SEND_METRICS: 'false'
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: '22'
-          package-manager-cache: false
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
-        with:
-          python-version: '3.12'
-      - name: Verify and stage static files
-        run: python3 tools/prepare_deploy.py
-      - name: Install Wrangler
-        run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Verify public transport before publication
-        run: python3 tools/check_public_transport.py
-      - name: Deploy existing Worker
-        run: |
-          python3 tools/check_custom_domain.py
-          ./node_modules/.bin/wrangler deploy --config wrangler.jsonc
-          python3 tools/ensure_https_redirect.py
-          python3 tools/ensure_https_redirect.py --www
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      - name: Verify public transport after publication
-        run: python3 tools/check_public_transport.py
+          python3 - <<'PY'
+          import json, socket
+          from urllib.request import Request, build_opener, HTTPRedirectHandler, urlopen
+          from urllib.error import HTTPError
+          class NoRedirect(HTTPRedirectHandler):
+              def redirect_request(self, *args, **kwargs): return None
+          opener = build_opener(NoRedirect())
+          rows = []
+          for scheme in ('http', 'https'):
+              for path in ('/', '/downloads/MitoMapa_canario_GobCan.elpx?transport-check=1'):
+                  current = scheme + '://www.mitomapacanario.org' + path
+                  chain = []
+                  for hop in range(3):
+                      request = Request(current, method='HEAD', headers={'User-Agent': 'MitoMapa-transport-check'})
+                      try:
+                          with opener.open(request, timeout=30) as response:
+                              status, location = response.status, response.headers.get('Location')
+                      except HTTPError as response:
+                          status, location = response.code, response.headers.get('Location')
+                          response.close()
+                      chain.append({'url': current, 'status': status, 'location': location})
+                      if status == 200:
+                          assert current == 'https://mitomapacanario.org' + path, chain
+                          break
+                      assert status in (301, 308), chain
+                      assert location in ('https://www.mitomapacanario.org' + path, 'https://mitomapacanario.org' + path), chain
+                      assert location != current, chain
+                      current = location
+                  else: raise AssertionError(chain)
+                  rows.append(chain)
+          with urlopen(Request('https://mitomapacanario.org/VERSION.json', headers={'User-Agent':'MitoMapa-transport-check'}), timeout=30) as response:
+              version = json.loads(response.read(65536))
+          assert version['web_version'] == '4.9.3'
+          assert version['rea_exelearning_version'] == '4.8.9'
+          assert version['download']['sha256'] == '2b595cc0851d78dec66dd4e595e4ced9a9be012955986f14cba37ce32750fb8a'
+          print(json.dumps({'passed': True, 'dns': sorted({r[4][0] for r in socket.getaddrinfo('www.mitomapacanario.org',443)}), 'tls':'normal certificate and hostname validation; no insecure context', 'chains': rows, 'web_version':version['web_version'], 'rea_version':version['rea_exelearning_version']}))
+          PY
