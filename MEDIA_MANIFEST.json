@@ -1,6 +1,10 @@
 {
   "version": 1,
   "files": {
+    "media/creditos-audio.html": {
+      "sha256": "e7592e2a07fe8969c82b4828913c7ce8b680c4b618ca209f1663357ac0a92089",
+      "bytes": 37677
+    },
     "media/creditos-audio.txt": {
       "sha256": "4ccaac5e7dc04688df0ee99c469a325bdef659ee794b1d59ea96b69cf9a6a87b",
       "bytes": 20752

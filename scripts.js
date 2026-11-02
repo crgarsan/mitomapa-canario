@@ -152,7 +152,7 @@ function injectExperienceTools(){
  const puzzleLead=byId("missionTitle")?.closest("section")?.querySelector(".lead");
  if(puzzleLead)puzzleLead.textContent="Reconstruye el mapa observando sus formas y colores. Arrastra una pieza sobre otra o selecciona dos para intercambiarlas. Con el teclado, usa Tab para recorrer las piezas y Enter o espacio para seleccionarlas. Puedes utilizar «Mostrar solución» como apoyo.";
  const footer=document.querySelector(".footer-inner");
- if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacidad y guardado</summary><p>No necesitas una cuenta. El progreso se guarda solo en este navegador. El nombre o equipo es opcional y se utiliza en el seguimiento y el diploma. Los cuentos con grabación reproducen el audio indicado junto al reproductor; los demás usan las voces disponibles en el dispositivo. El sonido comienza cuando pulsas Reproducir. Para cambiar de navegador, guarda el seguimiento desde Docente.</p></details>`);
+ if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacidad y guardado</summary><p>No necesitas una cuenta. El progreso se guarda solo en este navegador. El nombre o equipo es opcional y se utiliza en el seguimiento docente. El diploma es genérico y no incluye nombres personales. Los cuentos con grabación reproducen el audio indicado junto al reproductor; los demás usan las voces disponibles en el dispositivo. El sonido comienza cuando pulsas Reproducir. Para cambiar de navegador, guarda el seguimiento desde Docente.</p></details>`);
  setReaderMode(readerMode);
  setLearningLevel(learningLevel,false);
 }
@@ -554,11 +554,13 @@ function returnToExploreMap(){
  map.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
  const heading=map.querySelector("h2")||map;heading.setAttribute("tabindex","-1");heading.focus({preventScroll:true});
 }
-function tryAward(id){
+function tryAward(id,previousCount=currentBadgeCount()){
  if(!badgeRequirementsMet(id))return false;
  const wasNew=!earned.has(id);
  earned.add(id);save();updateProgress();
- if(wasNew){
+ if(previousCount<routes.length&&currentBadgeCount()===routes.length){
+  showDiplomaPreview();
+ }else if(wasNew){
   const route=routes.find(item=>item.id===id);
   byId("dialogBadge").src=`${ASSETS[route.badge]}`;
   byId("dialogBadge").alt=route.badgeAlt;
@@ -1127,13 +1129,9 @@ function renderFinalChallenge(){
 function updateFinalExperience(){
  const unlocked=currentBadgeCount()===routes.length;
  const challenge=byId("finalChallengeBox");
- const celebration=byId("finalCelebration");
  const diplomaButton=byId("printDiploma");
  if(challenge)challenge.hidden=!unlocked;
- if(celebration)celebration.hidden=!(unlocked&&finalState.passed);
- if(diplomaButton)diplomaButton.disabled=!(unlocked&&finalState.passed);
- const nameInput=byId("diplomaName");
- if(nameInput&&nameInput.value!==learnerName)nameInput.value=learnerName;
+ if(diplomaButton)diplomaButton.disabled=!unlocked;
 }
 
 function checkFinalChallenge(){
@@ -1158,7 +1156,8 @@ function checkFinalChallenge(){
 
 function syncLearnerName(value){
  learnerName=String(value||"").replace(/\s+/g," ").trim().slice(0,80);
- [byId("teacherLearnerName"),byId("diplomaName")].forEach(input=>{if(input&&input.value!==learnerName)input.value=learnerName;});
+ const input=byId("teacherLearnerName");
+ if(input&&input.value!==learnerName)input.value=learnerName;
  savePreferences();
 }
 
@@ -1302,12 +1301,25 @@ function clearPrintMode(){
  document.body.classList.remove("print-diploma","print-passport");
 }
 
-function printDiploma(){
- if(currentBadgeCount()!==routes.length||!finalState.passed)return;
- const name=learnerName||"Explorador o exploradora del MitoMapa";
- byId("diplomaPrintName").textContent=name;
+function prepareDiploma(){
  byId("diplomaPrintDate").textContent=new Intl.DateTimeFormat("es-ES",{dateStyle:"long"}).format(new Date());
  byId("diplomaPrintBadges").innerHTML=routes.map(route=>`<img src="${ASSETS[route.badge]}" alt="">`).join("");
+}
+
+function showDiplomaPreview(){
+ if(currentBadgeCount()!==routes.length)return;
+ prepareDiploma();
+ const sheet=byId("diplomaPrint").querySelector(".diploma-sheet").cloneNode(true);
+ sheet.querySelectorAll("[id]").forEach(element=>element.removeAttribute("id"));
+ byId("diplomaPreview").replaceChildren(sheet);
+ ["passportDialog","badgeDialog"].forEach(id=>{const dialog=byId(id);if(dialog?.open)closeDialog(dialog);});
+ openDialog(byId("diplomaDialog"));
+}
+
+function printDiploma(){
+ if(currentBadgeCount()!==routes.length)return;
+ ["passportDialog","diplomaDialog"].forEach(id=>{const dialog=byId(id);if(dialog?.open)closeDialog(dialog);});
+ prepareDiploma();
  document.body.classList.add("print-diploma");
  requestAnimationFrame(()=>window.print());
 }
@@ -1389,8 +1401,9 @@ function setupV34Features(){
  });
  renderFinalChallenge();
  byId("checkFinalChallenge")?.addEventListener("click",checkFinalChallenge);
- byId("diplomaName")?.addEventListener("change",event=>syncLearnerName(event.target.value));
  byId("printDiploma")?.addEventListener("click",printDiploma);
+ byId("printDiplomaPreview")?.addEventListener("click",printDiploma);
+ byId("closeDiploma")?.addEventListener("click",()=>closeDialog(byId("diplomaDialog")));
  byId("openTeacher")?.addEventListener("click",()=>{updateTeacherDialog();window.MitoMapaTeacher?.show("guide",{focus:false});openDialog(byId("teacherDialog"));window.MitoMapaTeacher?.show("guide");});
  byId("closeTeacher")?.addEventListener("click",()=>closeDialog(byId("teacherDialog")));
  byId("teacherLearnerName")?.addEventListener("change",event=>syncLearnerName(event.target.value));
@@ -1467,6 +1480,7 @@ function renderRoutes(){
  updateProgress();refreshVoices();
 }
 function checkSource(id){
+ const previousCount=currentBadgeCount();
  const route=routes.find(item=>item.id===id),box=byId(`source-${id}`);let correct=0,complete=true,firstIncomplete=-1,firstIncorrect=-1;
  route.quick.forEach((question,index)=>{
   const choice=box.querySelector(`input[name="source-${id}-${index}"]:checked`),feedback=box.querySelectorAll(".feedback")[index];
@@ -1481,10 +1495,11 @@ function checkSource(id){
  if(correct===route.quick.length){sourcePassed.add(id);save();status.textContent=`Resultado: ${correct} de ${route.quick.length}. Comprensión superada.`;}
  else{status.textContent=`Resultado: ${correct} de ${route.quick.length}. Revisa las pistas e inténtalo de nuevo.`;box._showQuestion?.(firstIncorrect,{focus:true});}
  updateProgress();
- if(badgeRequirementsMet(id))tryAward(id);
+ if(badgeRequirementsMet(id))tryAward(id,previousCount);
  else if(sourcePassed.has(id))status.textContent+=" Ahora supera «Reto de la pieza».";
 }
 function checkQuiz(id){
+ const previousCount=currentBadgeCount();
  const route=routes.find(item=>item.id===id),box=byId(`quiz-${id}`);let correct=0,complete=true,firstIncomplete=-1,firstIncorrect=-1;
  route.questions.forEach((question,index)=>{
   const choice=box.querySelector(`input[name="truth-${id}-${index}"]:checked`),feedback=box.querySelectorAll(".feedback")[index];
@@ -1499,7 +1514,7 @@ function checkQuiz(id){
  if(correct===route.questions.length){truthPassed.add(id);save();status.textContent="Resultado: 3 de 3. Reto superado.";}
  else{status.textContent=`Resultado: ${correct} de 3. Revisa las pistas e inténtalo de nuevo.`;box._showQuestion?.(firstIncorrect,{focus:true});}
  updateProgress();
- if(badgeRequirementsMet(id))tryAward(id);
+ if(badgeRequirementsMet(id))tryAward(id,previousCount);
  else if(truthPassed.has(id))status.textContent+=" Ahora supera «Comprendemos el cuento».";
 }
 const cols=4,rows=3;let order=[],selected=null,dragPosition=null;
