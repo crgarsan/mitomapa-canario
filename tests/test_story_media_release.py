@@ -1,8 +1,11 @@
 """Public story media must be pinned without bloating the source-code archive."""
 import json
+from html.parser import HTMLParser
 from pathlib import Path
+import re
 import sys
 import unittest
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
@@ -10,6 +13,47 @@ from release_support import MAX_ASSET_BYTES, digest, json_bytes, metadata, parse
 from update_release import check_release, update_release
 from prepare_deploy import stage_assets
 import test_release_pipeline as release_fixtures
+
+
+class StoryPdfSourceTests(unittest.TestCase):
+    def test_pdf_source_links_match_published_pages_and_island_anchors(self):
+        data = (ROOT / 'formatos-data.js').read_text()
+        books = json.loads(data.split('=', 1)[1].strip().rstrip(';'))['books']
+
+        class PageIds(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.ids = set()
+
+            def handle_starttag(self, tag, attributes):
+                self.ids.update(value for key, value in attributes if key == 'id')
+
+        def unescape(match):
+            value = match.group(1)
+            return bytes([int(value, 8)]) if value.isdigit() else value
+
+        self.assertEqual(len(books), 8)
+        for book in books:
+            with self.subTest(island=book['slug']):
+                target = book['sources']['full_source_url']
+                url = urlsplit(target)
+                self.assertEqual(url.scheme, 'https')
+                self.assertEqual(url.netloc, 'mitomapacanario.org')
+                self.assertEqual(url.path, '/FUENTES_CUENTOS.html')
+                self.assertEqual(url.fragment, 'fuentes-' + book['slug'])
+                page = ROOT / url.path.lstrip('/')
+                parser = PageIds()
+                parser.feed(page.read_text())
+                self.assertIn(url.fragment, parser.ids)
+
+                # These published PDFs keep their URI actions in literal strings.
+                # Decode PDF octal escapes as well as ordinary ASCII URLs.
+                pdf = (ROOT / book['pdf']).read_bytes()
+                strings = re.findall(rb'/URI\s*\(((?:\\.|[^\\()])*)\)', pdf)
+                uris = [re.sub(rb'\\([0-7]{1,3}|.)', unescape, value).decode('ascii')
+                        for value in strings]
+                self.assertIn(target, uris)
+                self.assertFalse(any('/documentacion/FUENTES_CUENTOS.html' in uri for uri in uris))
 
 
 class StoryMediaReleaseTests(unittest.TestCase):

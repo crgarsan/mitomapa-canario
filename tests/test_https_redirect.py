@@ -33,6 +33,12 @@ OWNED = {
         "preserve_query_string": True,
     }},
 }
+WWW_OWNED = {
+    **copy.deepcopy(OWNED),
+    "ref": "mitomapa_www_to_apex",
+    "description": "Redirect only the MitoMapa www hostname to the HTTPS apex",
+    "expression": '(http.host eq "www.mitomapacanario.org")',
+}
 
 
 def existing_rule(identifier="d", **changes):
@@ -50,7 +56,9 @@ def owned_rule(identifier="e", **changes):
 class Cloudflare:
     """Stateful HTTP boundary: the real configure logic reads and changes rules."""
 
-    def __init__(self, rules=None):
+    def __init__(self, rules=None, expected_rule=None):
+        self.expected_rule = OWNED if expected_rule is None else expected_rule
+        self.owned_id = "e" if expected_rule is None else "9"
         self.ruleset = None if rules is None else {
             "id": RULESET, "kind": "zone", "phase": "http_request_dynamic_redirect",
             "name": "Existing redirects", "rules": copy.deepcopy(rules), "version": "1"}
@@ -88,22 +96,22 @@ class Cloudflare:
         elif request.method == "POST" and parsed.path == zone_path:
             if self.ruleset is not None or body != {
                 "name": "MitoMapa HTTPS redirect", "kind": "zone",
-                "phase": "http_request_dynamic_redirect", "rules": [OWNED]}:
+                "phase": "http_request_dynamic_redirect", "rules": [self.expected_rule]}:
                 raise AssertionError("Only a new zone phase with the exact owned rule may be created")
             self.mutations.append((request.method, parsed.path, body))
-            self.ruleset = {**body, "id": RULESET, "rules": [owned_rule()]}
+            self.ruleset = {**body, "id": RULESET, "rules": [{**copy.deepcopy(self.expected_rule), "id": self.owned_id * 32, "version": "1"}]}
             payload = {"success": True, "result": copy.deepcopy(self.ruleset)}
         elif request.method == "POST" and parsed.path == zone_path + "/" + RULESET + "/rules":
-            if body != {**OWNED, "position": {"index": 1}}:
+            if body != {**self.expected_rule, "position": {"index": 1}}:
                 raise AssertionError("Insert the exact owned rule first without replacing the ruleset")
             self.mutations.append((request.method, parsed.path, body))
-            self.ruleset["rules"].insert(0, owned_rule())
+            self.ruleset["rules"].insert(0, {**copy.deepcopy(self.expected_rule), "id": self.owned_id * 32, "version": "1"})
             payload = {"success": True, "result": copy.deepcopy(self.ruleset)}
-        elif request.method == "PATCH" and parsed.path == zone_path + "/" + RULESET + "/rules/" + "e" * 32:
+        elif request.method == "PATCH" and parsed.path == zone_path + "/" + RULESET + "/rules/" + self.owned_id * 32:
             if body != {"position": {"index": 1}}:
                 raise AssertionError("An owned rule move must not rewrite its configuration")
             self.mutations.append((request.method, parsed.path, body))
-            owned = next(rule for rule in self.ruleset["rules"] if rule["id"] == "e" * 32)
+            owned = next(rule for rule in self.ruleset["rules"] if rule["id"] == self.owned_id * 32)
             self.ruleset["rules"].remove(owned)
             self.ruleset["rules"].insert(0, owned)
             payload = {"success": True, "result": copy.deepcopy(self.ruleset)}
@@ -140,6 +148,17 @@ class HttpsRedirectTests(unittest.TestCase):
         cloudflare = Cloudflare([existing_rule()])
         self.configure(cloudflare)
         self.assertEqual(self.configure(cloudflare), "already configured")
+        self.assertEqual(len(cloudflare.mutations), 1)
+
+    def test_www_redirect_preserves_apex_rule_and_existing_order(self):
+        previous = [owned_rule(), existing_rule()]
+        cloudflare = Cloudflare(previous, expected_rule=WWW_OWNED)
+        self.assertEqual(self.module.configure(TOKEN, ACCOUNT, opener=cloudflare, www=True), "configured")
+        self.assertEqual(cloudflare.ruleset['rules'][1:], previous)
+        self.assertEqual(cloudflare.ruleset['rules'][0]['action_parameters']['from_value'], {
+            'target_url': {'expression': 'concat("https://mitomapacanario.org", http.request.uri.path)'},
+            'status_code': 301, 'preserve_query_string': True})
+        self.assertEqual(self.module.configure(TOKEN, ACCOUNT, opener=cloudflare, www=True), "already configured")
         self.assertEqual(len(cloudflare.mutations), 1)
 
     def test_identical_owned_rule_later_is_moved_without_rewriting(self):

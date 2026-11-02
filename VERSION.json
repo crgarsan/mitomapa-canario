@@ -1,15 +1,15 @@
 {
-  "web_version": "4.9.2",
-  "rea_exelearning_version": "4.8.8",
+  "web_version": "4.9.3",
+  "rea_exelearning_version": "4.8.9",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-11-01",
+  "prepared_at": "2026-11-02",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "cedaa18b42271e02547847800a8fd8a7094ccf9a021892942f5370a3dc25a477",
-    "bytes": 25875879
+    "sha256": "2b595cc0851d78dec66dd4e595e4ced9a9be012955986f14cba37ce32750fb8a",
+    "bytes": 25876757
   },
-  "previous_web_version": "4.9.1",
-  "previous_rea_version": "4.8.7",
+  "previous_web_version": "4.9.2",
+  "previous_rea_version": "4.8.8",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -34,8 +34,8 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_9_2.md",
-  "rea_release_notes": "CAMBIOS_REA_4_8_8.md",
+  "release_notes": "CAMBIOS_WEB_4_9_3.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_9.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
     "pages": 34,
@@ -57,9 +57,9 @@
     "selected_islands": 2,
     "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
   },
-  "rea_revision": "2026-10-29",
+  "rea_revision": "2026-11-02",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Corrección acotada del renderizado de metadatos en componentes nativos",
+  "rea_revision_label": "Actualización acotada de fflate a 0.8.3; actividades y medios conservados",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_9_2.zip",
+    "path": "downloads/MitoMapa_REA_v4_9_3.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "559645fbe58244bb0520b1d427f65003b9be3b5c8cc3f307713fa914be280990",
-    "bytes": 25707358
+    "sha256": "06c449c1b4ff30b3148ccccab9f3239cb13e2767d451353a08b374d23a60ea74",
+    "bytes": 25707661
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_9_2.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_9_3.zip",
     "contains_elpx": false,
     "story_media_manifest": "MEDIA_MANIFEST.json",
     "story_media_separate": true
@@ -178,7 +178,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.9.2",
+  "release_version": "4.9.3",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -287,5 +287,15 @@
     "quick_help_location": "Docente / Guía",
     "save_help_location": "Docente / Ajustes y seguimiento",
     "student_resource_shortcuts_removed": true
+  },
+  "native_fflate_security_revision": {
+    "date": "2026-11-02",
+    "version": "0.8.3",
+    "member": "libs/fflate/fflate.umd.js",
+    "sha256": "462ef8041fc970e3615a20a9dd2b2e3047a073b2da729ef4f02b634bba8b7b83",
+    "advisory": "GHSA-px8p-9vwx-vf98",
+    "current_packages_only": true,
+    "historical_downloads_unchanged": true,
+    "application_unzip_reachability_established": false
   }
 }

@@ -37,7 +37,7 @@ class FetchStoryMediaTests(unittest.TestCase):
             return Response(self.payload)
         self.assertEqual(download_media(self.root, opener=opener), 1)
         self.assertEqual((self.root / self.name).read_bytes(), self.payload)
-        self.assertEqual(calls, ['https://mitomapacanario.org/' + self.name])
+        self.assertEqual(calls, ['https://crgarsan.github.io/mitomapa-canario/' + self.name])
 
     def test_bad_hash_preserves_existing_media_and_removes_temporary_file(self):
         target = self.root / self.name
@@ -47,6 +47,18 @@ class FetchStoryMediaTests(unittest.TestCase):
             download_media(self.root, opener=lambda request, timeout: Response(b'x' * len(self.payload)))
         self.assertEqual(target.read_bytes(), b'old media')
         self.assertEqual(list(target.parent.iterdir()), [target])
+
+    def test_default_source_restores_pinned_html_without_hosting_additions(self):
+        name = 'media/fuentes-cuentos.html'
+        payload = b'<!doctype html><title>Story sources</title>'
+        (self.root / 'MEDIA_MANIFEST.json').write_bytes(json_bytes({
+            'version': 1, 'files': {name: metadata(payload)}}))
+        def opener(request, timeout):
+            if request.full_url == 'https://crgarsan.github.io/mitomapa-canario/' + name:
+                return Response(payload, request.full_url)
+            return Response(payload + b'<script>hosting addition</script>', request.full_url)
+        self.assertEqual(download_media(self.root, opener=opener), 1)
+        self.assertEqual((self.root / name).read_bytes(), payload)
 
     def test_oversized_response_is_rejected_before_replacing_file(self):
         with self.assertRaises(ValueError):

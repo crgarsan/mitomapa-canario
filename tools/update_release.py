@@ -195,7 +195,7 @@ def source_inventory(root, version):
     for extension in ("*.html", "*.css", "*.js", "*.md", "*.txt", "*.json", "*.svg", "*.png"):
         names.update(path.relative_to(root).as_posix() for path in root.glob(extension) if path.is_file())
     for directory, patterns in {
-        "assets": ("**/*",), "tools": ("*.py",), "tests": ("**/*.py", "**/*.js", "**/*.json"),
+        "assets": ("**/*",), "tools": ("*.py", "*.js", "vendor/*"), "tests": ("**/*.py", "**/*.js", "**/*.json"),
         ".github/workflows": ("*.yml", "*.yaml"),
     }.items():
         for pattern in patterns:
@@ -214,7 +214,10 @@ def source_files(root, version, version_payload):
         "esta descarga de fuentes dentro del limite del alojamiento. MEDIA_MANIFEST.json\n"
         "identifica sus rutas, tamanos y huellas. Para recuperarlos junto a estas fuentes,\n"
         "ejecuta python3 tools/fetch_story_media.py y despues inicia el servidor local.\n"
-        "La descarga verifica HTTPS, tamano y SHA-256 antes de guardar cada archivo.\n\n"
+        "El origen predeterminado es el respaldo estatico de GitHub Pages, que sirve\n"
+        "los archivos sin modificaciones del alojamiento principal. Puedes indicar\n"
+        "otro origen HTTPS mediante --base-url. La descarga verifica HTTPS, tamano\n"
+        "y SHA-256 antes de guardar cada archivo.\n\n"
         if (root / 'MEDIA_MANIFEST.json').is_file() else ''
     )
     files["FUENTES_WEB_LEEME.txt"] = (

@@ -23,6 +23,15 @@ class CustomDomainPreflightTests(unittest.TestCase):
     def test_allows_adding_only_the_requested_domain(self):
         self.module.check_changeset(self.preview(added=[{"hostname": "mitomapacanario.org"}]))
 
+    def test_allows_adding_www_without_removing_the_existing_apex(self):
+        self.module.check_changeset(self.preview(
+            added=[{"hostname": "www.mitomapacanario.org"}],
+            updated=[{"hostname": "mitomapacanario.org", "modified": False}]))
+
+    def test_rejects_a_conflicting_www_record(self):
+        with self.assertRaises(self.module.PreflightError):
+            self.module.check_changeset(self.preview(conflicting=[{"hostname": "www.mitomapacanario.org"}]))
+
     def test_allows_an_already_matching_domain(self):
         self.module.check_changeset(self.preview(updated=[{
             "hostname": "mitomapacanario.org", "modified": False

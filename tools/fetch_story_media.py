@@ -10,7 +10,8 @@ from urllib.request import Request, urlopen
 from release_support import story_media_inventory
 
 ROOT = Path(__file__).resolve().parent.parent
-PUBLIC_URL = 'https://mitomapacanario.org/'
+# The independent static host serves the pinned HTML without edge-injected scripts.
+PUBLIC_URL = 'https://crgarsan.github.io/mitomapa-canario/'
 
 
 def secure_base(value):

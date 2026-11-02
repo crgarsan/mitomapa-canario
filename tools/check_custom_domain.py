@@ -9,6 +9,7 @@ from urllib.request import Request, urlopen
 
 
 HOSTNAME = "mitomapacanario.org"
+HOSTNAMES = (HOSTNAME, "www." + HOSTNAME)
 SERVICE = "mitomapa-canario"
 
 
@@ -28,7 +29,7 @@ def check_changeset(changeset):
         raise PreflightError("The domain has conflicting DNS records; review them before linking it.")
     for key in ("added", "updated"):
         for domain in changeset[key]:
-            if not isinstance(domain, dict) or domain.get("hostname") != HOSTNAME:
+            if not isinstance(domain, dict) or domain.get("hostname") not in HOSTNAMES:
                 raise PreflightError("The preview contains an unexpected domain.")
             # Updating this exact hostname is the requested linking operation.
             # Optional modification metadata does not expand the allowed scope.
@@ -44,7 +45,7 @@ def main():
         f"{SERVICE}/domains/changeset?replace_state=true"
     )
     request = Request(endpoint, method="POST", data=json.dumps([
-        {"hostname": HOSTNAME}
+        {"hostname": hostname} for hostname in HOSTNAMES
     ]).encode(), headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"})
     try:
         with urlopen(request, timeout=30) as response:
@@ -62,7 +63,7 @@ def main():
     if not isinstance(payload, dict) or payload.get("success") is not True:
         raise PreflightError("Cloudflare did not accept the domain preview; deployment stopped.")
     check_changeset(payload.get("result"))
-    print(f"Domain preview approved for {HOSTNAME}; no other domains or existing DNS records will be replaced.")
+    print(f"Domain preview approved for {', '.join(HOSTNAMES)}; no other domains or existing DNS records will be replaced.")
 
 
 if __name__ == "__main__":

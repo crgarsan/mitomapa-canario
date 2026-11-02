@@ -19,6 +19,7 @@ from release_support import digest, read_zip, zip_bytes
 from harden_jspdf_exports import ZIP_INFO_FIELDS, read_archive
 from native_preservation import verify_component
 from native_runtime_security import MEMBERS as SECURED_RUNTIMES
+from native_fflate import MEMBER as FFLATE_MEMBER
 from sync_current_elpx import (
     APP, MEDIA_EXTENSIONS, NS, PORTABLE, MERGED_TEACHER_PAGES, build_archive, build_current, field,
     native_structure, synchronize, verify_preservation, version_module,
@@ -67,7 +68,7 @@ class SynchronizationTests(unittest.TestCase):
         for name, payload in self.baseline.items():
             if name in {"screenshot.png", "content/resources/screenshot.png"}:
                 continue
-            if name in SECURED_RUNTIMES:
+            if name in SECURED_RUNTIMES or name == FFLATE_MEMBER:
                 self.assertNotEqual(self.result[name],payload)
                 continue
             if Path(name).suffix.lower() in MEDIA_EXTENSIONS or (

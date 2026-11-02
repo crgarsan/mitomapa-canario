@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Optionally enforce apex HTTPS through one verified Cloudflare redirect rule."""
 
+import argparse
 import json
 import os
 import re
@@ -24,6 +25,12 @@ RULE = {
         "status_code": 301,
         "preserve_query_string": True,
     }},
+}
+WWW_RULE = {
+    **RULE,
+    "ref": "mitomapa_www_to_apex",
+    "description": "Redirect only the MitoMapa www hostname to the HTTPS apex",
+    "expression": '(http.host eq "www.mitomapacanario.org")',
 }
 
 
@@ -57,13 +64,14 @@ def ruleset_rules(ruleset):
     return ruleset["rules"]
 
 
-def owned_rule_matches(rule):
+def owned_rule_matches(rule, expected=RULE):
     configuration = {key: value for key, value in rule.items()
                      if key not in ("id", "version", "last_updated")}
-    return json.dumps(configuration, sort_keys=True) == json.dumps(RULE, sort_keys=True)
+    return json.dumps(configuration, sort_keys=True) == json.dumps(expected, sort_keys=True)
 
 
-def configure(token, account, opener=None):
+def configure(token, account, opener=None, *, www=False):
+    expected_rule = WWW_RULE if www else RULE
     if (not isinstance(token, str) or not token or "\r" in token or "\n" in token
             or not identifier(account)):
         raise RedirectBlocked("The existing Cloudflare credentials are missing or invalid.")
@@ -108,13 +116,13 @@ def configure(token, account, opener=None):
     expected_id, expected_owned_id, remaining, status = None, None, [], "configured"
     if entrypoint is None:
         updated = request("POST", base, {"name": "MitoMapa HTTPS redirect", "kind": "zone",
-                                        "phase": PHASE, "rules": [RULE]})["result"]
+                                        "phase": PHASE, "rules": [expected_rule]})["result"]
     else:
         ruleset = entrypoint["result"]
         rules = ruleset_rules(ruleset)
         expected_id = ruleset["id"]
-        owned = [rule for rule in rules if rule["ref"] == RULE["ref"]]
-        if len(owned) > 1 or (owned and not owned_rule_matches(owned[0])):
+        owned = [rule for rule in rules if rule["ref"] == expected_rule["ref"]]
+        if len(owned) > 1 or (owned and not owned_rule_matches(owned[0], expected_rule)):
             raise RedirectBlocked("The reserved HTTPS rule reference has conflicting configuration.")
         if owned and rules[0] == owned[0]:
             return "already configured"
@@ -126,27 +134,30 @@ def configure(token, account, opener=None):
                               {"position": {"index": 1}})["result"]
             status = "configured (moved first)"
         else:
-            updated = request("POST", rule_path, {**RULE, "position": {"index": 1}})["result"]
+            updated = request("POST", rule_path, {**expected_rule, "position": {"index": 1}})["result"]
 
     verified = ruleset_rules(updated)
     if (expected_id is not None and updated["id"] != expected_id) or (
-            not verified or not owned_rule_matches(verified[0]) or verified[1:] != remaining
+            not verified or not owned_rule_matches(verified[0], expected_rule) or verified[1:] != remaining
             or (expected_owned_id is not None and verified[0]["id"] != expected_owned_id)):
         raise RedirectBlocked("The API response did not verify the first HTTPS rule and preserved existing rules.")
     return status
 
 
-def main():
+def main(*, www=False):
     try:
         status = configure(os.environ.get("CLOUDFLARE_API_TOKEN", ""),
-                           os.environ.get("CLOUDFLARE_ACCOUNT_ID", ""))
+                           os.environ.get("CLOUDFLARE_ACCOUNT_ID", ""), www=www)
     except RedirectBlocked as error:
         print("::warning title=Cloudflare HTTPS redirect::HTTPS redirect status: blocked; "
               + str(error) + " Review Single Redirect access, quota and configuration manually; publication continues.")
     else:
-        print(f"HTTPS redirect status: {status}; API state verified for {HOSTNAME}. Public HTTP behavior remains unchecked.")
+        hostname = "www." + HOSTNAME if www else HOSTNAME
+        print(f"HTTPS redirect status: {status}; API state verified for {hostname}. Public HTTP behavior remains unchecked.")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--www', action='store_true', help='Configure the www-to-HTTPS-apex redirect, preserving the apex rule')
+    raise SystemExit(main(www=parser.parse_args().www))

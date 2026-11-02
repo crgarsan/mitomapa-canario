@@ -6,7 +6,7 @@
       "bytes": 20752
     },
     "media/el-hierro/cuento-ilustrado.pdf": {
-      "sha256": "171c935fecf2a45b21f99b1b63f92dd9636bde69880824d4cb453c6349eb409f",
+      "sha256": "030511b37c7db9e35d8eb739af52e204be4325860fca2f350cb5b7c914fe5300",
       "bytes": 10941934
     },
     "media/el-hierro/cuento.mp4": {
@@ -34,7 +34,7 @@
       "bytes": 16119
     },
     "media/fuerteventura/cuento-ilustrado.pdf": {
-      "sha256": "4a2d8431a50eea173e630bd07926c9971a9d56886b340601be6c8baafff3dbf0",
+      "sha256": "4b042c13a5745a505bc52d35c666b7d1fa7c08528d6353ce9a92a15d454e29a4",
       "bytes": 7600441
     },
     "media/fuerteventura/cuento.mp4": {
@@ -58,7 +58,7 @@
       "bytes": 2073
     },
     "media/gran-canaria/cuento-ilustrado.pdf": {
-      "sha256": "1f4507a3c9afabb4243c1d471e17dcfb0883c333760bf51639e5ac5bf36236f0",
+      "sha256": "162551c0be4d587ceb09a111d550fdcd190e758c0b11f818f61ee356e3424094",
       "bytes": 8768594
     },
     "media/gran-canaria/cuento.mp4": {
@@ -82,7 +82,7 @@
       "bytes": 2351
     },
     "media/la-gomera/cuento-ilustrado.pdf": {
-      "sha256": "887ce0b062cd7e30c12dafb95fec7a85055198b47f45d6278016c8d18f3cdd87",
+      "sha256": "047eca3be9cf7570c8dc0a8ce748775d4dc35e9b976a16da44b7abb7418db666",
       "bytes": 9534921
     },
     "media/la-gomera/cuento.mp4": {
@@ -106,7 +106,7 @@
       "bytes": 2220
     },
     "media/la-graciosa/cuento-ilustrado.pdf": {
-      "sha256": "f8e94228c03a0928c5f5e9abb31a9be44681b07d46bac832abfff0322912c848",
+      "sha256": "31b26d4d6fe27388504291ed35d1d04b93495233139a7882168e12fab3abf565",
       "bytes": 8186476
     },
     "media/la-graciosa/cuento.mp4": {
@@ -130,7 +130,7 @@
       "bytes": 1933
     },
     "media/la-palma/cuento-ilustrado.pdf": {
-      "sha256": "d11f9ee5bd0e7ac5d81042349ca3bbf4e5b67fb7323585628d3913e5ac905200",
+      "sha256": "4ce4d1df03a2e902797912b61166bb99d7c83c120967d7cc654c6476a7ab4cd7",
       "bytes": 9131221
     },
     "media/la-palma/cuento.mp4": {
@@ -154,7 +154,7 @@
       "bytes": 1997
     },
     "media/lanzarote/cuento-ilustrado.pdf": {
-      "sha256": "36c28f93308bb91c6b193e84a176d56e242e3e38c06da26d40b282fdbecb5a68",
+      "sha256": "abd3e7147a2979dd716df8618f85fbddc2b071676b9e63c2281ca78fa0a7e309",
       "bytes": 8314494
     },
     "media/lanzarote/cuento.mp4": {
@@ -178,7 +178,7 @@
       "bytes": 1965
     },
     "media/tenerife/cuento-ilustrado.pdf": {
-      "sha256": "78ebb530ade2d97d64ee93a51235c4a69a71150e09b33927175dca346e52bbda",
+      "sha256": "f400974ac4b174db6e865b8053cf9cabbee16fd2d7318901e2fbd5ffeae1adb2",
       "bytes": 4788873
     },
     "media/tenerife/cuento.mp4": {

@@ -136,6 +136,7 @@ class DeployPolicyTests(unittest.TestCase):
         self.assertIn("node --test tests/*.test.js", prior_steps)
         self.assertIn("test_story_formats_browser.py", prior_steps)
         self.assertIn("test_backup_stage.py", prior_steps)
+        self.assertIn(".venv/bin/python -m unittest discover -s tests -p 'test_fflate_security.py'", prior_steps)
         self.assertIn("python3 tools/prepare_deploy.py", prior_steps)
         self.assertIn("python3 tools/update_release.py --check", prior_steps)
         self.assertIn("python3 tools/sync_current_elpx.py --check", prior_steps)

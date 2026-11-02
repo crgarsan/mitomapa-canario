@@ -331,3 +331,19 @@ html{scroll-padding-top:var(--header-offset,8rem)}
 #studentFeedback .feedback-mail-suggestion{margin:0 0 .65rem;line-height:1.6;max-width:80ch}
 #studentFeedback .feedback-mail-suggestion a{overflow-wrap:anywhere}
 #studentFeedback #feedbackEmailHelp{margin:.65rem 0 0;line-height:1.5}
+
+/* El texto ampliado puede partir títulos y controles sin recortar su contenido. */
+h1,h2,h3,.hero,.footer-inner{overflow-wrap:anywhere}
+.learning-level-switch button,.mode-switch button{min-width:0;max-width:100%;overflow-wrap:anywhere}
+dialog{max-width:calc(100vw - 1rem);overflow-wrap:anywhere}
+.dialog-head>div{min-width:0}
+.dialog-close{flex-shrink:0}
+dialog .button,#teacherDialog .teacher-tabs button{min-width:0;max-width:100%;overflow-wrap:anywhere}
+#teacherDialog .teacher-tabs{grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr))}
+@media(max-width:620px){
+  dialog{padding:.75rem}
+  .dialog-head{flex-wrap:wrap}
+  .dialog-head>div{flex:1 1 10rem}
+  .dialog-close{margin-left:auto}
+  #teacherDialog .dialog-head{position:static}
+}
