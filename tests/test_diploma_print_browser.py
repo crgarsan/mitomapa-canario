@@ -1,0 +1,95 @@
+"""Diplomas prepared through the UI must fit on one complete A4 PDF page.
+
+Requires Playwright, Chrome and Poppler's pdfinfo, pdftotext and pdfimages.
+The fixture is a fictitious progress export earned via the interface.
+"""
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+import os
+import re
+import shutil
+import subprocess
+import tempfile
+import threading
+import unittest
+from urllib.parse import urlsplit
+
+from playwright.sync_api import sync_playwright
+
+ROOT = Path(__file__).resolve().parents[1]
+FIXTURE = ROOT / 'tests/fixtures/diploma-earned-progress.json'
+
+class QuietHandler(SimpleHTTPRequestHandler):
+    def log_message(self, *_):
+        pass
+
+class DiplomaPrintTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        for tool in ('pdfinfo', 'pdftotext', 'pdfimages'):
+            if not shutil.which(tool):
+                raise RuntimeError(f'Required PDF inspection tool missing: {tool}')
+        cls.server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(ROOT)))
+        cls.thread = threading.Thread(target=cls.server.serve_forever, daemon=True)
+        cls.thread.start()
+        cls.base = f'http://127.0.0.1:{cls.server.server_port}/'
+        cls.pw = sync_playwright().start()
+        cls.browser = cls.pw.chromium.launch(channel='chrome', args=['--no-sandbox', '--disable-dev-shm-usage'])
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.browser.close()
+        cls.pw.stop()
+        cls.server.shutdown()
+        cls.server.server_close()
+        cls.thread.join()
+
+    def test_complete_diploma_fits_one_landscape_page(self):
+        cases = [('short', 'Equipo ficticio'), ('long', 'Equipo FICTICIO prueba técnica 02-11-2026'),
+                 ('maximum', 'W' * 80)]
+        for width in (390, 1280):
+            for label, name in cases:
+                with self.subTest(viewport=width, name=label), tempfile.TemporaryDirectory() as tmp:
+                    context = self.browser.new_context(viewport={'width': width, 'height': 900}, reduced_motion='reduce')
+                    try:
+                        context.route('**/*', lambda route: route.continue_() if urlsplit(route.request.url).hostname in ('127.0.0.1', None) else route.abort())
+                        page = context.new_page()
+                        page.on("dialog", lambda dialog: dialog.accept())
+                        page.set_default_timeout(10000)
+                        page.goto(self.base, wait_until='networkidle')
+                        page.locator('#openTeacher').click()
+                        page.locator('#teacherToolsTab').click()
+                        page.locator('#importProgressFile').set_input_files(str(FIXTURE))
+                        page.wait_for_function('document.querySelector("#teacherImportStatus").textContent.includes("correctamente")')
+                        page.locator('#closeTeacher').click()
+                        page.goto(self.base + '#gran-reto', wait_until='networkidle')
+                        self.assertEqual(page.locator('#passportCount').inner_text(), '8/8')
+                        page.locator('#diplomaName').fill(name)
+                        page.locator('#diplomaName').dispatch_event('change')
+                        page.evaluate('window.print = () => {}')
+                        page.locator('#printDiploma').click()
+                        page.wait_for_function('document.body.classList.contains("print-diploma") && [...document.querySelectorAll("#diplomaPrintBadges img")].length === 8 && [...document.querySelectorAll("#diplomaPrintBadges img")].every(i => i.complete && i.naturalWidth)')
+                        self.assertEqual(page.locator('#diplomaPrintName').text_content(), name)
+                        date = page.locator('#diplomaPrintDate').text_content()
+                        pdf = Path(tmp) / 'diploma.pdf'
+                        page.pdf(path=str(pdf), format='A4', landscape=True, print_background=True, prefer_css_page_size=True)
+                        output_dir = os.environ.get('DIPLOMA_PDF_OUTPUT')
+                        if output_dir:
+                            shutil.copyfile(pdf, Path(output_dir) / f'{label}-{width}.pdf')
+                        info = subprocess.check_output(['pdfinfo', str(pdf)], text=True)
+                        self.assertRegex(info, r'Pages:\s+1\b', info)
+                        self.assertRegex(info, r'Page size:\s+841\.\d+ x 59[45]\.\d+ pts \(A4\)', info)
+                        content = subprocess.check_output(['pdftotext', '-layout', str(pdf), '-'], text=True)
+                        normalized = ' '.join(content.split())
+                        self.assertIn('MitoMapa canario', normalized)
+                        self.assertIn(name, normalized.replace(' ', '') if label == 'maximum' else normalized)
+                        self.assertIn(date, normalized)
+                        self.assertIn('ocho piezas', normalized)
+                        self.assertIn('Jesica Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.', normalized)
+                        images = subprocess.check_output(['pdfimages', '-list', str(pdf)], text=True)
+                        self.assertGreaterEqual(len(re.findall(r'^\s*1\s+\d+\s+image\s', images, re.M)), 8, images)
+                        page.evaluate('window.dispatchEvent(new Event("afterprint"))')
+                        self.assertFalse(page.locator('body').evaluate('(el) => el.classList.contains("print-diploma")'))
+                    finally:
+                        context.close()

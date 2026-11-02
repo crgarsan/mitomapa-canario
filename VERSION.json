@@ -1,5 +1,5 @@
 {
-  "web_version": "4.9.3",
+  "web_version": "4.9.4",
   "rea_exelearning_version": "4.8.9",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-11-02",
@@ -8,7 +8,7 @@
     "sha256": "2b595cc0851d78dec66dd4e595e4ced9a9be012955986f14cba37ce32750fb8a",
     "bytes": 25876757
   },
-  "previous_web_version": "4.9.2",
+  "previous_web_version": "4.9.3",
   "previous_rea_version": "4.8.8",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_9_3.md",
+  "release_notes": "CAMBIOS_WEB_4_9_4.md",
   "rea_release_notes": "CAMBIOS_REA_4_8_9.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_9_3.zip",
+    "path": "downloads/MitoMapa_REA_v4_9_4.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "06c449c1b4ff30b3148ccccab9f3239cb13e2767d451353a08b374d23a60ea74",
-    "bytes": 25707661
+    "sha256": "e0460d773ec1ff3666438b25f5d143023d7c7b320bfd9e3c3cb0128fc45f962a",
+    "bytes": 25707185
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_9_3.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_9_4.zip",
     "contains_elpx": false,
     "story_media_manifest": "MEDIA_MANIFEST.json",
     "story_media_separate": true
@@ -178,7 +178,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.9.3",
+  "release_version": "4.9.4",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -206,7 +206,7 @@
     "counts_towards_passport": false,
     "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
   },
-  "web_revision_date": "2026-11-01",
+  "web_revision_date": "2026-11-02",
   "elpx_thumbnail": {
     "path": "assets/images/miniatura_elpx.png",
     "sha256": "614768b1fa733f2b2c155c4508a8446dbcdd94d7bf543abee21bf4c2b2cfbda0",
