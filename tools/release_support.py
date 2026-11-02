@@ -116,3 +116,47 @@ def public_entries(root, *, verify=True):
             raise ValueError(f"Checksum mismatch: {name}")
         paths[name] = source
     return paths
+
+
+def story_media_inventory(root):
+    """Read bounded metadata; it may precede a source user's media download."""
+    manifest_path = root / 'MEDIA_MANIFEST.json'
+    if not manifest_path.exists():
+        return {}
+    manifest_path = source_path(root, 'MEDIA_MANIFEST.json')
+    if manifest_path.stat().st_size > 512 * 1024:
+        raise ValueError('Story media inventory is too large')
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+    if (not isinstance(manifest, dict) or manifest.get('version') != 1
+            or not isinstance(manifest.get('files'), dict)
+            or not 1 <= len(manifest['files']) <= 160):
+        raise ValueError('Invalid story media inventory')
+    approved = {}
+    total = 0
+    allowed = {'.mp4', '.pdf', '.vtt', '.webp', '.mp3', '.m4a', '.txt', '.html'}
+    for name, details in manifest['files'].items():
+        path = safe_name(name)
+        if (not re.fullmatch(r'media/[A-Za-z0-9][A-Za-z0-9._/-]*', name)
+                or path.suffix.lower() not in allowed):
+            raise ValueError('Story media must stay inside the media directory')
+        if (not isinstance(details, dict) or set(details) != {'sha256', 'bytes'}
+                or not isinstance(details['sha256'], str) or not DIGEST.fullmatch(details['sha256'])
+                or type(details['bytes']) is not int or details['bytes'] < 1):
+            raise ValueError('Invalid story media metadata')
+        if details['bytes'] > MAX_ASSET_BYTES:
+            raise ValueError('Story media exceeds the 25 MiB limit: ' + name)
+        total += details['bytes']
+        if total > MAX_EXPANDED_BYTES:
+            raise ValueError('Story media collection exceeds the validation limit')
+        approved[name] = details
+    return approved
+
+
+def pinned_story_media(root):
+    """Return explicitly approved story files after size, path and hash checks."""
+    approved = story_media_inventory(root)
+    for name, details in approved.items():
+        source = source_path(root, name)
+        if source.stat().st_size != details['bytes'] or digest(source.read_bytes()) != details['sha256']:
+            raise ValueError('Story media metadata mismatch: ' + name)
+    return approved

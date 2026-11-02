@@ -30,7 +30,7 @@ jobs:
         run: |
           python3 -m venv .venv
           .venv/bin/python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
-          .venv/bin/python -m playwright install --with-deps chromium
+          .venv/bin/python -m playwright install --with-deps chromium chrome
       - name: Check deployment policy and release packages
         run: |
           npm audit --package-lock-only --ignore-scripts --audit-level=moderate
@@ -45,13 +45,16 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_elpx_resource_links.py'
           python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
           python3 -m unittest discover -s tests -p 'test_release_pipeline.py'
+          python3 -m unittest discover -s tests -p 'test_story_media_release.py'
+          python3 -m unittest discover -s tests -p 'test_fetch_story_media.py'
+          python3 -m unittest discover -s tests -p 'test_fflate_security.py'
+          python3 -m unittest discover -s tests -p 'test_backup_stage.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_sync_current_elpx.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_native_runtime_security.py'
-          .venv/bin/python -m unittest discover -s tests -p 'test_fflate_security.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_editorial_elpx.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_native_audit_fixes.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_passport_native*.py'
-          node --test tests/drawing-import.test.js
+          node --test tests/*.test.js
           .venv/bin/python3 tools/sync_current_elpx.py --check
           python3 tools/update_release.py --check
           python3 tools/harden_jspdf_exports.py --check
@@ -62,10 +65,11 @@ jobs:
             test_experience_browser.py test_journey_browser.py \
             test_drawing_browser.py test_jspdf_browser.py test_names_browser.py \
             test_pieces_browser.py \
+            test_story_formats_browser.py \
             test_editorial_elpx_browser.py test_native_audit_browser.py \
-            test_navigation_accessibility_browser.py
-          .venv/bin/python tools/run_browser_checks.py \
-            test_persistent_state_browser.py test_text_resize_browser.py test_fflate_security_browser.py
+            test_navigation_accessibility_browser.py \
+            test_persistent_state_browser.py test_text_resize_browser.py \
+            test_fflate_security_browser.py
           .venv/bin/python tools/run_browser_checks.py \
             test_map_choice_browser.py test_reading_support_browser.py \
             test_learning_support_browser.py test_game_access_browser.py \
@@ -103,6 +107,7 @@ jobs:
           python3 tools/check_custom_domain.py
           ./node_modules/.bin/wrangler deploy --config wrangler.jsonc
           python3 tools/ensure_https_redirect.py
+          python3 tools/ensure_https_redirect.py --www
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

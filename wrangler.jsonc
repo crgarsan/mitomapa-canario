@@ -6,6 +6,10 @@
     {
       "pattern": "mitomapacanario.org",
       "custom_domain": true
+    },
+    {
+      "pattern": "www.mitomapacanario.org",
+      "custom_domain": true
     }
   ],
   "assets": {

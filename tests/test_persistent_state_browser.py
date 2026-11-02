@@ -3,11 +3,11 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
-import shutil
 import threading
 import unittest
 
 from playwright.sync_api import expect, sync_playwright
+from media_browser import launch_media_browser
 
 ROOT = Path(__file__).resolve().parents[1]
 LEVELS = ["early", "middle", "advanced", "secondary"]
@@ -34,8 +34,7 @@ class PersistentStateBrowserTests(unittest.TestCase):
         cls.thread.start()
         cls.base = f"http://127.0.0.1:{cls.server.server_port}/"
         cls.playwright = sync_playwright().start()
-        cls.browser = cls.playwright.chromium.launch(executable_path=shutil.which("chromium"),
-                                                     args=["--no-sandbox", "--disable-dev-shm-usage"])
+        cls.browser = launch_media_browser(cls.playwright)
 
     @classmethod
     def tearDownClass(cls):
@@ -154,6 +153,40 @@ class PersistentStateBrowserTests(unittest.TestCase):
                 self.assertEqual(self.page.locator("#creative-first-island").input_value(), "tenerife")
                 self.assertEqual(self.page.locator("#creative-second-island").input_value(), "el-hierro")
                 expect(self.page.locator(".creative-route-context")).to_contain_text("Tenerife y El Hierro")
+
+    def change_agreement(self):
+        self.page.locator("#openTeacher").click()
+        self.page.locator("#teacherToolsTab").click()
+        settings = self.page.locator("#agreedRouteSettings")
+        if settings.get_attribute("open") is None:
+            settings.locator(":scope > summary").click()
+        self.page.locator('[data-agreed-route="la-palma"]').check()
+        self.page.locator('[data-agreed-route="lanzarote"]').check()
+        self.page.locator("#closeTeacher").click()
+
+    def test_changed_agreement_replaces_automatic_creative_defaults(self):
+        # Visiting Crear is a proposal, not a student's explicit island choice.
+        self.page.evaluate("window.MitoMapaNavigation.go('isla/tenerife/cuento')")
+        self.page.locator('#route-tenerife a[href="#crear"]').click()
+        self.assertEqual(self.page.locator("#creative-first-island").input_value(), "tenerife")
+        self.change_agreement()
+        self.page.evaluate("window.MitoMapaNavigation.go('isla/tenerife/cuento')")
+        self.page.locator('#route-tenerife a[href="#crear"]').click()
+        self.assertEqual(self.page.locator("#creative-first-island").input_value(), "la-palma")
+        self.assertEqual(self.page.locator("#creative-second-island").input_value(), "lanzarote")
+        expect(self.page.locator(".creative-route-context")).to_contain_text("La Palma y Lanzarote")
+
+    def test_changed_agreement_preserves_explicit_creative_island_choices(self):
+        self.page.evaluate("window.MitoMapaNavigation.go('isla/tenerife/cuento')")
+        self.page.locator('#route-tenerife a[href="#crear"]').click()
+        self.page.locator("#creative-first-island").select_option("tenerife")
+        self.page.locator("#creative-second-island").select_option("el-hierro")
+        self.change_agreement()
+        self.page.evaluate("window.MitoMapaNavigation.go('isla/la-palma/cuento')")
+        self.page.locator('#route-la-palma a[href="#crear"]').click()
+        self.assertEqual(self.page.locator("#creative-first-island").input_value(), "tenerife")
+        self.assertEqual(self.page.locator("#creative-second-island").input_value(), "el-hierro")
+        expect(self.page.locator(".creative-route-context")).to_contain_text("Tenerife y El Hierro")
 
     def test_explicit_creative_choices_replace_previous_selection_and_reset_clears_it(self):
         self.page.evaluate("window.MitoMapaNavigation.go('crear')")

@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.9.2 · REA 4.8.9
+# MitoMapa canario · web 4.9.3 · REA 4.8.9
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,11 +9,10 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La publicación web **4.9.2** identifica el REA editable **4.8.9**, revisado el
-30/10/2026 para actualizar la biblioteca incorporada fflate a 0.8.3. Se mantiene
-el renderizado de metadatos nativos revisado de 4.8.8. La web conserva la segunda
-isla de la creación, limita a su etapa la invalidación por criterios, evita
-marcar dibujos sin trazo y corrige los recortes con texto ampliado.
+La publicación web **4.9.3** identifica el REA editable **4.8.9**, revisado el
+02/11/2026 para actualizar fflate a 0.8.3. Conserva la corrección del
+renderizado de metadatos nativos de la edición anterior. Los títulos y mensajes
+se muestran como texto; los ítems y pies conservan formato HTML pasivo saneado.
 Se conservan las identidades, preguntas, seguimiento, cuentos, audios e imágenes.
 Son dos recursos diferenciados. La adaptación GobCan tiene
 **34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
@@ -25,8 +24,8 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 - [Edición publicada en la Mediateca de Canarias](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
 - [Web publicada](https://mitomapacanario.org/).
 - [REA editable vigente · 4.8.9](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.9.2 · incluye el REA 4.8.9](downloads/MitoMapa_REA_v4_9_2.zip).
-- [Fuentes web 4.9.2](downloads/MitoMapa_fuentes_web_v4_9_2.zip).
+- [Paquete de la publicación 4.9.3 · incluye el REA 4.8.9](downloads/MitoMapa_REA_v4_9_3.zip).
+- [Fuentes web 4.9.3](downloads/MitoMapa_fuentes_web_v4_9_3.zip).
 - [REA anterior · 4.8.6](downloads/MitoMapa_canario_GobCan_v4_8_6.elpx).
 
 La miniatura social conserva el diseño de la web 4.8.8: un fondo
@@ -125,6 +124,7 @@ sin regenerar el ELPX:
 python3.12 -m venv .venv
 . .venv/bin/activate
 python3 -m pip install --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
+python3 -m playwright install --with-deps chromium chrome
 python3 tools/update_release.py
 python3 tools/update_release.py --check
 python3 tools/prepare_deploy.py
@@ -132,12 +132,14 @@ python3 tools/prepare_deploy.py
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.9.2 ofrece el ELPX 4.8.9 con fflate 0.8.3 y renderizado nativo revisado; el archivo
+empaquetar. La publicación 4.9.3 ofrece el ELPX 4.8.9 con dependencias nativas revisadas; el archivo
 4.8.6 anterior conserva su propia descarga.
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
 PNG durante la construcción del ELPX. Playwright se usa en las pruebas de
-navegador. Estas dependencias no se necesitan para leer el recurso.
+navegador. Las pruebas multimedia utilizan Chrome oficial y comprueban su
+soporte MP3 y AAC antes de reproducir las pistas reales. Estas dependencias no
+se necesitan para leer el recurso.
 
 Revisa el resultado antes de publicar. `tools/build_elpx.py` corresponde a la
 edición histórica 4.4.0 y **no reconstruye la adaptación GobCan vigente**.
@@ -208,7 +210,9 @@ validación sin secretos del despliegue.
 `tools/check_public_transport.py` comprueba mediante HEAD sin credenciales la
 redirección permanente a HTTPS de la portada y una descarga con consulta,
 así como disponibilidad HTTPS y HSTS. El despliegue exige pasar esta comprobación
-antes de publicar y la repite después. La configuración opcional de la regla
+antes de publicar y la repite después. También obtiene `VERSION.json` y valida
+su contenido para rechazar avisos de bloqueo que respondan con HTTP 200.
+La configuración opcional de la regla
 por API no sustituye esta verificación pública.
 
 Los verificadores ZIP/ELPX limitan cada archivo de entrada comprimido a 32 MiB y cada árbol recursivo
@@ -245,10 +249,13 @@ runtimes, es necesario comprobar de nuevo la exportación. Las ediciones
 históricas públicas conservan sus bytes y no se presentan como corregidas.
 
 Ver [cambio nativo 4.8.8](CAMBIOS_REA_4_8_8.md) y
-[publicación web 4.9.1](CAMBIOS_WEB_4_9_1.md).
+[publicación web 4.9.2](CAMBIOS_WEB_4_9_2.md).
 
-## Correcciones de la revisión del 30 de octubre
+## Correcciones posteriores a la publicación
 
-Ver [web 4.9.2](CAMBIOS_WEB_4_9_2.md) y [ELPX 4.8.9](CAMBIOS_REA_4_8_9.md).
-fflate 0.8.3 se fija por hash e integridad en tools/vendor/FFLATE.json y el lockfile;
-el exportador nativo conserva su API. Las ediciones históricas son inmutables.
+Ver [web 4.9.3](CAMBIOS_WEB_4_9_3.md) y [REA 4.8.9](CAMBIOS_REA_4_8_9.md).
+
+Las fuentes distribuyen los nuevos medios por separado. Ejecuta
+`python3 tools/fetch_story_media.py` para recuperarlos con sus tamaños y SHA-256
+obligatorios; el origen predeterminado es el respaldo estático de GitHub Pages.
+`--base-url` permite indicar otro origen HTTPS que sirva los mismos bytes.

@@ -1,14 +1,14 @@
 {
-  "web_version": "4.9.2",
+  "web_version": "4.9.3",
   "rea_exelearning_version": "4.8.9",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-30",
+  "prepared_at": "2026-11-02",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "90f823400580b3678b2a64c351a641fb7ce4d952e71f93fa9e450ca3667c2aa4",
+    "sha256": "2b595cc0851d78dec66dd4e595e4ced9a9be012955986f14cba37ce32750fb8a",
     "bytes": 25876757
   },
-  "previous_web_version": "4.9.1",
+  "previous_web_version": "4.9.2",
   "previous_rea_version": "4.8.8",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_9_2.md",
+  "release_notes": "CAMBIOS_WEB_4_9_3.md",
   "rea_release_notes": "CAMBIOS_REA_4_8_9.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -57,9 +57,9 @@
     "selected_islands": 2,
     "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
   },
-  "rea_revision": "2026-10-30",
+  "rea_revision": "2026-11-02",
   "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
-  "rea_revision_label": "Actualización fijada de fflate y preservación del renderizado nativo revisado",
+  "rea_revision_label": "Actualización acotada de fflate a 0.8.3; actividades y medios conservados",
   "map": {
     "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
     "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
@@ -110,14 +110,16 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_9_2.zip",
+    "path": "downloads/MitoMapa_REA_v4_9_3.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "536f282f84c2ad1aa1157be21c999323e2af39674563ac3247906efce756df94",
-    "bytes": 25706687
+    "sha256": "06c449c1b4ff30b3148ccccab9f3239cb13e2767d451353a08b374d23a60ea74",
+    "bytes": 25707661
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_9_2.zip",
-    "contains_elpx": false
+    "path": "downloads/MitoMapa_fuentes_web_v4_9_3.zip",
+    "contains_elpx": false,
+    "story_media_manifest": "MEDIA_MANIFEST.json",
+    "story_media_separate": true
   },
   "feedback_revision": {
     "date": "2026-10-14",
@@ -125,7 +127,7 @@
     "manual_attachment": true,
     "automatic_submission": false,
     "student_support": "docente o familia",
-    "downloaded_response_version": "4.9.2",
+    "downloaded_response_version": "4.9.1",
     "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
     "open_comment_only": true
   },
@@ -176,7 +178,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.9.2",
+  "release_version": "4.9.3",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -204,7 +206,7 @@
     "counts_towards_passport": false,
     "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
   },
-  "web_revision_date": "2026-10-30",
+  "web_revision_date": "2026-11-01",
   "elpx_thumbnail": {
     "path": "assets/images/miniatura_elpx.png",
     "sha256": "614768b1fa733f2b2c155c4508a8446dbcdd94d7bf543abee21bf4c2b2cfbda0",
@@ -264,8 +266,30 @@
     "untrusted_project_execution_isolation_guaranteed": false,
     "reference_report_revision": "f5d9864dafb351cd18e1d9dc8287352c3eec5317"
   },
+  "story_formats_revision": {
+    "date": "2026-11-01",
+    "islands": 8,
+    "views": [
+      "audio-text",
+      "video"
+    ],
+    "pdf_download_always_visible": true,
+    "captions_default": false,
+    "narrator": "Jesica Fortes Regalado",
+    "original_narration_preserved": true,
+    "background": "natural_soft_effects_with_fades",
+    "literal_word_adjustments": 7,
+    "san_borondon_original_story_preserved": true,
+    "native_elpx_bytes_unchanged": true
+  },
+  "resource_navigation_revision": {
+    "date": "2026-11-01",
+    "quick_help_location": "Docente / Guía",
+    "save_help_location": "Docente / Ajustes y seguimiento",
+    "student_resource_shortcuts_removed": true
+  },
   "native_fflate_security_revision": {
-    "date": "2026-10-30",
+    "date": "2026-11-02",
     "version": "0.8.3",
     "member": "libs/fflate/fflate.umd.js",
     "sha256": "462ef8041fc970e3615a20a9dd2b2e3047a073b2da729ef4f02b634bba8b7b83",
@@ -273,14 +297,5 @@
     "current_packages_only": true,
     "historical_downloads_unchanged": true,
     "application_unzip_reachability_established": false
-  },
-  "audit_followup_revision": {
-    "date": "2026-10-30",
-    "reference_commit": "095d10ed63065b3c65326c17940f16bac30caef9",
-    "stage_specific_criteria_invalidation": true,
-    "creative_pair_preserved_during_story_consultation": true,
-    "stationary_canvas_click_preserves_state": true,
-    "enlarged_text_and_dialog_reflow": true,
-    "native_elpx_media_unchanged": true
   }
 }

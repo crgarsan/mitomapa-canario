@@ -3,12 +3,12 @@ from functools import partial
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 import os
-import shutil
 import threading
 import unittest
 from urllib.parse import urlsplit
 
 from playwright.sync_api import expect, sync_playwright
+from media_browser import launch_media_browser
 from test_navigation_accessibility_browser import QuietCspHandler, ROOT
 
 
@@ -22,10 +22,7 @@ class TextResizeBrowserTests(unittest.TestCase):
         cls.thread.start()
         cls.base = f"http://127.0.0.1:{cls.server.server_port}/"
         cls.playwright = sync_playwright().start()
-        cls.browser = cls.playwright.chromium.launch(
-            executable_path=shutil.which("chromium"),
-            args=["--no-sandbox", "--disable-dev-shm-usage"],
-        )
+        cls.browser = launch_media_browser(cls.playwright)
 
     @classmethod
     def tearDownClass(cls):
@@ -72,6 +69,15 @@ class TextResizeBrowserTests(unittest.TestCase):
         if destination:
             Path(destination).mkdir(parents=True, exist_ok=True)
             self.page.screenshot(path=str(Path(destination) / name))
+
+    def test_page_content_reflows_with_enlarged_text(self):
+        # Long headings and controls must wrap inside the page at 320px/200%.
+        for width, scale in ((320, 2), (390, 1), (1280, 1)):
+            self.configure(width, scale, "reduce")
+            for screen in ("inicio", "crear", "isla/tenerife/cuento", "recursos"):
+                with self.subTest(width=width, scale=scale, screen=screen):
+                    self.page.evaluate("screen=>window.MitoMapaNavigation.go(screen)", screen)
+                    self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), width + 1)
 
     def test_dialog_content_and_close_reflow_without_clipping(self):
         # Losing intrinsic-size constraints or header wrapping must expose overflow.

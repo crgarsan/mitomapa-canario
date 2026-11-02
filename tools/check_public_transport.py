@@ -8,8 +8,17 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 HOSTNAME = 'mitomapacanario.org'
 PROBE_PATHS = ('/', '/downloads/MitoMapa_canario_GobCan.elpx?transport-check=1')
+VERSION_URL = 'https://' + HOSTNAME + '/VERSION.json'
+DOWNLOAD_PATH = 'downloads/MitoMapa_canario_GobCan.elpx'
 TIMEOUT = 15
 MIN_HSTS_SECONDS = 31536000
+MAX_VERSION_BYTES = 64 * 1024
+SEMVER = re.compile(
+    r'(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)'
+    r'(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)'
+    r'(?:\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?'
+    r'(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?'
+)
 
 
 class TransportError(Exception):
@@ -43,6 +52,46 @@ def single_header(headers, name):
     return values[0]
 
 
+def check_public_version(opener):
+    # An HTTP 200 can still be a network block page; identify the actual resource.
+    request = Request(VERSION_URL, method='GET', headers={
+        'User-Agent': 'MitoMapa-transport-check', 'Accept': 'application/json',
+    })
+    try:
+        with opener.open(request, timeout=TIMEOUT) as response:
+            if response.status != 200 or response.geturl() != VERSION_URL:
+                raise TransportError('The public version manifest must succeed without redirects.')
+            content_type = single_header(response.headers, 'Content-Type')
+            if content_type.split(';', 1)[0].strip().lower() != 'application/json':
+                raise TransportError('The public version manifest must have JSON content type.')
+            body = response.read(MAX_VERSION_BYTES)
+    except HTTPError as response:
+        response.close()
+        raise TransportError('The public version manifest must succeed without redirects.') from None
+    except (OSError, ValueError, HTTPException):
+        raise TransportError('The public version manifest could not be verified.') from None
+    # Reject a full buffer rather than reading one byte beyond the 64 KiB cap.
+    if len(body) >= MAX_VERSION_BYTES:
+        raise TransportError('The public version manifest must be smaller than 64 KiB.')
+    try:
+        manifest = json.loads(body.decode('utf-8'))
+    except (UnicodeError, ValueError, RecursionError):
+        raise TransportError('The public version manifest is not valid UTF-8 JSON.') from None
+    if not isinstance(manifest, dict):
+        raise TransportError('The public version manifest must identify a valid release.')
+    version = manifest.get('web_version')
+    download = manifest.get('download')
+    if not isinstance(version, str) or not SEMVER.fullmatch(version):
+        raise TransportError('The public version manifest must identify a valid release.')
+    if (not isinstance(download, dict) or download.get('path') != DOWNLOAD_PATH
+            or not isinstance(download.get('sha256'), str)
+            or not re.fullmatch(r'[0-9A-Fa-f]{64}', download['sha256'])):
+        raise TransportError('The public version manifest must identify the expected editable download and SHA-256.')
+    return {'url': VERSION_URL, 'status': 200, 'web_version': version,
+            'download_path': download['path'], 'download_sha256': download['sha256'],
+            'body_bytes': len(body)}
+
+
 def check_transport(opener=None):
     # Keep the configured proxy, normal TLS certificate checks and CA trust.
     opener = opener if opener is not None else build_opener(NoRedirect())
@@ -62,6 +111,7 @@ def check_transport(opener=None):
                 or int(ages[0].split('=', 1)[1]) < MIN_HSTS_SECONDS):
             raise TransportError('HTTPS must retain HSTS for at least one year.')
         checks.append({'url': secure_url, 'status': status, 'hsts': hsts})
+    checks.append(check_public_version(opener))
     return checks
 
 

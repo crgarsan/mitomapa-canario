@@ -1,14 +1,13 @@
-# MitoMapa canario web 4.9.2
+# Web 4.9.2 · 1 de noviembre de 2026
 
-30/10/2026. Correcciones de la revisión de funcionamiento y seguridad.
+Las ocho islas permiten elegir Audio y texto o Vídeo y descargar el cuento en PDF desde ambas vistas. El sonido de fondo utiliza efectos naturales suaves, con fundidos; la voz original de Jesica se conserva sin cambios de velocidad ni pausas añadidas. Los subtítulos españoles son opcionales y comienzan desactivados. Cambiar de formato pausa el medio y conserva su posición.
 
-- Cambiar un criterio cualitativo invalida la revisión de su propia etapa. Las ediciones de una producción compartida conservan la invalidación de todas las etapas que dependen de ella.
-- Consultar un cuento y volver a Crear conserva las dos islas elegidas. Abrir Crear directamente o recargar recupera primero la pareja acordada. Las selecciones explícitas y el reinicio siguen disponibles.
-- Un clic sin trazo no convierte un lienzo vacío en una creación preparada ni invalida un dibujo revisado. Se conservan trazos, deshacer, borrado, descripción alternativa e importación de dibujos.
-- Los títulos, controles, Pasaporte y Docente se ajustan a ventanas de 320 px con fuente raíz al 200 %. Se conserva el foco y el desplazamiento local de la tabla docente.
+Se han ajustado siete palabras o grupos breves del texto para concordar con la grabación: «un roque» en La Palma; «guiaba a un» y «al rebaño» en Gran Canaria; «y a Jonay» en La Gomera; el artículo inicial de las dos repeticiones de «La luz de Mafasca» en Fuerteventura; y «su isla» en Lanzarote. Los mismos ajustes aparecen en el relato web, la transcripción, los PDF, los vídeos y los subtítulos. San Borondón mantiene su historia y voz originales; las ilustraciones representan una pequeña carabela de velas latinas como recreación literaria, con fuentes y cautelas documentales.
 
-La publicación identifica el ELPX 4.8.9 y sus dos ZIP vigentes. Las fuentes incluyen los archivos fijados y las plantillas JavaScript que necesita el constructor nativo; el editable base se identifica por hash en VERSION.json y se obtiene por separado. Ver CAMBIOS_REA_4_8_9.md para fflate.
+Los tres accesos para preparar la actividad, abrir el cuaderno y guardar o recuperar el trabajo se han trasladado de Recursos a Docente. Se mantienen los ajustes, las actividades, el pasaporte y el seguimiento local.
 
-Las nuevas regresiones reproducen los fallos y verifican los controles legítimos. La selección nativa por teclado usa búsqueda por letra, compatible con los entornos ensayados; no depende de que Home/ArrowDown confirme opciones de la misma forma en cada sistema operativo. No se certifica conformidad WCAG global ni eficacia educativa. El pilotaje con alumnado sigue pendiente.
+Los PDF y vídeos incorporan fuentes del cuento y notas sobre cada versión. Las copias web de los ocho vídeos son Full HD,24fps y menores de25MiB; el audio AAC y PCM coincide exactamente con el de la edición audiovisual anterior. El PDF de Tenerife reduce el tamaño de sus imágenes conservando el texto, las fuentes y los enlaces.
 
-Los cuentos, mapas, imágenes, narraciones y contenido didáctico se conservan. Esta preparación pertenece a una PR: no implica fusión ni despliegue.
+Los medios nuevos se distribuyen mediante MEDIA_MANIFEST.json, con tamaños y huellas SHA-256. El archivo de fuentes web contiene código, documentos y herramientas; los medios se pueden recuperar por separado con tools/fetch_story_media.py, manteniendo la descarga de fuentes dentro del límite del alojamiento. Las descargas históricas conservan sus bytes y URL.
+
+El REA nativo vigente sigue en4.8.8, preparado para eXeLearning4.0.5, sin cambios en sus bytes, actividades ni grabaciones. La web y el REA conservan seguimientos independientes. La ampliación no constituye una validación didáctica con alumnado ni una certificación completa de accesibilidad.

@@ -19,7 +19,7 @@ import xml.etree.ElementTree as ET
 from urllib.parse import parse_qs, urljoin, urlsplit
 
 from release_support import (
-    MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries,
+    MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries, pinned_story_media,
     read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
     zip_bytes,
 )
@@ -201,7 +201,7 @@ def source_inventory(root, version):
         for pattern in patterns:
             names.update(path.relative_to(root).as_posix() for path in (root / directory).glob(pattern) if path.is_file())
     names.update(name for name in ("LICENSE", "_headers", "wrangler.jsonc", "requirements-browser-tests.txt",
-                                  ".github/dependabot.yml") if (root / name).is_file())
+                                  ".github/dependabot.yml", "docs/RESPALDO.md") if (root / name).is_file())
     return sorted(name for name in names if name not in SOURCE_SPECIAL | {"SHA256SUMS.txt"}
                   and not name.lower().endswith((".zip", ".elpx")) and (root / name).is_file())
 
@@ -209,6 +209,17 @@ def source_inventory(root, version):
 def source_files(root, version, version_payload):
     files = {name: source_path(root, name).read_bytes() for name in source_inventory(root, version)}
     files["VERSION.json"] = version_payload
+    media_note = (
+        "\nLos nuevos medios de los cuentos se distribuyen por separado para mantener\n"
+        "esta descarga de fuentes dentro del limite del alojamiento. MEDIA_MANIFEST.json\n"
+        "identifica sus rutas, tamanos y huellas. Para recuperarlos junto a estas fuentes,\n"
+        "ejecuta python3 tools/fetch_story_media.py y despues inicia el servidor local.\n"
+        "El origen predeterminado es el respaldo estatico de GitHub Pages, que sirve\n"
+        "los archivos sin modificaciones del alojamiento principal. Puedes indicar\n"
+        "otro origen HTTPS mediante --base-url. La descarga verifica HTTPS, tamano\n"
+        "y SHA-256 antes de guardar cada archivo.\n\n"
+        if (root / 'MEDIA_MANIFEST.json').is_file() else ''
+    )
     files["FUENTES_WEB_LEEME.txt"] = (
         f"MitoMapa canario · Fuentes web {version['web_version']}\n\n"
         "Estas fuentes contienen la web, sus recursos locales, documentación,\n"
@@ -216,7 +227,7 @@ def source_files(root, version, version_payload):
         "Para consultar la web localmente, ejecuta python3 -m http.server y abre\n"
         "http://localhost:8000/. VERSION.json identifica la edición actual;\n"
         "SOURCE_MANIFEST.json verifica cada archivo sin incluirse a sí mismo.\n"
-        "Los descargables históricos siguen disponibles en la web pública.\n\n"
+        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note +
         "Materiales propios: CC BY-SA 4.0; consulta LICENSE y LICENCIA_Y_CREDITOS.txt.\n"
         "El mapa y las dependencias conservan sus condiciones originales.\n"
     ).encode("utf-8")
@@ -234,6 +245,10 @@ def public_names(root, previous, paths):
     names.discard("requirements-browser-tests.txt")
     names.update(path.relative_to(root).as_posix() for path in (root / "assets").rglob("*") if path.is_file())
     names.update({"VERSION.json", "LICENSE"})
+    media = pinned_story_media(root)
+    if media:
+        names.update(media)
+        names.add('MEDIA_MANIFEST.json')
     return sorted(names)
 
 

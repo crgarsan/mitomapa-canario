@@ -5,7 +5,7 @@
  * estado breve para el feedback existente; la explicación requiere su botón.
  * buildClosure() devuelve la vista (el coordinador la inserta y navega a ella).
  * setClosureRoutes(ids) elige una o dos islas en la vista, sin persistencia.
- * initializeClosureRoutes(ids) propone islas solo antes de la primera elección.
+ * initializeClosureRoutes(ids) actualiza la propuesta hasta una elección explícita.
  * reset() cierra las ayudas y limpia elecciones efímeras entre estudiantes.
  */
 (function () {
@@ -40,7 +40,7 @@
   ]);
   let context = {};
   let closure = null;
-  let closureInitialized = false;
+  let closureExplicitChoice = false;
 
   function create(tag, className, text) {
     const node = document.createElement(tag);
@@ -261,18 +261,18 @@
     selected.forEach((id, index) => returns.append(button(`Volver al cuento de ${names[index]}`, "button secondary", () => openFragment(id, 1))));
   }
 
-  function setClosureRoutes(ids) {
+  function setClosureRoutes(ids, { explicit = true } = {}) {
     if (!closure || !Array.isArray(ids)) return;
     const selected = [...new Set(ids.filter(safeRoute))].slice(0, 2);
     if (!selected.length) return;
-    closureInitialized = true;
+    if (explicit) closureExplicitChoice = true;
     closure.querySelector("#creative-first-island").value = selected[0];
     closure.querySelector("#creative-second-island").value = selected[1] || "";
     updateClosure();
   }
 
   function initializeClosureRoutes(ids) {
-    if (!closureInitialized) setClosureRoutes(ids);
+    if (!closureExplicitChoice) setClosureRoutes(ids, { explicit: false });
   }
 
   function buildClosure() {
@@ -286,7 +286,7 @@
     closure.append(create("p", "creative-audience", "Destinatario: otro grupo de su aula. Acuerden qué quieren que ese público comprenda sobre el cuento, su isla y la diferencia entre tradición, fuente y recreación."));
     const choices = create("div", "creative-island-choices");
     choices.append(islandSelect("Primera isla", false), islandSelect("Segunda isla (opcional)", true));
-    choices.addEventListener("change", () => { closureInitialized = true; updateClosure(); });
+    choices.addEventListener("change", () => { closureExplicitChoice = true; updateClosure(); });
     closure.append(choices, create("p", "creative-route-context"), create("p", "creative-route-note"), create("div", "creative-story-returns"));
     const project = document.querySelector(".final-project");
     if (project) closure.append(project); // Conserva el nodo y la pauta ya existente.
@@ -308,7 +308,7 @@
     review.append(reviewHeading, criteria, create("p", "", "Conversen sobre estas preguntas o úsenlas en el cuaderno. La revisión es cualitativa: no genera puntos ni califica su producción. Compartan en el aula por el medio que acuerden con su docente."));
     closure.append(example, review);
     const activeId = document.querySelector(".route.active")?.id.replace(/^route-/, "");
-    if (safeRoute(activeId)) setClosureRoutes([activeId]);
+    if (safeRoute(activeId)) initializeClosureRoutes([activeId]);
     else updateClosure();
     return closure;
   }
@@ -330,7 +330,7 @@
     document.querySelectorAll(".learning-geography select").forEach(select => { select.value = ""; });
     document.querySelectorAll(".learning-geography-feedback,.learning-geography-status").forEach(node => { node.textContent = ""; });
     if (closure) {
-      closureInitialized = false;
+      closureExplicitChoice = false;
       closure.querySelectorAll(".creative-island-choices select").forEach(select=>{select.value="";});
       updateClosure();
       closure.querySelector(".creative-example").open = false;
