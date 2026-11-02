@@ -47,7 +47,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_release_pipeline.py'
           python3 -m unittest discover -s tests -p 'test_story_media_release.py'
           python3 -m unittest discover -s tests -p 'test_fetch_story_media.py'
-          python3 -m unittest discover -s tests -p 'test_fflate_security.py'
+          .venv/bin/python -m unittest discover -s tests -p 'test_fflate_security.py'
           python3 -m unittest discover -s tests -p 'test_backup_stage.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_sync_current_elpx.py'
           .venv/bin/python -m unittest discover -s tests -p 'test_native_runtime_security.py'
