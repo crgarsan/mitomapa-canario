@@ -1303,7 +1303,6 @@ function clearPrintMode(){
 
 function printDiploma(){
  if(currentBadgeCount()!==routes.length)return;
- byId("diplomaPrintName").textContent="Explorador o exploradora del MitoMapa";
  byId("diplomaPrintDate").textContent=new Intl.DateTimeFormat("es-ES",{dateStyle:"long"}).format(new Date());
  byId("diplomaPrintBadges").innerHTML=routes.map(route=>`<img src="${ASSETS[route.badge]}" alt="">`).join("");
  document.body.classList.add("print-diploma");

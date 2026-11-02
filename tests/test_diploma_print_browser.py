@@ -21,7 +21,8 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / 'tests/fixtures/diploma-earned-progress.json'
-GENERIC_NAME = 'Explorador o exploradora del MitoMapa'
+GENERIC_RECOGNITION = ('Se concede este diploma a la persona que ha explorado el MitoMapa canario, '
+                       'reuniendo las ocho piezas y relacionando los mitos y las leyendas de las Islas Canarias.')
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -154,14 +155,15 @@ class DiplomaPrintTests(unittest.TestCase):
             page.reload(wait_until='networkidle')
             page.locator('#printDiploma').click()
             page.wait_for_function('document.body.classList.contains("print-diploma")')
-            self.assertEqual(page.locator('#diplomaPrintName').text_content(), GENERIC_NAME)
+            self.assertEqual(page.locator('#diplomaRecognition').text_content(), GENERIC_RECOGNITION)
+            self.assertNotIn('Otro equipo FICTICIO', page.locator('#diplomaPrint').text_content())
             page.evaluate('window.dispatchEvent(new Event("afterprint"))')
             page.locator('#openTeacher').click()
             page.locator('#teacherToolsTab').click()
             self.assertEqual(page.locator('#teacherLearnerName').input_value(), 'Otro equipo FICTICIO')
 
     def test_generic_diploma_fits_one_landscape_page_without_disclosing_saved_names(self):
-        # Catches learnerName leaking into print, missing pieces/credits/date, pagination or cleanup regressions.
+        # Catches name leaks, missing pieces/team seal/date, pagination or cleanup regressions.
         cases = [('without-name', ''), ('imported-name', 'Equipo FICTICIO prueba técnica 02-11-2026'),
                  ('maximum-name', 'W' * 80)]
         for width in (390, 1280):
@@ -171,7 +173,7 @@ class DiplomaPrintTests(unittest.TestCase):
                     payload['learnerName'] = name
                     with self.imported_page(payload, width) as page:
                         page.locator('#printDiploma').click()
-                        page.wait_for_function('document.body.classList.contains("print-diploma") && [...document.querySelectorAll("#diplomaPrintBadges img")].length === 8 && [...document.querySelectorAll("#diplomaPrintBadges img")].every(i => i.complete && i.naturalWidth)')
+                        page.wait_for_function('document.body.classList.contains("print-diploma") && [...document.querySelectorAll("#diplomaPrintBadges img")].length === 8 && [...document.querySelectorAll("#diplomaPrint img")].every(i => i.complete && i.naturalWidth)')
                         date = page.locator('#diplomaPrintDate').text_content()
                         self.assertTrue(date)
                         pdf = Path(tmp) / 'diploma.pdf'
@@ -185,13 +187,15 @@ class DiplomaPrintTests(unittest.TestCase):
                         content = subprocess.check_output(['pdftotext', '-layout', str(pdf), '-'], text=True)
                         normalized = ' '.join(content.split())
                         self.assertIn('MitoMapa canario', normalized)
-                        self.assertIn(GENERIC_NAME, normalized)
+                        self.assertIn(GENERIC_RECOGNITION, normalized)
                         if name:
                             self.assertNotIn(name.replace(' ', ''), normalized.replace(' ', ''))
                         self.assertIn(date, normalized)
                         self.assertIn('ocho piezas', normalized)
-                        self.assertIn('Jesica Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.', normalized)
+                        self.assertIn('Por el equipo de MitoMapa canario', normalized)
+                        for personal_credit in ('Autoría:', 'Jesica Fortes', 'Gloria Elsa González', 'Cristian García Santana'):
+                            self.assertNotIn(personal_credit, normalized)
                         images = subprocess.check_output(['pdfimages', '-list', str(pdf)], text=True)
-                        self.assertGreaterEqual(len(re.findall(r'^\s*1\s+\d+\s+image\s', images, re.M)), 8, images)
+                        self.assertGreaterEqual(len(re.findall(r'^\s*1\s+\d+\s+image\s', images, re.M)), 9, images)
                         page.evaluate('window.dispatchEvent(new Event("afterprint"))')
                         self.assertFalse(page.locator('body').evaluate('(el) => el.classList.contains("print-diploma")'))
