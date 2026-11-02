@@ -112,8 +112,8 @@
   "sharing_archive": {
     "path": "downloads/MitoMapa_REA_v4_9_4.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "b0ab6cddbe0692aff000e3d187da1c809acd5ebefd9a48eb6717e4d7e8ae1ae5",
-    "bytes": 25707487
+    "sha256": "40327f53824e967ed5d5c737965538060c252176e3b04374e63834671ed4f8e0",
+    "bytes": 25707988
   },
   "source_archive": {
     "path": "downloads/MitoMapa_fuentes_web_v4_9_4.zip",

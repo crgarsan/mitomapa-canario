@@ -125,6 +125,19 @@ body[data-learning-level="early"] .story .radar{display:none}
 .story .is-reading,.route-head .is-reading{background:#fff0a9;box-shadow:0 0 0 .25rem #fff0a9;border-radius:.2rem;transition:background .2s ease}
 .print-artifact{display:none}
 .passport-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem}
+#diplomaDialog{width:min(960px,94vw)}
+#diplomaDialog .dialog-head{margin-bottom:1rem}
+#diplomaDialog .dialog-close{flex-shrink:0}
+#diplomaDialog .dialog-actions{margin-top:1rem}
+#diplomaPreview .diploma-sheet{padding:clamp(1rem,4vw,2rem);border:4px double #9a663d;background:linear-gradient(135deg,#fffaf0,#f2ead7);color:#2f291f;text-align:center;overflow-wrap:anywhere}
+#diplomaPreview .diploma-kicker{font-size:.78rem;line-height:1.4;letter-spacing:.12em;text-transform:uppercase;font-weight:850;color:#87532f}
+#diplomaPreview h1{font:700 clamp(1.6rem,5vw,2.6rem)/1.2 Georgia,"Times New Roman",serif;margin:1rem 0;color:#233b31}
+#diplomaPreview .diploma-recognition{max-width:70ch;margin:1rem auto;line-height:1.5}
+#diplomaPreview .diploma-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem;margin:1.4rem 0}
+#diplomaPreview .diploma-badges img{width:clamp(2rem,10vw,3.8rem);height:clamp(2rem,10vw,3.8rem);object-fit:contain}
+#diplomaPreview .diploma-signature{display:grid;justify-items:center;gap:.5rem;margin-top:1rem;color:#7d4c2c}
+#diplomaPreview .diploma-signature img{width:64px;height:64px;object-fit:contain}
+#diplomaPreview .diploma-signature p{margin:0;font-weight:700}
 .final-project{margin-top:1.6rem;padding-top:1rem;border-top:1px solid #d7c8a7}
 @media(max-width:760px){
  .learning-level-switch,.final-match-grid{grid-template-columns:1fr}

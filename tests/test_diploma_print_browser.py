@@ -70,7 +70,6 @@ class DiplomaPrintTests(unittest.TestCase):
             })
             page.wait_for_function('document.querySelector("#teacherImportStatus").textContent.includes("correctamente")')
             page.locator('#closeTeacher').click()
-            page.goto(self.base + '#gran-reto', wait_until='networkidle')
             # Avoid the interactive OS print dialog; page.pdf still renders a real PDF.
             page.evaluate('window.print = () => {}')
             yield page
@@ -81,6 +80,62 @@ class DiplomaPrintTests(unittest.TestCase):
     def fixture(self):
         return json.loads(FIXTURE.read_text())
 
+    def test_eighth_piece_automatically_shows_diploma_without_reopening_on_reload(self):
+        # Real quiz completion also covers a historical piece meeting the current stage's requirements.
+        for stage, historical, width in (('middle', False, 1280), ('middle', True, 1280), ('early', False, 390)):
+            with self.subTest(stage=stage, historical=historical):
+                payload = self.fixture()
+                payload['learningLevel'] = stage
+                payload['final']['passed'] = False
+                if not historical:
+                    payload['progress']['earned'].remove('tenerife')
+                if stage == 'early':
+                    payload['progress']['sourcePassed'].remove('tenerife')
+                    payload['progress']['truthPassed'] = []
+                else:
+                    payload['progress']['truthPassed'].remove('tenerife')
+                with self.imported_page(payload, width) as page:
+                    self.assertEqual(page.locator('#passportCount').inner_text(), '7/8')
+                    page.goto(self.base + '#isla/tenerife/retos', wait_until='networkidle')
+                    quiz = page.locator('#source-tenerife' if stage == 'early' else '#quiz-tenerife')
+                    if stage != 'early':
+                        page.locator('#route-tenerife [data-route-flow-quiz-target="verdad"]').click()
+                    answers = ('1', '2', '1') if stage == 'early' else ('false', 'true', 'true')
+                    for index, value in enumerate(answers):
+                        quiz.locator('.question').nth(index).locator(f'input[value="{value}"]').check()
+                        if index < len(answers) - 1:
+                            quiz.locator('.question-next').click()
+                    quiz.locator('.check-source' if stage == 'early' else '.check-quiz').click()
+                    self.assertEqual(page.locator('#passportCount').inner_text(), '8/8')
+                    self.assertTrue(page.locator('#diplomaDialog').is_visible())
+                    self.assertFalse(page.locator('#badgeDialog').evaluate('(el) => el.open'))
+                    self.assertIn(GENERIC_RECOGNITION, ' '.join(page.locator('#diplomaPreview').inner_text().split()))
+                    self.assertNotIn(payload['learnerName'], page.locator('#diplomaPreview').text_content())
+                    self.assertEqual(page.locator('#diplomaPreview .diploma-badges img').count(), 8)
+                    self.assertEqual(page.locator('#diplomaPreview .diploma-signature img').get_attribute('src'), 'assets/images/pintadera_triangulo.webp')
+                    self.assertEqual(page.locator('#diplomaPreview [id]').count(), 0)
+                    self.assertFalse(page.locator('body').evaluate('(el) => el.classList.contains("print-diploma")'))
+                    output_dir = os.environ.get('DIPLOMA_PDF_OUTPUT')
+                    if output_dir:
+                        page.screenshot(path=str(Path(output_dir) / f'auto-{stage}-{historical}.png'))
+                    if historical:
+                        page.locator('#printDiplomaPreview').click()
+                        page.wait_for_function('document.body.classList.contains("print-diploma")')
+                        self.assertFalse(page.locator('#diplomaDialog').evaluate('(el) => el.open'))
+                        page.evaluate('window.dispatchEvent(new Event("afterprint"))')
+                    else:
+                        page.locator('#closeDiploma').click()
+                        quiz.locator('.check-source' if stage == 'early' else '.check-quiz').click()
+                        self.assertFalse(page.locator('#diplomaDialog').is_visible())
+                    page.reload(wait_until='networkidle')
+                    self.assertFalse(page.locator('#diplomaDialog').is_visible())
+                    page.evaluate('window.print = () => {}')
+                    page.locator('#openPassport').click()
+                    self.assertTrue(page.locator('#printDiploma').is_enabled())
+                    page.locator('#printDiploma').click()
+                    page.wait_for_function('document.body.classList.contains("print-diploma")')
+                    page.evaluate('window.dispatchEvent(new Event("afterprint"))')
+
     def test_eight_current_pieces_unlock_diploma_independently_of_final_challenge(self):
         # Catches retaining final.passed as a requirement for the visible button or print guard.
         for passed in (False, True):
@@ -89,13 +144,18 @@ class DiplomaPrintTests(unittest.TestCase):
                 payload['final']['passed'] = passed
                 with self.imported_page(payload) as page:
                     self.assertEqual(page.locator('#passportCount').inner_text(), '8/8')
+                    page.locator('#openPassport').click()
+                    self.assertEqual(page.locator('#passportDialog #printDiploma').count(), 1)
+                    self.assertEqual(page.locator('#finalMission #printDiploma').count(), 0)
                     self.assertTrue(page.locator('#printDiploma').is_visible())
                     self.assertTrue(page.locator('#printDiploma').is_enabled())
                     page.locator('#printDiploma').click()
                     page.wait_for_function('document.body.classList.contains("print-diploma")')
+                    self.assertFalse(page.locator('#passportDialog').evaluate('(el) => el.open'))
                     page.evaluate('window.dispatchEvent(new Event("afterprint"))')
                     if not passed:
                         # The optional challenge remains usable after receiving the diploma.
+                        page.goto(self.base + '#gran-reto', wait_until='networkidle')
                         answers = ('tenerife', 'gran-canaria', 'la-palma', 'la-gomera',
                                    'el-hierro', 'fuerteventura', 'lanzarote', 'la-graciosa')
                         for index, answer in enumerate(answers):
@@ -115,10 +175,13 @@ class DiplomaPrintTests(unittest.TestCase):
                     payload['final']['passed'] = passed
                     with self.imported_page(payload) as page:
                         self.assertEqual(page.locator('#passportCount').inner_text(), f'{count}/8')
-                        self.assertFalse(page.locator('#printDiploma').is_visible())
+                        page.locator('#openPassport').click()
+                        self.assertEqual(page.locator('#passportDialog #printDiploma').count(), 1)
+                        self.assertTrue(page.locator('#printDiploma').is_visible())
                         self.assertFalse(page.locator('#printDiploma').is_enabled())
                         page.evaluate('printDiploma()')
                         self.assertFalse(page.locator('body').evaluate('(el) => el.classList.contains("print-diploma")'))
+                        self.assertTrue(page.locator('#passportDialog').evaluate('(el) => el.open'))
 
     def test_changing_stage_rechecks_historical_pieces(self):
         # Catches counting historical earned pieces that lack the new stage's true/false task.
@@ -135,7 +198,8 @@ class DiplomaPrintTests(unittest.TestCase):
             page.locator('#teacherGuidePanel [data-learning-level="middle"]').click()
             page.locator('#closeTeacher').click()
             self.assertEqual(page.locator('#passportCount').inner_text(), '0/8')
-            self.assertFalse(page.locator('#printDiploma').is_visible())
+            page.locator('#openPassport').click()
+            self.assertTrue(page.locator('#printDiploma').is_visible())
             self.assertFalse(page.locator('#printDiploma').is_enabled())
             page.evaluate('printDiploma()')
             self.assertFalse(page.locator('body').evaluate('(el) => el.classList.contains("print-diploma")'))
@@ -144,8 +208,8 @@ class DiplomaPrintTests(unittest.TestCase):
         # Catches exposing personal-name controls in the diploma or breaking teacher-name persistence.
         payload = self.fixture()
         with self.imported_page(payload) as page:
-            self.assertEqual(page.locator('#finalMission input[type="text"]').count(), 0)
-            self.assertNotIn(payload['learnerName'], page.locator('#finalMission').inner_text())
+            self.assertEqual(page.locator('#passportDialog input[type="text"]').count(), 0)
+            self.assertNotIn(payload['learnerName'], page.locator('#passportDialog').text_content())
             page.locator('#openTeacher').click()
             page.locator('#teacherToolsTab').click()
             self.assertEqual(page.locator('#teacherLearnerName').input_value(), payload['learnerName'])
@@ -153,6 +217,7 @@ class DiplomaPrintTests(unittest.TestCase):
             page.locator('#teacherLearnerName').dispatch_event('change')
             page.locator('#closeTeacher').click()
             page.reload(wait_until='networkidle')
+            page.locator('#openPassport').click()
             page.locator('#printDiploma').click()
             page.wait_for_function('document.body.classList.contains("print-diploma")')
             self.assertEqual(page.locator('#diplomaRecognition').text_content(), GENERIC_RECOGNITION)
@@ -172,13 +237,17 @@ class DiplomaPrintTests(unittest.TestCase):
                     payload = self.fixture()
                     payload['learnerName'] = name
                     with self.imported_page(payload, width) as page:
+                        page.locator('#openPassport').click()
+                        output_dir = os.environ.get('DIPLOMA_PDF_OUTPUT')
+                        if output_dir and label == 'without-name':
+                            page.screenshot(path=str(Path(output_dir) / f'passport-{width}.png'))
                         page.locator('#printDiploma').click()
                         page.wait_for_function('document.body.classList.contains("print-diploma") && [...document.querySelectorAll("#diplomaPrintBadges img")].length === 8 && [...document.querySelectorAll("#diplomaPrint img")].every(i => i.complete && i.naturalWidth)')
+                        self.assertFalse(page.locator('#passportDialog').evaluate('(el) => el.open'))
                         date = page.locator('#diplomaPrintDate').text_content()
                         self.assertTrue(date)
                         pdf = Path(tmp) / 'diploma.pdf'
                         page.pdf(path=str(pdf), format='A4', landscape=True, print_background=True, prefer_css_page_size=True)
-                        output_dir = os.environ.get('DIPLOMA_PDF_OUTPUT')
                         if output_dir:
                             shutil.copyfile(pdf, Path(output_dir) / f'{label}-{width}.pdf')
                         info = subprocess.check_output(['pdfinfo', str(pdf)], text=True)
