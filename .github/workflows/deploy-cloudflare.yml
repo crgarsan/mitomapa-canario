@@ -105,10 +105,47 @@ jobs:
         run: python3 tools/check_public_transport.py
       - name: Deploy existing Worker
         run: |
-          python3 tools/check_custom_domain.py
-          ./node_modules/.bin/wrangler deploy --config wrangler.jsonc
-          python3 tools/ensure_https_redirect.py
-          python3 tools/ensure_https_redirect.py --www
+          python3 - <<'PY'
+          import json, os, subprocess, uuid
+          from pathlib import Path
+          temporary = Path(os.environ['RUNNER_TEMP'])
+          original = json.loads(Path('wrangler.jsonc').read_text())
+          if original['name'] != 'mitomapa-canario':
+              raise SystemExit('The publication must target the existing MitoMapa Worker.')
+          config = {key: original[key] for key in ('name', 'compatibility_date', 'assets')}
+          config['assets'] = {**config['assets'], 'directory': str(Path(config['assets']['directory']).resolve())}
+          config_path = temporary / 'mitomapa-assets-only.json'
+          config_path.write_text(json.dumps(config))
+          report_path = temporary / ('mitomapa-upload-' + os.environ['GITHUB_RUN_ID'] + '-' + os.environ['GITHUB_RUN_ATTEMPT'] + '.jsonl')
+          if report_path.exists():
+              raise SystemExit('The upload report must be new.')
+          cli = './node_modules/.bin/wrangler'
+          common = ['--config', str(config_path), '--name', 'mitomapa-canario']
+          subprocess.run([cli, 'versions', 'upload', *common, '--keep-vars', '--strict', '--message', os.environ['GITHUB_SHA']],
+                         env={**os.environ, 'WRANGLER_OUTPUT_FILE_PATH': str(report_path)}, check=True)
+          try:
+              if not report_path.is_file() or report_path.is_symlink() or report_path.stat().st_size > 1024 * 1024:
+                  raise ValueError()
+              lines = [line for line in report_path.read_text(encoding='utf-8').splitlines() if line.strip()]
+              if not lines or len(lines) > 100:
+                  raise ValueError()
+              entries = [json.loads(line) for line in lines]
+              if any(not isinstance(entry, dict) for entry in entries):
+                  raise ValueError()
+              reports = [entry for entry in entries if entry.get('type') == 'version-upload']
+              if len(reports) != 1:
+                  raise ValueError()
+              report = reports[0]
+              version_id = report.get('version_id')
+              if (type(report.get('version')) is not int or report['version'] != 1
+                      or report.get('worker_name') != 'mitomapa-canario'
+                      or not isinstance(version_id, str) or str(uuid.UUID(version_id)) != version_id):
+                  raise ValueError()
+          except (OSError, ValueError, UnicodeError, RecursionError):
+              raise SystemExit('The upload report must identify one valid version of the expected Worker.') from None
+          print('Uploaded approved Worker version: ' + version_id)
+          subprocess.run([cli, 'versions', 'deploy', version_id + '@100%', *common, '--yes', '--message', os.environ['GITHUB_SHA']], check=True)
+          PY
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

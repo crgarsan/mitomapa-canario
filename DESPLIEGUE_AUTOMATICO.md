@@ -44,15 +44,13 @@ repositorio los cambios destinados a la web. El seguimiento del alumnado
 permanece en su navegador mientras se mantenga el mismo origen; antes de cambiar
 de dominio, exporta el seguimiento desde Docente.
 
-El dominio personalizado `mitomapacanario.org` se declara en `wrangler.jsonc`.
-`workers_dev: true` conserva el acceso anterior y los enlaces ya distribuidos.
-Antes de publicar, `tools/check_custom_domain.py` consulta la propuesta de
-cambios de Cloudflare y detiene el despliegue si falta acceso o si se eliminaría
-otro dominio, se modificaría la vinculación de otro dominio o se reemplazaría
-un registro DNS. Se permite actualizar la vinculación del dominio solicitado.
-El dominio debe estar activo en la cuenta de Cloudflare del
-despliegue. Esta primera vinculación no redirige automáticamente el progreso
-guardado en la dirección anterior.
+`wrangler.jsonc` conserva la referencia a los dominios personalizados y a
+`workers_dev`, pero la publicación automática utiliza una configuración temporal
+limitada al Worker, su fecha de compatibilidad y sus activos. Subir y activar una
+versión no modifica DNS, rutas, dominios ni `workers_dev`; sus vínculos deben
+estar configurados previamente. `tools/check_custom_domain.py` queda como
+consulta opcional de la propuesta de cambios, sin aplicarla, y no se invoca
+en la publicación automática. El progreso guardado permanece en su origen.
 
 ## Mantenimiento de seguridad
 
@@ -64,21 +62,16 @@ Miniflare 5.20261019.2-beta, un override limitado a esa versión resuelve Undici
 CLI. Pillow 13.0.0 se utiliza únicamente en validación y preparación local.
 
 El encabezado HSTS se limita al host que responde, sin `includeSubDomains` ni
-`preload`. Después del despliegue, `tools/ensure_https_redirect.py` intenta
-configurar una regla de borde para las solicitudes HTTP de
-`mitomapacanario.org`, conservando ruta, consulta y reglas ajenas. No añade
-código Worker ni cambia las cuotas del alojamiento estático. La API necesita
-Zone Read y Single Redirect Edit. Si faltan permisos, cuota o una respuesta
-verificable, la configuración por API genera una advertencia. Ese aviso no
-sustituye la comprobación pública obligatoria: `tools/check_public_transport.py`
-se ejecuta antes de publicar y después de terminar, sin credenciales ni
-redirecciones automáticas. Exige 301/308 al host HTTPS exacto, conserva ruta y
-consulta, y comprueba respuestas HTTPS 200 con HSTS de al menos un año. Si la
-protección pública falla o no se puede verificar, el paso falla; el control
-previo impide iniciar la publicación. Una regla manual correcta sigue siendo
-válida aunque la API responda 403. El control posterior detecta una regresión
-tras la publicación. El script de API no sigue redirecciones autenticadas ni
-imprime credenciales; no se amplían los permisos del token.
+`preload`. La publicación usa `wrangler versions upload` y activa únicamente
+la versión identificada por su salida estructurada con `wrangler versions deploy`.
+Conserva las variables y los secretos existentes; no configura reglas HTTPS ni
+cambia DNS o rutas. `tools/check_public_transport.py` se ejecuta antes de publicar
+y después de terminar, sin credenciales ni redirecciones automáticas. Exige
+301/308 al host HTTPS exacto, conserva ruta y consulta, y comprueba respuestas
+HTTPS 200 con HSTS de al menos un año. Si la protección pública falla o no se
+puede verificar, el paso falla; el control previo impide iniciar la publicación.
+El control posterior detecta una regresión tras la publicación. No se amplían
+los permisos del token.
 
 Dependabot incluye npm, Actions y Python. Sus alertas se activan en los ajustes
 del repositorio. Antes de fusionar una actualización de infraestructura o
