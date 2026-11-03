@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.9.3 · REA 4.8.9
+# MitoMapa canario · web 4.9.4 · REA 4.8.9
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,7 +9,7 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La publicación web **4.9.3** identifica el REA editable **4.8.9**, revisado el
+La publicación web **4.9.4** identifica el REA editable **4.8.9**, revisado el
 02/11/2026 para actualizar fflate a 0.8.3. Conserva la corrección del
 renderizado de metadatos nativos de la edición anterior. Los títulos y mensajes
 se muestran como texto; los ítems y pies conservan formato HTML pasivo saneado.
@@ -24,8 +24,8 @@ página ofrece únicamente un enlace opcional a la web como recurso extra.
 - [Edición publicada en la Mediateca de Canarias](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
 - [Web publicada](https://mitomapacanario.org/).
 - [REA editable vigente · 4.8.9](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.9.3 · incluye el REA 4.8.9](downloads/MitoMapa_REA_v4_9_3.zip).
-- [Fuentes web 4.9.3](downloads/MitoMapa_fuentes_web_v4_9_3.zip).
+- [Paquete de la publicación 4.9.4 · incluye el REA 4.8.9](downloads/MitoMapa_REA_v4_9_4.zip).
+- [Fuentes web 4.9.4](downloads/MitoMapa_fuentes_web_v4_9_4.zip).
 - [REA anterior · 4.8.6](downloads/MitoMapa_canario_GobCan_v4_8_6.elpx).
 
 La miniatura social conserva el diseño de la web 4.8.8: un fondo
@@ -132,7 +132,7 @@ python3 tools/prepare_deploy.py
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.9.3 ofrece el ELPX 4.8.9 con dependencias nativas revisadas; el archivo
+empaquetar. La publicación 4.9.4 ofrece el ELPX 4.8.9 con dependencias nativas revisadas; el archivo
 4.8.6 anterior conserva su propia descarga.
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
@@ -253,7 +253,7 @@ Ver [cambio nativo 4.8.8](CAMBIOS_REA_4_8_8.md) y
 
 ## Correcciones posteriores a la publicación
 
-Ver [web 4.9.3](CAMBIOS_WEB_4_9_3.md) y [REA 4.8.9](CAMBIOS_REA_4_8_9.md).
+Ver [web 4.9.4](CAMBIOS_WEB_4_9_4.md) y [REA 4.8.9](CAMBIOS_REA_4_8_9.md).
 
 Las fuentes distribuyen los nuevos medios por separado. Ejecuta
 `python3 tools/fetch_story_media.py` para recuperarlos con sus tamaños y SHA-256

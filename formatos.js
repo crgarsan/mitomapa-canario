@@ -52,7 +52,7 @@
   if(book.sources?.adaptation){transcriptCopy.append(el('h4','','Notas sobre esta versión'));p(transcriptCopy,book.sources.adaptation);}
   transcript.append(transcriptCopy);videoPanel.append(video,status,transcript);grid.after(videoPanel);
   const info=group(el('div','format-information')),links=el('div','format-links');
-  for(const [label,url] of [['Fuentes del cuento',book.sources?.local_url||global.MitoMapaFormatData.sources_url],['Créditos de narración y sonidos','media/creditos-audio.txt']]){const link=localLink(label,url);if(link)links.append(link);}
+  for(const [label,url] of [['Fuentes del cuento',book.sources?.local_url||global.MitoMapaFormatData.sources_url],['Créditos de narración y sonidos','media/creditos-audio.html']]){const link=localLink(label,url);if(link)links.append(link);}
   const credits=el('details','format-credits');credits.append(el('summary','','Autoría y medios del cuento'));
   p(credits,'Autoría: '+(book.credits?.authors||[]).join(', ')+'.');p(credits,'Narración: '+(book.credits?.narrator||global.MitoMapaFormatData.narrator)+'.');
   if(book.credits?.illustrations)p(credits,book.credits.illustrations);if(book.credits?.license)p(credits,book.credits.license);

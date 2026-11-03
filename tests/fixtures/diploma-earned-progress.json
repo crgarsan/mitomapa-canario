@@ -1,0 +1,744 @@
+{
+  "app": "mitomapa-canario",
+  "version": "4.9.3",
+  "schemaVersion": 1,
+  "exportedAt": "2026-11-02T09:43:05.636Z",
+  "learningLevel": "middle",
+  "learnerName": "Equipo FICTICIO prueba técnica 02-11-2026",
+  "progress": {
+    "sourcePassed": [
+      "tenerife",
+      "gran-canaria",
+      "la-palma",
+      "la-gomera",
+      "el-hierro",
+      "fuerteventura",
+      "lanzarote",
+      "la-graciosa"
+    ],
+    "truthPassed": [
+      "tenerife",
+      "gran-canaria",
+      "la-palma",
+      "la-gomera",
+      "el-hierro",
+      "fuerteventura",
+      "lanzarote",
+      "la-graciosa"
+    ],
+    "earned": [
+      "tenerife",
+      "gran-canaria",
+      "la-palma",
+      "la-gomera",
+      "el-hierro",
+      "fuerteventura",
+      "lanzarote",
+      "la-graciosa"
+    ]
+  },
+  "workshop": {
+    "routes": {
+      "tenerife": {
+        "words": false,
+        "research": false,
+        "creation": false,
+        "text": "",
+        "wordResponses": {
+          "match": [],
+          "fill": []
+        },
+        "researchResponses": [],
+        "researchEvidence": "",
+        "drawing": null,
+        "drawingHasInk": false,
+        "secondaryCreation": false,
+        "secondaryText": "",
+        "secondaryChoice": "",
+        "secondaryChecks": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "creationReviewV1": {
+          "early": {},
+          "middle": {},
+          "advanced": {},
+          "secondary": {}
+        }
+      },
+      "gran-canaria": {
+        "words": false,
+        "research": false,
+        "creation": false,
+        "text": "",
+        "wordResponses": {
+          "match": [],
+          "fill": []
+        },
+        "researchResponses": [],
+        "researchEvidence": "",
+        "drawing": null,
+        "drawingHasInk": false,
+        "secondaryCreation": false,
+        "secondaryText": "",
+        "secondaryChoice": "",
+        "secondaryChecks": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "creationReviewV1": {
+          "early": {},
+          "middle": {},
+          "advanced": {},
+          "secondary": {}
+        }
+      },
+      "la-palma": {
+        "words": false,
+        "research": false,
+        "creation": false,
+        "text": "",
+        "wordResponses": {
+          "match": [],
+          "fill": []
+        },
+        "researchResponses": [],
+        "researchEvidence": "",
+        "drawing": null,
+        "drawingHasInk": false,
+        "secondaryCreation": false,
+        "secondaryText": "",
+        "secondaryChoice": "",
+        "secondaryChecks": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "creationReviewV1": {
+          "early": {},
+          "middle": {},
+          "advanced": {},
+          "secondary": {}
+        }
+      },
+      "la-gomera": {
+        "words": false,
+        "research": false,
+        "creation": false,
+        "text": "",
+        "wordResponses": {
+          "match": [],
+          "fill": []
+        },
+        "researchResponses": [],
+        "researchEvidence": "",
+        "drawing": null,
+        "drawingHasInk": false,
+        "secondaryCreation": false,
+        "secondaryText": "",
+        "secondaryChoice": "",
+        "secondaryChecks": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "creationReviewV1": {
+          "early": {},
+          "middle": {},
+          "advanced": {},
+          "secondary": {}
+        }
+      },
+      "el-hierro": {
+        "words": false,
+        "research": false,
+        "creation": false,
+        "text": "",
+        "wordResponses": {
+          "match": [],
+          "fill": []
+        },
+        "researchResponses": [],
+        "researchEvidence": "",
+        "drawing": null,
+        "drawingHasInk": false,
+        "secondaryCreation": false,
+        "secondaryText": "",
+        "secondaryChoice": "",
+        "secondaryChecks": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "creationReviewV1": {
+          "early": {},
+          "middle": {},
+          "advanced": {},
+          "secondary": {}
+        }
+      },
+      "fuerteventura": {
+        "words": false,
+        "research": false,
+        "creation": false,
+        "text": "",
+        "wordResponses": {
+          "match": [],
+          "fill": []
+        },
+        "researchResponses": [],
+        "researchEvidence": "",
+        "drawing": null,
+        "drawingHasInk": false,
+        "secondaryCreation": false,
+        "secondaryText": "",
+        "secondaryChoice": "",
+        "secondaryChecks": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "creationReviewV1": {
+          "early": {},
+          "middle": {},
+          "advanced": {},
+          "secondary": {}
+        }
+      },
+      "lanzarote": {
+        "words": false,
+        "research": false,
+        "creation": false,
+        "text": "",
+        "wordResponses": {
+          "match": [],
+          "fill": []
+        },
+        "researchResponses": [],
+        "researchEvidence": "",
+        "drawing": null,
+        "drawingHasInk": false,
+        "secondaryCreation": false,
+        "secondaryText": "",
+        "secondaryChoice": "",
+        "secondaryChecks": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "creationReviewV1": {
+          "early": {},
+          "middle": {},
+          "advanced": {},
+          "secondary": {}
+        }
+      },
+      "la-graciosa": {
+        "words": false,
+        "research": false,
+        "creation": false,
+        "text": "",
+        "wordResponses": {
+          "match": [],
+          "fill": []
+        },
+        "researchResponses": [],
+        "researchEvidence": "",
+        "drawing": null,
+        "drawingHasInk": false,
+        "secondaryCreation": false,
+        "secondaryText": "",
+        "secondaryChoice": "",
+        "secondaryChecks": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "creationReviewV1": {
+          "early": {},
+          "middle": {},
+          "advanced": {},
+          "secondary": {}
+        }
+      }
+    }
+  },
+  "itineraries": {
+    "early": {
+      "tenerife": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "gran-canaria": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-palma": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-gomera": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "el-hierro": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "fuerteventura": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "lanzarote": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-graciosa": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      }
+    },
+    "middle": {
+      "tenerife": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "gran-canaria": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-palma": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-gomera": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "el-hierro": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "fuerteventura": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "lanzarote": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-graciosa": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      }
+    },
+    "advanced": {
+      "tenerife": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "gran-canaria": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-palma": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-gomera": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "el-hierro": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "fuerteventura": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "lanzarote": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-graciosa": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      }
+    },
+    "secondary": {
+      "tenerife": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "gran-canaria": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-palma": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-gomera": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "el-hierro": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "fuerteventura": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "lanzarote": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      },
+      "la-graciosa": {
+        "reviewed": false,
+        "tasks": "",
+        "selectedTasks": [
+          "words",
+          "research",
+          "creation"
+        ],
+        "evidenceMode": "web",
+        "externalCreation": false,
+        "flexibleLength": false
+      }
+    }
+  },
+  "journey": {
+    "version": 1,
+    "levels": {
+      "early": [],
+      "middle": [],
+      "advanced": [],
+      "secondary": []
+    }
+  },
+  "final": {
+    "passed": true
+  },
+  "interactive": {
+    "stories": {
+      "version": 1,
+      "routes": {
+        "tenerife": {
+          "order": [
+            2,
+            1,
+            0,
+            3
+          ],
+          "checked": false,
+          "hint": false,
+          "support": false,
+          "passed": false
+        },
+        "gran-canaria": {
+          "order": [
+            0,
+            3,
+            1,
+            2
+          ],
+          "checked": false,
+          "hint": false,
+          "support": false,
+          "passed": false
+        },
+        "la-palma": {
+          "order": [
+            0,
+            2,
+            1,
+            3
+          ],
+          "checked": false,
+          "hint": false,
+          "support": false,
+          "passed": false
+        },
+        "la-gomera": {
+          "order": [
+            2,
+            3,
+            0,
+            1
+          ],
+          "checked": false,
+          "hint": false,
+          "support": false,
+          "passed": false
+        },
+        "el-hierro": {
+          "order": [
+            0,
+            3,
+            1,
+            2
+          ],
+          "checked": false,
+          "hint": false,
+          "support": false,
+          "passed": false
+        },
+        "fuerteventura": {
+          "order": [
+            2,
+            0,
+            3,
+            1
+          ],
+          "checked": false,
+          "hint": false,
+          "support": false,
+          "passed": false
+        },
+        "lanzarote": {
+          "order": [
+            0,
+            3,
+            1,
+            2
+          ],
+          "checked": false,
+          "hint": false,
+          "support": false,
+          "passed": false
+        },
+        "la-graciosa": {
+          "order": [
+            1,
+            3,
+            2,
+            0
+          ],
+          "checked": false,
+          "hint": false,
+          "support": false,
+          "passed": false
+        }
+      }
+    },
+    "comparison": {
+      "pair": [
+        "tenerife",
+        "el-hierro"
+      ],
+      "notes": {}
+    }
+  }
+}
