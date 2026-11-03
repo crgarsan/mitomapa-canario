@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+from contextlib import contextmanager
 from dataclasses import dataclass
 from hashlib import sha256
 from io import BytesIO
@@ -19,6 +20,7 @@ import os
 from pathlib import Path
 import re
 import stat
+import struct
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -157,15 +159,14 @@ class ArchiveBudget:
     expanded_bytes: int = 0
 
 
-def read_archive_file(path: Path, *, max_bytes: int | None = None) -> bytes:
-    """Bound file allocation before ZIP parsing, even if stat becomes stale."""
+@contextmanager
+def archive_input(path: Path, *, max_bytes: int | None = None):
+    """Keep the validated input descriptor alive through an optional commit."""
     if max_bytes is None:
         max_bytes = DEFAULT_ARCHIVE_LIMITS.max_compressed_bytes
     source_stat = path.stat()
     require(stat.S_ISREG(source_stat.st_mode), "Archive input must be a regular file: " + str(path))
     require(source_stat.st_size <= max_bytes, "Archive compressed input exceeds the size limit: " + str(path))
-    chunks = []
-    actual_size = 0
     # A selected regular path may be replaced by a pipe between stat and open.
     # Nonblocking open permits checking the actual descriptor before any read.
     with open(path, "rb", opener=lambda name, flags: os.open(name, flags | getattr(os, "O_NONBLOCK", 0))) as source:
@@ -173,14 +174,94 @@ def read_archive_file(path: Path, *, max_bytes: int | None = None) -> bytes:
         require(stat.S_ISREG(opened_stat.st_mode), "Archive input must be a regular file: " + str(path))
         require(opened_stat.st_size <= max_bytes,
                 "Archive compressed input exceeds the size limit: " + str(path))
-        while True:
-            chunk = source.read(min(ARCHIVE_READ_CHUNK, max_bytes - actual_size + 1))
-            if not chunk:
-                break
-            actual_size += len(chunk)
-            require(actual_size <= max_bytes, "Archive compressed input exceeds the actual size limit: " + str(path))
-            chunks.append(chunk)
+        yield source, max_bytes
+
+
+def read_archive_stream(source, path: Path, max_bytes: int) -> bytes:
+    """Bound actual reads even when an opened file grows after fstat."""
+    chunks = []
+    actual_size = 0
+    while True:
+        chunk = source.read(min(ARCHIVE_READ_CHUNK, max_bytes - actual_size + 1))
+        if not chunk:
+            break
+        actual_size += len(chunk)
+        require(actual_size <= max_bytes, "Archive compressed input exceeds the actual size limit: " + str(path))
+        chunks.append(chunk)
     return b"".join(chunks)
+
+
+def read_archive_file(path: Path, *, max_bytes: int | None = None) -> bytes:
+    """Bound file allocation before ZIP parsing, even if stat becomes stale."""
+    with archive_input(path, max_bytes=max_bytes) as (source, maximum):
+        return read_archive_stream(source, path, maximum)
+
+
+def commit_archive(path: Path, source, payload: bytes) -> None:
+    """Write only the retained input inode, never a substituted pathname.
+
+    Opening without O_TRUNC is essential: check the actual writer descriptor
+    against the still-open reader before changing any bytes. Later renames or
+    symlinks cannot redirect writes through this descriptor. No-op hardening
+    never requests write permission; existing inode/mode/ownership survive.
+    """
+    original = os.fstat(source.fileno())
+    flags = os.O_WRONLY | getattr(os, "O_NONBLOCK", 0) | getattr(os, "O_NOFOLLOW", 0)
+    require(not path.is_symlink(), "Archive input changed before commit: " + str(path))
+    descriptor = os.open(path, flags)
+    with os.fdopen(descriptor, "wb") as output:
+        writer = os.fstat(output.fileno())
+        require(stat.S_ISREG(writer.st_mode)
+                and (writer.st_dev, writer.st_ino) == (original.st_dev, original.st_ino),
+                "Archive input changed before commit: " + str(path))
+        output.write(payload)
+        output.truncate()
+
+
+def preflight_central_directory(payload: bytes, budget: ArchiveBudget) -> None:
+    """Count real directory records before ZipFile allocates any ZipInfo.
+
+    Use CPython's bounded footer reader and its exact prefix/ZIP64 offset
+    calculation, so this walk covers the same directory ZipFile will parse.
+    Only fixed-size headers are unpacked; names, extra fields and comments
+    are skipped by checked offsets without allocating per-entry objects.
+    """
+    try:
+        end = zipfile._EndRecData(BytesIO(payload))
+    except OSError as error:
+        raise ValueError("Archive ZIP structure validation failed: " + str(error)) from error
+    require(end is not None, "Archive ZIP structure is missing its central directory")
+    declared = end[zipfile._ECD_ENTRIES_TOTAL]
+    remaining = budget.limits.max_members - budget.members
+    require(0 <= declared <= remaining, "Archive member count exceeds the limit")
+    require(end[zipfile._ECD_DISK_NUMBER] == end[zipfile._ECD_DISK_START] == 0
+            and end[zipfile._ECD_ENTRIES_THIS_DISK] == declared,
+            "Archive central directory disk/count metadata differs")
+    size = end[zipfile._ECD_SIZE]
+    finish = end[zipfile._ECD_LOCATION]
+    # Older Python patch releases report the legacy EOCD location for ZIP64;
+    # newer ones report the actual ZIP64 end record (including extensible data).
+    if (end[zipfile._ECD_SIGNATURE] == zipfile.stringEndArchive64
+            and payload[finish:finish + 4] != zipfile.stringEndArchive64):
+        finish -= zipfile.sizeEndCentDir64 + zipfile.sizeEndCentDir64Locator
+    start = finish - size
+    require(0 <= start <= finish <= len(payload)
+            and 0 <= end[zipfile._ECD_OFFSET] <= start,
+            "Archive central directory offsets are invalid")
+    position = start
+    count = 0
+    while position < finish:
+        require(position + zipfile.sizeCentralDir <= finish,
+                "Archive central directory header is truncated")
+        header = struct.unpack_from(zipfile.structCentralDir, payload, position)
+        require(header[zipfile._CD_SIGNATURE] == zipfile.stringCentralDir,
+                "Archive central directory signature is invalid")
+        count += 1
+        require(count <= remaining, "Archive member count exceeds the limit")
+        position += (zipfile.sizeCentralDir + header[zipfile._CD_FILENAME_LENGTH]
+                     + header[zipfile._CD_EXTRA_FIELD_LENGTH] + header[zipfile._CD_COMMENT_LENGTH])
+        require(position <= finish, "Archive central directory record is truncated")
+    require(count == declared, "Archive central directory member count differs")
 
 
 def archive_member_name(info: zipfile.ZipInfo) -> str:
@@ -206,6 +287,7 @@ def read_archive(payload: bytes, *, budget: ArchiveBudget | None = None, depth: 
     require(0 <= depth <= limits.max_depth, "Archive nesting depth exceeds the limit")
     require(len(payload) <= limits.max_compressed_bytes, "Archive compressed input exceeds the size limit")
     try:
+        preflight_central_directory(payload, budget)
         with zipfile.ZipFile(BytesIO(payload)) as archive:
             infos = archive.infolist()
             require(budget.members + len(infos) <= limits.max_members,
@@ -485,14 +567,15 @@ def main() -> None:
     require(not (args.artifact and args.delivery_dir), "Use --artifact or --delivery-dir separately")
     if args.artifact:
         path = args.artifact.resolve()
-        before = read_archive_file(path)
-        if args.check:
-            loaders, nested = verify_archive(before)
-        else:
-            after, loaders, nested = patched_archive(before)
-            if after != before:
-                path.write_bytes(after)
-        require(loaders > 0, "No native jsPDF export loaders found")
+        with archive_input(path) as (source, maximum):
+            before = read_archive_stream(source, path, maximum)
+            if args.check:
+                loaders, nested = verify_archive(before)
+            else:
+                after, loaders, nested = patched_archive(before)
+            require(loaders > 0, "No native jsPDF export loaders found")
+            if not args.check and after != before:
+                commit_archive(path, source, after)
         print(json.dumps({"mode": "checked" if args.check else "updated", "artifact": str(path),
                           "loaders": loaders, "nested_elpx": nested}))
         return
