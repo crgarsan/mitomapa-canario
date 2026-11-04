@@ -71,7 +71,10 @@
       else link.removeAttribute("aria-current");
     });
     const crumb = byId("navigationLocation");
-    if (crumb) crumb.textContent = screen === "ruta" ? "Islas · " + (context.routes.find(r => r.id === context.lastRoute())?.island || "Cuento") : titles[screen];
+    if (crumb) {
+      crumb.hidden = ["inicio","islas","juegos","recursos"].includes(screen);
+      crumb.textContent = screen === "ruta" ? "Islas · " + (context.routes.find(r => r.id === context.lastRoute())?.island || "Cuento") : titles[screen];
+    }
     document.title = `${titles[screen]} · MitoMapa canario`;
   }
   function focusTarget(target) {
