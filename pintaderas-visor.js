@@ -85,7 +85,7 @@ function initPintaderaViewer() {
       rowActions.append(view, link);
       row.append(caption, rowActions);
     }
-    const starter = models.get(collection + "/roseta");
+    const starter = models.get([collection, "roseta"].join("/"));
     if (starter) {
       const explore = makeViewButton(starter, "Explorar en 3D", "button");
       explore.setAttribute("aria-label", collection === "sellos" ? "Explorar en 3D los sellos para arcilla" : "Explorar en 3D los modelos recreados");
@@ -113,7 +113,7 @@ function initPintaderaViewer() {
     toggle.textContent = "Volver al visor 3D";
     const {collection, id, name} = selectedModel;
     still.alt = "Cara, perfil y reverso de " + name + ".";
-    still.src = "assets/pintaderas-3d/vistas/" + collection + "/pintadera_" + id + ".webp";
+    still.src = ["assets/pintaderas-3d/vistas", collection, "pintadera_" + id + ".webp"].join("/");
     status.textContent = message;
   }
 
