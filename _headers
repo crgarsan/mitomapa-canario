@@ -17,3 +17,19 @@
 /downloads/MitoMapa_canario_GobCan.elpx
   Content-Type: application/octet-stream
   Content-Disposition: attachment; filename="MitoMapa_canario_4_8_9.elpx"
+
+/downloads/pintaderas-3d/recreaciones/*
+  Content-Type: model/stl
+  Content-Disposition: attachment
+
+/downloads/pintaderas-3d/sellos/*
+  Content-Type: model/stl
+  Content-Disposition: attachment
+
+/downloads/pintaderas-3d/recreaciones.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment
+
+/downloads/pintaderas-3d/sellos.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment

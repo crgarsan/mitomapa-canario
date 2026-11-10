@@ -11,6 +11,10 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 MAX_ASSET_BYTES = 25 * 1024 * 1024
 MAX_EXPANDED_BYTES = 512 * 1024 * 1024
 DIGEST = re.compile(r"[0-9a-f]{64}")
+PINTADERA_MANIFEST = 'PINTADERAS_3D.json'
+PINTADERA_DIRECTORY = 'downloads/pintaderas-3d'
+PINTADERA_GROUPS = ('recreaciones', 'sellos')
+PINTADERA_STL = re.compile(r'downloads/pintaderas-3d/(recreaciones|sellos)/(pintadera_[a-z_]+\.stl)')
 
 
 def safe_name(name):
@@ -116,6 +120,34 @@ def public_entries(root, *, verify=True):
             raise ValueError(f"Checksum mismatch: {name}")
         paths[name] = source
     return paths
+
+
+def pintadera_inventory(root):
+    """Return the paired, explicitly listed printable models and ZIPs."""
+    if not (root / PINTADERA_MANIFEST).exists():
+        return {}
+    path = source_path(root, PINTADERA_MANIFEST)
+    if path.stat().st_size > 32 * 1024:
+        raise ValueError('Pintadera inventory is too large')
+    manifest = json.loads(path.read_text(encoding='utf-8'))
+    if not isinstance(manifest, dict) or manifest.get('version') != 1 or not isinstance(manifest.get('files'), dict):
+        raise ValueError('Invalid pintadera inventory')
+    files = manifest['files']
+    groups = {group: set() for group in PINTADERA_GROUPS}
+    zip_paths = {f'{PINTADERA_DIRECTORY}/{group}.zip' for group in groups}
+    for name, details in files.items():
+        if name not in zip_paths:
+            match = PINTADERA_STL.fullmatch(name)
+            if not match:
+                raise ValueError('Unexpected pintadera download: ' + name)
+            groups[match[1]].add(match[2])
+        if (not isinstance(details, dict) or set(details) != {'sha256', 'bytes'}
+                or not isinstance(details['sha256'], str) or not DIGEST.fullmatch(details['sha256'])
+                or type(details['bytes']) is not int or not 0 < details['bytes'] <= MAX_ASSET_BYTES):
+            raise ValueError('Invalid pintadera file metadata: ' + name)
+    if not zip_paths <= files.keys() or len(groups['sellos']) != 10 or groups['sellos'] != groups['recreaciones']:
+        raise ValueError('Expected two complete collections of ten matching pintadera designs')
+    return files
 
 
 def story_media_inventory(root):

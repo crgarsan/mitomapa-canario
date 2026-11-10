@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "files": {
+    "downloads/pintaderas-3d/recreaciones/pintadera_chevron.stl": {
+      "sha256": "2b7938bb7201133b493f968ab47b4c8948472506617462c7370497069fc2b719",
+      "bytes": 2406784
+    },
+    "downloads/pintaderas-3d/recreaciones/pintadera_circulos.stl": {
+      "sha256": "5d6ea74fe81152de1f9956e369cfaea9a5c7779aab5008173910d1bd8ee056d8",
+      "bytes": 2713284
+    },
+    "downloads/pintaderas-3d/recreaciones/pintadera_dentada.stl": {
+      "sha256": "8fb5aecc101ceaa4d15f3eda089d15300d0cfc45dfc3451e0b48a6a00f436c63",
+      "bytes": 3885584
+    },
+    "downloads/pintaderas-3d/recreaciones/pintadera_doble_triangulo.stl": {
+      "sha256": "670e197b615e36c4ada57d94167dec513fd4db4230f1448a48749ce320292e98",
+      "bytes": 2893984
+    },
+    "downloads/pintaderas-3d/recreaciones/pintadera_espiral_cuadrada.stl": {
+      "sha256": "31af65e165e195e760842b144e433bf02a5646f5901cbf7c3a0c167de41ba668",
+      "bytes": 5003384
+    },
+    "downloads/pintaderas-3d/recreaciones/pintadera_rombos.stl": {
+      "sha256": "8d6bb36edcb1e370b6973569731944bbd524d754c1ff896199af0d05b8218110",
+      "bytes": 1768984
+    },
+    "downloads/pintaderas-3d/recreaciones/pintadera_roseta.stl": {
+      "sha256": "258e12a9cf6c6fb76cc07ce2bdfecec6d88d1eecb543b4a2990d3d66f0b4cb21",
+      "bytes": 3881684
+    },
+    "downloads/pintaderas-3d/recreaciones/pintadera_seis_triangulos.stl": {
+      "sha256": "f854157c69d2bc44f2d5c524c8239c90187191559c5236b6d3be0606175a10c7",
+      "bytes": 2761584
+    },
+    "downloads/pintaderas-3d/recreaciones/pintadera_sol.stl": {
+      "sha256": "ab594002fa75f487265cdbf89093bfb20396e11934c489af3b4bb6947c455348",
+      "bytes": 3881684
+    },
+    "downloads/pintaderas-3d/recreaciones/pintadera_triangulo.stl": {
+      "sha256": "bf3c21e6c84d84dc2fff3f8867b260bde61311b8ceb7750ff781f991d8603f34",
+      "bytes": 2554684
+    },
+    "downloads/pintaderas-3d/recreaciones.zip": {
+      "sha256": "044e61476fa9d351453738fa5023fa080a74c0e53724a27014da325a747ea813",
+      "bytes": 7626789
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_chevron.stl": {
+      "sha256": "36d13bc2c843b9abdeb5e89fe505e2bc337c4ec24af4967469e8b4d2c84ee41d",
+      "bytes": 2808184
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_circulos.stl": {
+      "sha256": "b112e688a965c5a54821d867000e3507cbebcfd1fbda45b50766a1975c53cf65",
+      "bytes": 3071584
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_dentada.stl": {
+      "sha256": "367dedb55ae9da9deefa4e89cd9ac67968b2440956aa7358dafcd5afe11278ab",
+      "bytes": 4608584
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_doble_triangulo.stl": {
+      "sha256": "f579dc6c9328e4f903679eb5b88faac34b60fc4ff7bd578af2b59fec80698049",
+      "bytes": 3448384
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_espiral_cuadrada.stl": {
+      "sha256": "95b44c30df10ec7bb71f91fc800293b16095d5f2e99d490855133aca07f453d1",
+      "bytes": 5500784
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_rombos.stl": {
+      "sha256": "37ecc3a61f4258cf38a67108d8837ded4c46b04bda477a600e81828094fe9617",
+      "bytes": 2153584
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_roseta.stl": {
+      "sha256": "9810e01625246e47a8601e29b21897a6e713c32a475e835338c9de2f83023bde",
+      "bytes": 4310684
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_seis_triangulos.stl": {
+      "sha256": "fb84b8d234e80c34cfa371b5f8b701e8f644e1bcc51898ee9f74137441532732",
+      "bytes": 3173784
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_sol.stl": {
+      "sha256": "8d9293d1f3c6b1da35c5e4a2e148546ef415835b9f9ff517e83b5d97d3413455",
+      "bytes": 4310684
+    },
+    "downloads/pintaderas-3d/sellos/pintadera_triangulo.stl": {
+      "sha256": "c619b40248e958e6f77503bcef5b6518326524d5ce535253268028ed250f7bf2",
+      "bytes": 2975284
+    },
+    "downloads/pintaderas-3d/sellos.zip": {
+      "sha256": "fef4e4b81171ce1b728a2c67018b46022329c643bd4895edfa49f142ddffc872",
+      "bytes": 8965242
+    }
+  }
+}

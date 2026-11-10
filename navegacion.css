@@ -41,6 +41,14 @@
 .resource-disclosure>.section{border:0;margin:0;box-shadow:none;padding:1.2rem}
 .resource-disclosure .reuse-heading>div{min-width:0}
 .resource-disclosure .section-title{font-size:1.7rem}
+.pintaderas-3d .download-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:1rem}
+.pintadera-files{margin-top:1rem}
+.pintadera-files>summary{padding:.6rem 0;min-height:44px;cursor:pointer;font-weight:700}
+.pintadera-files>summary:focus-visible{outline:3px solid var(--earth-dark);outline-offset:3px}
+.pintadera-files ul{padding-inline-start:1.25rem}
+.pintadera-files li{margin:.25rem 0}
+.pintadera-files li a{display:inline-flex;align-items:center;min-height:44px}
+.pintadera-files li span{display:block;font-size:.9rem;color:var(--muted)}
 .island-list-disclosure{margin:1rem 0 0;border-top:1px solid var(--line)}
 .island-list-disclosure .island-grid{margin-top:.5rem}
 .navigation-ready #exploreMap{padding:1.2rem}

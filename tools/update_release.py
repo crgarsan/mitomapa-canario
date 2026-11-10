@@ -20,6 +20,7 @@ from urllib.parse import parse_qs, urljoin, urlsplit
 
 from release_support import (
     MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries, pinned_story_media,
+    PINTADERA_DIRECTORY, PINTADERA_GROUPS, PINTADERA_MANIFEST, pintadera_inventory,
     read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
     zip_bytes,
 )
@@ -220,6 +221,11 @@ def source_files(root, version, version_payload):
         "y SHA-256 antes de guardar cada archivo.\n\n"
         if (root / 'MEDIA_MANIFEST.json').is_file() else ''
     )
+    pintadera_note = (
+        '\nLos STL y ZIP de las pintaderas se distribuyen en la web publicada.\n'
+        f'Consúltalos en {PUBLIC_URL}#pintaderas3d. {PINTADERA_MANIFEST} contiene sus huellas y tamaños.\n\n'
+        if (root / PINTADERA_MANIFEST).is_file() else ''
+    )
     files["FUENTES_WEB_LEEME.txt"] = (
         f"MitoMapa canario · Fuentes web {version['web_version']}\n\n"
         "Estas fuentes contienen la web, sus recursos locales, documentación,\n"
@@ -227,7 +233,7 @@ def source_files(root, version, version_payload):
         "Para consultar la web localmente, ejecuta python3 -m http.server y abre\n"
         "http://localhost:8000/. VERSION.json identifica la edición actual;\n"
         "SOURCE_MANIFEST.json verifica cada archivo sin incluirse a sí mismo.\n"
-        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note +
+        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note + pintadera_note +
         "Materiales propios: CC BY-SA 4.0; consulta LICENSE y LICENCIA_Y_CREDITOS.txt.\n"
         "El mapa y las dependencias conservan sus condiciones originales.\n"
     ).encode("utf-8")
@@ -249,6 +255,10 @@ def public_names(root, previous, paths):
     if media:
         names.update(media)
         names.add('MEDIA_MANIFEST.json')
+    pintaderas = pintadera_inventory(root)
+    if pintaderas:
+        names.update(pintaderas)
+        names.add(PINTADERA_MANIFEST)
     return sorted(names)
 
 
@@ -307,6 +317,19 @@ def check_release(root=ROOT):
     public = public_entries(root)
     if not set(paths.values()) <= set(public):
         raise ValueError("Current downloads are missing from the public allowlist")
+    pintaderas = pintadera_inventory(root)
+    if pintaderas:
+        if not (set(pintaderas) | {PINTADERA_MANIFEST}) <= set(public):
+            raise ValueError('Pintadera downloads are missing from the public allowlist')
+        for name, expected in pintaderas.items():
+            if metadata(public[name].read_bytes()) != expected:
+                raise ValueError('Pintadera download metadata differs: ' + name)
+        for group in PINTADERA_GROUPS:
+            prefix = f'{PINTADERA_DIRECTORY}/{group}'
+            expected = {Path(name).name: details for name, details in pintaderas.items() if name.startswith(prefix + '/')}
+            packed = read_zip(public[prefix + '.zip'].read_bytes())
+            if {name: metadata(data) for name, data in packed.items()} != expected:
+                raise ValueError('Pintadera ZIP does not match its individual STL files: ' + group)
     for name, path in public.items():
         if name.lower().endswith((".zip", ".elpx")):
             read_zip(path.read_bytes())
