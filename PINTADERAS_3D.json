@@ -2,7 +2,7 @@
   "version": 1,
   "files": {
     "downloads/pintaderas-3d/recreaciones/pintadera_chevron.stl": {
-      "sha256": "2b7938bb7201133b493f968ab47b4c8948472506617462c7370497069fc2b719",
+      "sha256": "01736dc984a8ac5e9567bb76d4086533ff8b468993e0f01a18fa31c1c5e7b1c3",
       "bytes": 2406784
     },
     "downloads/pintaderas-3d/recreaciones/pintadera_circulos.stl": {
@@ -22,7 +22,7 @@
       "bytes": 5003384
     },
     "downloads/pintaderas-3d/recreaciones/pintadera_rombos.stl": {
-      "sha256": "8d6bb36edcb1e370b6973569731944bbd524d754c1ff896199af0d05b8218110",
+      "sha256": "23e9985b201bef8a496ee17826a5ea512e2355fe5e623e03268a96a6b8717aa7",
       "bytes": 1768984
     },
     "downloads/pintaderas-3d/recreaciones/pintadera_roseta.stl": {
@@ -38,56 +38,56 @@
       "bytes": 3881684
     },
     "downloads/pintaderas-3d/recreaciones/pintadera_triangulo.stl": {
-      "sha256": "bf3c21e6c84d84dc2fff3f8867b260bde61311b8ceb7750ff781f991d8603f34",
+      "sha256": "33d43be1ceb989d8c797a3898aaefaa6a377f558c24309b01805036f8c4e7b41",
       "bytes": 2554684
     },
     "downloads/pintaderas-3d/recreaciones.zip": {
-      "sha256": "044e61476fa9d351453738fa5023fa080a74c0e53724a27014da325a747ea813",
-      "bytes": 7626789
+      "sha256": "3447c32106722a9321d3213a54e55e599044efdea74be828ac4511f473842bb1",
+      "bytes": 7630250
     },
     "downloads/pintaderas-3d/sellos/pintadera_chevron.stl": {
-      "sha256": "36d13bc2c843b9abdeb5e89fe505e2bc337c4ec24af4967469e8b4d2c84ee41d",
+      "sha256": "aecaf62a559bd2a080230a29580239204cf0e100c85f2b7078f936917d873b61",
       "bytes": 2808184
     },
     "downloads/pintaderas-3d/sellos/pintadera_circulos.stl": {
-      "sha256": "b112e688a965c5a54821d867000e3507cbebcfd1fbda45b50766a1975c53cf65",
+      "sha256": "22aba1afd661439017ac9d3500fe197081b8bc242db8733fe3178a0d7e2e8d41",
       "bytes": 3071584
     },
     "downloads/pintaderas-3d/sellos/pintadera_dentada.stl": {
-      "sha256": "367dedb55ae9da9deefa4e89cd9ac67968b2440956aa7358dafcd5afe11278ab",
+      "sha256": "87203b49d62fa8218452c09f563012f8179f352b473dbf659f083f33cb0e6a69",
       "bytes": 4608584
     },
     "downloads/pintaderas-3d/sellos/pintadera_doble_triangulo.stl": {
-      "sha256": "f579dc6c9328e4f903679eb5b88faac34b60fc4ff7bd578af2b59fec80698049",
+      "sha256": "83712fa22e817b4a2552e5634753d66e38311d2f1baa62d9def5480f77d8917d",
       "bytes": 3448384
     },
     "downloads/pintaderas-3d/sellos/pintadera_espiral_cuadrada.stl": {
-      "sha256": "95b44c30df10ec7bb71f91fc800293b16095d5f2e99d490855133aca07f453d1",
+      "sha256": "72af1855002a3a6a1b568be3d84ef77df33e4e6b4d40c751e299249a484fc039",
       "bytes": 5500784
     },
     "downloads/pintaderas-3d/sellos/pintadera_rombos.stl": {
-      "sha256": "37ecc3a61f4258cf38a67108d8837ded4c46b04bda477a600e81828094fe9617",
+      "sha256": "60359992ffb074516cf8f9809ec31dc5fbddcd7d9749a5adc8d03e5f83258990",
       "bytes": 2153584
     },
     "downloads/pintaderas-3d/sellos/pintadera_roseta.stl": {
-      "sha256": "9810e01625246e47a8601e29b21897a6e713c32a475e835338c9de2f83023bde",
+      "sha256": "25b9c5d09e0f9bb3a3c848c563cbc33fda902184ec443fef89791b1affe2321d",
       "bytes": 4310684
     },
     "downloads/pintaderas-3d/sellos/pintadera_seis_triangulos.stl": {
-      "sha256": "fb84b8d234e80c34cfa371b5f8b701e8f644e1bcc51898ee9f74137441532732",
+      "sha256": "87b3496bfdc81a29cb6bcdcd003a866604d0643156cd454320df96fdf5f9d2aa",
       "bytes": 3173784
     },
     "downloads/pintaderas-3d/sellos/pintadera_sol.stl": {
-      "sha256": "8d9293d1f3c6b1da35c5e4a2e148546ef415835b9f9ff517e83b5d97d3413455",
+      "sha256": "d91ec30194bc3bd4524cd730f625b3f8722355cd1d98cf26ebbf772010599524",
       "bytes": 4310684
     },
     "downloads/pintaderas-3d/sellos/pintadera_triangulo.stl": {
-      "sha256": "c619b40248e958e6f77503bcef5b6518326524d5ce535253268028ed250f7bf2",
+      "sha256": "b132bf2fff6d62ce9987085c1439debcdedc8e71ff0e52c717ba927b7a2ca44f",
       "bytes": 2975284
     },
     "downloads/pintaderas-3d/sellos.zip": {
-      "sha256": "fef4e4b81171ce1b728a2c67018b46022329c643bd4895edfa49f142ddffc872",
-      "bytes": 8965242
+      "sha256": "c135517f13c48e59b08eae1c990eeedbc7763a1329bf8b8d3e193e26cad0b191",
+      "bytes": 9273682
     }
   }
 }

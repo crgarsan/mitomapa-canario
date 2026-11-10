@@ -311,6 +311,20 @@ def check_elpx(payload, version, root=ROOT):
     return files
 
 
+def check_pintadera_downloads(root, inventory):
+    if not inventory:
+        return
+    for name, expected in inventory.items():
+        if metadata(source_path(root, name).read_bytes()) != expected:
+            raise ValueError('Pintadera download metadata differs: ' + name)
+    for group in PINTADERA_GROUPS:
+        prefix = f'{PINTADERA_DIRECTORY}/{group}'
+        expected = {Path(name).name: details for name, details in inventory.items() if name.startswith(prefix + '/')}
+        packed = read_zip(source_path(root, prefix + '.zip').read_bytes())
+        if {name: metadata(data) for name, data in packed.items()} != expected:
+            raise ValueError('Pintadera ZIP does not match its individual STL files: ' + group)
+
+
 def check_release(root=ROOT):
     version = json.loads((root / "VERSION.json").read_text(encoding="utf-8"))
     paths = release_paths(version)
@@ -321,15 +335,7 @@ def check_release(root=ROOT):
     if pintaderas:
         if not (set(pintaderas) | {PINTADERA_MANIFEST}) <= set(public):
             raise ValueError('Pintadera downloads are missing from the public allowlist')
-        for name, expected in pintaderas.items():
-            if metadata(public[name].read_bytes()) != expected:
-                raise ValueError('Pintadera download metadata differs: ' + name)
-        for group in PINTADERA_GROUPS:
-            prefix = f'{PINTADERA_DIRECTORY}/{group}'
-            expected = {Path(name).name: details for name, details in pintaderas.items() if name.startswith(prefix + '/')}
-            packed = read_zip(public[prefix + '.zip'].read_bytes())
-            if {name: metadata(data) for name, data in packed.items()} != expected:
-                raise ValueError('Pintadera ZIP does not match its individual STL files: ' + group)
+        check_pintadera_downloads(root, pintaderas)
     for name, path in public.items():
         if name.lower().endswith((".zip", ".elpx")):
             read_zip(path.read_bytes())
@@ -364,9 +370,12 @@ def update_release(root=ROOT):
     version = json.loads((root / "VERSION.json").read_text(encoding="utf-8"))
     paths = release_paths(version)
     previous = parse_sums((root / "SHA256SUMS.txt").read_text(encoding="utf-8"))
+    pintaderas = pintadera_inventory(root)
+    check_pintadera_downloads(root, pintaderas)
+    current_downloads = set(paths.values()) | pintaderas.keys()
     # Historical packages are immutable, and their existing URLs stay public.
     for name, expected in previous.items():
-        if name not in paths.values() and name.lower().endswith((".zip", ".elpx")):
+        if name not in current_downloads and name.lower().endswith((".zip", ".elpx")):
             if digest(source_path(root, name).read_bytes()) != expected:
                 raise ValueError(f"Historical download changed: {name}")
     elpx = source_path(root, paths["download"]).read_bytes()
