@@ -14,7 +14,10 @@ import tempfile
 from urllib.parse import unquote, urljoin, urlsplit
 from urllib.request import Request, urlopen
 
-from release_support import PINTADERA_MANIFEST, PINTADERA_STL, parse_sums, pintadera_inventory, safe_name, source_path
+from release_support import (
+    PINTADERA_MANIFEST, PINTADERA_STL, VASIJA_STL, parse_sums, pintadera_inventory,
+    safe_name, source_path, vasija_assets,
+)
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -69,7 +72,7 @@ def public_static(name):
     if name in {'CNAME', '_headers', '_redirects', 'SHA256SUMS.txt'}:
         return False
     if (Path(name).suffix.lower() not in STATIC_SUFFIXES and name not in {'LICENSE', 'COPYING'}
-            and not PINTADERA_STL.fullmatch(name)):
+            and name != VASIJA_STL and not PINTADERA_STL.fullmatch(name)):
         return False
     return True
 
@@ -91,9 +94,12 @@ def inventory(root):
     version = json.loads(source_path(root, 'VERSION.json').read_text(encoding='utf-8'))
     current = download_paths(version)
     pintaderas = pintadera_inventory(root)
+    vasija = vasija_assets(root)
     retained_downloads = current | TEACHER_MATERIALS | pintaderas.keys()
+    if vasija:
+        retained_downloads.add(VASIJA_STL)
     selected = {name: value for name, value in sums.items() if public_static(name) and (not name.startswith('downloads/') or name in retained_downloads)}
-    required_assets = {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads
+    required_assets = {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads | vasija
     if pintaderas:
         required_assets.add(PINTADERA_MANIFEST)
     for required in required_assets:

@@ -229,6 +229,29 @@ class BackupStageTests(unittest.TestCase):
             self.assertEqual((self.stage / name).read_bytes(), payload)
             self.assertIn(f'href="{name}" download', staged)
 
+    def test_vasija_download_and_viewer_stay_local_under_the_pages_prefix(self):
+        model = 'downloads/vasija/vasija_canaria.stl'
+        unrelated = 'downloads/vasija/otro_modelo.stl'
+        viewer = 'vasija-visor.js'
+        module = (SCRIPT.parent.parent / viewer).read_bytes()
+        self.files.update({
+            model: b'example binary model',
+            unrelated: b'not selected for release',
+            viewer: module,
+            'pintaderas-visor.css': b'/* viewer layout */',
+            'assets/vasija/ficha.json': '{}',
+            'assets/vasija/vistas.webp': b'example fallback image',
+        })
+        self.files['index.html'] += f'<a href="{model}" download>Descargar STL</a>'
+        self.write_fixture()
+
+        result = self.run_stage()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.stage / model).read_bytes(), self.files[model])
+        self.assertEqual((self.stage / viewer).read_bytes(), module)
+        self.assertIn(f'href="{model}" download', (self.stage / 'index.html').read_text())
+        self.assertFalse((self.stage / unrelated).exists())
+
     def test_staged_safe_local_url_preserves_slash_splitting_and_rejects_traversal(self):
         node = shutil.which('node')
         if node is None:
