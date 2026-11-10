@@ -45,7 +45,7 @@
 }
 .pintadera-file-view:hover { background: #efe0c5; }
 
-#pintaderaViewer {
+.pintadera-viewer {
   box-sizing: border-box;
   width: min(960px, calc(100% - 1.5rem));
   max-width: none;
@@ -58,8 +58,8 @@
   background: #fffcf5;
   overscroll-behavior: contain;
 }
-#pintaderaViewer [hidden] { display: none; }
-#pintaderaViewer::backdrop { background: rgba(43, 34, 27, .68); }
+.pintadera-viewer [hidden] { display: none; }
+.pintadera-viewer::backdrop { background: rgba(43, 34, 27, .68); }
 .pintadera-viewer-head {
   display: flex;
   align-items: flex-start;
@@ -77,8 +77,8 @@
   color: #523d2d;
   overflow-wrap: anywhere;
 }
-#pintaderaSize { margin: .4rem 0 0; color: #5f4b3a; font-size: .92rem; }
-#pintaderaClose { min-height: 44px; flex: none; }
+:is(#pintaderaSize, #vasijaViewerSize) { margin: .4rem 0 0; color: #5f4b3a; font-size: .92rem; }
+:is(#pintaderaClose, #vasijaClose) { min-height: 44px; flex: none; }
 .pintadera-viewer-body {
   display: grid;
   grid-template-columns: minmax(0, 1.62fr) minmax(0, 1fr);
@@ -171,7 +171,7 @@
 }
 
 @media (max-width: 680px) {
-  #pintaderaViewer { width: calc(100% - 1rem); }
+  .pintadera-viewer { width: calc(100% - 1rem); }
   .pintadera-viewer-head { padding: .7rem .75rem; }
   .pintadera-viewer-body { grid-template-columns: 1fr; padding: .7rem .75rem .9rem; gap: .65rem; }
   .pintadera-stage { height: clamp(200px, 38vh, 310px); }
@@ -180,3 +180,40 @@
 .pintadera-row-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; }
 .pintadera-files .pintadera-row-actions a { font-size: .88rem; }
 .pintadera-file-label strong { display: block; }
+
+.vasija-3d .download-card { max-width: 760px; }
+.vasija-3d [hidden] { display: none; }
+.vasija-medidas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: .65rem;
+  margin: .65rem 0;
+}
+.vasija-medidas > div {
+  padding: .65rem .8rem;
+  background: #f3e7d2;
+  border-radius: .4rem;
+}
+.vasija-medidas dt { font-weight: 750; }
+.vasija-medidas dd { margin: .25rem 0 0; }
+
+.vasija-card-intro {
+  display: flex;
+  gap: .9rem;
+  align-items: flex-start;
+}
+.vasija-card-intro > div { flex: 1; min-width: 0; }
+.vasija-badge {
+  flex: 0 0 min(7rem, 28%);
+  margin: 0;
+  text-align: center;
+  font-size: .82rem;
+}
+.vasija-badge img { display: block; width: 100%; height: auto; }
+.vasija-referencias { margin: .55rem 0 1rem; padding-inline-start: 1.2rem; }
+.vasija-referencias li + li { margin-top: .35rem; }
+@media (max-width: 440px) {
+  .vasija-card-intro { flex-wrap: wrap; }
+  .vasija-card-intro > div { flex-basis: 100%; }
+  .vasija-badge { flex-basis: 7rem; }
+}

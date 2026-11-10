@@ -1,0 +1,12 @@
+{
+  "title": "Vasija alta de Tenerife",
+  "badgePath": "assets/images/insignia_tenerife.webp",
+  "referenceLabel": "Catálogo del MUNA · Anforoide 34.1/M, p. 59",
+  "referenceUrl": "https://www.museosdetenerife.org/assets/downloads/publication-afc6d05a44.pdf#page=60",
+  "supplementalReferenceLabel": "La Piedra Zanata · Vaso de Los Frontones, fig. 26",
+  "supplementalReferenceUrl": "https://www.museosdetenerife.org/assets/downloads/publication-482861aeb1.pdf#page=166",
+  "documentedDimensions": "El anforoide 34.1/M de Montaña Blanca mide 400 mm de alto y 240 mm de diámetro en la panza. El modelo toma esas dos cotas como referencia a escala 1:2.",
+  "modelDimensions": "200 mm de alto · Ø 120 mm en la panza · 128 mm con apéndices",
+  "description": "Recreación didáctica de la insignia de Tenerife del pasaporte de MitoMapa. Conserva el cuerpo ovoide, el cuello estrecho con acanaladuras, la hilera de puntos y los dos apéndices perforados.",
+  "adaptations": "La base plana y el remate apuntado de los orificios de los apéndices permiten diseñar la pieza para imprimirla de pie sin soportes. La boca, los apéndices y la decoración siguen la insignia."
+}
