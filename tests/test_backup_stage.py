@@ -197,6 +197,15 @@ class BackupStageTests(unittest.TestCase):
             self.assertIn('href="' + name + '"', staged)
             self.assertNotIn('href="https://primary.example/' + name + '"', staged)
 
+    def test_pintadera_viewer_keeps_relative_paths_under_the_pages_prefix(self):
+        name = 'pintaderas-visor.js'
+        module = (SCRIPT.parent.parent / name).read_bytes()
+        self.files[name] = module
+        self.write_fixture()
+        result = self.run_stage()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.stage / name).read_bytes(), module)
+
     def test_pintadera_downloads_stay_on_the_independent_backup(self):
         prefix = 'downloads/pintaderas-3d'
         slugs = ('chevron', 'circulos', 'dentada', 'doble_triangulo', 'espiral_cuadrada',
