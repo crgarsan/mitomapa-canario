@@ -197,6 +197,29 @@ class BackupStageTests(unittest.TestCase):
             self.assertIn('href="' + name + '"', staged)
             self.assertNotIn('href="https://primary.example/' + name + '"', staged)
 
+    def test_pintadera_downloads_stay_on_the_independent_backup(self):
+        prefix = 'downloads/pintaderas-3d'
+        slugs = ('chevron', 'circulos', 'dentada', 'doble_triangulo', 'espiral_cuadrada',
+                 'rombos', 'roseta', 'seis_triangulos', 'sol', 'triangulo')
+        models = {}
+        for group in ('recreaciones', 'sellos'):
+            models[f'{prefix}/{group}.zip'] = b'example archive for staging'
+            for slug in slugs:
+                models[f'{prefix}/{group}/pintadera_{slug}.stl'] = f'{group} {slug}'.encode()
+        self.files.update(models)
+        self.files['PINTADERAS_3D.json'] = json.dumps({'version': 1, 'files': {
+            name: {'sha256': sha256(payload).hexdigest(), 'bytes': len(payload)}
+            for name, payload in models.items()
+        }})
+        self.files['index.html'] += ''.join(f'<a href="{name}" download>Descargar</a>' for name in models)
+        self.write_fixture()
+        result = self.run_stage()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        staged = (self.stage / 'index.html').read_text()
+        for name, payload in models.items():
+            self.assertEqual((self.stage / name).read_bytes(), payload)
+            self.assertIn(f'href="{name}" download', staged)
+
     def test_staged_safe_local_url_preserves_slash_splitting_and_rejects_traversal(self):
         node = shutil.which('node')
         if node is None:

@@ -14,7 +14,7 @@ import tempfile
 from urllib.parse import unquote, urljoin, urlsplit
 from urllib.request import Request, urlopen
 
-from release_support import parse_sums, safe_name, source_path
+from release_support import PINTADERA_MANIFEST, PINTADERA_STL, parse_sums, pintadera_inventory, safe_name, source_path
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -68,7 +68,8 @@ def public_static(name):
         return False
     if name in {'CNAME', '_headers', '_redirects', 'SHA256SUMS.txt'}:
         return False
-    if Path(name).suffix.lower() not in STATIC_SUFFIXES and name not in {'LICENSE', 'COPYING'}:
+    if (Path(name).suffix.lower() not in STATIC_SUFFIXES and name not in {'LICENSE', 'COPYING'}
+            and not PINTADERA_STL.fullmatch(name)):
         return False
     return True
 
@@ -89,9 +90,13 @@ def inventory(root):
     sums = parse_sums(source_path(root, 'SHA256SUMS.txt').read_text(encoding='utf-8'))
     version = json.loads(source_path(root, 'VERSION.json').read_text(encoding='utf-8'))
     current = download_paths(version)
-    retained_downloads = current | TEACHER_MATERIALS
+    pintaderas = pintadera_inventory(root)
+    retained_downloads = current | TEACHER_MATERIALS | pintaderas.keys()
     selected = {name: value for name, value in sums.items() if public_static(name) and (not name.startswith('downloads/') or name in retained_downloads)}
-    for required in {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads:
+    required_assets = {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads
+    if pintaderas:
+        required_assets.add(PINTADERA_MANIFEST)
+    for required in required_assets:
         if required not in selected:
             raise ValueError('Required public asset is not pinned in SHA256SUMS.txt: ' + required)
     media_path = source_path(root, 'MEDIA_MANIFEST.json')
@@ -119,6 +124,8 @@ def inventory(root):
             raise ValueError('Public asset size exceeds 25 MiB: ' + name)
         if file_hash(path) != expected:
             raise ValueError('Checksum mismatch: ' + name)
+        if name in pintaderas and pintaderas[name] != {'sha256': expected, 'bytes': path.stat().st_size}:
+            raise ValueError('Pintadera inventory differs from the public inventory: ' + name)
         paths[name] = path
     historical = sorted(name for name in sums if name.startswith('downloads/') and name not in retained_downloads)
     return paths, version, current, historical
@@ -178,7 +185,7 @@ def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org
             destination = temporary / name
             destination.parent.mkdir(parents=True, exist_ok=True)
             if source.suffix.lower() in TEXT_SUFFIXES:
-                text = adapt_text(source.read_text(encoding='utf-8'), primary, prefix, current | TEACHER_MATERIALS)
+                text = adapt_text(source.read_text(encoding='utf-8'), primary, prefix, paths)
                 if name == 'index.html':
                     text = banner(text, primary)
                 destination.write_text(text, encoding='utf-8')

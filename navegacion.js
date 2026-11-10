@@ -8,7 +8,7 @@
   const STEPS = {cuento:"Cuento",retos:"Retos",taller:"Taller"};
   const LEVELS = ["early","middle","advanced","secondary"];
   const titles = {inicio:"Inicio",islas:"Islas",juegos:"Juegos",recursos:"Recursos",puzle:"Puzle",comparar:"Comparar cuentos",crear:"Crear y compartir","nombres-islas":"Los nombres de las islas","piezas-islas":"Las piezas y sus islas","gran-reto":"Gran reto",ruta:"Cuento"};
-  const aliases = {main:"inicio",exploreMap:"islas",islandGrid:"islas",missionTitle:"puzle",compareStories:"comparar",finalMission:"gran-reto",finalTitle:"gran-reto",reuseTitle:"recursos",creditsTitle:"recursos",passportTitle:"recursos",studentFeedback:"recursos",feedbackTitle:"recursos",acknowledgements:"recursos",acknowledgementsTitle:"recursos"};
+  const aliases = {main:"inicio",exploreMap:"islas",islandGrid:"islas",missionTitle:"puzle",compareStories:"comparar",finalMission:"gran-reto",finalTitle:"gran-reto",reuseTitle:"recursos",pintaderas3d:"recursos",creditsTitle:"recursos",passportTitle:"recursos",studentFeedback:"recursos",feedbackTitle:"recursos",acknowledgements:"recursos",acknowledgementsTitle:"recursos"};
   const byId = id => document.getElementById(id);
   function validResume(value) {
     return value && typeof value === "object" && !Array.isArray(value)
@@ -214,6 +214,7 @@
     byId("teacherGuidePanel").prepend(help);
     resources.append(
       disclosure(byId("reuseTitle").closest("section"),"Descargas y materiales editables","resourceDownloads"),
+      disclosure(byId("pintaderas3d").closest("section"),"Pintaderas en 3D","resourcePintaderas"),
       disclosure(byId("creditsTitle").closest("section"),"Guía, autoría, fuentes y agradecimientos","resourceCredits"),
       disclosure(main.querySelector(".historical-review"),"Historia e interpretación de las imágenes","resourceHistory"),
       disclosure(passport,"Pasaporte de piezas y criterios de los retos","resourcePassport"),
