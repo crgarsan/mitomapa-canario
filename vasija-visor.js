@@ -58,7 +58,16 @@ async function showFicha() {
   }
 }
 
-void showFicha();
+let fichaRequested = false;
+
+function loadFichaWhenOpened(details) {
+  if (details?.id !== "resourceVasija" || !details.open || fichaRequested) return;
+  fichaRequested = true;
+  void showFicha();
+}
+
+document.addEventListener("toggle", event => loadFichaWhenOpened(event.target), true);
+loadFichaWhenOpened(byId("resourceVasija"));
 
 if (typeof dialog?.showModal === "function") {
   const opener = byId("openVasijaViewer");
