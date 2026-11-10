@@ -17,6 +17,20 @@ PINTADERA_GROUPS = ('recreaciones', 'sellos')
 PINTADERA_STL = re.compile(r'downloads/pintaderas-3d/(recreaciones|sellos)/(pintadera_[a-z_]+\.stl)')
 
 
+VASIJA_STL = "downloads/vasija/vasija_canaria.stl"
+VASIJA_ASSETS = frozenset({
+    VASIJA_STL,
+    "vasija-visor.js",
+    "assets/vasija/ficha.json",
+    "assets/vasija/vistas.webp",
+})
+
+
+def vasija_assets(root):
+    """Include the exact model and its companion files as one feature."""
+    return VASIJA_ASSETS if any((root / name).exists() for name in VASIJA_ASSETS) else frozenset()
+
+
 def safe_name(name):
     if (not isinstance(name, str) or not name or "\\" in name or ":" in name
             or name.startswith("/") or any(part in ("", ".", "..") for part in name.split("/"))):

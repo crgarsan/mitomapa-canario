@@ -33,3 +33,7 @@
 /downloads/pintaderas-3d/sellos.zip
   Content-Type: application/zip
   Content-Disposition: attachment
+
+/downloads/vasija/vasija_canaria.stl
+  Content-Type: model/stl
+  Content-Disposition: attachment
