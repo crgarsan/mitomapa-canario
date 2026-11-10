@@ -122,6 +122,36 @@ class ReleasePipelineTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Historical download changed"):
             update_release(self.root)
 
+    def test_current_pintaderas_can_be_updated_only_as_matching_collections(self):
+        def write_pintaderas(revision, *, mismatch=False):
+            files = {}
+            for group in ("recreaciones", "sellos"):
+                folder = f"downloads/pintaderas-3d/{group}"
+                models = {
+                    f"pintadera_{letter}.stl": f"{group}/{letter}/{revision}".encode()
+                    for letter in "abcdefghij"
+                }
+                files.update({f"{folder}/{name}": data for name, data in models.items()})
+                if mismatch and group == "sellos":
+                    models["pintadera_a.stl"] = b"Different stamp"
+                files[f"{folder}.zip"] = zip_bytes(models)
+            for name, data in files.items():
+                self.write(name, data)
+            self.write("PINTADERAS_3D.json", json_bytes({
+                "version": 1, "files": {name: metadata(data) for name, data in files.items()},
+            }))
+
+        write_pintaderas(1)
+        update_release(self.root)
+        write_pintaderas(2)
+        update_release(self.root)
+        check_release(self.root)
+        write_pintaderas(3, mismatch=True)
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, "Pintadera ZIP does not match"):
+            update_release(self.root)
+        self.assertEqual(self.snapshot(), before)
+
     def test_oversized_release_is_rejected_before_any_file_is_written(self):
         before = self.snapshot()
         with patch("update_release.MAX_ASSET_BYTES", 10):
