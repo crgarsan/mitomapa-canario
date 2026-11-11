@@ -7,44 +7,11 @@
   text-transform: uppercase;
 }
 
-.pintadera-card-actions,
 .pintadera-viewer-actions {
   display: flex;
   flex-wrap: wrap;
   gap: .55rem;
 }
-.pintadera-card-actions .button {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
-  flex: 1 1 auto;
-  font-size: .92rem;
-  text-align: center;
-}
-.pintadera-file-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .25rem .75rem;
-  flex-wrap: wrap;
-  padding-block: .28rem;
-  border-bottom: 1px solid var(--line);
-}
-.pintadera-file-view {
-  min-height: 44px;
-  padding: .36rem .7rem;
-  background: var(--beige);
-  border: 1px solid #bda58a;
-  border-radius: .35rem;
-  color: var(--earth-dark);
-  font: inherit;
-  font-size: .88rem;
-  font-weight: 750;
-  cursor: pointer;
-}
-.pintadera-file-view:hover { background: #efe0c5; }
-
 .pintadera-viewer {
   box-sizing: border-box;
   width: min(960px, calc(100% - 1.5rem));
@@ -177,10 +144,6 @@
   .pintadera-stage { height: clamp(200px, 38vh, 310px); }
   .pintadera-selectors { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
 }
-.pintadera-row-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; }
-.pintadera-files .pintadera-row-actions a { font-size: .88rem; }
-.pintadera-file-label strong { display: block; }
-
 .vasija-3d .download-card { max-width: 760px; }
 .vasija-3d [hidden] { display: none; }
 .vasija-medidas {
@@ -218,7 +181,7 @@
   .vasija-badge { flex-basis: 7rem; }
 }
 
-.vasija-collection {
+:is(.vasija-collection, .pintadera-collection) {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
   gap: .75rem;
@@ -226,7 +189,7 @@
   padding: 0;
   list-style: none;
 }
-.vasija-tile {
+:is(.vasija-tile, .pintadera-tile) {
   display: grid;
   justify-items: center;
   grid-template-rows: auto 1fr auto;
@@ -237,26 +200,26 @@
   border-radius: .55rem;
   background: #fffcf5;
 }
-.vasija-tile img {
+:is(.vasija-tile, .pintadera-tile) img {
   width: 5.4rem;
   height: 5.4rem;
   object-fit: contain;
 }
-.vasija-tile h3 {
+:is(.vasija-tile h3, .pintadera-tile h4) {
   margin: .15rem 0 .35rem;
   color: var(--earth-dark);
   font-size: 1.05rem;
   align-self: center;
   text-align: center;
 }
-.vasija-tile-actions {
+:is(.vasija-tile-actions, .pintadera-tile-actions) {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: .35rem;
   width: 100%;
 }
-.vasija-tile-actions .button {
+:is(.vasija-tile-actions, .pintadera-tile-actions) .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -265,6 +228,12 @@
   padding: .4rem .6rem;
   font-size: .82rem;
 }
+.pintadera-gallery + .pintadera-gallery { margin-top: 1.6rem; }
+.pintadera-gallery .button[hidden] { display: none; }
+.pintadera-tile img { width: min(100%, 8.1rem); }
+.pintadera-tile-label { align-self: center; text-align: center; }
+.pintadera-tile h4 { font-family: Georgia, serif; }
+.pintadera-tile-size { margin: 0; color: #5f4b3a; font-size: .85rem; }
 .vasija-print-notes {
   padding: .75rem .9rem;
   background: #f3e7d2;
@@ -287,7 +256,7 @@
 }
 @media (max-width: 680px) {
   .vasija-selector { padding-inline: .75rem; }
-  .vasija-collection {
+  :is(.vasija-collection, .pintadera-collection) {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
     gap: .5rem;
   }
