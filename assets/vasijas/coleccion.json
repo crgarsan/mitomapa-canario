@@ -1,0 +1,47 @@
+[
+  {
+    "id": "gran-canaria",
+    "title": "Vasija de Gran Canaria",
+    "description": "Cuerpo ancho, cuello corto y dos apéndices levantados con orificios. La banda de triángulos sigue el motivo de la insignia del pasaporte.",
+    "adaptations": "La pintura de la insignia se representa con un grabado poco profundo. Los orificios se cierran en punta para facilitar la impresión sin soportes.",
+    "modelDimensions": "137 × 121 × 145 mm (ancho × fondo × alto)"
+  },
+  {
+    "id": "la-palma",
+    "title": "Vasija incisa de La Palma",
+    "description": "Recipiente de cuerpo globular y borde redondeado. Las incisiones del hombro, la banda central de marcas cortas y los trazos pareados del cuerpo siguen la insignia.",
+    "adaptations": "La base plana y la profundidad reducida de las incisiones permiten imprimir la pieza de pie sin soportes.",
+    "modelDimensions": "150 mm de diámetro máximo · 103 mm de alto"
+  },
+  {
+    "id": "lanzarote",
+    "title": "Vasija de Lanzarote",
+    "description": "Vasija de boca ancha con dos bandas incisas de trazos oblicuos. El tono claro del visor evoca el revestimiento tradicional llamado tegue, recogido en la infografía.",
+    "adaptations": "La base es plana y los grabados son someros. El STL reproduce la geometría de la vasija. El acabado claro se representa en el visor.",
+    "modelDimensions": "135 mm de diámetro máximo · 95 mm de alto"
+  },
+  {
+    "id": "fuerteventura",
+    "title": "Tofio de Fuerteventura",
+    "description": "Recipiente tradicional para el ordeño. El cuerpo bajo, el vertedero ancho y abierto y las bandas de incisiones siguen la insignia.",
+    "adaptations": "El vertedero se abre de forma progresiva y queda unido al cuenco. La base plana permite imprimirlo de pie sin soportes.",
+    "modelDimensions": "152 × 120 × 68 mm (ancho × fondo × alto)"
+  },
+  {
+    "id": "la-gomera",
+    "title": "Cuenco de La Gomera",
+    "description": "Cuenco bajo, de boca ancha y borde ligeramente irregular. La silueta lisa, sin asas, sigue la insignia del pasaporte.",
+    "adaptations": "La base plana y la transición inferior facilitan la impresión sin soportes. El grosor y las pequeñas irregularidades del borde se han ajustado para el modelo.",
+    "modelDimensions": "205 mm de diámetro máximo · 72 mm de alto",
+    "documentedDimensions": "Medidas estimadas a partir del dibujo a escala del cuenco de Los Riscos del Paridero (Erque), p. 125, fig. 24.1.",
+    "referenceLabel": "Navarro Mederos, Los gomeros, p. 125, fig. 24.1",
+    "referenceUrl": "https://www.saltodelpastorcanario.org/web/wp-content/uploads/2024/11/Gomerosprehistoriainsular-JuanFcoNavarroMederos-EdDirGralPatrHcoViceconjCulturaDeportesGobdCanarias-FSPC-LaGomeraCanarias-255Pg1992..pdf#page=117"
+  },
+  {
+    "id": "el-hierro",
+    "title": "Vasija de El Hierro",
+    "description": "La forma baja, el borde grueso y las dos asas cortas proceden de la fotografía que inspiró la insignia. La infografía documenta fragmentos de cerámica de la isla.",
+    "adaptations": "La base se ha ensanchado y se ha suavizado la unión de las asas con el cuerpo para poder imprimir la pieza de pie sin soportes.",
+    "modelDimensions": "138 × 129 × 98 mm (ancho × fondo × alto)"
+  }
+]

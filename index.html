@@ -150,35 +150,104 @@
   <p>Modelado educativo de MitoMapa. <a href="LICENCIA_Y_CREDITOS.txt">Licencia y créditos de los materiales</a>. <a href="assets/pintaderas-3d/lib/LICENSE.txt">Licencia MIT del visor Three.js</a>.</p>
 </section>
 <section class="section panel vasija-3d" aria-labelledby="vasijacanaria3d">
-  <h2 id="vasijacanaria3d">Vasija canaria en 3D</h2>
-  <article class="download-card">
-    <p class="download-format">MODELO DIDÁCTICO · 1 ARCHIVO STL</p>
-    <div class="vasija-card-intro">
-      <div>
-        <h3 data-vasija-field="title">Vasija del pasaporte</h3>
-        <p data-vasija-field="description">Exploren la forma del recipiente, su perfil, el interior y la base.</p>
+  <h2 id="vasijacanaria3d">Vasijas canarias en 3D</h2>
+  <p>Exploren las vasijas del pasaporte. En el visor pueden cambiar de isla y examinar el interior, el perfil y la base de cada pieza.</p>
+  <p><a id="vasijaCollectionDownload" class="button" href="downloads/vasijas/coleccion.zip" download="MitoMapa_STL_seis_vasijas.zip">Descargar los seis STL nuevos (ZIP · 21 MB)</a></p>
+  <ul class="vasija-collection" role="list" aria-label="Vasijas por isla">
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_tenerife.webp" alt="Insignia del pasaporte de Tenerife" width="512" height="512" loading="lazy">
+      <h3>Tenerife</h3>
+      <div class="vasija-tile-actions">
+        <button id="openVasijaViewer" class="button" type="button" data-vasija-open="tenerife" aria-label="Explorar la vasija de Tenerife en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="tenerife" href="assets/vasija/vistas.webp" aria-label="Ver imágenes fijas de la vasija de Tenerife">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasija/vasija_canaria.stl" download="MitoMapa_Vasija_Tenerife.stl" aria-label="Descargar el STL de Tenerife">STL <span aria-hidden="true">↓</span></a>
       </div>
-      <figure id="vasijaBadgeFigure" class="vasija-badge" hidden>
-        <img id="vasijaBadge" width="512" height="512" alt="">
-        <figcaption>Insignia del pasaporte</figcaption>
-      </figure>
-    </div>
-    <dl class="vasija-medidas">
-      <div><dt>Referencias de tamaño</dt><dd data-vasija-field="documentedDimensions">Cargando ficha…</dd></div>
-      <div><dt>Medidas del STL</dt><dd data-vasija-field="modelDimensions">Cargando ficha…</dd></div>
-    </dl>
-    <p data-vasija-field="adaptations"></p>
-    <p><strong>Impresión.</strong> Importen el STL en milímetros y comprueben que la cama admite el tamaño indicado con margen alrededor. Apoyen la base plana sobre la cama y coloquen la boca hacia arriba. El modelo está diseñado para imprimir sin soportes. Queda pendiente la prueba física.</p>
-    <ul class="vasija-referencias" aria-label="Fuentes de la vasija">
-      <li><a href="https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf">Infografía de la cerámica canario-amazigh del pasaporte (PDF)</a></li>
-      <li hidden><a data-vasija-reference></a></li>
-      <li hidden><a data-vasija-supplemental></a></li>
-    </ul>
-    <div class="pintadera-card-actions">
-      <button id="openVasijaViewer" class="button" type="button" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Explorar en 3D</button>
-      <a class="button secondary" href="downloads/vasija/vasija_canaria.stl" download="MitoMapa_Vasija_Tenerife.stl">Descargar STL</a>
-    </div>
-  </article>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_gran_canaria.webp" alt="Insignia del pasaporte de Gran Canaria" width="512" height="512" loading="lazy">
+      <h3>Gran Canaria</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="gran-canaria" aria-label="Explorar la vasija de Gran Canaria en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="gran-canaria" href="assets/vasijas/gran-canaria.webp" aria-label="Ver imágenes fijas de la vasija de Gran Canaria">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/gran-canaria.stl" download="MitoMapa_Vasija_gran_canaria.stl" aria-label="Descargar el STL de Gran Canaria">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_la_palma.webp" alt="Insignia del pasaporte de La Palma" width="512" height="512" loading="lazy">
+      <h3>La Palma</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="la-palma" aria-label="Explorar la vasija de La Palma en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="la-palma" href="assets/vasijas/la-palma.webp" aria-label="Ver imágenes fijas de la vasija de La Palma">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/la-palma.stl" download="MitoMapa_Vasija_la_palma.stl" aria-label="Descargar el STL de La Palma">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_lanzarote.webp" alt="Insignia del pasaporte de Lanzarote" width="512" height="512" loading="lazy">
+      <h3>Lanzarote</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="lanzarote" aria-label="Explorar la vasija de Lanzarote en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="lanzarote" href="assets/vasijas/lanzarote.webp" aria-label="Ver imágenes fijas de la vasija de Lanzarote">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/lanzarote.stl" download="MitoMapa_Vasija_lanzarote.stl" aria-label="Descargar el STL de Lanzarote">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_fuerteventura.webp" alt="Insignia del pasaporte de Fuerteventura" width="512" height="512" loading="lazy">
+      <h3>Fuerteventura</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="fuerteventura" aria-label="Explorar la vasija de Fuerteventura en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="fuerteventura" href="assets/vasijas/fuerteventura.webp" aria-label="Ver imágenes fijas de la vasija de Fuerteventura">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/fuerteventura.stl" download="MitoMapa_Vasija_fuerteventura.stl" aria-label="Descargar el STL de Fuerteventura">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_la_gomera.webp" alt="Insignia del pasaporte de La Gomera" width="512" height="512" loading="lazy">
+      <h3>La Gomera</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="la-gomera" aria-label="Explorar la vasija de La Gomera en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="la-gomera" href="assets/vasijas/la-gomera.webp" aria-label="Ver imágenes fijas de la vasija de La Gomera">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/la-gomera.stl" download="MitoMapa_Vasija_la_gomera.stl" aria-label="Descargar el STL de La Gomera">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_el_hierro.webp" alt="Insignia del pasaporte de El Hierro" width="512" height="512" loading="lazy">
+      <h3>El Hierro</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="el-hierro" aria-label="Explorar la vasija de El Hierro en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="el-hierro" href="assets/vasijas/el-hierro.webp" aria-label="Ver imágenes fijas de la vasija de El Hierro">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/el-hierro.stl" download="MitoMapa_Vasija_el_hierro.stl" aria-label="Descargar el STL de El Hierro">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+  </ul>
+  <div class="vasija-print-notes">
+    <p><strong>Impresión 3D.</strong> Importen los STL en milímetros y coloquen la base plana sobre la cama con la boca hacia arriba. Las seis nuevas recreaciones tienen medidas didácticas y geometrías pensadas para imprimir sin soportes. Queda pendiente la prueba física.</p>
+    <p><a data-vasija-pdf href="https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf">Infografía de la cerámica canario-amazigh (PDF)</a></p>
+  </div>
+  <details class="vasija-ficha">
+    <summary>Ficha y referencias de Tenerife</summary>
+    <article class="download-card" id="vasijaTenerifeFicha">
+      <div class="vasija-card-intro">
+        <div>
+          <h3 data-vasija-field="title">Vasija alta de Tenerife</h3>
+          <p data-vasija-field="description">Exploren la forma del recipiente, su perfil, el interior y la base.</p>
+        </div>
+        <figure id="vasijaBadgeFigure" class="vasija-badge" hidden>
+          <img id="vasijaBadge" width="512" height="512" alt="">
+          <figcaption>Insignia del pasaporte</figcaption>
+        </figure>
+      </div>
+      <dl class="vasija-medidas">
+        <div><dt>Referencias de tamaño</dt><dd data-vasija-field="documentedDimensions">Cargando ficha…</dd></div>
+        <div><dt>Medidas del STL</dt><dd data-vasija-field="modelDimensions">Cargando ficha…</dd></div>
+      </dl>
+      <p data-vasija-field="adaptations"></p>
+      <p><strong>Impresión.</strong> Importen el STL en milímetros y comprueben que la cama admite el tamaño indicado con margen alrededor. Apoyen la base plana sobre la cama y coloquen la boca hacia arriba. El modelo está diseñado para imprimir sin soportes. Queda pendiente la prueba física.</p>
+      <ul class="vasija-referencias" aria-label="Fuentes de la vasija">
+        <li><a href="https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf">Infografía de la cerámica canario-amazigh del pasaporte (PDF)</a></li>
+        <li hidden><a data-vasija-reference></a></li>
+        <li hidden><a data-vasija-supplemental></a></li>
+      </ul>
+    </article>
+  </details>
 </section>
 <section class="section panel historical-review" aria-labelledby="historicalReviewTitle"><div class="reuse-heading"><img src="assets/images/pintadera_espiral_cuadrada.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy"><div><h2 id="historicalReviewTitle">Historia, imágenes y fuentes</h2></div></div><h3>Una imagen no prueba cómo fue el pasado</h3>
 <p>Las escenas creadas con IA acompañan cuentos originales; el mapa de relieve procede del archivo aportado por la autoría, cuya fuente indicada es TongApp del Gobierno de Canarias. Su aspecto realista no demuestra que la ropa, los objetos, los rostros, los edificios o las acciones representadas fueran así. Tampoco son retratos de personas históricas ni reproducciones exactas del paisaje.</p>
@@ -275,6 +344,10 @@
     </div>
     <button id="vasijaClose" type="button" class="button secondary" autofocus>Cerrar</button>
   </header>
+  <div class="pintadera-selectors vasija-selector">
+    <label for="vasijaSelect">Isla</label>
+    <select id="vasijaSelect"></select>
+  </div>
   <div class="pintadera-viewer-body">
     <div class="pintadera-viewer-visual">
       <div id="vasijaStage" class="pintadera-stage" role="img" aria-label="Vista interactiva de la vasija" hidden></div>
@@ -287,9 +360,10 @@
     </div>
     <div class="pintadera-viewer-panel">
       <p class="pintadera-description" data-vasija-field="description"></p>
-      <p class="pintadera-description"><strong>Referencias de tamaño.</strong> <span data-vasija-field="documentedDimensions"></span></p>
+      <p class="pintadera-description" id="vasijaViewerDocumented" hidden><strong>Referencias de tamaño.</strong> <span data-vasija-field="documentedDimensions"></span></p>
       <p class="pintadera-description" data-vasija-field="adaptations"></p>
-      <ul class="vasija-referencias pintadera-description" aria-label="Fuentes de tamaño">
+      <ul class="vasija-referencias pintadera-description" aria-label="Fuentes de la vasija">
+        <li><a data-vasija-pdf href="https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf">Infografía de la cerámica canario-amazigh (PDF)</a></li>
         <li hidden><a data-vasija-reference></a></li>
         <li hidden><a data-vasija-supplemental></a></li>
       </ul>

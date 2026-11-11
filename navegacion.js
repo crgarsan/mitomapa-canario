@@ -215,7 +215,7 @@
     resources.append(
       disclosure(byId("reuseTitle").closest("section"),"Descargas y materiales editables","resourceDownloads"),
       disclosure(byId("pintaderas3d").closest("section"),"Pintaderas en 3D","resourcePintaderas"),
-      disclosure(byId("vasijacanaria3d").closest("section"),"Vasija canaria en 3D","resourceVasija"),
+      disclosure(byId("vasijacanaria3d").closest("section"),"Vasijas canarias en 3D","resourceVasija"),
       disclosure(byId("creditsTitle").closest("section"),"Guía, autoría, fuentes y agradecimientos","resourceCredits"),
       disclosure(main.querySelector(".historical-review"),"Historia e interpretación de las imágenes","resourceHistory"),
       disclosure(passport,"Pasaporte de piezas y criterios de los retos","resourcePassport"),

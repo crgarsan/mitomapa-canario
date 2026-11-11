@@ -26,9 +26,37 @@ VASIJA_ASSETS = frozenset({
 })
 
 
+VASIJA_COLLECTION_IDS = ('gran-canaria', 'la-palma', 'lanzarote', 'fuerteventura', 'la-gomera', 'el-hierro')
+VASIJA_COLLECTION_ZIP = 'downloads/vasijas/coleccion.zip'
+VASIJA_COLLECTION_MODELS = {
+    f'MitoMapa_{slug}.stl': f'downloads/vasijas/{slug}.stl' for slug in VASIJA_COLLECTION_IDS
+}
+VASIJA_COLLECTION_ASSETS = frozenset({
+    VASIJA_COLLECTION_ZIP,
+    'assets/vasijas/coleccion.json',
+    *VASIJA_COLLECTION_MODELS.values(),
+    *(f'assets/vasijas/{slug}.webp' for slug in VASIJA_COLLECTION_IDS),
+})
+
+
 def vasija_assets(root):
-    """Include the exact model and its companion files as one feature."""
-    return VASIJA_ASSETS if any((root / name).exists() for name in VASIJA_ASSETS) else frozenset()
+    """Include each set of models and companion files as a unit."""
+    return frozenset().union(*(
+        group for group in (VASIJA_ASSETS, VASIJA_COLLECTION_ASSETS)
+        if any((root / name).exists() for name in group)
+    ))
+
+
+def check_vasija_collection(root, assets):
+    if VASIJA_COLLECTION_ZIP not in assets:
+        return
+    packed = read_zip(source_path(root, VASIJA_COLLECTION_ZIP).read_bytes())
+    expected = {
+        member: metadata(source_path(root, model).read_bytes())
+        for member, model in VASIJA_COLLECTION_MODELS.items()
+    }
+    if {member: metadata(data) for member, data in packed.items()} != expected:
+        raise ValueError('Vasija ZIP does not match its six individual STL files')
 
 
 def safe_name(name):
