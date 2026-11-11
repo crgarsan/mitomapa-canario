@@ -41,56 +41,26 @@ function initPintaderaViewer() {
   let scene;
   let fixedView = false;
 
-  function makeViewButton(model, label, cssClass) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = cssClass;
-    button.textContent = label;
-    button.dataset.pintaderaOpen = model.key;
-    button.setAttribute("aria-haspopup", "dialog");
-    return button;
-  }
-
-  for (const actions of document.querySelectorAll("[data-pintadera-collection]")) {
-    const collection = actions.dataset.pintaderaCollection;
-    const card = actions.closest(".download-card");
-    for (const link of card.querySelectorAll(".pintadera-files li a[download]")) {
-      const id = link.pathname.match(/\/pintadera_([a-z_]+)\.stl$/)?.[1];
-      if (!id || !Object.hasOwn(motifs, id)) continue;
-      const name = link.textContent.trim().replace(/^(Modelo|Sello) /, "").replace(/ \(STL\)$/, "");
-      const label = link.nextElementSibling;
-      const model = {
+  for (const gallery of document.querySelectorAll("[data-pintadera-collection]")) {
+    const collection = gallery.dataset.pintaderaCollection;
+    for (const tile of gallery.querySelectorAll(".pintadera-tile")) {
+      const view = tile.querySelector("[data-pintadera-open]");
+      const link = tile.querySelector("a[download]");
+      const stillLink = tile.querySelector("[data-pintadera-still]");
+      const key = view.dataset.pintaderaOpen;
+      const id = key.split("/")[1];
+      if (!Object.hasOwn(motifs, id)) continue;
+      const name = tile.querySelector("h4").textContent;
+      models.set(key, {
         id, name, collection,
-        key: collection + "/" + id,
-        dimensions: label.textContent,
+        dimensions: tile.querySelector(".pintadera-tile-size").textContent,
         url: link.href,
-        filename: link.download
-      };
-      models.set(model.key, model);
+        filename: link.download,
+        stillUrl: stillLink.href
+      });
       if (collection === "recreaciones") motif.add(new Option(name, id));
-
-      const row = link.closest("li");
-      row.classList.add("pintadera-file-row");
-      const caption = document.createElement("div");
-      caption.className = "pintadera-file-label";
-      const nameText = document.createElement("strong");
-      nameText.textContent = name;
-      caption.append(nameText, label);
-      const rowActions = document.createElement("div");
-      rowActions.className = "pintadera-row-actions";
-      const view = makeViewButton(model, "Ver en 3D", "pintadera-file-view");
-      view.setAttribute("aria-label", "Ver en 3D: " + name + ", " + (collection === "sellos" ? "sello para arcilla" : "modelo recreado"));
-      link.textContent = "Descargar STL";
-      link.setAttribute("aria-label", "Descargar STL: " + name + ", " + (collection === "sellos" ? "sello para arcilla" : "modelo recreado"));
-      rowActions.append(view, link);
-      row.append(caption, rowActions);
-    }
-    const starter = models.get([collection, "roseta"].join("/"));
-    if (starter) {
-      const explore = makeViewButton(starter, "Explorar en 3D", "button");
-      explore.setAttribute("aria-label", collection === "sellos" ? "Explorar en 3D los sellos para arcilla" : "Explorar en 3D los modelos recreados");
-      actions.querySelector("a").classList.add("secondary");
-      actions.prepend(explore);
+      stillLink.hidden = true;
+      view.hidden = false;
     }
   }
 
@@ -111,9 +81,8 @@ function initPintaderaViewer() {
     stage.removeAttribute("aria-busy");
     fallback.hidden = false;
     toggle.textContent = "Volver al visor 3D";
-    const {collection, id, name} = selectedModel;
-    still.alt = "Cara, perfil y reverso de " + name + ".";
-    still.src = ["assets/pintaderas-3d/vistas", collection, "pintadera_" + id + ".webp"].join("/");
+    still.alt = "Cara, perfil y reverso de " + selectedModel.name + ".";
+    still.src = selectedModel.stillUrl;
     status.textContent = message;
   }
 
