@@ -22,7 +22,7 @@ from release_support import (
     MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries, pinned_story_media,
     PINTADERA_DIRECTORY, PINTADERA_GROUPS, PINTADERA_MANIFEST, pintadera_inventory,
     read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
-    vasija_assets, zip_bytes,
+    VASIJA_COLLECTION_ZIP, check_vasija_collection, vasija_assets, zip_bytes,
 )
 
 
@@ -227,8 +227,11 @@ def source_files(root, version, version_payload):
         if (root / PINTADERA_MANIFEST).is_file() else ''
     )
     vasija_note = (
-        "\nEl modelo STL de la vasija se distribuye por separado.\n"
-        f"Consúltalo en {PUBLIC_URL}#vasijacanaria3d y guárdalo en downloads/vasija/vasija_canaria.stl.\n\n"
+        "\nLos STL de las vasijas y el ZIP de la colección se distribuyen en la web publicada.\n"
+        f"Consulta {PUBLIC_URL}#vasijacanaria3d. El STL de Tenerife se guarda en\n"
+        "downloads/vasija/vasija_canaria.stl y los otros seis STL en downloads/vasijas/,\n"
+        "con los nombres gran-canaria.stl, la-palma.stl, lanzarote.stl, fuerteventura.stl,\n"
+        "la-gomera.stl y el-hierro.stl. Guarda el ZIP conjunto como downloads/vasijas/coleccion.zip.\n\n"
         if vasija_assets(root) else ""
     )
     files["FUENTES_WEB_LEEME.txt"] = (
@@ -337,8 +340,10 @@ def check_release(root=ROOT):
     public = public_entries(root)
     if not set(paths.values()) <= set(public):
         raise ValueError("Current downloads are missing from the public allowlist")
-    if not vasija_assets(root) <= public.keys():
+    vasijas = vasija_assets(root)
+    if not vasijas <= public.keys():
         raise ValueError("Vasija assets are missing from the public allowlist")
+    check_vasija_collection(root, vasijas)
     pintaderas = pintadera_inventory(root)
     if pintaderas:
         if not (set(pintaderas) | {PINTADERA_MANIFEST}) <= set(public):
@@ -380,7 +385,9 @@ def update_release(root=ROOT):
     previous = parse_sums((root / "SHA256SUMS.txt").read_text(encoding="utf-8"))
     pintaderas = pintadera_inventory(root)
     check_pintadera_downloads(root, pintaderas)
-    current_downloads = set(paths.values()) | pintaderas.keys()
+    vasijas = vasija_assets(root)
+    check_vasija_collection(root, vasijas)
+    current_downloads = set(paths.values()) | pintaderas.keys() | (vasijas & {VASIJA_COLLECTION_ZIP})
     # Historical packages are immutable, and their existing URLs stay public.
     for name, expected in previous.items():
         if name not in current_downloads and name.lower().endswith((".zip", ".elpx")):

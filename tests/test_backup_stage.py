@@ -242,7 +242,16 @@ class BackupStageTests(unittest.TestCase):
             'assets/vasija/ficha.json': '{}',
             'assets/vasija/vistas.webp': b'example fallback image',
         })
-        self.files['index.html'] += f'<a href="{model}" download>Descargar STL</a>'
+        collection = {'downloads/vasijas/coleccion.zip': b'example collection archive'}
+        for slug in ('gran-canaria', 'la-palma', 'lanzarote', 'fuerteventura', 'la-gomera', 'el-hierro'):
+            collection[f'downloads/vasijas/{slug}.stl'] = slug.encode()
+            self.files[f'assets/vasijas/{slug}.webp'] = b'example fallback image'
+        self.files['assets/vasijas/coleccion.json'] = '[]'
+        self.files.update(collection)
+        self.files['downloads/vasijas/otro_modelo.stl'] = b'not selected for release'
+        self.files['index.html'] += ''.join(
+            f'<a href="{name}" download>Descargar</a>' for name in (model, *collection)
+        )
         self.write_fixture()
 
         result = self.run_stage()
@@ -250,7 +259,11 @@ class BackupStageTests(unittest.TestCase):
         self.assertEqual((self.stage / model).read_bytes(), self.files[model])
         self.assertEqual((self.stage / viewer).read_bytes(), module)
         self.assertIn(f'href="{model}" download', (self.stage / 'index.html').read_text())
+        for name, payload in collection.items():
+            self.assertEqual((self.stage / name).read_bytes(), payload)
+            self.assertIn(f'href="{name}" download', (self.stage / 'index.html').read_text())
         self.assertFalse((self.stage / unrelated).exists())
+        self.assertFalse((self.stage / 'downloads/vasijas/otro_modelo.stl').exists())
 
     def test_staged_safe_local_url_preserves_slash_splitting_and_rejects_traversal(self):
         node = shutil.which('node')

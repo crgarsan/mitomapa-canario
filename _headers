@@ -37,3 +37,11 @@
 /downloads/vasija/vasija_canaria.stl
   Content-Type: model/stl
   Content-Disposition: attachment
+
+/downloads/vasijas/*.stl
+  Content-Type: model/stl
+  Content-Disposition: attachment
+
+/downloads/vasijas/coleccion.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment; filename="MitoMapa_STL_seis_vasijas.zip"

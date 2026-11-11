@@ -12,7 +12,7 @@ const VISTAS = {
   reverso: [0, -1, 0.0001]
 };
 
-export async function createPintaderaScene(container, url, signal) {
+export async function createPintaderaScene(container, url, signal, { color = 0xb46846 } = {}) {
   const response = await fetch(url, { signal });
   if (!response.ok) throw new Error(`No se pudo cargar la pieza (${response.status}).`);
   const buffer = await response.arrayBuffer();
@@ -29,7 +29,7 @@ export async function createPintaderaScene(container, url, signal) {
     throw new Error('La pieza no tiene una geometría válida.');
   }
 
-  const material = new MeshStandardMaterial({ color: 0xb46846, roughness: 0.87 });
+  const material = new MeshStandardMaterial({ color, roughness: 0.87 });
   const scene = new Scene();
   scene.add(new Mesh(geometry, material));
   scene.add(new HemisphereLight(0xfff7ec, 0xc8ab98, 1.7));

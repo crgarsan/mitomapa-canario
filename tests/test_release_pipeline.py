@@ -152,6 +152,26 @@ class ReleasePipelineTests(unittest.TestCase):
             update_release(self.root)
         self.assertEqual(self.snapshot(), before)
 
+    def test_vasija_zip_tracks_only_the_six_individual_models(self):
+        ids = ('gran-canaria', 'la-palma', 'lanzarote', 'fuerteventura', 'la-gomera', 'el-hierro')
+        packed = {f'MitoMapa_{slug}.stl': slug.encode() for slug in ids}
+        for slug in ids:
+            self.write(f'downloads/vasijas/{slug}.stl', slug.encode())
+            self.write(f'assets/vasijas/{slug}.webp', b'fallback')
+        self.write('assets/vasijas/coleccion.json', json_bytes([{'id': slug} for slug in ids]))
+        archive = 'downloads/vasijas/coleccion.zip'
+        self.write(archive, zip_bytes(packed))
+        update_release(self.root)
+        check_release(self.root)
+        public = parse_sums((self.root / 'SHA256SUMS.txt').read_text())
+        self.assertIn(archive, public)
+        self.assertTrue(all(f'downloads/vasijas/{slug}.stl' in public for slug in ids))
+        self.write(archive, zip_bytes({**packed, 'MitoMapa_tenerife.stl': b'additional model'}))
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'Vasija ZIP does not match'):
+            update_release(self.root)
+        self.assertEqual(self.snapshot(), before)
+
     def test_oversized_release_is_rejected_before_any_file_is_written(self):
         before = self.snapshot()
         with patch("update_release.MAX_ASSET_BYTES", 10):
