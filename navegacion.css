@@ -16,7 +16,7 @@
 .home-actions .button{min-height:48px;border-radius:5px;text-decoration:none}
 .navigation-ready .hero-authors{margin:1rem 0 0;font-size:.85rem;border:0;padding:0;background:none;max-width:65ch}
 .reading-settings{grid-column:1/-1;min-width:0;border:1px solid var(--line);border-radius:6px;margin-top:0;background:var(--paper)}
-.reading-settings>summary,.resource-disclosure>summary,.island-list-disclosure>summary{padding:1rem;cursor:pointer;font-weight:700;min-height:48px;box-sizing:border-box}
+.reading-settings>summary,.island-list-disclosure>summary{padding:1rem;cursor:pointer;font-weight:700;min-height:48px;box-sizing:border-box}
 .reading-settings .experience-tools{margin:0;padding:0 1.2rem 1.2rem;border:0;background:none}
 .reading-settings .experience-tools>p{margin-top:0}
 .navigation-ready [data-screen]{scroll-margin-top:var(--header-offset,100px)}
@@ -31,13 +31,23 @@
 .activity-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1.5rem 0}
 .activity-choice{display:flex;flex-direction:column;align-items:flex-start;padding:1.4rem;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);text-decoration:none;min-width:0}
 .activity-choice:hover{border-color:var(--earth);background:#fff9ec}
-.activity-choice h2{font-size:1.45rem;margin:.75rem 0 .5rem;font-family:Georgia,serif}
-.activity-choice p{margin:0 0 1.25rem;color:var(--muted);line-height:1.5}
+.activity-choice :is(h2,.choice-title){font-size:1.45rem;margin:.75rem 0 .5rem;font-family:Georgia,serif}
+.activity-choice :is(p,.choice-description){margin:0 0 1.25rem;color:var(--muted);line-height:1.5}
 .choice-symbol{display:grid;place-items:center;width:48px;height:48px;background:var(--yellow-soft);border-radius:8px;font-size:1.6rem;color:var(--earth-dark)}
 .choice-action{margin-top:auto;font-weight:700;color:var(--earth-dark)}
 .view-back{display:inline-flex;align-items:center;min-height:44px;color:var(--earth-dark);font-weight:700;margin-bottom:.7rem}
-.resource-disclosure{border:1px solid var(--line);border-radius:6px;background:var(--paper);margin:1rem 0;overflow-wrap:anywhere}
-.resource-disclosure[open]>summary,.reading-settings[open]>summary{border-bottom:1px solid var(--line)}
+.resource-disclosure{min-width:0;border-radius:8px;overflow-wrap:anywhere}
+.resource-choice{height:100%;box-sizing:border-box;cursor:pointer;border:1px solid var(--line,#d5c6b2)}
+.resource-choice::-webkit-details-marker{display:none}
+.resource-choice .choice-symbol{flex:none}
+.resource-choice .choice-symbol img{width:36px;height:36px;object-fit:contain}
+.resource-action-close,.resource-disclosure[open] .resource-action-open{display:none}
+.resource-disclosure[open]{grid-column:1/-1;border:1px solid var(--line,#d5c6b2);background:var(--paper)}
+.resource-disclosure[open]>.resource-choice{height:auto;display:grid;grid-template-columns:48px minmax(0,1fr) minmax(0,auto);align-items:center;gap:.65rem 1rem;border:0;border-bottom:1px solid var(--line,#d5c6b2);border-radius:7px 7px 0 0;background:#fff9ec}
+.resource-disclosure[open]>.resource-choice :is(.choice-title,.choice-action){margin:0}
+.resource-disclosure[open]>.resource-choice .choice-description{display:none}
+.resource-disclosure[open] .resource-action-close{display:inline}
+.reading-settings[open]>summary{border-bottom:1px solid var(--line)}
 .resource-disclosure>.section{border:0;margin:0;box-shadow:none;padding:1.2rem}
 .resource-disclosure .reuse-heading>div{min-width:0}
 .resource-disclosure .section-title{font-size:1.7rem}
@@ -60,7 +70,16 @@
 @media(max-width:850px){.navigation-ready .hero{grid-template-columns:minmax(0,1fr)}.navigation-ready .hero-visual{display:none}}
 @media(max-width:760px){.navigation-ready .topbar{display:flex;flex-wrap:wrap;gap:.45rem;padding:.5rem .75rem}.navigation-ready .topbar .brand{flex:1 1 4rem;min-width:0;grid-column:auto;font-size:.9rem;white-space:normal}.navigation-ready .topbar .passport-button,.navigation-ready .topbar .teacher-button{width:auto;max-width:100%;white-space:normal;overflow-wrap:anywhere;font-size:.82rem;padding:.55rem .6rem}.activity-choices{grid-template-columns:1fr}.activity-choice{padding:1.1rem}.navigation-ready .hero{grid-template-columns:1fr}.navigation-ready .hero-visual{display:none}.navigation-ready .hero h1{max-width:23ch}.main-navigation{gap:.15rem}.main-navigation a{font-size:.9rem}.home-actions{flex-direction:column;align-items:stretch}.home-actions .button{justify-content:center;text-align:center}.resource-disclosure>.section{padding:1rem}.navigation-ready #exploreMap{padding:.85rem}}
 @media print{.main-navigation,.navigation-location,.view-back,.home-actions,.reading-settings,.screen-intro[data-screen="juegos"],.resource-disclosure>summary,.island-list-disclosure>summary{display:none!important}body:not(.print-diploma):not(.print-passport) [data-screen][hidden]{display:block!important}.resource-disclosure{border:0}.resource-disclosure>section,.island-list-disclosure>.island-grid{display:block!important}.navigation-ready .hero-visual{display:block}.navigation-ready .hero-authors{font-size:.85rem}}
-@media print{body:not(.print-diploma):not(.print-passport) .resource-disclosure::details-content{content-visibility:visible!important}}
+@media(min-width:761px) and (max-width:960px){.resource-choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+  .resource-disclosure[open]>.resource-choice{grid-template-columns:48px minmax(0,1fr)}
+  .resource-disclosure[open]>.resource-choice .choice-action{grid-column:2}
+}
+@media print{
+  .resource-choices{display:block}
+  .resource-choices>.resource-disclosure{border:0}
+  body:not(.print-diploma):not(.print-passport) .resource-disclosure::details-content{content-visibility:visible!important}
+}
 
 /* La entrada visual y las ayudas se mantienen también en teléfono. */
 .hero-visual-link{display:block;min-width:0;width:100%;max-width:440px;justify-self:center;color:var(--earth-dark);text-decoration:none;border-radius:6px}
@@ -69,6 +88,7 @@
 .hero-map-action{display:block;margin-top:.6rem;font-weight:700;line-height:1.5;font-size:.9rem}
 .choice-purpose{font-size:.78rem;line-height:1.4;font-weight:700;letter-spacing:.04em;color:#65482f}
 .activity-choice .choice-symbol{margin-top:.65rem}
+.resource-choice .choice-symbol{margin:0}
 .games-context-links{padding:1rem;background:var(--beige);border-left:4px solid var(--earth);line-height:1.8}
 .games-context-links a{display:inline-block;min-height:44px;align-content:center;color:var(--earth-dark);font-weight:700}
 .resource-quick-help{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.2rem 0}
