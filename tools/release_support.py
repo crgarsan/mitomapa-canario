@@ -22,8 +22,8 @@ STORY_ACTIVITY_BOOK_PDF = 'downloads/MitoMapa_Cuentos_y_Fichas_de_Actividades.pd
 
 
 def story_book_assets(root):
-    script = root / 'scripts.js'
-    markup = script.read_text(encoding='utf-8') if script.is_file() else ''
+    sources = (root / 'index.html', root / 'scripts.js')
+    markup = '\n'.join(source.read_text(encoding='utf-8') for source in sources if source.is_file())
     return {
         name for name in (STORY_BOOK_PDF, STORY_ACTIVITY_BOOK_PDF)
         if f'href="{name}"' in markup or (root / name).exists()
