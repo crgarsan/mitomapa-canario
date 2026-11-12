@@ -17,6 +17,15 @@ PINTADERA_GROUPS = ('recreaciones', 'sellos')
 PINTADERA_STL = re.compile(r'downloads/pintaderas-3d/(recreaciones|sellos)/(pintadera_[a-z_]+\.stl)')
 
 
+STORY_BOOK_PDF = 'downloads/MitoMapa_Cuentos_de_Canarias.pdf'
+
+
+def story_book_assets(root):
+    script = root / 'scripts.js'
+    linked = script.is_file() and f'href="{STORY_BOOK_PDF}"' in script.read_text(encoding='utf-8')
+    return {STORY_BOOK_PDF} if linked or (root / STORY_BOOK_PDF).exists() else set()
+
+
 VASIJA_STL = "downloads/vasija/vasija_canaria.stl"
 VASIJA_ASSETS = frozenset({
     VASIJA_STL,
