@@ -133,12 +133,42 @@
     if (addHistory) record(`#isla/${id}/${selected}`);
     return selected;
   }
-  function disclosure(section, label, id) {
+  function resourceCard(section, id, label, description, icon) {
     const details = document.createElement("details");
     details.className = "resource-disclosure";
     details.id = id;
-    const summary = document.createElement("summary");summary.textContent = label;
-    details.append(summary,section);
+    const summary = document.createElement("summary");
+    summary.className = "activity-choice resource-choice";
+    const symbol = document.createElement("span");
+    symbol.className = "choice-symbol";
+    symbol.setAttribute("aria-hidden", "true");
+    if (icon.startsWith("assets/")) {
+      const image = document.createElement("img");
+      image.src = icon;
+      image.alt = "";
+      image.width = 36;
+      image.height = 36;
+      image.loading = "lazy";
+      symbol.append(image);
+    } else {
+      symbol.textContent = icon;
+    }
+    const title = document.createElement("span");
+    title.className = "choice-title";
+    title.id = id + "Title";
+    title.textContent = label;
+    const text = document.createElement("span");
+    text.className = "choice-description";
+    text.id = id + "Description";
+    text.textContent = description;
+    summary.setAttribute("aria-labelledby", title.id);
+    summary.setAttribute("aria-describedby", text.id);
+    const action = document.createElement("span");
+    action.className = "choice-action";
+    action.setAttribute("aria-hidden", "true");
+    action.innerHTML = '<span class="resource-action-open">Abrir apartado ↓</span><span class="resource-action-close">Cerrar apartado ↑</span>';
+    summary.append(symbol, title, text, action);
+    details.append(summary, section);
     return details;
   }
   function mount(options) {
@@ -213,16 +243,27 @@
     help.querySelector("button").addEventListener("click",()=>byId("storageExportHelp")?.click());
     byId("teacherGuidePanel").prepend(help);
     const naturalSection = byId("patrimonioNatural3d")?.closest("section");
-    resources.append(
-      disclosure(byId("reuseTitle").closest("section"),"Descargas y materiales editables","resourceDownloads"),
-      disclosure(byId("pintaderas3d").closest("section"),"Pintaderas en 3D","resourcePintaderas"),
-      disclosure(byId("vasijacanaria3d").closest("section"),"Vasijas canarias en 3D","resourceVasija"),
-      ...(naturalSection ? [disclosure(naturalSection,"Patrimonio natural en 3D","resourceNatural3d")] : []),
-      disclosure(byId("creditsTitle").closest("section"),"Guía, autoría, fuentes y agradecimientos","resourceCredits"),
-      disclosure(main.querySelector(".historical-review"),"Historia e interpretación de las imágenes","resourceHistory"),
-      disclosure(passport,"Pasaporte de piezas y criterios de los retos","resourcePassport"),
-      disclosure(byId("studentFeedback"),"Compartir mi opinión","resourceFeedback")
+    const resourceChoices = document.createElement("div");
+    resourceChoices.className = "activity-choices resource-choices";
+    resourceChoices.append(
+      resourceCard(byId("reuseTitle").closest("section"), "resourceDownloads",
+        "Descargas y materiales editables", "Descarga el recurso editable, el cuaderno de ruta y las pautas de revisión.", "↓"),
+      resourceCard(byId("pintaderas3d").closest("section"), "resourcePintaderas",
+        "Pintaderas en 3D", "Explora las recreaciones y descarga los sellos para arcilla.", "assets/images/pintadera_roseta.webp"),
+      resourceCard(byId("vasijacanaria3d").closest("section"), "resourceVasija",
+        "Vasijas canarias en 3D", "Gira las vasijas en el visor y descarga sus modelos para imprimir.", "assets/images/insignia_tenerife.webp"),
+      ...(naturalSection ? [resourceCard(naturalSection, "resourceNatural3d",
+        "Patrimonio natural en 3D", "Observa la lapa blanca de La Graciosa y descarga su modelo.", "assets/lapa-blanca/miniatura.webp")] : []),
+      resourceCard(byId("creditsTitle").closest("section"), "resourceCredits",
+        "Guía, autoría, fuentes y agradecimientos", "Consulta las orientaciones docentes, los créditos y las referencias por isla.", "▤"),
+      resourceCard(main.querySelector(".historical-review"), "resourceHistory",
+        "Historia e interpretación de las imágenes", "Lee cómo se crearon las escenas y qué sabemos del pasado.", "◫"),
+      resourceCard(passport, "resourcePassport",
+        "Pasaporte de piezas y criterios de los retos", "Revisa las piezas conseguidas y los criterios de los retos.", "◈"),
+      resourceCard(byId("studentFeedback"), "resourceFeedback",
+        "Compartir mi opinión", "Cuenta cómo te fue con los cuentos y las actividades.", "✎")
     );
+    resources.append(resourceChoices);
     main.append(resources);
     const tools = hero.querySelector(".experience-tools");
     if (tools) {
