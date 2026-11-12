@@ -261,3 +261,42 @@
     gap: .5rem;
   }
 }
+
+.lapa-3d [hidden] { display: none; }
+.lapa-3d .lapa-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  align-items: start;
+  gap: 1.15rem;
+  max-width: 860px;
+  padding: 1rem;
+}
+.lapa-card-image {
+  overflow: hidden;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  border: 1px solid #dec8ab;
+  border-radius: .5rem;
+  background: #f5eadd;
+}
+.lapa-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 18rem;
+  object-fit: contain;
+}
+.lapa-card-content h3 { margin: 0 0 .2rem; }
+.lapa-card-content p { margin: .65rem 0; }
+.lapa-card-content .lapa-species { margin-top: 0; color: #5f4b3a; }
+.lapa-viewer-meta { margin: .4rem 0 0; color: #5f4b3a; font-size: .92rem; }
+#lapaClose { min-height: 44px; flex: none; }
+@media (max-width: 610px) {
+  .lapa-3d .lapa-card { grid-template-columns: 1fr; gap: .8rem; }
+  .lapa-card-image img { max-height: 14rem; }
+}
+@media (max-width: 440px) {
+  .lapa-views { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

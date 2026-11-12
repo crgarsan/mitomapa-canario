@@ -47,6 +47,19 @@ def vasija_assets(root):
     ))
 
 
+LAPA_STL = 'downloads/lapa-blanca/lapa-blanca-la-graciosa.stl'
+LAPA_ASSETS = frozenset({
+    LAPA_STL,
+    'lapa-visor.js',
+    'assets/lapa-blanca/miniatura.webp',
+    'assets/lapa-blanca/vistas.webp',
+})
+
+
+def lapa_assets(root):
+    return LAPA_ASSETS if any((root / name).exists() for name in LAPA_ASSETS) else frozenset()
+
+
 def check_vasija_collection(root, assets):
     if VASIJA_COLLECTION_ZIP not in assets:
         return

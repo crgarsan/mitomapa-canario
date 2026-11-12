@@ -15,8 +15,8 @@ from urllib.parse import unquote, urljoin, urlsplit
 from urllib.request import Request, urlopen
 
 from release_support import (
-    PINTADERA_MANIFEST, PINTADERA_STL, VASIJA_COLLECTION_MODELS, VASIJA_STL, parse_sums, pintadera_inventory,
-    safe_name, source_path, vasija_assets,
+    LAPA_STL, PINTADERA_MANIFEST, PINTADERA_STL, VASIJA_COLLECTION_MODELS, VASIJA_STL,
+    lapa_assets, parse_sums, pintadera_inventory, safe_name, source_path, vasija_assets,
 )
 
 
@@ -72,7 +72,7 @@ def public_static(name):
     if name in {'CNAME', '_headers', '_redirects', 'SHA256SUMS.txt'}:
         return False
     if (Path(name).suffix.lower() not in STATIC_SUFFIXES and name not in {'LICENSE', 'COPYING'}
-            and name != VASIJA_STL and name not in VASIJA_COLLECTION_MODELS.values()
+            and name not in {VASIJA_STL, LAPA_STL} and name not in VASIJA_COLLECTION_MODELS.values()
             and not PINTADERA_STL.fullmatch(name)):
         return False
     return True
@@ -95,11 +95,11 @@ def inventory(root):
     version = json.loads(source_path(root, 'VERSION.json').read_text(encoding='utf-8'))
     current = download_paths(version)
     pintaderas = pintadera_inventory(root)
-    vasija = vasija_assets(root)
+    models_3d = vasija_assets(root) | lapa_assets(root)
     retained_downloads = current | TEACHER_MATERIALS | pintaderas.keys()
-    retained_downloads.update(name for name in vasija if name.startswith('downloads/'))
+    retained_downloads.update(name for name in models_3d if name.startswith('downloads/'))
     selected = {name: value for name, value in sums.items() if public_static(name) and (not name.startswith('downloads/') or name in retained_downloads)}
-    required_assets = {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads | vasija
+    required_assets = {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads | models_3d
     if pintaderas:
         required_assets.add(PINTADERA_MANIFEST)
     for required in required_assets:

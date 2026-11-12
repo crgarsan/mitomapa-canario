@@ -172,6 +172,23 @@ class ReleasePipelineTests(unittest.TestCase):
             update_release(self.root)
         self.assertEqual(self.snapshot(), before)
 
+    def test_lapa_release_requires_the_model_with_its_viewer_and_images(self):
+        model = 'downloads/lapa-blanca/lapa-blanca-la-graciosa.stl'
+        companions = {
+            'lapa-visor.js': b'/* viewer module */',
+            'assets/lapa-blanca/miniatura.webp': b'thumbnail',
+            'assets/lapa-blanca/vistas.webp': b'fixed views',
+        }
+        for path, content in companions.items():
+            self.write(path, content)
+        with self.assertRaisesRegex(FileNotFoundError, 'lapa-blanca-la-graciosa.stl'):
+            update_release(self.root)
+        self.write(model, b'example STL')
+        update_release(self.root)
+        check_release(self.root)
+        public = parse_sums((self.root / 'SHA256SUMS.txt').read_text())
+        self.assertTrue({model, *companions} <= public.keys())
+
     def test_oversized_release_is_rejected_before_any_file_is_written(self):
         before = self.snapshot()
         with patch("update_release.MAX_ASSET_BYTES", 10):

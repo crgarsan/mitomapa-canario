@@ -22,7 +22,7 @@ from release_support import (
     MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries, pinned_story_media,
     PINTADERA_DIRECTORY, PINTADERA_GROUPS, PINTADERA_MANIFEST, pintadera_inventory,
     read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
-    VASIJA_COLLECTION_ZIP, check_vasija_collection, vasija_assets, zip_bytes,
+    LAPA_STL, VASIJA_COLLECTION_ZIP, check_vasija_collection, lapa_assets, vasija_assets, zip_bytes,
 )
 
 
@@ -234,6 +234,11 @@ def source_files(root, version, version_payload):
         "la-gomera.stl y el-hierro.stl. Guarda el ZIP conjunto como downloads/vasijas/coleccion.zip.\n\n"
         if vasija_assets(root) else ""
     )
+    lapa_note = (
+        f"\nEl STL de la lapa blanca se distribuye en {PUBLIC_URL}#lapa-blanca.\n"
+        f"Para usar el visor local, guarda el archivo en {LAPA_STL}.\n\n"
+        if lapa_assets(root) else ""
+    )
     files["FUENTES_WEB_LEEME.txt"] = (
         f"MitoMapa canario · Fuentes web {version['web_version']}\n\n"
         "Estas fuentes contienen la web, sus recursos locales, documentación,\n"
@@ -241,7 +246,7 @@ def source_files(root, version, version_payload):
         "Para consultar la web localmente, ejecuta python3 -m http.server y abre\n"
         "http://localhost:8000/. VERSION.json identifica la edición actual;\n"
         "SOURCE_MANIFEST.json verifica cada archivo sin incluirse a sí mismo.\n"
-        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note + pintadera_note + vasija_note +
+        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note + pintadera_note + vasija_note + lapa_note +
         "Materiales propios: CC BY-SA 4.0; consulta LICENSE y LICENCIA_Y_CREDITOS.txt.\n"
         "El mapa y las dependencias conservan sus condiciones originales.\n"
     ).encode("utf-8")
@@ -267,7 +272,7 @@ def public_names(root, previous, paths):
     if pintaderas:
         names.update(pintaderas)
         names.add(PINTADERA_MANIFEST)
-    names.update(vasija_assets(root))
+    names.update(vasija_assets(root) | lapa_assets(root))
     return sorted(names)
 
 
@@ -344,6 +349,8 @@ def check_release(root=ROOT):
     if not vasijas <= public.keys():
         raise ValueError("Vasija assets are missing from the public allowlist")
     check_vasija_collection(root, vasijas)
+    if not lapa_assets(root) <= public.keys():
+        raise ValueError("Lapa assets are missing from the public allowlist")
     pintaderas = pintadera_inventory(root)
     if pintaderas:
         if not (set(pintaderas) | {PINTADERA_MANIFEST}) <= set(public):
