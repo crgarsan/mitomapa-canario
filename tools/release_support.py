@@ -18,12 +18,16 @@ PINTADERA_STL = re.compile(r'downloads/pintaderas-3d/(recreaciones|sellos)/(pint
 
 
 STORY_BOOK_PDF = 'downloads/MitoMapa_Cuentos_de_Canarias.pdf'
+STORY_ACTIVITY_BOOK_PDF = 'downloads/MitoMapa_Cuentos_y_Fichas_de_Actividades.pdf'
 
 
 def story_book_assets(root):
     script = root / 'scripts.js'
-    linked = script.is_file() and f'href="{STORY_BOOK_PDF}"' in script.read_text(encoding='utf-8')
-    return {STORY_BOOK_PDF} if linked or (root / STORY_BOOK_PDF).exists() else set()
+    markup = script.read_text(encoding='utf-8') if script.is_file() else ''
+    return {
+        name for name in (STORY_BOOK_PDF, STORY_ACTIVITY_BOOK_PDF)
+        if f'href="{name}"' in markup or (root / name).exists()
+    }
 
 
 VASIJA_STL = "downloads/vasija/vasija_canaria.stl"

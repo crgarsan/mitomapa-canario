@@ -22,7 +22,7 @@ from release_support import (
     MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries, pinned_story_media,
     PINTADERA_DIRECTORY, PINTADERA_GROUPS, PINTADERA_MANIFEST, pintadera_inventory,
     read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
-    LAPA_STL, STORY_BOOK_PDF, VASIJA_COLLECTION_ZIP, check_vasija_collection, lapa_assets,
+    LAPA_STL, STORY_ACTIVITY_BOOK_PDF, STORY_BOOK_PDF, VASIJA_COLLECTION_ZIP, check_vasija_collection, lapa_assets,
     story_book_assets, vasija_assets, zip_bytes,
 )
 
@@ -240,10 +240,15 @@ def source_files(root, version, version_payload):
         f"Para usar el visor local, guarda el archivo en {LAPA_STL}.\n\n"
         if lapa_assets(root) else ""
     )
-    story_book_note = (
-        f"\nEl libro Cuentos de Canarias se descarga desde {PUBLIC_URL}{STORY_BOOK_PDF}.\n"
-        f"Para abrirlo desde la web local, guarda el PDF en {STORY_BOOK_PDF}.\n\n"
-        if story_book_assets(root) else ""
+    book_assets = story_book_assets(root)
+    story_book_note = ''.join(
+        f"\nEl libro {title} se descarga desde {PUBLIC_URL}{name}.\n"
+        f"Para abrirlo desde la web local, guarda el PDF en {name}.\n\n"
+        for name, title in (
+            (STORY_BOOK_PDF, 'Cuentos de Canarias'),
+            (STORY_ACTIVITY_BOOK_PDF, 'Cuentos y fichas de actividades'),
+        )
+        if name in book_assets
     )
     files["FUENTES_WEB_LEEME.txt"] = (
         f"MitoMapa canario · Fuentes web {version['web_version']}\n\n"
@@ -358,7 +363,7 @@ def check_release(root=ROOT):
     if not lapa_assets(root) <= public.keys():
         raise ValueError("Lapa assets are missing from the public allowlist")
     if not story_book_assets(root) <= public.keys():
-        raise ValueError("The story book is missing from the public allowlist")
+        raise ValueError("A story book download is missing from the public allowlist")
     pintaderas = pintadera_inventory(root)
     if pintaderas:
         if not (set(pintaderas) | {PINTADERA_MANIFEST}) <= set(public):
