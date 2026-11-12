@@ -40,9 +40,10 @@
 <link rel="stylesheet" href="aprendizaje.css">
 <link rel="stylesheet" href="accesibilidad.css">
 <link rel="stylesheet" href="formatos.css">
-<link rel="stylesheet" href="pintaderas-visor.css?revision=b8c44976b1e7">
+<link rel="stylesheet" href="pintaderas-visor.css?revision=7dac55b944aa">
 <script src="pintaderas-visor.js?revision=17100ee257dd" type="module"></script>
 <script src="vasija-visor.js" type="module"></script>
+<script src="lapa-visor.js" type="module"></script>
 <script src="version.js" defer></script>
 <script src="configuracion.js" defer></script>
 <script src="narraciones.js" defer></script>
@@ -50,7 +51,7 @@
 <script src="explorador.js" defer></script>
 <script src="comparador.js" defer></script>
 <script src="recorrido.js" defer></script>
-<script src="navegacion.js" defer></script>
+<script src="navegacion.js?revision=3449541044ba" defer></script>
 <script src="docente.js" defer></script>
 <script src="itinerario.js" defer></script>
 <script src="nombres-islas.js" defer></script>
@@ -397,6 +398,27 @@
     </article>
   </details>
 </section>
+<section class="section panel lapa-3d" aria-labelledby="patrimonioNatural3d">
+  <h2 id="patrimonioNatural3d">Patrimonio natural en 3D</h2>
+  <article class="download-card lapa-card" aria-labelledby="lapa-blanca">
+    <figure class="lapa-card-image">
+      <img src="assets/lapa-blanca/miniatura.webp" alt="Modelo de la concha de lapa blanca, con crestas que bajan desde el ápice hasta el borde" width="360" height="250" loading="lazy">
+    </figure>
+    <div class="lapa-card-content">
+      <h3 id="lapa-blanca">Lapa blanca de La Graciosa</h3>
+      <p class="lapa-species"><i>Patella aspera</i></p>
+      <p>Esta lapa vive en costas rocosas y está documentada en La Graciosa. El modelo reproduce la forma cónica, el contorno ovalado y las crestas que recorren la concha desde el ápice hasta el borde.</p>
+      <p><strong>Medidas del modelo.</strong> <span data-lapa-dimensions>60 × 46 × 19 mm</span></p>
+      <p><strong>Impresión 3D.</strong> El modelo representa el exterior de la concha. Su base plana permite imprimirla con las crestas hacia arriba, sin soportes. Importen el STL en milímetros. Queda pendiente la prueba física.</p>
+      <p><a href="https://www.biodiversidadcanarias.es/centinela/especie/E00699">Ficha de la lapa blanca en Centinela</a></p>
+      <div class="pintadera-viewer-actions">
+        <button id="openLapaViewer" type="button" class="button" aria-haspopup="dialog" aria-controls="lapaViewer" hidden>Ver en 3D</button>
+        <a id="lapaStillLink" class="button" href="assets/lapa-blanca/vistas.webp">Ver imágenes fijas</a>
+        <a id="lapaCardDownload" class="button secondary" href="downloads/lapa-blanca/lapa-blanca-la-graciosa.stl" download="MitoMapa_Lapa_blanca_La_Graciosa.stl">Descargar STL</a>
+      </div>
+    </div>
+  </article>
+</section>
 <section class="section panel historical-review" aria-labelledby="historicalReviewTitle"><div class="reuse-heading"><img src="assets/images/pintadera_espiral_cuadrada.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy"><div><h2 id="historicalReviewTitle">Historia, imágenes y fuentes</h2></div></div><h3>Una imagen no prueba cómo fue el pasado</h3>
 <p>Las escenas creadas con IA acompañan cuentos originales; el mapa de relieve procede del archivo aportado por la autoría, cuya fuente indicada es TongApp del Gobierno de Canarias. Su aspecto realista no demuestra que la ropa, los objetos, los rostros, los edificios o las acciones representadas fueran así. Tampoco son retratos de personas históricas ni reproducciones exactas del paisaje.</p>
 <p>Para conocer el pasado combinamos y contrastamos fuentes. Muchas noticias sobre nombres y creencias nos llegan por crónicas y otros escritos, a menudo posteriores a la conquista y condicionados por la perspectiva de sus autores. La arqueología estudia restos materiales; la tradición oral conserva relatos y versiones. Ninguna ilustración inventada sustituye a esas fuentes.</p>
@@ -535,6 +557,51 @@
       <div class="pintadera-viewer-actions">
         <button type="button" class="button secondary" id="vasijaToggle" aria-controls="vasijaStage vasijaFallback">Ver imágenes fijas</button>
         <a id="vasijaDownload" class="button" href="downloads/vasija/vasija_canaria.stl" download="MitoMapa_Vasija_Tenerife.stl">Descargar STL</a>
+      </div>
+    </div>
+  </div>
+</dialog>
+<dialog id="lapaViewer" class="pintadera-viewer" aria-labelledby="lapaViewerTitle">
+  <header class="pintadera-viewer-head">
+    <div>
+      <p class="pintadera-kicker">Patrimonio natural en 3D</p>
+      <h2 id="lapaViewerTitle">Lapa blanca de La Graciosa</h2>
+      <p class="lapa-viewer-meta"><i>Patella aspera</i> · <span data-lapa-dimensions>60 × 46 × 19 mm</span></p>
+    </div>
+    <button id="lapaClose" type="button" class="button secondary" autofocus>Cerrar</button>
+  </header>
+  <div class="pintadera-viewer-body">
+    <div class="pintadera-viewer-visual">
+      <div id="lapaStage" class="pintadera-stage" role="img" aria-label="Vista interactiva de la concha de lapa blanca" hidden></div>
+      <figure id="lapaFallback" class="pintadera-fallback" hidden>
+        <img id="lapaStill" alt="Tres vistas fijas de la concha de lapa blanca, desde arriba, de perfil y desde la base">
+        <figcaption>Vistas superior, de perfil y de la base, generadas a partir del STL.</figcaption>
+      </figure>
+      <p id="lapaStatus" class="pintadera-status" role="status"></p>
+      <p id="lapaGesture" class="pintadera-gesture" hidden>Giren la concha y cambien el zoom con los botones, el ratón o los gestos táctiles.</p>
+    </div>
+    <div class="pintadera-viewer-panel">
+      <p class="pintadera-description">Observen cómo las crestas se abren hacia el borde ovalado. Al girar la concha, se aprecia su altura y la forma de su base.</p>
+      <p class="pintadera-description"><a href="https://www.biodiversidadcanarias.es/centinela/especie/E00699">Ficha de la lapa blanca en Centinela</a></p>
+      <div id="lapaTools" class="pintadera-viewer-tools" hidden>
+        <div role="group" aria-label="Vistas de la concha" class="pintadera-control-group lapa-views">
+          <button type="button" data-lapa-view="cara">Superior</button>
+          <button type="button" data-lapa-view="perfil">Perfil</button>
+          <button type="button" data-lapa-view="reverso">Base</button>
+          <button type="button" data-lapa-view="perspectiva">Perspectiva</button>
+        </div>
+        <div role="group" aria-label="Giro y zoom" class="pintadera-control-group pintadera-motion">
+          <button type="button" data-lapa-turn="-25" aria-label="Girar a la izquierda">←</button>
+          <button type="button" data-lapa-turn="25" aria-label="Girar a la derecha">→</button>
+          <button type="button" data-lapa-tilt="25" aria-label="Inclinar hacia arriba">↑</button>
+          <button type="button" data-lapa-tilt="-25" aria-label="Inclinar hacia abajo">↓</button>
+          <button type="button" data-lapa-zoom="0.8" aria-label="Alejar la concha">−</button>
+          <button type="button" data-lapa-zoom="1.25" aria-label="Acercar la concha">+</button>
+        </div>
+      </div>
+      <div class="pintadera-viewer-actions">
+        <button id="lapaToggle" type="button" class="button secondary" aria-controls="lapaStage lapaFallback">Ver imágenes fijas</button>
+        <a id="lapaDownload" class="button" href="downloads/lapa-blanca/lapa-blanca-la-graciosa.stl" download="MitoMapa_Lapa_blanca_La_Graciosa.stl">Descargar STL</a>
       </div>
     </div>
   </div>

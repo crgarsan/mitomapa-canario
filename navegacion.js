@@ -8,7 +8,7 @@
   const STEPS = {cuento:"Cuento",retos:"Retos",taller:"Taller"};
   const LEVELS = ["early","middle","advanced","secondary"];
   const titles = {inicio:"Inicio",islas:"Islas",juegos:"Juegos",recursos:"Recursos",puzle:"Puzle",comparar:"Comparar cuentos",crear:"Crear y compartir","nombres-islas":"Los nombres de las islas","piezas-islas":"Las piezas y sus islas","gran-reto":"Gran reto",ruta:"Cuento"};
-  const aliases = {main:"inicio",exploreMap:"islas",islandGrid:"islas",missionTitle:"puzle",compareStories:"comparar",finalMission:"gran-reto",finalTitle:"gran-reto",reuseTitle:"recursos",pintaderas3d:"recursos",vasijacanaria3d:"recursos",creditsTitle:"recursos",passportTitle:"recursos",studentFeedback:"recursos",feedbackTitle:"recursos",acknowledgements:"recursos",acknowledgementsTitle:"recursos"};
+  const aliases = {main:"inicio",exploreMap:"islas",islandGrid:"islas",missionTitle:"puzle",compareStories:"comparar",finalMission:"gran-reto",finalTitle:"gran-reto",reuseTitle:"recursos",pintaderas3d:"recursos",vasijacanaria3d:"recursos","lapa-blanca":"recursos",patrimonioNatural3d:"recursos",creditsTitle:"recursos",passportTitle:"recursos",studentFeedback:"recursos",feedbackTitle:"recursos",acknowledgements:"recursos",acknowledgementsTitle:"recursos"};
   const byId = id => document.getElementById(id);
   function validResume(value) {
     return value && typeof value === "object" && !Array.isArray(value)
@@ -212,10 +212,12 @@
     help.innerHTML='<a href="GUIA_DOCENTE.html">Cómo empezar y preparar la actividad</a><a href="downloads/Cuaderno_de_ruta_MitoMapa.html">Cuaderno imprimible</a><button type="button" id="teacherSaveHelp">Guardar o recuperar el trabajo</button>';
     help.querySelector("button").addEventListener("click",()=>byId("storageExportHelp")?.click());
     byId("teacherGuidePanel").prepend(help);
+    const naturalSection = byId("patrimonioNatural3d")?.closest("section");
     resources.append(
       disclosure(byId("reuseTitle").closest("section"),"Descargas y materiales editables","resourceDownloads"),
       disclosure(byId("pintaderas3d").closest("section"),"Pintaderas en 3D","resourcePintaderas"),
       disclosure(byId("vasijacanaria3d").closest("section"),"Vasijas canarias en 3D","resourceVasija"),
+      ...(naturalSection ? [disclosure(naturalSection,"Patrimonio natural en 3D","resourceNatural3d")] : []),
       disclosure(byId("creditsTitle").closest("section"),"Guía, autoría, fuentes y agradecimientos","resourceCredits"),
       disclosure(main.querySelector(".historical-review"),"Historia e interpretación de las imágenes","resourceHistory"),
       disclosure(passport,"Pasaporte de piezas y criterios de los retos","resourcePassport"),

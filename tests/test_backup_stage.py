@@ -265,6 +265,24 @@ class BackupStageTests(unittest.TestCase):
         self.assertFalse((self.stage / unrelated).exists())
         self.assertFalse((self.stage / 'downloads/vasijas/otro_modelo.stl').exists())
 
+    def test_lapa_model_and_viewer_stay_local_under_the_pages_prefix(self):
+        model = 'downloads/lapa-blanca/lapa-blanca-la-graciosa.stl'
+        other = 'downloads/lapa-blanca/otro_modelo.stl'
+        self.files.update({
+            model: b'example binary model',
+            other: b'not selected for release',
+            'lapa-visor.js': b'/* example viewer */',
+            'assets/lapa-blanca/miniatura.webp': b'thumbnail',
+            'assets/lapa-blanca/vistas.webp': b'fixed views',
+        })
+        self.files['index.html'] += f'<a href="{model}" download>Descargar STL</a>'
+        self.write_fixture()
+        result = self.run_stage()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.stage / model).read_bytes(), self.files[model])
+        self.assertIn(f'href="{model}" download', (self.stage / 'index.html').read_text())
+        self.assertFalse((self.stage / other).exists())
+
     def test_staged_safe_local_url_preserves_slash_splitting_and_rejects_traversal(self):
         node = shutil.which('node')
         if node is None:

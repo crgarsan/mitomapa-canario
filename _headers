@@ -45,3 +45,7 @@
 /downloads/vasijas/coleccion.zip
   Content-Type: application/zip
   Content-Disposition: attachment; filename="MitoMapa_STL_seis_vasijas.zip"
+
+/downloads/lapa-blanca/lapa-blanca-la-graciosa.stl
+  Content-Type: model/stl
+  Content-Disposition: attachment; filename="MitoMapa_Lapa_blanca_La_Graciosa.stl"
