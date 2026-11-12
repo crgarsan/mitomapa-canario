@@ -247,7 +247,7 @@
     resourceChoices.className = "activity-choices resource-choices";
     resourceChoices.append(
       resourceCard(byId("reuseTitle").closest("section"), "resourceDownloads",
-        "Descargas y materiales editables", "Descarga el recurso editable, el cuaderno de ruta y las pautas de revisión.", "↓"),
+        "Descargas y materiales editables", "Descarga los cuentos en PDF, el recurso editable y los materiales para el aula.", "↓"),
       resourceCard(byId("pintaderas3d").closest("section"), "resourcePintaderas",
         "Pintaderas en 3D", "Explora las recreaciones y descarga los sellos para arcilla.", "assets/images/pintadera_roseta.webp"),
       resourceCard(byId("vasijacanaria3d").closest("section"), "resourceVasija",
