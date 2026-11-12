@@ -49,3 +49,7 @@
 /downloads/lapa-blanca/lapa-blanca-la-graciosa.stl
   Content-Type: model/stl
   Content-Disposition: attachment; filename="MitoMapa_Lapa_blanca_La_Graciosa.stl"
+
+/downloads/MitoMapa_Cuentos_de_Canarias.pdf
+  Content-Type: application/pdf
+  Content-Disposition: attachment; filename="MitoMapa_Cuentos_de_Canarias.pdf"

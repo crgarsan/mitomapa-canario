@@ -16,7 +16,7 @@ from urllib.request import Request, urlopen
 
 from release_support import (
     LAPA_STL, PINTADERA_MANIFEST, PINTADERA_STL, VASIJA_COLLECTION_MODELS, VASIJA_STL,
-    lapa_assets, parse_sums, pintadera_inventory, safe_name, source_path, vasija_assets,
+    lapa_assets, parse_sums, pintadera_inventory, safe_name, source_path, story_book_assets, vasija_assets,
 )
 
 
@@ -96,7 +96,7 @@ def inventory(root):
     current = download_paths(version)
     pintaderas = pintadera_inventory(root)
     models_3d = vasija_assets(root) | lapa_assets(root)
-    retained_downloads = current | TEACHER_MATERIALS | pintaderas.keys()
+    retained_downloads = current | TEACHER_MATERIALS | pintaderas.keys() | story_book_assets(root)
     retained_downloads.update(name for name in models_3d if name.startswith('downloads/'))
     selected = {name: value for name, value in sums.items() if public_static(name) and (not name.startswith('downloads/') or name in retained_downloads)}
     required_assets = {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads | models_3d
