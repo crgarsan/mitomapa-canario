@@ -37,22 +37,24 @@ class NativeRuntimeSecurityTests(unittest.TestCase):
                 for kind in ('progress-report','checklist'):
                     member=f'idevices/{kind}/{kind}.js'
                     cls.files[member]=original.read(member)
-        files = cls.files
+        responses = {
+            name: (body, mimetypes.guess_type(name)[0] or 'text/html')
+            for name, body in cls.files.items()
+        }
+        responses['audit-host.html'] = (b'''<!doctype html><title>Isolated native audit</title>
+<script>window.__nativeAuditExecuted=0;</script>
+<iframe id="preview" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals" src="html/pasaporte-y-progreso.html"></iframe>''', 'text/html')
 
         class Handler(BaseHTTPRequestHandler):
             def do_GET(self):
                 path = unquote(urlsplit(self.path).path).lstrip('/')
-                if path == 'audit-host.html':
-                    body = b'''<!doctype html><title>Isolated native audit</title>
-<script>window.__nativeAuditExecuted=0;</script>
-<iframe id="preview" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals" src="html/pasaporte-y-progreso.html"></iframe>'''
-                else:
-                    body = files.get(path)
-                if body is None:
+                response = responses.get(path)
+                if response is None:
                     self.send_error(404)
                     return
+                body, content_type = response
                 self.send_response(200)
-                self.send_header('Content-Type', mimetypes.guess_type(path)[0] or 'text/html')
+                self.send_header('Content-Type', content_type)
                 self.send_header('Content-Length', str(len(body)))
                 self.end_headers()
                 self.wfile.write(body)
