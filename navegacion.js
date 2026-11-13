@@ -253,7 +253,7 @@
       resourceCard(byId("vasijacanaria3d").closest("section"), "resourceVasija",
         "Vasijas canarias en 3D", "Gira las vasijas en el visor y descarga sus modelos para imprimir.", "assets/images/insignia_tenerife.webp"),
       ...(naturalSection ? [resourceCard(naturalSection, "resourceNatural3d",
-        "Patrimonio natural en 3D", "Observa la lapa blanca de La Graciosa y descarga su modelo.", "assets/lapa-blanca/miniatura.webp")] : []),
+        "Patrimonio natural en 3D", "Observa la lapa blanca de La Graciosa y descarga su modelo.", "assets/lapa-blanca/miniatura.webp?revision=4746669da950")] : []),
       resourceCard(byId("creditsTitle").closest("section"), "resourceCredits",
         "Guía, autoría, fuentes y agradecimientos", "Consulta las orientaciones docentes, los créditos y las referencias por isla.", "▤"),
       resourceCard(main.querySelector(".historical-review"), "resourceHistory",
