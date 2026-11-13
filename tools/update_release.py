@@ -405,7 +405,8 @@ def update_release(root=ROOT, *, inventory=None):
     version = json.loads(source_path(root, "VERSION.json").read_text(encoding="utf-8"))
     paths = release_paths(version)
     previous = parse_sums(source_path(root, "SHA256SUMS.txt").read_text(encoding="utf-8"))
-    require_approved(previous.keys() | {paths["download"]}, approved)
+    generated_archives = {paths["sharing_archive"], paths["source_archive"]}
+    require_approved((previous.keys() - generated_archives) | {paths["download"]}, approved)
     pintaderas = pintadera_inventory(root, approved=approved)
     require_approved(pintaderas, approved)
     check_pintadera_downloads(root, pintaderas)

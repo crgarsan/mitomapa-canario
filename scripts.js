@@ -28,6 +28,7 @@ function readLearnerGeneration(){
 let learnerGeneration=readLearnerGeneration();
 let learnerRevision=0;
 let learnerViewStale=false;
+let awaitingLearnerResume=false;
 function usesLearnerGeneration(key){
  return key!==feedbackConfigKey&&key!==readingPreferencesKey;
 }
@@ -40,16 +41,26 @@ function invalidateLearnerView(){
  document.documentElement.style.visibility="hidden";
  document.body.inert=true;
  discardStoredLearnerProgress(learnerGeneration);
+ // A passive reload must not choose the old learner's route for the new one.
+ if(/^#(?:isla\/|route-|ordenar$)/.test(location.hash))history.replaceState(null,"","#inicio");
  location.reload();
 }
 function learnerSessionCurrent(){
  if(learnerViewStale)return false;
+ // Keep working in memory until reload if this tab cannot use storage.
+ if(learnerGeneration===undefined)return true;
  const current=readLearnerGeneration();
  if(current===learnerGeneration)return true;
  // A storage access error after a successful read cannot confirm this session.
  if(current===undefined)return false;
  invalidateLearnerView();
  return false;
+}
+function reconcileLearnerView(){
+ if(learnerSessionCurrent()&&awaitingLearnerResume){
+  awaitingLearnerResume=false;
+  document.documentElement.style.visibility="";
+ }
 }
 function readJSON(key,fallback){
  try{
@@ -585,8 +596,10 @@ function showRoute(id,options={}){
  const section=ensureRoute(id);if(!section)return;
  section.classList.add("active");
  window.MitoMapaRouteFlow?.showStep(section,step||"cuento",{focus:false,notify:false});
- lastRouteId=id;savePreferences();
- const resume=byId("resumeRoute");if(resume)resume.disabled=false;
+ if(options.remember!==false){
+  lastRouteId=id;savePreferences();
+  const resume=byId("resumeRoute");if(resume)resume.disabled=false;
+ }
  window.MitoMapaNavigation?.refreshResume?.();
  const reduced=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
  section.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
@@ -1328,20 +1341,42 @@ const journeyProgressKey="mitomapa-canario-ruta-acordada-v1";
 const sequenceProgressKey="mitomapa-canario-secuencias-v1";
 const comparisonProgressKey="mitomapa-canario-comparaciones-v1";
 const resumeProgressKey="mitomapa-canario-ultimo-apartado-v1";
+const learnerProgressKeys=[legacyKey,storageKey,preferencesKey,workshopStorageKey,itineraryKey,finalStorageKey,
+ journeyProgressKey,sequenceProgressKey,comparisonProgressKey,resumeProgressKey];
+
+function removeStoredLearnerProgress(generation){
+ for(const key of learnerProgressKeys)localStorage.removeItem(progressStorageKey(key,generation));
+}
 
 function discardStoredLearnerProgress(generation){
  if(generation===undefined)return;
  try{
   const current=readLearnerGeneration();
   if(current===undefined||current===generation)return;
-  for(const key of [legacyKey,storageKey,preferencesKey,workshopStorageKey,itineraryKey,finalStorageKey,
-   journeyProgressKey,sequenceProgressKey,comparisonProgressKey,resumeProgressKey]){
-   localStorage.removeItem(progressStorageKey(key,generation));
-  }
+  removeStoredLearnerProgress(generation);
  }catch(error){storageFailures.add(learnerGenerationKey);updateStorageNotice();}
 }
 
-function replaceLearnerProgress(entries){
+function collectAbandonedLearnerProgress(){
+ if(!navigator.locks||learnerGeneration===undefined)return;
+ navigator.locks.request(learnerGenerationKey,()=>{
+  try{
+   const current=readLearnerGeneration();
+   if(current===undefined)return;
+   const prefix=learnerGenerationKey+":";
+   const abandoned=new Set();
+   for(const key of Object.keys(localStorage)){
+    if(!key.startsWith(prefix))continue;
+    const generation=key.slice(prefix.length).split(":")[0];
+    if(/^l-[0-9a-f]{32}$/.test(generation)&&generation!==current)abandoned.add(generation);
+   }
+   for(const generation of abandoned)discardStoredLearnerProgress(generation);
+   if(current!==null)discardStoredLearnerProgress(null);
+  }catch(error){storageFailures.add(learnerGenerationKey);updateStorageNotice();}
+ }).catch(()=>{ /* Fallback writers can still discard their known obsolete generation. */ });
+}
+
+function replaceLearnerProgress(entries,{locked,reset=false}){
  if(!learnerSessionCurrent())return false;
  if(learnerGeneration===undefined){
   // A browser that denied storage from startup can still use the current tab.
@@ -1349,19 +1384,39 @@ function replaceLearnerProgress(entries){
   return true;
  }
  const previous=learnerGeneration;
- const generation=Array.from(crypto.getRandomValues(new Uint8Array(16)),byte=>byte.toString(16).padStart(2,"0")).join("");
- try{
-  // Publish only after the entire replacement is available. Any stale write
-  // stays under its original generation, including writes racing publication.
+ const generation=(locked?"l-":"")+Array.from(crypto.getRandomValues(new Uint8Array(16)),byte=>byte.toString(16).padStart(2,"0")).join("");
+ const publish=()=>{
   for(const [key,value] of entries)localStorage.setItem(progressStorageKey(key,generation),JSON.stringify(value));
-  if(!learnerSessionCurrent()){
-   discardStoredLearnerProgress(generation);
-   return false;
-  }
+  publishMarker();
+ };
+ const publishMarker=()=>{
+  if(!learnerSessionCurrent())throw new Error("LEARNER_SESSION_CHANGED");
   localStorage.setItem(learnerGenerationKey,generation);
+ };
+ let resetStartedErasing=false;
+ try{
+  try{publish();}
+  catch(error){
+   if(!reset||error.name!=="QuotaExceededError"||!learnerSessionCurrent())throw error;
+   // Only a confirmed reset may erase the old learner's keys to make room.
+   resetStartedErasing=true;
+   removeStoredLearnerProgress(previous);
+   try{publish();}
+   catch(retryError){
+    if(retryError.name!=="QuotaExceededError")throw retryError;
+    // An empty session still takes effect if only the marker fits.
+    discardStoredLearnerProgress(generation);
+    publishMarker();
+   }
+  }
  }catch(error){
   discardStoredLearnerProgress(generation);
   storageFailures.add(learnerGenerationKey);updateStorageNotice();
+  if(resetStartedErasing&&learnerSessionCurrent()){
+   learnerGeneration=undefined;
+   learnerRevision++;
+   return true;
+  }
   return false;
  }
  learnerGeneration=generation;
@@ -1373,15 +1428,15 @@ function replaceLearnerProgress(entries){
 }
 
 function withLearnerReplacement(replace){
- if(learnerGeneration===undefined||!navigator.locks)return replace();
+ if(learnerGeneration===undefined||!navigator.locks)return replace(false);
  let started=false;
  return navigator.locks.request(learnerGenerationKey,()=>{
   started=true;
-  return replace();
+  return replace(true);
  }).catch(error=>{
   if(started)throw error;
   // Stored generations still isolate writes when Web Locks is unavailable.
-  return replace();
+  return replace(false);
  });
 }
 
@@ -1403,7 +1458,7 @@ async function importProgressFile(file){
   };
   if(revision!==learnerRevision||!learnerSessionCurrent())return;
   if(!confirm("¿Quieres sustituir el progreso de este navegador por el del archivo seleccionado?")){status.textContent="Importación cancelada.";return;}
-  await withLearnerReplacement(()=>{
+  await withLearnerReplacement(locked=>{
    if(revision!==learnerRevision||!learnerSessionCurrent())return;
    const storedProgress={sourcePassed:[...importedProgress.sourcePassed],truthPassed:[...importedProgress.truthPassed],earned:[...importedProgress.earned]};
    const preferences={readerMode,learningLevel:importedProgress.learningLevel,learnerName:importedProgress.learnerName,lastRouteId:null,selectedVoiceURI,narrationAmbient};
@@ -1411,7 +1466,7 @@ async function importProgressFile(file){
     [storageKey,storedProgress],[preferencesKey,preferences],[workshopStorageKey,importedWorkshop],[finalStorageKey,importedProgress.final],
     [itineraryKey,importedProgress.itineraries],[journeyProgressKey,importedProgress.activities.journey],
     [sequenceProgressKey,importedProgress.activities.stories],[comparisonProgressKey,importedProgress.activities.comparison]
-   ])){
+   ],{locked})){
     status.textContent="No se pudo guardar el seguimiento en este navegador.";
     return;
    }
@@ -1427,7 +1482,7 @@ async function importProgressFile(file){
    window.MitoMapaExplorer?.reset();
    window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
    renderRoutes();setLearningLevel(learningLevel,false);updateTeacherDialog();updateFinalExperience();
-   window.MitoMapaNavigation?.refresh();
+   window.MitoMapaNavigation?.refresh({remember:false});
    status.textContent=learnerGeneration===undefined?"Seguimiento cargado en esta pestaña. El navegador no permite guardarlo.":"Seguimiento cargado correctamente.";
   });
  }catch(error){if(revision===learnerRevision&&learnerSessionCurrent())status.textContent=error.message==="DRAWING_INVALID"?"No se pudo cargar: contiene un dibujo dañado, animado o demasiado grande. Se conserva el progreso anterior.":"No se pudo cargar: el archivo no tiene un formato válido del MitoMapa.";}
@@ -1510,10 +1565,12 @@ function resetProgress(){
  if(!learnerSessionCurrent())return;
  const revision=learnerRevision;
  if(!confirm("¿Quieres borrar los retos, las piezas, el gran reto, el cuaderno y las nuevas actividades guardadas en este navegador?"))return;
- return withLearnerReplacement(()=>{
+ return withLearnerReplacement(locked=>{
   if(revision!==learnerRevision||!learnerSessionCurrent())return;
   const status=byId("teacherImportStatus");
-  if(!replaceLearnerProgress([[preferencesKey,{readerMode,learningLevel,learnerName:"",lastRouteId:null,selectedVoiceURI,narrationAmbient}]])){
+  const wasUsingStorage=learnerGeneration!==undefined;
+  const preferences={readerMode,learningLevel,learnerName:"",lastRouteId:null,selectedVoiceURI,narrationAmbient};
+  if(!replaceLearnerProgress([[preferencesKey,preferences]],{locked,reset:true})){
    status.textContent="No se pudo reiniciar el progreso guardado en este navegador.";
    return;
   }
@@ -1522,7 +1579,9 @@ function resetProgress(){
   document.querySelectorAll(".route").forEach(applyLearningLevelToRoute);
   window.MitoMapaStories?.reset();window.MitoMapaCompare?.reset();window.MitoMapaExplorer?.reset();window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
   shuffle();save();updateProgress();updateTeacherDialog();syncTeacherScroll();
-  status.textContent=learnerGeneration===undefined?"Progreso reiniciado en esta pestaña. El navegador no permite guardarlo.":"Progreso reiniciado. No quedan respuestas de la sesión anterior.";
+  if(learnerGeneration!==undefined)status.textContent="Progreso reiniciado. No quedan respuestas de la sesión anterior.";
+  else if(wasUsingStorage)status.textContent="Progreso borrado en esta pestaña. El navegador no pudo completar el reinicio. Cierra las otras pestañas de MitoMapa.";
+  else status.textContent="Progreso reiniciado en esta pestaña. El navegador no permite guardarlo.";
  });
 }
 
@@ -1712,7 +1771,10 @@ if(speechSupported){window.speechSynthesis.addEventListener?.("voiceschanged",re
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&narrationState.routeId&&!narrationState.paused)toggleNarrationPause(narrationState.routeId);});
 window.addEventListener("pagehide",event=>{
  stopNarration();
- if(event.persisted)document.documentElement.style.visibility="hidden";
+ if(event.persisted){
+  awaitingLearnerResume=true;
+  document.documentElement.style.visibility="hidden";
+ }
 });
 window.MitoMapaReading?.init({readJSON,writeJSON});
 window.MitoMapaLearning?.init({openStory:(id,options={})=>{
@@ -1783,10 +1845,8 @@ window.addEventListener("storage",event=>{
  if(event.key===learnerGenerationKey&&event.oldValue!==learnerGeneration)discardStoredLearnerProgress(event.oldValue);
  learnerSessionCurrent();
 });
-window.addEventListener("focus",learnerSessionCurrent);
-window.addEventListener("pageshow",event=>{
- const current=learnerSessionCurrent();
- if(event.persisted&&current)document.documentElement.style.visibility="";
-});
-document.addEventListener("visibilitychange",()=>{if(!document.hidden)learnerSessionCurrent();});
+window.addEventListener("focus",reconcileLearnerView);
+window.addEventListener("pageshow",reconcileLearnerView);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)reconcileLearnerView();});
 learnerSessionCurrent();
+collectAbandonedLearnerProgress();

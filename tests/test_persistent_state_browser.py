@@ -154,6 +154,7 @@ class PersistentStateBrowserTests(unittest.TestCase):
         expect(self.page.locator("#teacherLearnerName")).to_have_value("")
 
         expect(other.locator(".compare-note")).to_have_value("")
+        expect(other.locator("body")).to_have_attribute("data-learning-level", "advanced")
         self.open_teacher_tools(other)
         expect(other.locator("#teacherLearnerName")).to_have_value("")
         with other.expect_download() as downloaded:
@@ -215,6 +216,77 @@ class PersistentStateBrowserTests(unittest.TestCase):
         expect(self.page.locator("#teacherLearnerName")).to_have_value("Equipo ficticio del taller")
         expect(self.page.locator(".compare-note")).to_have_value("Dos escenas del taller ficticio")
         self.assertEqual(self.page.evaluate("({...localStorage})"), before)
+
+    def test_reset_can_erase_saved_work_when_storage_is_full(self):
+        self.prepare_example_progress()
+        self.open_teacher_tools(self.page)
+        self.page.evaluate("""() => {
+            localStorage.setItem("other-resource", "Configuración independiente");
+            const size = () => Object.entries(localStorage).reduce(
+                (total, [key, value]) => total + key.length + value.length, 0);
+            const capacity = size();
+            const setItem = Storage.prototype.setItem;
+            Storage.prototype.setItem = function (key, value) {
+                const previous = this.getItem(key);
+                const increase = previous === null
+                    ? key.length + value.length : value.length - previous.length;
+                if (size() + increase > capacity)
+                    throw new DOMException("Storage is full", "QuotaExceededError");
+                return setItem.call(this, key, value);
+            };
+        }""")
+        self.page.locator("#resetProgress").click()
+        expect(self.page.locator("#teacherImportStatus")).to_contain_text("Progreso reiniciado")
+        expect(self.page.locator("#teacherLearnerName")).to_have_value("")
+        expect(self.page.locator(".compare-note")).to_have_value("")
+        other = self.open_second_tab("#comparar")
+        expect(other.locator(".compare-note")).to_have_value("")
+        expect(other.locator("body")).to_have_attribute("data-learning-level", "advanced")
+        self.assertEqual(other.evaluate("localStorage.getItem('other-resource')"),
+                         "Configuración independiente")
+
+    def test_startup_erases_work_from_interrupted_storage_replacement(self):
+        self.prepare_example_progress()
+        self.open_teacher_tools(self.page)
+        self.upload_progress(self.replacement_progress())
+        expect(self.page.locator("#teacherLearnerName")).to_have_value("Equipo de la biblioteca")
+        inactive_keys = self.page.evaluate("""() => {
+            const marker = "mitomapa-canario-sesion-v1";
+            const active = localStorage.getItem(marker);
+            const typePrefix = active.slice(0, -32);
+            const unused = digit => marker + ":" + typePrefix + digit.repeat(32)
+                + ":mitomapa-canario-cuaderno-v1";
+            const keys = [unused("a"), unused("b"), "mitomapa-canario-cuaderno-v1"];
+            for (const key of keys) localStorage.setItem(key,
+                JSON.stringify({routes: {tenerife: {text: "Borrador ficticio interrumpido"}}}));
+            return keys;
+        }""")
+        self.page.reload(wait_until="networkidle")
+        self.page.wait_for_function("keys => keys.every(key => localStorage.getItem(key) === null)",
+                                    arg=inactive_keys)
+        self.open_teacher_tools(self.page)
+        expect(self.page.locator("#teacherLearnerName")).to_have_value("Equipo de la biblioteca")
+
+    def test_reset_does_not_resume_a_route_from_a_previous_session(self):
+        self.prepare_example_progress()
+        other = self.open_second_tab("#isla/gran-canaria/taller")
+        expect(other.locator("#route-gran-canaria")).to_be_visible()
+        self.open_teacher_tools(self.page)
+        self.page.locator("#resetProgress").click()
+        expect(other).to_have_url(self.base + "#inicio")
+        expect(other.locator('[data-screen="inicio"] h1')).to_be_visible()
+        expect(other.locator("#resumeRoute")).not_to_be_visible()
+        expect(other.locator("body")).to_have_attribute("data-learning-level", "advanced")
+        home = self.open_second_tab()
+        expect(home.locator("#resumeRoute")).not_to_be_visible()
+
+    def test_import_does_not_save_the_current_route_as_a_new_resume_point(self):
+        self.seed(text="Borrador del equipo ficticio", route="gran-canaria")
+        self.open_teacher_tools(self.page)
+        self.upload_progress(self.replacement_progress())
+        expect(self.page.locator("#teacherImportStatus")).to_contain_text("correctamente")
+        home = self.open_second_tab()
+        expect(home.locator("#resumeRoute")).not_to_be_visible()
 
     def test_criterion_edit_invalidates_only_its_stage(self):
         # Catch a criterion handler using broad shared-production invalidation.

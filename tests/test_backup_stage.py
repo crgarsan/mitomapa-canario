@@ -67,10 +67,11 @@ class BackupStageTests(unittest.TestCase):
         (self.root / 'SHA256SUMS.txt').write_text(sums)
         self.inventory.write_text(json.dumps(sorted([*self.files, 'SHA256SUMS.txt'])))
 
-    def run_stage(self, *extra):
+    def run_stage(self, *extra, commit='a'*40):
+        source_commit = ['--source-commit', commit] if commit is not None else []
         return subprocess.run([sys.executable, str(SCRIPT), '--root', str(self.root),
             '--output', str(self.stage), '--primary-url', 'https://primary.example/',
-            '--base-path', '/backup-repo/', '--source-commit', 'a'*40, '--inventory', str(self.inventory), *extra],
+            '--base-path', '/backup-repo/', '--inventory', str(self.inventory), *source_commit, *extra],
             text=True, capture_output=True)
 
     def test_stage_excludes_history_and_private_files_but_keeps_runtime_media(self):
@@ -109,6 +110,18 @@ class BackupStageTests(unittest.TestCase):
         self.assertEqual(set(entries), actual - {'SHA256SUMS.txt'})
         for name, expected in entries.items():
             self.assertEqual(sha256((self.stage / name).read_bytes()).hexdigest(), expected, name)
+
+    def test_export_backup_requires_its_own_source_commit(self):
+        parent = self.root.parent
+        subprocess.run(['git', '-C', parent, 'init', '-q'], check=True, capture_output=True)
+        subprocess.run(['git', '-C', parent, '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
+                        'commit', '--allow-empty', '--no-gpg-sign', '-qm', 'Unrelated parent commit'],
+                       check=True, capture_output=True)
+
+        result = self.run_stage(commit=None)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('--source-commit', result.stderr)
+        self.assertFalse(self.stage.exists())
 
     def test_media_mismatch_fails_before_replacing_an_existing_backup(self):
         self.stage.mkdir(); (self.stage / 'previous.txt').write_text('keep me')

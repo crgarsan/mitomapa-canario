@@ -126,7 +126,7 @@ class MaintenanceToolsTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)["loaders"], 3)
 
-    def write_delivery(self, *, extra_archive=False):
+    def write_delivery(self, *, extra_archive=False, format_checksums=lambda text: text):
         delivery = self.root / "delivery"
         (delivery / "documentacion").mkdir(parents=True)
         native = "MitoMapa_canario_GobCan.elpx"
@@ -142,7 +142,7 @@ class MaintenanceToolsTests(unittest.TestCase):
         (self.root / "downloads" / native).write_bytes(files[native])
         if extra_archive:
             files["Material de clase.zip"] = archive_bytes({"guia.txt": b"Classroom notes"})
-        files["SHA256SUMS.txt"] = sums_bytes(files)
+        files["SHA256SUMS.txt"] = format_checksums(sums_bytes(files))
         files["Entrega_MitoMapa_GobCan.zip"] = archive_bytes(files)
         for name, payload in files.items():
             (delivery / name).write_bytes(payload)
@@ -162,6 +162,15 @@ class MaintenanceToolsTests(unittest.TestCase):
             with self.subTest(module=module.__name__):
                 self.check_delivery(module, delivery)
         self.assertEqual(self.snapshot(), before)
+
+    def test_delivery_pdf_accepts_crlf_checksums(self):
+        delivery = self.write_delivery(format_checksums=lambda text: text.replace(b"\n", b"\r\n"))
+        self.check_delivery(pdf, delivery)
+
+    def test_delivery_pdf_rejects_nonstandard_checksum_line_breaks(self):
+        delivery = self.write_delivery(format_checksums=lambda text: text.replace(b"\n", "\u2028".encode(), 1))
+        with self.assertRaisesRegex(ValueError, "Delivery checksums are stale"):
+            self.check_delivery(pdf, delivery)
 
     def test_delivery_reader_caps_control_text_without_reading_archive_contents(self):
         delivery = self.write_delivery()

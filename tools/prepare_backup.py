@@ -185,6 +185,8 @@ def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org
     primary, prefix = https_url(primary), base_path(prefix)
     if not 0 < max_bytes <= MAX_BYTES:
         raise ValueError('Backup size limit must be positive and no greater than 1 GB')
+    if release_inventory is not None and not commit:
+        raise ValueError('--inventory requires --source-commit with the full Git commit ID of the export')
     paths, version, current, historical = inventory(root, approved_release_paths(root, release_inventory))
     source_commit, dirty = git_identity(root, commit)
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -274,7 +276,7 @@ def main():
     parser.add_argument('--output', type=Path)
     parser.add_argument('--primary-url', default='https://mitomapacanario.org/')
     parser.add_argument('--base-path', default='/mitomapa-canario/')
-    parser.add_argument('--source-commit')
+    parser.add_argument('--source-commit', help='Full Git commit ID required with --inventory or --verify-url')
     parser.add_argument('--max-bytes', type=int, default=MAX_BYTES)
     parser.add_argument('--inventory', type=Path, help='Reviewed JSON file list for a complete non-Git export')
     parser.add_argument('--verify-url')

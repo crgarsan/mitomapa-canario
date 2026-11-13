@@ -124,6 +124,32 @@ class ReleasePipelineTests(unittest.TestCase):
         self.assertFalse(local & sources.keys())
         self.assertFalse(local & public.keys())
 
+    def test_regenerates_current_archives_before_adding_them_to_git(self):
+        def git(*args):
+            subprocess.run(["git", "-C", self.root, *args], check=True, capture_output=True)
+
+        git("init", "-q")
+        git("add", "--", ".")
+        update_release(self.root)
+        revised_source = b"/* revised route while preparing the release */\n"
+        self.write("itinerario.js", revised_source)
+        update_release(self.root)
+
+        source_archive = self.version["source_archive"]["path"]
+        sharing_archive = self.version["sharing_archive"]["path"]
+        sources = read_zip((self.root / source_archive).read_bytes())
+        self.assertEqual(sources["itinerario.js"], revised_source)
+        output = self.root / ".deploy"
+        with self.assertRaisesRegex(ValueError, "release inventory"):
+            check_release(self.root)
+        with self.assertRaisesRegex(ValueError, "release inventory"):
+            stage_assets(self.root, output)
+        self.assertFalse(output.exists())
+        git("add", "--", source_archive, sharing_archive)
+        check_release(self.root)
+        stage_assets(self.root, output)
+        self.assertEqual((output / "itinerario.js").read_bytes(), revised_source)
+
     def test_repackaging_without_git_requires_an_explicit_inventory(self):
         with self.assertRaisesRegex(ValueError, "release inventory"):
             update_release(self.root)

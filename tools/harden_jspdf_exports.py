@@ -553,8 +553,10 @@ def verify_delivery(directory: Path) -> None:
         fixed = {DELIVERY_NATIVE: native, exported_name: exported,
                  "SHA256SUMS.txt": sums, "VALIDACION_GOBCAN.txt": validation}
         sums_text = sums.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
-        require(sums_text.endswith("\n"), "Delivery checksums are stale")
-        for name, expected in parse_sums(sums_text).items():
+        checksums = parse_sums(sums_text)
+        canonical_sums = "".join(f"{expected}  {name}\n" for name, expected in checksums.items())
+        require(sums_text == canonical_sums, "Delivery checksums are stale")
+        for name, expected in checksums.items():
             data = fixed[name] if name in fixed else delivery.read(name)
             require(digest(data) == expected, "Stale delivery checksum: " + name)
         for prefix, payload in [("ELPX SHA-256: ", native), ("HTML ZIP SHA-256: ", exported)]:
