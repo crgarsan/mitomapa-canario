@@ -1610,6 +1610,7 @@ window.MitoMapaLearning?.init({openStory:(id,options={})=>{
  showRoute(id,{step:"cuento"});
  const section=byId(`route-${id}`),target=typeof options.paragraphId==="string"?byId(options.paragraphId):null;
  if(target&&section?.contains(target)&&target.matches("[data-learning-fragment]")){
+  section.querySelector('.format-options input[value="audio-text"]')?.click();
   target.scrollIntoView({block:"center",behavior:"auto"});target.focus({preventScroll:true});
  }
 }});
