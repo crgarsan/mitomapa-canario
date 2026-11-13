@@ -9,8 +9,10 @@ const vm=require('node:vm');
 function createProductionTrack(book={captions:'media/la-palma/subtitulos.vtt'}){
  const source=fs.readFileSync(path.resolve(__dirname,'../formatos.js'),'utf8');
  const start=source.indexOf("const track=el('track')");
- const end=source.indexOf('const transcript=',start);
- assert.ok(start>=0&&end>start,'production caption construction must be present');
+ const appendTrack='video.append(track);';
+ const appendAt=source.indexOf(appendTrack,start);
+ const end=appendAt+appendTrack.length;
+ assert.ok(start>=0&&appendAt>start,'production caption construction must be present');
  const appended=[];
  const context={
   book,id:'la-palma',
