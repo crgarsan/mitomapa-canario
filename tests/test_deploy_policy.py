@@ -180,7 +180,8 @@ class DeployPolicyTests(unittest.TestCase):
                 uploaded = calls[0]
                 self.assertIn("--keep-vars", uploaded["args"])
                 self.assertIn("--strict", uploaded["args"])
-                self.assertEqual(set(uploaded["config"]), {"name", "compatibility_date", "assets"})
+                self.assertEqual(set(uploaded["config"]), {"name", "compatibility_date", "assets", "main"})
+                self.assertEqual(uploaded["config"]["main"], str(root / "tools/story-video-ranges.mjs"))
                 self.assertEqual(uploaded["config"]["name"], "mitomapa-canario")
                 self.assertEqual(uploaded["config"]["compatibility_date"], config["compatibility_date"])
                 self.assertEqual(uploaded["config"]["assets"],
@@ -188,6 +189,22 @@ class DeployPolicyTests(unittest.TestCase):
                 if valid:
                     self.assertEqual(calls[1]["args"][2], version_id + "@100%")
                     self.assertIn("--yes", calls[1]["args"])
+
+    def test_only_story_videos_run_worker_before_assets(self):
+        config = json.loads((ROOT / "wrangler.jsonc").read_text())
+        self.assertEqual(config["main"], "tools/story-video-ranges.mjs")
+        self.assertEqual(config["assets"]["binding"], "ASSETS")
+        self.assertEqual(config["assets"]["run_worker_first"], [
+            "/media/el-hierro/cuento.mp4",
+            "/media/fuerteventura/cuento.mp4",
+            "/media/gran-canaria/cuento.mp4",
+            "/media/la-gomera/cuento.mp4",
+            "/media/la-graciosa/cuento.mp4",
+            "/media/la-palma/cuento.mp4",
+            "/media/lanzarote/cuento.mp4",
+            "/media/tenerife/cuento.mp4",
+        ])
+        self.assertNotIn(config["main"], (ROOT / "SHA256SUMS.txt").read_text())
 
     def test_checks_run_before_credentials(self):
         deploy_index = next(i for i, step in enumerate(self.steps)
@@ -247,6 +264,11 @@ class DeployPolicyTests(unittest.TestCase):
             self.assertIn("run: python3 tools/check_public_transport.py", step)
             self.assertNotIn("secrets.", step)
             self.assertNotIn("env:", step)
+        verify_ranges = next(step for step in self.steps
+                             if step.startswith("name: Verify public story video ranges after publication\n"))
+        self.assertLess(self.steps.index(after), self.steps.index(verify_ranges))
+        self.assertIn("run: python3 tools/check_public_video_ranges.py", verify_ranges)
+        self.assertNotIn("secrets.", verify_ranges)
         self.assertIn("test_public_transport.py", self.workflow)
         self.assertIn("test_python_lock.py", self.workflow)
         self.assertIn("test_archive_limits.py", self.workflow)

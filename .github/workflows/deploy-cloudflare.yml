@@ -112,9 +112,26 @@ jobs:
           original = json.loads(Path('wrangler.jsonc').read_text())
           if original['name'] != 'mitomapa-canario':
               raise SystemExit('The publication must target the existing MitoMapa Worker.')
-          config = {key: original[key] for key in ('name', 'compatibility_date', 'assets')}
-          config['assets'] = {**config['assets'], 'directory': str(Path(config['assets']['directory']).resolve())}
-          config_path = temporary / 'mitomapa-assets-only.json'
+          if original['main'] != 'tools/story-video-ranges.mjs':
+              raise SystemExit('The only Worker entrypoint is the story video range handler.')
+          asset_settings = original['assets']
+          if (asset_settings['directory'] != './.deploy' or asset_settings['binding'] != 'ASSETS'
+                  or asset_settings['html_handling'] != 'auto-trailing-slash'
+                  or asset_settings['not_found_handling'] != 'none'):
+              raise SystemExit('The Worker must use the verified static assets and the existing routing policy.')
+          config = {key: original[key] for key in ('name', 'compatibility_date')}
+          config['main'] = str(Path('tools/story-video-ranges.mjs').resolve())
+          config['assets'] = {key: asset_settings[key] for key in (
+              'directory', 'binding', 'html_handling', 'not_found_handling', 'run_worker_first')}
+          story_videos = [
+              f'/media/{island}/cuento.mp4' for island in (
+                  'el-hierro', 'fuerteventura', 'gran-canaria', 'la-gomera',
+                  'la-graciosa', 'la-palma', 'lanzarote', 'tenerife')
+          ]
+          if config['assets']['run_worker_first'] != story_videos:
+              raise SystemExit('Only the eight story MP4 paths may run the Worker before static assets.')
+          config['assets']['directory'] = str(Path('.deploy').resolve())
+          config_path = temporary / 'mitomapa-story-video.json'
           config_path.write_text(json.dumps(config))
           report_path = temporary / ('mitomapa-upload-' + os.environ['GITHUB_RUN_ID'] + '-' + os.environ['GITHUB_RUN_ATTEMPT'] + '.jsonl')
           if report_path.exists():
@@ -151,3 +168,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       - name: Verify public transport after publication
         run: python3 tools/check_public_transport.py
+      - name: Verify public story video ranges after publication
+        run: python3 tools/check_public_video_ranges.py
