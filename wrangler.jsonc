@@ -1,5 +1,6 @@
 {
   "name": "mitomapa-canario",
+  "main": "tools/story-video-ranges.mjs",
   "compatibility_date": "2026-10-05",
   "workers_dev": true,
   "routes": [
@@ -15,6 +16,17 @@
   "assets": {
     "directory": "./.deploy",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "none"
+    "not_found_handling": "none",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/media/el-hierro/cuento.mp4",
+      "/media/fuerteventura/cuento.mp4",
+      "/media/gran-canaria/cuento.mp4",
+      "/media/la-gomera/cuento.mp4",
+      "/media/la-graciosa/cuento.mp4",
+      "/media/la-palma/cuento.mp4",
+      "/media/lanzarote/cuento.mp4",
+      "/media/tenerife/cuento.mp4"
+    ]
   }
 }
