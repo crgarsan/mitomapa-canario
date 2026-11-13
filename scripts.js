@@ -819,21 +819,62 @@ function creationReviewResult(state,routeId,level=learningLevel){
 function creationReviewSummaryText(result){
  return result.total?`${result.reviewed}/${result.total} criterios revisados${result.excluded?`; ${result.excluded} no procede`:""}. La lista orienta la revisión; no genera puntos ni una calificación.`:"No hay criterios aplicables en esta lista. Confirma con tu docente qué revisión se ha acordado; no genera puntos ni una calificación.";
 }
-function workshopCreationReviewMarkup(routeId,state){
- const criteria=creationReviewCriteria(routeId),values=state.creationReviewV1?.[learningLevel]||{};
- const row=item=>{
-  const labelId=`creation-review-label-${routeId}-${learningLevel}-${item.id}`,value=values[item.id]||"pending";
-  return `<label class="creation-review-row"><span id="${labelId}">${activityEscape(item.text)}</span><select data-creation-review="${item.id}" data-creation-review-level="${learningLevel}" aria-labelledby="${labelId}">${creationReviewOptions.map(([key,label])=>`<option value="${key}"${key===value?" selected":""}>${label}</option>`).join("")}</select></label>`;
- };
- const genre=learningLevel==="secondary"?`<div class="creation-review-genre"><h5>SOLO Secundaria · Género acordado</h5><p>Marca «No procede» cuando el criterio no corresponde al formato oral, gráfico u otro formato acordado.</p>${criteria.slice(3).map(row).join("")}</div>`:"";
- const optional=learningLevel==="early"?"En Infantil y 1.º ciclo, esta lista es opcional: puedes conversar sobre tu creación con ayuda. No añade un requisito para participar.":"Esta lista es opcional: elige con tu docente los criterios que vas a revisar. Puedes compartir una creación «En proceso» para recibir ayuda. La preparación y la revisión se registran por separado; usa «No procede» cuando un criterio no se haya acordado.";
- const previousPrepared=itineraryFor(routeId).evidenceMode==="external"?itineraryFor(routeId).externalCreation:learningLevel==="secondary"?state.secondaryCreation:state.creation;
- const previous=previousPrepared&&!Object.keys(values).length?"<p class=\"creation-review-prior\">Tu borrador y la preparación anterior se conservan. Los estados de esta lista nueva empiezan pendientes y no sustituyen esa preparación. Revísalos con ayuda cuando se acuerde.</p>":"";
- return `<fieldset class="creation-review"><legend>Revisión de la creación · ${learningLevel==="secondary"?"Secundaria":learningLevel==="early"?"Infantil y 1.º ciclo":"Primaria"}</legend><p>${optional}</p>${criteria.slice(0,3).map(row).join("")}${genre}${previous}<p class="creation-review-summary" role="status" aria-live="polite" aria-atomic="true">${creationReviewSummaryText(creationReviewResult(state,routeId))}</p></fieldset>`;
-}
 function refreshCreationReview(workshop,routeId){
  const container=workshop.querySelector("[data-creation-review-container]");
- if(container)container.innerHTML=workshopCreationReviewMarkup(routeId,getWorkshopRouteState(routeId));
+ if(!container)return;
+ const state=getWorkshopRouteState(routeId);
+ const criteria=creationReviewCriteria(routeId),values=state.creationReviewV1?.[learningLevel]||{};
+ const fieldset=document.createElement("fieldset");
+ fieldset.className="creation-review";
+ const legend=document.createElement("legend");
+ legend.textContent=`Revisión de la creación · ${learningLevel==="secondary"?"Secundaria":learningLevel==="early"?"Infantil y 1.º ciclo":"Primaria"}`;
+ const guidance=document.createElement("p");
+ guidance.textContent=learningLevel==="early"?"En Infantil y 1.º ciclo, esta lista es opcional: puedes conversar sobre tu creación con ayuda. No añade un requisito para participar.":"Esta lista es opcional: elige con tu docente los criterios que vas a revisar. Puedes compartir una creación «En proceso» para recibir ayuda. La preparación y la revisión se registran por separado; usa «No procede» cuando un criterio no se haya acordado.";
+ fieldset.append(legend,guidance);
+
+ function reviewRow(item){
+  const label=document.createElement("label");
+  label.className="creation-review-row";
+  const caption=document.createElement("span");
+  caption.id=`creation-review-label-${routeId}-${learningLevel}-${item.id}`;
+  caption.textContent=item.text;
+  const select=document.createElement("select");
+  select.dataset.creationReview=item.id;
+  select.dataset.creationReviewLevel=learningLevel;
+  select.setAttribute("aria-labelledby",caption.id);
+  for(const [value,text] of creationReviewOptions)select.add(new Option(text,value));
+  select.value=values[item.id]||"pending";
+  label.append(caption,select);
+  return label;
+ }
+
+ fieldset.append(...criteria.slice(0,3).map(reviewRow));
+ if(learningLevel==="secondary"){
+  const genre=document.createElement("div");
+  genre.className="creation-review-genre";
+  const heading=document.createElement("h5");
+  heading.textContent="SOLO Secundaria · Género acordado";
+  const hint=document.createElement("p");
+  hint.textContent="Marca «No procede» cuando el criterio no corresponde al formato oral, gráfico u otro formato acordado.";
+  genre.append(heading,hint,...criteria.slice(3).map(reviewRow));
+  fieldset.append(genre);
+ }
+ const itinerary=itineraryFor(routeId);
+ const previousPrepared=itinerary.evidenceMode==="external"?itinerary.externalCreation:learningLevel==="secondary"?state.secondaryCreation:state.creation;
+ if(previousPrepared&&!Object.keys(values).length){
+  const previous=document.createElement("p");
+  previous.className="creation-review-prior";
+  previous.textContent="Tu borrador y la preparación anterior se conservan. Los estados de esta lista nueva empiezan pendientes y no sustituyen esa preparación. Revísalos con ayuda cuando se acuerde.";
+  fieldset.append(previous);
+ }
+ const summary=document.createElement("p");
+ summary.className="creation-review-summary";
+ summary.setAttribute("role","status");
+ summary.setAttribute("aria-live","polite");
+ summary.setAttribute("aria-atomic","true");
+ summary.textContent=creationReviewSummaryText(creationReviewResult(state,routeId));
+ fieldset.append(summary);
+ container.replaceChildren(fieldset);
 }
 function updateCreationReviewSummary(workshop,routeId){
  const summary=workshop.querySelector(".creation-review-summary");
@@ -886,26 +927,22 @@ function workshopResearchMarkup(routeId,research){
  const sources=research.sources?.length?`<details class="activity-sources"><summary>Fuentes para seguir investigando</summary><ul>${research.sources.map(source=>`<li><a href="${activityEscape(source.url)}" target="_blank" rel="noopener noreferrer">${activityEscape(source.label)}</a></li>`).join("")}</ul></details>`:"";
  return `<div class="activity-panel" id="activity-${routeId}-research" role="tabpanel" aria-labelledby="activity-tab-${routeId}-research" data-activity-panel="research" hidden><h4>${activityEscape(research.title)}</h4><p>${activityEscape(research.intro)}</p>${questions}<button class="button activity-check-research" type="button">Comprobar la investigación</button><p class="activity-panel-status" role="status" aria-live="polite"></p>${sources}<p class="activity-tip">La comprobación reconoce estas dos respuestas. Completa además la investigación y el contraste de fuentes que te haya indicado tu docente.</p><label class="activity-text-label"><span>Mi fuente y lo que he comprobado (opcional)</span><textarea rows="3" maxlength="600" data-research-evidence placeholder="Anota el título o enlace de una fuente y un dato que hayas contrastado."></textarea></label><p class="research-draft-status" role="status"></p></div>`;
 }
-function workshopPrimaryCreationMarkup(routeId,creation,state){
- const textValue=activityEscape(state.text||"");
+function workshopPrimaryCreationMarkup(creation){
  if(creation.type==="drawing"){
-  return `<div class="creation-version creation-primary" data-creation-version="primary"><p class="creation-stage-label">Propuesta para Primaria</p><h4>${activityEscape(creation.title)}</h4><p>${activityEscape(creation.prompt)}</p><p class="activity-tip">${activityEscape(creation.tip)}</p><div class="drawing-toolbar" aria-label="Herramientas de dibujo"><span>Color</span><button type="button" class="draw-color is-selected" data-draw-color="#2f2b26" style="--draw-color:#2f2b26" aria-label="Negro" aria-pressed="true"></button><button type="button" class="draw-color" data-draw-color="#9b5738" style="--draw-color:#9b5738" aria-label="Barro" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#dfb94f" style="--draw-color:#dfb94f" aria-label="Amarillo" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#72a4aa" style="--draw-color:#72a4aa" aria-label="Azul claro" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#829276" style="--draw-color:#829276" aria-label="Verde" aria-pressed="false"></button><label>Grosor <input class="draw-size" type="range" min="2" max="24" value="7" aria-label="Grosor del trazo"></label></div><div class="drawing-frame"><canvas class="activity-canvas" width="900" height="520" role="img" aria-label="Lienzo para dibujar al tibicena. Hay una alternativa de descripción escrita bajo el lienzo."></canvas></div><div class="drawing-actions"><button class="text-button draw-undo" type="button">Deshacer</button><button class="text-button draw-clear" type="button">Borrar dibujo</button><button class="text-button draw-download" type="button">Guardar imagen</button></div><label class="activity-text-label"><span>Alternativa escrita</span><textarea maxlength="500" rows="4" data-primary-text placeholder="${activityEscape(creation.placeholder)}">${textValue}</textarea><small><span class="activity-character-count">${textValue.length}</span>/500 caracteres</small></label></div>`;
+  return `<div class="creation-version creation-primary" data-creation-version="primary"><p class="creation-stage-label">Propuesta para Primaria</p><h4>${activityEscape(creation.title)}</h4><p>${activityEscape(creation.prompt)}</p><p class="activity-tip">${activityEscape(creation.tip)}</p><div class="drawing-toolbar" aria-label="Herramientas de dibujo"><span>Color</span><button type="button" class="draw-color is-selected" data-draw-color="#2f2b26" style="--draw-color:#2f2b26" aria-label="Negro" aria-pressed="true"></button><button type="button" class="draw-color" data-draw-color="#9b5738" style="--draw-color:#9b5738" aria-label="Barro" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#dfb94f" style="--draw-color:#dfb94f" aria-label="Amarillo" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#72a4aa" style="--draw-color:#72a4aa" aria-label="Azul claro" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#829276" style="--draw-color:#829276" aria-label="Verde" aria-pressed="false"></button><label>Grosor <input class="draw-size" type="range" min="2" max="24" value="7" aria-label="Grosor del trazo"></label></div><div class="drawing-frame"><canvas class="activity-canvas" width="900" height="520" role="img" aria-label="Lienzo para dibujar al tibicena. Hay una alternativa de descripción escrita bajo el lienzo."></canvas></div><div class="drawing-actions"><button class="text-button draw-undo" type="button">Deshacer</button><button class="text-button draw-clear" type="button">Borrar dibujo</button><button class="text-button draw-download" type="button">Guardar imagen</button></div><label class="activity-text-label"><span>Alternativa escrita</span><textarea maxlength="500" rows="4" data-primary-text placeholder="${activityEscape(creation.placeholder)}"></textarea><small><span class="activity-character-count">0</span>/500 caracteres</small></label></div>`;
  }
- return `<div class="creation-version creation-primary" data-creation-version="primary"><p class="creation-stage-label">Propuesta para Primaria</p><h4>${activityEscape(creation.title)}</h4><p>${activityEscape(creation.prompt)}</p><p class="activity-tip">${activityEscape(creation.tip)}</p><label class="activity-text-label"><span>Tu creación</span><textarea maxlength="500" rows="4" data-primary-text placeholder="${activityEscape(creation.placeholder)}">${textValue}</textarea><small><span class="activity-character-count">${textValue.length}</span>/500 caracteres</small></label></div>`;
+ return `<div class="creation-version creation-primary" data-creation-version="primary"><p class="creation-stage-label">Propuesta para Primaria</p><h4>${activityEscape(creation.title)}</h4><p>${activityEscape(creation.prompt)}</p><p class="activity-tip">${activityEscape(creation.tip)}</p><label class="activity-text-label"><span>Tu creación</span><textarea maxlength="500" rows="4" data-primary-text placeholder="${activityEscape(creation.placeholder)}"></textarea><small><span class="activity-character-count">0</span>/500 caracteres</small></label></div>`;
 }
-function workshopSecondaryCreationMarkup(routeId,secondary,state){
- const textValue=activityEscape(state.secondaryText||"");
- const choices=secondary.choices?.length?`<fieldset class="secondary-scene-choice"><legend>Elige una escena</legend>${secondary.choices.map((choice,index)=>`<label><input type="radio" name="secondary-scene-${routeId}" data-secondary-choice value="${activityEscape(choice)}" ${state.secondaryChoice===choice?"checked":""}><span>${index+1}. ${activityEscape(choice)}</span></label>`).join("")}</fieldset>`:"";
+function workshopSecondaryCreationMarkup(routeId,secondary){
+ const choices=secondary.choices?.length?`<fieldset class="secondary-scene-choice"><legend>Elige una escena</legend>${secondary.choices.map((choice,index)=>`<label><input type="radio" name="secondary-scene-${routeId}" data-secondary-choice value="${activityEscape(choice)}"><span>${index+1}. ${activityEscape(choice)}</span></label>`).join("")}</fieldset>`:"";
  const structure=`<section class="secondary-brief" aria-labelledby="secondary-structure-${routeId}"><h5 id="secondary-structure-${routeId}">Estructura de apoyo</h5><ol>${secondary.structure.map(item=>`<li>${activityEscape(item)}</li>`).join("")}</ol></section>`;
- const words=workshopWordCount(state.secondaryText||"");
- return `<div class="creation-version creation-secondary" data-creation-version="secondary"><p class="creation-stage-label">Crea · ${activityEscape(routes.find(route=>route.id===routeId)?.island||"")} · Secundaria</p><h4>${activityEscape(secondary.title)}</h4><p>${activityEscape(secondary.prompt)}</p>${choices}${structure}<label class="activity-text-label secondary-text-label"><span>Tu producción</span><textarea maxlength="5000" rows="12" data-secondary-text placeholder="${activityEscape(secondary.placeholder)}">${textValue}</textarea><small><span class="activity-word-count">${words}</span> palabras · <span class="activity-character-count">${textValue.length}</span>/5000 caracteres</small></label><p class="secondary-length-note">${activityEscape(secondary.lengthLabel)}</p></div>`;
+ return `<div class="creation-version creation-secondary" data-creation-version="secondary"><p class="creation-stage-label">Crea · ${activityEscape(routes.find(route=>route.id===routeId)?.island||"")} · Secundaria</p><h4>${activityEscape(secondary.title)}</h4><p>${activityEscape(secondary.prompt)}</p>${choices}${structure}<label class="activity-text-label secondary-text-label"><span>Tu producción</span><textarea maxlength="5000" rows="12" data-secondary-text placeholder="${activityEscape(secondary.placeholder)}"></textarea><small><span class="activity-word-count">0</span> palabras · <span class="activity-character-count">0</span>/5000 caracteres</small></label><p class="secondary-length-note">${activityEscape(secondary.lengthLabel)}</p></div>`;
 }
-function workshopCreationMarkup(routeId,creation,secondary,state){
- return `<div class="activity-panel" id="activity-${routeId}-creation" role="tabpanel" aria-labelledby="activity-tab-${routeId}-creation" data-activity-panel="creation" hidden>${workshopPrimaryCreationMarkup(routeId,creation,state)}${workshopSecondaryCreationMarkup(routeId,secondary,state)}<p class="external-creation-note" hidden></p><div data-creation-review-container>${workshopCreationReviewMarkup(routeId,state)}</div><button class="button activity-save-creation" data-creation-track="${learningLevel==="secondary"?"secondary":"primary"}" type="button">${learningLevel==="secondary"?"Marcar propuesta como preparada":"Marcar creación como preparada"}</button><p class="draft-status" role="status" aria-live="polite"></p><div class="drawing-actions"><button class="text-button activity-download-draft" type="button">Descargar mi borrador</button></div><p class="activity-panel-status" role="status" aria-live="polite"></p></div>`;
+function workshopCreationMarkup(routeId,creation,secondary){
+ return `<div class="activity-panel" id="activity-${routeId}-creation" role="tabpanel" aria-labelledby="activity-tab-${routeId}-creation" data-activity-panel="creation" hidden>${workshopPrimaryCreationMarkup(creation)}${workshopSecondaryCreationMarkup(routeId,secondary)}<p class="external-creation-note" hidden></p><div data-creation-review-container></div><button class="button activity-save-creation" data-creation-track="${learningLevel==="secondary"?"secondary":"primary"}" type="button">${learningLevel==="secondary"?"Marcar propuesta como preparada":"Marcar creación como preparada"}</button><p class="draft-status" role="status" aria-live="polite"></p><div class="drawing-actions"><button class="text-button activity-download-draft" type="button">Descargar mi borrador</button></div><p class="activity-panel-status" role="status" aria-live="polite"></p></div>`;
 }
 function workshopMarkup(route,activity){
- const state=getWorkshopRouteState(route.id);
- return `<section class="activity-workshop" id="activity-${route.id}" aria-labelledby="activity-title-${route.id}"><div class="activity-workshop-head"><div><p class="challenge-kicker">Actividad complementaria · Infantil, Primaria y Secundaria</p><h3 id="activity-title-${route.id}">Cuaderno activo de ${activityEscape(route.island)}</h3><p>Explora vocabulario, contrasta información y crea. En Secundaria, el apartado «Crea» propone un género discursivo diferente en cada ruta. Esta parte no bloquea la pieza.</p></div><span class="activity-workshop-progress" role="status" aria-live="polite">0/3</span></div><div class="activity-tabs" role="tablist" aria-label="Apartados del cuaderno"><button id="activity-tab-${route.id}-words" type="button" role="tab" aria-selected="true" aria-controls="activity-${route.id}-words" data-activity-tab="words">1. Vocabulario</button><button id="activity-tab-${route.id}-research" type="button" role="tab" aria-selected="false" aria-controls="activity-${route.id}-research" data-activity-tab="research" tabindex="-1">2. Investiga</button><button id="activity-tab-${route.id}-creation" type="button" role="tab" aria-selected="false" aria-controls="activity-${route.id}-creation" data-activity-tab="creation" tabindex="-1">3. Crea</button></div><div class="activity-panel" id="activity-${route.id}-words" role="tabpanel" aria-labelledby="activity-tab-${route.id}-words" data-activity-panel="words"><h4>${activityEscape(activity.words.title)}</h4><p>${activityEscape(activity.words.intro)}</p>${workshopMatchMarkup(route.id,activity.words.match)}${workshopFillMarkup(activity.words)}<button class="button activity-check-words" type="button">Comprobar el vocabulario</button><p class="activity-panel-status" role="status" aria-live="polite"></p></div>${workshopResearchMarkup(route.id,activity.research)}${workshopCreationMarkup(route.id,activity.creation,secondaryCreations[route.id],state)}</section>`;
+ return `<section class="activity-workshop" id="activity-${route.id}" aria-labelledby="activity-title-${route.id}"><div class="activity-workshop-head"><div><p class="challenge-kicker">Actividad complementaria · Infantil, Primaria y Secundaria</p><h3 id="activity-title-${route.id}">Cuaderno activo de ${activityEscape(route.island)}</h3><p>Explora vocabulario, contrasta información y crea. En Secundaria, el apartado «Crea» propone un género discursivo diferente en cada ruta. Esta parte no bloquea la pieza.</p></div><span class="activity-workshop-progress" role="status" aria-live="polite">0/3</span></div><div class="activity-tabs" role="tablist" aria-label="Apartados del cuaderno"><button id="activity-tab-${route.id}-words" type="button" role="tab" aria-selected="true" aria-controls="activity-${route.id}-words" data-activity-tab="words">1. Vocabulario</button><button id="activity-tab-${route.id}-research" type="button" role="tab" aria-selected="false" aria-controls="activity-${route.id}-research" data-activity-tab="research" tabindex="-1">2. Investiga</button><button id="activity-tab-${route.id}-creation" type="button" role="tab" aria-selected="false" aria-controls="activity-${route.id}-creation" data-activity-tab="creation" tabindex="-1">3. Crea</button></div><div class="activity-panel" id="activity-${route.id}-words" role="tabpanel" aria-labelledby="activity-tab-${route.id}-words" data-activity-panel="words"><h4>${activityEscape(activity.words.title)}</h4><p>${activityEscape(activity.words.intro)}</p>${workshopMatchMarkup(route.id,activity.words.match)}${workshopFillMarkup(activity.words)}<button class="button activity-check-words" type="button">Comprobar el vocabulario</button><p class="activity-panel-status" role="status" aria-live="polite"></p></div>${workshopResearchMarkup(route.id,activity.research)}${workshopCreationMarkup(route.id,activity.creation,secondaryCreations[route.id])}</section>`;
 }
 function activateWorkshopPanel(workshop,name,focus=false){
  const tabs=[...workshop.querySelectorAll("[data-activity-tab]")];
@@ -1063,6 +1100,12 @@ function bindWorkshop(section,route){
  workshop.querySelectorAll(".activity-save-creation").forEach(button=>button.addEventListener("click",()=>saveWorkshopCreation(route.id,button.dataset.creationTrack)));
  workshop.querySelector(".activity-download-draft")?.addEventListener("click",()=>downloadWorkshopDraft(route.id));
  const state=getWorkshopRouteState(route.id),panel=workshop.querySelector('[data-activity-panel="creation"]');
+ const primaryText=panel.querySelector("[data-primary-text]");
+ const secondaryText=panel.querySelector("[data-secondary-text]");
+ primaryText.value=state.text;
+ secondaryText.value=state.secondaryText;
+ panel.querySelectorAll("[data-secondary-choice]").forEach(input=>input.checked=input.value===state.secondaryChoice);
+ refreshCreationReview(workshop,route.id);
  workshop.addEventListener("change",event=>{
   const select=event.target.closest("select[data-creation-review]");
   if(!select||select.dataset.creationReviewLevel!==learningLevel||!creationReviewCriteria(route.id).some(item=>item.id===select.dataset.creationReview)||!creationReviewOptions.some(option=>option[0]===select.value))return;
