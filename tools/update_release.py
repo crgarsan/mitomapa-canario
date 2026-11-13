@@ -12,14 +12,15 @@ import copy
 from html import escape, unescape
 from html.parser import HTMLParser
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import posixpath
 import re
 import xml.etree.ElementTree as ET
 from urllib.parse import parse_qs, urljoin, urlsplit
 
 from release_support import (
-    MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries, pinned_story_media,
+    MAX_ASSET_BYTES, approved_release_paths, digest, json_bytes, metadata, parse_sums, public_entries,
+    pinned_story_media, require_approved, story_media_inventory,
     PINTADERA_DIRECTORY, PINTADERA_GROUPS, PINTADERA_MANIFEST, pintadera_inventory,
     read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
     LAPA_STL, STORY_ACTIVITY_BOOK_PDF, STORY_BOOK_PDF, VASIJA_COLLECTION_ZIP, check_vasija_collection, lapa_assets,
@@ -29,6 +30,12 @@ from release_support import (
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE_SPECIAL = {"SOURCE_MANIFEST.json", "FUENTES_WEB_LEEME.txt"}
+PUBLIC_SUFFIXES = {".html", ".css", ".js", ".md", ".txt"}
+SOURCE_SUFFIXES = PUBLIC_SUFFIXES | {".json", ".svg", ".png"}
+SOURCE_EXPLICIT = {
+    "LICENSE", "_headers", "wrangler.jsonc", "requirements-browser-tests.txt",
+    ".github/dependabot.yml", "docs/RESPALDO.md",
+}
 DOCUMENTS = (
     "GUIA_DOCENTE.html", "GUIA_DOCENTE_GOBCAN.html", "GUIA_REUTILIZACION.html",
     "FUENTES_CUENTOS.html", "LICENCIA_Y_CREDITOS.txt", "CREDITOS_MATERIALES.csv",
@@ -140,15 +147,16 @@ def sharing_version(version):
     return result
 
 
-def sharing_files(root, version, elpx):
+def sharing_files(root, version, elpx, approved):
     current = version["rea_exelearning_version"]
     files = {"MitoMapa_canario_GobCan.elpx": elpx}
     documents = set(DOCUMENTS)
     for key in ("release_notes", "rea_release_notes"):
         documents.add(version[key])
     for protocol in ("PROTOCOLO_PILOTAJE.html", "PROTOCOLO_PILOTAJE_WEB_4_9_0.html"):
-        if (root / protocol).is_file():
+        if protocol in approved:
             documents.add(protocol)
+    require_approved(documents, approved)
     for name in sorted(documents):
         files[f"documentacion/{name}"] = sharing_document(
             source_path(root, name).read_bytes(), name, documents, version)
@@ -179,37 +187,24 @@ def sharing_files(root, version, elpx):
     return files
 
 
-def source_inventory(root, version):
-    # Seed from the curated current/previous source inventory, then include new
-    # source modules, guides and checks. Never derive it from public downloads.
-    candidates = [version["source_archive"]["path"]]
-    previous = version.get("previous_web_version", "").replace(".", "_")
-    if previous:
-        candidates.append(f"downloads/MitoMapa_fuentes_web_v{previous}.zip")
-    names = set()
-    for candidate in candidates:
-        if (root / candidate).is_file():
-            names.update(read_zip((root / candidate).read_bytes()))
-            break
-    names.difference_update(SOURCE_SPECIAL | {"SHA256SUMS.txt"})
-    names.update(DOCUMENTS)
-    names.difference_update(LEGACY_CLASSROOM_DOCUMENTS)
-    for extension in ("*.html", "*.css", "*.js", "*.md", "*.txt", "*.json", "*.svg", "*.png"):
-        names.update(path.relative_to(root).as_posix() for path in root.glob(extension) if path.is_file())
-    for directory, patterns in {
-        "assets": ("**/*",), "tools": ("*.py", "*.js", "vendor/*"), "tests": ("**/*.py", "**/*.js", "**/*.json"),
-        ".github/workflows": ("*.yml", "*.yaml"),
-    }.items():
-        for pattern in patterns:
-            names.update(path.relative_to(root).as_posix() for path in (root / directory).glob(pattern) if path.is_file())
-    names.update(name for name in ("LICENSE", "_headers", "wrangler.jsonc", "requirements-browser-tests.txt",
-                                  ".github/dependabot.yml", "docs/RESPALDO.md") if (root / name).is_file())
-    return sorted(name for name in names if name not in SOURCE_SPECIAL | {"SHA256SUMS.txt"}
-                  and not name.lower().endswith((".zip", ".elpx")) and (root / name).is_file())
+def source_inventory(approved):
+    excluded = SOURCE_SPECIAL | LEGACY_CLASSROOM_DOCUMENTS | {"SHA256SUMS.txt"}
+    for name in sorted(approved - excluded):
+        path = PurePosixPath(name)
+        if path.suffix.lower() in {".zip", ".elpx"}:
+            continue
+        if (name in SOURCE_EXPLICIT or name in DOCUMENTS
+                or (len(path.parts) == 1 and path.suffix in SOURCE_SUFFIXES)
+                or name.startswith("assets/")
+                or (path.parent == PurePosixPath("tools") and path.suffix in {".py", ".js"})
+                or path.parent == PurePosixPath("tools/vendor")
+                or (name.startswith("tests/") and path.suffix in {".py", ".js", ".json"})
+                or (path.parent == PurePosixPath(".github/workflows") and path.suffix in {".yml", ".yaml"})):
+            yield name
 
 
-def source_files(root, version, version_payload):
-    files = {name: source_path(root, name).read_bytes() for name in source_inventory(root, version)}
+def source_files(root, version, version_payload, approved):
+    files = {name: source_path(root, name).read_bytes() for name in source_inventory(approved)}
     files["VERSION.json"] = version_payload
     media_note = (
         "\nLos nuevos medios de los cuentos se distribuyen por separado para mantener\n"
@@ -220,12 +215,12 @@ def source_files(root, version, version_payload):
         "los archivos sin modificaciones del alojamiento principal. Puedes indicar\n"
         "otro origen HTTPS mediante --base-url. La descarga verifica HTTPS, tamano\n"
         "y SHA-256 antes de guardar cada archivo.\n\n"
-        if (root / 'MEDIA_MANIFEST.json').is_file() else ''
+        if 'MEDIA_MANIFEST.json' in files else ''
     )
     pintadera_note = (
         '\nLos STL y ZIP de las pintaderas se distribuyen en la web publicada.\n'
         f'Consúltalos en {PUBLIC_URL}#pintaderas3d. {PINTADERA_MANIFEST} contiene sus huellas y tamaños.\n\n'
-        if (root / PINTADERA_MANIFEST).is_file() else ''
+        if PINTADERA_MANIFEST in files else ''
     )
     vasija_note = (
         "\nLos STL de las vasijas y el ZIP de la colección se distribuyen en la web publicada.\n"
@@ -233,14 +228,14 @@ def source_files(root, version, version_payload):
         "downloads/vasija/vasija_canaria.stl y los otros seis STL en downloads/vasijas/,\n"
         "con los nombres gran-canaria.stl, la-palma.stl, lanzarote.stl, fuerteventura.stl,\n"
         "la-gomera.stl y el-hierro.stl. Guarda el ZIP conjunto como downloads/vasijas/coleccion.zip.\n\n"
-        if vasija_assets(root) else ""
+        if vasija_assets(root, approved=approved) else ""
     )
     lapa_note = (
         f"\nEl STL de la lapa blanca se distribuye en {PUBLIC_URL}#lapa-blanca.\n"
         f"Para usar el visor local, guarda el archivo en {LAPA_STL}.\n\n"
-        if lapa_assets(root) else ""
+        if lapa_assets(root, approved=approved) else ""
     )
-    book_assets = story_book_assets(root)
+    book_assets = story_book_assets(root, approved=approved)
     story_book_note = ''.join(
         f"\nEl libro {title} se descarga desde {PUBLIC_URL}{name}.\n"
         f"Para abrirlo desde la web local, guarda el PDF en {name}.\n\n"
@@ -265,26 +260,23 @@ def source_files(root, version, version_payload):
     return files
 
 
-def public_names(root, previous, paths):
-    names = set(previous) | set(paths.values())
+def public_names(root, previous, paths, approved, pintaderas, models):
+    names = set(previous) | set(paths.values()) | models
     # Only browser modules, teaching documents and the existing static assets
     # are added. CI files, dependency manifests and tests stay in the sources ZIP.
-    for extension in ("*.html", "*.css", "*.js", "*.md", "*.txt"):
-        names.update(path.name for path in root.glob(extension) if path.is_file())
+    names.update(name for name in approved if "/" not in name and PurePosixPath(name).suffix in PUBLIC_SUFFIXES)
     names.discard("SHA256SUMS.txt")
     names.discard("requirements-browser-tests.txt")
-    names.update(path.relative_to(root).as_posix() for path in (root / "assets").rglob("*") if path.is_file())
+    names.update(name for name in approved if name.startswith("assets/"))
     names.update({"VERSION.json", "LICENSE"})
-    media = pinned_story_media(root)
+    media = pinned_story_media(root, approved=approved) if "MEDIA_MANIFEST.json" in approved else {}
     if media:
         names.update(media)
         names.add('MEDIA_MANIFEST.json')
-    pintaderas = pintadera_inventory(root)
     if pintaderas:
         names.update(pintaderas)
         names.add(PINTADERA_MANIFEST)
-    names.update(vasija_assets(root) | lapa_assets(root) | story_book_assets(root))
-    return sorted(names)
+    return names
 
 
 def check_elpx(payload, version, root=ROOT):
@@ -350,21 +342,29 @@ def check_pintadera_downloads(root, inventory):
             raise ValueError('Pintadera ZIP does not match its individual STL files: ' + group)
 
 
-def check_release(root=ROOT):
-    version = json.loads((root / "VERSION.json").read_text(encoding="utf-8"))
+def check_release(root=ROOT, *, inventory=None):
+    approved = approved_release_paths(root, inventory)
+    require_approved({"VERSION.json", "index.html", "version.js"}, approved)
+    version_path = source_path(root, "VERSION.json")
+    version = json.loads(version_path.read_text(encoding="utf-8"))
     paths = release_paths(version)
-    public = public_entries(root)
+    public = public_entries(root, approved=approved)
     if not set(paths.values()) <= set(public):
         raise ValueError("Current downloads are missing from the public allowlist")
-    vasijas = vasija_assets(root)
+    if "MEDIA_MANIFEST.json" in approved:
+        media = story_media_inventory(root)
+        if not (media.keys() | {"MEDIA_MANIFEST.json"}) <= public.keys():
+            raise ValueError("Story media are missing from the public allowlist")
+        pinned_story_media(root, approved=approved, inventory=media)
+    vasijas = vasija_assets(root, approved=approved)
     if not vasijas <= public.keys():
         raise ValueError("Vasija assets are missing from the public allowlist")
     check_vasija_collection(root, vasijas)
-    if not lapa_assets(root) <= public.keys():
+    if not lapa_assets(root, approved=approved) <= public.keys():
         raise ValueError("Lapa assets are missing from the public allowlist")
-    if not story_book_assets(root) <= public.keys():
+    if not story_book_assets(root, approved=approved) <= public.keys():
         raise ValueError("A story book download is missing from the public allowlist")
-    pintaderas = pintadera_inventory(root)
+    pintaderas = pintadera_inventory(root, approved=approved)
     if pintaderas:
         if not (set(pintaderas) | {PINTADERA_MANIFEST}) <= set(public):
             raise ValueError('Pintadera downloads are missing from the public allowlist')
@@ -382,13 +382,13 @@ def check_release(root=ROOT):
         check_download_button(source_path(root, "index.html").read_text(), version)
     sharing = read_zip(public[paths["sharing_archive"]].read_bytes())
     verify_sums(sharing)
-    if sharing != sharing_files(root, version, elpx):
+    if sharing != sharing_files(root, version, elpx, approved):
         raise ValueError("The sharing archive is not synchronized with this release")
     sources = read_zip(public[paths["source_archive"]].read_bytes())
     if any(name.lower().endswith((".zip", ".elpx")) for name in sources):
         raise ValueError("A source archive contains another ZIP or ELPX")
     verify_manifest(sources, json.loads(sources["SOURCE_MANIFEST.json"]), {"SOURCE_MANIFEST.json"})
-    if sources != source_files(root, version, (root / "VERSION.json").read_bytes()):
+    if sources != source_files(root, version, version_path.read_bytes(), approved):
         raise ValueError("The source archive is not synchronized with current sources")
     for name in ("index.html", "version.js"):
         data = source_path(root, name).read_bytes()
@@ -399,13 +399,19 @@ def check_release(root=ROOT):
     return len(public)
 
 
-def update_release(root=ROOT):
-    version = json.loads((root / "VERSION.json").read_text(encoding="utf-8"))
+def update_release(root=ROOT, *, inventory=None):
+    approved = approved_release_paths(root, inventory)
+    require_approved({"SHA256SUMS.txt", "VERSION.json", "index.html", "version.js"}, approved)
+    version = json.loads(source_path(root, "VERSION.json").read_text(encoding="utf-8"))
     paths = release_paths(version)
-    previous = parse_sums((root / "SHA256SUMS.txt").read_text(encoding="utf-8"))
-    pintaderas = pintadera_inventory(root)
+    previous = parse_sums(source_path(root, "SHA256SUMS.txt").read_text(encoding="utf-8"))
+    require_approved(previous.keys() | {paths["download"]}, approved)
+    pintaderas = pintadera_inventory(root, approved=approved)
+    require_approved(pintaderas, approved)
     check_pintadera_downloads(root, pintaderas)
-    vasijas = vasija_assets(root)
+    vasijas = vasija_assets(root, approved=approved)
+    models = vasijas | lapa_assets(root, approved=approved) | story_book_assets(root, approved=approved)
+    require_approved(models, approved)
     check_vasija_collection(root, vasijas)
     current_downloads = set(paths.values()) | pintaderas.keys() | (vasijas & {VASIJA_COLLECTION_ZIP})
     # Historical packages are immutable, and their existing URLs stay public.
@@ -418,14 +424,14 @@ def update_release(root=ROOT):
     version["download"].update(metadata(elpx))
     if version.get("elpx_distribution", {}).get("mode") == "native_only":
         check_download_button(source_path(root, "index.html").read_text(), version)
-    sharing = zip_bytes(sharing_files(root, version, elpx))
+    sharing = zip_bytes(sharing_files(root, version, elpx, approved))
     version["sharing_archive"].update(metadata(sharing))
     version_payload = json_bytes(version)
-    sources = zip_bytes(source_files(root, version, version_payload))
+    sources = zip_bytes(source_files(root, version, version_payload, approved))
     overrides = {"VERSION.json": version_payload, paths["sharing_archive"]: sharing,
                  paths["source_archive"]: sources}
     files = {name: overrides[name] if name in overrides else source_path(root, name).read_bytes()
-             for name in public_names(root, previous, paths)}
+             for name in sorted(public_names(root, previous, paths, approved, pintaderas, models))}
     oversized = [name for name, data in files.items() if len(data) > MAX_ASSET_BYTES]
     if oversized:
         raise ValueError(f"Public assets exceed the 25 MiB limit: {', '.join(oversized)}")
@@ -442,8 +448,10 @@ def update_release(root=ROOT):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="Validate current packages without writing files")
+    parser.add_argument("--inventory", type=Path, help="Reviewed JSON file list for a complete non-Git export")
     args = parser.parse_args()
-    count = check_release() if args.check else update_release()
+    action = check_release if args.check else update_release
+    count = action(inventory=args.inventory)
     print(f"{'Verified' if args.check else 'Updated'} the current release and {count} public assets")
 
 

@@ -305,6 +305,7 @@ class NamesBrowserTest(unittest.TestCase):
         self.page.locator("#openTeacher").click()
         self.page.locator("#teacherToolsTab").click()
         self.page.locator("#resetProgress").click()
+        expect(self.page.locator("#teacherImportStatus")).to_contain_text("Progreso reiniciado")
         self.assert_empty()
         self.page.locator("#closeTeacher").click()
         self.place("la-palma")

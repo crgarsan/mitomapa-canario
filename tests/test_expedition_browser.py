@@ -161,6 +161,7 @@ class ExpeditionBrowserTests(unittest.TestCase):
         self.page.locator('#activity-tenerife [data-research-evidence]').fill('Nota de la visita anterior')
         self.context.add_init_script('window.confirm=()=>true')
         self.page.evaluate('window.confirm=()=>true;resetProgress()')
+        self.page.wait_for_function("()=>document.getElementById('teacherImportStatus').textContent.includes('Progreso reiniciado')")
         expect(self.page.locator('#learning-source-guide-tenerife')).to_have_count(1)
         evidence=self.page.locator('#activity-tenerife [data-research-evidence]')
         self.assertEqual(evidence.input_value(), '')

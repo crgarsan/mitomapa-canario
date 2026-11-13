@@ -107,6 +107,115 @@ class PersistentStateBrowserTests(unittest.TestCase):
         self.page.mouse.move(box["x"] + 130, box["y"] + 100, steps=4)
         self.page.mouse.up()
 
+    def open_teacher_tools(self, page):
+        page.locator("#openTeacher").click()
+        page.locator("#teacherToolsTab").click()
+
+    def open_second_tab(self, path=""):
+        tab = self.context.new_page()
+        tab.set_default_timeout(7000)
+        tab.on("pageerror", lambda error: self.errors.append(str(error)))
+        tab.goto(self.base + path, wait_until="networkidle")
+        return tab
+
+    def prepare_example_progress(self):
+        self.seed(text="Borrador del equipo ficticio")
+        self.open_teacher_tools(self.page)
+        identity = self.page.locator("#teacherLearnerName")
+        identity.fill("Equipo ficticio del taller")
+        identity.press("Tab")
+        self.page.locator("#closeTeacher").click()
+        self.page.locator('[data-nav="juegos"]').click()
+        self.page.locator('a[href="#comparar"]').first.click()
+        note = self.page.locator(".compare-note")
+        note.fill("Dos escenas del taller ficticio")
+        note.press("Tab")
+
+    def replacement_progress(self):
+        return {
+            "app": "mitomapa-canario", "schemaVersion": 1, "learningLevel": "advanced",
+            "learnerName": "Equipo de la biblioteca", "progress": {},
+            "workshop": {"routes": {"tenerife": {"text": "Un borrador de la biblioteca"}}},
+            "interactive": {"comparison": {"notes": {"el-hierro|tenerife": "Una comparación nueva"}}},
+        }
+
+    def upload_progress(self, payload):
+        self.page.locator("#importProgressFile").set_input_files({
+            "name": "seguimiento.json", "mimeType": "application/json",
+            "buffer": json.dumps(payload).encode(),
+        })
+
+    def test_reset_refreshes_an_open_tab_and_clears_saved_work(self):
+        self.prepare_example_progress()
+        other = self.open_second_tab("#comparar")
+        expect(other.locator(".compare-note")).to_have_value("Dos escenas del taller ficticio")
+        self.open_teacher_tools(self.page)
+        self.page.locator("#resetProgress").click()
+        expect(self.page.locator("#teacherLearnerName")).to_have_value("")
+
+        expect(other.locator(".compare-note")).to_have_value("")
+        self.open_teacher_tools(other)
+        expect(other.locator("#teacherLearnerName")).to_have_value("")
+        with other.expect_download() as downloaded:
+            other.locator("#exportProgress").click()
+        result = json.loads(Path(downloaded.value.path()).read_text())
+        self.assertEqual(result["learnerName"], "")
+        self.assertEqual(result["interactive"]["comparison"]["notes"], {})
+        self.assertFalse(result["workshop"]["routes"].get("tenerife", {}).get("text"))
+
+    def test_import_replaces_the_work_visible_in_an_open_tab(self):
+        self.prepare_example_progress()
+        other = self.open_second_tab("#comparar")
+        self.open_teacher_tools(other)
+        expect(other.locator("#teacherLearnerName")).to_have_value("Equipo ficticio del taller")
+        replacement = self.replacement_progress()
+        self.open_teacher_tools(self.page)
+        self.upload_progress(replacement)
+        expect(self.page.locator("#teacherImportStatus")).to_contain_text("correctamente")
+        expect(other.locator("#teacherDialog")).not_to_be_visible()
+        self.open_teacher_tools(other)
+        expect(other.locator("#teacherLearnerName")).to_have_value(replacement["learnerName"])
+        with other.expect_download() as downloaded:
+            other.locator("#exportProgress").click()
+        result = json.loads(Path(downloaded.value.path()).read_text())
+        self.assertEqual(result["learnerName"], replacement["learnerName"])
+        self.assertEqual(result["workshop"]["routes"]["tenerife"]["text"], "Un borrador de la biblioteca")
+        self.assertEqual(result["interactive"]["comparison"]["notes"], {"el-hierro|tenerife": "Una comparación nueva"})
+
+    def test_reset_supersedes_an_import_still_reading_its_file(self):
+        self.prepare_example_progress()
+        self.open_teacher_tools(self.page)
+        self.page.evaluate("""text => {
+            const file = new File([text], "seguimiento.json", {type: "application/json"});
+            file.text = () => new Promise(resolve => { window.finishReadingProgress = () => resolve(text); });
+            window.pendingProgressImport = importProgressFile(file);
+        }""", json.dumps(self.replacement_progress()))
+        self.page.locator("#resetProgress").click()
+        status = self.page.locator("#teacherImportStatus")
+        expect(status).to_contain_text("Progreso reiniciado")
+        self.page.evaluate("() => { window.finishReadingProgress(); return window.pendingProgressImport; }")
+        expect(status).to_contain_text("Progreso reiniciado")
+        expect(self.page.locator("#teacherLearnerName")).to_have_value("")
+        expect(self.page.locator(".compare-note")).to_have_value("")
+
+    def test_import_preserves_current_progress_if_replacement_cannot_be_saved(self):
+        self.prepare_example_progress()
+        self.open_teacher_tools(self.page)
+        before = self.page.evaluate("({...localStorage})")
+        self.page.evaluate("""() => {
+            const store = Storage.prototype.setItem;
+            let writes = 0;
+            Storage.prototype.setItem = function (key, value) {
+                if (++writes > 2) throw new DOMException("Storage is full", "QuotaExceededError");
+                return store.call(this, key, value);
+            };
+        }""")
+        self.upload_progress(self.replacement_progress())
+        expect(self.page.locator("#teacherImportStatus")).to_contain_text("No se pudo guardar")
+        expect(self.page.locator("#teacherLearnerName")).to_have_value("Equipo ficticio del taller")
+        expect(self.page.locator(".compare-note")).to_have_value("Dos escenas del taller ficticio")
+        self.assertEqual(self.page.evaluate("({...localStorage})"), before)
+
     def test_criterion_edit_invalidates_only_its_stage(self):
         # Catch a criterion handler using broad shared-production invalidation.
         for level in LEVELS:

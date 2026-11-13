@@ -16,7 +16,8 @@ from urllib.request import Request, urlopen
 
 from release_support import (
     LAPA_STL, PINTADERA_MANIFEST, PINTADERA_STL, VASIJA_COLLECTION_MODELS, VASIJA_STL,
-    lapa_assets, parse_sums, pintadera_inventory, safe_name, source_path, story_book_assets, vasija_assets,
+    approved_release_paths, lapa_assets, parse_sums, pintadera_inventory, require_approved,
+    safe_name, source_path, story_book_assets, vasija_assets,
 )
 
 
@@ -90,13 +91,15 @@ def download_paths(version):
     return result
 
 
-def inventory(root):
+def inventory(root, approved):
+    require_approved({'SHA256SUMS.txt', 'VERSION.json', 'MEDIA_MANIFEST.json'}, approved)
     sums = parse_sums(source_path(root, 'SHA256SUMS.txt').read_text(encoding='utf-8'))
+    require_approved(sums, approved)
     version = json.loads(source_path(root, 'VERSION.json').read_text(encoding='utf-8'))
     current = download_paths(version)
-    pintaderas = pintadera_inventory(root)
-    models_3d = vasija_assets(root) | lapa_assets(root)
-    retained_downloads = current | TEACHER_MATERIALS | pintaderas.keys() | story_book_assets(root)
+    pintaderas = pintadera_inventory(root, approved=approved)
+    models_3d = vasija_assets(root, approved=approved) | lapa_assets(root, approved=approved)
+    retained_downloads = current | TEACHER_MATERIALS | pintaderas.keys() | story_book_assets(root, approved=approved)
     retained_downloads.update(name for name in models_3d if name.startswith('downloads/'))
     selected = {name: value for name, value in sums.items() if public_static(name) and (not name.startswith('downloads/') or name in retained_downloads)}
     required_assets = {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads | models_3d
@@ -117,12 +120,13 @@ def inventory(root):
                 or not isinstance(details['sha256'], str) or not re.fullmatch('[0-9a-f]{64}', details['sha256'])
                 or type(details['bytes']) is not int or details['bytes'] < 1):
             raise ValueError('Invalid media inventory entry')
+        if name not in selected:
+            raise ValueError('Required media asset is not pinned in SHA256SUMS.txt: ' + name)
+        if selected[name] != details['sha256']:
+            raise ValueError('Public and media inventories disagree: ' + name)
         source = source_path(root, name)
         if source.stat().st_size != details['bytes'] or file_hash(source) != details['sha256']:
             raise ValueError('Pinned media mismatch: ' + name)
-        if name in selected and selected[name] != details['sha256']:
-            raise ValueError('Public and media inventories disagree: ' + name)
-        selected[name] = details['sha256']
     paths = {}
     for name, expected in selected.items():
         path = source_path(root, name)
@@ -170,7 +174,7 @@ def git_identity(root, supplied):
     return commit, dirty
 
 
-def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org/', prefix='/mitomapa-canario/', commit=None, max_bytes=MAX_BYTES):
+def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org/', prefix='/mitomapa-canario/', commit=None, max_bytes=MAX_BYTES, release_inventory=None):
     root = Path(root).resolve()
     output = Path(output) if output is not None else root / '.backup'
     if output.is_symlink():
@@ -181,7 +185,7 @@ def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org
     primary, prefix = https_url(primary), base_path(prefix)
     if not 0 < max_bytes <= MAX_BYTES:
         raise ValueError('Backup size limit must be positive and no greater than 1 GB')
-    paths, version, current, historical = inventory(root)
+    paths, version, current, historical = inventory(root, approved_release_paths(root, release_inventory))
     source_commit, dirty = git_identity(root, commit)
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = Path(tempfile.mkdtemp(prefix='.backup-stage-', dir=output.parent))
@@ -272,6 +276,7 @@ def main():
     parser.add_argument('--base-path', default='/mitomapa-canario/')
     parser.add_argument('--source-commit')
     parser.add_argument('--max-bytes', type=int, default=MAX_BYTES)
+    parser.add_argument('--inventory', type=Path, help='Reviewed JSON file list for a complete non-Git export')
     parser.add_argument('--verify-url')
     parser.add_argument('--expected-manifest-sha')
     args = parser.parse_args()
@@ -279,7 +284,8 @@ def main():
         if args.verify_url:
             result = verify_publication(args.verify_url, expected_commit=args.source_commit, expected_manifest_sha=args.expected_manifest_sha)
         else:
-            result = stage_backup(args.root, args.output, primary=args.primary_url, prefix=args.base_path, commit=args.source_commit, max_bytes=args.max_bytes)
+            result = stage_backup(args.root, args.output, primary=args.primary_url, prefix=args.base_path,
+                                  commit=args.source_commit, max_bytes=args.max_bytes, release_inventory=args.inventory)
     except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
         print('Backup verification failed: ' + str(error), file=sys.stderr)
         return 1

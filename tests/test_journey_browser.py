@@ -227,6 +227,7 @@ class JourneyBrowserTest(unittest.TestCase):
         self.select_routes("lanzarote")
         self.review_routes("lanzarote")
         self.page.locator("#resetProgress").click()
+        self.page.wait_for_function("()=>document.getElementById('teacherImportStatus').textContent.includes('Progreso reiniciado')")
         self.assertEqual(self.selected_routes(), [])
         self.assertEqual(self.page.locator("[data-review-route]:checked").count(), 0)
         self.assertIsNotNone(
