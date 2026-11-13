@@ -20,6 +20,8 @@ sha256sum --check SHA256SUMS.txt
 
 En macOS puede utilizarse `shasum -a 256 -c SHA256SUMS.txt` para la última comprobación. El preparador sustituye `.backup` solo después de validar los archivos y el tamaño. Un fallo conserva la copia anterior. No se debe añadir `.backup` al historial del repositorio.
 
+Si preparas el respaldo desde una exportación completa sin Git, indica su inventario revisado con `--inventory RUTA` y el identificador completo del commit de origen con `--source-commit ID`.
+
 La selección parte del inventario público firmado por hashes, comprueba además los pines de `MEDIA_MANIFEST.json` y rechaza rutas inseguras y enlaces simbólicos. Excluye herramientas, pruebas, QA, secretos, directorios ocultos, archivos `.old` y la configuración específica del proveedor principal. Las referencias locales con una ruta nombrada que comienza por `/` se adaptan a `/mitomapa-canario/`; los medios continúan alojados en el propio respaldo. El literal `/` aislado no se modifica: se conserva, entre otros usos, el separador de `decoded.split('/')` con el que el código rechaza rutas `../` y sus variantes codificadas.
 
 `BACKUP_MANIFEST.json` identifica el dominio principal, el commit de origen, las versiones, los tres paquetes seleccionados, los tres materiales docentes actuales, los históricos externos y cada archivo público con tamaño y SHA-256. Si la copia local procede de cambios sin confirmar, registra esa circunstancia. `SHA256SUMS.txt` se calcula sobre la copia final, incluido el manifiesto del respaldo. La comprobación de tamaño incluye un margen conservador para las cabeceras del archivo que subirá Pages.

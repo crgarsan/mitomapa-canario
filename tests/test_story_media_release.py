@@ -63,6 +63,7 @@ class StoryMediaReleaseTests(unittest.TestCase):
         self.addCleanup(self.fixture.doCleanups)
         self.root = self.fixture.root
         self.version = self.fixture.version
+        self.inventory = self.fixture.inventory
 
     def add_media(self):
         self.payload = b'public story movie fixture'
@@ -73,30 +74,30 @@ class StoryMediaReleaseTests(unittest.TestCase):
 
     def test_pinned_media_is_published_and_source_archive_explains_separate_download(self):
         self.add_media()
-        update_release(self.root)
+        update_release(self.root, inventory=self.inventory)
         public = parse_sums((self.root / 'SHA256SUMS.txt').read_text())
         self.assertIn(self.name, public)
         self.assertEqual(public[self.name], digest(self.payload))
         self.assertIn('MEDIA_MANIFEST.json', public)
-        stage_assets(self.root, self.root / '.deploy')
+        stage_assets(self.root, self.root / '.deploy', inventory=self.inventory)
         self.assertEqual((self.root / '.deploy' / self.name).read_bytes(), self.payload)
         sources = read_zip((self.root / self.version['source_archive']['path']).read_bytes())
         self.assertIn('MEDIA_MANIFEST.json', sources)
         self.assertNotIn(self.name, sources)
         self.assertIn('medios', sources['FUENTES_WEB_LEEME.txt'].decode().lower())
         self.assertIn('fetch_story_media.py', sources['FUENTES_WEB_LEEME.txt'].decode())
-        check_release(self.root)
+        check_release(self.root, inventory=self.inventory)
 
     def test_unlisted_drafts_are_not_published(self):
         self.add_media()
-        self.fixture.write('media/la-palma/draft.wav', b'not approved')
-        update_release(self.root)
+        self.fixture.write('media/la-palma/draft.wav', b'not approved', approve=False)
+        update_release(self.root, inventory=self.inventory)
         self.assertNotIn('media/la-palma/draft.wav', parse_sums((self.root / 'SHA256SUMS.txt').read_text()))
 
     def test_source_archive_includes_backup_recovery_instructions(self):
         self.add_media()
         self.fixture.write('docs/RESPALDO.md', b'Independent recovery instructions')
-        update_release(self.root)
+        update_release(self.root, inventory=self.inventory)
         sources = read_zip((self.root / self.version['source_archive']['path']).read_bytes())
         self.assertEqual(sources['docs/RESPALDO.md'], b'Independent recovery instructions')
 
@@ -105,29 +106,38 @@ class StoryMediaReleaseTests(unittest.TestCase):
         self.fixture.write(self.name, b'changed movie')
         before = self.fixture.snapshot()
         with self.assertRaises(ValueError):
-            update_release(self.root)
+            update_release(self.root, inventory=self.inventory)
         self.assertEqual(self.fixture.snapshot(), before)
+
+    def test_check_requires_pinned_story_media_in_the_public_inventory(self):
+        self.add_media()
+        update_release(self.root, inventory=self.inventory)
+        sums = self.root / 'SHA256SUMS.txt'
+        sums.write_text(''.join(line for line in sums.read_text().splitlines(keepends=True)
+                                if not line.endswith(self.name + '\n')))
+        with self.assertRaisesRegex(ValueError, 'Story media are missing'):
+            check_release(self.root, inventory=self.inventory)
 
     def test_traversal_in_media_manifest_is_rejected(self):
         self.add_media()
         self.manifest['files'] = {'media/../index.html': metadata((self.root / 'index.html').read_bytes())}
         self.fixture.write('MEDIA_MANIFEST.json', json_bytes(self.manifest))
         with self.assertRaises(ValueError):
-            update_release(self.root)
+            update_release(self.root, inventory=self.inventory)
 
     def test_declared_oversize_media_is_rejected(self):
         self.add_media()
         self.manifest['files'][self.name]['bytes'] = MAX_ASSET_BYTES + 1
         self.fixture.write('MEDIA_MANIFEST.json', json_bytes(self.manifest))
         with self.assertRaises(ValueError):
-            update_release(self.root)
+            update_release(self.root, inventory=self.inventory)
 
     def test_manifest_cannot_publish_files_outside_media(self):
         self.add_media()
         self.manifest['files'] = {'index.html': metadata((self.root / 'index.html').read_bytes())}
         self.fixture.write('MEDIA_MANIFEST.json', json_bytes(self.manifest))
         with self.assertRaises(ValueError):
-            update_release(self.root)
+            update_release(self.root, inventory=self.inventory)
 
 
 if __name__ == '__main__':

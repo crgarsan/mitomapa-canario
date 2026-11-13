@@ -143,7 +143,7 @@ class DrawingBrowserTest(unittest.TestCase):
         ]:
             self.page.evaluate('document.getElementById("teacherImportStatus").textContent=""')
             self.assertIn("correctamente", self.imported(payload(drawing)))
-            stored = self.page.evaluate("(key)=>JSON.parse(localStorage.getItem(key)).routes['gran-canaria']", STORAGE)
+            stored = self.page.evaluate("(key)=>JSON.parse(localStorage.getItem(progressStorageKey(key))).routes['gran-canaria']", STORAGE)
             self.assertTrue(stored["drawingHasInk"])
             self.assertTrue(self.page.evaluate("(value)=>Boolean(drawingImageSize(value))", stored["drawing"]))
             self.page.goto(self.base + "#isla/gran-canaria/taller", wait_until="networkidle")
@@ -153,7 +153,7 @@ class DrawingBrowserTest(unittest.TestCase):
              const color=canvas.getContext("2d").getImageData(20,20,1,1).data;
              return color[0]>140&&color[0]<170&&color[1]>70&&color[1]<105;
             }""")
-            self.assertEqual(self.page.evaluate("(key)=>JSON.parse(localStorage.getItem(key)).routes['gran-canaria'].drawing", STORAGE), stored["drawing"])
+            self.assertEqual(self.page.evaluate("(key)=>JSON.parse(localStorage.getItem(progressStorageKey(key))).routes['gran-canaria'].drawing", STORAGE), stored["drawing"])
 
     def test_drawing_undo_clear_and_export_remain_usable(self):
         self.assertIn("correctamente", self.imported(payload(image_url())))
@@ -161,7 +161,7 @@ class DrawingBrowserTest(unittest.TestCase):
         self.page.locator("#activity-gran-canaria [data-activity-tab=creation]").click()
         canvas = self.page.locator("#activity-gran-canaria canvas")
         canvas.scroll_into_view_if_needed()
-        original = self.page.evaluate("(key)=>JSON.parse(localStorage.getItem(key)).routes['gran-canaria'].drawing", STORAGE)
+        original = self.page.evaluate("(key)=>JSON.parse(localStorage.getItem(progressStorageKey(key))).routes['gran-canaria'].drawing", STORAGE)
         box = canvas.bounding_box()
         self.page.mouse.move(box["x"] + 40, box["y"] + 40)
         self.page.mouse.down()
@@ -172,7 +172,7 @@ class DrawingBrowserTest(unittest.TestCase):
          const pixel=document.querySelector("#activity-gran-canaria canvas").getContext("2d").getImageData(60,60,1,1).data;
          return pixel[0]>140&&pixel[0]<170;
         }""")
-        restored = self.page.evaluate("(key)=>JSON.parse(localStorage.getItem(key)).routes['gran-canaria'].drawing", STORAGE)
+        restored = self.page.evaluate("(key)=>JSON.parse(localStorage.getItem(progressStorageKey(key))).routes['gran-canaria'].drawing", STORAGE)
         self.assertTrue(self.page.evaluate("(value)=>Boolean(drawingImageSize(value))", restored))
         self.assertEqual(self.page.evaluate("""()=>{
          const pixel=document.querySelector("#activity-gran-canaria canvas").getContext("2d").getImageData(60,60,1,1).data;

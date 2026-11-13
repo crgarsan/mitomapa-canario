@@ -84,7 +84,7 @@
     target.scrollIntoView({block:"start",behavior:"auto"});
     target.focus({preventScroll:true});
   }
-  function go(raw, {history: addHistory = true, focus = true, replace = false} = {}) {
+  function go(raw, {history: addHistory = true, focus = true, replace = false, remember: rememberRoute = true} = {}) {
     const name = String(raw || "inicio").replace(/^#/, "");
     if (name === "pistas") {
       go("islas",{history:addHistory,focus,replace});
@@ -101,7 +101,7 @@
     }
     const routeMatch = /^(?:isla\/|route-)([a-z-]+)(?:\/(cuento|retos|taller))?$/.exec(name);
     if (routeMatch && context.routes.some(r => r.id === routeMatch[1])) {
-      context.openRoute(routeMatch[1], {history:addHistory,step:routeMatch[2] || "cuento"});
+      context.openRoute(routeMatch[1], {history:addHistory,step:routeMatch[2] || "cuento",remember:rememberRoute});
       return true;
     }
     const screen = aliases[name] || name;
@@ -122,14 +122,14 @@
     }
     return true;
   }
-  function activateRoute(id, {history: addHistory = true, step} = {}) {
+  function activateRoute(id, {history: addHistory = true, step, remember: rememberRoute = true} = {}) {
     reveal("ruta");
     const route = context.routes.find(r => r.id === id);
     byId("navigationLocation").textContent = `Islas · ${route?.island || "Cuento"}`;
     document.title = `${route?.island || "Cuento"} · MitoMapa canario`;
     const selected = step || byId(`route-${id}`)?.dataset.routeFlowStep || "cuento";
     if (selected !== "cuento") context.stopNarration();
-    remember(id,selected);
+    if (rememberRoute) remember(id,selected);
     if (addHistory) record(`#isla/${id}/${selected}`);
     return selected;
   }
@@ -299,9 +299,9 @@
     });
     if (!go(location.hash,{history:false,focus:Boolean(location.hash)})) go("inicio",{history:false,focus:false});
   }
-  function refresh() {
+  function refresh({remember: rememberRoute = true} = {}) {
     updateResume();
-    if (current === "ruta" && !document.querySelector(".route.active")) go(location.hash,{history:false});
+    if (current === "ruta" && !document.querySelector(".route.active")) go(location.hash,{history:false,remember:rememberRoute});
   }
   window.MitoMapaNavigation = {mount,go,activateRoute,refresh,resume,resetResume,refreshResume:updateResume};
 })();
