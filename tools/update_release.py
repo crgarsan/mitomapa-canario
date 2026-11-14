@@ -275,6 +275,8 @@ def public_names(root, previous, paths):
     names.discard("requirements-browser-tests.txt")
     names.update(path.relative_to(root).as_posix() for path in (root / "assets").rglob("*") if path.is_file())
     names.update({"VERSION.json", "LICENSE"})
+    if (root / "favicon-pintadera-sol-catalogo.png").is_file():
+        names.add("favicon-pintadera-sol-catalogo.png")
     media = pinned_story_media(root)
     if media:
         names.update(media)

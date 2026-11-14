@@ -1629,7 +1629,10 @@ window.MitoMapaJourney?.refresh();
 
 // Ajustar el salto a la altura real de la cabecera, también al ampliar el texto.
 function updateHeaderOffset(){const header=document.querySelector("header"),navigation=document.querySelector(".main-navigation");if(header){const height=Math.ceil(header.getBoundingClientRect().height);document.documentElement.style.setProperty("--topbar-height",`${height}px`);document.documentElement.style.setProperty("--header-offset",`${height+Math.ceil(navigation?.getBoundingClientRect().height||0)+24}px`);}}
-if(typeof ResizeObserver!=="undefined"){const header=document.querySelector("header");if(header)new ResizeObserver(updateHeaderOffset).observe(header);}
+if(typeof ResizeObserver!=="undefined"){
+  const headerResizeObserver=new ResizeObserver(updateHeaderOffset);
+  document.querySelectorAll("header.topbar,.main-navigation").forEach(element=>headerResizeObserver.observe(element));
+}
 window.addEventListener("resize",updateHeaderOffset);updateHeaderOffset();updateStorageNotice();
 
 // Controles alternativos para barras horizontales ocultas por el sistema.
