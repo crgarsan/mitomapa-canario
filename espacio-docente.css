@@ -196,9 +196,9 @@
 .teacher-scroll-controls button[aria-disabled="true"] { opacity: .65; cursor: default; }
 
 @media (max-width:620px) {
-  #teacherDialog .dialog-head { flex-wrap: nowrap; }
-  #teacherDialog .dialog-head > div { flex: 1 1 auto; }
-  #teacherDialog .teacher-close { margin: 0; }
+  #teacherDialog .dialog-head { flex-wrap: wrap; }
+  #teacherDialog .dialog-head > div { flex: 1 1 min(100%, 10rem); }
+  #teacherDialog .teacher-close { margin-inline-start: auto; }
 }
 
 /* Reordenación visual de la misma tabla, con roles y cabeceras conservados. */
