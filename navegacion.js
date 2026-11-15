@@ -237,11 +237,6 @@
     const resources = document.createElement("section");
     resources.className = "section screen-intro";resources.dataset.screen = "recursos";
     resources.innerHTML = '<p class="eyebrow">Para consultar cuando lo necesites</p><h1>Recursos y ayuda</h1>';
-    const help=document.createElement("nav");help.className="resource-quick-help";
-    help.setAttribute("aria-label","Guías y seguimiento del profesorado");
-    help.innerHTML='<a href="GUIA_DOCENTE.html">Cómo empezar y preparar la actividad</a><a href="downloads/Cuaderno_de_ruta_MitoMapa.html">Cuaderno imprimible</a><button type="button" id="teacherSaveHelp">Guardar o recuperar el trabajo</button>';
-    help.querySelector("button").addEventListener("click",()=>byId("storageExportHelp")?.click());
-    byId("teacherGuidePanel").prepend(help);
     const naturalSection = byId("patrimonioNatural3d")?.closest("section");
     const resourceChoices = document.createElement("div");
     resourceChoices.className = "activity-choices resource-choices";
@@ -276,7 +271,7 @@
     }
     updateResume();
     const reset = byId("resetProgress");
-    reset.classList.add("teacher-reset");(byId("teacherToolsPanel")||byId("teacherDialog")).append(reset);
+    reset.classList.add("teacher-reset");(byId("teacherResetSection")||byId("teacherToolsPanel")).append(reset);
     document.body.classList.add("navigation-ready");
     document.addEventListener("click", event => {
       const link = event.target.closest("a[href^='#']");
