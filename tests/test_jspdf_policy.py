@@ -65,8 +65,8 @@ def editor_descriptor_archive(entries):
 class JsPdfPolicyTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.public = sorted(path for path in (ROOT / "downloads").rglob("*")
-                            if path.suffix in (".zip", ".elpx"))
+        cls.public = sorted(path for directory in (ROOT / "downloads", ROOT / "en" / "downloads")
+                            for path in directory.rglob("*") if path.suffix in (".zip", ".elpx"))
         with zipfile.ZipFile(ROOT / "downloads/MitoMapa_canario_GobCan.elpx") as archive:
             cls.scripts = {name: archive.read(name).decode("utf-8")
                            for name in policy.SCRIPT_PATHS}

@@ -369,9 +369,12 @@ def public_archives(root: Path) -> list[Path]:
     # Only repository-wide inventory checks need the release helper module.
     from release_support import MAX_ASSET_BYTES, parse_sums, source_path
     inventory = parse_sums((root / "SHA256SUMS.txt").read_text("utf-8"))
+    directories = ("downloads", "en/downloads")
     names = {name for name in inventory
-             if name.startswith("downloads/") and Path(name).suffix.lower() in {".zip", ".elpx"}}
-    present = {path.relative_to(root).as_posix() for path in (root / "downloads").rglob("*")
+             if name.startswith(tuple(folder + "/" for folder in directories))
+             and Path(name).suffix.lower() in {".zip", ".elpx"}}
+    present = {path.relative_to(root).as_posix() for folder in directories
+               for path in (root / folder).rglob("*")
                if path.suffix.lower() in {".zip", ".elpx"}}
     require(bool(names) and names == present, "Public archive inventory differs from SHA256SUMS.txt")
     paths = []

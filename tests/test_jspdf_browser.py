@@ -113,7 +113,8 @@ class JsPdfBrowserTest(unittest.TestCase):
         cls.scripts = []
         cls.representatives = {}
         cls.variants = set()
-        archives = sorted((ROOT / "downloads").glob("*.elpx"))
+        archives = sorted(path for directory in (ROOT / "downloads", ROOT / "en" / "downloads")
+                          for path in directory.glob("*.elpx"))
         listed = {ROOT / name for name in parse_sums((ROOT / "SHA256SUMS.txt").read_text())
                   if Path(name).suffix == ".elpx"}
         if set(archives) != listed or len(archives) < 20:
