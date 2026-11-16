@@ -123,13 +123,12 @@ jobs:
           config['main'] = str(Path('tools/story-video-ranges.mjs').resolve())
           config['assets'] = {key: asset_settings[key] for key in (
               'directory', 'binding', 'html_handling', 'not_found_handling', 'run_worker_first')}
-          story_videos = [
-              f'/media/{island}/cuento.mp4' for island in (
-                  'el-hierro', 'fuerteventura', 'gran-canaria', 'la-gomera',
-                  'la-graciosa', 'la-palma', 'lanzarote', 'tenerife')
-          ]
+          islands = ('el-hierro', 'fuerteventura', 'gran-canaria', 'la-gomera',
+                     'la-graciosa', 'la-palma', 'lanzarote', 'tenerife')
+          story_videos = [f'/media/{island}/cuento.mp4' for island in islands]
+          story_videos += [f'/en/media/{island}/story.mp4' for island in islands]
           if config['assets']['run_worker_first'] != story_videos:
-              raise SystemExit('Only the eight story MP4 paths may run the Worker before static assets.')
+              raise SystemExit('Only the sixteen story MP4 paths may run the Worker before static assets.')
           config['assets']['directory'] = str(Path('.deploy').resolve())
           config_path = temporary / 'mitomapa-story-video.json'
           config_path.write_text(json.dumps(config))

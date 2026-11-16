@@ -1,11 +1,17 @@
 import mediaManifest from "../MEDIA_MANIFEST.json" with { type: "json" };
 
-const VIDEO_PATH = /^\/media\/(?:el-hierro|fuerteventura|gran-canaria|la-gomera|la-graciosa|la-palma|lanzarote|tenerife)\/cuento\.mp4$/;
+const ISLANDS = [
+  'el-hierro', 'fuerteventura', 'gran-canaria', 'la-gomera',
+  'la-graciosa', 'la-palma', 'lanzarote', 'tenerife',
+];
+const VIDEO_PATHS = new Set(ISLANDS.flatMap(island => [
+  '/media/' + island + '/cuento.mp4', '/en/media/' + island + '/story.mp4',
+]));
 const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
 const VIDEO_SIZES = new Map(
   Object.entries(mediaManifest.files)
     .map(([path, { bytes }]) => [`/${path}`, bytes])
-    .filter(([path]) => VIDEO_PATH.test(path)),
+    .filter(([path]) => VIDEO_PATHS.has(path)),
 );
 const STRONG_ETAG = /^"[!\x23-\x7e\x80-\xff]*"$/;
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify byte-range delivery of the eight published story videos over HTTPS."""
+"""Verify byte-range delivery of the published story videos in both languages."""
 
 from http.client import HTTPException
 from pathlib import Path
@@ -7,19 +7,14 @@ from urllib.error import HTTPError
 from urllib.request import Request, build_opener
 
 from check_public_transport import HOSTNAME, NoRedirect
+from release_support import STORY_ISLANDS
 
 
 DEPLOY = Path(__file__).resolve().parent.parent / '.deploy'
 TIMEOUT = 15
-ISLANDS = (
-    'el-hierro',
-    'fuerteventura',
-    'gran-canaria',
-    'la-gomera',
-    'la-graciosa',
-    'la-palma',
-    'lanzarote',
-    'tenerife',
+VIDEO_PATHS = (
+    *(f'media/{island}/cuento.mp4' for island in STORY_ISLANDS),
+    *(f'en/media/{island}/story.mp4' for island in STORY_ISLANDS),
 )
 PROBE_BYTES = 64
 # Reproduce the Safari media probe against the public service, including its
@@ -65,8 +60,7 @@ def probe_range(opener, url, range_header, start, end, size, expected):
 
 def verify_videos(opener, deploy):
     failures = 0
-    for island in ISLANDS:
-        path = f'media/{island}/cuento.mp4'
+    for path in VIDEO_PATHS:
         url = f'https://{HOSTNAME}/{path}'
         try:
             with (deploy / path).open('rb') as video:
@@ -93,7 +87,7 @@ def verify_videos(opener, deploy):
             print(f'::error title=Story video range verification::{path}: {error}', flush=True)
         else:
             print(f'{path}: HTTP 206 and exact staged bytes for initial, middle and suffix ranges.', flush=True)
-    print(f'Story video range verification: {len(ISLANDS) - failures}/{len(ISLANDS)} passed.', flush=True)
+    print(f'Story video range verification: {len(VIDEO_PATHS) - failures}/{len(VIDEO_PATHS)} passed.', flush=True)
     return 1 if failures else 0
 
 
