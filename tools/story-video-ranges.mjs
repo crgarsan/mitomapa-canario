@@ -8,6 +8,7 @@ const VIDEO_PATHS = new Set(ISLANDS.flatMap(island => [
   '/media/' + island + '/cuento.mp4', '/en/media/' + island + '/story.mp4',
 ]));
 const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
+const MAX_RANGE_BYTES = 2 * 1024 * 1024;
 const VIDEO_SIZES = new Map(
   Object.entries(mediaManifest.files)
     .map(([path, { bytes }]) => [`/${path}`, bytes])
@@ -32,10 +33,10 @@ function parseRange(value) {
 
 function rangeBounds(range, size) {
   if (range.start === null) {
-    return range.end === 0 ? null : [Math.max(0, size - range.end), size - 1];
+    return range.end === 0 ? null : [Math.max(0, size - Math.min(range.end, MAX_RANGE_BYTES)), size - 1];
   }
   if (range.start >= size) return null;
-  return [range.start, Math.min(range.end ?? size - 1, size - 1)];
+  return [range.start, Math.min(range.end ?? size - 1, size - 1, range.start + MAX_RANGE_BYTES - 1)];
 }
 
 function ifRangeMatches(value, headers) {
@@ -43,45 +44,31 @@ function ifRangeMatches(value, headers) {
   return value === null || (STRONG_ETAG.test(value) && value === headers.get("ETag"));
 }
 
-function streamRange(body, start, end, size) {
+async function readRange(body, start, end, size) {
   const reader = body.getReader();
+  const fragment = new Uint8Array(end - start + 1);
   let offset = 0;
-  const slice = new ReadableStream({
-    async pull(controller) {
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done || offset + value.byteLength > size) {
-          void reader.cancel().catch(() => {});
-          throw new Error("Unexpected video body length");
-        }
+  try {
+    while (offset <= end) {
+      const { value, done } = await reader.read();
+      if (done || offset + value.byteLength > size) throw new Error("Unexpected video body length");
 
-        const previous = offset;
-        offset += value.byteLength;
-        if (offset <= start) continue;
+      const previous = offset;
+      offset += value.byteLength;
+      if (offset <= start) continue;
+      const slice = value.subarray(Math.max(0, start - previous), end + 1 - previous);
+      fragment.set(slice, Math.max(0, previous - start));
+    }
+    if (end === size - 1 && !(await reader.read()).done) throw new Error("Unexpected video body length");
+    return fragment;
+  } finally {
+    // The complete fragment is independent of the remaining asset stream.
+    void reader.cancel().catch(() => {});
+  }
+}
 
-        const chunk = value.subarray(Math.max(0, start - previous), end + 1 - previous);
-        // A slice through the final byte also verifies the end of the upstream body.
-        if (end === size - 1 && offset === size && !(await reader.read()).done) {
-          void reader.cancel().catch(() => {});
-          throw new Error("Unexpected video body length");
-        }
-        controller.enqueue(chunk);
-        if (offset > end) {
-          controller.close();
-          void reader.cancel().catch(() => {});
-        }
-        return;
-      }
-    },
-    cancel(reason) {
-      return reader.cancel(reason);
-    },
-  });
-
-  const output = new FixedLengthStream(end - start + 1);
-  // pipeTo aborts the readable response if the source fails.
-  void slice.pipeTo(output.writable).catch(() => {});
-  return output.readable;
+function invalidAssetResponse() {
+  return new Response(null, { status: 502, headers: { "Cache-Control": "no-store" } });
 }
 
 function rangeHeaders(asset) {
@@ -123,7 +110,7 @@ export default {
     const lengthMismatch = rawSize !== null && (!/^[0-9]+$/.test(rawSize) || Number(rawSize) !== size);
     if (!asset.body || !Number.isSafeInteger(size) || size < 1 || size > MAX_VIDEO_BYTES || lengthMismatch) {
       if (asset.body) void asset.body.cancel().catch(() => {});
-      return new Response(null, { status: 502, headers: { "Cache-Control": "no-store" } });
+      return invalidAssetResponse();
     }
 
     const bounds = rangeBounds(range, size);
@@ -139,8 +126,14 @@ export default {
     }
 
     const [start, end] = bounds;
-    headers.set("Content-Length", String(end - start + 1));
-    headers.set("Content-Range", `bytes ${start}-${end}/${size}`);
-    return new Response(streamRange(asset.body, start, end, size), { status: 206, headers });
+    // Finish reading before committing a 206 so an incomplete asset cannot truncate it.
+    try {
+      const fragment = await readRange(asset.body, start, end, size);
+      headers.set("Content-Length", String(fragment.byteLength));
+      headers.set("Content-Range", `bytes ${start}-${end}/${size}`);
+      return new Response(fragment, { status: 206, headers });
+    } catch (_) {
+      return invalidAssetResponse();
+    }
   },
 };
