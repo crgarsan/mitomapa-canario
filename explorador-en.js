@@ -79,7 +79,7 @@
       if (!card.querySelector('.explore-card-question')) {
         card.querySelector('.card-action').before(element('span', 'explore-card-question', invitations[route.id]));
       }
-      const action = answering ? "Answer the clue" : 'Abrir cuento';
+      const action = answering ? "Answer the clue" : "Open the story";
       card.setAttribute('aria-label', route.island + ': ' + route.title + '. ' + invitations[route.id] + ' ' + action + '.');
       card.setAttribute('aria-describedby', 'exploreMapInstruction');
       card.querySelector('.card-action').textContent = action + ' →';
@@ -142,7 +142,7 @@
       lastMessage = "You found it! " + clue.explanation;
       announce(lastMessage, 'success');
     } else {
-      lastMessage = 'Han elegido ' + route.island + ". That track corresponds to another path. They can try again, demand support or read the story.";
+      lastMessage = "You chose " + route.island + ". This clue points to another island. Try again, ask for a hint or read the story.";
       announce(lastMessage, 'retry');
     }
     controls.next.hidden = false;
@@ -244,7 +244,7 @@
       const earned = typeof context.isEarned === 'function' && context.isEarned(route.id);
       if (earned) earnedCount += 1;
       pin.classList.toggle('explore-pin-earned', Boolean(earned));
-      pin.querySelector('.explore-pin-state-value').textContent = earned ? 'Conseguida' : "Still to earn";
+      pin.querySelector('.explore-pin-state-value').textContent = earned ? "Earned" : "Still to earn";
       updatePinLabel(pin);
     });
     controls.progress.textContent = "At the selected learning stage: " + earnedCount + " of " + controls.pins.length + " pieces earned. The optional clue game leaves your progress as it is.";
@@ -288,7 +288,7 @@
     const viewSwitch = element('div', 'explore-view-switch');
     viewSwitch.setAttribute('role', 'group');
     viewSwitch.setAttribute('aria-label', "How to choose an island");
-    controls.mapView = button('Mapa', 'explore-button explore-button-secondary', () => setView('map'));
+    controls.mapView = button("Map", 'explore-button explore-button-secondary', () => setView('map'));
     controls.mapView.setAttribute('aria-controls', 'exploreMapPanel');
     controls.listView = button("List", 'explore-button explore-button-secondary', () => setView('list'));
     controls.listView.disabled = true;
@@ -296,8 +296,8 @@
     section.appendChild(viewSwitch);
     const toolbar = element('div', 'explore-actions');
     controls.start = button("Solve five clues", 'explore-button', startGame);
-    controls.resume = button('Retomar mis pistas', 'explore-button explore-button-secondary', resumeGame);
-    controls.leave = button('Volver a explorar libremente', 'explore-button explore-button-secondary', leaveGame);
+    controls.resume = button("Resume the clues", 'explore-button explore-button-secondary', resumeGame);
+    controls.leave = button("Return to free exploration", 'explore-button explore-button-secondary', leaveGame);
     toolbar.append(controls.start, controls.resume, controls.leave);
     section.appendChild(toolbar);
 
@@ -373,7 +373,7 @@
       marker.appendChild(badge);
       const label = element('span', 'explore-pin-label');
       const state = element('span', 'explore-pin-state');
-      state.append(element('span', 'explore-visually-hidden', 'Pieza: '), element('span', 'explore-pin-state-value'));
+      state.append(element('span', 'explore-visually-hidden', "Piece: "), element('span', 'explore-pin-state-value'));
       label.append(element('strong', 'explore-pin-name', route.island), state);
       pin.append(marker, label);
       islands.appendChild(pin);

@@ -5,7 +5,7 @@
   const KEY = "mitomapa-canario-lectura-v1";
   const DEFAULTS = Object.freeze({ size: "normal", spacing: "normal", width: "medium" });
   const OPTIONS = Object.freeze({
-    size: [["normal", "Standard"], ["large", "Grande"], ["xlarge", "Very large"]],
+    size: [["normal", "Standard"], ["large", "Large"], ["xlarge", "Very large"]],
     spacing: [["normal", "Standard"], ["spacious", "More space between lines"]],
     width: [["medium", "Standard"], ["narrow", "Narrower"], ["wide", "Wider"]]
   });

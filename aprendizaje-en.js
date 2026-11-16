@@ -180,7 +180,10 @@
     practice.append(create("summary", "", "Locate the islands with words · an alternative to the puzzle"));
     practice.append(create("p", "", "Practise describing where the eight islands are in relation to one another. North is up, south is down, east is right and west is left. Say your answer before choosing if you like. This is an optional, unscored activity."));
     practice.append(create("p", "learning-geography-note", "The directions are approximate. They describe where islands lie in relation to one another. Use a navigation map for distances and routes."));
-    const directions = ["norte", "noreste", "este", "sureste", "sur", "suroeste", "oeste", "noroeste"];
+    const directions = {
+      norte: "north", noreste: "north-east", este: "east", sureste: "south-east",
+      sur: "south", suroeste: "south-west", oeste: "west", noroeste: "north-west"
+    };
     const list = create("ol", "learning-geography-list");
     GEOGRAPHY.forEach(([island, reference], index) => {
       const item = create("li");
@@ -190,8 +193,8 @@
       select.id = `learning-geography-${index}`;
       select.append(create("option", "", "Choose a direction"));
       select.firstChild.value = "";
-      directions.forEach(direction => {
-        const option = create("option", "", direction);
+      Object.entries(directions).forEach(([direction, name]) => {
+        const option = create("option", "", name);
         option.value = direction;
         select.append(option);
       });
@@ -213,15 +216,15 @@
         result.textContent = !selected
           ? "Choose a direction or open the reference for help."
           : selected === direction
-            ? `Matches the reference: ${island} lies roughly to the ${direction} of ${reference}.`
-            : `Check again. The reference places ${island} roughly to the ${direction} of ${reference}.`;
+            ? `Matches the reference: ${island} lies roughly to the ${directions[direction]} of ${reference}.`
+            : `Check again. The reference places ${island} roughly to the ${directions[direction]} of ${reference}.`;
       });
       status.textContent = "The reference is available beside each choice. Discuss which clue helped you locate the islands.";
     });
     const reference = create("details", "learning-geography-reference");
     reference.append(create("summary", "", "Open the directions reference"));
     const referenceList = create("ul");
-    GEOGRAPHY.forEach(([island, other, direction]) => referenceList.append(create("li", "", `${island} lies roughly to the ${direction} of ${other}.`)));
+    GEOGRAPHY.forEach(([island, other, direction]) => referenceList.append(create("li", "", `${island} lies roughly to the ${directions[direction]} of ${other}.`)));
     reference.append(referenceList);
     practice.append(list, compare, status, reference);
     disclosure.before(practice);
@@ -285,7 +288,7 @@
     closure.append(heading, create("p", "lead", "Bring your expedition to a close with one or two islands, as agreed with your teacher. Prepare something short to share. You can speak, draw, write or combine formats."));
     closure.append(create("p", "creative-audience", "Your audience is another group in your class. Agree what you want them to understand about the story, its island, the tradition, its sources and what was created for this version."));
     const choices = create("div", "creative-island-choices");
-    choices.append(islandSelect("Primera isla", false), islandSelect("Segunda isla (opcional)", true));
+    choices.append(islandSelect("First island", false), islandSelect("Second island (optional)", true));
     choices.addEventListener("change", () => { closureExplicitChoice = true; updateClosure(); });
     closure.append(choices, create("p", "creative-route-context"), create("p", "creative-route-note"), create("div", "creative-story-returns"));
     const project = document.querySelector(".final-project");

@@ -154,7 +154,7 @@
   function resultText(entry) {
     if (!entry.checked) return "Move the cards and check the order when you are ready.";
     const correct = entry.order.filter((value, index) => value === index).length;
-    if (correct === 4) return `Result: 4 out of 4. You put the story in order${entry.support ? " using the reference order" : ""}. Now explain with your words.`;
+    if (correct === 4) return `Result: 4 out of 4. You put the story in order${entry.support ? " using the reference order" : ""}. Now explain the order in your own words.`;
     return `Result: ${correct} of 4 in the right place. Read the hints, return to the story and try again.`;
   }
 
@@ -185,7 +185,7 @@
       if (entry.checked) {
         const correct = eventId === index;
         item.classList.add(correct ? "story-sequence-correct" : "story-sequence-revise");
-        feedback.textContent = correct ? "✓ Correct. This event is in the right place." : `Check again. This event happens ${eventId < index ? "antes" : "after"} in the story.`;
+        feedback.textContent = correct ? "✓ Correct. This event is in the right place." : `Check again. This event happens ${eventId < index ? "earlier" : "later"} in the story.`;
       }
       item.append(position, text, controls, feedback);
       list.append(item);
@@ -269,7 +269,7 @@
       button("Check the order", "check", "story-sequence-button story-sequence-check"),
       button("Hint for the first event", "hint"),
       button("Show the reference order", "support"),
-      button("Volver a mezclar", "shuffle")
+      button("Shuffle again", "shuffle")
     );
     const status = element("p", "story-sequence-status");
     status.setAttribute("role", "status");

@@ -4,7 +4,7 @@
 
   const CAUTION = "The names and their spellings are uncertain. Sources differ and many were written after the conquest. The authors report consulting specialists in the pre-Hispanic Canary Islands. Uncertainties remain.";
   const GRACIOSA_NOTE = "This selection gives no verified Indigenous name for La Graciosa. Occasional visits or uses were possible in the absence of permanent settlement.";
-  const MAP_NOTE = "A contemporary illustration inspired by early maps.";
+  const MAP_NOTE = "A modern illustration inspired by early charts. The map was created for this activity.";
   const islands = [
     {id: 'el-hierro', current: 'El Hierro', name: 'Esero / Eceró', centre: [15.3, 74.8], label: [10, 88], hint: "Look for the island furthest south-west in the archipelago."},
     {id: 'la-palma', current: 'La Palma', name: 'Benahoare', centre: [18, 41.7], label: [16, 27], hint: "Look for the western island north of El Hierro."},
@@ -148,7 +148,7 @@
     controls.selection.textContent = reference
       ? "Reference map shown. Select “Return to practice” to continue."
       : selected
-        ? 'Ficha: ' + byId(selected).name + ". Choose his island."
+        ? 'Selected card: ' + byId(selected).name + ". Choose its island."
         : "Select a card and then its island, or drag it onto the island’s label.";
     islands.forEach(island => {
       const card = cards.get(island.id);
@@ -158,12 +158,12 @@
       card.setAttribute('aria-disabled', String(done || reference));
       card.dataset.placed = String(done);
       card.setAttribute('aria-label', island.name + '. ' + (island.category ? "This is a category label. " : '') + (done ? "Placed on " + island.current + '.' : reference ? "Unplaced. Reference map shown." : "Unplaced."));
-      card.querySelector('.names-card-state').textContent = done ? 'Colocado · ' + island.current : island.category ? "Category label" : 'Elegir o arrastrar';
+      card.querySelector('.names-card-state').textContent = done ? 'Matched to ' + island.current : island.category ? "Category label" : 'Select or drag';
       target.dataset.placed = String(done);
       target.dataset.reference = String(reference);
       target.querySelector('.names-target-answer').textContent = done || reference ? island.name : "Place a card";
-      target.querySelector('.names-target-state').textContent = reference ? 'Referencia' : done ? '✓ Relacionado' : '';
-      target.setAttribute('aria-label', island.current + '. ' + (reference ? 'Referencia: ' + island.name + '.' : done ? island.name + ", already matched." : "Empty. Place the selected name here."));
+      target.querySelector('.names-target-state').textContent = reference ? 'Reference' : done ? '✓ Matched' : '';
+      target.setAttribute('aria-label', island.current + '. ' + (reference ? 'Reference: ' + island.name + '.' : done ? island.name + ", already matched." : "Empty. Place the selected name here."));
       const option = controls.nameSelect.querySelector('option[value="' + island.id + '"]');
       option.disabled = done;
     });
@@ -182,12 +182,12 @@
       return;
     }
     if (placed.has(id)) {
-      announce(island.name + " is already matched to " + island.current + ". You can choose another tab.");
+      announce(island.name + " is already matched to " + island.current + ". Choose another card.");
       return;
     }
     selected = id;
     update();
-    announce('Has elegido ' + island.name + ". Select your island on the map or get a lead.");
+    announce("You selected " + island.name + ". Choose its island on the map or ask for a hint.");
   }
 
   function place(id, chosenId) {
@@ -203,19 +203,19 @@
     const name = byId(nameId);
     const destination = byId(id);
     if (placed.has(nameId)) {
-      announce(name.name + " is already matched to " + name.current + ". Choose an outstanding tab.");
+      announce(name.name + " is already matched to " + name.current + ". Choose an unmatched card.");
       return;
     }
     if (nameId !== id) {
-      announce("This card belongs to a different island from " + destination.current + ". We preserve the relations you have already established. You can try again or get a lead.", 'retry');
+      announce("This card does not match " + destination.current + ". Try again or ask for a hint. Your matches stay in place.", 'retry');
       return;
     }
     placed.add(id);
     selected = null;
     update();
     announce(name.category
-      ? "Match the “No documented name” card to La Graciosa. " + GRACIOSA_NOTE
-      : name.name + " is matched here to " + name.current + ". He recalls that his denominations and his photographs have uncertainties.", 'success');
+      ? "The “No documented name” card matches La Graciosa in this activity. " + GRACIOSA_NOTE
+      : name.name + " matches " + name.current + " in this activity. Historical names and their spellings remain uncertain.", 'success');
   }
 
   function clearDrag() {
