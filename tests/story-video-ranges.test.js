@@ -9,6 +9,7 @@ const videoPath = '/media/la-palma/cuento.mp4';
 const chunks = ['01', '234', '5', '6789'];
 const video = chunks.join('');
 const maxVideoSize = 25 * 1024 * 1024;
+const maxRangeSize = 2 * 1024 * 1024;
 const videoSize = mediaManifest.files[videoPath.slice(1)].bytes;
 const encoder = new TextEncoder();
 const assetHeaders = {
@@ -32,7 +33,6 @@ let worker;
 
 before(async () => {
   ({ default: worker } = await import('../tools/story-video-ranges.mjs'));
-  // Model the Workers-only stream's exact-length checks with the Node Streams API.
   globalThis.FixedLengthStream = class extends TransformStream {
     constructor(length) {
       let written = 0;
@@ -138,7 +138,7 @@ test('only the sixteen story MP4s are served in ranges', async () => {
   }
 });
 
-test('206 streams exact bytes across chunks and retains asset metadata', async () => {
+test('206 returns exact bytes across upstream chunks and retains asset metadata', async () => {
   const { upstream, response } = await fetchVideo({
     headers: { Range: 'bytes=1-6', 'Accept-Encoding': 'gzip, br' },
   });
@@ -175,6 +175,26 @@ test('open-ended and suffix ranges use the complete asset length', async () => {
   assert.equal(hugeSuffix.response.status, 206);
   assert.equal(hugeSuffix.response.headers.get('Content-Range'), `bytes 0-${end}/${videoSize}`);
   await hugeSuffix.response.body.cancel();
+});
+
+test('long open-ended ranges advertise only the complete fragment and support continuation', async () => {
+  for (const [range, start] of [['bytes=0-', 0], [`bytes=${maxRangeSize}-`, maxRangeSize]]) {
+    const { response } = await fetchVideo({ headers: { Range: range }, bodyChunks: paddedVideo() });
+    assert.equal(response.status, 206);
+    assert.equal(response.headers.get('Content-Range'), `bytes ${start}-${start + maxRangeSize - 1}/${videoSize}`);
+    assert.equal(response.headers.get('Content-Length'), String(maxRangeSize));
+    const content = new Uint8Array(await response.arrayBuffer());
+    assert.equal(content.length, maxRangeSize);
+    assert.equal(new TextDecoder().decode(content.subarray(0, 6)), start === 0 ? '012345' : '\0'.repeat(6));
+  }
+});
+
+test('explicit video playback ranges are fulfilled in full for clients such as AVFoundation', async () => {
+  const end = maxRangeSize * 2 - 1;
+  const { response } = await fetchVideo({ headers: { Range: `bytes=0-${end}` }, bodyChunks: paddedVideo() });
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get('Content-Range'), `bytes 0-${end}/${videoSize}`);
+  assert.equal((await response.arrayBuffer()).byteLength, end + 1);
 });
 
 test('ordinary GET and HEAD, and methods outside the handler, preserve asset responses', async () => {
@@ -271,15 +291,16 @@ test('binding length may be omitted but any reported length must match the manif
   assert.equal(await response.text(), '01');
 });
 
-test('a truncated or oversized upstream body errors the partial response', async () => {
+test('a truncated or oversized upstream body fails before a partial response is sent', async () => {
   const headers = { Range: 'bytes=1-6' };
   const truncated = await fetchVideo({ headers, bodyChunks: ['01', '23'] });
-  assert.equal(truncated.response.status, 206);
-  await assert.rejects(truncated.response.text(), /Unexpected video body length/);
-
   const oversized = await fetchVideo({
     headers: { Range: 'bytes=-3' }, bodyChunks: [...paddedVideo(), 'extra'],
   });
-  assert.equal(oversized.response.status, 206);
-  await assert.rejects(oversized.response.text(), /Unexpected video body length/);
+  for (const { response } of [truncated, oversized]) {
+    assert.equal(response.status, 502);
+    assert.equal(response.headers.get('Cache-Control'), 'no-store');
+    assert.equal(response.headers.get('Content-Range'), null);
+    assert.equal(await response.text(), '');
+  }
 });
