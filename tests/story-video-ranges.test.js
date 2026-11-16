@@ -97,33 +97,37 @@ async function fetchVideo({
   return { request, upstream, response };
 }
 
-test('only the eight story MP4s are served in ranges', async () => {
+test('only the sixteen story MP4s are served in ranges', async () => {
   const islands = [
     'el-hierro', 'fuerteventura', 'gran-canaria', 'la-gomera', 'la-graciosa', 'la-palma',
     'lanzarote', 'tenerife',
   ];
-  const routes = islands.map(island => `/media/${island}/cuento.mp4`);
+  const routes = islands.flatMap(island => [
+    `/media/${island}/cuento.mp4`, `/en/media/${island}/story.mp4`,
+  ]);
   const config = JSON.parse(readFileSync(join(__dirname, '../wrangler.jsonc'), 'utf8'));
   assert.deepEqual([...config.assets.run_worker_first].sort(), [...routes].sort());
   const manifestRoutes = Object.keys(mediaManifest.files)
-    .filter(path => /^media\/[^/]+\/cuento\.mp4$/.test(path))
+    .filter(path => /^(?:media\/[^/]+\/cuento|en\/media\/[^/]+\/story)\.mp4$/.test(path))
     .map(path => '/' + path);
   assert.deepEqual(manifestRoutes.sort(), [...routes].sort());
 
-  for (const island of islands) {
-    const path = `/media/${island}/cuento.mp4`;
+  for (const path of routes) {
     const size = mediaManifest.files[path.slice(1)].bytes;
-    assert.equal(statSync(join(__dirname, '..', path)).size, size, island);
-    assert.ok(Number.isSafeInteger(size) && size > 0 && size <= maxVideoSize, island);
+    assert.equal(statSync(join(__dirname, '..', path)).size, size, path);
+    assert.ok(Number.isSafeInteger(size) && size > 0 && size <= maxVideoSize, path);
     const { response } = await fetchVideo({
       path: `${path}?v=1`,
       headers: { Range: 'bytes=0-1' },
     });
-    assert.equal(response.status, 206, island);
-    assert.equal(response.headers.get('Content-Range'), `bytes 0-1/${size}`, island);
-    assert.equal(await response.text(), '01', island);
+    assert.equal(response.status, 206, path);
+    assert.equal(response.headers.get('Content-Range'), `bytes 0-1/${size}`, path);
+    assert.equal(await response.text(), '01', path);
   }
-  for (const path of ['/media/otra-isla/cuento.mp4', '/media/la-palma/otro.mp4', '/index.html']) {
+  for (const path of [
+    '/media/otra-isla/cuento.mp4', '/media/la-palma/otro.mp4',
+    '/en/media/otra-isla/story.mp4', '/en/media/la-palma/cuento.mp4', '/index.html',
+  ]) {
     const { request, upstream, response } = await fetchVideo({
       path,
       headers: { Range: 'bytes=0-1' },

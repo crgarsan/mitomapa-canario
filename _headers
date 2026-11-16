@@ -57,3 +57,14 @@
 /downloads/MitoMapa_Cuentos_y_Fichas_de_Actividades.pdf
   Content-Type: application/pdf
   Content-Disposition: attachment; filename="MitoMapa_Cuentos_y_Fichas_de_Actividades.pdf"
+
+/en/media/*/captions.vtt
+  Content-Type: text/vtt; charset=utf-8
+
+/en/media/*/story.pdf
+  Content-Type: application/pdf
+  Content-Disposition: attachment
+
+/en/downloads/MitoMapa_Canary_Islands_EN.elpx
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment; filename="MitoMapa_Canary_Islands_EN.elpx"

@@ -23,7 +23,7 @@ from release_support import (
     PINTADERA_DIRECTORY, PINTADERA_GROUPS, PINTADERA_MANIFEST, pintadera_inventory,
     read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
     LAPA_STL, STORY_ACTIVITY_BOOK_PDF, STORY_BOOK_PDF, VASIJA_COLLECTION_ZIP, check_vasija_collection, lapa_assets,
-    story_book_assets, vasija_assets, zip_bytes,
+    ENGLISH_BOOK_PREVIEW, ENGLISH_CLASSROOM_DOCUMENTS, english_edition_assets, story_book_assets, vasija_assets, zip_bytes,
 )
 
 
@@ -193,6 +193,9 @@ def source_inventory(root, version):
             break
     names.difference_update(SOURCE_SPECIAL | {"SHA256SUMS.txt"})
     names.update(DOCUMENTS)
+    if (root / "index-en.html").is_file():
+        names.update(ENGLISH_CLASSROOM_DOCUMENTS)
+        names.update(ENGLISH_BOOK_PREVIEW)
     names.difference_update(LEGACY_CLASSROOM_DOCUMENTS)
     for extension in ("*.html", "*.css", "*.js", "*.md", "*.txt", "*.json", "*.svg", "*.png"):
         names.update(path.relative_to(root).as_posix() for path in root.glob(extension) if path.is_file())
@@ -250,6 +253,12 @@ def source_files(root, version, version_payload):
         )
         if name in book_assets
     )
+    english_download_note = (
+        "\nLas antologías en PDF y el ELPX inglés se distribuyen por separado.\n"
+        f"Sus enlaces de descarga están en {PUBLIC_URL}index-en.html#recursos.\n"
+        "Guarda los archivos descargados bajo en/downloads/ para usarlos sin conexión.\n\n"
+        if english_edition_assets(root) else ""
+    )
     files["FUENTES_WEB_LEEME.txt"] = (
         f"MitoMapa canario · Fuentes web {version['web_version']}\n\n"
         "Estas fuentes contienen la web, sus recursos locales, documentación,\n"
@@ -257,7 +266,7 @@ def source_files(root, version, version_payload):
         "Para consultar la web localmente, ejecuta python3 -m http.server y abre\n"
         "http://localhost:8000/. VERSION.json identifica la edición actual;\n"
         "SOURCE_MANIFEST.json verifica cada archivo sin incluirse a sí mismo.\n"
-        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note + pintadera_note + vasija_note + lapa_note + story_book_note +
+        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note + pintadera_note + vasija_note + lapa_note + story_book_note + english_download_note +
         "Materiales propios: CC BY-SA 4.0; consulta LICENSE y LICENCIA_Y_CREDITOS.txt.\n"
         "El mapa y las dependencias conservan sus condiciones originales.\n"
     ).encode("utf-8")
@@ -286,6 +295,7 @@ def public_names(root, previous, paths):
         names.update(pintaderas)
         names.add(PINTADERA_MANIFEST)
     names.update(vasija_assets(root) | lapa_assets(root) | story_book_assets(root))
+    names.update(english_edition_assets(root))
     return sorted(names)
 
 
@@ -366,6 +376,11 @@ def check_release(root=ROOT):
         raise ValueError("Lapa assets are missing from the public allowlist")
     if not story_book_assets(root) <= public.keys():
         raise ValueError("A story book download is missing from the public allowlist")
+    english_assets = english_edition_assets(root)
+    if english_assets:
+        if not english_assets <= public.keys():
+            raise ValueError("The English edition is missing public assets")
+        pinned_story_media(root)
     pintaderas = pintadera_inventory(root)
     if pintaderas:
         if not (set(pintaderas) | {PINTADERA_MANIFEST}) <= set(public):
@@ -409,7 +424,8 @@ def update_release(root=ROOT):
     check_pintadera_downloads(root, pintaderas)
     vasijas = vasija_assets(root)
     check_vasija_collection(root, vasijas)
-    current_downloads = set(paths.values()) | pintaderas.keys() | (vasijas & {VASIJA_COLLECTION_ZIP})
+    current_downloads = (set(paths.values()) | pintaderas.keys()
+                         | (vasijas & {VASIJA_COLLECTION_ZIP}) | english_edition_assets(root))
     # Historical packages are immutable, and their existing URLs stay public.
     for name, expected in previous.items():
         if name not in current_downloads and name.lower().endswith((".zip", ".elpx")):

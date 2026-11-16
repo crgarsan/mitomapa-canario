@@ -203,6 +203,14 @@ class DeployPolicyTests(unittest.TestCase):
             "/media/la-palma/cuento.mp4",
             "/media/lanzarote/cuento.mp4",
             "/media/tenerife/cuento.mp4",
+            "/en/media/el-hierro/story.mp4",
+            "/en/media/fuerteventura/story.mp4",
+            "/en/media/gran-canaria/story.mp4",
+            "/en/media/la-gomera/story.mp4",
+            "/en/media/la-graciosa/story.mp4",
+            "/en/media/la-palma/story.mp4",
+            "/en/media/lanzarote/story.mp4",
+            "/en/media/tenerife/story.mp4",
         ])
         self.assertNotIn(config["main"], (ROOT / "SHA256SUMS.txt").read_text())
 
