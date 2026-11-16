@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const { readFileSync, statSync } = require('node:fs');
 const { join } = require('node:path');
-const { before, test } = require('node:test');
+const { before, after, test } = require('node:test');
 const mediaManifest = require('../MEDIA_MANIFEST.json');
 
 const origin = 'https://mitomapa.test';
@@ -28,10 +28,31 @@ function paddedVideo() {
     padding.subarray(0, missing % padding.length), '6789'];
 }
 
+const originalFixedLengthStream = globalThis.FixedLengthStream;
 let worker;
 
 before(async () => {
   ({ default: worker } = await import('../tools/story-video-ranges.mjs'));
+  globalThis.FixedLengthStream = class extends TransformStream {
+    constructor(length) {
+      let written = 0;
+      super({
+        transform(chunk, controller) {
+          written += chunk.byteLength;
+          assert.ok(written <= length);
+          controller.enqueue(chunk);
+        },
+        flush() {
+          assert.equal(written, length);
+        },
+      });
+    }
+  };
+});
+
+after(() => {
+  if (originalFixedLengthStream === undefined) delete globalThis.FixedLengthStream;
+  else globalThis.FixedLengthStream = originalFixedLengthStream;
 });
 
 async function fetchVideo({
@@ -152,12 +173,12 @@ test('open-ended and suffix ranges use the complete asset length', async () => {
     headers: { Range: 'bytes=-99999999999999999999' }, bodyChunks: paddedVideo(),
   });
   assert.equal(hugeSuffix.response.status, 206);
-  assert.equal(hugeSuffix.response.headers.get('Content-Range'), `bytes ${videoSize - maxRangeSize}-${end}/${videoSize}`);
-  assert.equal((await hugeSuffix.response.arrayBuffer()).byteLength, maxRangeSize);
+  assert.equal(hugeSuffix.response.headers.get('Content-Range'), `bytes 0-${end}/${videoSize}`);
+  await hugeSuffix.response.body.cancel();
 });
 
-test('large ranges advertise only the complete fragment and support continuation', async () => {
-  for (const [range, start] of [['bytes=0-', 0], [`bytes=${maxRangeSize}-`, maxRangeSize], ['bytes=128-9999999', 128]]) {
+test('long open-ended ranges advertise only the complete fragment and support continuation', async () => {
+  for (const [range, start] of [['bytes=0-', 0], [`bytes=${maxRangeSize}-`, maxRangeSize]]) {
     const { response } = await fetchVideo({ headers: { Range: range }, bodyChunks: paddedVideo() });
     assert.equal(response.status, 206);
     assert.equal(response.headers.get('Content-Range'), `bytes ${start}-${start + maxRangeSize - 1}/${videoSize}`);
@@ -166,6 +187,14 @@ test('large ranges advertise only the complete fragment and support continuation
     assert.equal(content.length, maxRangeSize);
     assert.equal(new TextDecoder().decode(content.subarray(0, 6)), start === 0 ? '012345' : '\0'.repeat(6));
   }
+});
+
+test('explicit video playback ranges are fulfilled in full for clients such as AVFoundation', async () => {
+  const end = maxRangeSize * 2 - 1;
+  const { response } = await fetchVideo({ headers: { Range: `bytes=0-${end}` }, bodyChunks: paddedVideo() });
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get('Content-Range'), `bytes 0-${end}/${videoSize}`);
+  assert.equal((await response.arrayBuffer()).byteLength, end + 1);
 });
 
 test('ordinary GET and HEAD, and methods outside the handler, preserve asset responses', async () => {

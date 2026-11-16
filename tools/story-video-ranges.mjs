@@ -33,10 +33,13 @@ function parseRange(value) {
 
 function rangeBounds(range, size) {
   if (range.start === null) {
-    return range.end === 0 ? null : [Math.max(0, size - Math.min(range.end, MAX_RANGE_BYTES)), size - 1];
+    return range.end === 0 ? null : [Math.max(0, size - range.end), size - 1];
   }
   if (range.start >= size) return null;
-  return [range.start, Math.min(range.end ?? size - 1, size - 1, range.start + MAX_RANGE_BYTES - 1)];
+  // AVFoundation expects explicit ranges in full. Open-ended requests can
+  // be continued at the next byte, as Chromium does during playback.
+  const requestedEnd = range.end ?? range.start + MAX_RANGE_BYTES - 1;
+  return [range.start, Math.min(requestedEnd, size - 1)];
 }
 
 function ifRangeMatches(value, headers) {
@@ -44,27 +47,40 @@ function ifRangeMatches(value, headers) {
   return value === null || (STRONG_ETAG.test(value) && value === headers.get("ETag"));
 }
 
-async function readRange(body, start, end, size) {
+function sliceRange(body, start, end, size) {
   const reader = body.getReader();
-  const fragment = new Uint8Array(end - start + 1);
   let offset = 0;
-  try {
-    while (offset <= end) {
-      const { value, done } = await reader.read();
-      if (done || offset + value.byteLength > size) throw new Error("Unexpected video body length");
+  return new ReadableStream({
+    async pull(controller) {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done || offset + value.byteLength > size) {
+          void reader.cancel().catch(() => {});
+          throw new Error("Unexpected video body length");
+        }
 
-      const previous = offset;
-      offset += value.byteLength;
-      if (offset <= start) continue;
-      const slice = value.subarray(Math.max(0, start - previous), end + 1 - previous);
-      fragment.set(slice, Math.max(0, previous - start));
-    }
-    if (end === size - 1 && !(await reader.read()).done) throw new Error("Unexpected video body length");
-    return fragment;
-  } finally {
-    // The complete fragment is independent of the remaining asset stream.
-    void reader.cancel().catch(() => {});
-  }
+        const previous = offset;
+        offset += value.byteLength;
+        if (offset <= start) continue;
+
+        const chunk = value.subarray(Math.max(0, start - previous), end + 1 - previous);
+        // A slice through the final byte also verifies the end of the upstream body.
+        if (end === size - 1 && offset === size && !(await reader.read()).done) {
+          void reader.cancel().catch(() => {});
+          throw new Error("Unexpected video body length");
+        }
+        controller.enqueue(chunk);
+        if (offset > end) {
+          controller.close();
+          void reader.cancel().catch(() => {});
+        }
+        return;
+      }
+    },
+    cancel(reason) {
+      return reader.cancel(reason);
+    },
+  });
 }
 
 function invalidAssetResponse() {
@@ -126,11 +142,22 @@ export default {
     }
 
     const [start, end] = bounds;
-    // Finish reading before committing a 206 so an incomplete asset cannot truncate it.
+    const length = end - start + 1;
+    const slice = sliceRange(asset.body, start, end, size);
+    headers.set("Content-Length", String(length));
+    headers.set("Content-Range", `bytes ${start}-${end}/${size}`);
+
+    if (length > MAX_RANGE_BYTES) {
+      // Preserve full explicit ranges without buffering an entire video.
+      const output = new FixedLengthStream(length);
+      void slice.pipeTo(output.writable).catch(() => {});
+      return new Response(output.readable, { status: 206, headers });
+    }
+
+    // Do not announce a small fragment until all of its bytes are available.
     try {
-      const fragment = await readRange(asset.body, start, end, size);
-      headers.set("Content-Length", String(fragment.byteLength));
-      headers.set("Content-Range", `bytes ${start}-${end}/${size}`);
+      const fragment = await new Response(slice).arrayBuffer();
+      if (fragment.byteLength !== length) return invalidAssetResponse();
       return new Response(fragment, { status: 206, headers });
     } catch (_) {
       return invalidAssetResponse();
