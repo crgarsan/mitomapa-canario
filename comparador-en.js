@@ -122,7 +122,7 @@
     renderPair();
     save();
     const names = state.pair.map(id => context.routes.find(route => route.id === id).island);
-    controls.pairStatus.textContent = `${adjusted ? "The other selection changed so you can compare two different islands. " : ""}Comparas ${names[0]} and ${names[1]}. Each couple retains its own reflection.`;
+    controls.pairStatus.textContent = `${adjusted ? "The other selection changed so you can compare two different islands. " : ""}You’re comparing ${names[0]} and ${names[1]}. Each pair of islands has its own notes.`;
   }
 
   function setLevel(level) {
@@ -144,7 +144,7 @@
     const names = state.pair.map(id => context.routes.find(route => route.id === id).island);
     const text = [
       "MitoMapa Canario — Two stories, one conversation",
-      `Islas: ${names.join(" and ")}`,
+      `Islands: ${names.join(" and ")}`,
       "An optional activity for comparing fictional stories. Passport progress is independent of this activity.",
       "", "Our comparison", reflection, "",
       "Keep talking. What is similar? What is different? How do the characters’ choices affect what happens?"
@@ -172,7 +172,7 @@
     const selectorRow = node("div", "compare-selectors");
     const selects = [0, 1].map(index => {
       const label = node("label", "compare-select-label");
-      label.append(node("span", "", index === 0 ? "Primer cuento" : "Segundo cuento"));
+      label.append(node("span", "", index === 0 ? "First story" : "Second story"));
       const select = document.createElement("select");
       context.routes.forEach(route => {
         const option = node("option", "", route.island);
@@ -184,7 +184,7 @@
       selectorRow.append(label);
       return select;
     });
-    const swap = node("button", "button secondary compare-swap", "Intercambiar cuentos");
+    const swap = node("button", "button secondary compare-swap", "Swap stories");
     swap.type = "button";
     selectorRow.append(swap);
     const pairStatus = node("p", "compare-pair-status");

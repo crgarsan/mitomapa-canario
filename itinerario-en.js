@@ -74,17 +74,17 @@
         const title=document.createElement("p"),strong=document.createElement("strong");strong.textContent="Today’s work";title.append(strong);
         const task=document.createElement("p");task.className="route-session-task";
         const links=document.createElement("p");links.className="route-session-links";
-        const workshop=document.createElement("a");workshop.href=`#isla/${id}/taller`;workshop.textContent="Ir al taller";
+        const workshop=document.createElement("a");workshop.href=`#isla/${id}/taller`;workshop.textContent="Go to the workshop";
         const closure=document.createElement("a");closure.href="#crear";closure.textContent="Create and share";
         links.append(workshop,closure);brief.append(title,task,links);
         section.querySelector(".route-head")?.after(brief);
       }
       const assignment=context.assignment?.(id);
       const tasks=Array.isArray(assignment?.selectedTasks)?assignment.selectedTasks:[];
-      const names={words:"explorar vocabulario",research:"check a source",creation:"create something to share"};
+      const names={words:"explore vocabulary",research:"check a source",creation:"create something to share"};
       const extra=tasks.filter(key=>Object.hasOwn(names,key)).map(key=>names[key]);
       const agreed=typeof assignment?.tasks==="string"?assignment.tasks.trim():"";
-      brief.querySelector(".route-session-task").textContent=agreed || `${selected.has(id)?"Agreed route":"Propuesta"}: read or listen to the story${extra.length?", "+extra.join(", "):" and discuss what happens"}.`;
+      brief.querySelector(".route-session-task").textContent=agreed || `${selected.has(id)?"Agreed route":"Suggested activity"}: read or listen to the story${extra.length?", "+extra.join(", "):" and discuss what happens"}.`;
     }
   }
 
@@ -93,7 +93,7 @@
     renderChoices();
     const result = summary();
     const message = result.selected
-      ? `Ruta acordada: ${result.reviewed}/${result.selected} islands reviewed with your teacher.`
+      ? `Agreed route: ${result.reviewed}/${result.selected} islands reviewed with your teacher.`
       : "Agree on the islands you will work on. You can still explore all the islands.";
     const status = byId("agreedRouteSummary");
     if (status) {
@@ -108,7 +108,7 @@
     if (completion) {
       completion.hidden = !result.complete;
       const text = byId("agreedRouteCompletionText");
-      if (text) text.textContent = `You have reviewed the agreed work on ${result.selected} ${result.selected === 1 ? "isla" : "islas"}. Share what you learned and what you would try next time. You can continue exploring other routes whenever you like.`;
+      if (text) text.textContent = `You have reviewed the agreed work on ${result.selected} ${result.selected === 1 ? "island" : "islands"}. Share what you learned and what you would try next time. You can continue exploring other routes whenever you like.`;
     }
     const itinerarySummary = byId("itinerarySummary");
     if (itinerarySummary && result.selected) itinerarySummary.textContent = `${message} Collection: ${context.badgeCount()}/${context.routes.length} pieces.`;

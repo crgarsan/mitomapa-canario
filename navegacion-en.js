@@ -43,7 +43,7 @@
     if (!button) return;
     button.disabled = !point;
     button.hidden = !point;
-    button.textContent = point ? `Continue on ${point.route.island} · ${STEPS[point.step]}` : "Return to my last island";
+    button.textContent = point ? `Continue your route · ${point.route.island} · ${STEPS[point.step]}` : "Return to my last island";
   }
   function resume() {
     const point = continuation();
@@ -75,7 +75,7 @@
       crumb.hidden = ["inicio","islas","juegos","recursos"].includes(screen);
       crumb.textContent = screen === "ruta" ? "Islands · " + (context.routes.find(r => r.id === context.lastRoute())?.island || "Story") : titles[screen];
     }
-    document.title = `${titles[screen]} · MitoMapa canario`;
+    document.title = `${titles[screen]} · MitoMapa Canario`;
   }
   function focusTarget(target) {
     if (!target) return;
@@ -126,7 +126,7 @@
     reveal("ruta");
     const route = context.routes.find(r => r.id === id);
     byId("navigationLocation").textContent = `Islands · ${route?.island || "Story"}`;
-    document.title = `${route?.island || "Story"} · MitoMapa canario`;
+    document.title = `${route?.island || "Story"} · MitoMapa Canario`;
     const selected = step || byId(`route-${id}`)?.dataset.routeFlowStep || "cuento";
     if (selected !== "cuento") context.stopNarration();
     remember(id,selected);

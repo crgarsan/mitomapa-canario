@@ -42,7 +42,7 @@
   const videoPanel=group(el('section','format-video-panel'));videoPanel.id=`format-video-${id}`;videoPanel.hidden=true;videoPanel.setAttribute('aria-label',`Video of ${book.title}`);
   const video=el('video','format-video-player');video.controls=true;video.playsInline=true;video.preload='none';video.poster=safeLocalURL(book.poster);video.setAttribute('aria-label',`Story video: ${book.title}`);
   const status=el('p','format-video-status');status.id=`format-video-status-${id}`;status.setAttribute('role','status');status.setAttribute('aria-live','polite');video.setAttribute('aria-describedby',status.id);
-  const track=el('track');track.kind='captions';track.srclang='en';track.label="English";track.default=false;track.src=safeLocalURL(book.captions||`media/${id}/subtitulos.vtt`);video.append(track);
+  const track=el('track');track.kind='captions';track.srclang='en';track.label="English";track.default=false;track.src=safeLocalURL(book.captions||`en/media/${id}/captions.vtt`);video.append(track);
   videoPanel.append(video,status);grid.after(videoPanel);
   const info=group(el('div','format-information')),links=el('div','format-links');
   for(const [label,url] of [["Story sources",book.sources?.local_url||global.MitoMapaFormatData.sources_url],["Narration and sound credits","media/creditos-audio-en.html"]]){const link=localLink(label,url);if(link)links.append(link);}

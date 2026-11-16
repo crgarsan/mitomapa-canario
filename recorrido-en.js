@@ -62,7 +62,7 @@
     let navigation = directChild(section, ".route-flow-nav");
     if (navigation) return navigation;
     navigation = create("nav", "route-flow-nav");
-    navigation.setAttribute("aria-label", `Route steps${island ? ` of ${island}` : ""}`);
+    navigation.setAttribute("aria-label", `Route steps${island ? ` for ${island}` : ""}`);
     const controls = create("div", "route-flow-steps");
     STEPS.forEach((step, index) => {
       const button = makeControl(`${index + 1}. ${LABELS[step]}`, step);
@@ -129,7 +129,7 @@
     let navigation = directChild(section, ".route-flow-quiz-nav");
     if (!navigation) {
       navigation = create("nav", "route-flow-quiz-nav");
-      navigation.setAttribute("aria-label", "Open the comprehension challenge");
+      navigation.setAttribute("aria-label", "Story challenges");
       [["Comprehension", "comprension", nodes.source], ["True or false", "verdad", nodes.truth]].forEach(([label, target, panel]) => {
         if (!panel) return;
         const button = create("button", "route-flow-button", label);
@@ -164,7 +164,7 @@
     let challenges = directChild(section, ".route-flow-challenges-next");
     if (!challenges) {
       challenges = create("div", "route-flow-transition route-flow-challenges-next");
-      const nextQuiz = create("button", "route-flow-button route-flow-next-quiz", "Ir al verdadero o falso →");
+      const nextQuiz = create("button", "route-flow-button route-flow-next-quiz", "Go to True or false →");
       nextQuiz.type = "button";
       nextQuiz.addEventListener("click", () => selectQuiz(section, "verdad", true));
       const workshop = makeControl("Open the workshop →", "taller", "route-flow-button route-flow-primary");

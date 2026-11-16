@@ -173,13 +173,13 @@
       card.setAttribute('aria-disabled', String(done || reference));
       card.dataset.placed = String(done);
       card.setAttribute('aria-label', island.name + '. ' + island.description + ' ' + (done ? "Placed on " + island.current + '.' : reference ? "Unplaced. Reference map shown." : "Unplaced."));
-      card.querySelector('.pieces-card-state').textContent = done ? 'Colocada · ' + island.current : 'Elegir o arrastrar';
+      card.querySelector('.pieces-card-state').textContent = done ? 'Matched to ' + island.current : 'Select or drag';
       target.dataset.placed = String(done);
       target.dataset.reference = String(reference);
       target.querySelector('.pieces-target-image').hidden = !(done || reference);
       target.querySelector('.pieces-target-answer').textContent = done || reference ? island.name : "Place a piece";
-      target.querySelector('.pieces-target-state').textContent = reference ? 'Referencia' : done ? '✓ Relacionada' : '';
-      target.setAttribute('aria-label', island.current + '. ' + (reference ? 'Referencia: ' + island.name + '. ' + island.description : done ? island.name + '. ' + island.description + " Already placed." : "Empty. Place the selected piece here."));
+      target.querySelector('.pieces-target-state').textContent = reference ? 'Reference' : done ? '✓ Matched' : '';
+      target.setAttribute('aria-label', island.current + '. ' + (reference ? 'Reference: ' + island.name + '. ' + island.description : done ? island.name + '. ' + island.description + " Already placed." : "Empty. Place the selected piece here."));
       controls.pieceSelect.querySelector('option[value="' + island.id + '"]').disabled = done;
     });
     controls.pieceSelect.disabled = reference;
@@ -196,7 +196,7 @@
     if (placed.has(id)) { announce(piece.name + " is already matched to " + piece.current + ". Pick another piece."); return; }
     selected = id;
     update();
-    announce('Has elegido ' + piece.name + ". Select your island on the map or get a lead.");
+    announce("You selected " + piece.name + ". Choose its island on the map or ask for a hint.");
   }
 
   function place(id, chosenId) {
@@ -204,15 +204,15 @@
     const pieceId = chosenId || selected;
     if (!pieceId) { announce("Select a piece first. You can also choose “Match using lists”."); return; }
     const piece = byId(pieceId), destination = byId(id);
-    if (placed.has(pieceId)) { announce(piece.name + " is already matched to " + piece.current + ". Choose an earring."); return; }
+    if (placed.has(pieceId)) { announce(piece.name + " is already matched to " + piece.current + ". Choose an unmatched piece."); return; }
     if (pieceId !== id) {
-      announce("This piece belongs to a different island from " + destination.current + " in MitoMapa. Try again or ask for a hint. Your matches stay in place.", 'retry');
+      announce("This piece does not match " + destination.current + " in MitoMapa. Try again or ask for a hint. Your matches stay in place.", 'retry');
       return;
     }
     placed.add(id);
     selected = null;
     update();
-    announce(piece.name + " is matched in MitoMapa to " + piece.current + ". That association isn't an archaeological assignment.", 'success');
+    announce(piece.name + " matches " + piece.current + " in MitoMapa. The project chose this match for the activity.", 'success');
   }
 
   function clearDrag() {
@@ -444,7 +444,7 @@
     section = node('section', 'section panel pieces-map-game');
     section.id = 'piecesMapGame';
     section.setAttribute('aria-labelledby', 'piecesMapTitle');
-    const kicker = node('p', 'pieces-kicker', 'Observa, recuerda y relaciona');
+    const kicker = node('p', 'pieces-kicker', 'Look closely, remember and match');
     const title = node('h1', 'section-title', "Match the pieces to their islands");
     title.id = 'piecesMapTitle';
     section.append(kicker, title, node('p', 'pieces-intro', "Match each piece to its island in MitoMapa. Tap the piece and choose its island, or drag it there. This is an unscored practice activity and passport progress is independent of it."));
