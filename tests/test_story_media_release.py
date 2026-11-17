@@ -93,6 +93,31 @@ class StoryMediaReleaseTests(unittest.TestCase):
         update_release(self.root)
         self.assertNotIn('media/la-palma/draft.wav', parse_sums((self.root / 'SHA256SUMS.txt').read_text()))
 
+    def test_deployment_only_parts_reconstruct_the_pinned_story_mp4(self):
+        self.add_media()
+        part_bytes = 1024 * 1024
+        payload = b'a' * part_bytes + b'b' * part_bytes + b'last bytes'
+        other = 'media/la-palma/other.mp4'
+        self.fixture.write(self.name, payload)
+        self.fixture.write(other, b'other approved media')
+        self.manifest['files'][self.name] = metadata(payload)
+        self.manifest['files'][other] = metadata(b'other approved media')
+        self.fixture.write('MEDIA_MANIFEST.json', json_bytes(self.manifest))
+        update_release(self.root)
+        output = self.root / '.deploy'
+        stage_assets(self.root, output)
+
+        parts = output / '_story_video_parts' / digest(payload)
+        self.assertTrue(parts.is_dir(), 'the stage needs the digest-addressed video parts')
+        self.assertEqual(sorted(p.name for p in parts.iterdir()), ['0.bin', '1.bin', '2.bin'])
+        chunks = [(parts / f'{index}.bin').read_bytes() for index in range(3)]
+        self.assertEqual([len(chunk) for chunk in chunks], [part_bytes, part_bytes, 10])
+        self.assertEqual(b''.join(chunks), (output / self.name).read_bytes())
+        self.assertEqual(list(parts.parent.iterdir()), [parts])
+        self.assertEqual((output / other).read_bytes(), b'other approved media')
+        self.assertFalse((self.root / '_story_video_parts').exists())
+        self.assertNotIn('_story_video_parts', (output / 'SHA256SUMS.txt').read_text())
+
     def test_source_archive_includes_backup_recovery_instructions(self):
         self.add_media()
         self.fixture.write('docs/RESPALDO.md', b'Independent recovery instructions')

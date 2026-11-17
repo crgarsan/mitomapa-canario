@@ -8,10 +8,10 @@ const VIDEO_PATHS = new Set(ISLANDS.flatMap(island => [
   '/media/' + island + '/cuento.mp4', '/en/media/' + island + '/story.mp4',
 ]));
 const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
-const MAX_RANGE_BYTES = 2 * 1024 * 1024;
-const VIDEO_SIZES = new Map(
+const VIDEO_PART_BYTES = 1024 * 1024;
+const VIDEO_FILES = new Map(
   Object.entries(mediaManifest.files)
-    .map(([path, { bytes }]) => [`/${path}`, bytes])
+    .map(([path, metadata]) => [`/${path}`, metadata])
     .filter(([path]) => VIDEO_PATHS.has(path)),
 );
 const STRONG_ETAG = /^"[!\x23-\x7e\x80-\xff]*"$/;
@@ -38,7 +38,8 @@ function rangeBounds(range, size) {
   if (range.start >= size) return null;
   // AVFoundation expects explicit ranges in full. Open-ended requests can
   // be continued at the next byte, as Chromium does during playback.
-  const requestedEnd = range.end ?? range.start + MAX_RANGE_BYTES - 1;
+  const blockEnd = (Math.floor(range.start / VIDEO_PART_BYTES) + 1) * VIDEO_PART_BYTES - 1;
+  const requestedEnd = range.end ?? blockEnd;
   return [range.start, Math.min(requestedEnd, size - 1)];
 }
 
@@ -87,6 +88,42 @@ function invalidAssetResponse() {
   return new Response(null, { status: 502, headers: { "Cache-Control": "no-store" } });
 }
 
+async function readPart(assets, origin, video, index) {
+  const url = new URL(`/_story_video_parts/${video.sha256}/${index}.bin`, origin);
+  const response = await assets.fetch(new Request(url, { headers: { "Accept-Encoding": "identity" } }));
+  const expected = Math.min(VIDEO_PART_BYTES, video.bytes - index * VIDEO_PART_BYTES);
+  const reported = response.headers.get("Content-Length");
+  const type = response.headers.get("Content-Type")?.split(";", 1)[0].trim().toLowerCase();
+  const encoding = response.headers.get("Content-Encoding");
+  if (response.status !== 200 || type !== "application/octet-stream" ||
+      (reported !== null && reported !== String(expected)) ||
+      (encoding !== null && encoding.toLowerCase() !== "identity")) {
+    if (response.body) void response.body.cancel().catch(() => {});
+    throw new Error("Invalid story video fragment");
+  }
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  if (bytes.byteLength !== expected) throw new Error("Unexpected story video fragment length");
+  return bytes;
+}
+
+async function readShortRange(assets, origin, video, start, end) {
+  const firstIndex = Math.floor(start / VIDEO_PART_BYTES);
+  const lastIndex = Math.floor(end / VIDEO_PART_BYTES);
+  const offset = start % VIDEO_PART_BYTES;
+  if (firstIndex === lastIndex) {
+    const part = await readPart(assets, origin, video, firstIndex);
+    return part.subarray(offset, offset + end - start + 1);
+  }
+  const [first, last] = await Promise.all([
+    readPart(assets, origin, video, firstIndex),
+    readPart(assets, origin, video, lastIndex),
+  ]);
+  const fragment = new Uint8Array(end - start + 1);
+  fragment.set(first.subarray(offset));
+  fragment.set(last.subarray(0, end % VIDEO_PART_BYTES + 1), first.byteLength - offset);
+  return fragment;
+}
+
 function rangeHeaders(asset) {
   const headers = new Headers(asset.headers);
   headers.set("Accept-Ranges", "bytes");
@@ -101,11 +138,13 @@ function rangeHeaders(asset) {
 export default {
   async fetch(request, env) {
     const rangeValue = request.headers.get("Range");
-    const size = VIDEO_SIZES.get(new URL(request.url).pathname);
-    if (rangeValue === null || size === undefined ||
+    const url = new URL(request.url);
+    const video = VIDEO_FILES.get(url.pathname);
+    if (rangeValue === null || video === undefined ||
         !["GET", "HEAD"].includes(request.method)) {
       return env.ASSETS.fetch(request);
     }
+    const size = video.bytes;
 
     const range = request.method === "GET" ? parseRange(rangeValue) : null;
     const upstreamHeaders = new Headers(request.headers);
@@ -143,21 +182,21 @@ export default {
 
     const [start, end] = bounds;
     const length = end - start + 1;
-    const slice = sliceRange(asset.body, start, end, size);
     headers.set("Content-Length", String(length));
     headers.set("Content-Range", `bytes ${start}-${end}/${size}`);
 
-    if (length > MAX_RANGE_BYTES) {
+    if (length > VIDEO_PART_BYTES) {
       // Preserve full explicit ranges without buffering an entire video.
+      const slice = sliceRange(asset.body, start, end, size);
       const output = new FixedLengthStream(length);
       void slice.pipeTo(output.writable).catch(() => {});
       return new Response(output.readable, { status: 206, headers });
     }
 
-    // Do not announce a small fragment until all of its bytes are available.
+    // Read the staged fragment directly, without scanning the original video.
+    void asset.body.cancel().catch(() => {});
     try {
-      const fragment = await new Response(slice).arrayBuffer();
-      if (fragment.byteLength !== length) return invalidAssetResponse();
+      const fragment = await readShortRange(env.ASSETS, url.origin, video, start, end);
       return new Response(fragment, { status: 206, headers });
     } catch (_) {
       return invalidAssetResponse();
