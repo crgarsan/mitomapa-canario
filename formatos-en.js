@@ -10,8 +10,7 @@
   return decoded.split('/').some(part=>part==='..'||part==='.')?'':value;
  }
  function pausePreservingPosition(media){if(media&&typeof media.pause==='function')media.pause();}
- function videoFailureMessage(state){return state.mode==='video'&&state.hasSource&&[1,2,3,4].includes(state.errorCode)?"The video could not load. Choose “Audio and text” to continue the story.":'';}
- function showFullVideoInitially(userAgent){return /\biPhone\b/i.test(userAgent)&&/\bCriOS\//i.test(userAgent);}
+ function videoFailureMessage(state){return state.mode==='video'&&state.hasSource&&[1,2,3,4].includes(state.errorCode)?"The video could not load. Open the separate player or choose “Audio and text”.":'';}
  async function loadFullVideo(source,signal,fetcher=global.fetch.bind(global)){
   if(typeof source!=='string'||!/^en\/media\/[a-z0-9-]+\/story\.mp4$/.test(source))throw new Error('Unexpected video source');
   const response=await fetcher(source,{method:'GET',mode:'same-origin',cache:'reload',redirect:'error',signal});
@@ -44,7 +43,7 @@
   if(!size)throw new Error('Empty video');
   return new Blob(chunks,{type});
  }
- if(typeof module==='object'&&module.exports)module.exports=Object.freeze({normalizeMode,safeLocalURL,pausePreservingPosition,videoFailureMessage,showFullVideoInitially,loadFullVideo});
+ if(typeof module==='object'&&module.exports)module.exports=Object.freeze({normalizeMode,safeLocalURL,pausePreservingPosition,videoFailureMessage,loadFullVideo});
  if(!global.document)return;
  const document=global.document,controllers=new Set(),mounted=new WeakMap();
  function el(tag,className,text){const e=document.createElement(tag);if(className)e.className=className;if(text!==undefined)e.textContent=text;return e;}
@@ -65,7 +64,6 @@
   if(!book||!grid||!support||!story||!narrator)return null;
   const id=route.id;let mode;
   const videoSource=safeLocalURL(book.video);
-  const showRetry=showFullVideoInitially(global.navigator?.userAgent||'');
   const pauseBase=()=>{if(typeof options.pauseBase==='function')options.pauseBase();else options.stopBase?.();};
   const group=e=>{e.dataset.routeFlowGroup='cuento';return e;};
   const picker=group(el('section','format-picker'));picker.id=`format-picker-${id}`;picker.setAttribute('aria-label',"How to experience the story");
@@ -84,10 +82,14 @@
   const videoPanel=group(el('section','format-video-panel'));videoPanel.id=`format-video-${id}`;videoPanel.hidden=true;videoPanel.setAttribute('aria-label',`Video of ${book.title}`);
   const video=el('video','format-video-player');video.id=`story-video-${id}`;video.controls=true;video.playsInline=true;video.preload='none';video.poster=safeLocalURL(book.poster);video.setAttribute('aria-label',`Story video: ${book.title}`);
   const status=el('p','format-video-status');status.id=`format-video-status-${id}`;status.setAttribute('role','status');status.setAttribute('aria-live','polite');video.setAttribute('aria-describedby',status.id);
+  const videoLinks=el('div','format-links');
+  const separatePlayer=el('a','format-document-link format-video-separate','Open video in a separate player');
+  separatePlayer.href=`video-player-en.html?island=${encodeURIComponent(id)}`;
   const retry=el('button','button secondary format-video-retry','Load full video');
-  retry.type='button';retry.hidden=!showRetry;retry.setAttribute('aria-controls',video.id);retry.setAttribute('aria-describedby',status.id);
+  retry.type='button';retry.setAttribute('aria-controls',video.id);retry.setAttribute('aria-describedby',status.id);
   const track=el('track');track.kind='captions';track.srclang='en';track.label="English";track.default=false;track.src=safeLocalURL(book.captions||`en/media/${id}/captions.vtt`);video.append(track);
-  videoPanel.append(video,retry,status);grid.after(videoPanel);
+  videoLinks.append(separatePlayer,retry);
+  videoPanel.append(videoLinks,status,video);grid.after(videoPanel);
   const info=group(el('div','format-information')),links=el('div','format-links');
   for(const [label,url] of [["Story sources",book.sources?.local_url||global.MitoMapaFormatData.sources_url],["Narration and sound credits","media/creditos-audio-en.html"]]){const link=localLink(label,url);if(link)links.append(link);}
   const credits=el('details','format-credits');credits.append(el('summary','',"Story authors and media credits"));
@@ -102,7 +104,6 @@
    pending?.abort();
    retry.removeAttribute('aria-disabled');
    retry.textContent='Load full video';
-   retry.hidden=!showRetry;
    status.textContent='';
    if(!objectURL)return;
    if(video.currentTime>0&&!video.ended)resumeAt=video.currentTime;
@@ -122,7 +123,7 @@
    if(download||mode!=='video'||!section.classList.contains('active'))return;
    if(objectURL){
     try{await video.play();}
-    catch(_){status.textContent='Playback did not start. Try the video controls or choose “Audio and text”.';}
+    catch(_){status.textContent='Playback did not start. Open the separate player or choose “Audio and text”.';}
     return;
    }
    const attempt=new AbortController();
@@ -140,7 +141,7 @@
     retry.textContent='Play video';
     status.textContent='Full video ready. Choose “Play video” to start.';
    }catch(_){
-    if(download===attempt)status.textContent='The full video could not load. Try again or choose “Audio and text”.';
+    if(download===attempt)status.textContent='The full video could not load. Open the separate player or choose “Audio and text”.';
    }finally{
     if(download===attempt){download=null;retry.removeAttribute('aria-disabled');}
    }
@@ -162,11 +163,7 @@
    const message=videoFailureMessage({mode,hasSource:video.hasAttribute('src'),errorCode:video.error?.code});
    if(!message||download)return;
    if(objectURL)releaseFullVideo();
-   retry.hidden=false;
-   status.textContent='The video could not load. Try “Load full video” or choose “Audio and text”.';
-  });
-  video.addEventListener('stalled',()=>{
-   if(mode==='video'&&!video.paused&&!download&&!objectURL)retry.hidden=false;
+   status.textContent=message;
   });
   section.querySelector('.narration-play')?.addEventListener('click',()=>stopOwnedMedia(),true);
   selectMode();return controller;

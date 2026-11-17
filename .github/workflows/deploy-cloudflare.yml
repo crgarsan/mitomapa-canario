@@ -31,7 +31,7 @@ jobs:
           python3 -m venv .venv
           .venv/bin/python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
           .venv/bin/python -m playwright install --with-deps chromium chrome
-          sudo apt-get update && sudo apt-get install -y poppler-utils
+          sudo apt-get update && sudo apt-get install -y poppler-utils ffmpeg
       - name: Check deployment policy and release packages
         run: |
           npm audit --package-lock-only --ignore-scripts --audit-level=moderate
@@ -76,7 +76,7 @@ jobs:
             test_learning_support_browser.py test_game_access_browser.py \
             test_expedition_browser.py test_native_runtime_security_browser.py
       - name: Verify and stage static files
-        run: python3 tools/prepare_deploy.py
+        run: python3 tools/prepare_deploy.py --ffmpeg ffmpeg
   deploy:
     needs: validate
     if: github.ref == 'refs/heads/main' && github.repository == 'crgarsan/mitomapa-canario'
@@ -97,8 +97,10 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: '3.12'
+      - name: Install FFmpeg for story videos
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Verify and stage static files
-        run: python3 tools/prepare_deploy.py
+        run: python3 tools/prepare_deploy.py --ffmpeg ffmpeg
       - name: Install Wrangler
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify public transport before publication

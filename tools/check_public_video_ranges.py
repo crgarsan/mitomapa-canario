@@ -93,9 +93,39 @@ def verify_videos(opener, deploy):
     return 1 if failures else 0
 
 
+def verify_apple_streams(opener, deploy):
+    directory = deploy / 'en/video-hls'
+    if not directory.is_dir():
+        return 0
+    failures = 0
+    for island in STORY_ISLANDS:
+        try:
+            files = directory / island
+            first = sorted(files.glob('seg-*.m4s'))[0].name
+            for name, mime in (('story.m3u8', 'application/vnd.apple.mpegurl'),
+                               ('init.mp4', 'video/mp4'), (first, 'video/iso.segment')):
+                path = files / name
+                expected = path.read_bytes()
+                url = f'https://{HOSTNAME}/{path.relative_to(deploy).as_posix()}'
+                request = Request(url, headers={'User-Agent': USER_AGENT, 'Accept-Encoding': 'identity'})
+                with opener.open(request, timeout=TIMEOUT) as response:
+                    if response.status != 200 or response.geturl() != url:
+                        raise VideoRangeError(f'expected HTTP 200 for {name}')
+                    if response.headers.get_content_type() != mime:
+                        raise VideoRangeError(f'expected {mime} for {name}')
+                    if response.read(len(expected) + 1) != expected:
+                        raise VideoRangeError(f'published bytes differ for {name}')
+        except (OSError, ValueError, IndexError, HTTPException, VideoRangeError) as error:
+            failures += 1
+            print(f'::error title=Apple video verification::{island}: {error}', flush=True)
+    print(f'Apple video verification: {len(STORY_ISLANDS) - failures}/{len(STORY_ISLANDS)} streams passed.', flush=True)
+    return 1 if failures else 0
+
+
 def main():
     # Keep normal TLS and the configured proxy, with no credential or redirect handling.
-    return verify_videos(build_opener(NoRedirect()), DEPLOY)
+    opener = build_opener(NoRedirect())
+    return verify_videos(opener, DEPLOY) | verify_apple_streams(opener, DEPLOY)
 
 
 if __name__ == '__main__':

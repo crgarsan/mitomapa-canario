@@ -13,10 +13,9 @@ test('a video error points to the available reading format', () => {
   assert.equal(f.videoFailureMessage({mode: 'audio-text', hasSource: true, errorCode: 2}), '');
 });
 
-test('Chrome on iPhone gets the full-video option before an error', () => {
-  assert.equal(english.showFullVideoInitially('Mozilla/5.0 (iPhone; CPU iPhone OS 26_0) CriOS/142.0 Mobile Safari/604.1'), true);
-  assert.equal(english.showFullVideoInitially('Mozilla/5.0 (iPhone; CPU iPhone OS 26_0) Version/26.0 Mobile Safari/604.1'), false);
-  assert.equal(english.showFullVideoInitially('Mozilla/5.0 (Linux; Android 13; Pixel 7) Chrome/145.0 Mobile Safari/537.36'), false);
+test('an English video error points to the independent player', () => {
+  assert.match(english.videoFailureMessage({mode: 'video', hasSource: true, errorCode: 2}), /Open the separate player/);
+  assert.equal(english.videoFailureMessage({mode: 'audio-text', hasSource: true, errorCode: 2}), '');
 });
 
 test('the full-video retry uses a same-origin non-range GET with an abort signal', async () => {

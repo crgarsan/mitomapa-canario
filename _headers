@@ -69,6 +69,12 @@
   Content-Type: application/pdf
   Content-Disposition: attachment
 
+/en/video-hls/*.m3u8
+  Content-Type: application/vnd.apple.mpegurl
+
+/en/video-hls/*.m4s
+  Content-Type: video/iso.segment
+
 /en/downloads/MitoMapa_Canary_Islands_EN.elpx
   Content-Type: application/octet-stream
   Content-Disposition: attachment; filename="MitoMapa_Canary_Islands_EN.elpx"

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Story video · MitoMapa Canario</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="formatos.css">
+  <script src="formatos-data-en.js" defer></script>
+  <script src="video-player-en.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="topbar">
+    <a class="brand" href="index-en.html?lang=en#inicio">MitoMapa Canario</a>
+  </header>
+  <main id="main">
+    <section class="route active" aria-labelledby="video-title">
+      <p class="eyebrow" id="video-island" hidden></p>
+      <h1 id="video-title">Story video</h1>
+      <p id="video-unavailable" hidden>Choose an island in MitoMapa to open its video.</p>
+      <div class="format-video-panel">
+        <video id="story-video" class="format-video-player" aria-labelledby="video-title" controls playsinline preload="metadata" hidden></video>
+      </div>
+      <nav class="route-nav" aria-label="Story video options">
+        <a id="back-to-story" class="button secondary" href="index-en.html?lang=en#islas">Choose an island</a>
+        <a id="download-video" class="button secondary" hidden>Download video (MP4)</a>
+      </nav>
+      <noscript><p>Enable JavaScript to open the selected story video.</p></noscript>
+    </section>
+  </main>
+</body>
+</html>
