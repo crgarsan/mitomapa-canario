@@ -226,8 +226,8 @@
       "bytes": 17103686
     },
     "en/media/el-hierro/story.pdf": {
-      "sha256": "af88ca2040c36219e0b58496145a7c024fdffbad9c476bd94d0035637a094db3",
-      "bytes": 3722086
+      "sha256": "901b86dd64d4a1c6d0375b732270d616ebf51ff82466162bf65a34c54ecfb43d",
+      "bytes": 3721977
     },
     "en/media/fuerteventura/captions.vtt": {
       "sha256": "ca2359757b2c8644e3743aca65c8947bcee170f579aa7d10e315c9a54b343fb2",
@@ -250,8 +250,8 @@
       "bytes": 14845362
     },
     "en/media/fuerteventura/story.pdf": {
-      "sha256": "d9a4dbf0794342e34e0017d87f5bb8413784b858582892587e0b840f6ccdadb3",
-      "bytes": 2491551
+      "sha256": "aabc3c85f2f7ead190d75a6d81955a15f021bb65054373ad71368f1d18a88504",
+      "bytes": 2491540
     },
     "en/media/gran-canaria/captions.vtt": {
       "sha256": "e499305c2c9d9f5e33a92e9769217134886ac934a90a2bafc960f1f60c145133",
@@ -274,8 +274,8 @@
       "bytes": 15766623
     },
     "en/media/gran-canaria/story.pdf": {
-      "sha256": "6b7f672da3be5e86293381e7cf8bfa2625e88821c1bba578085a7a58f6cef5f1",
-      "bytes": 2878933
+      "sha256": "060888590534837936b9af6b2d72358982ebbb50a3922b7697cf4172d5391ee9",
+      "bytes": 2878810
     },
     "en/media/la-gomera/captions.vtt": {
       "sha256": "1be786521f8e3b78cb039b02274995c8157302c9b663dd4dd5bb1e9a38b6d937",
@@ -298,8 +298,8 @@
       "bytes": 16232709
     },
     "en/media/la-gomera/story.pdf": {
-      "sha256": "622a05647ece21c494b075622f2ab0661baf720d5e42fc0779713d84a1b5bf1b",
-      "bytes": 3194841
+      "sha256": "39c87448420c7fcc41fa5dae8543b812fdd81ebc5584caac122a86484cf0b5dd",
+      "bytes": 3194963
     },
     "en/media/la-graciosa/captions.vtt": {
       "sha256": "8e473039a8bb8bfae6f83a32f06f940689ae0818dcbfc28b35a2fd81775cb23c",
@@ -322,8 +322,8 @@
       "bytes": 13447986
     },
     "en/media/la-graciosa/story.pdf": {
-      "sha256": "187fc2cfd24969e798bf3660cfcdf90d5b43c9001ed2b1ef84c8c020ec5a2dba",
-      "bytes": 2511662
+      "sha256": "447b10faa23de857ba84d4e105524c8213bd1a16b31f370173dae5be941b13c6",
+      "bytes": 2511453
     },
     "en/media/la-palma/captions.vtt": {
       "sha256": "83d06a0a2c91d14e3320fe2524e2641c9e7ebfd77fa19cf5893dfa0dc2753186",
@@ -346,8 +346,8 @@
       "bytes": 15205029
     },
     "en/media/la-palma/story.pdf": {
-      "sha256": "0933caa80784511c04013bb54c7b51179215d8fbd200d38dea998bb16d039b6f",
-      "bytes": 3017702
+      "sha256": "b17ac95895b2d8286cb356b3965db954c1d32848f00ada9a8a2c67568ca6f52e",
+      "bytes": 3017938
     },
     "en/media/lanzarote/captions.vtt": {
       "sha256": "6ebe650dbd07c9b20637be5101169befbf436b7321599f796673f489651e8be7",
@@ -370,8 +370,8 @@
       "bytes": 14972935
     },
     "en/media/lanzarote/story.pdf": {
-      "sha256": "3f14228cc45fca2b18836d4c25ee6a5532dc6d976550db2e8041bb14c0c858a4",
-      "bytes": 2795359
+      "sha256": "36a5de01cc0ee8a30f49218b9a151a6fa56bfa990f0ba62ac7948f50394e2569",
+      "bytes": 2795353
     },
     "en/media/tenerife/captions.vtt": {
       "sha256": "f88d484fa9b62e16343162814fe9f505882cd4051e3d49c1eb83e67c866fc358",
@@ -394,16 +394,16 @@
       "bytes": 13326753
     },
     "en/media/tenerife/story.pdf": {
-      "sha256": "7575da25d1dafb1e16c92d548770c459f5b2ce9852d9b3c6795051b26fdd2ead",
-      "bytes": 2044612
+      "sha256": "b5c6e653f9adde975817c1b40b3ff14b746dbdf1fa508b252cfe2e596beb8e52",
+      "bytes": 2044907
     },
     "media/creditos-audio-en.html": {
       "sha256": "0373a65e968fb93610a1892a962f76a3030752f80c91c1d4bfee8aed6a390f35",
       "bytes": 5121
     },
     "media/fuentes-cuentos-en.html": {
-      "sha256": "2fe98020a6e5cb81626455b266624f6f83622a9626ab0dcc6eccea15cd709a22",
-      "bytes": 16093
+      "sha256": "21cc2afd837842d683b733679a31bb8e6ecf1bbaa991b0cf6c02b2dee5110846",
+      "bytes": 18210
     }
   }
 }
