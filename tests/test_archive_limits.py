@@ -1,7 +1,8 @@
 """Bound recursive maintenance reads before inflation, including forged headers."""
 
 from dataclasses import replace
-from io import BytesIO
+from contextlib import redirect_stdout
+from io import BytesIO, StringIO
 from pathlib import Path
 from types import SimpleNamespace
 import os
@@ -311,6 +312,238 @@ class ArchiveLimitsTests(unittest.TestCase):
         for before, after in zip(infos, after_infos, strict=True):
             for field in pdf.ZIP_INFO_FIELDS:
                 self.assertEqual(getattr(before, field), getattr(after, field))
+
+
+def with_zip64_footer(payload, *, declared=None):
+    """Small real ZIP64 end records; no huge data or ZipInfo allocation."""
+    end = payload.rindex(b"PK\x05\x06")
+    entries, size, offset = struct.unpack_from("<HII", payload, end + 10)
+    count = entries if declared is None else declared
+    footer = struct.pack("<4sQ2H2I4Q", b"PK\x06\x06", 44, 45, 45, 0, 0,
+                         count, count, size, offset)
+    locator = struct.pack("<4sIQI", b"PK\x06\x07", 0, end, 1)
+    legacy = bytearray(payload[end:])
+    struct.pack_into("<HHII", legacy, 8, 0xffff, 0xffff, 0xffffffff, 0xffffffff)
+    return payload[:end] + footer + locator + bytes(legacy)
+
+
+class CentralDirectoryPreflightTests(unittest.TestCase):
+    def read_before_constructor(self, payload, *, used=0, maximum=2, error="member.*count"):
+        for module in (pdf, drawings):
+            budget = pdf.ArchiveBudget(replace(pdf.DEFAULT_ARCHIVE_LIMITS, max_members=maximum),
+                                       members=used)
+            with self.subTest(module=module.__name__), patch.object(
+                    zipfile, "ZipFile", side_effect=AssertionError("Allocated ZipInfo before limit")):
+                with self.assertRaisesRegex(ValueError, error):
+                    module.read_archive(payload, budget=budget)
+
+    def test_actual_count_rejected_before_zipfile_even_if_footer_understates_it(self):
+        original = archive_bytes([(str(i), b"") for i in range(3)])
+        end = original.rindex(b"PK\x05\x06")
+        understated = bytearray(original)
+        struct.pack_into("<HH", understated, end + 8, 1, 1)
+        for payload in (original, bytes(understated), with_zip64_footer(original),
+                        with_zip64_footer(original, declared=1)):
+            self.read_before_constructor(payload)
+
+    def test_twenty_thousand_entries_never_construct_zipinfo(self):
+        payload = archive_bytes([(str(i), b"") for i in range(20000)])
+        self.assertLess(len(payload), 2 * 1024 * 1024)
+        self.read_before_constructor(payload, maximum=2000)
+
+    def test_declared_count_and_remaining_recursive_budget_precede_constructor(self):
+        payload = archive_bytes([("a", b""), ("b", b"")])
+        self.read_before_constructor(payload, used=1)
+        self.read_before_constructor(with_zip64_footer(payload, declared=3))
+
+    def test_understated_count_within_budget_is_invalid_before_constructor(self):
+        payload = bytearray(archive_bytes([("a", b""), ("b", b"")]))
+        end = payload.rindex(b"PK\x05\x06")
+        struct.pack_into("<HH", payload, end + 8, 1, 1)
+        self.read_before_constructor(bytes(payload), error="central|count")
+
+    def test_truncated_variable_record_and_invalid_signature_precede_constructor(self):
+        original = archive_bytes([("a", b"x")])
+        central = original.index(b"PK\x01\x02")
+        bad_length = bytearray(original)
+        struct.pack_into("<H", bad_length, central + 28, 0xffff)
+        bad_signature = bytearray(original)
+        bad_signature[central] = 0
+        for payload in (bytes(bad_length), bytes(bad_signature)):
+            self.read_before_constructor(payload, error="central|ZIP structure")
+
+    def test_normal_zip64_comments_and_concatenated_prefix_keep_metadata(self):
+        info = zipfile.ZipInfo("folder/body.txt")
+        info.comment = b"member comment"
+        info.extra = struct.pack("<HH", 0xcafe, 0)
+        output = BytesIO()
+        with zipfile.ZipFile(output, "w") as archive:
+            archive.comment = b"archive comment"
+            archive.writestr(info, b"original bytes")
+        ordinary = output.getvalue()
+        for payload in (ordinary, with_zip64_footer(ordinary),
+                        b"self extracting prefix" + ordinary,
+                        b"self extracting prefix" + with_zip64_footer(ordinary)):
+            with self.subTest(zip64=b"PK\x06\x06" in payload, prefixed=payload.startswith(b"self")):
+                budget = pdf.ArchiveBudget(replace(pdf.DEFAULT_ARCHIVE_LIMITS, max_members=1))
+                infos, files, comment = pdf.read_archive(payload, budget=budget)
+                self.assertEqual(files, {"folder/body.txt": b"original bytes"})
+                self.assertEqual((infos[0].comment, infos[0].extra, comment),
+                                 (info.comment, info.extra, b"archive comment"))
+                self.assertEqual(budget.members, 1)
+
+    def test_empty_archives_pass_without_entries(self):
+        ordinary = archive_bytes([])
+        for payload in (ordinary, with_zip64_footer(ordinary)):
+            self.assertEqual(pdf.read_archive(payload)[1], {})
+
+    def test_legacy_python_zip64_footer_location_is_bounded_too(self):
+        payload = with_zip64_footer(archive_bytes([("a", b""), ("b", b"")]))
+        footer = zipfile._EndRecData(BytesIO(payload))
+        footer[zipfile._ECD_LOCATION] = payload.rindex(b"PK\x05\x06")
+        budget = pdf.ArchiveBudget(replace(pdf.DEFAULT_ARCHIVE_LIMITS, max_members=2))
+        with patch.object(zipfile, "_EndRecData", return_value=footer):
+            pdf.preflight_central_directory(payload, budget)
+
+    def test_invalid_offsets_are_rejected_before_constructor(self):
+        payload = bytearray(archive_bytes([("a", b"x")]))
+        end = payload.rindex(b"PK\x05\x06")
+        struct.pack_into("<I", payload, end + 16, len(payload) + 1)
+        self.read_before_constructor(bytes(payload), error="offset|central")
+
+
+class ArtifactCommitTests(unittest.TestCase):
+    def fixture(self):
+        loader = (pdf.LOADER_START + "\n" + pdf.OLD_ASSIGNMENT + "\n"
+                  + pdf.APPEND + "\n    },\n")
+        return archive_bytes([("idevices/checklist/checklist.js", loader.encode()),
+                              ("content.xml", b"untouched native content")])
+
+    def run_cli(self, path, *, check=False):
+        args = ["pdf.py", "--artifact", str(path)] + (["--check"] if check else [])
+        with patch.object(sys, "argv", args), redirect_stdout(StringIO()):
+            pdf.main()
+
+    def test_symlink_or_regular_inode_swap_aborts_without_writing_either_file(self):
+        for symlink in (True, False):
+            with self.subTest(symlink=symlink), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "artifact.elpx"
+                original = self.fixture()
+                path.write_bytes(original)
+                saved = path.with_name("original.elpx")
+                victim = path.with_name("victim.txt")
+                victim.write_bytes(b"victim remains intact")
+                transform = pdf.patched_archive
+
+                def swap(payload):
+                    result = transform(payload)
+                    path.rename(saved)
+                    if symlink:
+                        path.symlink_to(victim)
+                    else:
+                        path.write_bytes(b"replacement remains intact")
+                    return result
+
+                with patch.object(pdf, "patched_archive", side_effect=swap):
+                    with self.assertRaises((ValueError, OSError)):
+                        self.run_cli(path)
+                self.assertEqual(saved.read_bytes(), original)
+                self.assertEqual(victim.read_bytes(), b"victim remains intact")
+                self.assertEqual(path.read_bytes(), b"victim remains intact" if symlink
+                                 else b"replacement remains intact")
+
+    def test_swap_after_writer_identity_check_cannot_redirect_the_write(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "artifact.elpx"
+            path.write_bytes(self.fixture())
+            saved = path.with_name("original.elpx")
+            victim = path.with_name("victim.txt")
+            victim.write_bytes(b"victim remains intact")
+            fstat = os.fstat
+            # The writable descriptor has been opened and checked; change the
+            # name immediately afterwards, before its first write.
+            opened = os.open
+            writer = None
+
+            def record_open(name, flags, *args, **kwargs):
+                nonlocal writer
+                fd = opened(name, flags, *args, **kwargs)
+                if flags & (os.O_WRONLY | os.O_RDWR):
+                    writer = fd
+                return fd
+
+            def swap_after_check(fd):
+                result = fstat(fd)
+                if fd == writer and not saved.exists():
+                    path.rename(saved)
+                    path.symlink_to(victim)
+                return result
+
+            with patch.object(os, "open", side_effect=record_open), patch.object(
+                    os, "fstat", side_effect=swap_after_check):
+                self.run_cli(path)
+            self.assertEqual(victim.read_bytes(), b"victim remains intact")
+            self.assertTrue(path.is_symlink())
+            self.assertEqual(pdf.verify_archive(saved.read_bytes()), (1, 0))
+
+    def test_swap_during_writer_open_is_checked_before_truncation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "artifact.elpx"
+            original = self.fixture()
+            path.write_bytes(original)
+            saved = path.with_name("original.elpx")
+            victim = path.with_name("victim.txt")
+            victim.write_bytes(b"victim remains intact")
+            opened = os.open
+
+            def swap_before_open(name, flags, *args, **kwargs):
+                if flags & os.O_WRONLY and not saved.exists():
+                    path.rename(saved)
+                    path.symlink_to(victim)
+                return opened(name, flags, *args, **kwargs)
+
+            # The descriptor identity check also protects platforms without
+            # O_NOFOLLOW, after a preliminary symlink check has already passed.
+            with patch.object(os, "O_NOFOLLOW", 0, create=True), patch.object(
+                    os, "open", side_effect=swap_before_open):
+                with self.assertRaises(ValueError):
+                    self.run_cli(path)
+            self.assertEqual(saved.read_bytes(), original)
+            self.assertEqual(victim.read_bytes(), b"victim remains intact")
+
+    def test_regular_update_and_initial_symlink_preserve_inode_mode_and_other_members(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "artifact.elpx"
+            path.write_bytes(self.fixture())
+            path.chmod(0o640)
+            before = path.stat()
+            selected = path.with_name("selected.elpx")
+            selected.symlink_to(path)
+            self.run_cli(selected)
+            self.assertTrue(selected.is_symlink())
+            self.assertEqual((path.stat().st_ino, stat.S_IMODE(path.stat().st_mode)),
+                             (before.st_ino, 0o640))
+            self.assertEqual(pdf.verify_archive(path.read_bytes()), (1, 0))
+            self.assertEqual(pdf.read_archive(path.read_bytes())[1]["content.xml"],
+                             b"untouched native content")
+
+    def test_noop_and_read_only_check_never_open_for_writing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "hardened.elpx"
+            path.write_bytes(pdf.patched_archive(self.fixture())[0])
+            path.chmod(0o444)
+            before = path.read_bytes(), path.stat().st_mtime_ns
+            opened = os.open
+
+            def read_only_open(name, flags, *args, **kwargs):
+                if flags & (os.O_WRONLY | os.O_RDWR):
+                    self.fail("A no-op or --check requested write permission")
+                return opened(name, flags, *args, **kwargs)
+
+            with patch.object(os, "open", side_effect=read_only_open):
+                self.run_cli(path)
+                self.run_cli(path, check=True)
+            self.assertEqual((path.read_bytes(), path.stat().st_mtime_ns), before)
 
 
 if __name__ == "__main__":
