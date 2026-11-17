@@ -199,6 +199,9 @@ def drawing_policy(candidate: str):
             "Current drawing helpers are incomplete")
     getter = line(function(candidate, "getWorkshopRouteState"), " state.drawing=")
     restore = line(function(candidate, "setupWorkshopCanvas"), " const restore=")
+    # Historical releases already use the bounded decoder. Session isolation
+    # adds a lifecycle check without changing that image-validation boundary.
+    historical_restore = " const restore=async imageData=>{const image=await loadWorkshopDrawing(imageData);clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};\n"
     sanitizer = function(candidate, "sanitizeImportedWorkshop")
     source = line(sanitizer, "  const source=")
     guard = between(sanitizer, source, "  clean.routes[")
@@ -211,8 +214,10 @@ def drawing_policy(candidate: str):
     def verify(text: str) -> None:
         require(between(text, HELPER_MARKER, STORAGE) == helpers,
                 "Distributed drawing helpers differ from the reviewed policy")
-        for anchor in (getter, restore):
-            once(text, anchor)
+        once(text, getter)
+        actual_restore = line(function(text, "setupWorkshopCanvas"), " const restore=")
+        require(actual_restore in (restore, historical_restore),
+                "Drawing restore differs from the reviewed decoder variants")
         current = function(text, "sanitizeImportedWorkshop")
         require(between(current, source, "  clean.routes[") == guard,
                 "Imported drawing validation differs from the reviewed policy")
@@ -251,13 +256,13 @@ def verify_drawing_archive(payload: bytes, verify, *, budget: ArchiveBudget | No
     _, files, _ = read_archive(payload, budget=budget, depth=depth)
     scripts = nested_archives = 0
     for name, data in files.items():
-        if (name == "scripts.js" or name.endswith("/scripts.js")) and b"function sanitizeImportedWorkshop(" in data:
+        if Path(name).name in {"scripts.js", "scripts-en.js"}:
             verify(data.decode("utf-8"))
             scripts += 1
             portable = str(Path(name).parent / "PORTABLE_MANIFEST.json")
             if portable in files:
                 manifest = json.loads(files[portable])
-                require(manifest["assets"]["scripts.js"] == {"sha256": digest(data), "bytes": len(data)},
+                require(manifest["assets"][Path(name).name] == {"sha256": digest(data), "bytes": len(data)},
                         "Stale drawing manifest: " + name)
         elif name.lower().endswith((".elpx", ".zip")):
             found, nested = verify_drawing_archive(data, verify, budget=budget, depth=depth + 1)

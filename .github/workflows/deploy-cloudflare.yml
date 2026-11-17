@@ -31,7 +31,7 @@ jobs:
           python3 -m venv .venv
           .venv/bin/python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
           .venv/bin/python -m playwright install --with-deps chromium chrome
-          sudo apt-get update && sudo apt-get install -y poppler-utils
+          sudo apt-get update && sudo apt-get install -y poppler-utils ffmpeg
       - name: Check deployment policy and release packages
         run: |
           npm audit --package-lock-only --ignore-scripts --audit-level=moderate
@@ -69,14 +69,14 @@ jobs:
             test_story_formats_browser.py \
             test_editorial_elpx_browser.py test_native_audit_browser.py \
             test_navigation_accessibility_browser.py \
-            test_persistent_state_browser.py test_text_resize_browser.py \
+            test_persistent_state_browser.py test_learner_session_browser.py test_text_resize_browser.py \
             test_fflate_security_browser.py
           .venv/bin/python tools/run_browser_checks.py \
             test_map_choice_browser.py test_reading_support_browser.py \
             test_learning_support_browser.py test_game_access_browser.py \
             test_expedition_browser.py test_native_runtime_security_browser.py
       - name: Verify and stage static files
-        run: python3 tools/prepare_deploy.py
+        run: python3 tools/prepare_deploy.py --ffmpeg ffmpeg
   deploy:
     needs: validate
     if: github.ref == 'refs/heads/main' && github.repository == 'crgarsan/mitomapa-canario'
@@ -97,8 +97,10 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: '3.12'
+      - name: Install FFmpeg for story videos
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Verify and stage static files
-        run: python3 tools/prepare_deploy.py
+        run: python3 tools/prepare_deploy.py --ffmpeg ffmpeg
       - name: Install Wrangler
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify public transport before publication
@@ -112,9 +114,25 @@ jobs:
           original = json.loads(Path('wrangler.jsonc').read_text())
           if original['name'] != 'mitomapa-canario':
               raise SystemExit('The publication must target the existing MitoMapa Worker.')
-          config = {key: original[key] for key in ('name', 'compatibility_date', 'assets')}
-          config['assets'] = {**config['assets'], 'directory': str(Path(config['assets']['directory']).resolve())}
-          config_path = temporary / 'mitomapa-assets-only.json'
+          if original['main'] != 'tools/story-video-ranges.mjs':
+              raise SystemExit('The only Worker entrypoint is the story video range handler.')
+          asset_settings = original['assets']
+          if (asset_settings['directory'] != './.deploy' or asset_settings['binding'] != 'ASSETS'
+                  or asset_settings['html_handling'] != 'auto-trailing-slash'
+                  or asset_settings['not_found_handling'] != 'none'):
+              raise SystemExit('The Worker must use the verified static assets and the existing routing policy.')
+          config = {key: original[key] for key in ('name', 'compatibility_date')}
+          config['main'] = str(Path('tools/story-video-ranges.mjs').resolve())
+          config['assets'] = {key: asset_settings[key] for key in (
+              'directory', 'binding', 'html_handling', 'not_found_handling', 'run_worker_first')}
+          islands = ('el-hierro', 'fuerteventura', 'gran-canaria', 'la-gomera',
+                     'la-graciosa', 'la-palma', 'lanzarote', 'tenerife')
+          story_videos = [f'/media/{island}/cuento.mp4' for island in islands]
+          story_videos += [f'/en/media/{island}/story.mp4' for island in islands]
+          if config['assets']['run_worker_first'] != story_videos:
+              raise SystemExit('Only the sixteen story MP4 paths may run the Worker before static assets.')
+          config['assets']['directory'] = str(Path('.deploy').resolve())
+          config_path = temporary / 'mitomapa-story-video.json'
           config_path.write_text(json.dumps(config))
           report_path = temporary / ('mitomapa-upload-' + os.environ['GITHUB_RUN_ID'] + '-' + os.environ['GITHUB_RUN_ATTEMPT'] + '.jsonl')
           if report_path.exists():
@@ -151,3 +169,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       - name: Verify public transport after publication
         run: python3 tools/check_public_transport.py
+      - name: Verify public story video ranges after publication
+        run: python3 tools/check_public_video_ranges.py

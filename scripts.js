@@ -1062,7 +1062,7 @@ function setupWorkshopCanvas(workshop,routeId){
  const state=getWorkshopRouteState(routeId),baseColor="#fffdf7";
  let drawing=false,lastPoint=null,pendingSnapshot=null,strokeStartPixels=null,currentColor="#2f2b26",history=[];
  const clearSurface=()=>{context.save();context.fillStyle=baseColor;context.fillRect(0,0,canvas.width,canvas.height);context.restore();};
- const restore=async imageData=>{const image=await loadWorkshopDrawing(imageData);clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};
+ const restore=async imageData=>{const revision=learnerRevision;const image=await loadWorkshopDrawing(imageData);if(revision!==learnerRevision||!workshop.isConnected||!learnerSessionCurrent())return;clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};
  clearSurface();if(state.drawing)restore(state.drawing);
  const pointFromEvent=event=>{const box=canvas.getBoundingClientRect();return{x:(event.clientX-box.left)*canvas.width/box.width,y:(event.clientY-box.top)*canvas.height/box.height};};
  const snapshot=()=>({image:canvas.toDataURL("image/webp",.82),hasInk:Boolean(state.drawingHasInk)});
@@ -1289,7 +1289,8 @@ function teacherStatusWord(done){return done?"Superado":"Pendiente";}
 function updateTeacherDialog(){
  const tbody=byId("teacherProgressBody");
  if(!tbody)return;
- tbody.innerHTML=routes.map(route=>`<tr><th scope="row">${activityEscape(route.island)}</th><td>${teacherStatusWord(sourcePassed.has(route.id))}</td><td>${learningLevel==="early"?"Opcional":teacherStatusWord(truthPassed.has(route.id))}</td><td>${selectedNotebookTasks(route.id).length?`${workshopStageCount(route.id)}/${selectedNotebookTasks(route.id).length}`:"Sin tareas"}</td><td>${teacherStatusWord(badgeCountsForLevel(route.id))}</td><td>${teacherTaskMarkup(route)}<label class="review-toggle"><input type="checkbox" data-review-route="${route.id}" ${itineraryFor(route.id).reviewed?"checked":""} aria-label="Itinerario revisado de ${activityEscape(route.island)} en ${activityEscape(learningLevelLabel())}"> Revisado con el alumnado</label><label class="assigned-label">Tareas acordadas para ${activityEscape(route.island)}<textarea data-task-route="${route.id}" rows="2" maxlength="240">${activityEscape(itineraryFor(route.id).tasks)}</textarea></label></td></tr>`).join("");
+ tbody.innerHTML=routes.map(route=>`<tr role="row" data-teacher-island="${route.id}"><th scope="row" role="rowheader">${activityEscape(route.island)}</th><td role="cell" data-label="Comprensión">${teacherStatusWord(sourcePassed.has(route.id))}</td><td role="cell" data-label="Reto">${learningLevel==="early"?"Opcional":teacherStatusWord(truthPassed.has(route.id))}</td><td role="cell" data-label="Cuaderno">${selectedNotebookTasks(route.id).length?`${workshopStageCount(route.id)}/${selectedNotebookTasks(route.id).length}`:"Sin tareas"}</td><td role="cell" data-label="Pieza">${teacherStatusWord(badgeCountsForLevel(route.id))}</td><td role="cell" data-label="Tareas y revisión">${teacherTaskMarkup(route)}<label class="review-toggle"><input type="checkbox" data-review-route="${route.id}" ${itineraryFor(route.id).reviewed?"checked":""} aria-label="Itinerario revisado de ${activityEscape(route.island)} en ${activityEscape(learningLevelLabel())}"> Revisado con el alumnado</label><label class="assigned-label">Tareas acordadas para ${activityEscape(route.island)}<textarea data-task-route="${route.id}" rows="2" maxlength="240">${activityEscape(itineraryFor(route.id).tasks)}</textarea></label></td></tr>`).join("");
+ window.MitoMapaTeacher?.filterIslands();
  byId("teacherLevelSummary").textContent=learningLevelLabel();
  byId("teacherOverallSummary").textContent=`${currentBadgeCount()}/8 piezas · ${sourcePassed.size}/8 comprensiones · ${truthPassed.size}/8 retos · ${finalState.passed?(currentBadgeCount()===routes.length?"gran reto superado":"gran reto conservado; faltan requisitos de esta etapa"):"gran reto pendiente"}.`;
  const input=byId("teacherLearnerName");if(input)input.value=learnerName;
@@ -1532,6 +1533,7 @@ async function importProgressFile(file){
 }
 
 function clearPrintMode(){
+ document.documentElement.classList.remove("print-session-unverified");
  document.body.classList.remove("print-diploma","print-passport");
 }
 
@@ -1629,7 +1631,25 @@ function resetProgress(){
 }
 
 function setupV34Features(){
- byId("storageExportHelp")?.addEventListener("click",()=>{updateTeacherDialog();window.MitoMapaTeacher?.show("tools",{focus:false});openDialog(byId("teacherDialog"));byId("exportProgress")?.focus();});
+ const teacherDialog=byId("teacherDialog");
+ let teacherOpener;
+ function openTeacherSpace(panel, control, opener){
+  if(!teacherDialog.open){
+   teacherOpener=opener;
+   updateTeacherDialog();
+   window.MitoMapaTeacher?.show(panel,{focus:false});
+   openDialog(teacherDialog);
+  }
+  window.MitoMapaTeacher?.show(panel,{focus:!control});
+  if(control)window.MitoMapaTeacher?.focusControl(byId(control));
+ }
+ teacherDialog.addEventListener("close",()=>{
+  const opener=teacherOpener?.getClientRects().length ? teacherOpener : byId("openTeacher");
+  opener?.focus({preventScroll:true});
+  teacherOpener=null;
+ });
+ byId("storageExportHelp")?.addEventListener("click",event=>openTeacherSpace("tools","exportProgress",event.currentTarget));
+ byId("teacherSaveHelp")?.addEventListener("click",()=>openTeacherSpace("tools","exportProgress"));
  byId("teacherProgressBody")?.addEventListener("change",event=>{
   const input=event.target,d=input.dataset,id=d.reviewRoute||d.taskRoute||d.assignRoute||d.evidenceRoute||d.externalRoute||d.flexibleRoute;
   if(!validIds.has(id))return;
@@ -1654,7 +1674,7 @@ function setupV34Features(){
  byId("printDiploma")?.addEventListener("click",printDiploma);
  byId("printDiplomaPreview")?.addEventListener("click",printDiploma);
  byId("closeDiploma")?.addEventListener("click",()=>closeDialog(byId("diplomaDialog")));
- byId("openTeacher")?.addEventListener("click",()=>{updateTeacherDialog();window.MitoMapaTeacher?.show("guide",{focus:false});openDialog(byId("teacherDialog"));window.MitoMapaTeacher?.show("guide");});
+ byId("openTeacher")?.addEventListener("click",event=>openTeacherSpace("guide",null,event.currentTarget));
  byId("closeTeacher")?.addEventListener("click",()=>closeDialog(byId("teacherDialog")));
  byId("teacherLearnerName")?.addEventListener("change",event=>syncLearnerName(event.target.value));
  byId("exportProgress")?.addEventListener("click",exportProgress);
@@ -1662,7 +1682,7 @@ function setupV34Features(){
  byId("importProgressFile")?.addEventListener("change",event=>{importProgressFile(event.target.files?.[0]);event.target.value="";});
  byId("printPassport")?.addEventListener("click",printPassport);
  window.addEventListener("afterprint",clearPrintMode);
- window.addEventListener("beforeprint",()=>{if(!learnerSessionCurrent())clearPrintMode();});
+ window.addEventListener("beforeprint",()=>{if(!learnerSessionCurrent()){clearPrintMode();document.documentElement.classList.add("print-session-unverified");}});
  setLearningLevel(learningLevel,false);updateFinalExperience();
 }
 function enhanceRoute(section,route){
@@ -1825,6 +1845,7 @@ window.MitoMapaLearning?.init({openStory:(id,options={})=>{
  showRoute(id,{step:"cuento"});
  const section=byId(`route-${id}`),target=typeof options.paragraphId==="string"?byId(options.paragraphId):null;
  if(target&&section?.contains(target)&&target.matches("[data-learning-fragment]")){
+  section.querySelector('.format-options input[value="audio-text"]')?.click();
   target.scrollIntoView({block:"center",behavior:"auto"});target.focus({preventScroll:true});
  }
 }});
@@ -1838,12 +1859,15 @@ window.MitoMapaPieces?.mount({routes,assets:ASSETS});
 // Recuperar la ruta acordada antes de resolver un enlace directo a Crear.
 window.MitoMapaJourney?.init({routes,getLevel:()=>learningLevel,isReviewed:id=>itineraryFor(id).reviewed,assignment:id=>itineraryFor(id),badgeCount:currentBadgeCount,readJSON,writeJSON,onChange:()=>updateItineraryUI()});
 window.MitoMapaNavigation?.mount({routes,openRoute:showRoute,stopNarration,lastRoute:()=>lastRouteId,readJSON,writeJSON});
-window.MitoMapaTeacher?.init({setLevel:level=>{setLearningLevel(level);updateTeacherDialog();},refresh:syncTeacherScroll});
+window.MitoMapaTeacher?.init({routes,setLevel:level=>{setLearningLevel(level);updateTeacherDialog();},refresh:syncTeacherScroll});
 window.MitoMapaJourney?.refresh();
 
 // Ajustar el salto a la altura real de la cabecera, también al ampliar el texto.
 function updateHeaderOffset(){const header=document.querySelector("header"),navigation=document.querySelector(".main-navigation");if(header){const height=Math.ceil(header.getBoundingClientRect().height);document.documentElement.style.setProperty("--topbar-height",`${height}px`);document.documentElement.style.setProperty("--header-offset",`${height+Math.ceil(navigation?.getBoundingClientRect().height||0)+24}px`);}}
-if(typeof ResizeObserver!=="undefined"){const header=document.querySelector("header");if(header)new ResizeObserver(updateHeaderOffset).observe(header);}
+if(typeof ResizeObserver!=="undefined"){
+  const headerResizeObserver=new ResizeObserver(updateHeaderOffset);
+  document.querySelectorAll("header.topbar,.main-navigation").forEach(element=>headerResizeObserver.observe(element));
+}
 window.addEventListener("resize",updateHeaderOffset);updateHeaderOffset();updateStorageNotice();
 
 // Controles alternativos para barras horizontales ocultas por el sistema.
@@ -1851,11 +1875,13 @@ function syncTeacherScroll(){
  const box=byId("teacherTableViewport"),controls=byId("teacherScrollControls");if(!box||!controls)return;
  const remaining=box.scrollWidth-box.clientWidth;
  controls.hidden=remaining<=1;
- byId("teacherScrollLeft").disabled=box.scrollLeft<=1;
- byId("teacherScrollRight").disabled=remaining-box.scrollLeft<=1;
+ byId("teacherScrollLeft").setAttribute("aria-disabled",String(box.scrollLeft<=1));
+ byId("teacherScrollRight").setAttribute("aria-disabled",String(remaining-box.scrollLeft<=1));
 }
 function moveTeacherColumns(direction){
- const box=byId("teacherTableViewport");if(!box)return;
+ const box=byId("teacherTableViewport");
+ const control=byId(direction<0?"teacherScrollLeft":"teacherScrollRight");
+ if(!box||control?.getAttribute("aria-disabled")==="true")return;
  box.scrollBy({left:direction*Math.max(180,box.clientWidth*.7),behavior:window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches?"auto":"smooth"});
 }
 byId("teacherScrollLeft")?.addEventListener("click",()=>moveTeacherColumns(-1));

@@ -107,6 +107,30 @@ class PersistentStateBrowserTests(unittest.TestCase):
         self.page.mouse.move(box["x"] + 130, box["y"] + 100, steps=4)
         self.page.mouse.up()
 
+    def test_saved_draft_preserves_literal_text_and_leading_line_break(self):
+        draft = '\nDiario: «Mar y viento» & 2 < 3.\nSegunda línea.'
+        for route in ("tenerife", "gran-canaria"):
+            with self.subTest(route=route):
+                self.seed(text=draft, route=route)
+                workshop = self.page.locator(f"#activity-{route}")
+                expect(workshop.locator("[data-primary-text]")).to_have_value(draft)
+                expect(workshop.locator(".creation-primary .activity-character-count")).to_have_text(str(len(draft)))
+                expect(workshop.locator('[data-creation-review="relation"]')).to_have_value("reviewed")
+
+    def test_secondary_draft_restores_text_and_selected_scene_after_reload(self):
+        self.seed(level="secondary", route="la-gomera")
+        workshop = self.page.locator("#activity-la-gomera")
+        draft = '\nDiario: «Mar y viento» & 2 < 3.\nSegunda línea.'
+        workshop.locator("[data-secondary-text]").fill(draft)
+        scene = workshop.get_by_role("radio", name="2. La prohibición de la relación por parte de sus familiares.")
+        scene.check()
+        self.page.reload(wait_until="networkidle")
+        workshop.locator('[data-activity-tab="creation"]').click()
+        expect(workshop.locator("[data-secondary-text]")).to_have_value(draft)
+        expect(scene).to_be_checked()
+        expect(workshop.locator(".creation-secondary .activity-character-count")).to_have_text(str(len(draft)))
+        expect(workshop.locator(".creation-secondary .activity-word-count")).to_have_text(str(len(draft.split())))
+
     def open_teacher_tools(self, page):
         page.locator("#openTeacher").click()
         page.locator("#teacherToolsTab").click()
@@ -287,30 +311,6 @@ class PersistentStateBrowserTests(unittest.TestCase):
         expect(self.page.locator("#teacherImportStatus")).to_contain_text("correctamente")
         home = self.open_second_tab()
         expect(home.locator("#resumeRoute")).not_to_be_visible()
-
-    def test_saved_draft_preserves_literal_text_and_leading_line_break(self):
-        draft = '\nDiario: «Mar y viento» & 2 < 3.\nSegunda línea.'
-        for route in ("tenerife", "gran-canaria"):
-            with self.subTest(route=route):
-                self.seed(text=draft, route=route)
-                workshop = self.page.locator(f"#activity-{route}")
-                expect(workshop.locator("[data-primary-text]")).to_have_value(draft)
-                expect(workshop.locator(".creation-primary .activity-character-count")).to_have_text(str(len(draft)))
-                expect(workshop.locator('[data-creation-review="relation"]')).to_have_value("reviewed")
-
-    def test_secondary_draft_restores_text_and_selected_scene_after_reload(self):
-        self.seed(level="secondary", route="la-gomera")
-        workshop = self.page.locator("#activity-la-gomera")
-        draft = '\nDiario: «Mar y viento» & 2 < 3.\nSegunda línea.'
-        workshop.locator("[data-secondary-text]").fill(draft)
-        scene = workshop.get_by_role("radio", name="2. La prohibición de la relación por parte de sus familiares.")
-        scene.check()
-        self.page.reload(wait_until="networkidle")
-        workshop.locator('[data-activity-tab="creation"]').click()
-        expect(workshop.locator("[data-secondary-text]")).to_have_value(draft)
-        expect(scene).to_be_checked()
-        expect(workshop.locator(".creation-secondary .activity-character-count")).to_have_text(str(len(draft)))
-        expect(workshop.locator(".creation-secondary .activity-word-count")).to_have_text(str(len(draft.split())))
 
     def test_criterion_edit_invalidates_only_its_stage(self):
         # Catch a criterion handler using broad shared-production invalidation.

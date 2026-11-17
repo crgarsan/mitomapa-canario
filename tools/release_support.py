@@ -21,6 +21,41 @@ PINTADERA_STL = re.compile(r'downloads/pintaderas-3d/(recreaciones|sellos)/(pint
 
 STORY_BOOK_PDF = 'downloads/MitoMapa_Cuentos_de_Canarias.pdf'
 STORY_ACTIVITY_BOOK_PDF = 'downloads/MitoMapa_Cuentos_y_Fichas_de_Actividades.pdf'
+STORY_ISLANDS = (
+    'el-hierro', 'fuerteventura', 'gran-canaria', 'la-gomera',
+    'la-graciosa', 'la-palma', 'lanzarote', 'tenerife',
+)
+ENGLISH_STORY_MEDIA = frozenset(
+    f'en/media/{island}/{name}' for island in STORY_ISLANDS
+    for name in ('story.mp4', 'story.pdf', 'captions.vtt', 'poster.webp',
+                 'narration.mp3', 'narration-ambient.m4a')
+)
+ENGLISH_CLASSROOM_DOCUMENTS = (
+    'downloads/Cuaderno_de_ruta_MitoMapa-en.html',
+    'downloads/Pauta_de_revision_MitoMapa-en.html',
+)
+ENGLISH_BOOK_PREVIEW = frozenset({
+    'en/book-preview/pages.json',
+    *(f'en/book-preview/{edition}-{page}.webp'
+      for edition in ('stories', 'activities') for page in range(1, 6)),
+})
+ENGLISH_DOWNLOADS = (
+    'en/downloads/Canary_Islands_Stories.pdf',
+    'en/downloads/Canary_Islands_Stories_and_Activities.pdf',
+    'en/downloads/MitoMapa_Canary_Islands_EN.elpx',
+    'en/downloads/MitoMapa_Canary_Islands_EN.zip',
+    'en/downloads/MitoMapa_review_sheet.csv',
+)
+ENGLISH_CREDITS = ('media/fuentes-cuentos-en.html', 'media/creditos-audio-en.html')
+
+
+def english_edition_assets(root, *, approved=None):
+    """The English entry point and its companion resources ship together."""
+    present = 'index-en.html' in approved if approved is not None else (root / 'index-en.html').is_file()
+    if not present:
+        return frozenset()
+    return (ENGLISH_STORY_MEDIA | ENGLISH_BOOK_PREVIEW
+            | frozenset((*ENGLISH_CLASSROOM_DOCUMENTS, *ENGLISH_DOWNLOADS, *ENGLISH_CREDITS)))
 
 
 def story_book_assets(root, *, approved=None):
@@ -287,8 +322,9 @@ def story_media_inventory(root):
     allowed = {'.mp4', '.pdf', '.vtt', '.webp', '.mp3', '.m4a', '.txt', '.html'}
     for name, details in manifest['files'].items():
         path = safe_name(name)
-        if (not re.fullmatch(r'media/[A-Za-z0-9][A-Za-z0-9._/-]*', name)
-                or path.suffix.lower() not in allowed):
+        if (name not in ENGLISH_STORY_MEDIA
+                and (not re.fullmatch(r'media/[A-Za-z0-9][A-Za-z0-9._/-]*', name)
+                     or path.suffix.lower() not in allowed)):
             raise ValueError('Story media must stay inside the media directory')
         if (not isinstance(details, dict) or set(details) != {'sha256', 'bytes'}
                 or not isinstance(details['sha256'], str) or not DIGEST.fullmatch(details['sha256'])
@@ -308,6 +344,8 @@ def pinned_story_media(root, *, approved, inventory=None):
     if inventory is None:
         inventory = story_media_inventory(root)
     require_approved(inventory, approved)
+    if 'index-en.html' in approved and not ENGLISH_STORY_MEDIA <= inventory.keys():
+        raise ValueError('The English edition needs all eight complete story media sets')
     for name, details in inventory.items():
         source = source_path(root, name)
         if source.stat().st_size != details['bytes'] or digest(source.read_bytes()) != details['sha256']:

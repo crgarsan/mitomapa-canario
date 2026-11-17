@@ -365,3 +365,6 @@ dialog .button,#teacherDialog .teacher-tabs button{min-width:0;max-width:100%;ov
   .dialog-close{margin-left:auto}
   #teacherDialog .dialog-head{position:static}
 }
+
+/* Refuse native printing when the active learner session cannot be verified. */
+@media print{html.print-session-unverified,html.print-session-unverified *{visibility:hidden!important;}}

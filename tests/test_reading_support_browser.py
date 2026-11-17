@@ -52,9 +52,14 @@ class ReadingSupportBrowserTest(unittest.TestCase):
 
     def open_story(self, base=None):
         self.page.goto((base or self.base) + "#isla/tenerife/cuento", wait_until="networkidle")
+        self.select_audio_text("tenerife")
         return self.page.locator("#route-tenerife .narrator")
 
+    def select_audio_text(self, route):
+        self.page.locator(f"#route-{route}").get_by_role("radio", name="Audio y texto", exact=True).check()
+
     def open_settings(self, route="tenerife"):
+        self.select_audio_text(route)
         settings = self.page.locator(f"#route-{route} .reading-settings")
         settings.locator("summary").click()
         return settings
@@ -89,6 +94,7 @@ class ReadingSupportBrowserTest(unittest.TestCase):
         self.assertEqual(after, before)
         self.page.evaluate("location.hash='#isla/la-palma/cuento'")
         self.page.wait_for_selector("#route-la-palma.active")
+        self.select_audio_text("la-palma")
         self.assertEqual(self.page.locator("#route-la-palma .reading-size").input_value(), "xlarge")
         self.page.reload(wait_until="networkidle")
         settings = self.open_settings("la-palma")
@@ -100,6 +106,7 @@ class ReadingSupportBrowserTest(unittest.TestCase):
         self.assertEqual(settings.locator(".reading-width").input_value(), "medium")
         self.assertEqual(self.page.evaluate("learningLevel"), "early")
         self.page.reload(wait_until="networkidle")
+        self.select_audio_text("la-palma")
         self.assertEqual(self.page.locator("#route-la-palma .reading-size").input_value(), "normal")
 
     def test_settings_work_with_invalid_or_unavailable_storage_and_no_horizontal_overflow(self):
@@ -124,9 +131,11 @@ class ReadingSupportBrowserTest(unittest.TestCase):
         self.assertEqual(requests, [])
         self.assertEqual(self.page.evaluate("JSON.parse(localStorage.getItem('mitomapa-canario-preferencias-v3')).selectedVoiceURI"), "voz-elegida")
         self.page.reload(wait_until="networkidle")
+        self.select_audio_text("tenerife")
         self.assertFalse(self.page.locator("#route-tenerife .narration-ambient").is_checked())
         self.page.evaluate("location.hash='#isla/la-palma/cuento'")
         self.page.wait_for_selector("#route-la-palma.active")
+        self.select_audio_text("la-palma")
         self.assertFalse(self.page.locator("#route-la-palma .narration-ambient").is_checked())
         self.assertEqual(requests, [])
 

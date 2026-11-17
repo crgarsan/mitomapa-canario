@@ -243,6 +243,14 @@ class MaintenanceToolsTests(unittest.TestCase):
         historical_import = self.script.replace("  clearLearnerResponses();\n", "")
         verify(historical_import)
 
+    def test_drawing_policy_accepts_reviewed_restore_before_session_isolation(self):
+        verify = drawings.drawing_policy(self.script)
+        current = drawings.line(drawings.function(self.script, "setupWorkshopCanvas"), " const restore=")
+        previous = " const restore=async imageData=>{const image=await loadWorkshopDrawing(imageData);clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};\n"
+        verify(self.script.replace(current, previous, 1))
+        with self.assertRaises(ValueError):
+            verify(self.script.replace(current, previous.replace("loadWorkshopDrawing(imageData)", "imageData"), 1))
+
     def test_drawing_policy_rejects_tampered_decoder_and_restore_guards(self):
         verify = drawings.drawing_policy(self.script)
         mutations = [
@@ -265,6 +273,36 @@ class MaintenanceToolsTests(unittest.TestCase):
             "137,80,78,71", "138,80,78,71", 1).encode()})
         with self.assertRaises(ValueError):
             drawings.verify_drawing_archive(archive_bytes({"nested.zip": damaged}), verify)
+
+    def test_drawing_policy_checks_english_scripts_alongside_spanish(self):
+        english = (ROOT / "scripts-en.js").read_text()
+        verify = drawings.drawing_policy(self.script)
+        payload = archive_bytes({"scripts.js": self.script.encode(), "scripts-en.js": english.encode()})
+        self.assertEqual(drawings.verify_drawing_archive(payload, verify), (2, 0))
+        changed = english.replace("safeWorkshopDrawing(source.drawing)", "source.drawing", 1)
+        payload = archive_bytes({"scripts.js": self.script.encode(), "scripts-en.js": changed.encode()})
+        with self.assertRaisesRegex(ValueError, "drawing validation"):
+            drawings.verify_drawing_archive(payload, verify)
+
+    def test_english_drawing_script_uses_its_own_portable_manifest_entry(self):
+        english = (ROOT / "scripts-en.js").read_bytes()
+        verify = drawings.drawing_policy(self.script)
+        manifest = {"assets": {"scripts-en.js": {"sha256": digest(english), "bytes": len(english)}}}
+        files = {"content/resources/mitomapa/scripts-en.js": english,
+                 "content/resources/mitomapa/PORTABLE_MANIFEST.json": json_bytes(manifest)}
+        self.assertEqual(drawings.verify_drawing_archive(archive_bytes(files), verify), (1, 0))
+        manifest["assets"]["scripts-en.js"]["sha256"] = "0" * 64
+        files["content/resources/mitomapa/PORTABLE_MANIFEST.json"] = json_bytes(manifest)
+        with self.assertRaisesRegex(ValueError, "Stale drawing manifest"):
+            drawings.verify_drawing_archive(archive_bytes(files), verify)
+
+    def test_missing_english_import_guard_cannot_skip_validation(self):
+        english = (ROOT / "scripts-en.js").read_text()
+        english = english.replace("function sanitizeImportedWorkshop(", "function uncheckedWorkshop(", 1)
+        english = english.replace("sanitizeImportedWorkshop(payload.workshop)", "payload.workshop", 1)
+        payload = archive_bytes({"scripts.js": self.script.encode(), "scripts-en.js": english.encode()})
+        with self.assertRaisesRegex(ValueError, "Missing function sanitizeImportedWorkshop"):
+            drawings.verify_drawing_archive(payload, drawings.drawing_policy(self.script))
 
     def test_drawing_policy_rejects_mutation_before_normalization_or_unsafe_assignment(self):
         verify = drawings.drawing_policy(self.script)

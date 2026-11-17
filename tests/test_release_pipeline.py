@@ -99,6 +99,14 @@ class ReleasePipelineTests(unittest.TestCase):
         self.assertEqual({name: details[0] for name, details in self.snapshot().items()},
                          {name: details[0] for name, details in before.items()})
 
+    def test_reviewed_english_runtime_and_module_worker_ship_in_sources(self):
+        self.write("scripts-en.js", b"/* English runtime */")
+        self.write("tools/story-video-ranges.mjs", b"export default {};")
+        update_release(self.root, inventory=self.inventory)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        self.assertEqual(sources["scripts-en.js"], b"/* English runtime */")
+        self.assertEqual(sources["tools/story-video-ranges.mjs"], b"export default {};")
+
     def test_packaging_uses_the_git_index_to_select_release_files(self):
         def git(*args):
             subprocess.run(["git", "-C", self.root, *args], check=True, capture_output=True)

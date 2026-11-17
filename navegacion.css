@@ -1,7 +1,14 @@
 /* Una vista cada vez, con accesos constantes y espacio para leer. */
 .topbar .brand{color:#fffdf7;text-decoration:none;font-size:1.05rem;min-height:44px;display:flex;align-items:center}
-.main-navigation{position:sticky;top:var(--topbar-height,70px);z-index:19;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,4.3rem),1fr));gap:.4rem;padding:.65rem 0;border-bottom:1px solid var(--line);margin-bottom:1.2rem;background:var(--paper)}
-.main-navigation a{display:flex;min-height:46px;align-items:center;justify-content:center;color:var(--earth-dark);text-decoration:none;font-weight:700;border:1px solid transparent;border-radius:6px}
+.main-navigation{position:sticky;top:var(--topbar-height,70px);z-index:19;container:main-menu/inline-size;padding:.65rem 0;border-bottom:1px solid var(--line);margin-bottom:1.2rem;background:var(--paper)}
+.main-navigation .nav-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
+.main-navigation a{display:flex;min-height:46px;align-items:center;gap:.45rem;padding:.25rem .8rem;color:var(--earth-dark);text-decoration:none;font-weight:700;border:1px solid transparent;border-radius:6px}
+.main-navigation a>span:last-child{min-inline-size:0;overflow-wrap:anywhere}
+.main-navigation .nav-pintadera{display:block;inline-size:1.65rem;block-size:1.65rem;flex:none;overflow:hidden}
+.main-navigation .nav-pintadera img{display:block;inline-size:100%;block-size:100%;object-fit:contain}
+.main-navigation [data-nav="juegos"] .nav-pintadera img{transform:scale(1.23)}
+@media(max-width:760px){.main-navigation .nav-links{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.22fr);gap:.25rem}.main-navigation a{gap:.24rem;padding-inline:.22rem}.main-navigation .nav-pintadera{inline-size:1.15rem;block-size:1.15rem}}
+@container main-menu (max-width:22rem){.main-navigation .nav-links{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr)}.main-navigation a{padding-inline:.35rem}}
 .main-navigation a:hover{background:var(--beige)}
 .main-navigation a[aria-current]{background:var(--earth-dark);color:#fff;border-color:var(--earth-dark)}
 .main-navigation a:focus-visible,.activity-choice:focus-visible,.view-back:focus-visible,.resource-disclosure>summary:focus-visible,.reading-settings>summary:focus-visible,.island-list-disclosure>summary:focus-visible{outline:3px solid var(--earth-dark);outline-offset:3px}
@@ -68,7 +75,7 @@
 .footer-privacy>summary{cursor:pointer;min-height:44px;display:list-item;align-content:center;font-weight:700}
 .teacher-reset{margin-top:1.5rem;border:1px solid #a74938;color:#813a2d;background:#fff;min-height:44px;padding:.6rem 1rem}
 @media(max-width:850px){.navigation-ready .hero{grid-template-columns:minmax(0,1fr)}.navigation-ready .hero-visual{display:none}}
-@media(max-width:760px){.navigation-ready .topbar{display:flex;flex-wrap:wrap;gap:.45rem;padding:.5rem .75rem}.navigation-ready .topbar .brand{flex:1 1 4rem;min-width:0;grid-column:auto;font-size:.9rem;white-space:normal}.navigation-ready .topbar .passport-button,.navigation-ready .topbar .teacher-button{width:auto;max-width:100%;white-space:normal;overflow-wrap:anywhere;font-size:.82rem;padding:.55rem .6rem}.activity-choices{grid-template-columns:1fr}.activity-choice{padding:1.1rem}.navigation-ready .hero{grid-template-columns:1fr}.navigation-ready .hero-visual{display:none}.navigation-ready .hero h1{max-width:23ch}.main-navigation{gap:.15rem}.main-navigation a{font-size:.9rem}.home-actions{flex-direction:column;align-items:stretch}.home-actions .button{justify-content:center;text-align:center}.resource-disclosure>.section{padding:1rem}.navigation-ready #exploreMap{padding:.85rem}}
+@media(max-width:760px){.navigation-ready .topbar{display:flex;flex-wrap:wrap;gap:.45rem;padding:.5rem .75rem}.navigation-ready .topbar .brand{flex:1 1 4rem;min-width:0;grid-column:auto;font-size:.9rem;white-space:normal}.navigation-ready .topbar .passport-button,.navigation-ready .topbar .teacher-button{width:auto;max-width:100%;white-space:normal;overflow-wrap:anywhere;font-size:.82rem;padding:.55rem .6rem}.activity-choices{grid-template-columns:1fr}.activity-choice{padding:1.1rem}.navigation-ready .hero{grid-template-columns:1fr}.navigation-ready .hero-visual{display:none}.navigation-ready .hero h1{max-width:23ch}.main-navigation a{font-size:.9rem}.home-actions{flex-direction:column;align-items:stretch}.home-actions .button{justify-content:center;text-align:center}.resource-disclosure>.section{padding:1rem}.navigation-ready #exploreMap{padding:.85rem}}
 @media print{.main-navigation,.navigation-location,.view-back,.home-actions,.reading-settings,.screen-intro[data-screen="juegos"],.resource-disclosure>summary,.island-list-disclosure>summary{display:none!important}body:not(.print-diploma):not(.print-passport) [data-screen][hidden]{display:block!important}.resource-disclosure{border:0}.resource-disclosure>section,.island-list-disclosure>.island-grid{display:block!important}.navigation-ready .hero-visual{display:block}.navigation-ready .hero-authors{font-size:.85rem}}
 @media(min-width:761px) and (max-width:960px){.resource-choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){
@@ -112,3 +119,10 @@
   .resource-quick-help a,.resource-quick-help button{width:100%}
 }
 @media print{.resource-quick-help,.hero-map-action,.route-session-brief a,.games-context-links{display:none!important}.hero-visual-link{color:#000}}
+
+.story-book-card{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,20rem) minmax(0,1fr);align-items:center;gap:1.5rem}
+.story-book-cover{display:block;width:100%;max-width:20rem;height:auto;border:1px solid var(--line);box-sizing:border-box}
+.story-book-links{display:flex;flex-wrap:wrap;gap:.65rem;list-style:none;margin:.8rem 0 0;padding:0}
+.story-book-links li{min-width:0;max-width:100%}
+.story-book-links .button{display:inline-flex;align-items:center;min-height:44px;box-sizing:border-box;max-width:100%;margin:0;text-decoration:underline;text-underline-offset:.18em}
+@media(max-width:650px){.story-book-card{grid-template-columns:1fr;gap:.85rem}.story-book-links{display:grid}.story-book-links .button{width:100%}}

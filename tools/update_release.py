@@ -24,7 +24,7 @@ from release_support import (
     PINTADERA_DIRECTORY, PINTADERA_GROUPS, PINTADERA_MANIFEST, pintadera_inventory,
     read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
     LAPA_STL, STORY_ACTIVITY_BOOK_PDF, STORY_BOOK_PDF, VASIJA_COLLECTION_ZIP, check_vasija_collection, lapa_assets,
-    story_book_assets, vasija_assets, zip_bytes,
+    ENGLISH_BOOK_PREVIEW, ENGLISH_CLASSROOM_DOCUMENTS, english_edition_assets, story_book_assets, vasija_assets, zip_bytes,
 )
 
 
@@ -194,9 +194,10 @@ def source_inventory(approved):
         if path.suffix.lower() in {".zip", ".elpx"}:
             continue
         if (name in SOURCE_EXPLICIT or name in DOCUMENTS
+                or name in ENGLISH_CLASSROOM_DOCUMENTS or name in ENGLISH_BOOK_PREVIEW
                 or (len(path.parts) == 1 and path.suffix in SOURCE_SUFFIXES)
                 or name.startswith("assets/")
-                or (path.parent == PurePosixPath("tools") and path.suffix in {".py", ".js"})
+                or (path.parent == PurePosixPath("tools") and path.suffix in {".py", ".js", ".mjs"})
                 or path.parent == PurePosixPath("tools/vendor")
                 or (name.startswith("tests/") and path.suffix in {".py", ".js", ".json"})
                 or (path.parent == PurePosixPath(".github/workflows") and path.suffix in {".yml", ".yaml"})):
@@ -245,6 +246,12 @@ def source_files(root, version, version_payload, approved):
         )
         if name in book_assets
     )
+    english_download_note = (
+        "\nLas antologías en PDF y el ELPX inglés se distribuyen por separado.\n"
+        f"Sus enlaces de descarga están en {PUBLIC_URL}index-en.html#recursos.\n"
+        "Guarda los archivos descargados bajo en/downloads/ para usarlos sin conexión.\n\n"
+        if english_edition_assets(root, approved=approved) else ""
+    )
     files["FUENTES_WEB_LEEME.txt"] = (
         f"MitoMapa canario · Fuentes web {version['web_version']}\n\n"
         "Estas fuentes contienen la web, sus recursos locales, documentación,\n"
@@ -252,7 +259,7 @@ def source_files(root, version, version_payload, approved):
         "Para consultar la web localmente, ejecuta python3 -m http.server y abre\n"
         "http://localhost:8000/. VERSION.json identifica la edición actual;\n"
         "SOURCE_MANIFEST.json verifica cada archivo sin incluirse a sí mismo.\n"
-        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note + pintadera_note + vasija_note + lapa_note + story_book_note +
+        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note + pintadera_note + vasija_note + lapa_note + story_book_note + english_download_note +
         "Materiales propios: CC BY-SA 4.0; consulta LICENSE y LICENCIA_Y_CREDITOS.txt.\n"
         "El mapa y las dependencias conservan sus condiciones originales.\n"
     ).encode("utf-8")
@@ -269,6 +276,8 @@ def public_names(root, previous, paths, approved, pintaderas, models):
     names.discard("requirements-browser-tests.txt")
     names.update(name for name in approved if name.startswith("assets/"))
     names.update({"VERSION.json", "LICENSE"})
+    if "favicon-pintadera-sol-catalogo.png" in approved:
+        names.add("favicon-pintadera-sol-catalogo.png")
     media = pinned_story_media(root, approved=approved) if "MEDIA_MANIFEST.json" in approved else {}
     if media:
         names.update(media)
@@ -276,6 +285,7 @@ def public_names(root, previous, paths, approved, pintaderas, models):
     if pintaderas:
         names.update(pintaderas)
         names.add(PINTADERA_MANIFEST)
+    names.update(english_edition_assets(root, approved=approved))
     return names
 
 
@@ -364,6 +374,11 @@ def check_release(root=ROOT, *, inventory=None):
         raise ValueError("Lapa assets are missing from the public allowlist")
     if not story_book_assets(root, approved=approved) <= public.keys():
         raise ValueError("A story book download is missing from the public allowlist")
+    english_assets = english_edition_assets(root, approved=approved)
+    if english_assets:
+        if not english_assets <= public.keys():
+            raise ValueError("The English edition is missing public assets")
+        pinned_story_media(root, approved=approved)
     pintaderas = pintadera_inventory(root, approved=approved)
     if pintaderas:
         if not (set(pintaderas) | {PINTADERA_MANIFEST}) <= set(public):
@@ -411,10 +426,12 @@ def update_release(root=ROOT, *, inventory=None):
     require_approved(pintaderas, approved)
     check_pintadera_downloads(root, pintaderas)
     vasijas = vasija_assets(root, approved=approved)
-    models = vasijas | lapa_assets(root, approved=approved) | story_book_assets(root, approved=approved)
+    models = (vasijas | lapa_assets(root, approved=approved) | story_book_assets(root, approved=approved)
+              | english_edition_assets(root, approved=approved))
     require_approved(models, approved)
     check_vasija_collection(root, vasijas)
-    current_downloads = set(paths.values()) | pintaderas.keys() | (vasijas & {VASIJA_COLLECTION_ZIP})
+    current_downloads = (set(paths.values()) | pintaderas.keys()
+                         | (vasijas & {VASIJA_COLLECTION_ZIP}) | english_edition_assets(root, approved=approved))
     # Historical packages are immutable, and their existing URLs stay public.
     for name, expected in previous.items():
         if name not in current_downloads and name.lower().endswith((".zip", ".elpx")):

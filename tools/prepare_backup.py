@@ -16,8 +16,8 @@ from urllib.request import Request, urlopen
 
 from release_support import (
     LAPA_STL, PINTADERA_MANIFEST, PINTADERA_STL, VASIJA_COLLECTION_MODELS, VASIJA_STL,
-    approved_release_paths, lapa_assets, parse_sums, pintadera_inventory, require_approved,
-    safe_name, source_path, story_book_assets, vasija_assets,
+    approved_release_paths, english_edition_assets, lapa_assets, parse_sums,
+    pintadera_inventory, require_approved, safe_name, source_path, story_book_assets, vasija_assets,
 )
 
 
@@ -99,7 +99,9 @@ def inventory(root, approved):
     current = download_paths(version)
     pintaderas = pintadera_inventory(root, approved=approved)
     models_3d = vasija_assets(root, approved=approved) | lapa_assets(root, approved=approved)
-    retained_downloads = current | TEACHER_MATERIALS | pintaderas.keys() | story_book_assets(root, approved=approved)
+    retained_downloads = (current | TEACHER_MATERIALS | pintaderas.keys()
+                          | story_book_assets(root, approved=approved)
+                          | english_edition_assets(root, approved=approved))
     retained_downloads.update(name for name in models_3d if name.startswith('downloads/'))
     selected = {name: value for name, value in sums.items() if public_static(name) and (not name.startswith('downloads/') or name in retained_downloads)}
     required_assets = {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads | models_3d
@@ -115,7 +117,7 @@ def inventory(root, approved):
     if not isinstance(media, dict) or media.get('version') != 1 or not isinstance(media.get('files'), dict) or not media['files']:
         raise ValueError('Invalid media inventory')
     for name, details in media['files'].items():
-        if (not isinstance(name, str) or not name.startswith('media/') or not public_static(name)
+        if (not isinstance(name, str) or not name.startswith(('media/', 'en/media/')) or not public_static(name)
                 or not isinstance(details, dict) or set(details) != {'sha256', 'bytes'}
                 or not isinstance(details['sha256'], str) or not re.fullmatch('[0-9a-f]{64}', details['sha256'])
                 or type(details['bytes']) is not int or details['bytes'] < 1):
@@ -154,11 +156,15 @@ def adapt_text(text, primary, prefix, current):
     return CSS_ROOT.sub(lambda m: 'url(' + local(m.group(1)) + ')', text)
 
 
-def banner(text, primary):
+def banner(text, primary, *, english=False):
+    label = 'Backup copy' if english else 'Copia de respaldo'
+    link = 'Open the main website' if english else 'Ir a la web principal'
+    if english:
+        primary = urljoin(primary, 'index-en.html')
     notice = ('<aside id="backup-notice" role="note" style="padding:.45rem 1rem;'
               'background:#f3efe5;color:#292a25;text-align:center;font-size:.875rem">'
-              'Copia de respaldo · <a href="' + html.escape(primary, quote=True) +
-              '" style="color:inherit">Ir a la web principal</a></aside>')
+              + label + ' · <a href="' + html.escape(primary, quote=True) +
+              '" style="color:inherit">' + link + '</a></aside>')
     if not re.search(r'<body\b[^>]*>', text, re.I):
         raise ValueError('The backup needs the actual MitoMapa HTML body')
     return re.sub(r'(<body\b[^>]*>)', lambda m: m.group(1) + notice, text, count=1, flags=re.I)
@@ -198,8 +204,8 @@ def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org
             destination.parent.mkdir(parents=True, exist_ok=True)
             if source.suffix.lower() in TEXT_SUFFIXES:
                 text = adapt_text(source.read_text(encoding='utf-8'), primary, prefix, paths)
-                if name == 'index.html':
-                    text = banner(text, primary)
+                if name in ('index.html', 'index-en.html'):
+                    text = banner(text, primary, english=name == 'index-en.html')
                 destination.write_text(text, encoding='utf-8')
             else:
                 shutil.copyfile(source, destination)

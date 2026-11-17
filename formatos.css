@@ -43,16 +43,14 @@
 .route[data-content-format] .reading-controls label{min-width:0}
 .route[data-content-format] .reading-controls select{min-width:0;max-width:100%;min-height:44px}
 
-/* Vídeo y alternativas textuales. */
+/* Reproductor, fuentes y créditos. */
 .route .format-video-panel{min-width:0;max-width:100%;margin:0 0 1.2rem}
 .route .format-video-player{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:16/9;box-sizing:border-box;border:1px solid var(--line);background:#171717}
 .route .format-video-status{margin:.65rem 0;color:var(--earth-dark);font-weight:700;line-height:1.55}
 .route .format-video-status:empty{display:none}
-.route .format-transcript,.route .format-credits,.route .format-information>details,.route .format-work-summary{min-width:0;margin-top:.75rem;border:1px solid var(--line);border-radius:2px;background:var(--paper)}
-.route :is(.format-transcript,.format-credits,.format-information>details,.format-work-summary)>summary{min-height:44px;box-sizing:border-box;padding:.7rem .85rem;color:var(--earth-dark);font-weight:750;line-height:1.5;cursor:pointer;overflow-wrap:anywhere}
-.route :is(.format-transcript,.format-credits,.format-information>details,.format-work-summary)[open]>summary{border-bottom:1px solid var(--line)}
-.route .format-transcript-copy{box-sizing:border-box;min-width:0;padding:.85rem 1rem;overflow-wrap:anywhere}
-.route .format-transcript-copy>p{font-size:inherit;line-height:inherit}
+.route .format-credits,.route .format-information>details,.route .format-work-summary{min-width:0;margin-top:.75rem;border:1px solid var(--line);border-radius:2px;background:var(--paper)}
+.route :is(.format-credits,.format-information>details,.format-work-summary)>summary{min-height:44px;box-sizing:border-box;padding:.7rem .85rem;color:var(--earth-dark);font-weight:750;line-height:1.5;cursor:pointer;overflow-wrap:anywhere}
+.route :is(.format-credits,.format-information>details,.format-work-summary)[open]>summary{border-bottom:1px solid var(--line)}
 .route .format-information{min-width:0;margin:1.1rem 0 1.4rem}
 .route .format-links{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem 1.2rem;min-width:0}
 .route .format-document-link{display:inline-flex;align-items:center;min-height:44px;max-width:100%;box-sizing:border-box;padding:.25rem 0;color:var(--earth-dark);font-weight:700;line-height:1.5;text-decoration:underline;overflow-wrap:anywhere}
@@ -60,7 +58,7 @@
 .route .format-work-summary{margin:0 0 1rem}
 .route .format-work-summary>div,.route .format-work-summary>section{min-width:0;margin:0;padding:.7rem .9rem}
 .route .format-work-summary>p{margin:.75rem .9rem;line-height:1.65}
-.route :is(.format-pdf-download,.format-option input,.format-video-panel summary,.format-information summary,.format-information a,.format-work-summary summary):focus-visible{outline:3px solid var(--earth-dark);outline-offset:3px}
+.route :is(.format-pdf-download,.format-option input,.format-information summary,.format-information a,.format-work-summary summary):focus-visible{outline:3px solid var(--earth-dark);outline-offset:3px}
 
 @media(max-width:760px){
  .route[data-content-format] .narrator-controls>.button{flex:1 1 7rem}
@@ -78,7 +76,6 @@
  .route .format-links{display:block}
  .route .format-document-link{display:flex}
  .route[data-content-format] .reading-support .narrator{padding:.75rem .8rem}
- .route .format-transcript-copy{padding:.75rem .85rem}
 }
 @media(max-width:360px){
  .route .format-option{gap:.4rem}
@@ -90,7 +87,7 @@
 }
 @media(forced-colors:active){
  .route .format-option:has(input:checked){border-color:Highlight;border-bottom-width:4px;background:Canvas;color:CanvasText}
- .route .format-option:focus-within,.route :is(.format-pdf-download,.format-video-panel summary,.format-information a,.format-information summary,.format-work-summary summary):focus-visible{outline:3px solid Highlight}
+ .route .format-option:focus-within,.route :is(.format-pdf-download,.format-information a,.format-information summary,.format-work-summary summary):focus-visible{outline:3px solid Highlight}
  .route a.format-pdf-download.button.secondary{border-color:ButtonText;background:ButtonFace;color:ButtonText;forced-color-adjust:auto}
 }
 @media print{
