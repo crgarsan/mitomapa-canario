@@ -23,3 +23,5 @@ body[data-reading-width="wide"] .route .story{max-width:90ch}
 body[data-reading-width] .route .story{min-width:0;width:100%;margin-inline:auto;overflow-wrap:anywhere}
 @media(max-width:760px){.reading-support .narrator{grid-template-columns:1fr}.reading-controls{align-items:stretch}}
 @media print{.reading-support{display:none!important}}
+
+.experience-actions a.text-button{display:inline-flex;align-items:center;justify-content:center;text-align:center}

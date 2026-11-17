@@ -1,0 +1,86 @@
+{
+  "cuentos": [
+    {
+      "file": "cuentos-1.webp",
+      "number": 1,
+      "label": "Portada",
+      "text": "MITOMAPA\n\nCOLECCIÓN ILUSTRADA\n\nCuentos de Canarias\nOcho islas, ocho relatos\n\nJesica Fortes Regalado\nGloria Elsa González Martín\nCristian García Santana",
+      "width": 1300,
+      "height": 920
+    },
+    {
+      "file": "cuentos-2.webp",
+      "number": 2,
+      "label": "Índice",
+      "text": "MITOMAPA\nCuentos de Canarias\n\nÍndice\nSelecciona un cuento para ir a su primera página.\n\nTenerife\nDácil y el regreso de Magec · 3\n\nGran Canaria\nGuayarmina y el tibicena del barranco · 11\n\nLa Palma\nAcerina y el roque que sostenía el cielo · 19\n\nLa Gomera\nGara y Jonay, dos voces en la cumbre · 27\n\nEl Hierro\nAgarfa y las gotas del Garoé · 35\n\nFuerteventura\nLa luz de Mafasca en el camino · 43\n\nLanzarote\nIco y la prueba del humo · 51\n\nLa Graciosa\nGuadarfía y la isla de San Borondón · 59\n\nCréditos y fuentes por isla · 67\n\n2",
+      "width": 1300,
+      "height": 920
+    },
+    {
+      "file": "cuentos-3.webp",
+      "number": 3,
+      "label": "Tenerife · Apertura del cuento",
+      "text": "TENERIFE\n\nDácil y el regreso de Magec\n\nMitoMapa\n\nDácil y el regreso de Magec\n\nÍndice\n\n3",
+      "width": 1300,
+      "height": 920
+    },
+    {
+      "file": "cuentos-4.webp",
+      "number": 4,
+      "label": "Tenerife · Inicio del relato",
+      "text": "TENERIFE\n\nDácil y el regreso de Magec\n\nCuando los guanches vivían entre barrancos y cañadas, Dácil cuidaba cabras cerca de Echeyde. Cada amanecer esperaba el primer rayo de Magec, el Sol, para comenzar el camino.\n\nÍndice\n\n4",
+      "width": 1300,
+      "height": 920
+    },
+    {
+      "file": "cuentos-5.webp",
+      "number": 5,
+      "label": "Tenerife · Continúa el relato",
+      "text": "TENERIFE\n\nDácil y el regreso de Magec\n\nPero una mañana la luz no llegó. Una nube negra cubría la montaña y la tierra temblaba bajo los pies. Las personas mayores recordaron el relato de Guayota, el ser que vivía dentro del volcán. Según la tradición, había atrapado a Magec y lo mantenía escondido en la oscuridad.\n\nÍndice\n\n5",
+      "width": 1300,
+      "height": 920
+    }
+  ],
+  "fichas": [
+    {
+      "file": "fichas-1.webp",
+      "number": 1,
+      "label": "Portada",
+      "text": "MITOMAPA\n\nCOLECCIÓN ILUSTRADA\n\nCuentos de Canarias\nOcho cuentos y fichas de actividades\n\nJesica Fortes Regalado\nGloria Elsa González Martín\nCristian García Santana",
+      "width": 1300,
+      "height": 920
+    },
+    {
+      "file": "fichas-2.webp",
+      "number": 2,
+      "label": "Índice",
+      "text": "MITOMAPA\nCuentos de Canarias\n\nÍndice\nAbre un cuento o ve directamente a sus fichas de lectura y creación.\n\nTenerife\nDácil y el regreso de Magec\nCuento · 3\nFichas · 11–12\n\nGran Canaria\nGuayarmina y el tibicena del barranco\nCuento · 13\nFichas · 21–22\n\nLa Palma\nAcerina y el roque que sostenía el cielo\nCuento · 23\nFichas · 31–32\n\nLa Gomera\nGara y Jonay, dos voces en la cumbre\nCuento · 33\nFichas · 41–42\n\nEl Hierro\nAgarfa y las gotas del Garoé\nCuento · 43\nFichas · 51–52\n\nFuerteventura\nLa luz de Mafasca en el camino\nCuento · 53\nFichas · 61–62\n\nLanzarote\nIco y la prueba del humo\nCuento · 63\nFichas · 71–72\n\nLa Graciosa\nGuadarfía y la isla de San Borondón\nCuento · 73\nFichas · 81–82\n\nCréditos y fuentes por isla · 83\n\n2",
+      "width": 1300,
+      "height": 920
+    },
+    {
+      "file": "fichas-3.webp",
+      "number": 4,
+      "label": "Tenerife · Inicio del relato",
+      "text": "TENERIFE\n\nDácil y el regreso de Magec\n\nCuando los guanches vivían entre barrancos y cañadas, Dácil cuidaba cabras cerca de Echeyde. Cada amanecer esperaba el primer rayo de Magec, el Sol, para comenzar el camino.\n\nÍndice\n\n4",
+      "width": 1300,
+      "height": 920
+    },
+    {
+      "file": "fichas-4.webp",
+      "number": 11,
+      "label": "Tenerife · Comprende el cuento",
+      "text": "TENERIFE / FICHA 1 DE 2\n\nComprende el cuento\nDácil y el regreso de Magec\nVasija alta de Tenerife\n\nNombre\nFecha\n\nMarca una opción\nVuelve al cuento si necesitas una pista.\n\n1. ¿Quién había escondido a Magec dentro de Echeyde?\nDácil\nGuayota\nAchamán\nEl rebaño\n\n2. ¿A quién pidió ayuda la comunidad?\nA Acorán\nA Abora\nA Achamán\nA Orahan\n\n3. ¿Cómo supo Dácil que Magec había regresado?\nOyó una campana\nVio una línea dorada sobre Echeyde\nEncontró una vasija\nLlegó una embarcación\n\nVerdadero o falso\nMarca V o F en cada frase.\n\nGuayota ayudó a Magec a iluminar la isla.\nV / F\n\nAchamán cerró la entrada del volcán con una gran roca.\nV / F\n\nDácil cuidaba cabras cerca de Echeyde.\nV / F\n\nÍndice\n11",
+      "width": 1300,
+      "height": 920
+    },
+    {
+      "file": "fichas-5.webp",
+      "number": 12,
+      "label": "Tenerife · Palabras y creación",
+      "text": "TENERIFE / FICHA 2 DE 2\n\nPalabras y creación\nDácil y el regreso de Magec\nVasija alta de Tenerife\n\nNombre\nFecha\n\nPalabras del cuento\nEscribe debajo de cada explicación una palabra del banco.\n\nAchamán · Echeyde · Guayota · Magec\n\nDivinidad solar que representa al Sol en el relato.\n\nSer supremo celeste al que la comunidad pide ayuda.\n\nSer maligno que mantiene a Magec dentro del volcán.\n\nNombre con el que la tradición guanche identifica el Teide.\n\nCrea a partir del cuento\nInventa otro título para el cuento. Intenta que mencione el conflicto o la luz.\n\nÍndice\nIlustraciones de piezas del pasaporte. Pintaderas como decoración.\n12",
+      "width": 1300,
+      "height": 920
+    }
+  ]
+}

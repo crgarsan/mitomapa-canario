@@ -1,0 +1,47 @@
+[
+  {
+    "id": "gran-canaria",
+    "title": "Vessel from Gran Canaria",
+    "description": "A wide body, a short neck and two raised, pierced lugs. The band of triangles follows the motif on the passport badge.",
+    "adaptations": "Shallow engraving represents the painted decoration on the badge. The holes taper to a point at the top to make printing without supports easier.",
+    "modelDimensions": "137 × 121 × 145 mm (width × depth × height)"
+  },
+  {
+    "id": "la-palma",
+    "title": "Incised vessel from La Palma",
+    "description": "A vessel with a rounded body and rim. The incisions on the shoulder, central band of short marks and paired strokes on the body follow the badge.",
+    "adaptations": "The flat base and shallow incisions allow the vessel to print upright without supports.",
+    "modelDimensions": "Maximum diameter 150 mm · height 103 mm"
+  },
+  {
+    "id": "lanzarote",
+    "title": "Vessel from Lanzarote",
+    "description": "A wide-mouthed vessel with two incised bands of diagonal strokes. Its light colour in the viewer recalls tegue, the traditional coating described in the infographic.",
+    "adaptations": "The base is flat and the engraving is shallow. The STL reproduces the shape of the vessel. The viewer shows its light finish.",
+    "modelDimensions": "Maximum diameter 135 mm · height 95 mm"
+  },
+  {
+    "id": "fuerteventura",
+    "title": "Tofio from Fuerteventura",
+    "description": "A traditional milking vessel. Its low body, wide open spout and bands of incisions follow the badge.",
+    "adaptations": "The spout widens gradually and joins the bowl. The flat base allows the vessel to print upright without supports.",
+    "modelDimensions": "152 × 120 × 68 mm (width × depth × height)"
+  },
+  {
+    "id": "la-gomera",
+    "title": "Bowl from La Gomera",
+    "description": "A shallow bowl with a wide opening and a slightly uneven rim. Its smooth outline without handles follows the passport badge.",
+    "adaptations": "The flat base and the shape of the lower body make printing without supports easier. The thickness and small irregularities in the rim were adjusted for the model.",
+    "modelDimensions": "Maximum diameter 205 mm · height 72 mm",
+    "documentedDimensions": "Dimensions estimated from the scale drawing of the bowl from Los Riscos del Paridero (Erque), p. 125, fig. 24.1.",
+    "referenceLabel": "Navarro Mederos, Los gomeros, p. 125, fig. 24.1",
+    "referenceUrl": "https://www.saltodelpastorcanario.org/web/wp-content/uploads/2024/11/Gomerosprehistoriainsular-JuanFcoNavarroMederos-EdDirGralPatrHcoViceconjCulturaDeportesGobdCanarias-FSPC-LaGomeraCanarias-255Pg1992..pdf#page=117"
+  },
+  {
+    "id": "el-hierro",
+    "title": "Vessel from El Hierro",
+    "description": "The photograph used for the badge shows the shallow body, thick rim and two short handles. The infographic documents pottery fragments from El Hierro.",
+    "adaptations": "The model has a wider base and smoother joins between the handles and body so it can print upright without supports.",
+    "modelDimensions": "138 × 129 × 98 mm (width × depth × height)"
+  }
+]

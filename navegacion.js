@@ -8,7 +8,7 @@
   const STEPS = {cuento:"Cuento",retos:"Retos",taller:"Taller"};
   const LEVELS = ["early","middle","advanced","secondary"];
   const titles = {inicio:"Inicio",islas:"Islas",juegos:"Juegos",recursos:"Recursos",puzle:"Puzle",comparar:"Comparar cuentos",crear:"Crear y compartir","nombres-islas":"Los nombres de las islas","piezas-islas":"Las piezas y sus islas","gran-reto":"Gran reto",ruta:"Cuento"};
-  const aliases = {main:"inicio",exploreMap:"islas",islandGrid:"islas",missionTitle:"puzle",compareStories:"comparar",finalMission:"gran-reto",finalTitle:"gran-reto",reuseTitle:"recursos",creditsTitle:"recursos",passportTitle:"recursos",studentFeedback:"recursos",feedbackTitle:"recursos",acknowledgements:"recursos",acknowledgementsTitle:"recursos"};
+  const aliases = {main:"inicio",exploreMap:"islas",islandGrid:"islas",missionTitle:"puzle",compareStories:"comparar",finalMission:"gran-reto",finalTitle:"gran-reto",reuseTitle:"recursos",pintaderas3d:"recursos",vasijacanaria3d:"recursos","lapa-blanca":"recursos",patrimonioNatural3d:"recursos",creditsTitle:"recursos",passportTitle:"recursos",studentFeedback:"recursos",feedbackTitle:"recursos",acknowledgements:"recursos",acknowledgementsTitle:"recursos"};
   const byId = id => document.getElementById(id);
   function validResume(value) {
     return value && typeof value === "object" && !Array.isArray(value)
@@ -71,7 +71,10 @@
       else link.removeAttribute("aria-current");
     });
     const crumb = byId("navigationLocation");
-    if (crumb) crumb.textContent = screen === "ruta" ? "Islas · " + (context.routes.find(r => r.id === context.lastRoute())?.island || "Cuento") : titles[screen];
+    if (crumb) {
+      crumb.hidden = ["inicio","islas","juegos","recursos"].includes(screen);
+      crumb.textContent = screen === "ruta" ? "Islas · " + (context.routes.find(r => r.id === context.lastRoute())?.island || "Cuento") : titles[screen];
+    }
     document.title = `${titles[screen]} · MitoMapa canario`;
   }
   function focusTarget(target) {
@@ -130,12 +133,42 @@
     if (addHistory) record(`#isla/${id}/${selected}`);
     return selected;
   }
-  function disclosure(section, label, id) {
+  function resourceCard(section, id, label, description, icon) {
     const details = document.createElement("details");
     details.className = "resource-disclosure";
     details.id = id;
-    const summary = document.createElement("summary");summary.textContent = label;
-    details.append(summary,section);
+    const summary = document.createElement("summary");
+    summary.className = "activity-choice resource-choice";
+    const symbol = document.createElement("span");
+    symbol.className = "choice-symbol";
+    symbol.setAttribute("aria-hidden", "true");
+    if (icon.startsWith("assets/")) {
+      const image = document.createElement("img");
+      image.src = icon;
+      image.alt = "";
+      image.width = 36;
+      image.height = 36;
+      image.loading = "lazy";
+      symbol.append(image);
+    } else {
+      symbol.textContent = icon;
+    }
+    const title = document.createElement("span");
+    title.className = "choice-title";
+    title.id = id + "Title";
+    title.textContent = label;
+    const text = document.createElement("span");
+    text.className = "choice-description";
+    text.id = id + "Description";
+    text.textContent = description;
+    summary.setAttribute("aria-labelledby", title.id);
+    summary.setAttribute("aria-describedby", text.id);
+    const action = document.createElement("span");
+    action.className = "choice-action";
+    action.setAttribute("aria-hidden", "true");
+    action.innerHTML = '<span class="resource-action-open">Abrir apartado ↓</span><span class="resource-action-close">Cerrar apartado ↑</span>';
+    summary.append(symbol, title, text, action);
+    details.append(summary, section);
     return details;
   }
   function mount(options) {
@@ -204,18 +237,28 @@
     const resources = document.createElement("section");
     resources.className = "section screen-intro";resources.dataset.screen = "recursos";
     resources.innerHTML = '<p class="eyebrow">Para consultar cuando lo necesites</p><h1>Recursos y ayuda</h1>';
-    const help=document.createElement("nav");help.className="resource-quick-help";
-    help.setAttribute("aria-label","Guías y seguimiento del profesorado");
-    help.innerHTML='<a href="GUIA_DOCENTE.html">Cómo empezar y preparar la actividad</a><a href="downloads/Cuaderno_de_ruta_MitoMapa.html">Cuaderno imprimible</a><button type="button" id="teacherSaveHelp">Guardar o recuperar el trabajo</button>';
-    help.querySelector("button").addEventListener("click",()=>byId("storageExportHelp")?.click());
-    byId("teacherGuidePanel").prepend(help);
-    resources.append(
-      disclosure(byId("reuseTitle").closest("section"),"Descargas y materiales editables","resourceDownloads"),
-      disclosure(byId("creditsTitle").closest("section"),"Guía, autoría, fuentes y agradecimientos","resourceCredits"),
-      disclosure(main.querySelector(".historical-review"),"Historia e interpretación de las imágenes","resourceHistory"),
-      disclosure(passport,"Pasaporte de piezas y criterios de los retos","resourcePassport"),
-      disclosure(byId("studentFeedback"),"Compartir mi opinión","resourceFeedback")
+    const naturalSection = byId("patrimonioNatural3d")?.closest("section");
+    const resourceChoices = document.createElement("div");
+    resourceChoices.className = "activity-choices resource-choices";
+    resourceChoices.append(
+      resourceCard(byId("reuseTitle").closest("section"), "resourceDownloads",
+        "Descargas y materiales editables", "Descarga los cuentos en PDF, el recurso editable y los materiales para el aula.", "↓"),
+      resourceCard(byId("pintaderas3d").closest("section"), "resourcePintaderas",
+        "Pintaderas en 3D", "Explora las recreaciones y descarga los sellos para arcilla.", "assets/images/pintadera_roseta.webp"),
+      resourceCard(byId("vasijacanaria3d").closest("section"), "resourceVasija",
+        "Vasijas canarias en 3D", "Gira las vasijas en el visor y descarga sus modelos para imprimir.", "assets/images/insignia_tenerife.webp"),
+      ...(naturalSection ? [resourceCard(naturalSection, "resourceNatural3d",
+        "Patrimonio natural en 3D", "Observa la lapa blanca de La Graciosa y descarga su modelo.", "assets/lapa-blanca/miniatura.webp?revision=4746669da950")] : []),
+      resourceCard(byId("creditsTitle").closest("section"), "resourceCredits",
+        "Guía, autoría, fuentes y agradecimientos", "Consulta las orientaciones docentes, los créditos y las referencias por isla.", "▤"),
+      resourceCard(main.querySelector(".historical-review"), "resourceHistory",
+        "Historia e interpretación de las imágenes", "Lee cómo se crearon las escenas y qué sabemos del pasado.", "◫"),
+      resourceCard(passport, "resourcePassport",
+        "Pasaporte de piezas y criterios de los retos", "Revisa las piezas conseguidas y los criterios de los retos.", "◈"),
+      resourceCard(byId("studentFeedback"), "resourceFeedback",
+        "Compartir mi opinión", "Cuenta cómo te fue con los cuentos y las actividades.", "✎")
     );
+    resources.append(resourceChoices);
     main.append(resources);
     const tools = hero.querySelector(".experience-tools");
     if (tools) {
@@ -228,7 +271,7 @@
     }
     updateResume();
     const reset = byId("resetProgress");
-    reset.classList.add("teacher-reset");(byId("teacherToolsPanel")||byId("teacherDialog")).append(reset);
+    reset.classList.add("teacher-reset");(byId("teacherResetSection")||byId("teacherToolsPanel")).append(reset);
     document.body.classList.add("navigation-ready");
     document.addEventListener("click", event => {
       const link = event.target.closest("a[href^='#']");

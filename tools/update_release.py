@@ -20,8 +20,10 @@ from urllib.parse import parse_qs, urljoin, urlsplit
 
 from release_support import (
     MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, public_entries, pinned_story_media,
+    PINTADERA_DIRECTORY, PINTADERA_GROUPS, PINTADERA_MANIFEST, pintadera_inventory,
     read_zip, safe_name, source_path, sums_bytes, verify_manifest, verify_sums,
-    zip_bytes,
+    LAPA_STL, STORY_ACTIVITY_BOOK_PDF, STORY_BOOK_PDF, VASIJA_COLLECTION_ZIP, check_vasija_collection, lapa_assets,
+    ENGLISH_BOOK_PREVIEW, ENGLISH_CLASSROOM_DOCUMENTS, english_edition_assets, story_book_assets, vasija_assets, zip_bytes,
 )
 
 
@@ -191,11 +193,14 @@ def source_inventory(root, version):
             break
     names.difference_update(SOURCE_SPECIAL | {"SHA256SUMS.txt"})
     names.update(DOCUMENTS)
+    if (root / "index-en.html").is_file():
+        names.update(ENGLISH_CLASSROOM_DOCUMENTS)
+        names.update(ENGLISH_BOOK_PREVIEW)
     names.difference_update(LEGACY_CLASSROOM_DOCUMENTS)
     for extension in ("*.html", "*.css", "*.js", "*.md", "*.txt", "*.json", "*.svg", "*.png"):
         names.update(path.relative_to(root).as_posix() for path in root.glob(extension) if path.is_file())
     for directory, patterns in {
-        "assets": ("**/*",), "tools": ("*.py", "*.js", "vendor/*"), "tests": ("**/*.py", "**/*.js", "**/*.json"),
+        "assets": ("**/*",), "tools": ("*.py", "*.js", "*.mjs", "vendor/*"), "tests": ("**/*.py", "**/*.js", "**/*.json"),
         ".github/workflows": ("*.yml", "*.yaml"),
     }.items():
         for pattern in patterns:
@@ -220,6 +225,40 @@ def source_files(root, version, version_payload):
         "y SHA-256 antes de guardar cada archivo.\n\n"
         if (root / 'MEDIA_MANIFEST.json').is_file() else ''
     )
+    pintadera_note = (
+        '\nLos STL y ZIP de las pintaderas se distribuyen en la web publicada.\n'
+        f'Consúltalos en {PUBLIC_URL}#pintaderas3d. {PINTADERA_MANIFEST} contiene sus huellas y tamaños.\n\n'
+        if (root / PINTADERA_MANIFEST).is_file() else ''
+    )
+    vasija_note = (
+        "\nLos STL de las vasijas y el ZIP de la colección se distribuyen en la web publicada.\n"
+        f"Consulta {PUBLIC_URL}#vasijacanaria3d. El STL de Tenerife se guarda en\n"
+        "downloads/vasija/vasija_canaria.stl y los otros seis STL en downloads/vasijas/,\n"
+        "con los nombres gran-canaria.stl, la-palma.stl, lanzarote.stl, fuerteventura.stl,\n"
+        "la-gomera.stl y el-hierro.stl. Guarda el ZIP conjunto como downloads/vasijas/coleccion.zip.\n\n"
+        if vasija_assets(root) else ""
+    )
+    lapa_note = (
+        f"\nEl STL de la lapa blanca se distribuye en {PUBLIC_URL}#lapa-blanca.\n"
+        f"Para usar el visor local, guarda el archivo en {LAPA_STL}.\n\n"
+        if lapa_assets(root) else ""
+    )
+    book_assets = story_book_assets(root)
+    story_book_note = ''.join(
+        f"\nEl libro {title} se descarga desde {PUBLIC_URL}{name}.\n"
+        f"Para abrirlo desde la web local, guarda el PDF en {name}.\n\n"
+        for name, title in (
+            (STORY_BOOK_PDF, 'Cuentos de Canarias'),
+            (STORY_ACTIVITY_BOOK_PDF, 'Cuentos y fichas de actividades'),
+        )
+        if name in book_assets
+    )
+    english_download_note = (
+        "\nLas antologías en PDF y el ELPX inglés se distribuyen por separado.\n"
+        f"Sus enlaces de descarga están en {PUBLIC_URL}index-en.html#recursos.\n"
+        "Guarda los archivos descargados bajo en/downloads/ para usarlos sin conexión.\n\n"
+        if english_edition_assets(root) else ""
+    )
     files["FUENTES_WEB_LEEME.txt"] = (
         f"MitoMapa canario · Fuentes web {version['web_version']}\n\n"
         "Estas fuentes contienen la web, sus recursos locales, documentación,\n"
@@ -227,7 +266,7 @@ def source_files(root, version, version_payload):
         "Para consultar la web localmente, ejecuta python3 -m http.server y abre\n"
         "http://localhost:8000/. VERSION.json identifica la edición actual;\n"
         "SOURCE_MANIFEST.json verifica cada archivo sin incluirse a sí mismo.\n"
-        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note +
+        "Los descargables históricos siguen disponibles en la web pública.\n\n" + media_note + pintadera_note + vasija_note + lapa_note + story_book_note + english_download_note +
         "Materiales propios: CC BY-SA 4.0; consulta LICENSE y LICENCIA_Y_CREDITOS.txt.\n"
         "El mapa y las dependencias conservan sus condiciones originales.\n"
     ).encode("utf-8")
@@ -245,10 +284,18 @@ def public_names(root, previous, paths):
     names.discard("requirements-browser-tests.txt")
     names.update(path.relative_to(root).as_posix() for path in (root / "assets").rglob("*") if path.is_file())
     names.update({"VERSION.json", "LICENSE"})
+    if (root / "favicon-pintadera-sol-catalogo.png").is_file():
+        names.add("favicon-pintadera-sol-catalogo.png")
     media = pinned_story_media(root)
     if media:
         names.update(media)
         names.add('MEDIA_MANIFEST.json')
+    pintaderas = pintadera_inventory(root)
+    if pintaderas:
+        names.update(pintaderas)
+        names.add(PINTADERA_MANIFEST)
+    names.update(vasija_assets(root) | lapa_assets(root) | story_book_assets(root))
+    names.update(english_edition_assets(root))
     return sorted(names)
 
 
@@ -301,12 +348,44 @@ def check_elpx(payload, version, root=ROOT):
     return files
 
 
+def check_pintadera_downloads(root, inventory):
+    if not inventory:
+        return
+    for name, expected in inventory.items():
+        if metadata(source_path(root, name).read_bytes()) != expected:
+            raise ValueError('Pintadera download metadata differs: ' + name)
+    for group in PINTADERA_GROUPS:
+        prefix = f'{PINTADERA_DIRECTORY}/{group}'
+        expected = {Path(name).name: details for name, details in inventory.items() if name.startswith(prefix + '/')}
+        packed = read_zip(source_path(root, prefix + '.zip').read_bytes())
+        if {name: metadata(data) for name, data in packed.items()} != expected:
+            raise ValueError('Pintadera ZIP does not match its individual STL files: ' + group)
+
+
 def check_release(root=ROOT):
     version = json.loads((root / "VERSION.json").read_text(encoding="utf-8"))
     paths = release_paths(version)
     public = public_entries(root)
     if not set(paths.values()) <= set(public):
         raise ValueError("Current downloads are missing from the public allowlist")
+    vasijas = vasija_assets(root)
+    if not vasijas <= public.keys():
+        raise ValueError("Vasija assets are missing from the public allowlist")
+    check_vasija_collection(root, vasijas)
+    if not lapa_assets(root) <= public.keys():
+        raise ValueError("Lapa assets are missing from the public allowlist")
+    if not story_book_assets(root) <= public.keys():
+        raise ValueError("A story book download is missing from the public allowlist")
+    english_assets = english_edition_assets(root)
+    if english_assets:
+        if not english_assets <= public.keys():
+            raise ValueError("The English edition is missing public assets")
+        pinned_story_media(root)
+    pintaderas = pintadera_inventory(root)
+    if pintaderas:
+        if not (set(pintaderas) | {PINTADERA_MANIFEST}) <= set(public):
+            raise ValueError('Pintadera downloads are missing from the public allowlist')
+        check_pintadera_downloads(root, pintaderas)
     for name, path in public.items():
         if name.lower().endswith((".zip", ".elpx")):
             read_zip(path.read_bytes())
@@ -341,9 +420,15 @@ def update_release(root=ROOT):
     version = json.loads((root / "VERSION.json").read_text(encoding="utf-8"))
     paths = release_paths(version)
     previous = parse_sums((root / "SHA256SUMS.txt").read_text(encoding="utf-8"))
+    pintaderas = pintadera_inventory(root)
+    check_pintadera_downloads(root, pintaderas)
+    vasijas = vasija_assets(root)
+    check_vasija_collection(root, vasijas)
+    current_downloads = (set(paths.values()) | pintaderas.keys()
+                         | (vasijas & {VASIJA_COLLECTION_ZIP}) | english_edition_assets(root))
     # Historical packages are immutable, and their existing URLs stay public.
     for name, expected in previous.items():
-        if name not in paths.values() and name.lower().endswith((".zip", ".elpx")):
+        if name not in current_downloads and name.lower().endswith((".zip", ".elpx")):
             if digest(source_path(root, name).read_bytes()) != expected:
                 raise ValueError(f"Historical download changed: {name}")
     elpx = source_path(root, paths["download"]).read_bytes()

@@ -122,6 +122,73 @@ class ReleasePipelineTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Historical download changed"):
             update_release(self.root)
 
+    def test_current_pintaderas_can_be_updated_only_as_matching_collections(self):
+        def write_pintaderas(revision, *, mismatch=False):
+            files = {}
+            for group in ("recreaciones", "sellos"):
+                folder = f"downloads/pintaderas-3d/{group}"
+                models = {
+                    f"pintadera_{letter}.stl": f"{group}/{letter}/{revision}".encode()
+                    for letter in "abcdefghij"
+                }
+                files.update({f"{folder}/{name}": data for name, data in models.items()})
+                if mismatch and group == "sellos":
+                    models["pintadera_a.stl"] = b"Different stamp"
+                files[f"{folder}.zip"] = zip_bytes(models)
+            for name, data in files.items():
+                self.write(name, data)
+            self.write("PINTADERAS_3D.json", json_bytes({
+                "version": 1, "files": {name: metadata(data) for name, data in files.items()},
+            }))
+
+        write_pintaderas(1)
+        update_release(self.root)
+        write_pintaderas(2)
+        update_release(self.root)
+        check_release(self.root)
+        write_pintaderas(3, mismatch=True)
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, "Pintadera ZIP does not match"):
+            update_release(self.root)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_vasija_zip_tracks_only_the_six_individual_models(self):
+        ids = ('gran-canaria', 'la-palma', 'lanzarote', 'fuerteventura', 'la-gomera', 'el-hierro')
+        packed = {f'MitoMapa_{slug}.stl': slug.encode() for slug in ids}
+        for slug in ids:
+            self.write(f'downloads/vasijas/{slug}.stl', slug.encode())
+            self.write(f'assets/vasijas/{slug}.webp', b'fallback')
+        self.write('assets/vasijas/coleccion.json', json_bytes([{'id': slug} for slug in ids]))
+        archive = 'downloads/vasijas/coleccion.zip'
+        self.write(archive, zip_bytes(packed))
+        update_release(self.root)
+        check_release(self.root)
+        public = parse_sums((self.root / 'SHA256SUMS.txt').read_text())
+        self.assertIn(archive, public)
+        self.assertTrue(all(f'downloads/vasijas/{slug}.stl' in public for slug in ids))
+        self.write(archive, zip_bytes({**packed, 'MitoMapa_tenerife.stl': b'additional model'}))
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'Vasija ZIP does not match'):
+            update_release(self.root)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_lapa_release_requires_the_model_with_its_viewer_and_images(self):
+        model = 'downloads/lapa-blanca/lapa-blanca-la-graciosa.stl'
+        companions = {
+            'lapa-visor.js': b'/* viewer module */',
+            'assets/lapa-blanca/miniatura.webp': b'thumbnail',
+            'assets/lapa-blanca/vistas.webp': b'fixed views',
+        }
+        for path, content in companions.items():
+            self.write(path, content)
+        with self.assertRaisesRegex(FileNotFoundError, 'lapa-blanca-la-graciosa.stl'):
+            update_release(self.root)
+        self.write(model, b'example STL')
+        update_release(self.root)
+        check_release(self.root)
+        public = parse_sums((self.root / 'SHA256SUMS.txt').read_text())
+        self.assertTrue({model, *companions} <= public.keys())
+
     def test_oversized_release_is_rejected_before_any_file_is_written(self):
         before = self.snapshot()
         with patch("update_release.MAX_ASSET_BYTES", 10):
