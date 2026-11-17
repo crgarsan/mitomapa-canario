@@ -517,10 +517,10 @@ function updateProgress(){
 }
 function showRoute(id,options={}){
  if(!validIds.has(id))return;
- if(lastRouteId!==id)window.MitoMapaFormats?.stopOwnedMedia();
+ const step=window.MitoMapaNavigation?.activateRoute(id,options);
+ if(lastRouteId!==id||(step&&step!=="cuento"))window.MitoMapaFormats?.stopOwnedMedia();
  if(narrationState.routeId&&narrationState.routeId!==id)stopNarration("Narration stopped when you changed islands.");
  document.querySelectorAll(".route").forEach(element=>element.classList.remove("active"));
- const step=window.MitoMapaNavigation?.activateRoute(id,options);
  const section=ensureRoute(id);if(!section)return;
  section.classList.add("active");
  window.MitoMapaRouteFlow?.showStep(section,step||"cuento",{focus:false,notify:false});

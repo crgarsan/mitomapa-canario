@@ -82,6 +82,48 @@ class StoryFormatsBrowserTests(unittest.TestCase):
                 self.assertFalse(route.locator(".format-video-panel").is_visible())
                 self.assertTrue(pdf.is_visible())
 
+    def test_english_stories_have_one_inline_video_with_native_sources(self):
+        self.page.set_viewport_size({"width": 390, "height": 844})
+        self.page.goto(self.base + "index-en.html?lang=en#islas")
+        for slug in SLUGS:
+            with self.subTest(island=slug):
+                self.page.evaluate("slug => window.MitoMapaNavigation.go('isla/' + slug + '/cuento')", slug)
+                route = self.page.locator(f"#route-{slug}")
+                panel = route.locator(".format-video-panel")
+                self.assertTrue(route.get_by_role("radio", name="Video", exact=True).is_checked())
+                self.assertTrue(panel.is_visible())
+                self.assertEqual(panel.locator("a, button").count(), 0)
+                video = panel.locator("video")
+                self.assertEqual(video.count(), 1)
+                self.assertIsNone(video.get_attribute("src"))
+                state = video.evaluate("""video => ({
+                    controls: video.controls,
+                    inline: video.playsInline,
+                    paused: video.paused,
+                    sources: Array.from(video.querySelectorAll('source'), source => [
+                        source.getAttribute('src'), source.type
+                    ]),
+                    tracks: Array.from(video.querySelectorAll('track'), track => [
+                        track.srclang, track.default
+                    ])
+                })""")
+                self.assertEqual(state, {
+                    "controls": True, "inline": True, "paused": True,
+                    "sources": [
+                        [f"en/video-hls/{slug}/story.m3u8", "application/vnd.apple.mpegurl"],
+                        [f"en/media/{slug}/story.mp4", "video/mp4"],
+                    ],
+                    "tracks": [["en", False]],
+                })
+                pdf = route.get_by_role("link", name="Download story (PDF)")
+                self.assertTrue(pdf.is_visible())
+                self.assertTrue(pdf.get_attribute("href").endswith(".pdf"))
+                route.get_by_role("radio", name="Audio and text").check()
+                self.assertFalse(panel.is_visible())
+                self.assertTrue(route.locator(".route-grid").is_visible())
+                route.get_by_role("radio", name="Video", exact=True).check()
+                self.assertTrue(panel.is_visible())
+
     def test_quick_help_is_in_teacher_and_save_help_opens_tools_with_keyboard(self):
         self.page.goto(self.base + "#recursos", wait_until="networkidle")
         self.assertEqual(self.page.locator('[data-screen="recursos"] .resource-quick-help').count(), 0)
