@@ -3,6 +3,7 @@
 from contextlib import redirect_stdout
 from io import BytesIO, StringIO
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -118,16 +119,137 @@ class MaintenanceToolsTests(unittest.TestCase):
         (self.root / "JSPDF_DEPENDENCY.json").write_bytes((ROOT / "JSPDF_DEPENDENCY.json").read_bytes())
         artifact = self.root / "downloads/new-editor-copy.elpx"
         artifact.write_bytes(archive_bytes(self.loaders))
-        result = subprocess.run([sys.executable, str(script), "--artifact", str(artifact), "--check"],
+        selected = self.root / "selected-editor-copy.elpx"
+        selected.symlink_to(artifact)
+        result = subprocess.run([sys.executable, str(script), "--artifact", str(selected), "--check"],
                                 cwd=self.root, capture_output=True, text=True, check=False)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)["loaders"], 3)
+
+    def write_delivery(self, *, extra_archive=False, format_checksums=lambda text: text):
+        delivery = self.root / "delivery"
+        (delivery / "documentacion").mkdir(parents=True)
+        native = "MitoMapa_canario_GobCan.elpx"
+        exported = "MitoMapa_canario_GobCan_HTML.zip"
+        validation = "VALIDACION_GOBCAN.txt"
+        files = {
+            native: archive_bytes({**self.loaders, "scripts.js": self.script.encode()}),
+            exported: archive_bytes(self.loaders),
+            "documentacion/guia.txt": "Guía de aula".encode(),
+        }
+        files[validation] = (f"ELPX SHA-256: {digest(files[native])}\n"
+                             f"HTML ZIP SHA-256: {digest(files[exported])}\n").encode()
+        (self.root / "downloads" / native).write_bytes(files[native])
+        if extra_archive:
+            files["Material de clase.zip"] = archive_bytes({"guia.txt": b"Classroom notes"})
+        files["SHA256SUMS.txt"] = format_checksums(sums_bytes(files))
+        files["Entrega_MitoMapa_GobCan.zip"] = archive_bytes(files)
+        for name, payload in files.items():
+            (delivery / name).write_bytes(payload)
+        return delivery
+
+    def check_delivery(self, module, delivery):
+        with patch.object(module, "ROOT", self.root):
+            if module is pdf:
+                pdf.delivery_update(delivery, True)
+            else:
+                drawings.verify_delivery(delivery, drawings.drawing_policy(self.script))
+
+    def test_delivery_checks_accept_regular_files_and_nested_documents_read_only(self):
+        delivery = self.write_delivery(extra_archive=True)
+        before = self.snapshot()
+        for module in (pdf, drawings):
+            with self.subTest(module=module.__name__):
+                self.check_delivery(module, delivery)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_delivery_pdf_accepts_crlf_checksums(self):
+        delivery = self.write_delivery(format_checksums=lambda text: text.replace(b"\n", b"\r\n"))
+        self.check_delivery(pdf, delivery)
+
+    def test_delivery_pdf_rejects_nonstandard_checksum_line_breaks(self):
+        delivery = self.write_delivery(format_checksums=lambda text: text.replace(b"\n", "\u2028".encode(), 1))
+        with self.assertRaisesRegex(ValueError, "Delivery checksums are stale"):
+            self.check_delivery(pdf, delivery)
+
+    def test_delivery_reader_caps_control_text_without_reading_archive_contents(self):
+        delivery = self.write_delivery()
+        with pdf.DeliveryFiles(delivery) as files, patch.object(pdf, "DELIVERY_TEXT_LIMIT", 32):
+            with self.assertRaisesRegex(ValueError, "size limit"):
+                files.read("SHA256SUMS.txt")
+
+    def test_delivery_reader_requires_canonical_relative_names(self):
+        delivery = self.write_delivery()
+        with pdf.DeliveryFiles(delivery) as files:
+            for name in ("documentacion//guia.txt", "documentacion/./guia.txt",
+                         "documentacion/../SHA256SUMS.txt", "documentacion\\guia.txt",
+                         str(delivery / "SHA256SUMS.txt"), "SHA256SUMS.txt\0"):
+                with self.subTest(name=name), self.assertRaisesRegex(ValueError, "Unsafe asset path"):
+                    files.read(name)
+
+    def test_delivery_reader_keeps_containment_checks_without_descriptor_walk(self):
+        delivery = self.write_delivery()
+        guide = delivery / "documentacion" / "guia.txt"
+        guide.with_name("guia-enlace.txt").symlink_to(guide)
+        with patch.object(os, "supports_dir_fd", set()), pdf.DeliveryFiles(delivery) as files:
+            self.assertEqual(files.read("documentacion/guia.txt"), "Guía de aula".encode())
+            self.assertIn("MitoMapa_canario_GobCan.elpx", files.archive_names())
+            with self.assertRaisesRegex(ValueError, "without symlinks"):
+                files.read("documentacion/guia-enlace.txt")
+
+    def test_delivery_checks_require_regular_unlinked_artifacts(self):
+        delivery = self.write_delivery(extra_archive=True)
+        for module, name in (
+            (pdf, "MitoMapa_canario_GobCan.elpx"),
+            (pdf, "MitoMapa_canario_GobCan_HTML.zip"),
+            (pdf, "Entrega_MitoMapa_GobCan.zip"),
+            (pdf, "VALIDACION_GOBCAN.txt"),
+            (pdf, "SHA256SUMS.txt"),
+            (pdf, "documentacion"),
+            (drawings, "MitoMapa_canario_GobCan.elpx"),
+            (drawings, "Material de clase.zip"),
+            (drawings, "SHA256SUMS.txt"),
+            (drawings, "documentacion"),
+        ):
+            with self.subTest(module=module.__name__, name=name):
+                original = delivery / name
+                renamed = original.with_suffix(original.suffix + ".copy")
+                original.rename(renamed)
+                try:
+                    original.symlink_to(renamed, target_is_directory=renamed.is_dir())
+                    with self.assertRaisesRegex(ValueError, "without symlinks"):
+                        self.check_delivery(module, delivery)
+                finally:
+                    original.unlink()
+                    renamed.rename(original)
+
+    def test_delivery_checks_reject_a_selected_directory_link(self):
+        delivery = self.write_delivery()
+        link = delivery.with_name("selected-delivery")
+        link.symlink_to(delivery, target_is_directory=True)
+        native = "MitoMapa_canario_GobCan.elpx"
+        payload = (delivery / native).read_bytes()
+        self.write_release({f"downloads/{native}": payload, "downloads/current.elpx": payload})
+        (self.root / "scripts.js").write_text(self.script)
+        for module in (pdf, drawings):
+            with self.subTest(module=module.__name__), patch.object(module, "ROOT", self.root), patch.object(
+                    sys, "argv", [module.__name__, "--check", "--delivery-dir", str(link)]):
+                with self.assertRaisesRegex(ValueError, "without symlinks"):
+                    module.main()
 
     def test_drawing_policy_allows_changes_outside_security_boundaries(self):
         verify = drawings.drawing_policy(self.script)
         verify(self.script + "\n// A later, unrelated classroom interface change.\n")
         historical_import = self.script.replace("  clearLearnerResponses();\n", "")
         verify(historical_import)
+
+    def test_drawing_policy_accepts_reviewed_restore_before_session_isolation(self):
+        verify = drawings.drawing_policy(self.script)
+        current = drawings.line(drawings.function(self.script, "setupWorkshopCanvas"), " const restore=")
+        previous = " const restore=async imageData=>{const image=await loadWorkshopDrawing(imageData);clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};\n"
+        verify(self.script.replace(current, previous, 1))
+        with self.assertRaises(ValueError):
+            verify(self.script.replace(current, previous.replace("loadWorkshopDrawing(imageData)", "imageData"), 1))
 
     def test_drawing_policy_rejects_tampered_decoder_and_restore_guards(self):
         verify = drawings.drawing_policy(self.script)
@@ -151,6 +273,36 @@ class MaintenanceToolsTests(unittest.TestCase):
             "137,80,78,71", "138,80,78,71", 1).encode()})
         with self.assertRaises(ValueError):
             drawings.verify_drawing_archive(archive_bytes({"nested.zip": damaged}), verify)
+
+    def test_drawing_policy_checks_english_scripts_alongside_spanish(self):
+        english = (ROOT / "scripts-en.js").read_text()
+        verify = drawings.drawing_policy(self.script)
+        payload = archive_bytes({"scripts.js": self.script.encode(), "scripts-en.js": english.encode()})
+        self.assertEqual(drawings.verify_drawing_archive(payload, verify), (2, 0))
+        changed = english.replace("safeWorkshopDrawing(source.drawing)", "source.drawing", 1)
+        payload = archive_bytes({"scripts.js": self.script.encode(), "scripts-en.js": changed.encode()})
+        with self.assertRaisesRegex(ValueError, "drawing validation"):
+            drawings.verify_drawing_archive(payload, verify)
+
+    def test_english_drawing_script_uses_its_own_portable_manifest_entry(self):
+        english = (ROOT / "scripts-en.js").read_bytes()
+        verify = drawings.drawing_policy(self.script)
+        manifest = {"assets": {"scripts-en.js": {"sha256": digest(english), "bytes": len(english)}}}
+        files = {"content/resources/mitomapa/scripts-en.js": english,
+                 "content/resources/mitomapa/PORTABLE_MANIFEST.json": json_bytes(manifest)}
+        self.assertEqual(drawings.verify_drawing_archive(archive_bytes(files), verify), (1, 0))
+        manifest["assets"]["scripts-en.js"]["sha256"] = "0" * 64
+        files["content/resources/mitomapa/PORTABLE_MANIFEST.json"] = json_bytes(manifest)
+        with self.assertRaisesRegex(ValueError, "Stale drawing manifest"):
+            drawings.verify_drawing_archive(archive_bytes(files), verify)
+
+    def test_missing_english_import_guard_cannot_skip_validation(self):
+        english = (ROOT / "scripts-en.js").read_text()
+        english = english.replace("function sanitizeImportedWorkshop(", "function uncheckedWorkshop(", 1)
+        english = english.replace("sanitizeImportedWorkshop(payload.workshop)", "payload.workshop", 1)
+        payload = archive_bytes({"scripts.js": self.script.encode(), "scripts-en.js": english.encode()})
+        with self.assertRaisesRegex(ValueError, "Missing function sanitizeImportedWorkshop"):
+            drawings.verify_drawing_archive(payload, drawings.drawing_policy(self.script))
 
     def test_drawing_policy_rejects_mutation_before_normalization_or_unsafe_assignment(self):
         verify = drawings.drawing_policy(self.script)

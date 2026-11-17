@@ -69,7 +69,7 @@ jobs:
             test_story_formats_browser.py \
             test_editorial_elpx_browser.py test_native_audit_browser.py \
             test_navigation_accessibility_browser.py \
-            test_persistent_state_browser.py test_text_resize_browser.py \
+            test_persistent_state_browser.py test_learner_session_browser.py test_text_resize_browser.py \
             test_fflate_security_browser.py
           .venv/bin/python tools/run_browser_checks.py \
             test_map_choice_browser.py test_reading_support_browser.py \

@@ -135,6 +135,7 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.assertEqual(self.page.locator("#passportCount").text_content(), "1/8")
         self.page.locator("#openTeacher").click()
         self.page.evaluate("document.getElementById('resetProgress').click()")
+        self.page.wait_for_function("()=>document.getElementById('teacherImportStatus').textContent.includes('Progreso reiniciado')")
         self.assertEqual(self.page.locator("#passportCount").text_content(), "0/8")
         self.assertEqual(self.page.locator(".route .question input[type=radio]:checked").count(), 0)
         self.assertEqual(self.page.locator(".route .feedback.ok,.route .feedback.ko,.reward.show,.route-step.complete").count(), 0)

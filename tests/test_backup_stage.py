@@ -20,6 +20,7 @@ class BackupStageTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / 'source'
         self.root.mkdir()
+        self.inventory = self.root.parent / 'release-paths.json'
         self.stage = self.root / '.backup'
         self.files = {
             'index.html': '<html><head><title>MitoMapa</title></head><body><h1>MitoMapa Canario</h1><video src="/media/isla/cuento.mp4"></video><a href="downloads/current.elpx">Actual</a><a href="downloads/historical.elpx">Anterior</a><script src="/app.js"></script></body></html>',
@@ -64,11 +65,13 @@ class BackupStageTests(unittest.TestCase):
             path.write_bytes(payload.encode() if isinstance(payload, str) else payload)
         sums = ''.join(f'{sha256((self.root / name).read_bytes()).hexdigest()}  {name}\n' for name in sorted(self.files))
         (self.root / 'SHA256SUMS.txt').write_text(sums)
+        self.inventory.write_text(json.dumps(sorted([*self.files, 'SHA256SUMS.txt'])))
 
-    def run_stage(self, *extra):
+    def run_stage(self, *extra, commit='a'*40):
+        source_commit = ['--source-commit', commit] if commit is not None else []
         return subprocess.run([sys.executable, str(SCRIPT), '--root', str(self.root),
             '--output', str(self.stage), '--primary-url', 'https://primary.example/',
-            '--base-path', '/backup-repo/', '--source-commit', 'a'*40, *extra],
+            '--base-path', '/backup-repo/', '--inventory', str(self.inventory), *source_commit, *extra],
             text=True, capture_output=True)
 
     def test_stage_excludes_history_and_private_files_but_keeps_runtime_media(self):
@@ -108,6 +111,18 @@ class BackupStageTests(unittest.TestCase):
         for name, expected in entries.items():
             self.assertEqual(sha256((self.stage / name).read_bytes()).hexdigest(), expected, name)
 
+    def test_export_backup_requires_its_own_source_commit(self):
+        parent = self.root.parent
+        subprocess.run(['git', '-C', parent, 'init', '-q'], check=True, capture_output=True)
+        subprocess.run(['git', '-C', parent, '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
+                        'commit', '--allow-empty', '--no-gpg-sign', '-qm', 'Unrelated parent commit'],
+                       check=True, capture_output=True)
+
+        result = self.run_stage(commit=None)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('--source-commit', result.stderr)
+        self.assertFalse(self.stage.exists())
+
     def test_media_mismatch_fails_before_replacing_an_existing_backup(self):
         self.stage.mkdir(); (self.stage / 'previous.txt').write_text('keep me')
         self.files['media/isla/cuento.mp4'] = b'tampered-media'
@@ -116,6 +131,15 @@ class BackupStageTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('media', result.stderr.lower())
         self.assertEqual((self.stage / 'previous.txt').read_text(), 'keep me')
+
+    def test_backup_requires_media_to_be_in_the_public_inventory(self):
+        sums = self.root / 'SHA256SUMS.txt'
+        sums.write_text(''.join(line for line in sums.read_text().splitlines(keepends=True)
+                                if not line.endswith('media/isla/cuento.mp4\n')))
+        result = self.run_stage()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('media', result.stderr.lower())
+        self.assertFalse(self.stage.exists())
 
     def test_size_limit_fails_without_leaving_a_partial_backup(self):
         result = self.run_stage('--max-bytes', '100')

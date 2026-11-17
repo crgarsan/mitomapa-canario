@@ -44,6 +44,18 @@ repositorio los cambios destinados a la web. El seguimiento del alumnado
 permanece en su navegador mientras se mantenga el mismo origen; antes de cambiar
 de dominio, exporta el seguimiento desde Docente.
 
+Cuando se publique la actualización que separa el seguimiento por sesión,
+cierra o recarga todas las pestañas de MitoMapa en los navegadores compartidos
+antes de pasar al siguiente grupo. Una pestaña que sigue ejecutando la edición
+anterior puede mostrar el trabajo que tenía abierto.
+
+Si hay que volver a una edición anterior a este cambio, exporta primero el
+seguimiento vigente desde **Docente → Guardar seguimiento** en los perfiles
+que necesiten conservarlo. Tras el cambio de edición, reinicia el progreso de
+esa edición e importa la copia que corresponda. Las ediciones anteriores
+utilizan otras claves de almacenamiento y requieren esa importación para
+recuperar el trabajo guardado con la sesión nueva.
+
 `wrangler.jsonc` conserva la referencia a los dominios personalizados y a
 `workers_dev`, pero la publicación automática utiliza una configuración temporal
 limitada al Worker, su fecha de compatibilidad y sus activos. Subir y activar una

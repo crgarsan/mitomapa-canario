@@ -9,6 +9,10 @@ const workshopActivities=Object.freeze({"tenerife":{"words":{"title":"Words from
 const routeMarkup=["<section class=\"route\" id=\"route-tenerife\" aria-labelledby=\"title-tenerife\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">Tenerife</p><h2 id=\"title-tenerife\">Dácil and the Return of Magec</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Route progress\"><span class=\"route-step source-step\">1. Understanding</span><span class=\"route-step truth-step\">2. True or false</span><span class=\"route-step badge-step\">3. Piece</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_tenerife.webp\" alt=\"A young woman and three other people look towards a light in the sky near Mount Teide. Fictional scene from the story of Dácil and Magec.\"><figcaption>AI-generated illustration for the story. It depicts a fictional scene.</figcaption><details class=\"image-literacy\"><summary>Look closely at the image</summary><p>What can you see? What would you need to check? Choose one detail and check it against a source. A realistic image can still contain historical errors.</p><p>In primary school, discuss the image with support. In secondary school, distinguish fact, interpretation and fiction, and look for stereotypes. You can do this optional activity aloud or in your notebook.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Legendary tale · Tenerife</p><p class=\"story-intro\">A story set in the world of the Guanches, inspired by Echeyde, Guayota, Magec and Achamán.</p><div class=\"story-refrain\"><strong>Refrain: </strong>“Achamán, bring back Magec and bring back the light”</div><p>When the Guanches lived among ravines and valleys, Dácil looked after goats near Echeyde. Each dawn she waited for the first ray of Magec, the Sun, before setting out.</p><p>But one morning, the light did not come. A black cloud covered the mountain, and the ground shook beneath their feet. The elders remembered the story of Guayota, the being who lived inside the volcano. According to tradition, he had captured Magec and was keeping him hidden in the darkness.</p><p>The cold crept into the caves. Dácil gathered the children beside the fire, and they all repeated: “Achamán, bring back Magec and bring back the light.”</p><p>A deep rumbling came from the summit. The clouds turned red, and a great stone rolled down to the mouth of Echeyde. Dácil held her little brother close while the people of the village called for help from Achamán, lord of the sky.</p><p>Tradition tells us that Achamán came down from above, defeated Guayota and freed Magec. Then he sealed the entrance to the volcano with an enormous rock so that the being of fire could not escape.</p><p>Then a golden line appeared behind Echeyde. First it lit up the summit, then the slopes and, last of all, Dácil’s face. The goats came out of their shelter, and the cold began to fade.</p><p>From that day on, Dácil told the story whenever the volcano seemed to be waking. And when she finished, every voice repeated: “Achamán, bring back Magec and bring back the light.”</p><details class=\"radar\"><summary><strong>Investigate the sources behind the story</strong></summary><p>Historical sources such as Espinosa (1594) link Echeyde with Guayota. Read these accounts critically because they were written after the conquest. The story of Magec’s capture and release became widely known through later retellings. Dácil is a Guanche name passed down through literature. The Dácil in this story is an original character. Her actions and dialogue were written for MitoMapa.</p><section class=\"source-traceability\" data-source-route=\"tenerife\" aria-label=\"Story sources\"><p><strong>Traditional or documented element:</strong> A modern account of the legend associated with Mount Teide tells how Achamán freed Magec from Guayota.</p><p><strong>Source:</strong></p><ul><li>Government of the Canary Islands (n.d.). <a href=\"https://www.gobiernodecanarias.org/parquesnacionales/teide/el_parque/historia/\" target=\"_blank\" rel=\"noopener noreferrer\">History of Teide National Park</a> <small class=\"source-original\">[<span lang=\"es\">Historia del Parque Nacional del Teide</span>]</small>. See “The Legend of Guayota and the Sugar Loaf” <small class=\"source-original\">[<span lang=\"es\">La leyenda de Guayota y el Pan de Azúcar</span>]</small>.</li></ul><p>This page records a modern version. The date of individual episodes remains uncertain. Distinguish the earliest accounts of Echeyde and Guayota from later retellings.</p><p><strong>About this version:</strong> This story’s Dácil is an original character distinct from the Dácil in Antonio de Viana’s poem. Her work with the herd, her brother, the dialogue and the refrain were created for MitoMapa.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-tenerife\"><p class=\"challenge-kicker\">Challenge 1 of 2</p><h3>Comprehension challenge</h3><p>Choose the right answer. You need 3 out of 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"tenerife\">Check understanding</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-tenerife\"><p class=\"challenge-kicker\">Challenge 2 of 2</p><h3>True-or-false challenge</h3><p>Choose true or false for each statement. Complete both challenges to earn the piece.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"tenerife\">Check the challenge</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_tenerife.webp\" alt=\"Clay vessel from Tenerife\"><div><span>Piece added to your passport</span><strong>Light piece</strong><p>Open Passport at the top of the page to see your collection.</p><button class=\"button open-passport\" type=\"button\">View my passport</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Choose another island</button></div></section>","<section class=\"route\" id=\"route-gran-canaria\" aria-labelledby=\"title-gran-canaria\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">Gran Canaria</p><h2 id=\"title-gran-canaria\">Guayarmina and the Tibicena of the Ravine</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Route progress\"><span class=\"route-step source-step\">1. Understanding</span><span class=\"route-step truth-step\">2. True or false</span><span class=\"route-step badge-step\">3. Piece</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_gran-canaria.webp\" alt=\"A young woman crouches on a path through a ravine. Three people watch behind her. Fictional scene from the story of Guayarmina.\"><figcaption>AI-generated illustration for the story. It depicts a fictional scene.</figcaption><details class=\"image-literacy\"><summary>Look closely at the image</summary><p>What can you see? What would you need to check? Choose one detail and check it against a source. A realistic image can still contain historical errors.</p><p>In primary school, discuss the image with support. In secondary school, distinguish fact, interpretation and fiction, and look for stereotypes. You can do this optional activity aloud or in your notebook.</p></details></figure><article class=\"story\"><p class=\"route-meta\">legendary tale · Gran Canaria</p><p class=\"story-intro\">A story set in ancient Gran Canaria, inspired by Acorán and the tibicenas.</p><div class=\"story-refrain\"><strong>Refrain: </strong>“Together in the light, fear grows small”</div><p>In ancient Gran Canaria, Guayarmina led a small herd along a path through a ravine. As the sun set, she gathered the goats beside a cave and lit a torch.</p><p>Suddenly, she heard a growl. A figure covered in black fur appeared among the tabaibas. It had the shape of a large dog, and its eyes looked like two glowing embers. Guayarmina remembered the stories of the tibicenas, beings who wandered through caves and lonely places.</p><p>Fear urged her to run, but she called to the other goatherds. Together they raised their torches and said: “Together in the light, fear grows small.”</p><p>The tibicena circled the fire once. Then it went round again. The third time round, it stopped in front of Guayarmina. She asked Acorán for protection and stayed beside the herd.</p><p>When the sky began to grow light, the creature backed away until it disappeared among the rocks. Large footprints remained on the ground, mixed with the tracks of goats.</p><p>Guayarmina told the people of the village what had happened. The elders could not say for certain what she had seen, but they were thankful that no one had ventured into the ravine alone.</p><p>From then on, whenever night caught the goatherds by surprise, they gathered the herd, lit the torch and remembered: “Together in the light, fear grows small.”</p><details class=\"radar\"><summary><strong>Investigate the sources behind the story</strong></summary><p>Acorán appears in historical accounts of Gran Canaria. Tibicenas are figures from traditional beliefs and have been described in different ways, including as a large dark dog. Guayarmina is an Indigenous name from Gran Canaria. The protagonist is a fictional character. The camp and the creature’s three circuits were created for this story.</p><section class=\"source-traceability\" data-source-route=\"gran-canaria\" aria-label=\"Story sources\"><p><strong>Traditional or documented element:</strong> Accounts describe tibicenas in a variety of animal forms. Written accounts from after the conquest describe one form as a large dog.</p><p><strong>Source:</strong></p><ul><li>Corrales Zumbado, C., and Corbella Díaz, D. (2013). <a href=\"https://www.rae.es/tdhle/tibicena\" target=\"_blank\" rel=\"noopener noreferrer\">Historical Dictionary of Canarian Spanish: tibicena</a> <small class=\"source-original\">[<span lang=\"es\">Diccionario histórico del español de Canarias: tibicena</span>]</small>. The entry “tibicena” cites Gómez Escudero, 1978 edition, p. 439, and Marín de Cubas, 1993 edition, book II, ch. 18, p. 204.</li></ul><p>The chroniclers’ religious language also reflects their Christian perspective. These sources record beliefs about the creature. The story uses one of the forms described in those accounts.</p><p><strong>About this version:</strong> The story’s Guayarmina is fictional and shares her name with a historical figure. The herd, the creature’s three circuits, the footprints, Guayarmina’s appeal to Acorán and the goatherds’ response were written for the story.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-gran-canaria\"><p class=\"challenge-kicker\">Challenge 1 of 2</p><h3>Comprehension challenge</h3><p>Choose the right answer. You need 3 out of 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"gran-canaria\">Check understanding</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-gran-canaria\"><p class=\"challenge-kicker\">Challenge 2 of 2</p><h3>True-or-false challenge</h3><p>Choose true or false for each statement. Complete both challenges to earn the piece.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"gran-canaria\">Check the challenge</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_gran_canaria.webp\" alt=\"Clay vessel from Gran Canaria\"><div><span>Piece added to your passport</span><strong>Memory piece</strong><p>Open Passport at the top of the page to see your collection.</p><button class=\"button open-passport\" type=\"button\">View my passport</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Choose another island</button></div></section>","<section class=\"route\" id=\"route-la-palma\" aria-labelledby=\"title-la-palma\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">La Palma</p><h2 id=\"title-la-palma\">Acerina and the Rock That Held Up the Sky</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Route progress\"><span class=\"route-step source-step\">1. Understanding</span><span class=\"route-step truth-step\">2. True or false</span><span class=\"route-step badge-step\">3. Piece</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_la-palma.webp\" alt=\"An adult and a girl look at a tall rock formation among mountains and clouds. An imagined view of Roque Idafe from Acerina’s story.\"><figcaption>AI-generated illustration for the story. It depicts a fictional scene.</figcaption><details class=\"image-literacy\"><summary>Look closely at the image</summary><p>What can you see? What would you need to check? Choose one detail and check it against a source. A realistic image can still contain historical errors.</p><p>In primary school, discuss the image with support. In secondary school, distinguish fact, interpretation and fiction, and look for stereotypes. You can do this optional activity aloud or in your notebook.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Legendary tale · La Palma</p><p class=\"story-intro\">A story set in Benahoare, inspired by Abora and the rock of Idafe.</p><div class=\"story-refrain\"><strong>Refrain: </strong>“Idafe still stands; we keep its memory alive”</div><p>In Benahoare, the island we now call La Palma, Acerina looked up whenever she entered the Caldera. There stood Idafe, a great rock that seemed to hold up the sky.</p><p>One morning, she went with her grandfather and other people from the village. They carried small pots of food for an ancient ceremony. Her grandfather explained that this place was connected with Abora and the memory of their ancestors.</p><p>When they arrived, they all said: “Idafe still stands; we keep its memory alive.”</p><p>Suddenly, the ground trembled. Several stones tumbled down the slope, and Acerina thought the rock was going to fall. Her grandfather took her hand, and the group moved away from the cliff.</p><p>The noise stopped. Idafe still stood tall against the sky. Acerina left her pot in the place she was shown and promised to learn the words of the ceremony so that they would not be forgotten.</p><p>The years passed. Acerina became a gifted storyteller. She took the children to a safe spot where they could look at the rock, and told them what she had experienced.</p><p>At the end, they all looked at the stone and repeated: “Idafe still stands; we keep its memory alive.”</p><details class=\"radar\"><summary><strong>Investigate the sources behind the story</strong></summary><p>The chronicles connect Roque Idafe with ritual practices of the Indigenous people of La Palma and record the name Abora. The name Acerina appears in La Palma’s legends. This story presents its own Acerina. Her grandfather, the tremor and her promise to become a storyteller were created for this version.</p><section class=\"source-traceability\" data-source-route=\"la-palma\" aria-label=\"Story sources\"><p><strong>Traditional or documented element:</strong> A chronicle records fears that Idafe might fall and describes offerings left by the rock. The park’s account places these traditions in the Caldera.</p><p><strong>Source:</strong></p><ul><li>Trapero, M., and Santana Martel, E. (n.d.). <a href=\"https://guanchismos.ulpgc.es/item/12902\" target=\"_blank\" rel=\"noopener noreferrer\">Dictionary of Canary Islands Place Names: Idafe</a> <small class=\"source-original\">[<span lang=\"es\">Diccionario de toponimia de Canarias: Idafe</span>]</small>. The entry “Idafe” cites Abreu Galindo, 1977 edition, p. 270.</li><li>Government of the Canary Islands (n.d.). <a href=\"https://www.gobiernodecanarias.org/parquesnacionales/caldera_de_taburiente/el_parque/valores_naturales/arqueologia/index.html\" target=\"_blank\" rel=\"noopener noreferrer\">Caldera de Taburiente: Archaeology</a> <small class=\"source-original\">[<span lang=\"es\">Caldera de Taburiente: Arqueología</span>]</small>. See the sections on the Benahoarita people and rituals at Idafe.</li></ul><p>The cited passage leaves the details of the ceremony and its possible connection to Abora unverified. Treat the ceremony in the story as fiction.</p><p><strong>About this version:</strong> This Acerina differs from the character in other versions. Her grandfather, the pots, the tremor, the promise and the refrain are fictional. “Holding up the sky” is an image created for the story.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-la-palma\"><p class=\"challenge-kicker\">Challenge 1 of 2</p><h3>Comprehension challenge</h3><p>Choose the right answer. You need 3 out of 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"la-palma\">Check understanding</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-la-palma\"><p class=\"challenge-kicker\">Challenge 2 of 2</p><h3>True-or-false challenge</h3><p>Choose true or false for each statement. Complete both challenges to earn the piece.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"la-palma\">Check the challenge</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_la_palma.webp\" alt=\"Clay vessel from La Palma\"><div><span>Piece added to your passport</span><strong>Idafe piece</strong><p>Open Passport at the top of the page to see your collection.</p><button class=\"button open-passport\" type=\"button\">View my passport</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Choose another island</button></div></section>","<section class=\"route\" id=\"route-la-gomera\" aria-labelledby=\"title-la-gomera\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">La Gomera</p><h2 id=\"title-la-gomera\">Gara and Jonay, Two Voices on the Summit</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Route progress\"><span class=\"route-step source-step\">1. Understanding</span><span class=\"route-step truth-step\">2. True or false</span><span class=\"route-step badge-step\">3. Piece</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_la-gomera.webp\" alt=\"A young woman holds her hands open as she speaks to two groups on opposite sides of a ravine. Fictional scene from the story of Gara and Jonay.\"><figcaption>AI-generated illustration for the story. It depicts a fictional scene.</figcaption><details class=\"image-literacy\"><summary>Look closely at the image</summary><p>What can you see? What would you need to check? Choose one detail and check it against a source. A realistic image can still contain historical errors.</p><p>In primary school, discuss the image with support. In secondary school, distinguish fact, interpretation and fiction, and look for stereotypes. You can do this optional activity aloud or in your notebook.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Legendary tale · La Gomera</p><p class=\"story-intro\">A children’s adaptation of the legend of Gara and Jonay from La Gomera.</p><div class=\"story-refrain\"><strong>Refrain: </strong>“Neither the sea nor the ravine can silence two hearts”</div><p>Gara lived in Agulo and knew every sound of the ravines. One day, she looked at her reflection in the spring and heard a warning: she must keep away from fire.</p><p>Across the sea, in Tenerife, lived Jonay. To reach La Gomera, he used goatskin bags to help him float. He swam for hours until he reached the shore.</p><p>When Gara and Jonay met, they walked among the palm trees and talked until the moon appeared. The two of them repeated: “Neither the sea nor the ravine can silence two hearts.”</p><p>But the families feared the old warning. They said that Gara’s water and Jonay’s fire must never meet. The young pair fled towards the summit and asked Orahan for help.</p><p>Their families searched for them in the mist. When at last they found them, the legend tells us that Gara and Jonay’s story came to a sad end. Their names were joined for ever in the mountain’s name: Garajonay.</p><p>In time, people came to understand that hostility and failing to listen had caused great pain. From then on, whenever two communities argued, someone remembered Gara and Jonay before closing the door to dialogue.</p><p>And the summit echoed back: “Neither the sea nor the ravine can silence two hearts.”</p><details class=\"radar\"><summary><strong>Investigate the sources behind the story</strong></summary><p>The legend of Gara and Jonay has many versions. In widely told versions, Jonay crosses from Tenerife, their families oppose them and their story ends tragically. Orahan appears in accounts of beliefs on La Gomera. The wording and narrative details of this story were written for MitoMapa.</p><section class=\"source-traceability\" data-source-route=\"la-gomera\" aria-label=\"Story sources\"><p><strong>Traditional or documented element:</strong> Virgilio Brito’s version, recorded by Trapero, includes Jonay’s journey using skins to stay afloat, the couple’s love and their tragic end. Gara’s reflection and the contrast between water and fire also appear in Los Chorros de Epina, published by Spain’s Ministry of Agriculture, Fisheries and Food.</p><p><strong>Sources:</strong></p><ul><li>Trapero, M. (1984). <a href=\"https://mdcs.ulpgc.es/files/original/a8601b5c5852953b6ae2c89a8016b0c6c2f7365a.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">The Legend of Gara and Jonay on La Gomera</a> <small class=\"source-original\">[<span lang=\"es\">La leyenda de Gara y Jonay en La Gomera</span>]</small>. Aguayro, 153, pp. 4–6. Virgilio Brito’s version appears on pp. 5–6.</li><li>Navarro Mederos, J. F. (2016). <a href=\"https://iehcan.com/wp-content/uploads/2016/12/1-Navarro-2016.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Archaeology on La Gomera: From Past to Present</a> <small class=\"source-original\">[<span lang=\"es\">Arqueología en La Gomera: lo que va de ayer a hoy</span>]</small>. pp. 13–38.</li><li>Ministry of Agriculture, Fisheries and Food (n.d.). <a href=\"https://caminosnaturales.es/es/red-de-caminos-naturales/poi-detalle/ID.07.06.03.15/733f2db0-312c-4386-aec1-d79cf82d3ab6\" target=\"_blank\" rel=\"noopener noreferrer\">The Epina Springs</a> <small class=\"source-original\">[<span lang=\"es\">Los Chorros de Epina</span>]</small>. Caminos Naturales. See the section on the legend of Gara and Jonay. <small class=\"source-consultation\">Identified during the supplementary review on 1 November 2026. Consultation during the writing of the story is unconfirmed.</small></li></ul><p>The cited version by Brito omits the water and fire motif. Other publications include it, but the motif’s origin, age and direct source in this story remain unconfirmed.</p><p><strong>About this version:</strong> This version simplifies the events and leaves the tragic ending implicit. The refrain, the reflection on dialogue and the appeal to Orahan were written for this retelling.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-la-gomera\"><p class=\"challenge-kicker\">Challenge 1 of 2</p><h3>Comprehension challenge</h3><p>Choose the right answer. You need 3 out of 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"la-gomera\">Check understanding</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-la-gomera\"><p class=\"challenge-kicker\">Challenge 2 of 2</p><h3>True-or-false challenge</h3><p>Choose true or false for each statement. Complete both challenges to earn the piece.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"la-gomera\">Check the challenge</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_la_gomera.webp\" alt=\"Clay vessel from La Gomera\"><div><span>Piece added to your passport</span><strong>Meeting piece</strong><p>Open Passport at the top of the page to see your collection.</p><button class=\"button open-passport\" type=\"button\">View my passport</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Choose another island</button></div></section>","<section class=\"route\" id=\"route-el-hierro\" aria-labelledby=\"title-el-hierro\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">El Hierro</p><h2 id=\"title-el-hierro\">Agarfa and the Drops of the Garoé</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Route progress\"><span class=\"route-step source-step\">1. Understanding</span><span class=\"route-step truth-step\">2. True or false</span><span class=\"route-step badge-step\">3. Piece</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_el-hierro.webp\" alt=\"A girl and two adults collect water in soft-sided containers under a tree in the mist. Fictional scene from the story of Agarfa and the Garoé.\"><figcaption>AI-generated illustration for the story. It depicts a fictional scene.</figcaption><details class=\"image-literacy\"><summary>Look closely at the image</summary><p>What can you see? What would you need to check? Choose one detail and check it against a source. A realistic image can still contain historical errors.</p><p>In primary school, discuss the image with support. In secondary school, distinguish fact, interpretation and fiction, and look for stereotypes. You can do this optional activity aloud or in your notebook.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Legendary tale · El Hierro</p><p class=\"story-intro\">A story set among the indigenous people of El Hierro, the Bimbapes, and inspired by the Garoé tree.</p><div class=\"story-refrain\"><strong>Refrain: </strong>“Branch by branch, drop by drop, the Garoé gives us its water”</div><p>When the Bimbapes lived on El Hierro, Agarfa walked to the Garoé every morning. The mist became tangled in its branches and turned into drops that fell into stone basins.</p><p>The whole community depended on that water. Agarfa filled the jars slowly so as not to waste any, repeating: “Branch by branch, drop by drop, the Garoé gives us its water.”</p><p>One day, unfamiliar sails appeared on the horizon. The older people feared that the newcomers would find the tree and take control of the water source.</p><p>They covered the path with branches and asked Agarfa to carry the jars along another route. The girl made her way through the mist without revealing where the Garoé stood.</p><p>For many days, they kept the secret. Traditional stories give different accounts of how the tree was later discovered. They also tell of a great storm that brought it down many years later.</p><p>But the story of the Garoé did not disappear. Families kept telling how a tree could comb the mist and turn it into water for a whole island.</p><p>When they remembered it, everyone would say: “Branch by branch, drop by drop, the Garoé gives us its water.”</p><details class=\"radar\"><summary><strong>Investigate the sources behind the story</strong></summary><p>The Garoé was a real tree associated with collecting water from mist. Traditional accounts tell how people kept the tree a secret and how the secret was revealed. They also remember the tree falling in a storm. Agarfa is a Bimbape name passed down in El Hierro’s traditions. The story presents its own Agarfa and invents the routes she uses to conceal the path.</p><section class=\"source-traceability\" data-source-route=\"el-hierro\" aria-label=\"Story sources\"><p><strong>Traditional or documented element:</strong> The Garoé is associated with collecting water from mist. A modern account of the legend includes Agarfa and the concealment of the tree.</p><p><strong>Source:</strong></p><ul><li>Government of the Canary Islands (n.d.). <a href=\"https://www3.gobiernodecanarias.org/medusa/wiki/index.php?title=Leyenda_del_garo%C3%A9\" target=\"_blank\" rel=\"noopener noreferrer\">The Legend of the Garoé</a> <small class=\"source-original\">[<span lang=\"es\">Leyenda del garoé</span>]</small>. CanariWiki. See “Historia”.</li><li>El Hierro Travel (n.d.). <a href=\"https://elhierro.travel/museos-y-visitas-de-interes/el-hierro/arbol-garoe/\" target=\"_blank\" rel=\"noopener noreferrer\">The Garoé Tree</a> <small class=\"source-original\">[<span lang=\"es\">Árbol Garoé</span>]</small>. See “The Sacred Tree of El Hierro” <small class=\"source-original\">[<span lang=\"es\">El árbol sagrado de El Hierro</span>]</small>.</li></ul><p>Separate the natural process of collecting water from mist from the events told in the legend. The age of those details remains uncertain.</p><p><strong>About this version:</strong> Agarfa is portrayed here as a child who protects the path, a different character from the Agarfa in the linked account. Her route, the conversations and the refrain were created for this story.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-el-hierro\"><p class=\"challenge-kicker\">Challenge 1 of 2</p><h3>Comprehension challenge</h3><p>Choose the right answer. You need 3 out of 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"el-hierro\">Check understanding</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-el-hierro\"><p class=\"challenge-kicker\">Challenge 2 of 2</p><h3>True-or-false challenge</h3><p>Choose true or false for each statement. Complete both challenges to earn the piece.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"el-hierro\">Check the challenge</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_el_hierro.webp\" alt=\"Clay vessel from El Hierro\"><div><span>Piece added to your passport</span><strong>Mist piece</strong><p>Open Passport at the top of the page to see your collection.</p><button class=\"button open-passport\" type=\"button\">View my passport</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Choose another island</button></div></section>","<section class=\"route\" id=\"route-fuerteventura\" aria-labelledby=\"title-fuerteventura\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">Fuerteventura</p><h2 id=\"title-fuerteventura\">The Light of Mafasca on the Path</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Route progress\"><span class=\"route-step source-step\">1. Understanding</span><span class=\"route-step truth-step\">2. True or false</span><span class=\"route-step badge-step\">3. Piece</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_fuerteventura.webp\" alt=\"A woman and a girl watch a small light in a rocky landscape at dusk. Fictional scene from the story of the light of Mafasca.\"><figcaption>AI-generated illustration for the story. It depicts a fictional scene.</figcaption><details class=\"image-literacy\"><summary>Look closely at the image</summary><p>What can you see? What would you need to check? Choose one detail and check it against a source. A realistic image can still contain historical errors.</p><p>In primary school, discuss the image with support. In secondary school, distinguish fact, interpretation and fiction, and look for stereotypes. You can do this optional activity aloud or in your notebook.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Legendary tale · Fuerteventura</p><p class=\"story-intro\">A story inspired by one version of the light of Mafasca, an oral tradition from Fuerteventura. This version includes a Christian cross; it does not establish when the legend as a whole began.</p><div class=\"story-refrain\"><strong>Refrain: </strong>“Light of Mafasca, I won’t follow you: I’m going back along the path”</div><p>Long ago, two goatherds called Guise and Ayose were returning with their goats along a path on Fuerteventura. The night was cold, and the wind blew out every spark.</p><p>Beside the path, they found an old wooden cross. Without thinking, they broke off a piece and used it to light a fire. They warmed the gofio and prepared to carry on.</p><p>Then a pale light came out of the flames. It was not large, but it floated above the stones. The goatherds remembered the tales of Mafasca and said: “Light of Mafasca, I won’t follow you: I’m going back along the path.”</p><p>They walked quickly. The light followed them. They stopped, and the light stopped too. Guise and Ayose realised that they had used a cross without respecting what it meant.</p><p>They promised to return at dawn, repair the cross and never break off any more wood from that place. At that moment, the light grew smaller until it disappeared.</p><p>The next day, they kept their promise. Afterwards, they told the story to other goatherds so that no one would do the same thing.</p><p>From then on, whenever a light flickered in the night, they remembered: “Light of Mafasca, I won’t follow you: I’m going back along the path.”</p><details class=\"radar\"><summary><strong>Investigate the sources behind the story</strong></summary><p>Fuerteventura has several versions and accounts of the light of Mafasca, including stories collected in Tindaya. Some versions include the burning of a cross. This Christian motif tells us little about when the wider tradition began. The location of an account near Tindaya is insufficient evidence of Indigenous origins or continuity of religious practice. This story retells the version involving a cross and leaves historical explanations for the light open. Guise and Ayose were names used by the Maho people of Fuerteventura. Here, they name fictional goatherds distinct from the historical leaders.</p><p><a href=\"https://www.cabildofuer.es/documentos/Patrimonio_cultural/jornadas_ftv_lzt/volumenes/15_jornadas_ftv_lzt_tomo2.pdf#page=285\" target=\"_blank\" rel=\"noopener\">See Carreras Navarro (2016), <span lang=\"es\">La Luz de Mafasca</span>, pp. 285–310</a>.</p><section class=\"source-traceability\" data-source-route=\"fuerteventura\" aria-label=\"Story sources\"><p><strong>Traditional or documented element:</strong> Oral accounts of Mafasca describe the burning of a cross and the appearance of the light. Versions and explanations vary.</p><p><strong>Source:</strong></p><ul><li>Carreras Navarro, J. (2016). <a href=\"https://www.cabildofuer.es/documentos/Patrimonio_cultural/jornadas_ftv_lzt/volumenes/15_jornadas_ftv_lzt_tomo2.pdf#page=293\" target=\"_blank\" rel=\"noopener noreferrer\">The Light of Mafasca</a> <small class=\"source-original\">[<span lang=\"es\">La Luz de Mafasca</span>]</small>. pp. 285–310. Accounts involving a cross appear on pp. 293 and 297–298.</li></ul><p>The cross offers insufficient evidence to date the whole tradition. The accounts collected near Tindaya leave its possible Indigenous origins unverified. The cause of the light remains open in the story.</p><p><strong>About this version:</strong> Guise and Ayose are fictional goatherds who share their names with historical leaders. The gofio, the dialogue, the promise to repair the cross and the refrain were chosen for this retelling.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-fuerteventura\"><p class=\"challenge-kicker\">Challenge 1 of 2</p><h3>Comprehension challenge</h3><p>Choose the right answer. You need 3 out of 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"fuerteventura\">Check understanding</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-fuerteventura\"><p class=\"challenge-kicker\">Challenge 2 of 2</p><h3>True-or-false challenge</h3><p>Choose true or false for each statement. Complete both challenges to earn the piece.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"fuerteventura\">Check the challenge</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_fuerteventura.webp\" alt=\"Clay vessel from Fuerteventura\"><div><span>Piece added to your passport</span><strong>Mafasca piece</strong><p>Open Passport at the top of the page to see your collection.</p><button class=\"button open-passport\" type=\"button\">View my passport</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Choose another island</button></div></section>","<section class=\"route\" id=\"route-lanzarote\" aria-labelledby=\"title-lanzarote\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">Lanzarote</p><h2 id=\"title-lanzarote\">Ico and the Trial by Smoke</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Route progress\"><span class=\"route-step source-step\">1. Understanding</span><span class=\"route-step truth-step\">2. True or false</span><span class=\"route-step badge-step\">3. Piece</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_lanzarote.webp\" alt=\"A young woman speaks to a seated group in a volcanic landscape. An older woman stands beside her. Fictional scene from Ico’s story.\"><figcaption>AI-generated illustration for the story. It depicts a fictional scene.</figcaption><details class=\"image-literacy\"><summary>Look closely at the image</summary><p>What can you see? What would you need to check? Choose one detail and check it against a source. A realistic image can still contain historical errors.</p><p>In primary school, discuss the image with support. In secondary school, distinguish fact, interpretation and fiction, and look for stereotypes. You can do this optional activity aloud or in your notebook.</p></details></figure><article class=\"story\"><p class=\"route-meta\">legendary tale · Lanzarote</p><p class=\"story-intro\">A children’s adaptation of the story of Princess Ico in ancient Lanzarote.</p><div class=\"story-refrain\"><strong>Refrain: </strong>“The truth does not need an unfair test”</div><p>Ico lived in ancient Lanzarote. She was the daughter of Zonzamas and Fayna. Some members of the council distrusted her because her skin was lighter, and they decided to put her on the test.</p><p>They prepared a room where green branches would be burnt to fill it with smoke. An old woman knew that this decision was unfair. Before the test, she gave Ico a wet sponge and explained how to breathe through it.</p><p>Ico put the sponge away and thought: “The truth does not need an unfair test.”</p><p>The smoke began to fill the room. Ico crouched down, covered her mouth with the damp sponge and waited. When they opened the door, she walked out.</p><p>The council then recognised her place in the family line. Ico thanked the old woman for her help, but she did not celebrate the test. She looked at those who had judged her and asked why anyone should have to put themselves in danger to prove who they were.</p><p>No one knew how to answer. Intelligence and solidarity had saved Ico, but her question stayed in the island’s memory.</p><p>Since then, whenever her story is told, many voices repeat: “The truth does not need an unfair test.”</p><details class=\"radar\"><summary><strong>Investigate the sources behind the story</strong></summary><p>Chroniclers recorded the story of Ico, and later versions retold it. The trial by smoke and the help of an older woman recur, though the details vary. Ico’s words and her final question were written for MitoMapa.</p><section class=\"source-traceability\" data-source-route=\"lanzarote\" aria-label=\"Story sources\"><p><strong>Traditional or documented element:</strong> Abreu Galindo’s account includes the trial by smoke, the help of an older woman and the sponge. Pérez Saavedra reproduces and studies this account.</p><p><strong>Sources:</strong></p><ul><li>Pérez Saavedra, F. (1995). <a href=\"https://bk.memoriadelanzarote.com/media/docs/items/20110708111921AVENDAO-E-ICO.pdf#page=19\" target=\"_blank\" rel=\"noopener noreferrer\">Avendaño’s Adventure and the Legend of Ico</a> <small class=\"source-original\">[<span lang=\"es\">La aventura de Avendaño y la leyenda de Ico</span>]</small>. Yearbook of Atlantic Studies <small class=\"source-original\">[<span lang=\"es\">Anuario de Estudios Atlánticos</span>]</small>, 41, pp. 207–226. The trial and the older woman’s help are discussed on pp. 223–224.</li></ul><p>The study discusses Ico’s parentage and records the claim that Avendaño was her biological father. The story simplifies her parentage by calling her the daughter of Zonzamas and Fayna. Her genealogy remains unverified.</p><p><strong>About this version:</strong> This retelling simplifies the conflict and places Ico at the centre. Her words, her question to the council and the refrain were written for this version.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-lanzarote\"><p class=\"challenge-kicker\">Challenge 1 of 2</p><h3>Comprehension challenge</h3><p>Choose the right answer. You need 3 out of 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"lanzarote\">Check understanding</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-lanzarote\"><p class=\"challenge-kicker\">Challenge 2 of 2</p><h3>True-or-false challenge</h3><p>Choose true or false for each statement. Complete both challenges to earn the piece.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"lanzarote\">Check the challenge</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_lanzarote.webp\" alt=\"Clay vessel from Lanzarote\"><div><span>Piece added to your passport</span><strong>Ico piece</strong><p>Open Passport at the top of the page to see your collection.</p><button class=\"button open-passport\" type=\"button\">View my passport</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Choose another island</button></div></section>","<section class=\"route\" id=\"route-la-graciosa\" aria-labelledby=\"title-la-graciosa\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">La Graciosa</p><h2 id=\"title-la-graciosa\">Guadarfía and the Island of San Borondón</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Route progress\"><span class=\"route-step source-step\">1. Understanding</span><span class=\"route-step truth-step\">2. True or false</span><span class=\"route-step badge-step\">3. Piece</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_la-graciosa.webp\" alt=\"A small wooden caravel with two masts and triangular sails travels at sunset, with several crew members on deck. An imagined early 16th-century voyage.\"><figcaption>AI-generated illustration for the story. It depicts a fictional scene.</figcaption><details class=\"image-literacy\"><summary>Look closely at the image</summary><p>What can you see? What would you need to check? Choose one detail and check it against a source. A realistic image can still contain historical errors.</p><p>In primary school, discuss the image with support. In secondary school, distinguish fact, interpretation and fiction, and look for stereotypes. You can do this optional activity aloud or in your notebook.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Legendary tale · La Graciosa</p><p class=\"story-intro\">A story set in the days of sailing ships and inspired by the legend of San Borondón, a phantom island that chroniclers and mapmakers placed to the west of Canarias and which, according to different versions, could be seen from La Palma, El Hierro or La Gomera. For centuries, it was known as “the eighth island”. La Graciosa, by contrast, had no permanent population until the late nineteenth century, so it did not appear in the old counts of inhabited islands.</p><div class=\"story-refrain\"><strong>Refrain: </strong>“Island of mist, you appear and then you disappear”</div><p>When boats travelled under sail and maps were drawn on parchment, Guadarfía was an apprentice sailor on a small ship. One afternoon, the ship was crossing the sea near the island we now call La Graciosa.</p><p>An unknown land appeared behind the band of mist. It had a dark mountain, trees and a gleaming beach. The captain remembered the stories of San Borondón, the island that appeared and disappeared.</p><p>Guadarfía pointed to the horizon and said: “Island of mist, you appear and then you disappear.”</p><p>The crew changed course, but the further the ship sailed, the further away the island seemed. Then a fog came in so thick that they had to lower the sails and wait.</p><p>By dawn, the mist had gone. There was only sea in front of the ship. The captain marked the spot on his chart, and Guadarfía drew the shape he remembered.</p><p>Other sailors told of similar sights, and some maps included San Borondón. Yet no one managed to reach it.</p><p>The island kept appearing in stories, always behind the mist: “Island of mist, you appear and then you disappear.”</p><details class=\"radar\"><summary><strong>Investigate the sources behind the story</strong></summary><p>The legend of San Borondón is shared across the Canary Islands. Chroniclers and mapmakers placed the island west of the archipelago. For centuries it was known as “the eighth island”, and accounts of sightings vary. Permanent settlement on La Graciosa began in the late 19th century. Placing Guadarfía and his ship in these waters is a literary choice linking the legend to the La Graciosa route. The fictional sailor shares his name with a historical leader.</p><section class=\"source-traceability\" data-source-route=\"la-graciosa\" aria-label=\"Story sources\"><p><strong>Traditional or documented element:</strong> San Borondón appears on historical maps and in travellers’ accounts. Chaparro records some claims of landings, all of which remain unverified. The tradition is linked to the legendary voyage of Saint Brendan.</p><p><strong>Sources:</strong></p><ul><li>Chaparro Domínguez, M. Á. (2013). <a href=\"https://revistas.ucm.es/index.php/RFRM/article/download/45706/42966/73431#page=4\" target=\"_blank\" rel=\"noopener noreferrer\">Revisiting the Geographical Myth of San Borondón and Tracing Its Legacy in Literature and Other Arts</a> <small class=\"source-original\">[<span lang=\"es\">Revisión del mito geográfico de San Borondón y aproximación a su huella en la literatura y otras artes</span>]</small>. Journal of Romance Philology <small class=\"source-original\">[<span lang=\"es\">Revista de Filología Románica</span>]</small>, 30(2), pp. 229–244. Origins and travellers’ accounts are discussed on pp. 232–236.</li><li>Martínez Berriel, S. (2001–2002). <a href=\"https://revistavegueta.ulpgc.es/ojs/index.php/revistavegueta/article/view/225\" target=\"_blank\" rel=\"noopener noreferrer\">The Island of Good Customs: Social and Cultural Change on La Graciosa</a> <small class=\"source-original\">[<span lang=\"es\">La isla de las buenas costumbres: cambio social y cultural en la isla de La Graciosa</span>]</small>. Vegueta, 6. See the abstract and the discussion of settlement.</li><li>William Turpin, Dickinson College Commentaries. <a href=\"https://dcc.dickinson.edu/navigatio-brendani/intro/introduction\" target=\"_blank\" rel=\"noopener noreferrer\">Introduction — The Voyage of Saint Brendan the Abbot</a>. <small class=\"source-consultation\">Consulted for the editorial review on 1 November 2026.</small></li><li>Dickinson College Commentaries, edited by William Turpin. <a href=\"https://dcc.dickinson.edu/navigatio-brendani/intro/latin-text-whole\" target=\"_blank\" rel=\"noopener noreferrer\">Latin Text of Navigatio Brendani</a>. <small class=\"source-consultation\">Consulted for the editorial review on 1 November 2026.</small></li><li>Luis Regueira Benítez (El Museo Canario) and Manuel Poggio Capote (Real Sociedad Cosmológica). <a href=\"https://dialnet.unirioja.es/descarga/articulo/5759160.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">The Chaplain Juan Díaz, ‘Bishop of San Borondón’. New Evidence on Atlantic Exploration (1526–1529)</a> <small class=\"source-original\">[<span lang=\"es\">El capellán Juan Díaz, «obispo de San Borondón». Nuevas noticias sobre la exploración del Atlántico (1526–1529)</span>]</small>. <small class=\"source-consultation\">Consulted for the editorial review on 1 November 2026.</small></li><li>Direção Cultural da Marinha, Museu de Marinha. <a href=\"https://cultura.marinha.pt/pt/museumarinha_web/colecoes_web/pecasemdestaque_web/Paginas/caravela-latina.aspx\" target=\"_blank\" rel=\"noopener noreferrer\">Lateen-rigged Caravel — Model MM.05724</a> <small class=\"source-original\">[<span lang=\"pt\">Caravela latina — modelo MM.05724</span>]</small>. <small class=\"source-consultation\">Consulted for the editorial review on 1 November 2026.</small></li><li>Armada Española. <a href=\"https://armada.defensa.gob.es/archivo/ohycn/navegaciones/comun/Buques%20epoca%20descubrimiento%20y%20exploracion%20Rev.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Types of Ships in the Age of Discovery and Exploration, 15th–17th Centuries</a> <small class=\"source-original\">[<span lang=\"es\">Los tipos de naos en la época de los descubrimientos y exploraciones, siglos XV–XVII</span>]</small>. <small class=\"source-consultation\">Consulted for the editorial review on 1 November 2026.</small></li></ul><p>The story’s line “no one managed to reach it” simplifies the reports of searches and alleged landings. None of the landings has been verified. The episode near La Graciosa is fictional. Accounts usually place San Borondón west of the Canary Islands.</p><p><strong>About this version:</strong> This version retains the original story and narration. Guadarfía is a fictional apprentice sailor distinct from the historical leader of Lanzarote. The illustrations show a small two-masted caravel with lateen sails, a plausible vessel for the early 16th century. The captain, the drawing, the dialogue and the refrain were created for this story.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-la-graciosa\"><p class=\"challenge-kicker\">Challenge 1 of 2</p><h3>Comprehension challenge</h3><p>Choose the right answer. You need 3 out of 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"la-graciosa\">Check understanding</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-la-graciosa\"><p class=\"challenge-kicker\">Challenge 2 of 2</p><h3>True-or-false challenge</h3><p>Choose true or false for each statement. Complete both challenges to earn the piece.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"la-graciosa\">Check the challenge</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_la_graciosa.webp\" alt=\"Clay shell, a contemporary symbol of La Graciosa\"><div><span>Piece added to your passport</span><strong>Horizon piece</strong><p>Open Passport at the top of the page to see your collection.</p><button class=\"button open-passport\" type=\"button\">View my passport</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Choose another island</button></div></section>"];
 const storageKey="mitomapa-canario-v2";
 const legacyKey="mitomapa-canario-v1";
+const learnerGenerationKey="mitomapa-canario-sesion-v1";
+const feedbackConfigKey="mitomapa-canario-formulario-web-v1";
+const readingPreferencesKey="mitomapa-canario-lectura-v1";
+
 const byId=id=>document.getElementById(id);
 const validIds=new Set(routes.map(route=>route.id));
 const normalize=values=>new Set((Array.isArray(values)?values:[]).filter(id=>validIds.has(id)));
@@ -18,13 +22,69 @@ function updateStorageNotice(){
  const notice=byId("storageNotice");if(!notice)return;
  notice.hidden=storageFailures.size===0&&!storageReadIssue;
 }
+function readLearnerGeneration(){
+ try{return localStorage.getItem(learnerGenerationKey);}
+ catch(error){storageReadIssue=true;updateStorageNotice();return undefined;}
+}
+let learnerGeneration=readLearnerGeneration();
+let learnerRevision=0;
+let learnerViewStale=false;
+let awaitingLearnerResume=false;
+function usesLearnerGeneration(key){
+ return key!==feedbackConfigKey&&key!==readingPreferencesKey;
+}
+function progressStorageKey(key,generation=learnerGeneration){
+ return generation&&usesLearnerGeneration(key)?learnerGenerationKey+":"+generation+":"+key:key;
+}
+function invalidateLearnerView(){
+ if(learnerViewStale)return;
+ learnerViewStale=true;
+ document.documentElement.style.visibility="hidden";
+ document.body.inert=true;
+ discardStoredLearnerProgress(learnerGeneration);
+ // A passive reload must not choose the old learner's route for the new one.
+ if(/^#(?:isla\/|route-|ordenar$)/.test(location.hash))history.replaceState(null,"","#inicio");
+ location.reload();
+}
+function learnerSessionCurrent(){
+ if(learnerViewStale)return false;
+ // Keep working in memory until reload if this tab cannot use storage.
+ if(learnerGeneration===undefined)return true;
+ const current=readLearnerGeneration();
+ if(current===learnerGeneration)return true;
+ // A storage access error after a successful read cannot confirm this session.
+ if(current===undefined)return false;
+ invalidateLearnerView();
+ return false;
+}
+function reconcileLearnerView(){
+ if(learnerSessionCurrent()&&awaitingLearnerResume){
+  awaitingLearnerResume=false;
+  document.documentElement.style.visibility="";
+ }
+}
 function readJSON(key,fallback){
- try{const value=localStorage.getItem(key);return value?JSON.parse(value):fallback;}
+ try{
+  if(learnerGeneration===undefined&&usesLearnerGeneration(key))return fallback;
+  const value=localStorage.getItem(progressStorageKey(key));return value?JSON.parse(value):fallback;
+ }
  catch(error){storageReadIssue=true;updateStorageNotice();return fallback;}
 }
 function isRecordValue(value){return value!==null&&typeof value==="object"&&!Array.isArray(value);}
 function writeJSON(key,value){
- try{localStorage.setItem(key,JSON.stringify(value));storageFailures.delete(key);updateStorageNotice();return true;}
+ try{
+  const serialized=JSON.stringify(value),scoped=usesLearnerGeneration(key);
+  if(scoped&&!learnerSessionCurrent())return false;
+  if(scoped&&learnerGeneration===undefined)throw new Error("STORAGE_UNAVAILABLE");
+  const target=progressStorageKey(key);
+  localStorage.setItem(target,serialized);
+  if(scoped&&!learnerSessionCurrent()){
+   // The obsolete write cannot affect the active generation.
+   if(learnerViewStale)localStorage.removeItem(target);
+   return false;
+  }
+  storageFailures.delete(key);updateStorageNotice();return true;
+ }
  catch(error){storageFailures.add(key);updateStorageNotice();return false;}
 }
 const legacy=normalize(readJSON(legacyKey,[]));
@@ -524,8 +584,10 @@ function showRoute(id,options={}){
  const section=ensureRoute(id);if(!section)return;
  section.classList.add("active");
  window.MitoMapaRouteFlow?.showStep(section,step||"cuento",{focus:false,notify:false});
- lastRouteId=id;savePreferences();
- const resume=byId("resumeRoute");if(resume)resume.disabled=false;
+ if(options.remember!==false){
+  lastRouteId=id;savePreferences();
+  const resume=byId("resumeRoute");if(resume)resume.disabled=false;
+ }
  window.MitoMapaNavigation?.refreshResume?.();
  const reduced=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
  section.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
@@ -909,7 +971,14 @@ ${learningLevel==="secondary"?state.secondaryText:state.text}\n\nSOURCE AND COMP
 Personal draft for review with your teacher.`;
  downloadLocalText(text,`mitomapa-draft-${id}.txt`,"text/plain");
 }
-function downloadLocalText(content,filename,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function downloadLocalText(content,filename,type){
+ if(!learnerSessionCurrent())return false;
+ const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),link=document.createElement("a");
+ link.href=url;link.download=filename;
+ if(!learnerSessionCurrent()){URL.revokeObjectURL(url);return false;}
+ link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ return true;
+}
 function updateWorkshopSummary(routeId){
  const workshop=byId(`activity-${routeId}`);if(!workshop)return;
  const state=getWorkshopRouteState(routeId),creationDone=workshopCreationComplete(state,routeId),selected=selectedNotebookTasks(routeId),completion=notebookCompletion(routeId);
@@ -995,7 +1064,7 @@ function setupWorkshopCanvas(workshop,routeId){
  const state=getWorkshopRouteState(routeId),baseColor="#fffdf7";
  let drawing=false,lastPoint=null,pendingSnapshot=null,strokeStartPixels=null,currentColor="#2f2b26",history=[];
  const clearSurface=()=>{context.save();context.fillStyle=baseColor;context.fillRect(0,0,canvas.width,canvas.height);context.restore();};
- const restore=async imageData=>{const image=await loadWorkshopDrawing(imageData);clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};
+ const restore=async imageData=>{const revision=learnerRevision;const image=await loadWorkshopDrawing(imageData);if(revision!==learnerRevision||!workshop.isConnected||!learnerSessionCurrent())return;clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};
  clearSurface();if(state.drawing)restore(state.drawing);
  const pointFromEvent=event=>{const box=canvas.getBoundingClientRect();return{x:(event.clientX-box.left)*canvas.width/box.width,y:(event.clientY-box.top)*canvas.height/box.height};};
  const snapshot=()=>({image:canvas.toDataURL("image/webp",.82),hasInk:Boolean(state.drawingHasInk)});
@@ -1006,9 +1075,17 @@ function setupWorkshopCanvas(workshop,routeId){
  const finish=event=>{if(!drawing)return;drawing=false;lastPoint=null;try{canvas.releasePointerCapture?.(event.pointerId);}catch(error){}if(pendingSnapshot&&strokeStartPixels!==canvas.toDataURL("image/png")){history.push(pendingSnapshot);if(history.length>18)history.shift();commitDrawing();}pendingSnapshot=null;strokeStartPixels=null;};
  canvas.addEventListener("pointerup",finish);canvas.addEventListener("pointercancel",finish);canvas.addEventListener("pointerleave",event=>{if(event.buttons===0)finish(event);});
  workshop.querySelectorAll(".draw-color").forEach(button=>button.addEventListener("click",()=>{currentColor=button.dataset.drawColor;workshop.querySelectorAll(".draw-color").forEach(item=>{const selected=item===button;item.classList.toggle("is-selected",selected);item.setAttribute("aria-pressed",String(selected));});}));
- workshop.querySelector(".draw-undo")?.addEventListener("click",async()=>{const previous=history.pop();if(!previous)return;await restore(previous.image);state.drawing=previous.image;state.drawingHasInk=previous.hasInk;state.creation=false;refreshCreationReviewAfterEdit(workshop,routeId,state,"primary");invalidateItineraryTask(routeId,"creation","primary");showDraftStatus(routeId,saveWorkshopState());updateWorkshopSummary(routeId);});
+ workshop.querySelector(".draw-undo")?.addEventListener("click",async()=>{
+  const previous=history.pop();if(!previous||!learnerSessionCurrent())return;
+  const revision=learnerRevision;
+  await restore(previous.image);
+  if(revision!==learnerRevision||!workshop.isConnected||!learnerSessionCurrent())return;
+  state.drawing=previous.image;state.drawingHasInk=previous.hasInk;state.creation=false;
+  refreshCreationReviewAfterEdit(workshop,routeId,state,"primary");invalidateItineraryTask(routeId,"creation","primary");
+  showDraftStatus(routeId,saveWorkshopState());updateWorkshopSummary(routeId);
+ });
  workshop.querySelector(".draw-clear")?.addEventListener("click",()=>{history.push(snapshot());clearSurface();state.drawing=null;state.drawingHasInk=false;state.creation=false;refreshCreationReviewAfterEdit(workshop,routeId,state,"primary");invalidateItineraryTask(routeId,"creation","primary");showDraftStatus(routeId,saveWorkshopState());updateWorkshopSummary(routeId);workshop.querySelector('[data-activity-panel="creation"] .activity-panel-status').textContent="Drawing cleared.";});
- workshop.querySelector(".draw-download")?.addEventListener("click",()=>{const link=document.createElement("a");link.download="gran-canaria-tibicena.png";link.href=canvas.toDataURL("image/png");link.click();workshop.querySelector('[data-activity-panel="creation"] .activity-panel-status').textContent="Your image is ready to save on this device.";});
+ workshop.querySelector(".draw-download")?.addEventListener("click",()=>{if(!learnerSessionCurrent())return;const link=document.createElement("a");link.download="gran-canaria-tibicena.png";link.href=canvas.toDataURL("image/png");if(!learnerSessionCurrent())return;link.click();workshop.querySelector('[data-activity-panel="creation"] .activity-panel-status').textContent="Your image is ready to save on this device.";});
 }
 function bindWorkshop(section,route){
  const workshop=section.querySelector(`#activity-${route.id}`);if(!workshop)return;
@@ -1222,6 +1299,7 @@ function updateTeacherDialog(){
 }
 
 function exportProgress(){
+ if(!learnerSessionCurrent())return;
  const payload={
   app:"mitomapa-canario",version:RESOURCE_VERSION,schemaVersion:EXPORT_SCHEMA_VERSION,exportedAt:new Date().toISOString(),learningLevel,learnerName,
   progress:{sourcePassed:[...sourcePassed],truthPassed:[...truthPassed],earned:[...earned]},
@@ -1231,11 +1309,9 @@ function exportProgress(){
   final:{passed:Boolean(finalState.passed)},
   interactive:{stories:window.MitoMapaStories?.exportState(),comparison:window.MitoMapaCompare?.exportState()}
  };
- const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
- const link=document.createElement("a"),url=URL.createObjectURL(blob);
- link.href=url;link.download=`mitomapa-progress-${new Date().toISOString().slice(0,10)}.json`;link.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
- byId("teacherImportStatus").textContent="Your progress file is ready to save on this device.";
+ if(downloadLocalText(JSON.stringify(payload,null,2),`mitomapa-progress-${new Date().toISOString().slice(0,10)}.json`,"application/json")){
+  byId("teacherImportStatus").textContent="Your progress file is ready to save on this device.";
+ }
 }
 
 function sanitizeImportedWorkshop(raw){
@@ -1307,12 +1383,117 @@ function prepareImportedActivityState(payload){
  return {journey,stories,comparison:{pair:rawComparison?.pair?[...rawComparison.pair]:["tenerife","el-hierro"],notes}};
 }
 
+const journeyProgressKey="mitomapa-canario-ruta-acordada-v1";
+const sequenceProgressKey="mitomapa-canario-secuencias-v1";
+const comparisonProgressKey="mitomapa-canario-comparaciones-v1";
+const resumeProgressKey="mitomapa-canario-ultimo-apartado-v1";
+const learnerProgressKeys=[legacyKey,storageKey,preferencesKey,workshopStorageKey,itineraryKey,finalStorageKey,
+ journeyProgressKey,sequenceProgressKey,comparisonProgressKey,resumeProgressKey];
+
+function removeStoredLearnerProgress(generation){
+ for(const key of learnerProgressKeys)localStorage.removeItem(progressStorageKey(key,generation));
+}
+
+function discardStoredLearnerProgress(generation){
+ if(generation===undefined)return;
+ try{
+  const current=readLearnerGeneration();
+  if(current===undefined||current===generation)return;
+  removeStoredLearnerProgress(generation);
+ }catch(error){storageFailures.add(learnerGenerationKey);updateStorageNotice();}
+}
+
+function collectAbandonedLearnerProgress(){
+ if(!navigator.locks||learnerGeneration===undefined)return;
+ navigator.locks.request(learnerGenerationKey,()=>{
+  try{
+   const current=readLearnerGeneration();
+   if(current===undefined)return;
+   const prefix=learnerGenerationKey+":";
+   const abandoned=new Set();
+   for(const key of Object.keys(localStorage)){
+    if(!key.startsWith(prefix))continue;
+    const generation=key.slice(prefix.length).split(":")[0];
+    if(/^l-[0-9a-f]{32}$/.test(generation)&&generation!==current)abandoned.add(generation);
+   }
+   for(const generation of abandoned)discardStoredLearnerProgress(generation);
+   if(current!==null)discardStoredLearnerProgress(null);
+  }catch(error){storageFailures.add(learnerGenerationKey);updateStorageNotice();}
+ }).catch(()=>{ /* Fallback writers can still discard their known obsolete generation. */ });
+}
+
+function replaceLearnerProgress(entries,{locked,reset=false}){
+ if(!learnerSessionCurrent())return false;
+ if(learnerGeneration===undefined){
+  // A browser that denied storage from startup can still use the current tab.
+  learnerRevision++;
+  return true;
+ }
+ const previous=learnerGeneration;
+ const generation=(locked?"l-":"")+Array.from(crypto.getRandomValues(new Uint8Array(16)),byte=>byte.toString(16).padStart(2,"0")).join("");
+ const publish=()=>{
+  for(const [key,value] of entries)localStorage.setItem(progressStorageKey(key,generation),JSON.stringify(value));
+  publishMarker();
+ };
+ const publishMarker=()=>{
+  if(!learnerSessionCurrent())throw new Error("LEARNER_SESSION_CHANGED");
+  localStorage.setItem(learnerGenerationKey,generation);
+ };
+ let resetStartedErasing=false;
+ try{
+  try{publish();}
+  catch(error){
+   if(!reset||error.name!=="QuotaExceededError"||!learnerSessionCurrent())throw error;
+   // Only a confirmed reset may erase the old learner's keys to make room.
+   resetStartedErasing=true;
+   removeStoredLearnerProgress(previous);
+   try{publish();}
+   catch(retryError){
+    if(retryError.name!=="QuotaExceededError")throw retryError;
+    // An empty session still takes effect if only the marker fits.
+    discardStoredLearnerProgress(generation);
+    publishMarker();
+   }
+  }
+ }catch(error){
+  discardStoredLearnerProgress(generation);
+  storageFailures.add(learnerGenerationKey);updateStorageNotice();
+  if(resetStartedErasing&&learnerSessionCurrent()){
+   learnerGeneration=undefined;
+   learnerRevision++;
+   return true;
+  }
+  return false;
+ }
+ learnerGeneration=generation;
+ learnerRevision++;
+ discardStoredLearnerProgress(previous);
+ if(!learnerSessionCurrent())return false;
+ storageFailures.delete(learnerGenerationKey);updateStorageNotice();
+ return true;
+}
+
+function withLearnerReplacement(replace){
+ if(learnerGeneration===undefined||!navigator.locks)return replace(false);
+ let started=false;
+ return navigator.locks.request(learnerGenerationKey,()=>{
+  started=true;
+  return replace(true);
+ }).catch(error=>{
+  if(started)throw error;
+  // Stored generations still isolate writes when Web Locks is unavailable.
+  return replace(false);
+ });
+}
+
 async function importProgressFile(file){
  const status=byId("teacherImportStatus");
- if(!file)return;
+ if(!file||!learnerSessionCurrent())return;
  if(file.size>5000000){status.textContent="The file is larger than the 5 MB limit.";return;}
+ const revision=learnerRevision;
  try{
   const payload=JSON.parse(await file.text());
+  if(revision!==learnerRevision||!learnerSessionCurrent())return;
   validateImportedProgress(payload);
   const importedWorkshop=await normalizeImportedDrawings(sanitizeImportedWorkshop(payload.workshop));
   const importedProgress={
@@ -1321,27 +1502,40 @@ async function importProgressFile(file){
    learnerName:(payload.learnerName||"").replace(/\s+/g," ").trim().slice(0,80),
    final:{passed:payload.final?.passed===true},itineraries:sanitizeItineraries(payload.itineraries),activities:prepareImportedActivityState(payload)
   };
+  if(revision!==learnerRevision||!learnerSessionCurrent())return;
   if(!confirm("Replace the progress in this browser with the progress in the selected file?")){status.textContent="Restore cancelled.";return;}
-  // El estado anterior solo se sustituye después de preparar todo el archivo.
-  clearLearnerResponses();
-  sourcePassed=importedProgress.sourcePassed;truthPassed=importedProgress.truthPassed;earned=importedProgress.earned;
-  learningLevel=importedProgress.learningLevel;learnerName=importedProgress.learnerName;
-  workshopState=importedWorkshop;
-  finalState=importedProgress.final;
-  itineraries=importedProgress.itineraries;saveItineraries();
-  window.MitoMapaJourney?.importState(importedProgress.activities.journey);
-  window.MitoMapaStories?.importState(importedProgress.activities.stories);
-  window.MitoMapaCompare?.importState(importedProgress.activities.comparison);
-  window.MitoMapaExplorer?.reset();
-  window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
-  save();savePreferences();saveWorkshopState();saveFinalState();
-  renderRoutes();setLearningLevel(learningLevel,false);updateTeacherDialog();updateFinalExperience();
-  window.MitoMapaNavigation?.refresh();
-  status.textContent="Progress restored.";
- }catch(error){status.textContent=error.message==="DRAWING_INVALID"?"The file contains a drawing that is damaged, animated or too large. Your previous progress is still available.":"Choose a valid MitoMapa progress file.";}
+  await withLearnerReplacement(locked=>{
+   if(revision!==learnerRevision||!learnerSessionCurrent())return;
+   const storedProgress={sourcePassed:[...importedProgress.sourcePassed],truthPassed:[...importedProgress.truthPassed],earned:[...importedProgress.earned]};
+   const preferences={readerMode,learningLevel:importedProgress.learningLevel,learnerName:importedProgress.learnerName,lastRouteId:null,selectedVoiceURI,narrationAmbient};
+   if(!replaceLearnerProgress([
+    [storageKey,storedProgress],[preferencesKey,preferences],[workshopStorageKey,importedWorkshop],[finalStorageKey,importedProgress.final],
+    [itineraryKey,importedProgress.itineraries],[journeyProgressKey,importedProgress.activities.journey],
+    [sequenceProgressKey,importedProgress.activities.stories],[comparisonProgressKey,importedProgress.activities.comparison]
+   ],{locked})){
+    status.textContent="Your progress could not be saved in this browser. Your previous progress is still available.";
+    return;
+   }
+   clearLearnerResponses();
+   sourcePassed=importedProgress.sourcePassed;truthPassed=importedProgress.truthPassed;earned=importedProgress.earned;
+   learningLevel=importedProgress.learningLevel;learnerName=importedProgress.learnerName;lastRouteId=null;
+   workshopState=importedWorkshop;
+   finalState=importedProgress.final;
+   itineraries=importedProgress.itineraries;
+   window.MitoMapaJourney?.importState(importedProgress.activities.journey);
+   window.MitoMapaStories?.importState(importedProgress.activities.stories);
+   window.MitoMapaCompare?.importState(importedProgress.activities.comparison);
+   window.MitoMapaExplorer?.reset();
+   window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
+   renderRoutes();setLearningLevel(learningLevel,false);updateTeacherDialog();updateFinalExperience();
+   window.MitoMapaNavigation?.refresh({remember:false});
+   status.textContent=learnerGeneration===undefined?"Progress restored in this tab. This browser cannot save it.":"Progress restored.";
+  });
+ }catch(error){if(revision===learnerRevision&&learnerSessionCurrent())status.textContent=error.message==="DRAWING_INVALID"?"The file contains a drawing that is damaged, animated or too large. Your previous progress is still available.":"Choose a valid MitoMapa progress file.";}
 }
 
 function clearPrintMode(){
+ document.documentElement.classList.remove("print-session-unverified");
  document.body.classList.remove("print-diploma","print-passport");
 }
 
@@ -1351,7 +1545,7 @@ function prepareDiploma(){
 }
 
 function showDiplomaPreview(){
- if(currentBadgeCount()!==routes.length)return;
+ if(!learnerSessionCurrent()||currentBadgeCount()!==routes.length)return;
  prepareDiploma();
  const sheet=byId("diplomaPrint").querySelector(".diploma-sheet").cloneNode(true);
  sheet.querySelectorAll("[id]").forEach(element=>element.removeAttribute("id"));
@@ -1361,23 +1555,24 @@ function showDiplomaPreview(){
 }
 
 function printDiploma(){
- if(currentBadgeCount()!==routes.length)return;
+ if(!learnerSessionCurrent()||currentBadgeCount()!==routes.length)return;
  ["passportDialog","diplomaDialog"].forEach(id=>{const dialog=byId(id);if(dialog?.open)closeDialog(dialog);});
  prepareDiploma();
  document.body.classList.add("print-diploma");
- requestAnimationFrame(()=>window.print());
+ requestAnimationFrame(()=>{if(learnerSessionCurrent())window.print();else clearPrintMode();});
 }
 
 function printPassport(){
+ if(!learnerSessionCurrent())return;
  const grid=byId("passportPrintGrid");
  grid.innerHTML=routes.map(route=>`<article class="passport-print-slot ${badgeCountsForLevel(route.id)?"earned":""}"><img src="${ASSETS[route.badge]}" alt=""><h3>${activityEscape(route.island)}</h3><p>${badgeCountsForLevel(route.id)?activityEscape(route.badgeName):"Piece still to earn"}</p></article>`).join("");
  byId("passportPrintName").textContent=(learnerName?`of ${learnerName}`:"from MitoMapa")+` · ${learningLevelLabel()} · requirements for the selected learning stage`;
  document.body.classList.add("print-passport");
- requestAnimationFrame(()=>window.print());
+ requestAnimationFrame(()=>{if(learnerSessionCurrent())window.print();else clearPrintMode();});
 }
 
 function resetV34State(){
- finalState={passed:false};learnerName="";
+ finalState={passed:false};learnerName="";lastRouteId=null;
  itineraries=sanitizeItineraries({});saveItineraries();
  saveFinalState();
  byId("finalMatchGrid")?.querySelectorAll("select").forEach(select=>{select.value="";select.closest(".final-match-item")?.removeAttribute("data-result");});
@@ -1391,6 +1586,8 @@ function resetV34State(){
 // la persona anterior, ni siquiera en actividades que no se exportan.
 function clearLearnerResponses(){
  stopNarration();
+ clearPrintMode();
+ byId("passportPrintName").textContent="";
  window.MitoMapaLearning?.reset?.();
  window.MitoMapaNavigation?.resetResume?.();
  document.querySelectorAll(".route .quiz").forEach(quiz=>{
@@ -1412,14 +1609,27 @@ function clearLearnerResponses(){
 }
 
 function resetProgress(){
+ if(!learnerSessionCurrent())return;
+ const revision=learnerRevision;
  if(!confirm("Clear the challenges, pieces, final challenge, workbook and additional activities saved in this browser?"))return;
- sourcePassed.clear();truthPassed.clear();earned.clear();
- try{localStorage.removeItem(legacyKey);}catch(error){}
- clearLearnerResponses();resetV34State();window.MitoMapaJourney?.reset();resetAllWorkshops();
- document.querySelectorAll(".route").forEach(applyLearningLevelToRoute);
- window.MitoMapaStories?.reset();window.MitoMapaCompare?.reset();window.MitoMapaExplorer?.reset();window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
- shuffle();save();updateProgress();updateTeacherDialog();syncTeacherScroll();
- if(byId("teacherImportStatus"))byId("teacherImportStatus").textContent="Progress reset. The previous session’s answers have been cleared.";
+ return withLearnerReplacement(locked=>{
+  if(revision!==learnerRevision||!learnerSessionCurrent())return;
+  const status=byId("teacherImportStatus");
+  const wasUsingStorage=learnerGeneration!==undefined;
+  const preferences={readerMode,learningLevel,learnerName:"",lastRouteId:null,selectedVoiceURI,narrationAmbient};
+  if(!replaceLearnerProgress([[preferencesKey,preferences]],{locked,reset:true})){
+   status.textContent="The saved progress could not be reset in this browser.";
+   return;
+  }
+  sourcePassed.clear();truthPassed.clear();earned.clear();
+  clearLearnerResponses();resetV34State();window.MitoMapaJourney?.reset();resetAllWorkshops();
+  document.querySelectorAll(".route").forEach(applyLearningLevelToRoute);
+  window.MitoMapaStories?.reset();window.MitoMapaCompare?.reset();window.MitoMapaExplorer?.reset();window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
+  shuffle();save();updateProgress();updateTeacherDialog();syncTeacherScroll();
+  if(learnerGeneration!==undefined)status.textContent="Progress reset. The previous session’s answers have been cleared.";
+  else if(wasUsingStorage)status.textContent="Progress cleared in this tab. This browser could not finish the reset. Close the other MitoMapa tabs.";
+  else status.textContent="Progress reset in this tab. This browser cannot save it.";
+ });
 }
 
 function setupV34Features(){
@@ -1474,6 +1684,7 @@ function setupV34Features(){
  byId("importProgressFile")?.addEventListener("change",event=>{importProgressFile(event.target.files?.[0]);event.target.value="";});
  byId("printPassport")?.addEventListener("click",printPassport);
  window.addEventListener("afterprint",clearPrintMode);
+ window.addEventListener("beforeprint",()=>{if(!learnerSessionCurrent()){clearPrintMode();document.documentElement.classList.add("print-session-unverified");}});
  setLearningLevel(learningLevel,false);updateFinalExperience();
 }
 function enhanceRoute(section,route){
@@ -1623,7 +1834,13 @@ byId("dismissBadge").addEventListener("click",()=>closeDialog(byId("badgeDialog"
 byId("resetProgress").addEventListener("click",resetProgress);
 if(speechSupported){window.speechSynthesis.addEventListener?.("voiceschanged",refreshVoices);refreshVoices();}
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&narrationState.routeId&&!narrationState.paused)toggleNarrationPause(narrationState.routeId);});
-window.addEventListener("pagehide",()=>stopNarration());
+window.addEventListener("pagehide",event=>{
+ stopNarration();
+ if(event.persisted){
+  awaitingLearnerResume=true;
+  document.documentElement.style.visibility="hidden";
+ }
+});
 window.MitoMapaReading?.init({readJSON,writeJSON});
 window.MitoMapaLearning?.init({openStory:(id,options={})=>{
  if(!validIds.has(id))return;
@@ -1677,7 +1894,6 @@ window.addEventListener("resize",syncTeacherScroll);
 if(typeof ResizeObserver!=="undefined"&&byId("teacherTableViewport"))new ResizeObserver(syncTeacherScroll).observe(byId("teacherTableViewport"));
 
 /* Opinión voluntaria: no recoge nombres ni envía respuestas automáticamente. */
-const feedbackConfigKey="mitomapa-canario-formulario-web-v1";
 const feedbackLabels=["I found the resource easy to use.","The instructions and explanations helped me.","The images and text were clear.","The activity helped me understand the stories and heritage.","I enjoyed the activity and was satisfied with the experience."];
 function validFeedbackURL(value){try{const u=new URL(String(value).trim());return u.protocol==="https:"&&(u.hostname==="forms.gle"||u.hostname==="docs.google.com"&&/^\/forms\/(?:d\/e\/[^/]+\/viewform|d\/[^/]+\/viewform)/.test(u.pathname))?u.href:"";}catch(error){return "";}}
 function applyFeedbackURL(value){const url=validFeedbackURL(value),link=byId("openWebFeedback");if(link){link.hidden=!url;if(url)link.href=url;else link.removeAttribute("href");}const input=byId("webFeedbackURL");if(input)input.value=url;}
@@ -1690,6 +1906,17 @@ byId("downloadFeedback").addEventListener("click",()=>{
  const liked=document.querySelector('[data-feedback-open="liked"]').value.trim(),improve=document.querySelector('[data-feedback-open="improve"]').value.trim();
  if(ratings.every(r=>r.response===null)&&!liked&&!improve){byId("feedbackStatus").textContent="Answer at least one question or leave a comment before downloading your feedback.";return;}
  const response={resource:"MitoMapa web",version:RESOURCE_VERSION,schemaVersion:EXPORT_SCHEMA_VERSION,stage:learningLevelLabel(),ratings,liked,improve};
- downloadLocalText(JSON.stringify(response,null,2),"mitomapa-feedback.json","application/json");
+ if(!downloadLocalText(JSON.stringify(response,null,2),"mitomapa-feedback.json","application/json"))return;
  byId("feedbackStatus").textContent="Your feedback is ready to download. To share it with MitoMapa, choose “Send feedback by email” and attach the file.";
 });
+
+window.addEventListener("storage",event=>{
+ if(event.key!==learnerGenerationKey&&event.key!==null)return;
+ if(event.key===learnerGenerationKey&&event.oldValue!==learnerGeneration)discardStoredLearnerProgress(event.oldValue);
+ learnerSessionCurrent();
+});
+window.addEventListener("focus",reconcileLearnerView);
+window.addEventListener("pageshow",reconcileLearnerView);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)reconcileLearnerView();});
+learnerSessionCurrent();
+collectAbandonedLearnerProgress();

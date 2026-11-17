@@ -118,7 +118,9 @@ incrustada ni un requisito del recorrido. Comprueba la apertura, la navegación
 y la exportación antes de distribuir una adaptación.
 
 Para publicar cambios exclusivos de la web, prepara y comprueba sus paquetes
-sin regenerar el ELPX:
+sin regenerar el ELPX. Añade a Git los archivos nuevos revisados antes de
+empaquetar. Si se generan ZIP con nombres nuevos, añádelos a Git antes de
+ejecutar `--check` o preparar el despliegue.
 
 ```sh
 python3.12 -m venv .venv
@@ -129,6 +131,13 @@ python3 tools/update_release.py
 python3 tools/update_release.py --check
 python3 tools/prepare_deploy.py
 ```
+
+Para preparar o comprobar una exportación completa sin Git, pasa a cada
+herramienta `--inventory RUTA` con un fichero JSON revisado que enumere las
+rutas autorizadas relativas a la raíz de la exportación. Incluye
+`SHA256SUMS.txt`, las fuentes y los recursos que se vayan a publicar, con las
+rutas de los tres paquetes vigentes. La descarga pública de fuentes permite
+adaptar la web y se distribuye aparte de los paquetes del REA y otros recursos.
 
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
