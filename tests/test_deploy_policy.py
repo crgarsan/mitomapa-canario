@@ -129,9 +129,8 @@ class DeployPolicyTests(unittest.TestCase):
         self.assertNotRegex(deploy, r"wrangler\s+(?:deploy|triggers)\b|tools/(?:ensure_https_redirect|check_custom_domain)\.py")
         self.assertLess(self.steps.index(install), self.steps.index(deploy))
         self.assertIn("      WRANGLER_SEND_METRICS: 'false'\n", self.workflow)
-        embedded = re.search(r"(?ms)^          python3 - <<'PY'\n(.*?)^          PY\n", deploy)
-        self.assertIsNotNone(embedded, "Publication needs a validated version upload and activation")
-        script = textwrap.dedent(embedded.group(1))
+        self.assertIn("        run: python3 tools/deploy_cloudflare.py\n", deploy)
+        script = (ROOT / "tools/deploy_cloudflare.py").read_text()
         version_id = "147e050b-52e5-4abb-b0a4-8760c96d59f6"
         report = {"type": "version-upload", "version": 1,
                   "worker_name": "mitomapa-canario", "version_id": version_id}
@@ -169,7 +168,9 @@ class DeployPolicyTests(unittest.TestCase):
                 result = subprocess.run([sys.executable, "-c", script], cwd=root,
                                         env={"PATH": os.environ["PATH"], "RUNNER_TEMP": temporary,
                                              "GITHUB_SHA": "a" * 40, "GITHUB_RUN_ID": "123",
-                                             "GITHUB_RUN_ATTEMPT": "1", "UPLOAD_REPORT": payload},
+                                             "GITHUB_RUN_ATTEMPT": "1", "UPLOAD_REPORT": payload,
+                                             "CLOUDFLARE_API_TOKEN": "fictitious-token",
+                                             "CLOUDFLARE_ACCOUNT_ID": "fictitious-account"},
                                         capture_output=True, text=True)
                 calls = [json.loads(line) for line in (root / "calls.jsonl").read_text().splitlines()]
                 self.assertEqual([call["args"][:2] for call in calls],
@@ -216,7 +217,7 @@ class DeployPolicyTests(unittest.TestCase):
 
     def test_checks_run_before_credentials(self):
         deploy_index = next(i for i, step in enumerate(self.steps)
-                            if "secrets.CLOUDFLARE_API_TOKEN" in step)
+                            if "secrets.CLOUDFLARE_PRODUCTION_API_TOKEN" in step)
         prior_steps = "\n".join(self.steps[:deploy_index])
         self.assertNotIn("secrets.", prior_steps)
         self.assertIn("python3 -m unittest discover -s tests -p 'test_deploy_policy.py'", prior_steps)
@@ -229,8 +230,9 @@ class DeployPolicyTests(unittest.TestCase):
         self.assertIn("python3 tools/sync_current_elpx.py --check", prior_steps)
         self.assertIn("test_experience_browser.py", prior_steps)
         self.assertEqual(self.workflow.count("secrets."), 2)
-        self.assertIn("CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}", self.steps[deploy_index])
-        self.assertIn("CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}", self.steps[deploy_index])
+        self.assertIn("test_deploy_cloudflare.py", prior_steps)
+        self.assertIn("CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PRODUCTION_API_TOKEN }}", self.steps[deploy_index])
+        self.assertIn("CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_PRODUCTION_ACCOUNT_ID }}", self.steps[deploy_index])
 
     def test_deployment_contracts_remain_restricted(self):
         self.assertIn("  pull_request:\n", self.workflow)
