@@ -1,0 +1,1506 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+  "migrationStatus": "planned",
+  "provenance": "Historical bytes verified against the source commit; dates and versions are not inferred from paths.",
+  "consumerDiscovery": "Exact path references in VERSION.json; external and unlisted consumers require review before removal.",
+  "assetNamePolicy": "Unique safe basenames; collisions use path- plus the full UTF-8 path encoded as lowercase hex plus its original extension.",
+  "currentArchivePaths": [
+    "downloads/MitoMapa_REA_v4_10_0.zip",
+    "downloads/MitoMapa_canario_GobCan.elpx",
+    "downloads/MitoMapa_fuentes_web_v4_10_0.zip",
+    "downloads/pintaderas-3d/recreaciones.zip",
+    "downloads/pintaderas-3d/sellos.zip",
+    "downloads/vasijas/coleccion.zip",
+    "en/downloads/MitoMapa_Canary_Islands_EN.elpx",
+    "en/downloads/MitoMapa_Canary_Islands_EN.zip"
+  ],
+  "archives": [
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_0_2_Esencial.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_0_2_Esencial.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 4011403,
+      "sha256": "8e12758d0940b539c3d6f5aa5f06a0506168149a2b1ed08fb56b3c261c6b96f8",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_0_2_Esencial.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_0_2_Esencial.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_0_2_Intermedio.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_0_2_Intermedio.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 4011521,
+      "sha256": "570cb0f44cded8a726a7325eb3f6a8e09927783ee878f7aa7dd25b0a2ab53521",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_0_2_Intermedio.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_0_2_Intermedio.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_4_0_Esencial.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_4_0_Esencial.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 16853362,
+      "sha256": "b8d397bd341e74a41148b82f255987a585d975d1fd10d513a4034c247d352e38",
+      "crcValid": true,
+      "knownConsumers": [
+        "VERSION.json:presets[0].path"
+      ],
+      "requiresConsumerAdaptation": true,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_4_0_Esencial.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_4_0_Esencial.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 16853580,
+      "sha256": "523b4d724da71683e387c797c10f09b6f90ac58058438106490a404b75c2b907",
+      "crcValid": true,
+      "knownConsumers": [
+        "VERSION.json:presets[1].path"
+      ],
+      "requiresConsumerAdaptation": true,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_4_0_Intermedio.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_4_0_Intermedio.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_5_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_5_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25553710,
+      "sha256": "cfd20686a38c492344fde3cb05765e0dd32bd2056ff5cb9385105d2a7e639156",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_5_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_5_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_5_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_5_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25546652,
+      "sha256": "8003e1b0d916a8594126ef90a1b74771ed022ef8a2189b250aed34288cdb69d2",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_5_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_5_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_6_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_6_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25617015,
+      "sha256": "ae9101e5477da9f9eeea31ea435fcc017b13d46a2e7907138707dc41cd8e0372",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_6_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_6_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_7_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_7_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25636503,
+      "sha256": "0982950bc3d3409e1321197f04dc1f90d7917e6347c5a2d15151f0ab119b59ef",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_7_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_7_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_7_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_7_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25635794,
+      "sha256": "207b697cadec6b035a6b29715781eaae74d91874636f5442c682dc2a64484cc5",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_7_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_7_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25191963,
+      "sha256": "5cd1fc4ee3a3e07bee81c4b116398d1a4f1f39808c08ee4b2fb4dd5a99a0881a",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25192084,
+      "sha256": "5f26d57a4fb31309623d2c0b3555d5a122c2b9008b5d6749eae2db9a2d182e96",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_10.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_10.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25657940,
+      "sha256": "689cd436d7b67d8710e885abf4d47c69390629f7aa37f32fd34a40e232df9d80",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_10.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_10.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_11.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_11.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25661021,
+      "sha256": "d1c806d86d51cf78dd516a7cdbf58bcc11e488a33064381daccd0b0e6b24503a",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_11.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_11.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_12.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_12.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25666321,
+      "sha256": "3bc3f5da5d00c940545bad69538d7577bcc297caad2b7f228f8a515418c34e56",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_12.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_12.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_13.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_13.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25666717,
+      "sha256": "8edb547257780a3f5ea5c9871550995e7da8b763c9afb35cdc5b064e5f11c07d",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_13.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_13.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_2.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_2.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25599369,
+      "sha256": "2e148fffecb368495badb91eb76661bcd7e6ebd37ed11ed79d65cba9b704bed5",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_2.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_2.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_3.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_3.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25594072,
+      "sha256": "957d20a56812e6ba1c219ecb29bcf174b4c1721ca1ccd2441bd90589d66be775",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_3.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_3.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_4.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_4.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25595844,
+      "sha256": "e731789c1e76fa813b6d9926b00daf73706550179c45f6e892897d95410da4a2",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_4.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_4.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_5.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_5.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25596553,
+      "sha256": "a3228d18cf750f9ff46dccfe20414c1ff133686db220d33c632fcf5de9b93ec7",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_5.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_5.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_6.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_6.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25596274,
+      "sha256": "c6476843e6f03e7cff75bb9768770bada680f57a31cbe2d8eb9406e70c274d19",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_6.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_6.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_7.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_7.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25596886,
+      "sha256": "d4be20a70f42738cae9b2e533d9982815a0ed68242031710e962dd2442033f5b",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_7.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_7.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_8.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_8.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25597438,
+      "sha256": "40bb8fc5d021fa128b844472afeb2053a58bfc5f7ea4c4ba905f9ab67e60e68e",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_8.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_8.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_8_9.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_8_9.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25656999,
+      "sha256": "96a1e2f7062f9ef3aa171f198b4c790b5afc83b4e7137a3dc62c84e0437f0b74",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_8_9.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_8_9.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_9_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_9_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25673907,
+      "sha256": "e82707538565d4a3055cee9c2263dc93851720809fe5ce7b4b4f2db12c245f93",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_9_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_9_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_9_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_9_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25705072,
+      "sha256": "a9a46e32167ffe421233758db37fa75d031676d271300db38c455e0dc6642ff9",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_9_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_9_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_9_2.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_9_2.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25707358,
+      "sha256": "559645fbe58244bb0520b1d427f65003b9be3b5c8cc3f307713fa914be280990",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_9_2.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_9_2.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_9_3.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_9_3.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25707661,
+      "sha256": "06c449c1b4ff30b3148ccccab9f3239cb13e2767d451353a08b374d23a60ea74",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_9_3.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_9_3.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_REA_v4_9_4.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_REA_v4_9_4.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25707988,
+      "sha256": "40327f53824e967ed5d5c737965538060c252176e3b04374e63834671ed4f8e0",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_REA_v4_9_4.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_REA_v4_9_4.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_5_1.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_5_1.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25793687,
+      "sha256": "a806f618d0e3794a8d317e834b7f665a26ceb0bd095dfb0a1aa29923de5add60",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_5_1.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_5_1.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_6_0.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_6_0.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25822840,
+      "sha256": "f37a749192b65f68f6469fe54712a5bb575641e0ac39ae434a34293b9ab2601f",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_6_0.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_6_0.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_7_0.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_7_0.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25839571,
+      "sha256": "6896d1753e7b7928106a4e492fc97959033aca4cae366a17559a0457cd3e2c1e",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_7_0.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_7_0.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_7_1.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_7_1.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25839166,
+      "sha256": "10b3abb0575bb2526006508e8a69e541623dda2b6c242c4d2d94dd49dafe0a05",
+      "crcValid": true,
+      "knownConsumers": [
+        "VERSION.json:elpx_source.path"
+      ],
+      "requiresConsumerAdaptation": true,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_7_1.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_7_1.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_8_0.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_8_0.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25379944,
+      "sha256": "e73d7d42476d2bba7a5d1a6d6bf5ef55a963a8d37e31b202f1a54df99a4495f4",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_8_0.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_8_0.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_8_1.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_8_1.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25380136,
+      "sha256": "29cbb02435ab450d18bc23f2bf33497d3d405efe6c3475feaca91b2159b1872a",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_8_1.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_8_1.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_8_2.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_8_2.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25783573,
+      "sha256": "644202d05715fc584e5ec900413f9ca66ed4e9a8a4e49419611c6e4ae1bcf16c",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_8_2.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_8_2.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_8_3.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_8_3.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25778457,
+      "sha256": "d9c9c0f5bfe4855f371c188a0552fb684147d694cfdadc13d23c33d61036e2ae",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_8_3.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_8_3.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_8_4.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_8_4.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25779268,
+      "sha256": "d9969e284f1d473f1df8cf780f9551d539121e966b1ed75a5e2bd63fc3e4be49",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_8_4.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_8_4.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_8_5.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_8_5.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25841851,
+      "sha256": "02db5449d65e7bb2ea145692a17969efdce130fcc34f8d664521903ef0c602d9",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_8_5.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_8_5.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_GobCan_v4_8_6.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_GobCan_v4_8_6.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 25841563,
+      "sha256": "f9d564292ba7e493cf99560291b22c8139e11f78ff0aef0b8a2c17c00b7e4854",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_GobCan_v4_8_6.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_GobCan_v4_8_6.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 4010260,
+      "sha256": "550b389e801cab4d4f359bdab65011fb8b202bf10827407ccc6167f83e7b10b4",
+      "crcValid": true,
+      "knownConsumers": [
+        "VERSION.json:compatibility_aliases[0]"
+      ],
+      "requiresConsumerAdaptation": true,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 4010260,
+      "sha256": "550b389e801cab4d4f359bdab65011fb8b202bf10827407ccc6167f83e7b10b4",
+      "crcValid": true,
+      "knownConsumers": [
+        "VERSION.json:compatibility_aliases[1]"
+      ],
+      "requiresConsumerAdaptation": true,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_2.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_REA_eXeLearning_v4_0_2.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 4010260,
+      "sha256": "550b389e801cab4d4f359bdab65011fb8b202bf10827407ccc6167f83e7b10b4",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_REA_eXeLearning_v4_0_2.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_REA_eXeLearning_v4_0_2.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 16851941,
+      "sha256": "d37eeaa1f4570e3c48ef201913ed1aedbc70e41d71addbe12f887d5c5d51afed",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_canario_REA_eXeLearning_v4_4_0.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_eXeLearning_v3_8.elpx",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_eXeLearning_v3_8.elpx",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 4617052,
+      "sha256": "90e2fe005c53bc685b3fd90d9bca6e5d51fcff78663a0c4e6b50231d7d77b8ec",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_eXeLearning_v3_8.elpx",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_eXeLearning_v3_8.elpx",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v3_9.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v3_9.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 1534686,
+      "sha256": "c636255aca5cda6135d1dc8d817ef3ec29c5dbd19e85d88caedb9865f6200515",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v3_9.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v3_9.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v3_9_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v3_9_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 5502567,
+      "sha256": "519a5626a1c3b5cde1f548cc0e71a0ec279112917b283c188557aaea03dcecaf",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v3_9_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v3_9_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 5511072,
+      "sha256": "208effc2c2aa1622bce9b65474e8ecbbe6a7d6a9cf496a4141cb30330ccc064a",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_0_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_0_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 5515496,
+      "sha256": "b37de16fe28b9f3551bb9b939ecaa14ccfdb8de8fd3700f29e57212a82d4fc75",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_0_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_0_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_0_2.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_0_2.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 13480509,
+      "sha256": "5bd4ea4f11502d42d441b9858546b030508649d0d9630f1c377b565cfdb4e656",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_0_2.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_0_2.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_1_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_1_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 13502813,
+      "sha256": "b4bf107d15db19575a3fd0255b8c29de708424419bdde3ef89e45ab9f7166631",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_1_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_1_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_2_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_2_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 13515428,
+      "sha256": "8a41dfd3be9cb8d6fc10813919346fe7c40c19dd11bad1b1c7d21c446eacac25",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_2_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_2_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_3_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_3_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 13526747,
+      "sha256": "ab8c87b197ef87442c70bcd6ada8cdbcb10e23f86bc369591ec2fc257aac8dcb",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_3_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_3_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_3_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_3_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 13528401,
+      "sha256": "02efbc4a124e3ea36ccbce4a29295c944a5b1a7ae832e8a98896aa420c32f2ab",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_3_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_3_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_4_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_4_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 24945063,
+      "sha256": "c448a364221ef0bbded89e1e7a8a5ce8409f8d8f9b93f2df5d6f71c9b7e4cfe2",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_4_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_4_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_4_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_4_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 13045059,
+      "sha256": "99a882e6cbe3d5dc6409c66fc0c63407f9714ef595259dcc2220890a8e4c2388",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_4_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_4_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_4_2.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_4_2.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 13048522,
+      "sha256": "fb854ed1d96ac8fe87f9ff14bdd31fcd606ecccdc5a0d80d4a8bcff3c24272df",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_4_2.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_4_2.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_4_3.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_4_3.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 13138950,
+      "sha256": "c5babaf1ebee155f5bc063ed9e38069c08a6fcd52078b52f9cb298b3756c171e",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_4_3.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_4_3.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_4_4.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_4_4.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17192430,
+      "sha256": "4792bf6e4cb06e8efdcb3b80399e9ec40623a93c633b0156dd7f2b1b7d821a58",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_4_4.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_4_4.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_5_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_5_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17362761,
+      "sha256": "958ac064006f773853208f43d90b2b8992808e3344e4b49052690a46eba84e4c",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_5_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_5_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_5_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_5_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17381234,
+      "sha256": "0350de1abcb2d4834262c661f6d1075ecb03011549b08052eb599576b46b68de",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_5_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_5_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_6_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_6_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17444264,
+      "sha256": "13ffcd351c460c36df7a1f7e2bfd94ad5c97a6e9785f52c5d1095b459d8c1676",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_6_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_6_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_7_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_7_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17466059,
+      "sha256": "1233a0c75033e97cb22031c8ad68b14e074504f22f541544ed97fad643c5b373",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_7_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_7_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_7_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_7_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17468186,
+      "sha256": "b7ddde729cca42e70cda9136ddef8e396870c71e4b039d53d8dbfac1f60ea0f2",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_7_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_7_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17495589,
+      "sha256": "c854ee9561df271189957c6f4b4359dd63c2957c4eb88e594bd60b24949c8c96",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17500167,
+      "sha256": "2f4795b12c9a555fb26a25f613d1d66769ba7ca6d6dc002a1c45a0be103a7190",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_10.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_10.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 18612957,
+      "sha256": "19e916e679a8041642deb924aeec36d637af8e4d06deb0d2878fa3118eb23ebe",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_10.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_10.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_11.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_11.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 18631755,
+      "sha256": "572951870f302f1bdfaf5a66c23f7657eff8f2971a2fec5c1926de2286b8c259",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_11.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_11.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_12.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_12.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 18657103,
+      "sha256": "aae5efd0b9ef0e9049ec46edff370eb08350bfe6b141b782af50ee4d128f9419",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_12.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_12.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_13.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_13.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 18682351,
+      "sha256": "6b8dec7c48cb3ff236bb01e35d237aaa60c57f89f37f367888801769be2ff144",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_13.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_13.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_2.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_2.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17914367,
+      "sha256": "821a23aa362abc7a73f6504909ee65d49bf0de6834dc6702d89d774ad632bdb9",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_2.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_2.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_3.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_3.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17910381,
+      "sha256": "1c6c598504721083f38d2c1c08c6cc109211b8adf7f6c5183858fb15efeeffaf",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_3.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_3.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_4.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_4.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17918643,
+      "sha256": "ade0132726d5ccc7a7d5865b71805da97368192207de99828ee58e2d8d3c0148",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_4.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_4.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_5.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_5.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17939455,
+      "sha256": "ee29ec6fc6246a49d603a3fa6b7af4b1b8f0c4d552d7d99a0e1a5b089207b9a6",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_5.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_5.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_6.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_6.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 17940353,
+      "sha256": "30d49f91808b91bfb9a925441e8ef741e8e2c6fe18edb0581016ba6722f4df32",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_6.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_6.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_7.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_7.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 18122411,
+      "sha256": "e55840e471a62c19016d9fcb3351121140938e4547b47957e56cdbaa271aeae9",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_7.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_7.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_8.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_8.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 18457069,
+      "sha256": "4197ef8827f5d74698c7e4a580a38eb69b78a2100456d377988234987f6cbaad",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_8.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_8.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_8_9.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_8_9.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 18596352,
+      "sha256": "16fb0567b377c8abf292b5da9224668e2f2a23e4347ca3c1f0a817d8aaba0486",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_8_9.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_8_9.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_9_0.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_9_0.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 18731313,
+      "sha256": "b1d24acacd94fbd57862da031bf62e512a275e407af9ad50d7fb58059c1b3315",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_9_0.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_9_0.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_9_1.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_9_1.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 18743856,
+      "sha256": "644d19b89614059df27b863177fee5566f75da7bb1cfc160f4b0773242a3d4d4",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_9_1.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_9_1.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_9_2.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_9_2.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 21467234,
+      "sha256": "bc8a6b0eb21ab1fac0a132512dc681f590d4d800e632e16a02eaca3c2288be80",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_9_2.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_9_2.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_9_3.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_9_3.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 21517710,
+      "sha256": "5fdd77823fd561c0c85f1de84ae6d8f055c0474359077eca626c1c585e35d7e1",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_9_3.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_9_3.zip",
+        "status": "planned",
+        "active": false
+      }
+    },
+    {
+      "originalPath": "downloads/MitoMapa_fuentes_web_v4_9_4.zip",
+      "originalURL": "https://mitomapacanario.org/downloads/MitoMapa_fuentes_web_v4_9_4.zip",
+      "sourceCommit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "bytes": 24157127,
+      "sha256": "6586978ae73261361848fb87a6e90cb8effcebb87bc9c2cf07fc6b8d6e6f3a62",
+      "crcValid": true,
+      "knownConsumers": [],
+      "requiresConsumerAdaptation": false,
+      "destination": {
+        "provider": "GitHub Releases",
+        "tag": "archive-b4014344450e",
+        "assetName": "MitoMapa_fuentes_web_v4_9_4.zip",
+        "proposedURL": "https://github.com/crgarsan/mitomapa-canario/releases/download/archive-b4014344450e/MitoMapa_fuentes_web_v4_9_4.zip",
+        "status": "planned",
+        "active": false
+      }
+    }
+  ]
+}

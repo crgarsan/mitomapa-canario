@@ -18,6 +18,7 @@ import re
 import xml.etree.ElementTree as ET
 from urllib.parse import parse_qs, urljoin, urlsplit
 
+from release_metadata import DOCUMENT_PATHS, check_documents, document_outputs
 from release_support import (
     MAX_ASSET_BYTES, approved_release_paths, digest, json_bytes, metadata, parse_sums, public_entries,
     pinned_story_media, require_approved, story_media_inventory,
@@ -35,6 +36,8 @@ SOURCE_SUFFIXES = PUBLIC_SUFFIXES | {".json", ".svg", ".png"}
 SOURCE_EXPLICIT = {
     "LICENSE", "_headers", "wrangler.jsonc", "requirements-browser-tests.txt",
     ".github/dependabot.yml", "docs/RESPALDO.md",
+    "docs/PUBLICACIONES.md", "docs/ARCHIVO_HISTORICO.md", "docs/MEDIATECA_RECTIFICACION.md",
+    ".github/PULL_REQUEST_TEMPLATE.md",
 }
 DOCUMENTS = (
     "GUIA_DOCENTE.html", "GUIA_DOCENTE_GOBCAN.html", "GUIA_REUTILIZACION.html",
@@ -200,12 +203,17 @@ def source_inventory(approved):
                 or (path.parent == PurePosixPath("tools") and path.suffix in {".py", ".js", ".mjs"})
                 or path.parent == PurePosixPath("tools/vendor")
                 or (name.startswith("tests/") and path.suffix in {".py", ".js", ".json"})
-                or (path.parent == PurePosixPath(".github/workflows") and path.suffix in {".yml", ".yaml"})):
+                or (path.parent == PurePosixPath(".github/workflows") and path.suffix in {".yml", ".yaml"})
+                or (path.parent == PurePosixPath(".github/ISSUE_TEMPLATE") and path.suffix in {".yml", ".yaml"})):
             yield name
 
 
 def source_files(root, version, version_payload, approved):
-    files = {name: source_path(root, name).read_bytes() for name in source_inventory(approved)}
+    documents = document_outputs(root, version)
+    require_approved(documents, approved)
+    files = {name: documents[name] if name in documents else source_path(root, name).read_bytes()
+             for name in source_inventory(approved)}
+    files.update(documents)
     files["VERSION.json"] = version_payload
     media_note = (
         "\nLos nuevos medios de los cuentos se distribuyen por separado para mantener\n"
@@ -358,6 +366,8 @@ def check_release(root=ROOT, *, inventory=None):
     version_path = source_path(root, "VERSION.json")
     version = json.loads(version_path.read_text(encoding="utf-8"))
     paths = release_paths(version)
+    require_approved(DOCUMENT_PATHS, approved)
+    check_documents(root, version)
     public = public_entries(root, approved=approved)
     if not set(paths.values()) <= set(public):
         raise ValueError("Current downloads are missing from the public allowlist")
@@ -416,7 +426,7 @@ def check_release(root=ROOT, *, inventory=None):
 
 def update_release(root=ROOT, *, inventory=None):
     approved = approved_release_paths(root, inventory)
-    require_approved({"SHA256SUMS.txt", "VERSION.json", "index.html", "version.js"}, approved)
+    require_approved({"SHA256SUMS.txt", "VERSION.json", "index.html"} | DOCUMENT_PATHS, approved)
     version = json.loads(source_path(root, "VERSION.json").read_text(encoding="utf-8"))
     paths = release_paths(version)
     previous = parse_sums(source_path(root, "SHA256SUMS.txt").read_text(encoding="utf-8"))
@@ -446,7 +456,7 @@ def update_release(root=ROOT, *, inventory=None):
     version["sharing_archive"].update(metadata(sharing))
     version_payload = json_bytes(version)
     sources = zip_bytes(source_files(root, version, version_payload, approved))
-    overrides = {"VERSION.json": version_payload, paths["sharing_archive"]: sharing,
+    overrides = {**document_outputs(root, version), "VERSION.json": version_payload, paths["sharing_archive"]: sharing,
                  paths["source_archive"]: sources}
     files = {name: overrides[name] if name in overrides else source_path(root, name).read_bytes()
              for name in sorted(public_names(root, previous, paths, approved, pintaderas, models))}

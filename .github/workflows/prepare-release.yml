@@ -1,0 +1,79 @@
+name: Prepare a traceable MitoMapa release
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Exact full SHA of the reviewed current main commit
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mitomapa-release-preparation-${{ github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: github.ref == 'refs/heads/main' && github.repository == 'crgarsan/mitomapa-canario'
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_SOURCE_COMMIT: ${{ inputs.source_commit }}
+    steps:
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: '3.12'
+      - name: Validate the full source commit before checkout
+        run: |
+          python3 - <<'PY'
+          import os, re
+          if not re.fullmatch(r'[0-9a-f]{40}', os.environ['RELEASE_SOURCE_COMMIT']):
+              raise SystemExit('Use the exact lowercase 40-character commit SHA.')
+          PY
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_commit }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Require that exact commit to remain current main
+        run: |
+          git fetch --no-tags --depth=1 origin refs/heads/main:refs/remotes/release/main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse refs/remotes/release/main)" ]; then
+            echo 'The selected commit is not current main; review the new main before preparing a release.' >&2
+            exit 1
+          fi
+      - name: Fetch the reviewed historical provenance commit
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          from pathlib import Path
+          value = json.loads(Path('HISTORICAL_RELEASES.json').read_text())['sourceCommit']
+          if not isinstance(value, str) or not re.fullmatch(r'[0-9a-f]{40}', value):
+              raise SystemExit('The historical provenance must be a full commit SHA.')
+          with open(os.environ['GITHUB_ENV'], 'a') as stream:
+              stream.write('ARCHIVE_SOURCE_COMMIT=' + value + '\n')
+          PY
+          # Only a validated SHA is fetched from this same repository.
+      - name: Make historical provenance available to the checker
+        run: git fetch --no-tags --depth=1 origin "$ARCHIVE_SOURCE_COMMIT"
+      - name: Install locked validation dependencies
+        run: |
+          python3 -m venv "$RUNNER_TEMP/mitomapa-release-venv"
+          "$RUNNER_TEMP/mitomapa-release-venv/bin/python" -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r requirements-browser-tests.txt
+      - name: Validate and prepare the immutable candidate
+        run: |
+          "$RUNNER_TEMP/mitomapa-release-venv/bin/python" tools/historical_releases.py --check
+          "$RUNNER_TEMP/mitomapa-release-venv/bin/python" tools/prepare_release.py --source-commit "$RELEASE_SOURCE_COMMIT" --check
+          "$RUNNER_TEMP/mitomapa-release-venv/bin/python" tools/prepare_release.py --source-commit "$RELEASE_SOURCE_COMMIT" --output "$RUNNER_TEMP/mitomapa-release"
+          "$RUNNER_TEMP/mitomapa-release-venv/bin/python" tools/prepare_release.py --source-commit "$RELEASE_SOURCE_COMMIT" --verify-output "$RUNNER_TEMP/mitomapa-release"
+      - name: Upload the verified candidate for review
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: mitomapa-release-${{ github.run_id }}
+          path: ${{ runner.temp }}/mitomapa-release
+          if-no-files-found: error
+          include-hidden-files: false
+          compression-level: 0
+          retention-days: 7

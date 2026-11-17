@@ -21,6 +21,7 @@ from native_fflate import MEMBER as FFLATE_MEMBER, LICENSE_MEMBER as FFLATE_LICE
 from project_thumbnail import THUMBNAIL_MEMBERS, verify_project_thumbnail
 from harden_jspdf_exports import ZIP_INFO_FIELDS, read_archive, write_archive
 from release_support import MAX_ASSET_BYTES, digest, json_bytes, read_zip, source_path
+from release_metadata import version_module
 
 ROOT = Path(__file__).resolve().parent.parent
 NS = {"o": "http://www.intef.es/xsd/ode"}
@@ -40,11 +41,6 @@ def native_structure(files):
         "pages": [field(page, "odePageId") for page in tree.findall(".//o:odeNavStructure", NS)],
         "components": {field(node, "odeIdeviceId"): node for node in tree.findall(".//o:odeComponent", NS)},
     }
-
-
-def version_module(version):
-    values = {"version": version["web_version"], "reaVersion": version["rea_exelearning_version"], "schemaVersion": 1}
-    return ("/* Generado a partir de VERSION.json. */\nwindow.MitoMapaVersion = Object.freeze(" + json.dumps(values, ensure_ascii=False, separators=(",", ":")) + ");\n").encode()
 
 
 def verify_preservation(baseline, result, root=ROOT):

@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from prepare_deploy import stage_assets
+from release_metadata import document_outputs, version_module
 from release_support import (
     digest, json_bytes, metadata, parse_sums, read_zip, sums_bytes,
     verify_manifest, zip_bytes,
@@ -42,7 +43,11 @@ class ReleasePipelineTests(unittest.TestCase):
         self.approved = {self.version[key]["path"] for key in ("sharing_archive", "source_archive")}
         self.write("VERSION.json", json_bytes(self.version))
         self.write("index.html", b'<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>')
-        self.write("version.js", b'window.MitoMapaVersion={web:"4.6.0"};\n')
+        self.write("version.js", version_module(self.version))
+        self.write("VERSION.txt", b"Previous release\n")
+        self.write("README_ACTUALIZACION.txt", b"Previous update notice\n")
+        self.write("README.md", b"# MitoMapa canario\n\n## Edici\xc3\xb3n vigente\n\n- Previous download.\n\n## Classroom\n\nPreserved prose.\n")
+        self.write("EDICIONES.md", b"Previous edition matrix\n")
         self.write("itinerario.js", b"/* current route module */\n")
         self.write("tests/current_test.py", b"# current tests\n")
         self.write("tools/current_tool.py", b"# current tool\n")
@@ -98,6 +103,33 @@ class ReleasePipelineTests(unittest.TestCase):
         update_release(self.root, inventory=self.inventory)
         self.assertEqual({name: details[0] for name, details in self.snapshot().items()},
                          {name: details[0] for name, details in before.items()})
+
+    def test_packaging_derives_documents_and_check_detects_each_contradiction(self):
+        update_release(self.root, inventory=self.inventory)
+        version = json.loads((self.root / "VERSION.json").read_bytes())
+        outputs = document_outputs(self.root, version)
+        for name, expected in outputs.items():
+            self.assertEqual((self.root / name).read_bytes(), expected)
+        for name in ("README.md", "VERSION.txt", "version.js"):
+            with self.subTest(name=name):
+                original = (self.root / name).read_bytes()
+                self.write(name, original.replace(b"4.6.0", b"4.5.1", 1))
+                before = self.snapshot()
+                with self.assertRaisesRegex(ValueError, "Release documents differ.*" + name.replace(".", r"\.")):
+                    check_release(self.root, inventory=self.inventory)
+                self.assertEqual(self.snapshot(), before)
+                self.write(name, original)
+
+    def test_sources_include_reviewed_publication_guides_and_collaboration_templates(self):
+        documents = {"docs/PUBLICACIONES.md", "docs/ARCHIVO_HISTORICO.md", "docs/MEDIATECA_RECTIFICACION.md",
+                     ".github/PULL_REQUEST_TEMPLATE.md", ".github/ISSUE_TEMPLATE/error.yml"}
+        for name in documents:
+            self.write(name, b"Reviewed contribution and publication material\n")
+        self.write(".github/ISSUE_TEMPLATE/unreviewed.yml", b"Unreviewed local draft", approve=False)
+        update_release(self.root, inventory=self.inventory)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        self.assertTrue(documents <= sources.keys())
+        self.assertNotIn(".github/ISSUE_TEMPLATE/unreviewed.yml", sources)
 
     def test_reviewed_english_runtime_and_module_worker_ship_in_sources(self):
         self.write("scripts-en.js", b"/* English runtime */")
