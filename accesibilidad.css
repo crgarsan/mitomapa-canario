@@ -1,0 +1,26 @@
+/* Un anillo claro y otro oscuro mantienen visible el foco en la cabecera. */
+.topbar :is(.brand,.teacher-button,.passport-button):focus-visible{
+  outline:3px solid #fff;
+  outline-offset:3px;
+  box-shadow:0 0 0 7px #18242c;
+}
+
+@media(prefers-reduced-motion:reduce){
+  html,.topbar *,.names-map-game *,.pieces-map-game *,.names-drag-ghost,.pieces-drag-ghost{
+    scroll-behavior:auto!important;
+    transition:none!important;
+    animation:none!important;
+  }
+}
+
+@media(forced-colors:active){
+  .topbar :is(.brand,.teacher-button,.passport-button):focus-visible,
+  .names-map-game :is(button,input,select,summary):focus-visible,
+  .pieces-map-game :is(button,input,select,summary):focus-visible,
+  :is(.names-map-viewport,.pieces-map-viewport):focus-visible{
+    outline:3px solid Highlight;
+    outline-offset:4px;
+    box-shadow:none;
+    forced-color-adjust:auto;
+  }
+}

@@ -7,53 +7,55 @@ Worker de la cuenta configurada.
 
 Cada push a `main` inicia el flujo. El trabajo de despliegue usa el entorno
 `production` y solo se ejecuta para `refs/heads/main` de este repositorio.
-La condición del flujo evita ejecuciones accidentales, pero una rama puede
-modificar su propio YAML: la protección de los secretos debe aplicarla GitHub.
+La condición del flujo evita ejecuciones accidentales. GitHub debe proteger
+los secretos frente a ramas que modifiquen su propio archivo de flujo.
 
-Antes de habilitar las credenciales, configura **GitHub → Settings →
-Environments → production**:
+Antes de fusionar un cambio que utilice las credenciales de producción,
+configura **GitHub → Settings → Environments → production**:
 
 1. En **Deployment branches and tags**, selecciona **Selected branches and
    tags** y añade una regla de tipo **Branch** con el nombre exacto `main`.
-   No añadas reglas de etiquetas ni patrones como `*`. Seleccionar el modo sin
-   añadir la regla todavía permite todas las ramas y etiquetas.
-2. Si el plan de GitHub lo permite, configura **Required reviewers** con las
-   personas responsables de producción, **Prevent self-review** y sin bypass
-   de administradores. En repositorios privados, esta aprobación puede requerir
-   GitHub Enterprise; si no está disponible, usa una protección equivalente
-   para `main` con revisión obligatoria por las personas responsables de
-   producción antes de entregar el token al flujo.
-3. Una persona con acceso a Cloudflare debe comprobar que el Worker
+   La lista debe contener esa regla, sin etiquetas ni comodines.
+2. Una persona con acceso a Cloudflare debe comprobar que el Worker
    `mitomapa-canario` pertenece a la cuenta prevista y crear un token limitado
-   a esa cuenta y a la edición de Workers Scripts. Guarda únicamente como
+   a esa cuenta y a la edición de Workers Scripts. Guarda como
    **Environment secrets** de `production`:
    - `CLOUDFLARE_PRODUCTION_API_TOKEN`: token de esa cuenta.
    - `CLOUDFLARE_PRODUCTION_ACCOUNT_ID`: identificador de esa cuenta.
-   No guardes estos nombres como secretos de repositorio u organización.
-4. Si antes existían `CLOUDFLARE_API_TOKEN` o `CLOUDFLARE_ACCOUNT_ID` como
-   secretos de repositorio u organización, retira su acceso a este repositorio
-   y revoca el token antiguo en Cloudflare. GitHub no permite recuperar el
-   valor de un secreto guardado: vuelve a introducir las credenciales o crea
-   un token nuevo desde la cuenta de Cloudflare. Dejar el token antiguo
-   accesible permite que una rama con un flujo modificado eluda el entorno.
+3. Comprueba que esos dos nombres estén únicamente en los secretos del entorno.
+   Retira sus posibles copias de los secretos de repositorio u organización.
+   El nombre exclusivo por sí solo no demuestra el aislamiento del secreto.
+4. Si existían `CLOUDFLARE_API_TOKEN` o `CLOUDFLARE_ACCOUNT_ID` como secretos
+   generales, retira su acceso a este repositorio y revoca el token antiguo en
+   Cloudflare. GitHub no permite recuperar el valor de un secreto guardado.
+   Utiliza un token nuevo si no conservas el anterior. Una copia general activa
+   permitiría a otro flujo obtener el token sin pasar por `production`.
 
-Los nuevos nombres evitan que el flujo use por accidente los secretos globales
-anteriores. Si falta cualquiera de las credenciales, **Deploy existing Worker**
-falla antes de iniciar Wrangler. El flujo usa la instalación local de Wrangler
-fijada en el paso anterior y no inicia un login interactivo.
+El paso final convierte los nombres exclusivos en las variables
+`CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID` que necesita Wrangler.
+`tools/deploy_cloudflare.py` exige ambas antes de escribir la configuración
+temporal o iniciar la CLI. Si faltan, están vacías o solo contienen espacios,
+la publicación falla con un mensaje que no muestra sus valores. Las variables
+alternativas de Cloudflare no sustituyen las dos credenciales requeridas.
 
-Después de configurar el entorno, comprueba **Deploy MitoMapa to Cloudflare**
-en Actions. **Run workflow** solo debe usarse seleccionando `main`. Si hay
+No copies credenciales a incidencias, comentarios, capturas ni archivos del
+repositorio. Añade revisores de despliegue solo si se desea un paso manual.
+El flujo conserva el despliegue automático desde `main`. Si se configuran
 revisores del entorno, el trabajo espera su aprobación antes de iniciarse.
-Comprueba en la URL pública la autoría, las ocho rutas, el pasaporte, la guía y
-la descarga del REA.
 
-Para verificar la protección en GitHub, usa un flujo de prueba sin credenciales
-que solicite `environment: production` desde una rama distinta de `main` y desde
-una etiqueta: GitHub debe rechazar ambos trabajos por la política del entorno.
-Comprueba también que un trabajo en `main` espera a los revisores configurados.
-El flujo normal omite las ramas distintas de `main`; ese resultado, por sí solo,
-no demuestra que el entorno impida el acceso a un YAML modificado.
+Para comprobar la protección real, utiliza trabajos sin credenciales que
+soliciten el entorno `production` desde una rama distinta de `main` y desde una
+etiqueta. GitHub debe rechazarlos por la política del entorno. La omisión de un
+trabajo por la condición del flujo no comprueba por sí sola esa protección.
+El cierre administrativo incluye verificar ubicación de los secretos, reglas
+del entorno, permisos del nuevo token y revocación del anterior. Las pruebas
+locales con datos ficticios no comprueban esos ajustes privados.
+
+Después de configurar los secretos, comprueba la ejecución de **Deploy MitoMapa
+to Cloudflare** en Actions. También puedes iniciarla manualmente con **Run
+workflow**. Comprueba en la URL pública la autoría, las ocho rutas, el pasaporte,
+la guía y la descarga del REA. Un error de credenciales aparece como un fallo del
+despliegue en Actions y puede consultarse en el paso **Deploy existing Worker**.
 
 Los cambios hechos directamente en el panel de Cloudflare no vuelven a GitHub y
 el siguiente despliegue desde `main` puede reemplazarlos. Conserva en el
@@ -61,25 +63,144 @@ repositorio los cambios destinados a la web. El seguimiento del alumnado
 permanece en su navegador mientras se mantenga el mismo origen; antes de cambiar
 de dominio, exporta el seguimiento desde Docente.
 
-Para comprobar la preparación local sin credenciales:
+`wrangler.jsonc` conserva la referencia a los dominios personalizados y a
+`workers_dev`, pero la publicación automática utiliza una configuración temporal
+limitada al Worker, su fecha de compatibilidad y sus activos. Subir y activar una
+versión no modifica DNS, rutas, dominios ni `workers_dev`; sus vínculos deben
+estar configurados previamente. `tools/check_custom_domain.py` queda como
+consulta opcional de la propuesta de cambios, sin aplicarla, y no se invoca
+en la publicación automática. El progreso guardado permanece en su origen.
+
+## Mantenimiento de seguridad
+
+Las acciones oficiales se fijan por SHA y mantienen Node 22 para el proyecto,
+sin activar la caché automática de paquetes. La validación consulta los avisos
+de npm antes de acceder a las credenciales. Mientras el Wrangler fijado incluya
+Miniflare 5.20261019.2-beta, un override limitado a esa versión resuelve Undici
+7.30.1. Debe revisarse al actualizar Wrangler; no se aplica un retroceso de la
+CLI. Pillow 13.0.0 se utiliza únicamente en validación y preparación local.
+
+El encabezado HSTS se limita al host que responde, sin `includeSubDomains` ni
+`preload`. La publicación usa `wrangler versions upload` y activa únicamente
+la versión identificada por su salida estructurada con `wrangler versions deploy`.
+El wrapper conserva `--keep-vars`, la configuración reducida y la validación
+del UUID devuelto. Conserva las variables y los secretos existentes; no configura reglas HTTPS ni
+cambia DNS o rutas. `tools/check_public_transport.py` se ejecuta antes de publicar
+y después de terminar, sin credenciales ni redirecciones automáticas. Exige
+301/308 al host HTTPS exacto, conserva ruta y consulta, y comprueba respuestas
+HTTPS 200 con HSTS de al menos un año. Si la protección pública falla o no se
+puede verificar, el paso falla; el control previo impide iniciar la publicación.
+El control posterior detecta una regresión tras la publicación. No se amplían
+los permisos del token.
+
+Dependabot incluye npm, Actions y Python. Sus alertas se activan en los ajustes
+del repositorio. Antes de fusionar una actualización de infraestructura o
+dependencias, ejecutar `python3 tools/update_release.py` para sincronizar el
+paquete vigente de fuentes y sus huellas; las comprobaciones rechazan un paquete
+desactualizado. Estos cambios administrativos no requieren alterar el contenido
+educativo, los ELPX ni sus versiones.
+
+Para comprobar la preparación local sin credenciales, usa Python 3.11 o superior
+y Node.js 22 o superior. Conserva primero una copia de los archivos editables y
+sincroniza los paquetes vigentes; los verificadores globales son de solo lectura:
 
 ```sh
 python3 tools/update_release.py
+python3 tools/harden_jspdf_exports.py --check
+python3 tools/harden_drawing_archives.py --check
 python3 tools/prepare_deploy.py
-npx wrangler@4.147.0 deploy --config wrangler.jsonc --dry-run
+npm ci --ignore-scripts --no-audit --no-fund
+python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
+python3 -m unittest discover -s tests -p 'test_deploy_cloudflare.py'
+python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
+python3 -m unittest discover -s tests -p 'test_maintenance_tools.py'
+node --test tests/drawing-import.test.js
+WRANGLER_SEND_METRICS=false ./node_modules/.bin/wrangler deploy --config wrangler.jsonc --dry-run
 ```
 
-Para probar el rechazo de credenciales ausentes y la propagación de errores sin
-acceder a Cloudflare:
+Los dos comandos globales `--check` derivan los ZIP y ELPX del inventario
+`SHA256SUMS.txt`, comprueban sus huellas y revisan también los paquetes anidados.
+No dependen del número de archivos de una edición anterior ni modifican las
+descargas históricas. La comprobación de dibujos conserva las guardas de formato,
+tamaño y normalización previa a la importación, sin exigir que toda la interfaz
+coincida con una migración antigua o que se conserve el historial Git.
+
+Wrangler está fijado a una versión exacta en `package.json`. `package-lock.json`
+fija también sus dependencias y sus integridades; `npm ci` falla si ambos archivos
+no coinciden. La instalación no ejecuta scripts de los paquetes y el despliegue
+usa el ejecutable local. Las acciones de GitHub están fijadas a commits completos.
+
+Para actualizar Wrangler, cambia su versión exacta en `package.json` y ejecuta
+`npm install --package-lock-only --ignore-scripts --no-audit --no-fund`. Revisa en
+el diff las versiones, los orígenes del registro y las integridades del lockfile;
+después repite las comprobaciones anteriores y sube ambos archivos juntos. Para
+actualizar una acción, verifica el commit de su versión oficial y sustituye el
+SHA completo y el comentario de versión en el flujo.
+
+Los informes PDF nativos de los ELPX cargan jsPDF 4.2.1 con la integridad
+registrada en `JSPDF_DEPENDENCY.json` y CORS anónimo. Una respuesta con bytes
+distintos se rechaza y conserva la alternativa PNG del editor. La generación de
+PDF mantiene su requisito de conexión; el cambio no añade envío de respuestas.
+Las pruebas de archivos de Actions comprueban esta política antes de publicar.
+
+Al guardar o exportar de nuevo con eXeLearning, el editor puede sustituir los
+archivos de sus iDevices por los de su instalación. Vuelve a aplicar la
+corrección **a una copia nueva del archivo resultante** y compruébala antes de
+incorporarla al repositorio. El modo `--artifact` es la operación explícita de
+edición; no se debe utilizar para reescribir las ediciones históricas publicadas:
 
 ```sh
-python3 -m unittest discover -s tests -v
+python3 tools/harden_jspdf_exports.py --artifact /ruta/al/recurso.elpx
+python3 tools/harden_jspdf_exports.py --artifact /ruta/al/recurso.elpx --check
 ```
+
+`tools/build_elpx.py` y las funciones de migración conservadas en
+`tools/harden_drawing_archives.py` corresponden al mantenimiento histórico;
+no reconstruyen la distribución nativa actual. Para sincronizar la edición
+vigente, usa `tools/sync_current_elpx.py` y su opción `--check` según el README.
+Para cambiar la
+versión de jsPDF, verifica los bytes del paquete oficial y la URL exacta,
+actualiza la versión, las huellas y el material de prueba, y repite las pruebas.
+La biblioteca conserva su licencia MIT; las licencias de los iDevices no cambian.
 
 Ejecuta `tools/update_release.py` antes de subir cambios de los archivos
 públicos. Actualiza el ZIP editable y sus huellas. El flujo de GitHub comprueba
 esas huellas y se detiene si faltan archivos o no coinciden.
 
 `wrangler.jsonc` apunta a `.deploy/`, generado a partir de las huellas
-verificadas. `.deploy/`, `.git/`, la configuración de GitHub y este documento
-no se publican como recursos del sitio.
+verificadas. `.deploy/`, `.git/`, la configuración de GitHub y los manifiestos de npm no se
+sirven como archivos sueltos. El inventario puede incluir documentación de
+reutilización y código público: nunca deben contener credenciales.
+
+## Seguridad de la cuenta y mantenimiento
+
+Activa la autenticación en dos pasos de Cloudflare en **Perfil → Autenticación**.
+Necesita la intervención de la persona titular y su dispositivo. Guarda los
+códigos de recuperación en un lugar seguro. Esta protección del inicio de
+sesión no cambia la web ni sustituye el token limitado de GitHub Actions.
+
+El aviso «No Turnstile enabled» es una sugerencia de configuración de cuenta.
+La web actual es estática, no tiene una API propia de recepción de formularios
+y guarda las actividades localmente. Añadir solo el componente Turnstile, sin
+validación de su resultado en un servidor, no protegería esos datos. Si se
+incorpora una recepción de envíos en el futuro, habrá que revisar esa función
+y su protección en el servidor antes de decidir si corresponde usarlo.
+
+`.github/dependabot.yml` propone mensualmente actualizaciones de npm y de las
+acciones. Crea pull requests para revisión; no activa su fusión automática.
+Las alertas de Dependabot son un ajuste adicional de GitHub: en **Settings →
+Advanced Security** (o **Code security**, según la interfaz), comprueba que estén
+activadas. Añadir el archivo de configuración no demuestra que esas alertas se
+hayan habilitado. Las credenciales de la integración de edición pueden permitir
+cambiar código sin permitir administrar esas opciones o los secretos.
+
+Usa el `package-lock.json` de la edición vigente para preparar despliegues.
+Las fuentes históricas se mantienen para reproducibilidad y pueden contener
+versiones antiguas de herramientas; no son la configuración de mantenimiento
+recomendada. Las dependencias de Wrangler no se sirven al navegador del alumnado.
+
+La instalación de las pruebas utiliza Python 3.12, `pip --require-hashes
+--only-binary=:all:` y el cierre completo de dependencias de
+`requirements-browser-tests.txt`. `actions/setup-python` también está fijada
+por commit. Las nuevas pruebas de transporte, bloqueo, ZIP y WAV se ejecutan
+antes del acceso a los secretos de producción.

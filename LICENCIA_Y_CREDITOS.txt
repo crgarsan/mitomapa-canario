@@ -1,25 +1,50 @@
-MitoMapa canario: ocho islas, ocho pintaderas — distribución web 4.4.2 · REA editable 4.4.0, adaptación GobCan · aplicación interactiva 4.4.0
+MitoMapa canario: ocho islas, ocho piezas — distribución web 4.9.4 · REA editable 4.8.9, adaptación GobCan · aplicación interactiva 4.9.4
 Autoría declarada: Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana.
 
-Se conserva la licencia CC BY-NC-SA 4.0 declarada en el recurso original.
-https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
-Texto legal: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.es
+Los materiales propios de esta edición se publican bajo CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+Texto legal: https://creativecommons.org/licenses/by-sa/4.0/legalcode.es
+La licencia vigente no contiene la condición No Comercial. Las referencias
+históricas a otras licencias describen ediciones anteriores y no limitan los
+usos permitidos por CC BY-SA 4.0 en esta edición.
 
-Permite copiar, redistribuir y adaptar con atribución, enlace a la licencia,
-indicación de cambios, uso no comercial y distribución de adaptaciones con la
-misma licencia. No constituye una cesión de derechos sobre fuentes externas.
+Permite copiar, redistribuir y adaptar, también con fines comerciales, con
+atribución, enlace a la licencia, indicación de cambios y distribución de
+adaptaciones con la misma licencia. No constituye una cesión de derechos sobre
+fuentes externas.
 La licencia cubre los materiales propios en la medida en que la autoría dispone
 de derechos; no genera derechos exclusivos sobre materiales no protegidos.
 No se ha realizado una auditoría independiente de titularidad de cada imagen.
 
 Crédito sugerido:
 Fortes Regalado, J.; González Martín, G. E.; García Santana, C. (2026).
-MitoMapa canario: ocho islas, ocho pintaderas (web 4.4.2; REA 4.4.0, adaptación GobCan). CC BY-NC-SA 4.0.
-https://mitomapa-canario.cgarcias.workers.dev/
+MitoMapa canario: ocho islas, ocho piezas (web 4.9.4; REA 4.8.9, adaptación GobCan). CC BY-SA 4.0.
+https://mitomapacanario.org/
 Si adaptas: añade tu autoría, fecha y descripción de los cambios.
 
-Ilustraciones: según los créditos originales, facilitadas por la autoría y
-elaboradas con OpenAI ImageGen en agosto de 2026. Son recreaciones contemporáneas,
+Revisión 4.8.0 (20/10/2026): se atiende la revisión editorial GobCan del
+Objeto de Aprendizaje nativo: portada limpia, fuentes y autoría agrupadas,
+orientaciones docentes desplegables y web adicional mediante enlace al final.
+Se mantienen los cuentos, los juegos, las escenas, las grabaciones y sus
+condiciones de reutilización. Se revisa el tratamiento de ustedes y se añaden
+agradecimientos colectivos en ambos recursos.
+
+Revisión 4.7.1 (20/10/2026): ajuste visual del juego de nombres. Se retira
+la rosa de los vientos y se reducen el banco de fichas y las cartelas
+para acercar los nombres al mapa y facilitar el arrastre. No cambian
+las denominaciones, sus cautelas ni la propuesta didáctica.
+
+Revisión 4.7.0 (20/10/2026): juego opcional de asociación de nombres e islas,
+con alternativas al arrastre y cautelas sobre las denominaciones. La consulta
+a especialistas se recoge según la información facilitada por la autoría;
+no supone unanimidad ni un aval institucional. La carta del juego es una
+recreación contemporánea mediante presentación visual del mapa existente;
+no reproduce un documento histórico y conserva la geografía del mapa base.
+La estilización y el código propios se acogen a la licencia del proyecto;
+la imagen del mapa conserva las condiciones originales indicadas a continuación.
+
+Mapa: Mapa de relieve aportado por la autoría en el archivo imagen_20261009_200406.svg. Procedencia indicada por la autoría: TongApp del Gobierno de Canarias (https://www3.gobiernodecanarias.org/medusa/apps/tongapp/). Se conserva su imagen, con conversión WebP sin pérdida; el SVG contiene una imagen PNG incrustada. El aviso de TongApp facilitado por la autoría declara la titularidad del Gobierno de Canarias y el libre uso por la comunidad educativa. El mapa conserva esas condiciones originales; no se le atribuye la licencia de los materiales propios del proyecto. La licencia CC BY-SA 4.0 del proyecto corresponde a sus materiales propios.
+Ilustraciones: ocho escenas y diez pintaderas generadas para el recurso; los créditos originales consignan OpenAI ImageGen y agosto de 2026. El mapa no forma parte de estas dieciocho imágenes. Son recreaciones contemporáneas,
 no descripciones históricas. La narración de los ocho cuentos de la web,
 del REA y de su aplicación portable corresponde a Jesica Fortes Regalado,
 mediante grabaciones aportadas por la
@@ -28,10 +53,16 @@ percusión y naturaleza recreadas digitalmente. Estos efectos no son grabaciones
 documentales de instrumentos tradicionales ni de paisajes canarios.
 Consulta AUDIO_CREDITOS.html y AUDIO_ORIGENES.json para las tomas seleccionadas.
 
-La cláusula NoComercial limita la reutilización. No se presenta este paquete
-como software libre certificado ni como contenido libre para cualquier fin.
-Cambiar a CC BY o CC BY-SA requiere la decisión de quienes ostenten los derechos;
-esta revisión no cambia la licencia elegida por la autoría.
+Por decisión de la autoría, desde el 19/10/2026 los materiales propios se
+publican bajo CC BY-SA 4.0, que permite su reutilización comercial y no comercial
+con atribución, indicación de cambios y la misma licencia para las adaptaciones.
+Los materiales de terceros conservan sus condiciones originales. Las notas
+históricas siguientes corresponden a las licencias de sus respectivas ediciones.
+
+Distintivo CC BY-SA: imagen oficial de Creative Commons, procedente de
+https://raw.githubusercontent.com/creativecommons/cc-assets/main/license_badges/big/by_sa.svg
+Las marcas de Creative Commons conservan su política de uso y no se incluyen
+en la licencia de los materiales propios: https://creativecommons.org/policies#trademark
 
 Revisión histórica de septiembre de 2026 (web 3.9 / eXe 3.8): se editan con OpenAI ImageGen las escenas de Gran Canaria, Tenerife y Lanzarote. Se retira el quinqué y se alisan las prendas de aspecto lanoso. Todas las escenas se etiquetan como imágenes ilustrativas, no descripciones históricas. El audio aportado se usa como referencia de revisión; no se redistribuye ni se licencia dentro del REA.
 
@@ -39,7 +70,7 @@ Revisión 4.0.2 (30/09/2026): correcciones técnicas de rutas de imágenes y seg
 
 Revisión 4.0.2 (04/10/2026): guardado, tareas asignadas, evidencias y explicaciones de V/F; informes nativos por itinerario. Sin nuevas ilustraciones ni cambio de licencia.
 
-Revisión 4.4.1 (06/10/2026), distribución web y REA 4.4.0: se incluyen las ocho narraciones aportadas de Jesica Fortes Regalado, una versión de voz sola y otra con entrada sonora opcional recreada (16 MP3). Los ambientes de percusión y naturaleza no se presentan como grabaciones documentales. El proyecto reúne 15 páginas y 95 iDevices: 94 originales y un texto integrador de la aplicación portable 4.4.0. La guía práctica aparece primero y las islas se pueden explorar en cualquier orden. Se conservan la autoría y la licencia CC BY-NC-SA 4.0. Las anotaciones anteriores describen las condiciones de sus respectivas ediciones.
+Revisión 4.4.1 (06/10/2026), distribución web y REA 4.4.0: se incluyen las ocho narraciones aportadas de Jesica Fortes Regalado, una versión de voz sola y otra con entrada sonora opcional recreada (16 MP3). Los ambientes de percusión y naturaleza no se presentan como grabaciones documentales. El proyecto reúne 15 páginas y 95 iDevices: 94 originales y un texto integrador de la aplicación portable 4.4.0. La guía práctica aparece primero y las islas se pueden explorar en cualquier orden. En aquella edición se conservaron la autoría y la licencia CC BY-NC-SA 4.0. Esta referencia es histórica: la licencia vigente de los materiales propios es CC BY-SA 4.0, sin la condición No Comercial.
 
 Publicación 4.4.2 (07/10/2026): la descarga principal se sustituye por la copia
 adaptada a la plantilla Flux y las orientaciones de GobCan. El ELPX contiene
@@ -50,3 +81,90 @@ se revisan la guía didáctica, las fuentes y los créditos. La versión del mod
 ImageGen de las imágenes originales no quedó registrada y así se indica.
 No hay nuevas imágenes, cambio de licencia ni alteración de los juegos web.
 La tarjeta de adaptación web se sustituye por un enlace al repositorio GitHub.
+
+Revisión web 4.4.3 (09/10/2026): pintaderas y nombres seleccionables sobre las ocho islas también en móvil, con desplazamiento táctil y por teclado. Nuevo mapa esquemático propio y fuente SVG; se acredita la inspiración documental de las pintaderas en El Museo Canario. Se conserva la voz de Jesica, el progreso y los juegos. La descarga pública principal se sincroniza con el ELPX de la entrega GobCan revisada el 09/10/2026. Se publican su pauta cualitativa y su guía de aplicación.
+
+Revisión GobCan del 09/10/2026: mapa propio, crédito documental de El Museo Canario y pauta de revisión cualitativa sin puntuaciones ni pesos. Las dieciocho imágenes ilustrativas conservan sus archivos; Astra 6 identifica al asistente indicado por la autoría, no una versión técnica verificada del motor de imágenes. Las narraciones de Jesica, los 42 juegos, las 39 páginas y las 118 identidades de iDevices se conservan.
+
+Restauración web 4.4.4 y revisión GobCan del 09/10/2026: por petición de la autoría, se recupera el mapa de relieve del SVG aportado, conservando todos sus píxeles, formas y colores. Se ajustan únicamente el marco y los accesos interactivos sobre las islas. Los créditos y la documentación sustituyen la atribución actual a un mapa propio por la procedencia indicada de TongApp; las anotaciones anteriores describen sus respectivas ediciones.
+
+Aviso de TongApp facilitado por la autoría (09/10/2026): «Los contenidos y programas que constituyen esta obra son propiedad del Gobierno de Canarias que ha promovido su creación y desarrollo con el propósito de que la comunidad educativa haga libre uso de los mismos.»
+https://www3.gobiernodecanarias.org/medusa/apps/tongapp/
+
+EDICIÓN ANTERIOR 4.5.1 · 14/10/2026
+Las ocho escenas vigentes se recuperaron del chat «Set up mitomapa-canario» y fueron incorporadas el 12/10/2026. Se mantiene su condición de recreaciones realizadas con IA; la versión técnica del motor no quedó registrada. Conversión a WebP de calidad 96 sin redimensionar. Las pintaderas conservan sus créditos anteriores. El 14/10/2026 se revisan las descripciones alternativas, las listas cualitativas por etapa, la accesibilidad de las actividades y las fichas de fuentes. El historial anterior describe las ediciones respectivas.
+
+EDICIÓN ANTERIOR 4.6.0 · 19/10/2026
+Se revisan el reinicio, la valoración voluntaria y la identificación de la edición.
+La guía multinivel presenta tres duraciones y un ejemplo curricular GobCan.
+La ruta acordada y revisada se distingue de la colección de ocho pintaderas.
+Se prepara un protocolo de pilotaje pendiente y se actualizan las herramientas
+de sincronización y publicación. Se conservan las escenas, los audios, los juegos
+y las condiciones de los materiales propios y de terceros. Las descargas de
+las ediciones anteriores siguen disponibles públicamente.
+
+AGRADECIMIENTOS
+Se agradece la colaboración de las personas consultadas sobre aspectos
+históricos, técnicos y didácticos durante la elaboración y revisión de
+MitoMapa canario. Sus observaciones y sugerencias han contribuido a revisar
+y mejorar los contenidos, el funcionamiento y las propuestas de aprendizaje
+del recurso.
+
+Sugerencias y propuestas de mejora: sugerencias.mitomapacanario@gmail.com
+
+PIEZAS DEL PASAPORTE · 22/10/2026
+Siete vasijas y una caracola marina de La Graciosa como recreaciones
+contemporáneas generadas con la herramienta de imágenes de OpenAI. La versión
+técnica exacta del modelo no se expone. Procedencia, PNG originales y huellas:
+assets/images/insignias_pasaporte.json. Fuentes y alcance:
+assets/passport_icon_credits.html. Se aplica CC BY-SA 4.0 sobre los derechos
+propios que correspondan; las fuentes documentales conservan sus condiciones.
+Las pintaderas originales se conservan como decoración.
+
+Vista previa web 4.8.7 · 23/10/2026: se corrige el PNG del cartel para compartir
+para que indique «Ocho piezas». Edición mediante OpenAI image_gen.imagegen,
+sin versión técnica expuesta. Los archivos og-image.png y og-image-v4-8-7.png
+comparten la misma imagen optimizada; se conserva el SVG editable. Materiales
+propios bajo CC BY-SA 4.0 sobre los derechos que correspondan. Esta revisión no
+modifica la entrega ELPX 4.8.4.
+
+Vista previa web 4.8.8 · 23/10/2026: fondo azul degradado y una vasija
+decorativa, conservando el texto del cartel. Referencia: la recreación propia
+assets/images/insignia_gran_canaria.webp. Edición mediante OpenAI
+image_gen.imagegen, sin versión técnica expuesta. PNG actual: og-image.png
+y og-image-v4-8-8.png; composición editable: og-image.svg. Materiales propios
+bajo CC BY-SA 4.0 sobre los derechos que correspondan; las fuentes documentales
+conservan sus condiciones. El ELPX 4.8.4 y los paquetes anteriores no cambian.
+
+Miniatura del ELPX 4.8.5 · 23/10/2026: captura actual de la portada con
+«Ocho islas, ocho piezas» y CC BY-SA 4.0. Referencia:
+assets/images/miniatura_elpx.png. Se aplica la licencia del recurso a los
+componentes propios; el mapa de TongApp conserva sus condiciones originales.
+La actualización de la captura no modifica la autoría ni las licencias.
+
+Logotipo de la Mediateca del Gobierno de Canarias · 25/10/2026
+Se utiliza sin modificaciones para identificar el enlace a la ficha pública
+de MitoMapa canario. El logotipo es una marca institucional de terceros y
+conserva sus condiciones originales; no está cubierto por la licencia CC BY-SA
+4.0 de los materiales propios. Procedencia:
+https://www3.gobiernodecanarias.org/medusa/mediateca/files/asset/2e7fa6d54a0ec9f712f19fe8204c04f579b453e1.png
+Ficha del recurso:
+https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363
+
+DEPENDENCIA DEL RENDERIZADO NATIVO · REVISIÓN 29/10/2026
+DOMPurify 3.4.17, Cure53 y colaboradores. Se utiliza la opción Apache-2.0 de su
+licencia dual. Fuente: https://registry.npmjs.org/dompurify/-/dompurify-3.4.17.tgz
+La licencia completa se conserva en libs/mitomapa-native-runtime-LICENSE.txt
+del ELPX y en tools/vendor/dompurify-LICENSE.txt de las fuentes. La versión y
+las integridades se fijan en tools/vendor/DOMPURIFY.json y package-lock.json.
+Los cambios se limitan al renderizado de metadatos de dos componentes; no
+modifican el software de un editor externo. Las entregas históricas conservan
+sus archivos y no se presentan como corregidas.
+
+DEPENDENCIA DE EXPORTACIÓN NATIVA · REVISIÓN 02/11/2026
+fflate 0.8.3, Arjun Barrett y colaboradores, licencia MIT. Integridad npm
+y SHA-256 fijadas en tools/vendor/FFLATE.json y package-lock.json.
+Fuente: https://registry.npmjs.org/fflate/-/fflate-0.8.3.tgz
+Licencia completa en libs/fflate/LICENSE.txt del ELPX vigente y
+tools/vendor/fflate-LICENSE.txt de las fuentes. Los históricos
+conservan sus bytes y no se presentan como actualizados.

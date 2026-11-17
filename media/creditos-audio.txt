@@ -1,0 +1,490 @@
+CRÉDITOS DE AUDIO · OCHO VÍDEOS MITOMAPA
+Edición con fuentes documentales · 01/11/2026
+
+DÁCIL Y EL REGRESO DE MAGEC
+Edición del vídeo con narración continua y efectos de fondo — 31/10/2026
+
+Autoría del cuento y del recurso:
+Jesica Fortes Regalado
+Gloria Elsa González Martín
+Cristian García Santana
+
+Voz original: Jesica Fortes Regalado.
+Diseño e ilustraciones: conservados del PDF de producción independiente v2.2.
+Se conserva la narración íntegra. La narración original se conserva completa, en su orden y con sus tiempos originales. No se han añadido pausas ni modificado la velocidad. Los cuatro efectos de varios segundos se mezclan como fondo, con volumen atenuado durante la voz y fundidos suaves.
+Los materiales propios mantienen la licencia CC BY-SA 4.0 declarada en el recurso original. Los materiales externos conservan sus licencias.
+
+SONIDOS EXTERNOS
+
+1. Moving Boulder — themightyglider
+Licencia: CC0 1.0 Universal
+Fuente: https://opengameart.org/content/moving-boulder
+Licencia: https://creativecommons.org/publicdomain/zero/1.0/
+Archivos utilizados: boulder_drop.ogg y move_boulder.ogg.
+Adaptaciones: recorte, ajuste de duración de un fragmento, volumen y fundidos de entrada/salida.
+La fuente identifica grabaciones de IDLauncher y magnuswaker, publicadas bajo CC0:
+https://freesound.org/people/IDLauncher/sounds/513236/
+https://freesound.org/people/magnuswaker/sounds/522099/
+
+2. Campfire sound ambience — Glaneur de sons
+Licencia: Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+Fuente: https://commons.wikimedia.org/wiki/File:Campfire_sound_ambience.ogg
+Licencia: https://creativecommons.org/licenses/by/3.0/
+Adaptaciones: fragmento recortado, volumen y fundidos de entrada/salida ajustados.
+
+Los créditos son informativos y no implican respaldo de los autores de los sonidos a esta producción.
+
+3. Grinding and tapping Rocks — stilgar
+Dominio público, según la publicación de su autor.
+Fuente: https://commons.wikimedia.org/wiki/File:Grinding_and_tapping_ro.ogg
+Adaptaciones: fragmentos recortados y combinados con efectos de roca, con ajuste de volumen y fundidos.
+
+
+------------------------------------------------------------
+
+Guayarmina y el tibicena del barranco
+MitoMapa Canario · Gran Canaria
+
+Autoría del recurso
+Jesica Fortes Regalado
+Gloria Elsa González Martín
+Cristian García Santana
+
+Narración
+Jesica Fortes Regalado
+Grabación original seleccionada: 2026_0930_1722.WAV.
+Voz original del recurso MitoMapa; se conservan su velocidad y sus pausas interiores.
+Licencia declarada de la narración original: CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+
+Ilustraciones
+Escenas y portada creadas con IA a partir de la ilustración publicada de Gran Canaria.
+Recreaciones literarias; no son reconstrucciones históricas.
+Edición ilustrada · 01/11/2026
+
+Materiales propios del recurso
+CC BY-SA 4.0
+Materiales propios sobre los que la autoría dispone de derechos; los materiales externos conservan sus condiciones originales.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+Fuente original del recurso: https://mitomapacanario.org/
+
+Audio externo utilizado en este vídeo
+Las fuentes siguientes conservan sus licencias o condiciones de dominio público individuales.
+
+Fuego: Campfire sound ambience
+Autoría: Glaneur de sons
+Licencia o condición: CC BY 3.0
+Fuente: https://commons.wikimedia.org/wiki/File:Campfire_sound_ambience.ogg
+Licencia: https://creativecommons.org/licenses/by/3.0/
+
+Viento: Park ambiences — park_ambience_wind
+Autoría: Thimras
+Licencia o condición: CC0 1.0
+Fuente: https://opengameart.org/content/park-ambiences
+Licencia: https://creativecommons.org/publicdomain/zero/1.0/
+
+Adaptaciones de audio
+
+fuego (4 s):
+Capa grabada campfire_Glaneur_de_sons_CC_BY_3.wav: recorte 19.75-23.75 s; velocidad relativa 1; posición 0 s; ganancia relativa 1.
+Capa grabada campfire_Glaneur_de_sons_CC_BY_3.wav: recorte 28.25-32.25 s; velocidad relativa 1; posición 0 s; ganancia relativa 0.8.
+Capa grabada campfire_Glaneur_de_sons_CC_BY_3.wav: recorte 34.5-38.5 s; velocidad relativa 1; posición 0 s; ganancia relativa 0.62.
+Ecualización: highpass=f=90,lowpass=f=6500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+viento_natural (4 s):
+Recorte de la grabación: 27.5-31.5 s; velocidad original.
+Ecualización: highpass=f=110,lowpass=f=6500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+Mezcla de vídeo: efectos sincronizados con la narración, con ajustes de nivel y atenuación bajo la voz; se conserva la narración continua.
+La conversión de las páginas a vídeo y la mezcla no cambian las licencias de los materiales externos.
+
+
+------------------------------------------------------------
+
+Acerina y el roque que sostenía el cielo
+MitoMapa Canario · La Palma
+
+Autoría del recurso
+Jesica Fortes Regalado
+Gloria Elsa González Martín
+Cristian García Santana
+
+Narración
+Jesica Fortes Regalado
+Grabación original seleccionada: 2026_0930_1956.WAV.
+Voz original del recurso MitoMapa; se conservan su velocidad y sus pausas interiores.
+Licencia declarada de la narración original: CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+
+Ilustraciones
+Escenas y portada creadas con IA a partir de la ilustración publicada de La Palma.
+Recreaciones literarias; no son reconstrucciones históricas.
+Edición ilustrada · 01/11/2026
+
+Materiales propios del recurso
+CC BY-SA 4.0
+Materiales propios sobre los que la autoría dispone de derechos; los materiales externos conservan sus condiciones originales.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+Fuente original del recurso: https://mitomapacanario.org/
+
+Audio externo utilizado en este vídeo
+Las fuentes siguientes conservan sus licencias o condiciones de dominio público individuales.
+
+Piedra: Moving Boulder
+Autoría: themightyglider
+Licencia o condición: CC0 1.0
+Fuente: https://opengameart.org/content/moving-boulder
+Licencia: https://creativecommons.org/publicdomain/zero/1.0/
+Archivos utilizados de la fuente: move_boulder.ogg y boulder_drop.ogg.
+Fuente previa acreditada por themightyglider: IDLauncher · CC0
+https://freesound.org/people/IDLauncher/sounds/513236/
+https://creativecommons.org/publicdomain/zero/1.0/
+Fuente previa acreditada por themightyglider: magnuswaker · CC0
+https://freesound.org/people/magnuswaker/sounds/522099/
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Roces de piedra: Grinding and tapping ro
+Autoría: stilgar
+Licencia o condición: dominio público
+Fuente: https://commons.wikimedia.org/wiki/File:Grinding_and_tapping_ro.ogg
+Licencia: https://commons.wikimedia.org/wiki/File:Grinding_and_tapping_ro.ogg#Licensing
+
+Viento: Park ambiences — park_ambience_wind
+Autoría: Thimras
+Licencia o condición: CC0 1.0
+Fuente: https://opengameart.org/content/park-ambiences
+Licencia: https://creativecommons.org/publicdomain/zero/1.0/
+
+Adaptaciones de audio
+
+viento_natural (4 s):
+Recorte de la grabación: 27.5-31.5 s; velocidad original.
+Ecualización: highpass=f=110,lowpass=f=6500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+ruido_profundo (3.6 s):
+Capa grabada grinding_tapping_stones_stilgar_PD.wav: recorte 36.7-39.94 s; velocidad relativa 0.9; posición 0 s; ganancia relativa 1.
+Capa grabada grinding_tapping_stones_stilgar_PD.wav: recorte 3.8-7.22 s; velocidad relativa 0.95; posición 0 s; ganancia relativa 0.46.
+Ecualización: highpass=f=80,lowpass=f=1550.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+piedra (4 s):
+Capa grabada grinding_tapping_stones_stilgar_PD.wav: recorte 3.4-7.4 s; velocidad relativa 1; posición 0 s; ganancia relativa 0.6.
+Capa grabada grinding_tapping_stones_stilgar_PD.wav: recorte 26-30 s; velocidad relativa 1; posición 0 s; ganancia relativa 0.42.
+Capa grabada move_boulder_themightyglider_CC0.wav: recorte 0-0.67907 s; velocidad relativa 1; posición 0.2 s; ganancia relativa 0.72.
+Capa grabada move_boulder_themightyglider_CC0.wav: recorte 0-0.67907 s; velocidad relativa 1; posición 1.65 s; ganancia relativa 0.57.
+Capa grabada boulder_drop_themightyglider_CC0.wav: recorte 0-0.645397 s; velocidad relativa 1; posición 2.7 s; ganancia relativa 0.72.
+Ecualización: highpass=f=80,lowpass=f=6200.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+Mezcla de vídeo: efectos sincronizados con la narración, con ajustes de nivel y atenuación bajo la voz; se conserva la narración continua.
+La conversión de las páginas a vídeo y la mezcla no cambian las licencias de los materiales externos.
+
+
+------------------------------------------------------------
+
+Gara y Jonay, dos voces en la cumbre
+MitoMapa Canario · La Gomera
+
+Autoría del recurso
+Jesica Fortes Regalado
+Gloria Elsa González Martín
+Cristian García Santana
+
+Narración
+Jesica Fortes Regalado
+Grabación original seleccionada: 2026_0930_2014.WAV.
+Voz original del recurso MitoMapa; se conservan su velocidad y sus pausas interiores.
+Licencia declarada de la narración original: CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+
+Ilustraciones
+Escenas y portada creadas con IA a partir de la ilustración publicada de La Gomera.
+Recreaciones literarias; no son reconstrucciones históricas.
+Edición ilustrada · 01/11/2026
+
+Materiales propios del recurso
+CC BY-SA 4.0
+Materiales propios sobre los que la autoría dispone de derechos; los materiales externos conservan sus condiciones originales.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+Fuente original del recurso: https://mitomapacanario.org/
+
+Audio externo utilizado en este vídeo
+Las fuentes siguientes conservan sus licencias o condiciones de dominio público individuales.
+
+Agua: Swale (Swale flowing into a stream)
+Autoría: Ksd5 / Siddharth Patil
+Licencia o condición: CC0 1.0
+Fuente: https://commons.wikimedia.org/wiki/File:Swale.ogg
+Licencia: https://creativecommons.org/publicdomain/zero/1.0/
+
+Oleaje: Oceanwavescrushing
+Autoría: Luftrum
+Licencia o condición: CC BY 3.0
+Fuente: https://commons.wikimedia.org/wiki/File:Oceanwavescrushing.ogg
+Licencia: https://creativecommons.org/licenses/by/3.0/
+
+Viento: Park ambiences — park_ambience_wind
+Autoría: Thimras
+Licencia o condición: CC0 1.0
+Fuente: https://opengameart.org/content/park-ambiences
+Licencia: https://creativecommons.org/publicdomain/zero/1.0/
+
+Adaptaciones de audio
+
+agua_manantial (4 s):
+Recorte de la grabación: 4-8 s; velocidad original.
+Ecualización: highpass=f=90,lowpass=f=7000.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+oleaje_marino (4 s):
+Recorte de la grabación: 11-15 s; velocidad original.
+Ecualización: highpass=f=80,lowpass=f=7000.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+viento_natural (4 s):
+Recorte de la grabación: 27.5-31.5 s; velocidad original.
+Ecualización: highpass=f=110,lowpass=f=6500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+Mezcla de vídeo: efectos sincronizados con la narración, con ajustes de nivel y atenuación bajo la voz; se conserva la narración continua.
+La conversión de las páginas a vídeo y la mezcla no cambian las licencias de los materiales externos.
+
+
+------------------------------------------------------------
+
+Agarfa y las gotas del Garoé
+MitoMapa Canario · El Hierro
+
+Autoría del recurso
+Jesica Fortes Regalado
+Gloria Elsa González Martín
+Cristian García Santana
+
+Narración
+Jesica Fortes Regalado
+Grabación original seleccionada: 2026_1002_1608.WAV.
+Voz original del recurso MitoMapa; se conservan su velocidad y sus pausas interiores.
+Licencia declarada de la narración original: CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+
+Ilustraciones
+Escenas y portada creadas con IA a partir de la ilustración publicada de El Hierro.
+Recreaciones literarias; no son reconstrucciones históricas.
+Edición ilustrada · 01/11/2026
+
+Materiales propios del recurso
+CC BY-SA 4.0
+Materiales propios sobre los que la autoría dispone de derechos; los materiales externos conservan sus condiciones originales.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+Fuente original del recurso: https://mitomapacanario.org/
+
+Audio externo utilizado en este vídeo
+Las fuentes siguientes conservan sus licencias o condiciones de dominio público individuales.
+
+Agua: Swale (Swale flowing into a stream)
+Autoría: Ksd5 / Siddharth Patil
+Licencia o condición: CC0 1.0
+Fuente: https://commons.wikimedia.org/wiki/File:Swale.ogg
+Licencia: https://creativecommons.org/publicdomain/zero/1.0/
+
+Lluvia y tormenta: Rain and thunder
+Autoría: Caesar / David Öhlin
+Licencia o condición: dominio público
+Fuente: https://commons.wikimedia.org/wiki/File:Rain_and_thunder.ogg
+Licencia: https://commons.wikimedia.org/wiki/File:Rain_and_thunder.ogg#Licensing
+
+Adaptaciones de audio
+
+agua_gotas (3.6 s):
+Recorte de la grabación: 18-21.6 s; velocidad original.
+Ecualización: highpass=f=180,lowpass=f=8500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+agua_manantial (4 s):
+Recorte de la grabación: 4-8 s; velocidad original.
+Ecualización: highpass=f=90,lowpass=f=7000.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+lluvia_tormenta_moderada (4 s):
+Recorte de la grabación: 1-5 s; velocidad original.
+Ecualización: highpass=f=80,lowpass=f=7500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+Mezcla de vídeo: efectos sincronizados con la narración, con ajustes de nivel y atenuación bajo la voz; se conserva la narración continua.
+La conversión de las páginas a vídeo y la mezcla no cambian las licencias de los materiales externos.
+
+
+------------------------------------------------------------
+
+La luz de Mafasca en el camino
+MitoMapa Canario · Fuerteventura
+
+Autoría del recurso
+Jesica Fortes Regalado
+Gloria Elsa González Martín
+Cristian García Santana
+
+Narración
+Jesica Fortes Regalado
+Grabación original seleccionada: 2026_1002_1611.WAV.
+Voz original del recurso MitoMapa; se conservan su velocidad y sus pausas interiores.
+Licencia declarada de la narración original: CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+
+Ilustraciones
+Escenas y portada creadas con IA a partir de la ilustración publicada de Fuerteventura.
+Recreaciones literarias; no son reconstrucciones históricas.
+Edición ilustrada · 01/11/2026
+
+Materiales propios del recurso
+CC BY-SA 4.0
+Materiales propios sobre los que la autoría dispone de derechos; los materiales externos conservan sus condiciones originales.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+Fuente original del recurso: https://mitomapacanario.org/
+
+Audio externo utilizado en este vídeo
+Las fuentes siguientes conservan sus licencias o condiciones de dominio público individuales.
+
+Fuego: Campfire sound ambience
+Autoría: Glaneur de sons
+Licencia o condición: CC BY 3.0
+Fuente: https://commons.wikimedia.org/wiki/File:Campfire_sound_ambience.ogg
+Licencia: https://creativecommons.org/licenses/by/3.0/
+
+Viento: Park ambiences — park_ambience_wind
+Autoría: Thimras
+Licencia o condición: CC0 1.0
+Fuente: https://opengameart.org/content/park-ambiences
+Licencia: https://creativecommons.org/publicdomain/zero/1.0/
+
+Adaptaciones de audio
+
+viento_natural (4 s):
+Recorte de la grabación: 27.5-31.5 s; velocidad original.
+Ecualización: highpass=f=110,lowpass=f=6500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+fuego (4 s):
+Capa grabada campfire_Glaneur_de_sons_CC_BY_3.wav: recorte 19.75-23.75 s; velocidad relativa 1; posición 0 s; ganancia relativa 1.
+Capa grabada campfire_Glaneur_de_sons_CC_BY_3.wav: recorte 28.25-32.25 s; velocidad relativa 1; posición 0 s; ganancia relativa 0.8.
+Capa grabada campfire_Glaneur_de_sons_CC_BY_3.wav: recorte 34.5-38.5 s; velocidad relativa 1; posición 0 s; ganancia relativa 0.62.
+Ecualización: highpass=f=90,lowpass=f=6500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+Mezcla de vídeo: efectos sincronizados con la narración, con ajustes de nivel y atenuación bajo la voz; se conserva la narración continua.
+La conversión de las páginas a vídeo y la mezcla no cambian las licencias de los materiales externos.
+
+
+------------------------------------------------------------
+
+Ico y la prueba del humo
+MitoMapa Canario · Lanzarote
+
+Autoría del recurso
+Jesica Fortes Regalado
+Gloria Elsa González Martín
+Cristian García Santana
+
+Narración
+Jesica Fortes Regalado
+Grabación original seleccionada: 2026_1002_1620.WAV.
+Voz original del recurso MitoMapa; se conservan su velocidad y sus pausas interiores.
+Licencia declarada de la narración original: CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+
+Ilustraciones
+Escenas y portada creadas con IA a partir de la ilustración publicada de Lanzarote.
+Recreaciones literarias; no son reconstrucciones históricas.
+Edición ilustrada · 01/11/2026
+
+Materiales propios del recurso
+CC BY-SA 4.0
+Materiales propios sobre los que la autoría dispone de derechos; los materiales externos conservan sus condiciones originales.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+Fuente original del recurso: https://mitomapacanario.org/
+
+Audio externo utilizado en este vídeo
+Las fuentes siguientes conservan sus licencias o condiciones de dominio público individuales.
+
+Fuego: Campfire sound ambience
+Autoría: Glaneur de sons
+Licencia o condición: CC BY 3.0
+Fuente: https://commons.wikimedia.org/wiki/File:Campfire_sound_ambience.ogg
+Licencia: https://creativecommons.org/licenses/by/3.0/
+
+Adaptaciones de audio
+
+fuego (4 s):
+Capa grabada campfire_Glaneur_de_sons_CC_BY_3.wav: recorte 19.75-23.75 s; velocidad relativa 1; posición 0 s; ganancia relativa 1.
+Capa grabada campfire_Glaneur_de_sons_CC_BY_3.wav: recorte 28.25-32.25 s; velocidad relativa 1; posición 0 s; ganancia relativa 0.8.
+Capa grabada campfire_Glaneur_de_sons_CC_BY_3.wav: recorte 34.5-38.5 s; velocidad relativa 1; posición 0 s; ganancia relativa 0.62.
+Ecualización: highpass=f=90,lowpass=f=6500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+Mezcla de vídeo: efectos sincronizados con la narración, con ajustes de nivel y atenuación bajo la voz; se conserva la narración continua.
+La conversión de las páginas a vídeo y la mezcla no cambian las licencias de los materiales externos.
+
+
+------------------------------------------------------------
+
+Guadarfía y la isla de San Borondón
+MitoMapa Canario · La Graciosa
+
+Autoría del recurso
+Jesica Fortes Regalado
+Gloria Elsa González Martín
+Cristian García Santana
+
+Narración
+Jesica Fortes Regalado
+Grabación original seleccionada: 2026_1002_1627.WAV.
+Voz original del recurso MitoMapa; se conservan su velocidad y sus pausas interiores.
+Licencia declarada de la narración original: CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+
+Ilustraciones
+Escenas y portada creadas con IA a partir de la ilustración publicada de La Graciosa.
+Recreaciones literarias; no son reconstrucciones históricas.
+Edición ilustrada · 01/11/2026
+
+Materiales propios del recurso
+CC BY-SA 4.0
+Materiales propios sobre los que la autoría dispone de derechos; los materiales externos conservan sus condiciones originales.
+https://creativecommons.org/licenses/by-sa/4.0/deed.es
+Fuente original del recurso: https://mitomapacanario.org/
+
+Audio externo utilizado en este vídeo
+Las fuentes siguientes conservan sus licencias o condiciones de dominio público individuales.
+
+Oleaje: Oceanwavescrushing
+Autoría: Luftrum
+Licencia o condición: CC BY 3.0
+Fuente: https://commons.wikimedia.org/wiki/File:Oceanwavescrushing.ogg
+Licencia: https://creativecommons.org/licenses/by/3.0/
+
+Viento: Park ambiences — park_ambience_wind
+Autoría: Thimras
+Licencia o condición: CC0 1.0
+Fuente: https://opengameart.org/content/park-ambiences
+Licencia: https://creativecommons.org/publicdomain/zero/1.0/
+
+Adaptaciones de audio
+
+oleaje_suave (4 s):
+Recorte de la grabación: 0.5-4.5 s; velocidad original.
+Ecualización: highpass=f=100,lowpass=f=6500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+viento_natural (4 s):
+Recorte de la grabación: 27.5-31.5 s; velocidad original.
+Ecualización: highpass=f=110,lowpass=f=6500.
+Compresión, ajuste de nivel y fundidos de entrada/salida de 0.4/0.7 s.
+
+Mezcla de vídeo: efectos sincronizados con la narración, con ajustes de nivel y atenuación bajo la voz; se conserva la narración continua.
+La conversión de las páginas a vídeo y la mezcla no cambian las licencias de los materiales externos.
+
+
+------------------------------------------------------------

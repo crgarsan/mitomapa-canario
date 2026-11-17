@@ -1,15 +1,15 @@
 {
-  "web_version": "4.4.2",
-  "rea_exelearning_version": "4.4.0",
+  "web_version": "4.10.0",
+  "rea_exelearning_version": "4.8.9",
   "exelearning_runtime_version": "4.0.5",
-  "prepared_at": "2026-10-07",
+  "prepared_at": "2026-11-02",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "a6ca9d3468097d21f15b00fc8b775e2e11cd6d69036d077d9d5cc8cf199e9504",
-    "bytes": 18355877
+    "sha256": "2b595cc0851d78dec66dd4e595e4ced9a9be012955986f14cba37ce32750fb8a",
+    "bytes": 25876757
   },
-  "previous_web_version": "4.4.1",
-  "previous_rea_version": "4.4.0",
+  "previous_web_version": "4.9.4",
+  "previous_rea_version": "4.8.8",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
   "presets": [
@@ -17,16 +17,16 @@
       "name": "Esencial",
       "report_count": 9,
       "path": "downloads/MitoMapa_REA_v4_4_0_Esencial.elpx",
-      "sha256": "f68133ae8aea164a875a5f5e5eedbb03bb79847d5d009fe269d92980ea0b5c56",
-      "bytes": 16850676,
+      "sha256": "b8d397bd341e74a41148b82f255987a585d975d1fd10d513a4034c247d352e38",
+      "bytes": 16853362,
       "edition": "4.4.0 — edición anterior a la adaptación GobCan"
     },
     {
       "name": "Intermedio",
       "report_count": 33,
       "path": "downloads/MitoMapa_REA_v4_4_0_Intermedio.elpx",
-      "sha256": "8dd9627d4a4f73bde529aa8ad2621db4b4bc5ab4ca3427314cef1aab183d06fd",
-      "bytes": 16850894,
+      "sha256": "523b4d724da71683e387c797c10f09b6f90ac58058438106490a404b75c2b907",
+      "bytes": 16853580,
       "edition": "4.4.0 — edición anterior a la adaptación GobCan"
     }
   ],
@@ -34,21 +34,276 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_4_2.md",
-  "rea_release_notes": "CAMBIOS_REA_GOBCAN.md",
+  "release_notes": "CAMBIOS_WEB_4_10_0.md",
+  "rea_release_notes": "CAMBIOS_REA_4_8_9.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
-    "pages": 39,
+    "pages": 34,
     "idevices": 118,
     "preserved_idevices": 95,
     "native_games": 42,
-    "audio_tracks": 16
+    "audio_tracks": 16,
+    "qualitative_review": true,
+    "numeric_rubrics": 0,
+    "text_idevices": 63,
+    "portable_web_app": false,
+    "native_tracking_separate_from_external_web": true
   },
   "curricular_reference": {
     "stage": "Educación Primaria",
     "cycle": "3.er ciclo",
     "course": "6.º, adaptable a 5.º",
     "sessions": 4,
-    "selected_islands": 2
+    "selected_islands": 2,
+    "scope": "Ejemplo GobCan; el uso multinivel requiere anclaje curricular por el profesorado"
+  },
+  "rea_revision": "2026-11-02",
+  "teacher_guide": "GUIA_DOCENTE_GOBCAN.html",
+  "rea_revision_label": "Actualización acotada de fflate a 0.8.3; actividades y medios conservados",
+  "map": {
+    "source": "Archivo SVG aportado por la autoría; procedencia indicada: TongApp",
+    "source_url": "https://www3.gobiernodecanarias.org/medusa/apps/tongapp/",
+    "width": 3000,
+    "height": 1514,
+    "visual_pixels_unchanged": true,
+    "specific_license": "Libre uso por la comunidad educativa según aviso de TongApp aportado por la autoría; se mantienen sus condiciones originales",
+    "usage_notice": "Los contenidos y programas que constituyen esta obra son propiedad del Gobierno de Canarias que ha promovido su creación y desarrollo con el propósito de que la comunidad educativa haga libre uso de los mismos."
+  },
+  "graphics_revision": {
+    "date": "2026-10-12",
+    "source_chat": "Set up mitomapa-canario",
+    "scene_count": 8,
+    "format": "WebP",
+    "quality": 96,
+    "original_dimensions_preserved": true,
+    "elpx_scene_copies_updated": 16,
+    "source_png_sha256": {
+      "tenerife": "f9821312f3462d7f80227f214b89dbc612bd1079a07fbb7d4f933114aa73517e",
+      "gran-canaria": "d5901e45691c19839fc894dc929de525bbddd9dbb7abab7b16c41ba17cd304a3",
+      "la-palma": "b9bbb24b93823382b563265eb4be9587c0e4107ff370074844c19446f5295bab",
+      "la-gomera": "ca2daaef81c74e5085873f973072921750cc4797191535aaa957139fbf4f909e",
+      "el-hierro": "39f789e16c2147968947a85312537c313ef553c068db1837814e4bb907b0ec2f",
+      "fuerteventura": "24ece28ff83fd0b3e72145086e10abfbe9f2cd9762425250d48343d6c99b991d",
+      "lanzarote": "3e17d7299e6dc27cff7d47a17a2024d88d89b9d7bcf52636f70bf919134c338a",
+      "la-graciosa": "2d962596f2696a361175e1378d5d976f2bd4d7ed14472bcbc0bfe18a3bf6993c"
+    }
+  },
+  "map_hotspots_revision": {
+    "date": "2026-10-14",
+    "placement": "above_or_beside_islands",
+    "geography_uncovered": true,
+    "guide_lines": false,
+    "badge_background": "none",
+    "artificial_top_band": false,
+    "web_only": false,
+    "included_in_portable_explorer_since": "4.6.0 hasta 4.7.1; desde 4.8.0 el ELPX enlaza la web como recurso externo"
+  },
+  "quality_revision": {
+    "date": "2026-10-14",
+    "priorities_addressed": [
+      "stage_aligned_qualitative_checklists",
+      "current_image_alternatives_and_credits",
+      "interactive_accessibility",
+      "traceable_sources_per_story"
+    ],
+    "suggestions_email": "sugerencias.mitomapacanario@gmail.com",
+    "qualitative_checklists_score_enabled": false
+  },
+  "sharing_archive": {
+    "path": "downloads/MitoMapa_REA_v4_10_0.zip",
+    "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
+    "sha256": "7d3cadebc57705e960c1cdc4dc80d52a01d5ecd85e493f2ab9c60f9795c0c0ee",
+    "bytes": 25707716
+  },
+  "source_archive": {
+    "path": "downloads/MitoMapa_fuentes_web_v4_10_0.zip",
+    "contains_elpx": false,
+    "story_media_manifest": "MEDIA_MANIFEST.json",
+    "story_media_separate": true
+  },
+  "feedback_revision": {
+    "date": "2026-10-14",
+    "email": "sugerencias.mitomapacanario@gmail.com",
+    "manual_attachment": true,
+    "automatic_submission": false,
+    "student_support": "docente o familia",
+    "downloaded_response_version": "4.9.1",
+    "layout_revision": "2026-10-14: espacio superior y entre botones; sugerencia con correo explícito junto a las acciones",
+    "open_comment_only": true
+  },
+  "license": {
+    "spdx": "CC-BY-SA-4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/deed.es",
+    "scope": "Materiales propios; materiales de terceros con sus condiciones originales"
+  },
+  "experience_revision": {
+    "date": "2026-10-19",
+    "agreed_route_separate_from_collection": true,
+    "recording_seek_controls": true,
+    "reset_clears_visible_answers": true,
+    "pilot_status": "Pendiente de aplicación con alumnado",
+    "public_historical_downloads": true,
+    "recording_seek_without_http_ranges": true
+  },
+  "elpx_source": {
+    "path": "downloads/MitoMapa_canario_GobCan_v4_7_1.elpx",
+    "sha256": "10b3abb0575bb2526006508e8a69e541623dda2b6c242c4d2d94dd49dafe0a05",
+    "edition": "4.7.1",
+    "immutable": true
+  },
+  "historical_names_game": {
+    "date": "2026-10-20",
+    "route": "#nombres-islas",
+    "associations": 8,
+    "historical_name_cards": 7,
+    "undocumented_name_category": "La Graciosa",
+    "drag_and_drop": true,
+    "keyboard_and_select_alternatives": true,
+    "modern_antique_map_recreation": true,
+    "map_geometry_preserved": true,
+    "expert_consultation": "Según la información aportada por la autoría; sin atribución de unanimidad ni aval institucional",
+    "counts_towards_passport": false,
+    "included_in_portable_explorer": false,
+    "compass_rose": false,
+    "compact_drag_workspace": true,
+    "layout_revision": "4.7.1",
+    "availability": "Web independiente; acceso adicional mediante enlace final del ELPX"
+  },
+  "elpx_distribution": {
+    "mode": "native_only",
+    "web_is_external_extra": true,
+    "embedded_web_app": false,
+    "editorial_review": "GobCan: portada, fuentes, autoría, navegación y cajas docentes",
+    "collective_acknowledgements": true,
+    "group_address": "ustedes",
+    "cover_layout": "four_badges_map_four_badges"
+  },
+  "release_version": "4.10.0",
+  "passport_icons_revision": {
+    "date": "2026-10-22",
+    "vessel_count": 7,
+    "contemporary_shell_count": 1,
+    "manifest": "assets/images/insignias_pasaporte.json",
+    "original_pngs_preserved": true,
+    "decorative_pintaderas_preserved": true,
+    "layout_and_progress_unchanged": true,
+    "web_and_native_elpx": true,
+    "el_hierro_handles_revision": "4.8.3",
+    "terminology_revision": "4.8.4: piezas como nombre general de la colección; pintaderas conservadas como decoración y referencias documentales",
+    "reference_infographic_in_sources": true
+  },
+  "pieces_islands_game": {
+    "date": "2026-10-22",
+    "route": "#piezas-islas",
+    "web_only": true,
+    "pieces": 8,
+    "vessel_count": 7,
+    "contemporary_shell_count": 1,
+    "drag_and_drop": true,
+    "click_touch_keyboard_alternatives": true,
+    "scores": false,
+    "awards": false,
+    "counts_towards_passport": false,
+    "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
+  },
+  "web_revision_date": "2026-11-16",
+  "elpx_thumbnail": {
+    "path": "assets/images/miniatura_elpx.png",
+    "sha256": "614768b1fa733f2b2c155c4508a8446dbcdd94d7bf543abee21bf4c2b2cfbda0",
+    "width": 758,
+    "height": 962,
+    "source": "Captura de la portada actual del ELPX; conserva mapa, pintaderas decorativas, autoría y CC BY-SA 4.0",
+    "captured_at": "2026-10-23"
+  },
+  "audit_revision": {
+    "date": "2026-10-25",
+    "terminology": "aborigen/aborígenes en la prosa propia",
+    "atomic_progress_import": true,
+    "native_vocabulary_review": true,
+    "native_teacher_material_links": true,
+    "primary_web": "https://mitomapacanario.org/"
+  },
+  "security_maintenance_revision": {
+    "date": "2026-10-25",
+    "baseline_revision": "85aa216f0140b5afbfa8366ed9b576bfae57da4c",
+    "public_https_verification_required": true,
+    "python_dependency_hash_lock": true,
+    "bounded_archive_validation": true,
+    "self_contained_narration_inputs": true,
+    "native_elpx_bytes_unchanged": true,
+    "published_media_bytes_unchanged": true,
+    "didactic_protocol_baseline_web_version": "4.8.12"
+  },
+  "web_teacher_guide": "GUIA_DOCENTE.html",
+  "web_pilot_protocol": "PROTOCOLO_PILOTAJE_WEB_4_9_0.html",
+  "learner_experience_revision": {
+    "date": "2026-10-27",
+    "baseline_revision": "ba32084c5863bd2c03f201e43644c393c11ec967",
+    "free_island_choice": true,
+    "map_list_mobile": true,
+    "contextual_reading_support": true,
+    "agreed_route_separate_from_collection": true,
+    "graduated_hints_and_story_fragments": true,
+    "creative_closure_without_full_collection": true,
+    "classroom_pilot": "pending",
+    "recorded_audio_paragraph_alignment": "future_extension_requires_review",
+    "native_elpx_bytes_unchanged": true,
+    "published_media_bytes_unchanged": true
+  },
+  "native_runtime_security_revision": {
+    "date": "2026-10-29",
+    "scope": "Current ELPX only: progress-report and checklist metadata rendering",
+    "components": 11,
+    "runtime_members": [
+      "idevices/progress-report/progress-report.js",
+      "idevices/checklist/checklist.js"
+    ],
+    "sanitizer": "DOMPurify 3.4.17, private instance, Apache-2.0 option",
+    "raw_game_data_preserved": true,
+    "media_preserved": true,
+    "historical_downloads_unchanged": true,
+    "hosted_editor_modified": false,
+    "untrusted_project_execution_isolation_guaranteed": false,
+    "reference_report_revision": "f5d9864dafb351cd18e1d9dc8287352c3eec5317"
+  },
+  "story_formats_revision": {
+    "date": "2026-11-01",
+    "islands": 8,
+    "views": [
+      "audio-text",
+      "video"
+    ],
+    "pdf_download_always_visible": true,
+    "captions_default": false,
+    "narrator": "Jesica Fortes Regalado",
+    "original_narration_preserved": true,
+    "background": "natural_soft_effects_with_fades",
+    "literal_word_adjustments": 7,
+    "san_borondon_original_story_preserved": true,
+    "native_elpx_bytes_unchanged": true
+  },
+  "resource_navigation_revision": {
+    "date": "2026-11-01",
+    "quick_help_location": "Docente / Guía",
+    "save_help_location": "Docente / Ajustes y seguimiento",
+    "student_resource_shortcuts_removed": true
+  },
+  "native_fflate_security_revision": {
+    "date": "2026-11-02",
+    "version": "0.8.3",
+    "member": "libs/fflate/fflate.umd.js",
+    "sha256": "462ef8041fc970e3615a20a9dd2b2e3047a073b2da729ef4f02b634bba8b7b83",
+    "advisory": "GHSA-px8p-9vwx-vf98",
+    "current_packages_only": true,
+    "historical_downloads_unchanged": true,
+    "application_unzip_reachability_established": false
+  },
+  "bilingual_revision": {
+    "languages": [
+      "es",
+      "en"
+    ],
+    "english_narrator": "Zeus Plasencia Carballo",
+    "english_page": "index-en.html"
   }
 }

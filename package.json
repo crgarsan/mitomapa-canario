@@ -1,0 +1,17 @@
+{
+  "name": "mitomapa-canario",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "dompurify": "3.4.17",
+    "fflate": "0.8.3",
+    "wrangler": "4.152.0"
+  },
+  "overrides": {
+    "miniflare@5.20261019.2-beta": {
+      "undici": "7.30.1"
+    }
+  }
+}

@@ -2,3 +2,48 @@ Edición mediante herramienta integrada OpenAI ImageGen, 23/09/2026. Entradas: e
 Gran Canaria: retirar el quinqué sin sustituirlo por otro objeto; mano relajada; conservar personas, poses, paisaje, composición e iluminación; convertir prendas lanosas en piel lisa mate sin pelo, lana ni flecos; sin texto añadido.
 Tenerife y Lanzarote: cambiar exclusivamente las texturas de indumentaria por piel lisa mate sin pelo, lana ni flecos; conservar rostros, poses, cobertura, objetos, paisaje y encuadre; sin texto añadido.
 Archivos finales: assets/images/scene_gran-canaria.webp, scene_tenerife.webp, scene_lanzarote.webp. Conversión técnica a WebP posterior a la edición. Los resultados fueron inspeccionados visualmente.
+
+EDICIÓN VIGENTE · incorporación 12/10/2026
+Se sustituyen las ocho escenas por las imágenes finales recuperadas del chat Set up mitomapa-canario. Conversión a WebP de calidad 96, sin modificar dimensiones. OpenAI ImageGen según la procedencia del proyecto; no consta una versión técnica verificable del motor. VERSION.json conserva las huellas de los originales PNG. El 14/10/2026 se contrastan las descripciones alternativas con las ocho imágenes vigentes. Las anotaciones de septiembre corresponden a versiones anteriores.
+
+PIEZAS DEL PASAPORTE · 22/10/2026
+Se incorporan siete vasijas y una caracola simbólica de La Graciosa aprobadas
+por la autoría. Herramienta: OpenAI image_gen.imagegen; versión técnica exacta
+no expuesta por la herramienta. Copias para uso de 512 × 512 en WebP, calidad92
+y alfa100; los PNG originales de1254 ×1254 permanecen sin cambios en la galería.
+Detalle por isla y huellas: assets/images/insignias_pasaporte.json. No se modifica
+ninguna de las ocho escenas del cuento, las narraciones ni las pintaderas decorativas.
+
+VISTA PREVIA PARA COMPARTIR · 23/10/2026 · web 4.8.7
+Se corrige la miniatura PNG que todavía decía «Ocho pintaderas» para mostrar
+«Ocho piezas», manteniendo la composición del cartel del recurso. Edición con
+OpenAI image_gen.imagegen; versión técnica exacta no expuesta. Original editado
+conservado fuera del despliegue; copias web PNG de 1200 × 630 optimizadas para
+la vista previa. Archivos: og-image.png y og-image-v4-8-7.png (mismos bytes).
+El SVG editable og-image.svg conserva su texto «Ocho piezas». Los metadatos de
+Open Graph y Twitter apuntan al PNG con nombre versionado. Esta revisión solo
+afecta a la web; no cambia el ELPX 4.8.4, sus escenas ni sus piezas.
+
+VISTA PREVIA CON VASIJA · 23/10/2026 · web 4.8.8
+Se retiran las ocho formas abstractas y el sello triangular de la miniatura.
+El cartel conserva todo su texto sobre un fondo azul degradado e incorpora
+una única vasija decorativa, inspirada en la imagen propia ya aprobada
+assets/images/insignia_gran_canaria.webp. Recreación contemporánea, sin atribuir
+al cartel valor documental arqueológico. Edición con OpenAI image_gen.imagegen;
+versión técnica exacta no expuesta. Original generado conservado fuera del
+despliegue; PNG optimizado de 1200 × 630 en og-image.png y og-image-v4-8-8.png.
+La composición editable og-image.svg conserva textos, gradiente y una copia
+incrustada de la vasija de referencia. El PNG versionado 4.8.7 se conserva como
+histórico. No cambia el ELPX 4.8.4 ni las escenas o piezas del recurso.
+
+MINIATURA NATIVA DEL ELPX · 23/10/2026 · REA 4.8.5
+Se sustituye la captura antigua guardada en screenshot.png y
+content/resources/screenshot.png por una captura de la portada actual.
+El campo de vista previa pp_screenshot contiene la misma imagen en formato
+PNG incrustado. La captura muestra «Ocho islas, ocho piezas», el mapa,
+las dos filas de pintaderas decorativas, la autoría y CC BY-SA 4.0.
+Archivo de referencia reproducible: assets/images/miniatura_elpx.png.
+Captura realizada con el navegador local a partir del ELPX vigente, sin
+retocar sus ilustraciones. Los materiales conservan sus créditos y condiciones.
+El mapa de TongApp mantiene las condiciones originales del Gobierno de Canarias.
+Las escenas, los audios y las actividades del ELPX permanecen sin cambios.

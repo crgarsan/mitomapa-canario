@@ -1,4 +1,4 @@
-/* Comparación opcional de relatos. No modifica los retos ni las pintaderas. */
+/* Comparación opcional de relatos. No modifica los retos ni las piezas. */
 (function () {
   "use strict";
 
@@ -145,7 +145,7 @@
     const text = [
       "MitoMapa canario — Dos cuentos, una conversación",
       `Islas: ${names.join(" y ")}`,
-      "Actividad opcional sobre recreaciones literarias; no acredita hechos históricos ni concede pintaderas.",
+      "Actividad opcional sobre recreaciones literarias; no acredita hechos históricos ni concede piezas.",
       "", "Nuestra comparación", reflection, "",
       "Para continuar: ¿qué se parece?, ¿qué cambia?, ¿cómo influyen las decisiones de los personajes?"
     ].join("\n");
@@ -168,7 +168,7 @@
     const eyebrow = node("p", "compare-kicker", "Exploración opcional");
     const heading = node("h2", "section-title", "Dos cuentos, una conversación");
     heading.id = "compareStoriesTitle";
-    const intro = node("p", "compare-intro", "Elige dos islas y busca conexiones entre sus relatos. Las tarjetas resumen acontecimientos de las recreaciones literarias de MitoMapa: no son pruebas de hechos históricos. Esta conversación no cambia las pintaderas ni el diploma.");
+    const intro = node("p", "compare-intro", "Elige dos islas y busca conexiones entre sus relatos. Las tarjetas resumen acontecimientos de las recreaciones literarias de MitoMapa: no son pruebas de hechos históricos. Esta conversación no cambia las piezas ni el diploma.");
     const selectorRow = node("div", "compare-selectors");
     const selects = [0, 1].map(index => {
       const label = node("label", "compare-select-label");

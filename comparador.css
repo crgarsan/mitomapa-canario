@@ -1,4 +1,4 @@
-.compare-stories{border-top:5px solid var(--earth,#9b613b);background:var(--paper,#fffdf7)}
+.compare-stories{border-top:5px solid var(--earth,#9b613b);background:var(--paper,#fffdf7);overflow-wrap:anywhere}
 .compare-stories .compare-kicker{margin:0 0 .4rem;color:var(--earth-dark,#704529);font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.07em}
 .compare-stories .section-title{margin-top:0}
 .compare-stories .compare-intro{max-width:85ch}

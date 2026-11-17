@@ -1,0 +1,43 @@
+/* Ayudas al aprendizaje y cierre: controles de texto, sin estilos inline. */
+.learning-help{margin-top:1rem;padding-top:.8rem;border-top:1px solid #c8d9d5;min-width:0}
+.learning-help>summary{font-size:.9rem;font-weight:750;color:var(--ocean,#052f49);cursor:pointer;min-height:44px;overflow-wrap:anywhere}
+.learning-help[open]>summary{margin-bottom:.65rem}
+.learning-help-controls,.creative-story-returns{display:flex;flex-wrap:wrap;gap:.55rem}
+.learning-help-controls button,.learning-geography button,.creative-closure button{max-width:100%;white-space:normal;overflow-wrap:anywhere;min-height:44px}
+.learning-help-controls .text-button{padding:.5rem .65rem;border:1px solid #9badab;border-radius:.3rem;text-decoration:none;background:#fff;color:#164c5e;text-align:left;font:inherit;font-size:.9rem;cursor:pointer}
+.learning-help-controls .text-button[aria-expanded="true"]{background:#e4f1ed;border-color:#24675b}
+.learning-hint,.learning-explanation{margin:.6rem 0 0;padding:.7rem;border-left:4px solid #ad7725;background:#fff7df;overflow-wrap:anywhere}
+.learning-explanation{border-left-color:#256f62;background:#edf6f2}
+.learning-oral-prompt{font-size:.9rem;margin:.85rem 0 .1rem;color:#374e54;overflow-wrap:anywhere}
+.story>p[data-learning-fragment]{scroll-margin-top:8rem}
+.story>p[data-learning-fragment]:focus{outline:3px solid #9a5a20;outline-offset:.35rem;background:#fff5d9}
+.learning-source-guide{padding:.9rem;margin:1rem 0;background:#eef5f2;border:1px solid #b7cdc6;overflow-wrap:anywhere}
+.learning-source-guide>summary{font-size:1rem;font-weight:750;cursor:pointer;min-height:44px}
+.learning-source-guide ol{padding-left:1.3rem;margin:.4rem 0}
+.learning-source-guide li+li{margin-top:.4rem}
+.learning-source-guide p{margin-bottom:0}
+.learning-source-reminder{font-size:.9rem;color:#374e54;overflow-wrap:anywhere}
+.learning-geography{border:1px solid #aac7c6;background:#f4f9f6;padding:.9rem;margin:1rem 0;min-width:0;overflow-wrap:anywhere}
+.learning-geography>summary{font-weight:800;color:var(--ocean,#052f49);cursor:pointer;min-height:44px}
+.learning-geography-note{font-size:.9rem;color:#3c565b}
+.learning-geography-list{padding-left:1.4rem}
+.learning-geography-list>li{padding:.6rem 0;border-top:1px solid #ccdcda}
+.learning-geography-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(9rem,.35fr);gap:.7rem;align-items:center}
+.learning-geography select,.creative-closure select{width:100%;min-width:0;max-width:100%;padding:.55rem;border:1px solid #7e9f9f;border-radius:.25rem;background:#fff;color:var(--ink,#18242c);font:inherit;min-height:44px}
+.learning-geography-feedback{font-size:.9rem;margin:.35rem 0 0}
+.learning-geography-status{font-weight:650}
+.learning-geography-reference{margin:.8rem 0 0}
+.learning-geography-reference>summary{cursor:pointer;min-height:44px}
+.creative-closure{overflow-wrap:anywhere;min-width:0}
+.creative-island-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.2rem 0}
+.creative-island-choice{display:grid;align-content:start;gap:.35rem;font-weight:700;min-width:0}
+.creative-audience{padding:.8rem;background:#f0eadc;border-left:4px solid #9b6339}
+.creative-route-note{padding:.8rem;border:1px solid #c2a475;background:#fff7e4}
+.creative-example{margin-top:1.5rem;padding:.85rem;border:1px solid #b1c8c6;background:#edf6f3}
+.creative-example>summary{font-weight:750;cursor:pointer;min-height:44px}
+.creative-review{margin-top:1.4rem;padding-top:.8rem;border-top:1px solid #d7c8a7}
+.creative-review ul{padding-left:1.3rem}
+.creative-review li+li{margin-top:.55rem}
+.learning-help :is(button,summary):focus-visible,.learning-source-guide>summary:focus-visible,.learning-geography :is(button,select,summary):focus-visible,.creative-closure :is(button,select,summary):focus-visible{outline:3px solid #9a5a20;outline-offset:3px}
+@media(max-width:650px){.creative-island-choices,.learning-geography-row{grid-template-columns:minmax(0,1fr)}.learning-help-controls{display:grid;grid-template-columns:minmax(0,1fr)}.creative-story-returns{display:grid;grid-template-columns:minmax(0,1fr)}.creative-closure .source-table{font-size:.9rem;table-layout:fixed}.creative-closure .source-table th,.creative-closure .source-table td{padding:.45rem;overflow-wrap:anywhere}}
+@media print{.learning-help-controls,.creative-island-choices,.creative-story-returns{display:none}.creative-closure{break-before:page}}

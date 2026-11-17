@@ -1,2 +1,6 @@
 .deploy/
+.backup/
+.venv/
 __pycache__/
+node_modules/
+.wrangler/

@@ -1,8 +1,9 @@
 /*
-  Content-Security-Policy: default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'none'; media-src 'self' data: blob:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; media-src 'self' data: blob:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=31536000
   X-Frame-Options: SAMEORIGIN
   Cross-Origin-Resource-Policy: same-origin
   Cache-Control: public, max-age=0, must-revalidate
@@ -10,8 +11,70 @@
 /assets/*
   Cache-Control: public, max-age=3600, must-revalidate
 
+/_story_video_parts/*
+  Content-Type: application/octet-stream
+  Cache-Control: public, max-age=31536000, immutable
+
 /favicon.svg
   Cache-Control: public, max-age=3600, must-revalidate
 
-/og-image.png
-  Cache-Control: public, max-age=86400, must-revalidate
+/downloads/MitoMapa_canario_GobCan.elpx
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment; filename="MitoMapa_canario_4_8_9.elpx"
+
+/downloads/pintaderas-3d/recreaciones/*
+  Content-Type: model/stl
+  Content-Disposition: attachment
+
+/downloads/pintaderas-3d/sellos/*
+  Content-Type: model/stl
+  Content-Disposition: attachment
+
+/downloads/pintaderas-3d/recreaciones.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment
+
+/downloads/pintaderas-3d/sellos.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment
+
+/downloads/vasija/vasija_canaria.stl
+  Content-Type: model/stl
+  Content-Disposition: attachment
+
+/downloads/vasijas/*.stl
+  Content-Type: model/stl
+  Content-Disposition: attachment
+
+/downloads/vasijas/coleccion.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment; filename="MitoMapa_STL_seis_vasijas.zip"
+
+/downloads/lapa-blanca/lapa-blanca-la-graciosa.stl
+  Content-Type: model/stl
+  Content-Disposition: attachment; filename="MitoMapa_Lapa_blanca_La_Graciosa.stl"
+
+/downloads/MitoMapa_Cuentos_de_Canarias.pdf
+  Content-Type: application/pdf
+  Content-Disposition: attachment; filename="MitoMapa_Cuentos_de_Canarias.pdf"
+
+/downloads/MitoMapa_Cuentos_y_Fichas_de_Actividades.pdf
+  Content-Type: application/pdf
+  Content-Disposition: attachment; filename="MitoMapa_Cuentos_y_Fichas_de_Actividades.pdf"
+
+/en/media/*/captions.vtt
+  Content-Type: text/vtt; charset=utf-8
+
+/en/media/*/story.pdf
+  Content-Type: application/pdf
+  Content-Disposition: attachment
+
+/en/video-hls/*.m3u8
+  Content-Type: application/vnd.apple.mpegurl
+
+/en/video-hls/*.m4s
+  Content-Type: video/iso.segment
+
+/en/downloads/MitoMapa_Canary_Islands_EN.elpx
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment; filename="MitoMapa_Canary_Islands_EN.elpx"
