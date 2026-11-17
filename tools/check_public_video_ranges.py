@@ -7,6 +7,7 @@ from urllib.error import HTTPError
 from urllib.request import Request, build_opener
 
 from check_public_transport import HOSTNAME, NoRedirect
+from prepare_deploy import STORY_VIDEO_PART_BYTES
 from release_support import STORY_ISLANDS
 
 
@@ -70,6 +71,7 @@ def verify_videos(opener, deploy):
                 middle = size // 2
                 probes = (
                     ('bytes=0-1', 0, 1),
+                    ('bytes=0-', 0, min(size, STORY_VIDEO_PART_BYTES) - 1),
                     (f'bytes={middle}-{middle + PROBE_BYTES - 1}', middle, middle + PROBE_BYTES - 1),
                     (f'bytes=-{PROBE_BYTES}', size - PROBE_BYTES, size - 1),
                 )
@@ -86,7 +88,7 @@ def verify_videos(opener, deploy):
             failures += 1
             print(f'::error title=Story video range verification::{path}: {error}', flush=True)
         else:
-            print(f'{path}: HTTP 206 and exact staged bytes for initial, middle and suffix ranges.', flush=True)
+            print(f'{path}: HTTP 206 and exact staged bytes for short, open-ended, middle and suffix ranges.', flush=True)
     print(f'Story video range verification: {len(VIDEO_PATHS) - failures}/{len(VIDEO_PATHS)} passed.', flush=True)
     return 1 if failures else 0
 
