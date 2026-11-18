@@ -29,12 +29,15 @@ jobs:
         run: |
           python3 - <<'PY'
           import os, re
-          if not re.fullmatch(r'[0-9a-f]{40}', os.environ['RELEASE_SOURCE_COMMIT']):
+          requested = os.environ['RELEASE_SOURCE_COMMIT']
+          if not re.fullmatch(r'[0-9a-f]{40}', requested):
               raise SystemExit('Use the exact lowercase 40-character commit SHA.')
+          if requested != os.environ['GITHUB_SHA']:
+              raise SystemExit('The requested commit must match the reviewed main workflow commit.')
           PY
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.source_commit }}
+          ref: ${{ github.sha }}
           fetch-depth: 1
           persist-credentials: false
       - name: Require that exact commit to remain current main
