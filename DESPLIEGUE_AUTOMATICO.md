@@ -133,6 +133,24 @@ puede verificar, el paso falla; el control previo impide iniciar la publicación
 El control posterior detecta una regresión tras la publicación. No se amplían
 los permisos del token.
 
+### Visibilidad de la versión recién subida
+
+La subida se realiza una sola vez. Si Wrangler devuelve el error 100146 al
+consultar la UUID aprobada antes de activar, el wrapper permite hasta cinco
+intentos con esa misma UUID al 100 %, pausas de 1, 2, 4 y 8 segundos y un plazo
+compartido de 60 segundos para la fase de activación. Sólo acepta un diagnóstico
+inequívoco de stderr para la cuenta, el Worker y la UUID exactos; no utiliza
+`latest` ni selecciona otra versión. El error de consulta se produce antes del
+POST de activación en el Wrangler fijado, 4.152.0. Al actualizar esa dependencia,
+revisa también este contrato y las pruebas del wrapper.
+
+Otros códigos, rutas, diagnósticos ambiguos y errores del POST no se reintentan.
+Un timeout detiene el grupo completo de procesos de la CLI y aborta sin repetir
+la operación; si la petición ya llegó al servidor, comprueba el estado de
+Cloudflare antes de una nueva acción. Las salidas capturadas no se vuelcan al
+registro: pueden incluir anotaciones o datos de la cuenta. Al agotarse el plazo
+o los intentos, la publicación conserva su resultado de fallo.
+
 Dependabot incluye npm, Actions y Python. Sus alertas se activan en los ajustes
 del repositorio. Antes de fusionar una actualización de infraestructura o
 dependencias, ejecutar `python3 tools/update_release.py` para sincronizar el

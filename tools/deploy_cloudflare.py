@@ -2,9 +2,90 @@
 
 import json
 import os
+import re
+import signal
 from pathlib import Path
 import subprocess
+import time
 import uuid
+
+
+# One initial attempt plus four retries, with a shared wall-clock deadline.
+VERSION_RETRY_DELAYS = (1, 2, 4, 8)
+VERSION_ACTIVATION_TIMEOUT = 60
+ANSI_ESCAPE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
+
+
+def missing_approved_version(result, version_id, account_id):
+    """Recognize only Wrangler's pre-activation lookup of this exact version.
+
+    In the locked Wrangler 4.152.0, this endpoint is read before the deployment
+    POST. Never retry an error from /deployments or an ambiguous response.
+    """
+    stdout = ANSI_ESCAPE.sub('', result.stdout)
+    stderr = ANSI_ESCAPE.sub('', result.stderr)
+    output = stdout + '\n' + stderr
+    expected = f'/accounts/{account_id}/workers/scripts/mitomapa-canario/versions/{version_id}'
+    header = re.search(
+        r'(?m)^[ \t]*(?:✘[ \t]+)?\[ERROR\][ \t]+A request to the Cloudflare API '
+        r'\(([^()\r\n]+)\) failed\.[ \t]*$', stderr)
+    note = (re.match(
+        r'\s*The requested Worker version could not be found'
+        r'(?:, please check the ID being passed and try again)?\.\s+\[code: 100146\]',
+        stderr[header.end():]) if header else None)
+    return (result.returncode == 1 and header is not None
+            and header.group(1) == expected and note is not None
+            and output.count('[ERROR]') == 1
+            and re.findall(r'A request to the Cloudflare API \(([^()\r\n]+)\) failed\.', output) == [expected]
+            and re.findall(r'\[code:\s*([0-9]+)\]', output) == ['100146'])
+
+
+def activation_attempt(command, environment, timeout):
+    # Wrangler's executable is a Node launcher. Own its whole process group so
+    # killing the launcher cannot leave its API client running after a timeout.
+    with subprocess.Popen(command, env=environment, stdout=subprocess.PIPE,
+                          stderr=subprocess.PIPE, text=True, start_new_session=True) as process:
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+        except BaseException:
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            process.communicate()
+            raise
+        return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+
+
+def deploy_approved_version(cli, common, version_id):
+    deadline = time.monotonic() + VERSION_ACTIVATION_TIMEOUT
+    command = [cli, 'versions', 'deploy', version_id + '@100%', *common,
+               '--yes', '--message', os.environ['GITHUB_SHA']]
+    environment = {**os.environ, 'WRANGLER_LOG': 'log', 'WRANGLER_WRITE_LOGS': 'false',
+                   'WRANGLER_LOG_SANITIZE': 'true', 'WRANGLER_SEND_METRICS': 'false'}
+    attempts = len(VERSION_RETRY_DELAYS) + 1
+    for attempt in range(attempts):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise SystemExit('Worker activation exceeded the 60-second deadline; no further attempt.')
+        try:
+            result = activation_attempt(command, environment, remaining)
+        except subprocess.TimeoutExpired:
+            # A timed-out activation may have reached its POST. Do not repeat it
+            # or print the captured output, which can contain sensitive data.
+            raise SystemExit('Worker activation timed out; no further attempt.') from None
+        if result.returncode == 0:
+            print('Activated approved Worker version: ' + version_id)
+            return
+        if not missing_approved_version(result, version_id, os.environ['CLOUDFLARE_ACCOUNT_ID']):
+            raise SystemExit('Worker activation failed outside the exact-version 100146 lookup; no retry.')
+        if attempt == attempts - 1:
+            raise SystemExit('Approved Worker version remained unavailable (100146) after five attempts.')
+        delay = VERSION_RETRY_DELAYS[attempt]
+        if deadline - time.monotonic() <= delay:
+            raise SystemExit('Worker activation exceeded the 60-second deadline; no further attempt.')
+        print(f'Approved version lookup returned 100146; retry {attempt + 2}/{attempts} in {delay}s.')
+        time.sleep(delay)
 
 
 def main():
@@ -64,7 +145,7 @@ def main():
     except (OSError, ValueError, UnicodeError, RecursionError):
         raise SystemExit('The upload report must identify one valid version of the expected Worker.') from None
     print('Uploaded approved Worker version: ' + version_id)
-    subprocess.run([cli, 'versions', 'deploy', version_id + '@100%', *common, '--yes', '--message', os.environ['GITHUB_SHA']], check=True)
+    deploy_approved_version(cli, common, version_id)
 
 
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import time
 import textwrap
 import unittest
 
@@ -40,6 +41,31 @@ class DeployCloudflareTests(unittest.TestCase):
                     sys.exit(int(os.environ['UPLOAD_EXIT_CODE']))
                 Path(os.environ['WRANGLER_OUTPUT_FILE_PATH']).write_text(os.environ['UPLOAD_REPORT'])
             else:
+                if os.environ.get('SIMULATE_TIMEOUT'):
+                    import subprocess, time
+                    child = subprocess.Popen([sys.executable, '-c',
+                        "import time; from pathlib import Path; time.sleep(1.8); "
+                        "Path('late-activation').write_text('must not activate')"])
+                    Path('child.pid').write_text(str(child.pid))
+                    print(os.environ['CLOUDFLARE_API_TOKEN'], flush=True)
+                    print(os.environ['CLOUDFLARE_ACCOUNT_ID'], file=sys.stderr, flush=True)
+                    time.sleep(8)
+                if os.environ.get('DEPLOY_ELAPSED'):
+                    with Path('elapsed.jsonl').open('a') as stream:
+                        stream.write(os.environ['DEPLOY_ELAPSED'] + '\\n')
+                responses = json.loads(os.environ.get('DEPLOY_RESPONSES', '[]'))
+                if responses:
+                    calls = [json.loads(line) for line in Path('calls.jsonl').read_text().splitlines()]
+                    index = sum(call['args'][:2] == ['versions', 'deploy'] for call in calls) - 1
+                    if index >= len(responses):
+                        sys.exit(99)
+                    response = responses[index]
+                    if response.get('activated'):
+                        with Path('activated.jsonl').open('a') as stream:
+                            stream.write(json.dumps(args[2]) + '\\n')
+                    print(response.get('stdout', ''), end='')
+                    print(response.get('stderr', ''), file=sys.stderr, end='')
+                    sys.exit(response.get('exit', 0))
                 sys.exit(int(os.environ.get('DEPLOY_EXIT_CODE', '0')))
             '''))
         cli.chmod(0o755)
@@ -56,9 +82,32 @@ class DeployCloudflareTests(unittest.TestCase):
         }
 
     def run_deploy(self, credentials=None, **extra):
-        command = [sys.executable, str(ROOT / "tools/deploy_cloudflare.py")]
+        # Keep real subprocess/file behaviour and replace only the test clock.
+        bootstrap = """
+import json, os, runpy, subprocess, time
+from pathlib import Path
+elapsed = [0.0]
+clock_calls = [0]
+clock = time.monotonic
+def sleep(seconds):
+    with Path('waits.jsonl').open('a') as stream:
+        stream.write(json.dumps(seconds) + '\\n')
+    elapsed[0] += seconds
+def monotonic():
+    clock_calls[0] += 1
+    recorded = Path('elapsed.jsonl')
+    spent = sum(float(v) for v in recorded.read_text().splitlines()) if recorded.exists() else 0
+    # Give the real launcher/child tree a short deadline, without mocking the
+    # process timeout or termination that the regression must exercise.
+    timeout_offset = 59 if os.environ.get('SIMULATE_TIMEOUT') and clock_calls[0] > 1 else 0
+    return clock() + elapsed[0] + spent + timeout_offset
+time.sleep = sleep
+time.monotonic = monotonic
+runpy.run_path(os.environ['DEPLOY_SCRIPT'], run_name='__main__')
+"""
+        command = [sys.executable, '-c', bootstrap]
         return subprocess.run(command, cwd=self.root,
-                              env={**self.env, **(credentials or {}), **extra},
+                              env={**self.env, "DEPLOY_SCRIPT": str(ROOT / "tools/deploy_cloudflare.py"), **(credentials or {}), **extra},
                               capture_output=True, text=True, timeout=10)
 
     def calls(self):
@@ -112,6 +161,126 @@ class DeployCloudflareTests(unittest.TestCase):
                                  DEPLOY_EXIT_CODE="37")
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(len(self.calls()), 2)
+
+
+    def missing_version(self, *, account=ACCOUNT, worker="mitomapa-canario", version=VERSION, code=100146):
+        return {"exit": 1, "stderr": (
+            "\x1b[31m✘ [ERROR]\x1b[0m A request to the Cloudflare API "
+            f"(/accounts/{account}/workers/scripts/{worker}/versions/{version}) failed.\n"
+            f"The requested Worker version could not be found. [code: {code}]\n")}
+
+    def run_responses(self, responses, **extra):
+        return self.run_deploy({"CLOUDFLARE_API_TOKEN": TOKEN, "CLOUDFLARE_ACCOUNT_ID": ACCOUNT},
+                               DEPLOY_RESPONSES=json.dumps(responses), **extra)
+
+    def waits(self):
+        path = self.root / 'waits.jsonl'
+        return [json.loads(line) for line in path.read_text().splitlines()] if path.exists() else []
+
+    def activations(self):
+        path = self.root / 'activated.jsonl'
+        return [json.loads(line) for line in path.read_text().splitlines()] if path.exists() else []
+
+    def test_missing_exact_version_retries_then_activates_once_without_another_upload(self):
+        result = self.run_responses([self.missing_version(), self.missing_version(),
+                                     {"exit": 0, "activated": True}])
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual([call['args'][:2] for call in self.calls()],
+                         [['versions', 'upload']] + [['versions', 'deploy']] * 3)
+        self.assertTrue(all(call['args'][2] == VERSION + '@100%' for call in self.calls()[1:]))
+        self.assertEqual(self.waits(), [1, 2])
+        self.assertEqual(self.activations(), [VERSION + '@100%'])
+
+    def test_persistent_missing_version_stops_after_five_attempts_without_activation(self):
+        result = self.run_responses([self.missing_version()] * 6)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(len(self.calls()), 6)  # one upload, five bounded reads in deploy
+        self.assertEqual(self.waits(), [1, 2, 4, 8])
+        self.assertEqual(self.activations(), [])
+
+    def test_final_allowed_attempt_can_activate(self):
+        result = self.run_responses([self.missing_version()] * 4 + [{"exit": 0, "activated": True}])
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(len(self.calls()), 6)
+        self.assertEqual(self.activations(), [VERSION + '@100%'])
+
+    def test_other_version_account_worker_auth_and_ambiguous_errors_never_retry(self):
+        wrong = 'fe328dd1-51d7-4627-9fa3-4045beef4da9'
+        errors = [self.missing_version(version=wrong), self.missing_version(account='other-account'),
+                  self.missing_version(worker='other-worker'), self.missing_version(code=10000),
+                  {"exit": 1, "stderr": "[ERROR] API request failed [code: 100146]"},
+                  {"exit": 1, "stderr": self.missing_version()['stderr'] + "[ERROR] Auth failed [code: 10000]"},
+                  {"exit": 1, "stderr": self.missing_version()['stderr'] + self.missing_version()['stderr']},
+                  {"exit": 1, "stderr": self.missing_version()['stderr'].replace('/versions/' + VERSION, '/deployments')},
+                  {"exit": 42, "stderr": self.missing_version()['stderr']}]
+        for failure in errors:
+            with self.subTest(failure=failure):
+                for name in ('calls.jsonl', 'waits.jsonl', 'activated.jsonl', 'mitomapa-upload-123-1.jsonl'):
+                    (self.root / name).unlink(missing_ok=True)
+                result = self.run_responses([failure, {"exit": 0, "activated": True}])
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(len(self.calls()), 2)
+                self.assertEqual(self.waits(), [])
+                self.assertEqual(self.activations(), [])
+
+    def test_timeout_aborts_without_retry_or_printing_captured_credentials(self):
+        result = self.run_responses([self.missing_version()], SIMULATE_TIMEOUT='1')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(len(self.calls()), 2)  # upload and a real launcher with a child
+        self.assertTrue((self.root / 'child.pid').is_file())
+        time.sleep(2)
+        self.assertFalse((self.root / 'late-activation').exists())
+        self.assertEqual(self.waits(), [])
+        self.assertNotIn(TOKEN, result.stdout + result.stderr)
+        self.assertNotIn(ACCOUNT, result.stdout + result.stderr)
+
+    def test_elapsed_deadline_stops_before_another_retry(self):
+        result = self.run_responses([self.missing_version()] * 6, DEPLOY_ELAPSED='59')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(len(self.calls()), 2)
+        self.assertEqual(self.waits(), [])
+        self.assertEqual(self.activations(), [])
+
+    def test_captured_cli_output_never_leaks_credentials(self):
+        failure = self.missing_version()
+        failure['stdout'] = TOKEN
+        failure['stderr'] += ACCOUNT + TOKEN
+        result = self.run_responses([failure, {"exit": 0, "activated": True,
+                                              "stdout": TOKEN + ACCOUNT}])
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotIn(TOKEN, result.stdout + result.stderr)
+        self.assertNotIn(ACCOUNT, result.stdout + result.stderr)
+
+
+    def test_stdout_annotations_cannot_supply_a_missing_error_header_or_code(self):
+        missing = self.missing_version()['stderr']
+        failures = [
+            {"exit": 1, "stdout": missing.replace('[ERROR]', ''),
+             "stderr": '[ERROR] Unrelated activation failure'},
+            {"exit": 1, "stdout": '[code: 100146]',
+             "stderr": missing.replace('[code: 100146]', '')},
+            {"exit": 1, "stderr": 'ordinary annotation: ' + missing.replace('\x1b[31m', '').replace('\x1b[0m', '')},
+        ]
+        for failure in failures:
+            with self.subTest(failure=failure):
+                for name in ('calls.jsonl', 'waits.jsonl', 'activated.jsonl', 'mitomapa-upload-123-1.jsonl'):
+                    (self.root / name).unlink(missing_ok=True)
+                result = self.run_responses([failure, {"exit": 0, "activated": True}])
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(len(self.calls()), 2)
+                self.assertEqual(self.waits(), [])
+                self.assertEqual(self.activations(), [])
+
+
+    def test_post_error_100146_does_not_repeat_a_possibly_completed_activation(self):
+        failure = self.missing_version()
+        failure['stderr'] = failure['stderr'].replace('/versions/' + VERSION, '/deployments')
+        failure['activated'] = True
+        result = self.run_responses([failure, {"exit": 0, "activated": True}])
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(len(self.calls()), 2)
+        self.assertEqual(self.waits(), [])
+        self.assertEqual(self.activations(), [VERSION + '@100%'])
 
 
 if __name__ == "__main__":
