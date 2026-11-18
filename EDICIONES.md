@@ -30,6 +30,7 @@ Disponibilidad observada: `public_observed`; HTTP 200; comprobación 2026-11-17T
 
 ## Mediateca: ficha y archivo adjunto
 
+Edición de Mediateca conservada: **4.8.8** (archivo adjunto).
 La ficha anuncia **4.8.4**; el ELPX descargado contiene **4.8.8**.
 Comprobación: 2026-11-17T22:26:29.092821+00:00; HTTP 200.
 Archivo inspeccionado: https://www3.gobiernodecanarias.org/medusa/mediateca/files/original/8723f5c4cd8eb79c892c31fe478fa51015f76f4c.elpx

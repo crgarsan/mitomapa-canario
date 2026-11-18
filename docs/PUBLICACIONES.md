@@ -45,4 +45,4 @@ GitHub permite hasta 1000 assets por release y exige que cada uno sea menor de 2
 
 ## Mediateca
 
-La publicación institucional requiere una revisión independiente. La comprobación del 17/11/2026 encontró una ficha que anuncia 4.8.4 y un adjunto que declara 4.8.8; el descargable vigente del proyecto es 4.8.9. La [propuesta de rectificación](MEDIATECA_RECTIFICACION.md) permite revisar el texto y el archivo antes de actualizarlos con una cuenta autorizada de Mediateca.
+Se mantiene anunciada la edición **4.8.8**, correspondiente al archivo adjunto actual de Mediateca, conforme a la decisión de la autoría del 18/11/2026. La comprobación del 17/11/2026 encontró una ficha que todavía anuncia 4.8.4; el descargable directo del proyecto es una edición distinta, 4.8.9. La [propuesta de rectificación](MEDIATECA_RECTIFICACION.md) permite corregir únicamente el texto y los campos de versión con una cuenta autorizada de Mediateca, conservando el adjunto 4.8.8.

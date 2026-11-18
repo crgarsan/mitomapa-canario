@@ -29,9 +29,9 @@ def archive_bytes(label):
 class PrepareReleaseTests(unittest.TestCase):
     def setUp(self):
         self.assertIsNotNone(prepare_release, "The traceable release preparer is missing")
-        self.temporary = tempfile.TemporaryDirectory(dir="/private/tmp")
+        self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
-        self.parent = Path(self.temporary.name)
+        self.parent = Path(self.temporary.name).resolve()
         self.root = self.parent / "source"
         self.root.mkdir()
         self.output = self.parent / "delivery"

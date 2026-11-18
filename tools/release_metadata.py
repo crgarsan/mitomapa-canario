@@ -131,7 +131,8 @@ def _current_block(version):
                       f"- [Paquete REA inglés]({english['sharing_archive']['path']})."])
     mediateca = version.get("external_publications", {}).get("mediateca")
     if mediateca:
-        lines.append(f"- [Mediateca: anuncia {mediateca['announced_version']}; adjunto comprobado {mediateca['embedded_version']}]({mediateca['item_url']}).")
+        lines.append(f"- [Mediateca {mediateca['embedded_version']} · archivo adjunto conservado]({mediateca['item_url']}).")
+        lines.append(f"  Nota de la comprobación externa: la ficha anunciaba {mediateca['announced_version']}; se mantiene la edición {mediateca['embedded_version']} del adjunto.")
     lines.extend(["- [Matriz de ediciones, idiomas e identidades](EDICIONES.md).",
                   "- Huellas y tamaños de los ZIP: `SHA256SUMS.txt` y catálogo externo de la entrega.", END])
     return "\n".join(lines)
@@ -235,6 +236,7 @@ def _editions(version, rows):
     mediateca = version.get("external_publications", {}).get("mediateca")
     if mediateca:
         lines.extend(["", "## Mediateca: ficha y archivo adjunto", "",
+                      f"Edición de Mediateca conservada: **{mediateca['embedded_version']}** (archivo adjunto).",
                       f"La ficha anuncia **{mediateca['announced_version']}**; el ELPX descargado contiene **{mediateca['embedded_version']}**.",
                       f"Comprobación: {mediateca['checked_at_utc']}; HTTP {mediateca['http_status']}.",
                       f"Archivo inspeccionado: {mediateca['download_url']}",
