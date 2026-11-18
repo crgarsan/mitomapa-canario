@@ -23,13 +23,34 @@ configura **GitHub → Settings → Environments → production**:
    - `CLOUDFLARE_PRODUCTION_API_TOKEN`: token de esa cuenta.
    - `CLOUDFLARE_PRODUCTION_ACCOUNT_ID`: identificador de esa cuenta.
 3. Comprueba que esos dos nombres estén únicamente en los secretos del entorno.
-   Retira sus posibles copias de los secretos de repositorio u organización.
-   El nombre exclusivo por sí solo no demuestra el aislamiento del secreto.
-4. Si existían `CLOUDFLARE_API_TOKEN` o `CLOUDFLARE_ACCOUNT_ID` como secretos
-   generales, retira su acceso a este repositorio y revoca el token antiguo en
-   Cloudflare. GitHub no permite recuperar el valor de un secreto guardado.
-   Utiliza un token nuevo si no conservas el anterior. Una copia general activa
-   permitiría a otro flujo obtener el token sin pasar por `production`.
+   Si hay copias en repositorio u organización, identifica sus consumidores y
+   acuerda su retirada. El nombre exclusivo por sí solo no demuestra el
+   aislamiento del secreto.
+4. Mientras `main` use los nombres antiguos, crea también como secretos del
+   entorno `production` los alias temporales `CLOUDFLARE_API_TOKEN` y
+   `CLOUDFLARE_ACCOUNT_ID`, con los mismos valores del token nuevo y de su cuenta.
+   Son valores guardados, no referencias a otros secretos. No copies el token
+   antiguo de los secretos generales. GitHub da prioridad al secreto del entorno
+   sobre el del repositorio cuando tienen el mismo nombre: el `main` actual ya
+   solicita `production` y puede resolver allí sus nombres antiguos.
+5. Antes de retirar nada, verifica los cuatro nombres en `production`, la regla
+   exacta de rama `main` y la ausencia de workflows o despliegues concurrentes
+   de `main`. Repite esta comprobación si transcurre tiempo o aparece otro push.
+6. Con confirmación expresa de la eliminación, retira únicamente las copias
+   `CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID` de **Repository secrets**.
+   Mantén los alias del entorno: eliminarlos ahora dejaría al `main` actual sin
+   sus credenciales. GitHub no permite recuperar el valor de un secreto borrado.
+   Una copia general activa permitiría a otro flujo obtener el token sin pasar
+   por `production`.
+7. Sólo después de integrar la PR #1 y validar su uso de los nombres exclusivos,
+   en un paso futuro autorizado, retira los dos alias antiguos del entorno.
+
+Los tokens anteriores de Cloudflare se conservan por decisión de la autoría.
+Retirar copias de GitHub no revoca esos tokens ni modifica otras automatizaciones
+que los utilicen fuera de este repositorio. Su posible revocación queda fuera
+de esta transición y exige revisar sus consumidores y obtener autorización
+específica. La precedencia de secretos se documenta en la
+[referencia de GitHub](https://docs.github.com/en/actions/reference/security/secrets).
 
 El paso final convierte los nombres exclusivos en las variables
 `CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID` que necesita Wrangler.
@@ -48,14 +69,21 @@ soliciten el entorno `production` desde una rama distinta de `main` y desde una
 etiqueta. GitHub debe rechazarlos por la política del entorno. La omisión de un
 trabajo por la condición del flujo no comprueba por sí sola esa protección.
 El cierre administrativo incluye verificar ubicación de los secretos, reglas
-del entorno, permisos del nuevo token y revocación del anterior. Las pruebas
-locales con datos ficticios no comprueban esos ajustes privados.
+del entorno, permisos del nuevo token y retirada de las copias generales
+accesibles. Las pruebas locales con datos ficticios no comprueban esos ajustes
+privados. La comprobación manual aportada por la autoría el 18/11/2026 obtuvo
+HTTP 200, `success: true` y estado `active` para el token en Cloudflare, además
+de HTTP 200 al consultar el Worker. No demuestra que el valor almacenado en
+GitHub sea idéntico ni que se haya autenticado una ejecución de Actions.
 
-Después de configurar los secretos, comprueba la ejecución de **Deploy MitoMapa
-to Cloudflare** en Actions. También puedes iniciarla manualmente con **Run
-workflow**. Comprueba en la URL pública la autoría, las ocho rutas, el pasaporte,
-la guía y la descarga del REA. Un error de credenciales aparece como un fallo del
-despliegue en Actions y puede consultarse en el paso **Deploy existing Worker**.
+La fusión de la PR #1 produce un push a `main` que inicia el flujo y puede
+desplegar automáticamente. En un paso posterior que autorice expresamente la
+integración y la publicación, comprueba la ejecución de **Deploy MitoMapa to
+Cloudflare** en Actions y, en la URL pública, la autoría, las ocho rutas, el
+pasaporte, la guía y la descarga del REA. **Run workflow** también puede publicar:
+no lo utilices como comprobación de autenticación sin despliegue. Un error de
+credenciales aparece como un fallo del despliegue en Actions y puede consultarse
+en el paso **Deploy existing Worker**.
 
 Los cambios hechos directamente en el panel de Cloudflare no vuelven a GitHub y
 el siguiente despliegue desde `main` puede reemplazarlos. Conserva en el
