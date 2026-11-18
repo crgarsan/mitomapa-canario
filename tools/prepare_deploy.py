@@ -9,7 +9,10 @@ import shutil
 import subprocess
 import tempfile
 
-from release_support import MAX_ASSET_BYTES, STORY_ISLANDS, public_entries, story_media_inventory
+from release_support import (
+    MAX_ASSET_BYTES, STORY_ISLANDS, approved_release_paths, public_entries,
+    source_path, story_media_inventory,
+)
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -87,17 +90,17 @@ def stage_english_hls(stage, ffmpeg):
         check_hls_playlist(directory)
 
 
-def stage_assets(root=ROOT, output=OUTPUT, *, ffmpeg=None):
+def stage_assets(root=ROOT, output=OUTPUT, *, ffmpeg=None, inventory=None):
     # Complete validation before deleting or writing the existing stage. The
     # provider's per-file limit also applies to historical public downloads.
-    entries = public_entries(root)
+    entries = public_entries(root, approved=approved_release_paths(root, inventory))
     temporary = Path(tempfile.mkdtemp(prefix=".deploy-", dir=root))
     try:
         for name, source in entries.items():
             destination = temporary / name
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, destination)
-        shutil.copy2(root / "SHA256SUMS.txt", temporary / "SHA256SUMS.txt")
+        shutil.copy2(source_path(root, "SHA256SUMS.txt"), temporary / "SHA256SUMS.txt")
         stage_story_video_parts(temporary)
         if ffmpeg is not None:
             stage_english_hls(temporary, ffmpeg)
@@ -113,8 +116,9 @@ def stage_assets(root=ROOT, output=OUTPUT, *, ffmpeg=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--ffmpeg", metavar="EXECUTABLE", help="also stage English HLS playback files")
+    parser.add_argument("--inventory", type=Path, help="Reviewed JSON file list for a complete non-Git export")
     args = parser.parse_args()
-    count = stage_assets(ffmpeg=args.ffmpeg)
+    count = stage_assets(ffmpeg=args.ffmpeg, inventory=args.inventory)
     generated = "story video parts and English HLS" if args.ffmpeg is not None else "story video parts"
     print(f"Verified and staged {count} assets, SHA256SUMS.txt and {generated} in {OUTPUT}")
 

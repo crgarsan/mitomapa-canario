@@ -1,0 +1,21 @@
+name: Traducción o contenido
+description: Proponer una corrección de texto, traducción o referencia.
+title: "[Contenido] "
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Enlace, idioma y versión
+    validations:
+      required: true
+  - type: textarea
+    id: text
+    attributes:
+      label: Texto actual y corrección propuesta
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Fuente o motivo de la corrección
+      description: Distinga el dato histórico, su interpretación y la ficción del cuento.

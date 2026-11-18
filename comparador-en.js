@@ -149,7 +149,7 @@
       "", "Our comparison", reflection, "",
       "Keep talking. What is similar? What is different? How do the characters’ choices affect what happens?"
     ].join("\n");
-    context.downloadText(text, "comparacion-mitomapa.txt", "text/plain;charset=utf-8");
+    if (!context.downloadText(text, "comparacion-mitomapa.txt", "text/plain;charset=utf-8")) return;
     controls.saved.textContent = "Your comparison is ready to download. Share it if your teacher asks.";
   }
 

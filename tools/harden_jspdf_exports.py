@@ -11,14 +11,16 @@ from __future__ import annotations
 
 import argparse
 import copy
+from contextlib import ExitStack, contextmanager
 from dataclasses import dataclass
 from hashlib import sha256
 from io import BytesIO
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import re
 import stat
+import struct
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -146,6 +148,9 @@ class ArchiveLimits:
 
 DEFAULT_ARCHIVE_LIMITS = ArchiveLimits()
 ARCHIVE_READ_CHUNK = 64 * 1024
+DELIVERY_TEXT_LIMIT = 1024 * 1024
+DELIVERY_TEXT_FILES = {"sha256sums.txt", "validacion_gobcan.txt"}
+DELIVERY_NATIVE = "MitoMapa_canario_GobCan.elpx"
 
 
 @dataclass
@@ -157,30 +162,207 @@ class ArchiveBudget:
     expanded_bytes: int = 0
 
 
-def read_archive_file(path: Path, *, max_bytes: int | None = None) -> bytes:
-    """Bound file allocation before ZIP parsing, even if stat becomes stale."""
+@contextmanager
+def archive_input(path: Path, *, max_bytes: int | None = None):
+    """Keep the bounded input descriptor alive through an optional commit."""
     if max_bytes is None:
         max_bytes = DEFAULT_ARCHIVE_LIMITS.max_compressed_bytes
-    source_stat = path.stat()
-    require(stat.S_ISREG(source_stat.st_mode), "Archive input must be a regular file: " + str(path))
-    require(source_stat.st_size <= max_bytes, "Archive compressed input exceeds the size limit: " + str(path))
+    check_input_file(path.stat(), max_bytes, "Archive compressed input", path)
+    # Keep nonblocking open so a substituted pipe cannot block validation.
+    with open(path, "rb", opener=lambda name, flags: os.open(name, flags | getattr(os, "O_NONBLOCK", 0))) as source:
+        check_input_file(os.fstat(source.fileno()), max_bytes, "Archive compressed input", path)
+        yield source, max_bytes
+
+
+def read_archive_file(path: Path, *, max_bytes: int | None = None) -> bytes:
+    """Bound file allocation before ZIP parsing, even if stat becomes stale."""
+    with archive_input(path, max_bytes=max_bytes) as (source, maximum):
+        return read_bounded_file(source, maximum, "Archive compressed input", path)
+
+
+def check_input_file(info, max_bytes: int, label: str, name) -> None:
+    require(stat.S_ISREG(info.st_mode), f"{label} must be a regular file: {name}")
+    require(info.st_size <= max_bytes, f"{label} exceeds the size limit: {name}")
+
+
+def read_bounded_file(source, max_bytes: int, label: str, name) -> bytes:
+    check_input_file(os.fstat(source.fileno()), max_bytes, label, name)
     chunks = []
     actual_size = 0
-    # A selected regular path may be replaced by a pipe between stat and open.
-    # Nonblocking open permits checking the actual descriptor before any read.
-    with open(path, "rb", opener=lambda name, flags: os.open(name, flags | getattr(os, "O_NONBLOCK", 0))) as source:
-        opened_stat = os.fstat(source.fileno())
-        require(stat.S_ISREG(opened_stat.st_mode), "Archive input must be a regular file: " + str(path))
-        require(opened_stat.st_size <= max_bytes,
-                "Archive compressed input exceeds the size limit: " + str(path))
-        while True:
-            chunk = source.read(min(ARCHIVE_READ_CHUNK, max_bytes - actual_size + 1))
-            if not chunk:
-                break
-            actual_size += len(chunk)
-            require(actual_size <= max_bytes, "Archive compressed input exceeds the actual size limit: " + str(path))
-            chunks.append(chunk)
+    while True:
+        chunk = source.read(min(ARCHIVE_READ_CHUNK, max_bytes - actual_size + 1))
+        if not chunk:
+            break
+        actual_size += len(chunk)
+        require(actual_size <= max_bytes, f"{label} exceeds the actual size limit: {name}")
+        chunks.append(chunk)
     return b"".join(chunks)
+
+
+def is_link(info) -> bool:
+    return (stat.S_ISLNK(info.st_mode)
+            or bool(getattr(info, "st_file_attributes", 0) & stat.FILE_ATTRIBUTE_REPARSE_POINT))
+
+
+class DeliveryFiles:
+    """Read regular files under one selected directory, without following links."""
+
+    def __init__(self, directory: Path):
+        self.directory = directory
+        self.descriptor = None
+
+    def __enter__(self):
+        try:
+            self.identity = self.directory.lstat()
+            require(stat.S_ISDIR(self.identity.st_mode) and not is_link(self.identity),
+                    f"Expected a delivery directory without symlinks: {self.directory}")
+            if (os.open in os.supports_dir_fd and os.stat in os.supports_dir_fd
+                    and os.stat in os.supports_follow_symlinks
+                    and hasattr(os, "O_DIRECTORY") and hasattr(os, "O_NOFOLLOW")):
+                with ExitStack() as cleanup:
+                    descriptor = os.open(self.directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                    cleanup.callback(os.close, descriptor)
+                    require(os.path.samestat(self.identity, os.fstat(descriptor)),
+                            "Delivery directory changed while opening it")
+                    self.descriptor = descriptor
+                    cleanup.pop_all()
+            else:
+                self.directory = self.directory.resolve(strict=True)
+        except OSError as error:
+            raise ValueError(f"Expected a delivery directory without symlinks: {self.directory}") from error
+        return self
+
+    def __exit__(self, *_):
+        if self.descriptor is not None:
+            os.close(self.descriptor)
+
+    def archive_names(self):
+        if self.descriptor is None or os.listdir not in os.supports_fd:
+            require(os.path.samestat(self.identity, self.directory.lstat()), "Delivery directory changed")
+        entries = (os.listdir(self.descriptor) if self.descriptor is not None and os.listdir in os.supports_fd
+                   else os.listdir(self.directory))
+        return sorted(name for name in entries if Path(name).suffix.lower() in {".zip", ".elpx"})
+
+    def checked_path(self, parts):
+        # Where descriptor-relative opening is unavailable, check containment,
+        # reject reparse points and compare the opened file to the checked path.
+        require(os.path.samestat(self.identity, self.directory.lstat()), "Delivery directory changed")
+        path = self.directory
+        for part in parts:
+            path /= part
+            info = path.lstat()
+            require(not is_link(info), f"Expected a delivery file without symlinks: {path}")
+        require(path.resolve(strict=True).is_relative_to(self.directory),
+                f"Expected a file inside the delivery directory: {path}")
+        return path, info
+
+    def read(self, name: str) -> bytes:
+        # Keep the single-artifact tool standalone.
+        from release_support import safe_name
+
+        parts = safe_name(name).parts
+        if os.name == "nt":
+            require(all(part == part.rstrip(" .") and not PureWindowsPath(part).is_reserved()
+                        for part in parts),
+                    f"Unsafe delivery path: {name!r}")
+        max_bytes = DEFAULT_ARCHIVE_LIMITS.max_compressed_bytes
+        label = "Archive compressed input"
+        if name.casefold() in DELIVERY_TEXT_FILES:
+            max_bytes = min(DELIVERY_TEXT_LIMIT, max_bytes)
+            label = "Delivery text"
+        flags = (os.O_RDONLY | getattr(os, "O_BINARY", 0)
+                 | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0))
+        with ExitStack() as cleanup:
+            try:
+                if self.descriptor is not None:
+                    parent = self.descriptor
+                    for part in parts[:-1]:
+                        parent = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent)
+                        cleanup.callback(os.close, parent)
+                    info = os.stat(parts[-1], dir_fd=parent, follow_symlinks=False)
+                    require(not is_link(info), f"Expected a delivery file without symlinks: {name}")
+                    check_input_file(info, max_bytes, label, name)
+                    descriptor = os.open(parts[-1], flags, dir_fd=parent)
+                else:
+                    path, info = self.checked_path(parts)
+                    check_input_file(info, max_bytes, label, name)
+                    descriptor = os.open(path, flags)
+                source = cleanup.enter_context(os.fdopen(descriptor, "rb"))
+                opened = os.fstat(source.fileno())
+                require(os.path.samestat(info, opened), f"Delivery file changed while opening it: {name}")
+                if self.descriptor is None:
+                    _, current = self.checked_path(parts)
+                    require(os.path.samestat(current, opened), f"Delivery file changed while opening it: {name}")
+                return read_bounded_file(source, max_bytes, label, name)
+            except OSError as error:
+                raise ValueError(f"Expected a delivery file without symlinks: {name}") from error
+
+
+def commit_archive(path: Path, source, payload: bytes) -> None:
+    """Write only the retained input inode, never a substituted pathname.
+
+    Opening without O_TRUNC is essential: check the actual writer descriptor
+    against the still-open reader before changing any bytes. Later renames or
+    symlinks cannot redirect writes through this descriptor. No-op hardening
+    never requests write permission; existing inode/mode/ownership survive.
+    """
+    original = os.fstat(source.fileno())
+    flags = os.O_WRONLY | getattr(os, "O_NONBLOCK", 0) | getattr(os, "O_NOFOLLOW", 0)
+    require(not path.is_symlink(), "Archive input changed before commit: " + str(path))
+    descriptor = os.open(path, flags)
+    with os.fdopen(descriptor, "wb") as output:
+        writer = os.fstat(output.fileno())
+        require(stat.S_ISREG(writer.st_mode)
+                and (writer.st_dev, writer.st_ino) == (original.st_dev, original.st_ino),
+                "Archive input changed before commit: " + str(path))
+        output.write(payload)
+        output.truncate()
+
+
+def preflight_central_directory(payload: bytes, budget: ArchiveBudget) -> None:
+    """Count real directory records before ZipFile allocates any ZipInfo.
+
+    Use CPython's bounded footer reader and its exact prefix/ZIP64 offset
+    calculation, so this walk covers the same directory ZipFile will parse.
+    Only fixed-size headers are unpacked; names, extra fields and comments
+    are skipped by checked offsets without allocating per-entry objects.
+    """
+    try:
+        end = zipfile._EndRecData(BytesIO(payload))
+    except OSError as error:
+        raise ValueError("Archive ZIP structure validation failed: " + str(error)) from error
+    require(end is not None, "Archive ZIP structure is missing its central directory")
+    declared = end[zipfile._ECD_ENTRIES_TOTAL]
+    remaining = budget.limits.max_members - budget.members
+    require(0 <= declared <= remaining, "Archive member count exceeds the limit")
+    require(end[zipfile._ECD_DISK_NUMBER] == end[zipfile._ECD_DISK_START] == 0
+            and end[zipfile._ECD_ENTRIES_THIS_DISK] == declared,
+            "Archive central directory disk/count metadata differs")
+    size = end[zipfile._ECD_SIZE]
+    finish = end[zipfile._ECD_LOCATION]
+    # Older Python patch releases report the legacy EOCD location for ZIP64;
+    # newer ones report the actual ZIP64 end record (including extensible data).
+    if (end[zipfile._ECD_SIGNATURE] == zipfile.stringEndArchive64
+            and payload[finish:finish + 4] != zipfile.stringEndArchive64):
+        finish -= zipfile.sizeEndCentDir64 + zipfile.sizeEndCentDir64Locator
+    start = finish - size
+    require(0 <= start <= finish <= len(payload)
+            and 0 <= end[zipfile._ECD_OFFSET] <= start,
+            "Archive central directory offsets are invalid")
+    position = start
+    count = 0
+    while position < finish:
+        require(position + zipfile.sizeCentralDir <= finish,
+                "Archive central directory header is truncated")
+        header = struct.unpack_from(zipfile.structCentralDir, payload, position)
+        require(header[zipfile._CD_SIGNATURE] == zipfile.stringCentralDir,
+                "Archive central directory signature is invalid")
+        count += 1
+        require(count <= remaining, "Archive member count exceeds the limit")
+        position += (zipfile.sizeCentralDir + header[zipfile._CD_FILENAME_LENGTH]
+                     + header[zipfile._CD_EXTRA_FIELD_LENGTH] + header[zipfile._CD_COMMENT_LENGTH])
+        require(position <= finish, "Archive central directory record is truncated")
+    require(count == declared, "Archive central directory member count differs")
 
 
 def archive_member_name(info: zipfile.ZipInfo) -> str:
@@ -206,6 +388,7 @@ def read_archive(payload: bytes, *, budget: ArchiveBudget | None = None, depth: 
     require(0 <= depth <= limits.max_depth, "Archive nesting depth exceeds the limit")
     require(len(payload) <= limits.max_compressed_bytes, "Archive compressed input exceeds the size limit")
     try:
+        preflight_central_directory(payload, budget)
         with zipfile.ZipFile(BytesIO(payload)) as archive:
             infos = archive.infolist()
             require(budget.members + len(infos) <= limits.max_members,
@@ -432,6 +615,42 @@ def checksum_text(directory: Path, text: str) -> str:
     return "\n".join(lines) + "\n"
 
 
+def verify_delivery(directory: Path) -> None:
+    from release_support import parse_sums
+
+    exported_name = "MitoMapa_canario_GobCan_HTML.zip"
+    with DeliveryFiles(directory) as delivery:
+        native = delivery.read(DELIVERY_NATIVE)
+        require(native == read_archive_file(ROOT / "downloads" / DELIVERY_NATIVE),
+                "Delivery/public ELPX copies differ")
+        exported = delivery.read(exported_name)
+        require(all(verify_archive(payload) == (3, 0) for payload in (native, exported)),
+                "Unexpected delivery PDF loader inventory")
+        sums = delivery.read("SHA256SUMS.txt")
+        validation = delivery.read("VALIDACION_GOBCAN.txt")
+        validation_text = validation.decode("utf-8")
+        fixed = {DELIVERY_NATIVE: native, exported_name: exported,
+                 "SHA256SUMS.txt": sums, "VALIDACION_GOBCAN.txt": validation}
+        sums_text = sums.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+        checksums = parse_sums(sums_text)
+        canonical_sums = "".join(f"{expected}  {name}\n" for name, expected in checksums.items())
+        require(sums_text == canonical_sums, "Delivery checksums are stale")
+        for name, expected in checksums.items():
+            data = fixed[name] if name in fixed else delivery.read(name)
+            require(digest(data) == expected, "Stale delivery checksum: " + name)
+        for prefix, payload in [("ELPX SHA-256: ", native), ("HTML ZIP SHA-256: ", exported)]:
+            require(prefix + digest(payload) in validation_text,
+                    "Delivery validation hash is stale")
+        bundle = delivery.read("Entrega_MitoMapa_GobCan.zip")
+        entries, files, _ = read_archive(bundle)
+        for entry in entries:
+            if not entry.is_dir():
+                name = entry.filename
+                data = fixed[name] if name in fixed else delivery.read(name)
+                require(files[name] == data, "Nested delivery files differ from final copies: " + name)
+        require(verify_archive(bundle) == (6, 1), "Delivery bundle PDF policy is stale")
+
+
 def delivery_update(directory: Path, check: bool) -> None:
     native = directory / "MitoMapa_canario_GobCan.elpx"
     exported = directory / "MitoMapa_canario_GobCan_HTML.zip"
@@ -463,19 +682,7 @@ def delivery_update(directory: Path, check: bool) -> None:
                 "Unrelated delivery document changed")
         if files != before:
             bundle.write_bytes(write_archive(infos, files, comment))
-    require(read_archive_file(native) == read_archive_file(ROOT / "downloads" / native.name),
-            "Delivery/public ELPX copies differ")
-    require(all(verify_archive(read_archive_file(path)) == (3, 0) for path in (native, exported)),
-            "Unexpected delivery PDF loader inventory")
-    require(sums.read_text("utf-8") == checksum_text(directory, sums.read_text("utf-8")),
-            "Delivery checksums are stale")
-    for prefix, path in [("ELPX SHA-256: ", native), ("HTML ZIP SHA-256: ", exported)]:
-        require(prefix + digest(read_archive_file(path)) in validation.read_text("utf-8"),
-                "Delivery validation hash is stale")
-    _, files, _ = read_archive(read_archive_file(bundle))
-    require(all(data == read_archive_file(directory / name) for name, data in files.items()),
-            "Nested delivery files differ from final copies")
-    require(verify_archive(read_archive_file(bundle)) == (6, 1), "Delivery bundle PDF policy is stale")
+    verify_delivery(directory)
 
 
 def main() -> None:
@@ -488,21 +695,22 @@ def main() -> None:
     require(not (args.artifact and args.delivery_dir), "Use --artifact or --delivery-dir separately")
     if args.artifact:
         path = args.artifact.resolve()
-        before = read_archive_file(path)
-        if args.check:
-            loaders, nested = verify_archive(before)
-        else:
-            after, loaders, nested = patched_archive(before)
-            if after != before:
-                path.write_bytes(after)
-        require(loaders > 0, "No native jsPDF export loaders found")
+        with archive_input(path) as (source, maximum):
+            before = read_bounded_file(source, maximum, "Archive compressed input", path)
+            if args.check:
+                loaders, nested = verify_archive(before)
+            else:
+                after, loaders, nested = patched_archive(before)
+            require(loaders > 0, "No native jsPDF export loaders found")
+            if not args.check and after != before:
+                commit_archive(path, source, after)
         print(json.dumps({"mode": "checked" if args.check else "updated", "artifact": str(path),
                           "loaders": loaders, "nested_elpx": nested}))
         return
     require(args.check, "Global mode is read-only; use --check or explicitly harden one --artifact copy")
     summary = verify_public_archives(ROOT)
     if args.delivery_dir:
-        delivery_update(args.delivery_dir.resolve(), True)
+        verify_delivery(args.delivery_dir)
     print(json.dumps({"mode": "checked", **summary,
                       "native_XML_search_pages_media_preserved": True,
                       "delivery_included": bool(args.delivery_dir)}))

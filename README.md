@@ -1,4 +1,4 @@
-# MitoMapa canario · web 4.9.4 · REA 4.8.9
+# MitoMapa canario · web 4.10.0 · REA 4.8.9
 
 Recurso educativo abierto multinivel sobre relatos, leyendas y patrimonio
 canario. Cada docente elige las tareas, los apoyos y el anclaje curricular para
@@ -9,24 +9,24 @@ Santana. Narración: Jesica Fortes Regalado.
 
 ## Edición vigente
 
-La publicación web **4.9.4** identifica el REA editable **4.8.9**, revisado el
-02/11/2026 para actualizar fflate a 0.8.3. Conserva la corrección del
-renderizado de metadatos nativos de la edición anterior. Los títulos y mensajes
-se muestran como texto; los ítems y pies conservan formato HTML pasivo saneado.
-Se conservan las identidades, preguntas, seguimiento, cuentos, audios e imágenes.
-Son dos recursos diferenciados. La adaptación GobCan tiene
-**34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3**. Utiliza el formato
-de eXeLearning **4.0.5**, la plantilla Flux y Andika. El ELPX conserva los ocho
-cuentos, las escenas, las actividades editables, sus apoyos y la narración local;
-no incorpora la aplicación web ni la muestra en un marco incrustado. Su última
-página ofrece únicamente un enlace opcional a la web como recurso extra.
 
-- [Edición publicada en la Mediateca de Canarias](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
+<!-- BEGIN GENERATED CURRENT EDITION -->
+La publicación web **4.10.0** y el REA editable **4.8.9** son recursos diferenciados.
+Revisión web declarada: 16/11/2026. Revisión del REA: 02/11/2026.
+Las fechas de revisión no acreditan la fecha de un despliegue.
+El REA utiliza eXeLearning **4.0.5** y conserva su seguimiento nativo, independiente de la web.
+
 - [Web publicada](https://mitomapacanario.org/).
 - [REA editable vigente · 4.8.9](downloads/MitoMapa_canario_GobCan.elpx).
-- [Paquete de la publicación 4.9.4 · incluye el REA 4.8.9](downloads/MitoMapa_REA_v4_9_4.zip).
-- [Fuentes web 4.9.4](downloads/MitoMapa_fuentes_web_v4_9_4.zip).
-- [REA anterior · 4.8.6](downloads/MitoMapa_canario_GobCan_v4_8_6.elpx).
+- [Paquete de la publicación 4.10.0 · incluye el REA 4.8.9](downloads/MitoMapa_REA_v4_10_0.zip).
+- [Fuentes web 4.10.0 · paquete 4.10.0](downloads/MitoMapa_fuentes_web_v4_10_0.zip).
+- [REA editable inglés · base 4.8.9](en/downloads/MitoMapa_Canary_Islands_EN.elpx).
+- [Paquete REA inglés](en/downloads/MitoMapa_Canary_Islands_EN.zip).
+- [Mediateca 4.8.8 · archivo adjunto conservado](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
+  Nota de la comprobación externa: la ficha anunciaba 4.8.4; se mantiene la edición 4.8.8 del adjunto.
+- [Matriz de ediciones, idiomas e identidades](EDICIONES.md).
+- Huellas y tamaños de los ZIP: `SHA256SUMS.txt` y catálogo externo de la entrega.
+<!-- END GENERATED CURRENT EDITION -->
 
 La miniatura social conserva el diseño de la web 4.8.8: un fondo
 azul degradado y una vasija decorativa. Retira las figuras similares a ojos y
@@ -118,7 +118,9 @@ incrustada ni un requisito del recorrido. Comprueba la apertura, la navegación
 y la exportación antes de distribuir una adaptación.
 
 Para publicar cambios exclusivos de la web, prepara y comprueba sus paquetes
-sin regenerar el ELPX:
+sin regenerar el ELPX. Añade a Git los archivos nuevos revisados antes de
+empaquetar. Si se generan ZIP con nombres nuevos, añádelos a Git antes de
+ejecutar `--check` o preparar el despliegue.
 
 ```sh
 python3.12 -m venv .venv
@@ -130,9 +132,16 @@ python3 tools/update_release.py --check
 python3 tools/prepare_deploy.py
 ```
 
+Para preparar o comprobar una exportación completa sin Git, pasa a cada
+herramienta `--inventory RUTA` con un fichero JSON revisado que enumere las
+rutas autorizadas relativas a la raíz de la exportación. Incluye
+`SHA256SUMS.txt`, las fuentes y los recursos que se vayan a publicar, con las
+rutas de los tres paquetes vigentes. La descarga pública de fuentes permite
+adaptar la web y se distribuye aparte de los paquetes del REA y otros recursos.
+
 Si se prepara una revisión del proyecto nativo, utiliza por separado
 `tools/sync_current_elpx.py` y comprueba el resultado con `--check` antes de
-empaquetar. La publicación 4.9.4 ofrece el ELPX 4.8.9 con dependencias nativas revisadas; el archivo
+empaquetar. El ELPX vigente conserva sus dependencias nativas revisadas; el archivo
 4.8.6 anterior conserva su propia descarga.
 
 LXML permite comprobar el modelo nativo y su DTD; Pillow verifica la miniatura
@@ -253,7 +262,7 @@ Ver [cambio nativo 4.8.8](CAMBIOS_REA_4_8_8.md) y
 
 ## Correcciones posteriores a la publicación
 
-Ver [web 4.9.4](CAMBIOS_WEB_4_9_4.md) y [REA 4.8.9](CAMBIOS_REA_4_8_9.md).
+Ver [web 4.10.0](CAMBIOS_WEB_4_10_0.md) y [REA 4.8.9](CAMBIOS_REA_4_8_9.md).
 
 Las fuentes distribuyen los nuevos medios por separado. Ejecuta
 `python3 tools/fetch_story_media.py` para recuperarlos con sus tamaños y SHA-256
