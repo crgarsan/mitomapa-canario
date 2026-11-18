@@ -5,38 +5,85 @@ El repositorio contiene la web estática y el Worker existente se llama
 solo los archivos públicos y los despliega con Wrangler. Mantiene la URL del
 Worker de la cuenta configurada.
 
-Cada push a `main` inicia el despliegue. Una persona con acceso a la cuenta de
-Cloudflare debe comprobar que el Worker `mitomapa-canario` pertenece a esa cuenta
-y crear un token de API limitado a la edición de Workers Scripts.
-En **GitHub → Settings → Environments → production → Environment secrets**,
-añade estos secretos:
+Cada push a `main` inicia el flujo. El trabajo de despliegue usa el entorno
+`production` y solo se ejecuta para `refs/heads/main` de este repositorio.
+La condición del flujo evita ejecuciones accidentales. GitHub debe proteger
+los secretos frente a ramas que modifiquen su propio archivo de flujo.
 
-- `CLOUDFLARE_API_TOKEN`: token de esa cuenta, sin incluirlo en archivos.
-- `CLOUDFLARE_ACCOUNT_ID`: identificador de esa cuenta.
+Antes de fusionar un cambio que utilice las credenciales de producción,
+configura **GitHub → Settings → Environments → production**:
 
-El entorno `production` debe permitir despliegues únicamente desde `main`.
-El flujo ya separa las comprobaciones sin secretos del trabajo de despliegue;
-solo el paso final necesita el token. Los secretos se deben guardar en ese
-entorno, para que otros flujos o ramas no puedan obtenerlos como secretos
-generales del repositorio. La declaración `environment: production` por sí sola
-no demuestra que se haya hecho esa migración.
+1. En **Deployment branches and tags**, selecciona **Selected branches and
+   tags** y añade una regla de tipo **Branch** con el nombre exacto `main`.
+   La lista debe contener esa regla, sin etiquetas ni comodines.
+2. Una persona con acceso a Cloudflare debe comprobar que el Worker
+   `mitomapa-canario` pertenece a la cuenta prevista y crear un token limitado
+   a esa cuenta y a la edición de Workers Scripts. Guarda como
+   **Environment secrets** de `production`:
+   - `CLOUDFLARE_PRODUCTION_API_TOKEN`: token de esa cuenta.
+   - `CLOUDFLARE_PRODUCTION_ACCOUNT_ID`: identificador de esa cuenta.
+3. Comprueba que esos dos nombres estén únicamente en los secretos del entorno.
+   Si hay copias en repositorio u organización, identifica sus consumidores y
+   acuerda su retirada. El nombre exclusivo por sí solo no demuestra el
+   aislamiento del secreto.
+4. Mientras `main` use los nombres antiguos, crea también como secretos del
+   entorno `production` los alias temporales `CLOUDFLARE_API_TOKEN` y
+   `CLOUDFLARE_ACCOUNT_ID`, con los mismos valores del token nuevo y de su cuenta.
+   Son valores guardados, no referencias a otros secretos. No copies el token
+   antiguo de los secretos generales. GitHub da prioridad al secreto del entorno
+   sobre el del repositorio cuando tienen el mismo nombre: el `main` actual ya
+   solicita `production` y puede resolver allí sus nombres antiguos.
+5. Antes de retirar nada, verifica los cuatro nombres en `production`, la regla
+   exacta de rama `main` y la ausencia de workflows o despliegues concurrentes
+   de `main`. Repite esta comprobación si transcurre tiempo o aparece otro push.
+6. Con confirmación expresa de la eliminación, retira únicamente las copias
+   `CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID` de **Repository secrets**.
+   Mantén los alias del entorno: eliminarlos ahora dejaría al `main` actual sin
+   sus credenciales. GitHub no permite recuperar el valor de un secreto borrado.
+   Una copia general activa permitiría a otro flujo obtener el token sin pasar
+   por `production`.
+7. Sólo después de integrar la PR #1 y validar su uso de los nombres exclusivos,
+   en un paso futuro autorizado, retira los dos alias antiguos del entorno.
 
-Si existen copias en **Settings → Secrets and variables → Actions**, crea
-primero los secretos de entorno y comprueba un despliegue desde `main`.
-Después elimina las copias generales. GitHub no permite recuperar el valor de
-un secreto guardado: si no se conserva el token, crea uno nuevo limitado a la
-cuenta y a los permisos necesarios para Workers Scripts. Comprueba el nombre
-del Worker destino en `wrangler.jsonc` y revoca el token anterior tras validar
-el despliegue.
+Los tokens anteriores de Cloudflare se conservan por decisión de la autoría.
+Retirar copias de GitHub no revoca esos tokens ni modifica otras automatizaciones
+que los utilicen fuera de este repositorio. Su posible revocación queda fuera
+de esta transición y exige revisar sus consumidores y obtener autorización
+específica. La precedencia de secretos se documenta en la
+[referencia de GitHub](https://docs.github.com/en/actions/reference/security/secrets).
+
+El paso final convierte los nombres exclusivos en las variables
+`CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID` que necesita Wrangler.
+`tools/deploy_cloudflare.py` exige ambas antes de escribir la configuración
+temporal o iniciar la CLI. Si faltan, están vacías o solo contienen espacios,
+la publicación falla con un mensaje que no muestra sus valores. Las variables
+alternativas de Cloudflare no sustituyen las dos credenciales requeridas.
+
 No copies credenciales a incidencias, comentarios, capturas ni archivos del
-repositorio. Añade revisores de despliegue solo si se desea un paso manual: no
-son necesarios para el flujo automático actual.
+repositorio. Añade revisores de despliegue solo si se desea un paso manual.
+El flujo conserva el despliegue automático desde `main`. Si se configuran
+revisores del entorno, el trabajo espera su aprobación antes de iniciarse.
 
-Después de configurar los secretos, comprueba la ejecución de **Deploy MitoMapa
-to Cloudflare** en Actions. También puedes iniciarla manualmente con **Run
-workflow**. Comprueba en la URL pública la autoría, las ocho rutas, el pasaporte,
-la guía y la descarga del REA. Un error de credenciales aparece como un fallo del
-despliegue en Actions y puede consultarse en el paso **Deploy existing Worker**.
+Para comprobar la protección real, utiliza trabajos sin credenciales que
+soliciten el entorno `production` desde una rama distinta de `main` y desde una
+etiqueta. GitHub debe rechazarlos por la política del entorno. La omisión de un
+trabajo por la condición del flujo no comprueba por sí sola esa protección.
+El cierre administrativo incluye verificar ubicación de los secretos, reglas
+del entorno, permisos del nuevo token y retirada de las copias generales
+accesibles. Las pruebas locales con datos ficticios no comprueban esos ajustes
+privados. La comprobación manual aportada por la autoría el 18/11/2026 obtuvo
+HTTP 200, `success: true` y estado `active` para el token en Cloudflare, además
+de HTTP 200 al consultar el Worker. No demuestra que el valor almacenado en
+GitHub sea idéntico ni que se haya autenticado una ejecución de Actions.
+
+La fusión de la PR #1 produce un push a `main` que inicia el flujo y puede
+desplegar automáticamente. En un paso posterior que autorice expresamente la
+integración y la publicación, comprueba la ejecución de **Deploy MitoMapa to
+Cloudflare** en Actions y, en la URL pública, la autoría, las ocho rutas, el
+pasaporte, la guía y la descarga del REA. **Run workflow** también puede publicar:
+no lo utilices como comprobación de autenticación sin despliegue. Un error de
+credenciales aparece como un fallo del despliegue en Actions y puede consultarse
+en el paso **Deploy existing Worker**.
 
 Los cambios hechos directamente en el panel de Cloudflare no vuelven a GitHub y
 el siguiente despliegue desde `main` puede reemplazarlos. Conserva en el
@@ -76,7 +123,8 @@ CLI. Pillow 13.0.0 se utiliza únicamente en validación y preparación local.
 El encabezado HSTS se limita al host que responde, sin `includeSubDomains` ni
 `preload`. La publicación usa `wrangler versions upload` y activa únicamente
 la versión identificada por su salida estructurada con `wrangler versions deploy`.
-Conserva las variables y los secretos existentes; no configura reglas HTTPS ni
+El wrapper conserva `--keep-vars`, la configuración reducida y la validación
+del UUID devuelto. Conserva las variables y los secretos existentes; no configura reglas HTTPS ni
 cambia DNS o rutas. `tools/check_public_transport.py` se ejecuta antes de publicar
 y después de terminar, sin credenciales ni redirecciones automáticas. Exige
 301/308 al host HTTPS exacto, conserva ruta y consulta, y comprueba respuestas
@@ -103,6 +151,7 @@ python3 tools/harden_drawing_archives.py --check
 python3 tools/prepare_deploy.py
 npm ci --ignore-scripts --no-audit --no-fund
 python3 -m unittest discover -s tests -p 'test_deploy_policy.py'
+python3 -m unittest discover -s tests -p 'test_deploy_cloudflare.py'
 python3 -m unittest discover -s tests -p 'test_jspdf_policy.py'
 python3 -m unittest discover -s tests -p 'test_maintenance_tools.py'
 node --test tests/drawing-import.test.js
