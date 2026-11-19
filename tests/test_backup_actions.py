@@ -64,8 +64,13 @@ class BackupActionsTests(unittest.TestCase):
                 'inputs': ports(metadata, 'inputs'), 'outputs': ports(metadata, 'outputs')}
 
     def supplied_inputs(self, step):
+        # Step env has the same child indentation as with; it is not an input.
+        section = re.search(r'(?ms)^        with:\n(.*?)(?=^        \S|\Z)', step)
+        if section is None:
+            return {}
         return {name: value.strip().strip("'\"")
-                for name, value in re.findall(r'(?m)^          ([\w-]+):[ \t]*([^\n]+)$', step)}
+                for name, value in re.findall(r'(?m)^          ([\w-]+):[ \t]*([^\n]+)$',
+                                              section.group(1))}
 
     def test_workflow_selects_node24_actions(self):
         # Regression: a valid SHA can still select Node20 and cause the warning.

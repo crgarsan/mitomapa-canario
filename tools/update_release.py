@@ -205,6 +205,8 @@ def source_inventory(approved):
                 or (path.parent == PurePosixPath("tools") and path.suffix in {".py", ".js", ".mjs"})
                 or path.parent == PurePosixPath("tools/vendor")
                 or (name.startswith("tests/") and path.suffix in {".py", ".js", ".json"})
+                or (path.parent == PurePosixPath("tests/fixtures/pages-actions")
+                    and (path.suffix in {".yml", ".yaml"} or path.name == "LICENSE"))
                 or (path.parent == PurePosixPath(".github/workflows") and path.suffix in {".yml", ".yaml"})
                 or (path.parent == PurePosixPath(".github/ISSUE_TEMPLATE") and path.suffix in {".yml", ".yaml"})):
             yield name
