@@ -85,6 +85,23 @@ class ReleasePipelineTests(unittest.TestCase):
         return {path.relative_to(self.root).as_posix(): (digest(path.read_bytes()), path.stat().st_mtime_ns)
                 for path in self.root.rglob("*") if path.is_file()}
 
+    def test_source_package_keeps_pages_contract_fixtures_and_their_license(self):
+        # The source ZIP ships the backup tests; their offline action metadata
+        # and upstream licence must travel with them, not only provenance JSON.
+        fixtures = {
+            "tests/fixtures/pages-actions/contract.yml": b"runs:\n  using: node24\n",
+            "tests/fixtures/pages-actions/contract.yaml": b"inputs: {}\n",
+            "tests/fixtures/pages-actions/LICENSE": b"MIT fixture licence\n",
+        }
+        for name, payload in fixtures.items():
+            self.write(name, payload)
+        self.write("tests/fixtures/unrelated/config.yml", b"not part of the Pages fixtures\n")
+        update_release(self.root, inventory=self.inventory)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        for name, payload in fixtures.items():
+            self.assertEqual(sources.get(name), payload, name)
+        self.assertNotIn("tests/fixtures/unrelated/config.yml", sources)
+
     def test_packages_preserve_history_and_check_is_read_only(self):
         update_release(self.root, inventory=self.inventory)
         self.assertEqual((self.root / self.old_name).read_bytes(), self.old_payload)

@@ -1,0 +1,23 @@
+{
+  "action": "actions/deploy-pages",
+  "version": "v5.0.1",
+  "commit": "368f82528645a54fb793d4d04e342629a3f51346",
+  "release_url": "https://github.com/actions/deploy-pages/releases/tag/v5.0.1",
+  "retrieved_on": "2026-11-19",
+  "license_file": "LICENSE",
+  "scope": "Unmodified upstream bundles, downloaded to a temporary directory only. The smoke harness blocks network access and supplies no GitHub context or credentials.",
+  "files": [
+    {
+      "file": "index.js",
+      "url": "https://raw.githubusercontent.com/actions/deploy-pages/368f82528645a54fb793d4d04e342629a3f51346/dist/index.js",
+      "bytes": 5855429,
+      "sha256": "63fd34d89cd23d8848618a019f978f2225880a38afe2328e6e7d72f20fc44e89"
+    },
+    {
+      "file": "sourcemap-register.js",
+      "url": "https://raw.githubusercontent.com/actions/deploy-pages/368f82528645a54fb793d4d04e342629a3f51346/dist/sourcemap-register.js",
+      "bytes": 41034,
+      "sha256": "1e19cfe548608e6501c19941746f85eadf71a72c4a52a1426b770e30f4f9bdf3"
+    }
+  ]
+}
