@@ -1,6 +1,7 @@
 """Release descriptions follow VERSION.json without modifying learning packages."""
 
 from pathlib import Path
+from html.parser import HTMLParser
 import json
 import struct
 import sys
@@ -48,6 +49,17 @@ class ReleaseMetadataTests(unittest.TestCase):
         self.write("index.html", b"<html lang='es'></html>")
         self.write("index-en.html", b"<html lang='en'></html>")
         self.write("VERSION.json", json_bytes(self.version))
+        self.guide_history = ("<section>Historical web 4.9.4 and REA 4.8.7. "
+                              "Mediateca attached edition 4.8.8, announcement 4.8.4. "
+                              '<a href="https://example.test/exe/4.0.5/manual">Manual 4.0.5</a></section>')
+        for name in ("GUIA_DOCENTE.html", "GUIA_REUTILIZACION.html",
+                     "GUIA_DOCENTE-en.html", "GUIA_REUTILIZACION-en.html"):
+            guide = ('<html><head><title data-release-version="web">Guide web 4.9.4</title></head><body>'
+                     '<p>Web <span data-release-version="web">4.9.4</span>; '
+                     'REA <span data-release-version="rea">4.8.8</span>; '
+                     'eXeLearning <span data-release-version="runtime">4.0.4</span>.</p>'
+                     '<p>Teaching prose must remain unchanged.</p>' + self.guide_history + '</body></html>')
+            self.write(name, guide.encode())
 
     def write(self, name, data):
         path = self.root / name
@@ -73,6 +85,124 @@ class ReleaseMetadataTests(unittest.TestCase):
         self.assertTrue(readme.endswith(self.tail))
         self.assertEqual(json.loads(outputs["version.js"].decode().split("Object.freeze(")[1].split(");")[0]),
                          {"version": "5.2.0", "reaVersion": "4.8.9", "schemaVersion": 1})
+
+    def test_active_guides_use_independent_versions_and_preserve_history_and_prose(self):
+        outputs = release_metadata.document_outputs(self.root, self.version)
+        for name in ("GUIA_DOCENTE.html", "GUIA_REUTILIZACION.html",
+                     "GUIA_DOCENTE-en.html", "GUIA_REUTILIZACION-en.html"):
+            with self.subTest(name=name):
+                self.assertIn(name, outputs)
+                guide = outputs[name].decode()
+                self.assertIn('<title data-release-version="web">Guide web 5.2.0</title>', guide)
+                self.assertIn('<span data-release-version="web">5.2.0</span>', guide)
+                self.assertIn('<span data-release-version="rea">4.8.9</span>', guide)
+                self.assertIn('<span data-release-version="runtime">4.0.5</span>', guide)
+                self.assertIn('Teaching prose must remain unchanged.', guide)
+                self.assertIn(self.guide_history, guide)
+        self.generate()
+        before = self.snapshot()
+        self.assertEqual(outputs, release_metadata.document_outputs(self.root, self.version))
+        self.assertEqual(self.snapshot(), before)
+
+    def test_english_guides_follow_their_native_base_independently_of_spanish(self):
+        self.version["english_edition"]["base_rea_version"] = "4.8.8"
+        english = {"edition": self.version["english_edition"]["declared_editorial_status"],
+                   "source_revision": "4.8.8", "language": "en-GB"}
+        self.write("en/current.elpx", zip_bytes({"EDITORIAL_MANIFEST.json": json_bytes(english),
+                                               "content.xml": b"<ode/>"}))
+        outputs = release_metadata.document_outputs(self.root, self.version)
+        for name in ("GUIA_DOCENTE.html", "GUIA_REUTILIZACION.html"):
+            with self.subTest(name=name):
+                self.assertIn('<span data-release-version="rea">4.8.9</span>', outputs[name].decode())
+        for name in ("GUIA_DOCENTE-en.html", "GUIA_REUTILIZACION-en.html"):
+            with self.subTest(name=name):
+                self.assertIn('<span data-release-version="rea">4.8.8</span>', outputs[name].decode())
+                self.assertIn('<span data-release-version="web">5.2.0</span>', outputs[name].decode())
+
+    def guide_download_fixture(self, *, package_marker="package"):
+        historical = '<a href="downloads/MitoMapa_REA_v4_9_4.zip">Historical package 4.9.4</a>'
+        for name in ("GUIA_REUTILIZACION.html", "GUIA_REUTILIZACION-en.html"):
+            sharing_marker = "rea" if name.endswith("-en.html") else package_marker
+            links = ('<a data-release-download="elpx" href="downloads/old.elpx">REA '
+                     '<span data-release-version="rea">4.8.8</span></a>'
+                     '<a data-release-download="sharing" href="downloads/old-sharing.zip">Package '
+                     '<span data-release-version="' + sharing_marker + '">4.9.4</span> · REA '
+                     '<span data-release-version="rea">4.8.8</span></a>'
+                     '<a data-release-download="source" href="downloads/old-sources.zip">Sources web '
+                     '<span data-release-version="web">4.9.4</span></a>')
+            self.write(name, (self.root / name).read_text().replace('</body>', links + historical + '</body>').encode())
+        return historical
+
+    def test_current_download_links_and_labels_follow_their_products_not_history(self):
+        historical = self.guide_download_fixture()
+        self.version["web_version"] = "4.8.8"
+        try:
+            outputs = release_metadata.document_outputs(self.root, self.version)
+        except ValueError as error:
+            self.fail("Current package version markers must be supported: " + str(error))
+        class Links(HTMLParser):
+            def __init__(self, markup):
+                super().__init__(); self.links = {}; self.current = None; self.feed(markup)
+            def handle_starttag(self, tag, attrs):
+                if tag == "a":
+                    attrs = dict(attrs); self.current = attrs.get("data-release-download")
+                    if self.current: self.links[self.current] = {"href": attrs.get("href"), "text": ""}
+            def handle_endtag(self, tag):
+                if tag == "a": self.current = None
+            def handle_data(self, text):
+                if self.current: self.links[self.current]["text"] += text
+        for name, prefix in (("GUIA_REUTILIZACION.html", "downloads/"),
+                             ("GUIA_REUTILIZACION-en.html", "en/")):
+            with self.subTest(name=name):
+                guide = outputs[name].decode(); links = Links(guide).links
+                self.assertEqual(links["elpx"]["href"], prefix + "current.elpx")
+                self.assertEqual(links["sharing"]["href"], prefix + "sharing.zip")
+                self.assertEqual(links["source"]["href"], "downloads/sources.zip")
+                self.assertEqual(links["elpx"]["text"], "REA 4.8.9")
+                self.assertEqual(links["sharing"]["text"], "Package 4.8.9 · REA 4.8.9")
+                self.assertEqual(links["source"]["text"], "Sources web 4.8.8")
+                self.assertIn(historical, guide)
+
+    def test_check_rejects_stale_current_download_href_without_writing(self):
+        self.guide_download_fixture(package_marker="web")
+        self.generate()
+        for name in ("GUIA_REUTILIZACION.html", "GUIA_REUTILIZACION-en.html"):
+            original = (self.root / name).read_bytes()
+            self.write(name, original.replace(b'href="downloads/sources.zip"',
+                                             b'href="downloads/old-sources.zip"', 1))
+            before = self.snapshot()
+            with self.assertRaisesRegex(ValueError, name.replace('.', r'\.')):
+                release_metadata.check_documents(self.root, self.version)
+            self.assertEqual(self.snapshot(), before)
+            self.write(name, original)
+
+    def test_check_rejects_stale_guide_values_without_writing(self):
+        self.generate()
+        for name in ("GUIA_DOCENTE.html", "GUIA_REUTILIZACION.html",
+                     "GUIA_DOCENTE-en.html", "GUIA_REUTILIZACION-en.html"):
+            original = (self.root / name).read_bytes()
+            for marker, stale in ((b'web', b'5.1.0'), (b'rea', b'4.8.8')):
+                with self.subTest(name=name, field=marker):
+                    # Alter the marked display value, independently of the title.
+                    current = b'5.2.0' if marker == b'web' else b'4.8.9'
+                    start = b'<span data-release-version="' + marker + b'">'
+                    corrupted = original.replace(start + current, start + stale, 1)
+                    self.write(name, corrupted)
+                    before = self.snapshot()
+                    with self.assertRaisesRegex(ValueError, name.replace('.', r'\.')):
+                        release_metadata.check_documents(self.root, self.version)
+                    self.assertEqual(self.snapshot(), before)
+                    self.write(name, original)
+
+    def test_guides_without_english_edition_do_not_generate_english_outputs(self):
+        del self.version["english_edition"]
+        for name in ("GUIA_DOCENTE-en.html", "GUIA_REUTILIZACION-en.html"):
+            (self.root / name).unlink()
+        outputs = release_metadata.document_outputs(self.root, self.version)
+        self.assertIn("GUIA_DOCENTE.html", outputs)
+        self.assertIn("GUIA_REUTILIZACION.html", outputs)
+        self.assertNotIn("GUIA_DOCENTE-en.html", outputs)
+        self.assertNotIn("GUIA_REUTILIZACION-en.html", outputs)
 
     def test_update_notice_and_active_change_notes_follow_the_canonical_version(self):
         historical = "REVISIÓN ANTERIOR WEB 4.9.1\nContenido histórico que se conserva.\n"

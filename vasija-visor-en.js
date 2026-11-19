@@ -90,13 +90,27 @@ async function loadCollection() {
   }
 }
 
-let requested = false;
+const fichaLoad = {loaded: false, pending: null};
+const collectionLoad = {loaded: false, pending: null};
+
+function loadOnce(source, loader, complete) {
+  if (source.loaded) return Promise.resolve();
+  if (!source.pending) {
+    source.pending = loader().then(() => {
+      source.loaded = complete();
+    }).finally(() => { source.pending = null; });
+  }
+  return source.pending;
+}
 
 async function loadWhenOpened(details) {
-  if (details?.id !== "resourceVasija" || !details.open || requested) return;
-  requested = true;
-  const [ficha] = await Promise.allSettled([loadTenerife(), loadCollection()]);
-  if (ficha.status === "rejected") {
+  if (details?.id !== "resourceVasija" || !details.open) return;
+  const [ficha] = await Promise.allSettled([
+    loadOnce(fichaLoad, loadTenerife, () => items.has(tenerife)),
+    loadOnce(collectionLoad, loadCollection, () => cards.every(card =>
+      card.dataset.vasijaOpen === tenerife || items.has(card.dataset.vasijaOpen))),
+  ]);
+  if (ficha.status === "rejected" && !items.has(tenerife)) {
     fichaTenerife.querySelectorAll('[data-vasija-field$="Dimensions"]').forEach(element => {
       element.textContent = "Model details unavailable.";
     });
@@ -107,7 +121,10 @@ async function loadWhenOpened(details) {
     if (items.has(id)) {
       const tile = card.closest(".vasija-tile");
       const heading = tile.querySelector("h3");
-      byId("vasijaSelect").add(new Option(heading.textContent, id));
+      const selector = byId("vasijaSelect");
+      if (![...selector.options].some(option => option.value === id)) {
+        selector.add(new Option(heading.textContent, id));
+      }
       heading.textContent = items.get(id).title;
       tile.querySelector("[data-vasija-still]").hidden = true;
       card.hidden = false;

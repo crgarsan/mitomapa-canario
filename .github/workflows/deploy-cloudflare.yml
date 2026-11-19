@@ -71,6 +71,7 @@ jobs:
             test_diploma_print_browser.py test_experience_browser.py test_journey_browser.py \
             test_drawing_browser.py test_jspdf_browser.py test_names_browser.py \
             test_pieces_browser.py \
+            test_vasija_retry_browser.py \
             test_story_formats_browser.py \
             test_editorial_elpx_browser.py test_native_audit_browser.py \
             test_navigation_accessibility_browser.py \

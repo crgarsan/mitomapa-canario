@@ -18,7 +18,7 @@ import re
 import xml.etree.ElementTree as ET
 from urllib.parse import parse_qs, urljoin, urlsplit
 
-from release_metadata import DOCUMENT_PATHS, check_documents, document_outputs
+from release_metadata import DOCUMENT_PATHS, check_documents, document_outputs, document_paths
 from release_support import (
     MAX_ASSET_BYTES, approved_release_paths, digest, json_bytes, metadata, parse_sums, public_entries,
     pinned_story_media, require_approved, story_media_inventory,
@@ -160,9 +160,11 @@ def sharing_files(root, version, elpx, approved):
         if protocol in approved:
             documents.add(protocol)
     require_approved(documents, approved)
+    generated = document_outputs(root, version)
+    require_approved(generated, approved)
     for name in sorted(documents):
-        files[f"documentacion/{name}"] = sharing_document(
-            source_path(root, name).read_bytes(), name, documents, version)
+        payload = generated[name] if name in generated else source_path(root, name).read_bytes()
+        files[f"documentacion/{name}"] = sharing_document(payload, name, documents, version)
     files["documentacion/VERSION.json"] = json_bytes(sharing_version(version))
     files["LEEME.txt"] = (
         f"MITOMAPA CANARIO · REA {current}\n\n"
@@ -366,7 +368,7 @@ def check_release(root=ROOT, *, inventory=None):
     version_path = source_path(root, "VERSION.json")
     version = json.loads(version_path.read_text(encoding="utf-8"))
     paths = release_paths(version)
-    require_approved(DOCUMENT_PATHS, approved)
+    require_approved(document_paths(version), approved)
     check_documents(root, version)
     public = public_entries(root, approved=approved)
     if not set(paths.values()) <= set(public):
@@ -428,6 +430,7 @@ def update_release(root=ROOT, *, inventory=None):
     approved = approved_release_paths(root, inventory)
     require_approved({"SHA256SUMS.txt", "VERSION.json", "index.html"} | DOCUMENT_PATHS, approved)
     version = json.loads(source_path(root, "VERSION.json").read_text(encoding="utf-8"))
+    require_approved(document_paths(version), approved)
     paths = release_paths(version)
     previous = parse_sums(source_path(root, "SHA256SUMS.txt").read_text(encoding="utf-8"))
     generated_archives = {paths["sharing_archive"], paths["source_archive"]}
