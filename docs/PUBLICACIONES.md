@@ -9,7 +9,7 @@
 3. Ejecute las pruebas correspondientes y los cuatro verificadores `--check` indicados en CONTRIBUTING.md.
 4. Confirme los archivos de publicación. La entrega formal debe corresponder a un commit limpio, no a cambios locales sin confirmar.
 
-Las observaciones públicas guardan su fecha y el commit con el que se compararon. No prueban que un despliegue posterior siga sirviendo esos mismos bytes. El ELPX inglés conserva una etiqueta interna antigua de preproducción; la matriz la muestra junto a su disponibilidad pública comprobada. Este bloque no reconstruye ese ELPX.
+Las observaciones públicas guardan su fecha y el commit con el que se compararon. No prueban que un despliegue posterior siga sirviendo esos mismos bytes. La etiqueta editorial del ELPX inglés identifica su base REA 4.8.9. La corrección de la etiqueta no cambia actividades, medios ni bibliotecas. La matriz distingue los bytes de esta entrega de las observaciones públicas anteriores; preparar estos paquetes no acredita su publicación. El preparador de releases no reconstruye el ELPX.
 
 ## Preparación local o mediante Actions
 

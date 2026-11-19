@@ -19,7 +19,7 @@ Las pruebas de impresión utilizan Poppler y las de vídeo, FFmpeg. Consulte el 
 
 - La web, el ELPX nativo y los ZIP son entregas distintas. Cambiar JavaScript no actualiza por sí solo el ELPX ni el seguimiento de Moodle.
 - Las variantes ES y EN comparten el progreso del navegador. Una corrección de comportamiento debe comprobar ambas y conservar los esquemas de exportación e importación.
-- `VERSION.json` identifica las ediciones. `VERSION.txt`, `version.js`, `README_ACTUALIZACION.txt`, el bloque vigente del README y `EDICIONES.md` se generan a partir de sus datos.
+- `VERSION.json` identifica las ediciones. `VERSION.txt`, `version.js`, `README_ACTUALIZACION.txt`, el bloque vigente del README, `EDICIONES.md` y los campos marcados de versión y descarga de las guías ES/EN se generan a partir de sus datos. Las guías inglesas toman su versión REA de `english_edition.base_rea_version`; el texto histórico y las fechas de las guías se conservan.
 - Un cambio de la web no requiere regenerar el ELPX. Las revisiones nativas utilizan `tools/sync_current_elpx.py` y sus propias pruebas.
 
 ## Preparar y comprobar el cambio

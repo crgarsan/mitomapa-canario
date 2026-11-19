@@ -112,8 +112,8 @@
   "sharing_archive": {
     "path": "downloads/MitoMapa_REA_v4_10_0.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "d437be6dd0b7723964702bd18ee90e3e72104ee108e05b285530b739bbc2540b",
-    "bytes": 25709022
+    "sha256": "9eae76b650a06876096433d2de62c23c03c9a08d48cd66b6c7d1089d2b94a79f",
+    "bytes": 25709253
   },
   "source_archive": {
     "path": "downloads/MitoMapa_fuentes_web_v4_10_0.zip",
@@ -311,16 +311,16 @@
     "base_rea_version": "4.8.9",
     "download": {
       "path": "en/downloads/MitoMapa_Canary_Islands_EN.elpx",
-      "sha256": "9d2e645de970b0fe40984e34b79910bd3f17d72eca295d0d770e670e7acc8072",
-      "bytes": 25157855
+      "sha256": "2ffbc36918dec41c71be10a136c6907a5ffd1dda66f767c3c4af34567d093ec8",
+      "bytes": 25157814
     },
     "sharing_archive": {
       "path": "en/downloads/MitoMapa_Canary_Islands_EN.zip",
-      "sha256": "99ba29952817263751bef3eb7da0f7f2fa37e0e567712f504f4518bfc57bf076",
-      "bytes": 25119356
+      "sha256": "cd94badc79b344502d0ef937c3f1658f298629f2406b83e8470c5ee7cfab33df",
+      "bytes": 25119315
     },
-    "declared_editorial_status": "English private preproduction, 16 November 2026",
-    "editorial_status_note": "Etiqueta interna desactualizada, pendiente de sincronización en el pipeline editorial. La publicación inglesa ya fue autorizada; esta etiqueta no determina su disponibilidad pública."
+    "declared_editorial_status": "4.8.9",
+    "editorial_status_note": "La etiqueta editorial identifica la edición inglesa del REA. La publicación pública de esta copia se comprueba por sus huellas y fecha de observación; preparar el paquete no acredita un despliegue."
   },
   "external_publications": {
     "production": {

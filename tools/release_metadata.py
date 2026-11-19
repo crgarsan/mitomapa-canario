@@ -9,16 +9,25 @@ the external release catalogue, outside documents contained by those ZIPs.
 
 import argparse
 from datetime import date
+from html import escape
 import json
 from pathlib import Path
 import re
 
 from harden_jspdf_exports import read_archive, read_archive_file
-from release_support import MAX_ASSET_BYTES, metadata, source_path
+from release_support import MAX_ASSET_BYTES, metadata, safe_name, source_path
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DOCUMENT_PATHS = frozenset({"VERSION.txt", "version.js", "README.md", "README_ACTUALIZACION.txt", "EDICIONES.md"})
+SPANISH_GUIDE_PATHS = frozenset({"GUIA_DOCENTE.html", "GUIA_REUTILIZACION.html"})
+ENGLISH_GUIDE_PATHS = frozenset({"GUIA_DOCENTE-en.html", "GUIA_REUTILIZACION-en.html"})
+DOCUMENT_PATHS = frozenset({"VERSION.txt", "version.js", "README.md", "README_ACTUALIZACION.txt", "EDICIONES.md"}) | SPANISH_GUIDE_PATHS
+GUIDE_VERSION_FIELDS = {"web": "web_version", "rea": "rea_exelearning_version", "runtime": "exelearning_runtime_version"}
+GUIDE_VERSION_TAG = re.compile(
+    r'(<(?P<tag>span|title)\b[^>]*\bdata-release-version=(?P<quote>[\"\'])(?P<field>web|rea|runtime|package)(?P=quote)[^>]*>)'
+    r'(?P<value>[^<]*)(</(?P=tag)>)')
+GUIDE_DOWNLOAD_TAG = re.compile(
+    r'<a\b[^>]*\bdata-release-download=([\"\'])(elpx|sharing|source)\1[^>]*>')
 BEGIN = "<!-- BEGIN GENERATED CURRENT EDITION -->"
 END = "<!-- END GENERATED CURRENT EDITION -->"
 
@@ -244,6 +253,59 @@ def _editions(version, rows):
     return ("\n".join(lines) + "\n").encode("utf-8")
 
 
+def document_paths(version):
+    """Require guide documents only for the editions being packaged."""
+    return DOCUMENT_PATHS | (ENGLISH_GUIDE_PATHS if version.get("english_edition") else frozenset())
+
+
+def _guide(root, name, version):
+    """Synchronize explicitly marked current values, preserving all other bytes.
+
+    Historical credits, observations of Mediateca and versioned manual links
+    deliberately have no marker. Titles carry their own marker; a version
+    span is never inserted into the title's plain text.
+    """
+    text = source_path(root, name).read_text(encoding="utf-8")
+    seen = set()
+
+    def replace(match):
+        field = match["field"]
+        value = match["value"]
+        numbers = list(re.finditer(r"\b\d+\.\d+\.\d+\b", value))
+        if len(numbers) != 1 or (field != "package" and GUIDE_VERSION_FIELDS[field] not in version):
+            raise ValueError(f"Invalid current version marker in {name}: {field}")
+        selected = numbers[0]
+        edition = (package_version(version) if field == "package" else
+                   version["english_edition"]["base_rea_version"]
+                   if field == "rea" and name in ENGLISH_GUIDE_PATHS
+                   else version[GUIDE_VERSION_FIELDS[field]])
+        seen.add(field)
+        return (match[1] + value[:selected.start()] + edition + value[selected.end():] + match[6])
+
+    rendered, count = GUIDE_VERSION_TAG.subn(replace, text)
+    if not {"web", "rea"} <= seen or count != text.count("data-release-version="):
+        raise ValueError(f"Missing or invalid current version markers in {name}")
+
+    def download(match):
+        product = match[2]
+        owner = (version["english_edition"]
+                 if name in ENGLISH_GUIDE_PATHS and product != "source" else version)
+        key = {"elpx": "download", "sharing": "sharing_archive", "source": "source_archive"}[product]
+        target = owner[key]["path"]
+        safe_name(target)
+        tag, hrefs = re.subn(r'''(\s+href\s*=\s*)(["'])(.*?)\2''',
+                            lambda href: href[1] + href[2] + escape(target, quote=True) + href[2],
+                            match[0], count=1)
+        if hrefs != 1:
+            raise ValueError(f"Missing current download href in {name}: {product}")
+        return tag
+
+    rendered, downloads = GUIDE_DOWNLOAD_TAG.subn(download, rendered)
+    if downloads != text.count("data-release-download="):
+        raise ValueError(f"Invalid current download marker in {name}")
+    return rendered.encode("utf-8")
+
+
 def document_outputs(root, version):
     """Return relative paths and UTF-8 bytes, with no writes or Git dependency."""
     root = Path(root)
@@ -254,10 +316,13 @@ def document_outputs(root, version):
             f"REA editable {version['rea_exelearning_version']} · " +
             (f"revisión del {rea_date}" if rea_date else "revisión no declarada") + "\n" +
             f"eXeLearning {version.get('exelearning_runtime_version', 'no declarado')} · CC BY-SA 4.0 para materiales propios\n")
-    return {"VERSION.txt": text.encode("utf-8"), "version.js": version_module(version),
-            "README_ACTUALIZACION.txt": _update_notice(root, version),
-            "README.md": _readme(root, version).encode("utf-8"),
-            "EDICIONES.md": _editions(version, product_rows(root, version))}
+    outputs = {"VERSION.txt": text.encode("utf-8"), "version.js": version_module(version),
+               "README_ACTUALIZACION.txt": _update_notice(root, version),
+               "README.md": _readme(root, version).encode("utf-8"),
+               "EDICIONES.md": _editions(version, product_rows(root, version))}
+    for name in document_paths(version) & (SPANISH_GUIDE_PATHS | ENGLISH_GUIDE_PATHS):
+        outputs[name] = _guide(root, name, version)
+    return outputs
 
 
 def check_documents(root, version):

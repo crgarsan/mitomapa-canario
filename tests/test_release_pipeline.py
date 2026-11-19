@@ -53,6 +53,9 @@ class ReleasePipelineTests(unittest.TestCase):
         self.write("tools/current_tool.py", b"# current tool\n")
         for name in (*DOCUMENTS, self.version["release_notes"], self.version["rea_release_notes"]):
             self.write(name, f"Current document {name}\n".encode())
+        for name in ("GUIA_DOCENTE.html", "GUIA_REUTILIZACION.html"):
+            self.write(name, b'<html><p>Web <span data-release-version="web">4.5.1</span> '
+                            b'REA <span data-release-version="rea">4.5.1</span></p></html>')
         self.old_name = "downloads/MitoMapa_fuentes_web_v4_5_1.zip"
         self.old_payload = zip_bytes({"index.html": b"Historical content"})
         self.write(self.old_name, self.old_payload)
@@ -103,6 +106,22 @@ class ReleasePipelineTests(unittest.TestCase):
         update_release(self.root, inventory=self.inventory)
         self.assertEqual({name: details[0] for name, details in self.snapshot().items()},
                          {name: details[0] for name, details in before.items()})
+
+    def test_first_packaging_uses_current_guide_versions_without_a_second_generation(self):
+        native = (self.root / self.version["download"]["path"]).read_bytes()
+        update_release(self.root, inventory=self.inventory)
+        sharing = read_zip((self.root / self.version["sharing_archive"]["path"]).read_bytes())
+        for name in ("GUIA_DOCENTE.html", "GUIA_REUTILIZACION.html"):
+            with self.subTest(name=name):
+                guide = sharing["documentacion/" + name]
+                self.assertIn(b'<span data-release-version="web">4.6.0</span>', guide)
+                self.assertIn(b'<span data-release-version="rea">4.6.0</span>', guide)
+                self.assertNotIn(b'4.5.1', guide)
+        self.assertEqual(sharing["MitoMapa_canario_GobCan.elpx"], native)
+        self.assertEqual((self.root / self.version["download"]["path"]).read_bytes(), native)
+        before = self.snapshot()
+        check_release(self.root, inventory=self.inventory)
+        self.assertEqual(self.snapshot(), before)
 
     def test_packaging_derives_documents_and_check_detects_each_contradiction(self):
         update_release(self.root, inventory=self.inventory)
@@ -217,6 +236,7 @@ class ReleasePipelineTests(unittest.TestCase):
 
     def test_sharing_guides_have_local_styles_templates_and_editable_link(self):
         self.write("GUIA_DOCENTE.html", b'''<link href="styles.css"><link href="docente.css">
+<p>Web <span data-release-version="web">4.6.0</span> REA <span data-release-version="rea">4.6.0</span></p>
 <a href="downloads/Pauta_de_revision_MitoMapa.html">Pauta</a>
 <a href="index.html#recursos">Web</a>
 <a href="downloads/MitoMapa_canario_GobCan.elpx">Editar</a>''')
