@@ -1,0 +1,60 @@
+{
+  "retrieved_on": "2026-11-19",
+  "source": "Official GitHub repositories, read at full commit refs using the connected GitHub tool.",
+  "scope": "Complete UTF-8 action.yml metadata only. No JavaScript bundles or runtime network requests.",
+  "refresh": "For a new pin, verify its official stable release and tag commit, retain action.yml at that exact commit, and record its SHA-256. Keep old snapshots so Node20 refs resolve and fail on runtime.",
+  "upload_name_source": "https://github.com/actions/upload-pages-artifact/blob/fc324d3547104276b827a68afc52ff2a11cc49c9/action.yml",
+  "snapshots": [
+    {
+      "action": "actions/configure-pages",
+      "version": "v5.0.0",
+      "commit": "983d7736d9b0ae728b81ab479565c72886d7745b",
+      "file": "configure-pages-v5.0.0.yml",
+      "source_url": "https://raw.githubusercontent.com/actions/configure-pages/983d7736d9b0ae728b81ab479565c72886d7745b/action.yml",
+      "sha256": "ee83c302838439770e9c45fe62f6abfd58341f57ac21ebaf848fb5e3a9fbcb67",
+      "release_url": "https://github.com/actions/configure-pages/releases/tag/v5.0.0",
+      "tag_ref_url": "https://api.github.com/repos/actions/configure-pages/git/ref/tags/v5.0.0"
+    },
+    {
+      "action": "actions/configure-pages",
+      "version": "v6.0.0",
+      "commit": "45bfe0192ca1faeb007ade9deae92b16b8254a0d",
+      "file": "configure-pages-v6.0.0.yml",
+      "source_url": "https://raw.githubusercontent.com/actions/configure-pages/45bfe0192ca1faeb007ade9deae92b16b8254a0d/action.yml",
+      "sha256": "55f1486ae3901c69be182cea1c1e3313954c78be626751a85b19ddaf14ae8da6",
+      "release_url": "https://github.com/actions/configure-pages/releases/tag/v6.0.0",
+      "tag_ref_url": "https://api.github.com/repos/actions/configure-pages/git/ref/tags/v6.0.0"
+    },
+    {
+      "action": "actions/deploy-pages",
+      "version": "v4.0.5",
+      "commit": "d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e",
+      "file": "deploy-pages-v4.0.5.yml",
+      "source_url": "https://raw.githubusercontent.com/actions/deploy-pages/d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e/action.yml",
+      "sha256": "0ff88ca222c067f34d29b7078bd0c387b7efedcd14d17ad794aef1c4224f900f",
+      "release_url": "https://github.com/actions/deploy-pages/releases/tag/v4.0.5",
+      "tag_ref_url": "https://api.github.com/repos/actions/deploy-pages/git/ref/tags/v4.0.5"
+    },
+    {
+      "action": "actions/deploy-pages",
+      "version": "v5.0.1",
+      "commit": "368f82528645a54fb793d4d04e342629a3f51346",
+      "file": "deploy-pages-v5.0.1.yml",
+      "source_url": "https://raw.githubusercontent.com/actions/deploy-pages/368f82528645a54fb793d4d04e342629a3f51346/action.yml",
+      "sha256": "64c44539fba53559a157b5de16c01d3ab91dbc999c1b98b5c0b2fc3528d5d059",
+      "release_url": "https://github.com/actions/deploy-pages/releases/tag/v5.0.1",
+      "tag_ref_url": "https://api.github.com/repos/actions/deploy-pages/git/ref/tags/v5.0.1"
+    }
+  ],
+  "license": {
+    "spdx": "MIT",
+    "file": "LICENSE",
+    "copyright": "Copyright (c) 2021 GitHub, Inc.",
+    "sha256": "741d1031b351a6dc8421130e3282456afe884068596134683fd5e5f8188363ee",
+    "source_urls": [
+      "https://raw.githubusercontent.com/actions/configure-pages/45bfe0192ca1faeb007ade9deae92b16b8254a0d/LICENSE",
+      "https://raw.githubusercontent.com/actions/deploy-pages/368f82528645a54fb793d4d04e342629a3f51346/LICENSE"
+    ],
+    "notice": "These third-party metadata copies retain their upstream MIT license; the project content license does not replace it."
+  }
+}
