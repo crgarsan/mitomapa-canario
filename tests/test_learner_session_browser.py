@@ -46,7 +46,10 @@ class LearnerSessionBrowserTests(unittest.TestCase):
         return page
 
     def wait_for_app(self, page):
-        page.wait_for_function("typeof exportProgress === 'function' && typeof learnerSessionCurrent === 'function'")
+        # The core loads after retention preparation. DOM readiness avoids
+        # evaluating an expression under CSP or mistaking hoisted functions
+        # for a mounted application.
+        page.locator("body.navigation-ready").wait_for(state="visible")
 
     def retention(self, page):
         self.wait_for_app(page)
