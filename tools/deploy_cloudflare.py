@@ -10,9 +10,10 @@ import time
 import uuid
 
 
-# One initial attempt plus four retries, with a shared wall-clock deadline.
-VERSION_RETRY_DELAYS = (1, 2, 4, 8)
-VERSION_ACTIVATION_TIMEOUT = 60
+# One initial attempt plus eight retries. Pauses total 150 seconds; process
+# time shares the 180-second deadline and can shorten this schedule.
+VERSION_RETRY_DELAYS = (2, 4, 8, 16, 30, 30, 30, 30)
+VERSION_ACTIVATION_TIMEOUT = 180
 ANSI_ESCAPE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 
 
@@ -64,10 +65,14 @@ def deploy_approved_version(cli, common, version_id):
     environment = {**os.environ, 'WRANGLER_LOG': 'log', 'WRANGLER_WRITE_LOGS': 'false',
                    'WRANGLER_LOG_SANITIZE': 'true', 'WRANGLER_SEND_METRICS': 'false'}
     attempts = len(VERSION_RETRY_DELAYS) + 1
+    deadline_message = (f'Worker activation exceeded the {VERSION_ACTIVATION_TIMEOUT}-second '
+                        'deadline; no further attempt.')
+    print(f'Activating approved Worker version: {version_id}; up to {attempts} attempts '
+          f'within a {VERSION_ACTIVATION_TIMEOUT}s activation budget.', flush=True)
     for attempt in range(attempts):
         remaining = deadline - time.monotonic()
         if remaining <= 0:
-            raise SystemExit('Worker activation exceeded the 60-second deadline; no further attempt.')
+            raise SystemExit(deadline_message)
         try:
             result = activation_attempt(command, environment, remaining)
         except subprocess.TimeoutExpired:
@@ -75,16 +80,26 @@ def deploy_approved_version(cli, common, version_id):
             # or print the captured output, which can contain sensitive data.
             raise SystemExit('Worker activation timed out; no further attempt.') from None
         if result.returncode == 0:
-            print('Activated approved Worker version: ' + version_id)
+            print('Activated approved Worker version: ' + version_id, flush=True)
             return
         if not missing_approved_version(result, version_id, os.environ['CLOUDFLARE_ACCOUNT_ID']):
             raise SystemExit('Worker activation failed outside the exact-version 100146 lookup; no retry.')
         if attempt == attempts - 1:
-            raise SystemExit('Approved Worker version remained unavailable (100146) after five attempts.')
+            raise SystemExit(f'Approved Worker version remained unavailable (100146) after {attempts} '
+                             f'attempts within the {VERSION_ACTIVATION_TIMEOUT}s activation budget.')
         delay = VERSION_RETRY_DELAYS[attempt]
-        if deadline - time.monotonic() <= delay:
-            raise SystemExit('Worker activation exceeded the 60-second deadline; no further attempt.')
-        print(f'Approved version lookup returned 100146; retry {attempt + 2}/{attempts} in {delay}s.')
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise SystemExit(deadline_message)
+        if remaining <= delay:
+            raise SystemExit(f'Insufficient activation budget: retry {attempt + 2}/{attempts} '
+                             f'requires a {delay}s pause with {remaining:.1f}s remaining; '
+                             'no further attempt.')
+        elapsed = VERSION_ACTIVATION_TIMEOUT - remaining
+        print(f'Approved version lookup returned 100146 for {version_id}; '
+              f'retry {attempt + 2}/{attempts} in {delay}s '
+              f'({elapsed:.1f}s elapsed; {remaining:.1f}s left in '
+              f'{VERSION_ACTIVATION_TIMEOUT}s budget).', flush=True)
         time.sleep(delay)
 
 
@@ -144,7 +159,7 @@ def main():
             raise ValueError()
     except (OSError, ValueError, UnicodeError, RecursionError):
         raise SystemExit('The upload report must identify one valid version of the expected Worker.') from None
-    print('Uploaded approved Worker version: ' + version_id)
+    print('Uploaded approved Worker version: ' + version_id, flush=True)
     deploy_approved_version(cli, common, version_id)
 
 
