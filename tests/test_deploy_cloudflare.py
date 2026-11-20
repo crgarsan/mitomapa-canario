@@ -60,6 +60,9 @@ class DeployCloudflareTests(unittest.TestCase):
                     if index >= len(responses):
                         sys.exit(99)
                     response = responses[index]
+                    if 'elapsed' in response:
+                        with Path('elapsed.jsonl').open('a') as stream:
+                            stream.write(str(response['elapsed']) + '\\n')
                     if response.get('activated'):
                         with Path('activated.jsonl').open('a') as stream:
                             stream.write(json.dumps(args[2]) + '\\n')
@@ -99,8 +102,11 @@ def monotonic():
     spent = sum(float(v) for v in recorded.read_text().splitlines()) if recorded.exists() else 0
     # Give the real launcher/child tree a short deadline, without mocking the
     # process timeout or termination that the regression must exercise.
-    timeout_offset = 59 if os.environ.get('SIMULATE_TIMEOUT') and clock_calls[0] > 1 else 0
-    return clock() + elapsed[0] + spent + timeout_offset
+    timeout_offset = 179 if os.environ.get('SIMULATE_TIMEOUT') and clock_calls[0] > 1 else 0
+    # Budget cases use only virtual time, independent of runner load.
+    # The process-tree timeout case retains the real monotonic clock.
+    current = clock() if os.environ.get('SIMULATE_TIMEOUT') else 1000.0
+    return current + elapsed[0] + spent + timeout_offset
 time.sleep = sleep
 time.monotonic = monotonic
 runpy.run_path(os.environ['DEPLOY_SCRIPT'], run_name='__main__')
@@ -188,20 +194,48 @@ runpy.run_path(os.environ['DEPLOY_SCRIPT'], run_name='__main__')
         self.assertEqual([call['args'][:2] for call in self.calls()],
                          [['versions', 'upload']] + [['versions', 'deploy']] * 3)
         self.assertTrue(all(call['args'][2] == VERSION + '@100%' for call in self.calls()[1:]))
-        self.assertEqual(self.waits(), [1, 2])
+        self.assertEqual(self.waits(), [2, 4])
         self.assertEqual(self.activations(), [VERSION + '@100%'])
 
-    def test_persistent_missing_version_stops_after_five_attempts_without_activation(self):
-        result = self.run_responses([self.missing_version()] * 6)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertEqual(len(self.calls()), 6)  # one upload, five bounded reads in deploy
-        self.assertEqual(self.waits(), [1, 2, 4, 8])
-        self.assertEqual(self.activations(), [])
-
-    def test_final_allowed_attempt_can_activate(self):
-        result = self.run_responses([self.missing_version()] * 4 + [{"exit": 0, "activated": True}])
+    def test_version_visible_after_ninety_seconds_activates_once_on_seventh_attempt(self):
+        # The recurrence exhausted the old five-attempt cap. Cover later
+        # readability beyond even its former nominal 60-second ceiling.
+        # These are virtual sleeps; only the fictitious local CLI is executed.
+        result = self.run_responses([self.missing_version()] * 6
+                                    + [{"exit": 0, "activated": True}])
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(len(self.calls()), 6)
+        self.assertEqual([call['args'][:2] for call in self.calls()],
+                         [['versions', 'upload']] + [['versions', 'deploy']] * 7)
+        self.assertTrue(all(call['args'][2] == VERSION + '@100%' for call in self.calls()[1:]))
+        self.assertEqual(self.waits(), [2, 4, 8, 16, 30, 30])
+        self.assertEqual(sum(self.waits()), 90)
+        self.assertEqual(self.activations(), [VERSION + '@100%'])
+        self.assertIn('180', result.stdout + result.stderr)
+        self.assertNotIn(TOKEN, result.stdout + result.stderr)
+        self.assertNotIn(ACCOUNT, result.stdout + result.stderr)
+
+    def test_persistent_missing_version_stops_after_nine_attempts_without_tenth_or_activation(self):
+        result = self.run_responses([self.missing_version()] * 9
+                                    + [{"exit": 0, "activated": True}])
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual([call['args'][:2] for call in self.calls()],
+                         [['versions', 'upload']] + [['versions', 'deploy']] * 9)
+        self.assertTrue(all(call['args'][2] == VERSION + '@100%' for call in self.calls()[1:]))
+        self.assertEqual(self.waits(), [2, 4, 8, 16, 30, 30, 30, 30])
+        self.assertEqual(self.activations(), [])
+        self.assertRegex(result.stderr, r'\b(?:9|nine) attempts\b')
+        self.assertIn('180', result.stdout + result.stderr)
+        self.assertNotIn(TOKEN, result.stdout + result.stderr)
+        self.assertNotIn(ACCOUNT, result.stdout + result.stderr)
+
+    def test_ninth_and_final_allowed_attempt_can_activate_the_same_version(self):
+        result = self.run_responses([self.missing_version()] * 8
+                                    + [{"exit": 0, "activated": True}])
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual([call['args'][:2] for call in self.calls()],
+                         [['versions', 'upload']] + [['versions', 'deploy']] * 9)
+        self.assertTrue(all(call['args'][2] == VERSION + '@100%' for call in self.calls()[1:]))
+        self.assertEqual(self.waits(), [2, 4, 8, 16, 30, 30, 30, 30])
         self.assertEqual(self.activations(), [VERSION + '@100%'])
 
     def test_other_version_account_worker_auth_and_ambiguous_errors_never_retry(self):
@@ -234,12 +268,37 @@ runpy.run_path(os.environ['DEPLOY_SCRIPT'], run_name='__main__')
         self.assertNotIn(TOKEN, result.stdout + result.stderr)
         self.assertNotIn(ACCOUNT, result.stdout + result.stderr)
 
-    def test_elapsed_deadline_stops_before_another_retry(self):
-        result = self.run_responses([self.missing_version()] * 6, DEPLOY_ELAPSED='59')
+    def test_elapsed_cli_time_leaves_no_budget_for_the_first_retry_delay(self):
+        # 179 seconds spent inside the CLI leaves less than the required 2s.
+        result = self.run_responses([self.missing_version()] * 10, DEPLOY_ELAPSED='179')
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(len(self.calls()), 2)
         self.assertEqual(self.waits(), [])
         self.assertEqual(self.activations(), [])
+        self.assertIn('180', result.stdout + result.stderr)
+        self.assertIn('insufficient activation budget', result.stderr.lower())
+        self.assertIn('retry 2/9 requires a 2s pause with 1.0s remaining', result.stderr)
+        self.assertNotIn('exceeded', result.stderr.lower())
+        self.assertNotIn(TOKEN, result.stdout + result.stderr)
+        self.assertNotIn(ACCOUNT, result.stdout + result.stderr)
+
+    def test_cli_elapsed_time_and_retry_sleep_share_one_deadline(self):
+        # 160s first CLI + 2s sleep + 15s second CLI leaves <4s: no next sleep/call.
+        first = {**self.missing_version(), 'elapsed': 160}
+        second = {**self.missing_version(), 'elapsed': 15}
+        result = self.run_responses([first, second, {"exit": 0, "activated": True}])
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual([call['args'][:2] for call in self.calls()],
+                         [['versions', 'upload']] + [['versions', 'deploy']] * 2)
+        self.assertTrue(all(call['args'][2] == VERSION + '@100%' for call in self.calls()[1:]))
+        self.assertEqual(self.waits(), [2])
+        self.assertEqual(self.activations(), [])
+        self.assertIn('180', result.stdout + result.stderr)
+        self.assertIn('insufficient activation budget', result.stderr.lower())
+        self.assertIn('retry 3/9 requires a 4s pause with 3.0s remaining', result.stderr)
+        self.assertNotIn('exceeded', result.stderr.lower())
+        self.assertNotIn(TOKEN, result.stdout + result.stderr)
+        self.assertNotIn(ACCOUNT, result.stdout + result.stderr)
 
     def test_captured_cli_output_never_leaks_credentials(self):
         failure = self.missing_version()
@@ -271,6 +330,21 @@ runpy.run_path(os.environ['DEPLOY_SCRIPT'], run_name='__main__')
                 self.assertEqual(self.waits(), [])
                 self.assertEqual(self.activations(), [])
 
+
+    def test_late_ambiguous_post_error_never_retries_after_the_extended_lookup_window(self):
+        failure = self.missing_version()
+        failure['stderr'] = failure['stderr'].replace('/versions/' + VERSION, '/deployments')
+        failure['activated'] = True
+        result = self.run_responses([self.missing_version()] * 6
+                                    + [failure, {"exit": 0, "activated": True}])
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual([call['args'][:2] for call in self.calls()],
+                         [['versions', 'upload']] + [['versions', 'deploy']] * 7)
+        self.assertTrue(all(call['args'][2] == VERSION + '@100%' for call in self.calls()[1:]))
+        self.assertEqual(self.waits(), [2, 4, 8, 16, 30, 30])
+        self.assertEqual(self.activations(), [VERSION + '@100%'])
+        self.assertNotIn(TOKEN, result.stdout + result.stderr)
+        self.assertNotIn(ACCOUNT, result.stdout + result.stderr)
 
     def test_post_error_100146_does_not_repeat_a_possibly_completed_activation(self):
         failure = self.missing_version()

@@ -136,13 +136,28 @@ los permisos del token.
 ### Visibilidad de la versión recién subida
 
 La subida se realiza una sola vez. Si Wrangler devuelve el error 100146 al
-consultar la UUID aprobada antes de activar, el wrapper permite hasta cinco
-intentos con esa misma UUID al 100 %, pausas de 1, 2, 4 y 8 segundos y un plazo
-compartido de 60 segundos para la fase de activación. Sólo acepta un diagnóstico
+consultar la UUID aprobada antes de activar, el wrapper permite hasta nueve
+intentos (el inicial y ocho reintentos) con esa misma UUID al 100 %. Las pausas
+son de 2, 4, 8, 16, 30, 30, 30 y 30 segundos, con un plazo compartido de
+180 segundos para la fase de activación, incluidos los procesos de Wrangler
+y las pausas. Las pausas suman 150 segundos; el coste de las consultas puede
+reducir el número de intentos. No se inicia una pausa ni otro proceso si ya no
+queda tiempo suficiente. Se registra la UUID, el intento y el presupuesto
+restante, sin volcar la salida capturada de la CLI. Sólo acepta un diagnóstico
 inequívoco de stderr para la cuenta, el Worker y la UUID exactos; no utiliza
 `latest` ni selecciona otra versión. El error de consulta se produce antes del
 POST de activación en el Wrangler fijado, 4.152.0. Al actualizar esa dependencia,
 revisa también este contrato y las pruebas del wrapper.
+
+La política anterior se agotaba con cinco intentos y sólo 15 segundos de
+pausas, aunque su techo nominal fuera de 60 segundos. En la ejecución #219, la
+subida tuvo éxito y esos intentos terminaron unos 20 segundos después con
+100146; una activación manual posterior de la misma UUID funcionó. La nueva
+ventana tolera una consulta que sólo tenga éxito después de 90 segundos,
+comprobada con reloj simulado y una CLI local ficticia. No se ha medido un máximo
+de propagación del proveedor: si los nueve intentos o los 180 segundos se
+agotan, la publicación sigue fallando y requiere comprobar el estado antes de
+una nueva acción. Subir una versión no acredita que esté activa.
 
 Otros códigos, rutas, diagnósticos ambiguos y errores del POST no se reintentan.
 Un timeout detiene el grupo completo de procesos de la CLI y aborta sin repetir
