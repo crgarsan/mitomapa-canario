@@ -25,7 +25,11 @@ function readLearnerGeneration(){
  try{return localStorage.getItem(learnerGenerationKey);}
  catch(error){storageReadIssue=true;updateStorageNotice();return undefined;}
 }
-let learnerGeneration=readLearnerGeneration();
+const learnerRetentionKey=window.MitoMapaRetention.key;
+const initialRetention=window.MitoMapaRetention.initial();
+if(initialRetention.unavailable){storageReadIssue=true;updateStorageNotice();}
+let learnerGeneration=initialRetention.blocked||initialRetention.expired?undefined:readLearnerGeneration();
+let learnerRetentionTimer=null,learnerRetentionDeadline=null;
 let learnerRevision=0;
 let learnerViewStale=false;
 let awaitingLearnerResume=false;
@@ -49,12 +53,23 @@ function learnerSessionCurrent(){
  if(learnerViewStale)return false;
  // Keep working in memory until reload if this tab cannot use storage.
  if(learnerGeneration===undefined)return true;
- const current=readLearnerGeneration();
- if(current===learnerGeneration)return true;
+ const retention=window.MitoMapaRetention.ensure();
+ if(retention.unavailable){storageReadIssue=true;updateStorageNotice();}
+ if(retention.blocked||retention.expired){invalidateLearnerView();return false;}
+ const current=retention.generation;
+ if(current===learnerGeneration){scheduleLearnerExpiry(retention);return true;}
  // A storage access error after a successful read cannot confirm this session.
  if(current===undefined)return false;
  invalidateLearnerView();
  return false;
+}
+function scheduleLearnerExpiry(retention){
+ const notice=byId("retentionNotice");
+ if(notice)notice.textContent=retention.expiresAt&&!retention.unavailable?`El trabajo guardado caduca el ${new Intl.DateTimeFormat("es-ES",{dateStyle:"long"}).format(new Date(retention.expiresAt))}. Guarda el seguimiento si quieres conservar una copia. El plazo de 15 días no se amplía al volver a entrar.`:"El navegador no permite garantizar la caducidad del guardado. Guarda una copia y revisa los datos de este sitio en los ajustes del navegador.";
+ if(retention.expiresAt===learnerRetentionDeadline)return;
+ clearTimeout(learnerRetentionTimer);
+ learnerRetentionDeadline=retention.expiresAt;
+ if(retention.expiresAt)learnerRetentionTimer=setTimeout(reconcileLearnerView,Math.max(1,retention.expiresAt-Date.now()));
 }
 function reconcileLearnerView(){
  if(learnerSessionCurrent()&&awaitingLearnerResume){
@@ -64,6 +79,7 @@ function reconcileLearnerView(){
 }
 function readJSON(key,fallback){
  try{
+  if((initialRetention.blocked||initialRetention.expired)&&usesLearnerGeneration(key))return key==="mitomapa-canario-preferencias-v3"?initialRetention.preferences||fallback:fallback;
   if(learnerGeneration===undefined&&usesLearnerGeneration(key))return fallback;
   const value=localStorage.getItem(progressStorageKey(key));return value?JSON.parse(value):fallback;
  }
@@ -210,7 +226,7 @@ function injectExperienceTools(){
  const puzzleLead=byId("missionTitle")?.closest("section")?.querySelector(".lead");
  if(puzzleLead)puzzleLead.textContent="Reconstruye el mapa observando sus formas y colores. Arrastra una pieza sobre otra o selecciona dos para intercambiarlas. Con el teclado, usa Tab para recorrer las piezas y Enter o espacio para seleccionarlas. Puedes utilizar «Mostrar solución» como apoyo.";
  const footer=document.querySelector(".footer-inner");
- if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacidad y guardado</summary><p>No necesitas una cuenta. El progreso se guarda solo en este navegador. El nombre o equipo es opcional y se utiliza en el seguimiento docente. El diploma es genérico y no incluye nombres personales. Los cuentos con grabación reproducen el audio indicado junto al reproductor; los demás usan las voces disponibles en el dispositivo. El sonido comienza cuando pulsas Reproducir. Para cambiar de navegador, guarda el seguimiento desde Docente.</p></details>`);
+ if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacidad y guardado</summary><p>No necesitas una cuenta. El trabajo se guarda solo en este navegador y caduca a los 15 días. Volver a entrar no amplía el plazo. Guarda una copia desde Docente antes de que caduque. La limpieza se ejecuta con la web abierta o al volver a ella y conserva los ajustes de lectura. Los archivos descargados no se borran. El nombre o equipo es opcional y se utiliza en el seguimiento docente. El diploma es genérico y no incluye nombres personales. Los cuentos con grabación reproducen el audio indicado junto al reproductor; los demás usan las voces disponibles en el dispositivo. El sonido comienza cuando pulsas Reproducir. Para cambiar de navegador, guarda el seguimiento desde Docente.</p></details>`);
  setReaderMode(readerMode);
  setLearningLevel(learningLevel,false);
 }
@@ -1385,7 +1401,7 @@ const journeyProgressKey="mitomapa-canario-ruta-acordada-v1";
 const sequenceProgressKey="mitomapa-canario-secuencias-v1";
 const comparisonProgressKey="mitomapa-canario-comparaciones-v1";
 const resumeProgressKey="mitomapa-canario-ultimo-apartado-v1";
-const learnerProgressKeys=[legacyKey,storageKey,preferencesKey,workshopStorageKey,itineraryKey,finalStorageKey,
+const learnerProgressKeys=[learnerRetentionKey,legacyKey,storageKey,preferencesKey,workshopStorageKey,itineraryKey,finalStorageKey,
  journeyProgressKey,sequenceProgressKey,comparisonProgressKey,resumeProgressKey];
 
 function removeStoredLearnerProgress(generation){
@@ -1428,9 +1444,11 @@ function replaceLearnerProgress(entries,{locked,reset=false}){
   return true;
  }
  const previous=learnerGeneration;
+ const retentionRecord=window.MitoMapaRetention.record(previous);
  const generation=(locked?"l-":"")+Array.from(crypto.getRandomValues(new Uint8Array(16)),byte=>byte.toString(16).padStart(2,"0")).join("");
  const publish=()=>{
   for(const [key,value] of entries)localStorage.setItem(progressStorageKey(key,generation),JSON.stringify(value));
+  localStorage.setItem(progressStorageKey(learnerRetentionKey,generation),JSON.stringify(retentionRecord));
   publishMarker();
  };
  const publishMarker=()=>{
@@ -1917,5 +1935,9 @@ window.addEventListener("storage",event=>{
 window.addEventListener("focus",reconcileLearnerView);
 window.addEventListener("pageshow",reconcileLearnerView);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)reconcileLearnerView();});
-learnerSessionCurrent();
-collectAbandonedLearnerProgress();
+if(initialRetention.expired)invalidateLearnerView();
+else{
+ scheduleLearnerExpiry(initialRetention);
+ learnerSessionCurrent();
+ collectAbandonedLearnerProgress();
+}

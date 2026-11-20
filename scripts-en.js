@@ -26,7 +26,11 @@ function readLearnerGeneration(){
  try{return localStorage.getItem(learnerGenerationKey);}
  catch(error){storageReadIssue=true;updateStorageNotice();return undefined;}
 }
-let learnerGeneration=readLearnerGeneration();
+const learnerRetentionKey=window.MitoMapaRetention.key;
+const initialRetention=window.MitoMapaRetention.initial();
+if(initialRetention.unavailable){storageReadIssue=true;updateStorageNotice();}
+let learnerGeneration=initialRetention.blocked||initialRetention.expired?undefined:readLearnerGeneration();
+let learnerRetentionTimer=null,learnerRetentionDeadline=null;
 let learnerRevision=0;
 let learnerViewStale=false;
 let awaitingLearnerResume=false;
@@ -50,12 +54,23 @@ function learnerSessionCurrent(){
  if(learnerViewStale)return false;
  // Keep working in memory until reload if this tab cannot use storage.
  if(learnerGeneration===undefined)return true;
- const current=readLearnerGeneration();
- if(current===learnerGeneration)return true;
+ const retention=window.MitoMapaRetention.ensure();
+ if(retention.unavailable){storageReadIssue=true;updateStorageNotice();}
+ if(retention.blocked||retention.expired){invalidateLearnerView();return false;}
+ const current=retention.generation;
+ if(current===learnerGeneration){scheduleLearnerExpiry(retention);return true;}
  // A storage access error after a successful read cannot confirm this session.
  if(current===undefined)return false;
  invalidateLearnerView();
  return false;
+}
+function scheduleLearnerExpiry(retention){
+ const notice=byId("retentionNotice");
+ if(notice)notice.textContent=retention.expiresAt&&!retention.unavailable?`Saved work expires on ${new Intl.DateTimeFormat("en-GB",{dateStyle:"long"}).format(new Date(retention.expiresAt))}. Save the progress file to keep a copy. Returning to the website does not extend the 15-day period.`:"The browser cannot guarantee expiry of saved work. Save a copy and check this site's data in your browser settings.";
+ if(retention.expiresAt===learnerRetentionDeadline)return;
+ clearTimeout(learnerRetentionTimer);
+ learnerRetentionDeadline=retention.expiresAt;
+ if(retention.expiresAt)learnerRetentionTimer=setTimeout(reconcileLearnerView,Math.max(1,retention.expiresAt-Date.now()));
 }
 function reconcileLearnerView(){
  if(learnerSessionCurrent()&&awaitingLearnerResume){
@@ -65,6 +80,7 @@ function reconcileLearnerView(){
 }
 function readJSON(key,fallback){
  try{
+  if((initialRetention.blocked||initialRetention.expired)&&usesLearnerGeneration(key))return key==="mitomapa-canario-preferencias-v3"?initialRetention.preferences||fallback:fallback;
   if(learnerGeneration===undefined&&usesLearnerGeneration(key))return fallback;
   const value=localStorage.getItem(progressStorageKey(key));return value?JSON.parse(value):fallback;
  }
@@ -211,7 +227,7 @@ function injectExperienceTools(){
  const puzzleLead=byId("missionTitle")?.closest("section")?.querySelector(".lead");
  if(puzzleLead)puzzleLead.textContent="Look at the shapes and colours to rebuild the map. Drag a piece onto another or select two pieces to swap them. On the keyboard, press Tab to move between pieces and Enter or Space to select them. Choose “Show solution” if you need help.";
  const footer=document.querySelector(".footer-inner");
- if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacy and saved progress</summary><p>You can use MitoMapa without an account. This browser saves your progress. You can enter a name or a team name for teacher review. The diploma leaves out personal names. When a story has a recording, the player uses the recording it names. Other stories use a voice available on your device.</p></details>`);
+ if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacy and saved progress</summary><p>You can use MitoMapa without an account. This browser saves your work for 15 days. Returning does not extend that period. Save a copy from Teacher before it expires. Cleanup runs while the website is open or when you return to it, keeping your reading settings. Downloaded files are not deleted. You can enter a name or a team name for teacher review. The diploma leaves out personal names. When a story has a recording, the player uses the recording it names. Other stories use a voice available on your device.</p></details>`);
  setReaderMode(readerMode);
  setLearningLevel(learningLevel,false);
 }
@@ -1387,7 +1403,7 @@ const journeyProgressKey="mitomapa-canario-ruta-acordada-v1";
 const sequenceProgressKey="mitomapa-canario-secuencias-v1";
 const comparisonProgressKey="mitomapa-canario-comparaciones-v1";
 const resumeProgressKey="mitomapa-canario-ultimo-apartado-v1";
-const learnerProgressKeys=[legacyKey,storageKey,preferencesKey,workshopStorageKey,itineraryKey,finalStorageKey,
+const learnerProgressKeys=[learnerRetentionKey,legacyKey,storageKey,preferencesKey,workshopStorageKey,itineraryKey,finalStorageKey,
  journeyProgressKey,sequenceProgressKey,comparisonProgressKey,resumeProgressKey];
 
 function removeStoredLearnerProgress(generation){
@@ -1430,9 +1446,11 @@ function replaceLearnerProgress(entries,{locked,reset=false}){
   return true;
  }
  const previous=learnerGeneration;
+ const retentionRecord=window.MitoMapaRetention.record(previous);
  const generation=(locked?"l-":"")+Array.from(crypto.getRandomValues(new Uint8Array(16)),byte=>byte.toString(16).padStart(2,"0")).join("");
  const publish=()=>{
   for(const [key,value] of entries)localStorage.setItem(progressStorageKey(key,generation),JSON.stringify(value));
+  localStorage.setItem(progressStorageKey(learnerRetentionKey,generation),JSON.stringify(retentionRecord));
   publishMarker();
  };
  const publishMarker=()=>{
@@ -1918,5 +1936,9 @@ window.addEventListener("storage",event=>{
 window.addEventListener("focus",reconcileLearnerView);
 window.addEventListener("pageshow",reconcileLearnerView);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)reconcileLearnerView();});
-learnerSessionCurrent();
-collectAbandonedLearnerProgress();
+if(initialRetention.expired)invalidateLearnerView();
+else{
+ scheduleLearnerExpiry(initialRetention);
+ learnerSessionCurrent();
+ collectAbandonedLearnerProgress();
+}

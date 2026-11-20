@@ -64,7 +64,7 @@
 <script src="aprendizaje.js" defer></script>
 <script src="formatos-data.js" defer></script>
 <script src="formatos.js?revision=7090a708a145" defer></script>
-<script src="scripts.js?revision=802b915b9fd4" defer></script>
+<script src="learner-retention.js?revision=4a912bd0e6e5" data-app-src="scripts.js?revision=b2ccd814937a" defer></script>
 <link rel="stylesheet" href="language-switch.css">
 <link rel="alternate" hreflang="es" href="https://mitomapacanario.org/">
 <link rel="alternate" hreflang="en" href="https://mitomapacanario.org/index-en.html">
@@ -72,7 +72,7 @@
 </head>
 <body><a class="skip-link" href="#main">Saltar al contenido</a><noscript><p class="noscript-note"><strong>JavaScript está desactivado.</strong> Actívalo para utilizar el puzle, los retos, la locución y el pasaporte. Los textos seguirán disponibles en la versión eXeLearning del REA.</p></noscript>
 <header class="topbar is-bilingual"><div class="topbar-identity"><a class="brand" href="#inicio" aria-label="MitoMapa canario">MitoMapa<span class="brand-detail"> canario</span></a><nav class="language-switch" aria-label="Idioma del recurso"><a href="index.html?lang=es#inicio" lang="es" hreflang="es" aria-current="true"><span class="language-name">Español</span></a><a href="index-en.html?lang=en#inicio" lang="en" hreflang="en"><span class="language-name">English</span></a></nav></div><div class="progress-wrap" role="group" aria-label="Colección de ocho piezas"><div class="progress" aria-hidden="true"><span id="progressBar"></span></div><span class="progress-text" id="progressText">0/8</span></div><button class="passport-button" id="openPassport" type="button" aria-haspopup="dialog"><span class="passport-label">Pasaporte</span> <span id="passportCount">0/8</span></button><button class="teacher-button" id="openTeacher" type="button" aria-haspopup="dialog">Docente</button><button class="reset" id="resetProgress" type="button">Reiniciar progreso</button></header>
-<main id="main"><aside id="storageNotice" class="storage-notice" role="alert" hidden><strong>Atención al guardado.</strong> No se ha podido leer o guardar parte del progreso en este navegador. Puedes seguir trabajando, pero antes de cerrar descarga una copia desde «Docente → Guardar seguimiento». No recargues hasta hacerlo. <button id="storageExportHelp" type="button" class="button secondary">Abrir seguimiento</button></aside>
+<main id="main"><aside id="storageNotice" class="storage-notice" role="alert" hidden><strong>Atención al guardado.</strong> No se ha podido leer, guardar o borrar parte del progreso en este navegador. No se puede garantizar su caducidad. Puedes seguir trabajando, pero antes de cerrar descarga una copia desde «Docente → Guardar seguimiento». No recargues hasta hacerlo. <button id="storageExportHelp" type="button" class="button secondary">Abrir seguimiento</button></aside>
 <nav class="main-navigation" aria-label="Secciones principales">
   <div class="nav-links">
     <a href="#inicio" data-nav="inicio" aria-current="page"><span class="nav-pintadera" aria-hidden="true"><img src="assets/images/pintadera_sol.webp" width="26" height="26" alt=""></span><span>Inicio</span></a>
@@ -848,6 +848,8 @@
       <section class="teacher-tool-section" aria-labelledby="teacherFilesTitle">
         <h3 id="teacherFilesTitle" tabindex="-1">Guardar o recuperar el trabajo</h3>
         <p>Guarda un archivo para continuar en otro dispositivo. Para recuperar una sesión, selecciona su archivo guardado.</p>
+        <p id="retentionNotice" class="teacher-local-note">El trabajo guardado en este navegador caduca a los 15 días. Guarda una copia si quieres conservarlo.</p>
+        <p>La limpieza se realiza al cumplirse el plazo con la web abierta o al volver a ella. Conserva el idioma y los ajustes de lectura. Los archivos descargados no se borran; en equipos compartidos, reinicia el progreso al terminar.</p>
         <div class="dialog-actions">
           <button class="button" id="exportProgress" type="button">Guardar copia</button>
           <button class="button secondary" id="importProgress" type="button">Cargar copia</button>

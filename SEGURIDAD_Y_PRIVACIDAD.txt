@@ -1,5 +1,17 @@
 El recurso no requiere registro. Guarda progreso y nombre opcional en localStorage.
 Las tareas acordadas y revisiones se guardan por etapa en el mismo dispositivo.
+El trabajo local caduca a los 15 períodos de 24 horas desde el primer uso; abrir
+la web no renueva el plazo. El trabajo previo sin fecha recibe sus primeros
+15 días al abrir esta actualización. Importar o reiniciar inicia un plazo nuevo.
+La limpieza elimina nombre, respuestas, dibujos, progreso y revisiones, y conserva
+idioma, etapa y ajustes generales de lectura y narración. Se comprueba antes de
+cargar el trabajo, al vencer con la web abierta y al volver a la pestaña.
+Con el navegador cerrado, el borrado espera a la siguiente apertura. Depende del
+reloj y del acceso al almacenamiento del dispositivo; si falla, se muestra un
+aviso y no se garantiza la eliminación. Los archivos descargados no se borran.
+En un dispositivo compartido, guarde lo necesario y reinicie al terminar.
+Esta caducidad corresponde a la web; no cambia el seguimiento del ELPX o de Moodle
+ni los plazos de conservación de los registros del alojamiento.
 Docente es una herramienta de acompañamiento local: no tiene autenticación ni firma.
 Guardar seguimiento genera un archivo que puede incluir nombres y respuestas.
 Las descargas de fuentes distribuidas no incluyen estos datos.
