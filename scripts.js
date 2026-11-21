@@ -58,8 +58,11 @@ function learnerSessionCurrent(){
  if(retention.blocked||retention.expired){invalidateLearnerView();return false;}
  const current=retention.generation;
  if(current===learnerGeneration){scheduleLearnerExpiry(retention);return true;}
- // A storage access error after a successful read cannot confirm this session.
- if(current===undefined)return false;
+ // A failed read cannot extend the deadline already known to this tab.
+ if(current===undefined){
+  if(learnerRetentionDeadline!==null&&Date.now()>=learnerRetentionDeadline)invalidateLearnerView();
+  return false;
+ }
  invalidateLearnerView();
  return false;
 }

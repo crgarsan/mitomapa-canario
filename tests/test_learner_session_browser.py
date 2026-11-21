@@ -99,6 +99,81 @@ class LearnerSessionBrowserTests(unittest.TestCase):
             page.locator("#exportProgress").click()
         return json.loads(Path(downloaded.value.path()).read_text())
 
+    def deny_storage_reads(self, page, boundary):
+        # Change only the browser-storage boundary. Installing on this page
+        # keeps the denial in effect after the app's guarded reload, while a
+        # fresh page in the same context can later retry real storage access.
+        scripts = {
+            "getItem": """(() => {
+                const get = Storage.prototype.getItem;
+                Storage.prototype.getItem = function() {
+                    throw new DOMException('Fictitious read denial', 'SecurityError');
+                };
+                window.restoreTestStorageAccess = () => { Storage.prototype.getItem = get; };
+            })();""",
+            "localStorage": """(() => {
+                const descriptor = Object.getOwnPropertyDescriptor(window, 'localStorage');
+                Object.defineProperty(window, 'localStorage', {
+                    configurable: true,
+                    get() { throw new DOMException('Fictitious access denial', 'SecurityError'); }
+                });
+                window.restoreTestStorageAccess = () => {
+                    Object.defineProperty(window, 'localStorage', descriptor);
+                };
+            })();""",
+        }
+        script = scripts[boundary]
+        page.add_init_script(script)
+        page.evaluate(script)
+
+    def assert_expired_read_denied_work_is_empty(self, page, context, language, deadline):
+        # Old work must disappear without any user action that could itself
+        # trigger a session check.
+        expect(page.locator('#activity-tenerife [data-primary-text]')).not_to_be_visible()
+        self.wait_for_app(page)
+        expect(page.locator("#storageNotice")).to_be_visible()
+        self.assertFalse(page.evaluate("document.body.inert"))
+        # Read denial also prevents restoring the preferred stage. Choose it
+        # through the real control before checking the lazy workshop fields.
+        page.locator("a.brand").click()
+        page.locator("#readingSettings > summary").click()
+        page.locator('.experience-tools button[data-learning-level="advanced"]').click()
+        expect(self.workshop(page)).to_have_value("")
+        self.tools(page)
+        expect(page.locator("#teacherLearnerName")).to_have_value("")
+        result = self.export(page)
+        self.assertEqual(result["learnerName"], "")
+        self.assertFalse(result["workshop"]["routes"].get("tenerife", {}).get("text"))
+        fields = page.locator("input, textarea").evaluate_all("nodes => nodes.map(node => node.value).join('|')")
+        for old_value in ("Equipo ficticio A", "Trabajo ficticio A", "Equipo ficticio B", "Trabajo ficticio B"):
+            self.assertNotIn(old_value, fields)
+
+        # The page-specific denial remains active over another reload. A blank
+        # but usable learner view must remain, rather than reviving the old DOM.
+        page.reload(wait_until="domcontentloaded")
+        self.wait_for_app(page)
+        expect(page.locator("#storageNotice")).to_be_visible()
+        page.locator("a.brand").click()
+        page.locator("#readingSettings > summary").click()
+        page.locator('.experience-tools button[data-learning-level="advanced"]').click()
+        expect(self.workshop(page)).to_have_value("")
+        self.tools(page)
+        expect(page.locator("#teacherLearnerName")).to_have_value("")
+        self.assertEqual(self.export(page)["learnerName"], "")
+
+        # Once storage is readable again, its still-expired record must also
+        # prevent the saved learner from reappearing in a new document.
+        recovered = self.open(context, language, now=deadline + 1)
+        recovered.locator("a.brand").click()
+        recovered.locator("#readingSettings > summary").click()
+        recovered.locator('.experience-tools button[data-learning-level="advanced"]').click()
+        expect(self.workshop(recovered)).to_have_value("")
+        self.tools(recovered)
+        expect(recovered.locator("#teacherLearnerName")).to_have_value("")
+        result = self.export(recovered)
+        self.assertEqual(result["learnerName"], "")
+        self.assertFalse(result["workshop"]["routes"].get("tenerife", {}).get("text"))
+
     def test_reset_and_import_replace_work_across_languages(self):
         for source, other_language in (("es", "en"), ("en", "es")):
             with self.subTest(source=source), self.browser.new_context(reduced_motion="reduce") as context:
@@ -299,6 +374,98 @@ class LearnerSessionBrowserTests(unittest.TestCase):
                 expect(self.workshop(page)).to_have_value("")
                 self.tools(page)
                 self.assertEqual(self.export(page)["learnerName"], "")
+
+    def test_active_timer_expires_work_when_storage_reads_become_denied(self):
+        for language in ("es", "en"):
+            for boundary in ("getItem", "localStorage"):
+                with self.subTest(language=language, boundary=boundary), self.browser.new_context() as context:
+                    page = self.open(context, language, now=TEST_TIME_MS, clock=True)
+                    self.seed(page)
+                    deadline = page.evaluate("Date.now()") + 30000
+                    self.set_retention_start(page, deadline - RETENTION_MS)
+                    page.reload(wait_until="networkidle")
+                    expect(self.workshop(page)).to_have_value("Trabajo ficticio A")
+                    self.deny_storage_reads(page, boundary)
+                    page.clock.fast_forward(30001)
+                    self.assert_expired_read_denied_work_is_empty(page, context, language, deadline)
+
+    def test_resume_expires_read_denied_work_without_waiting_for_its_timer(self):
+        for language in ("es", "en"):
+            for event in ("focus", "pageshow", "visibilitychange"):
+                with self.subTest(language=language, event=event), self.browser.new_context() as context:
+                    # A fixed Date advances the deadline while real timers do
+                    # not run forward: only the browser resume handler fires.
+                    page = self.open(context, language, now=TEST_TIME_MS)
+                    self.seed(page)
+                    self.set_retention_start(page, TEST_TIME_MS)
+                    expect(self.workshop(page)).to_have_value("Trabajo ficticio A")
+                    self.deny_storage_reads(page, "getItem")
+                    deadline = TEST_TIME_MS + RETENTION_MS
+                    page.clock.set_fixed_time(deadline / 1000)
+                    page.evaluate("""event => {
+                        (event === 'visibilitychange' ? document : window).dispatchEvent(new Event(event));
+                    }""", event)
+                    self.assert_expired_read_denied_work_is_empty(page, context, language, deadline)
+
+    def test_temporary_read_denial_before_deadline_preserves_work_and_fixed_window(self):
+        for language in ("es", "en"):
+            for boundary in ("getItem", "localStorage"):
+                with self.subTest(language=language, boundary=boundary), self.browser.new_context() as context:
+                    page = self.open(context, language, now=TEST_TIME_MS)
+                    self.seed(page)
+                    self.set_retention_start(page, TEST_TIME_MS)
+                    original = self.retention(page)
+                    field = self.workshop(page)
+                    expect(field).to_have_value("Trabajo ficticio A")
+                    self.deny_storage_reads(page, boundary)
+                    deadline = TEST_TIME_MS + RETENTION_MS
+                    page.clock.set_fixed_time((deadline - 1) / 1000)
+                    page.evaluate("window.dispatchEvent(new Event('focus'))")
+                    expect(field).to_be_visible()
+                    expect(field).to_have_value("Trabajo ficticio A")
+                    expect(page.locator("#storageNotice")).to_be_visible()
+                    self.assertFalse(page.evaluate("document.body.inert"))
+
+                    page.evaluate("window.restoreTestStorageAccess()")
+                    page.evaluate("window.dispatchEvent(new Event('focus'))")
+                    self.assertEqual(self.retention(page), original)
+                    self.tools(page)
+                    expect(page.locator("#teacherLearnerName")).to_have_value("Equipo ficticio A")
+                    self.assertEqual(self.export(page)["workshop"]["routes"]["tenerife"]["text"],
+                                     "Trabajo ficticio A")
+
+    def test_imported_session_keeps_its_new_deadline_when_reads_later_fail(self):
+        for language in ("es", "en"):
+            with self.subTest(language=language), self.browser.new_context() as context:
+                context.add_init_script("window.confirm=()=>true")
+                page = self.open(context, language, now=TEST_TIME_MS)
+                self.seed(page)
+                self.set_retention_start(page, TEST_TIME_MS)
+                old_deadline = TEST_TIME_MS + RETENTION_MS
+                imported_at = old_deadline - 30000
+                page.clock.set_fixed_time(imported_at / 1000)
+                self.tools(page)
+                page.locator("#importProgressFile").set_input_files({"name": "ficticio.json",
+                    "mimeType": "application/json", "buffer": json.dumps(self.payload()).encode()})
+                expect(page.locator("#teacherLearnerName")).to_have_value("Equipo ficticio B")
+                imported = self.retention(page)
+                self.assertEqual(imported["record"], {"startedAt": imported_at})
+                page.locator("#closeTeacher").click()
+                field = self.workshop(page)
+                expect(field).to_have_value("Trabajo ficticio B")
+                self.deny_storage_reads(page, "getItem")
+
+                # A successful import replaces the former retention window.
+                # Denial afterward must not revive that former deadline.
+                page.clock.set_fixed_time(old_deadline / 1000)
+                page.evaluate("window.dispatchEvent(new Event('focus'))")
+                expect(field).to_be_visible()
+                expect(field).to_have_value("Trabajo ficticio B")
+                expect(page.locator("#storageNotice")).to_be_visible()
+                deadline = imported_at + RETENTION_MS
+                page.clock.set_fixed_time(deadline / 1000)
+                page.evaluate("window.dispatchEvent(new Event('focus'))")
+                self.assert_expired_read_denied_work_is_empty(page, context, language, deadline)
 
     def test_expired_second_tab_cannot_resave_or_export_its_old_work(self):
         for language, other_language in (("es", "en"), ("en", "es")):
