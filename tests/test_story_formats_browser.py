@@ -52,18 +52,26 @@ class StoryFormatsBrowserTests(unittest.TestCase):
         self.context.close()
         self.assertEqual(self.errors, [])
 
+    def wait_for_app(self):
+        self.page.locator("body.navigation-ready").wait_for(state="visible")
+
     def test_each_island_has_two_views_permanent_pdf_and_optional_captions(self):
         self.page.goto(self.base, wait_until="networkidle")
+        self.wait_for_app()
         for slug in SLUGS:
             with self.subTest(island=slug):
                 self.page.evaluate("slug => window.MitoMapaNavigation.go('isla/' + slug + '/cuento')", slug)
                 route = self.page.locator(f"#route-{slug}")
                 self.assertEqual(route.locator(".format-picker").count(), 1)
-                self.assertTrue(route.get_by_role("radio", name="Audio y texto", exact=True).is_checked())
+                self.assertEqual(route.locator(".format-option").all_text_contents(), ["Vídeo", "Audio y texto"])
+                self.assertTrue(route.get_by_role("radio", name="Vídeo", exact=True).is_checked())
+                self.assertFalse(route.locator(".reading-settings").is_visible())
+                self.assertFalse(route.locator(".narrator").is_visible())
+                self.assertFalse(route.locator(".route-grid").is_visible())
+                self.assertEqual(route.locator(".format-transcript").count(), 0)
                 pdf = route.locator(".format-pdf-download")
                 self.assertTrue(pdf.is_visible())
                 self.assertEqual(pdf.get_attribute("href"), f"media/{slug}/cuento-ilustrado.pdf")
-                route.get_by_role("radio", name="Vídeo", exact=True).check()
                 self.assertTrue(route.locator(".format-video-panel").is_visible())
                 self.assertTrue(pdf.is_visible())
                 state = route.locator("video").evaluate("video => ({paused:video.paused, autoplay:video.autoplay, defaults:[...video.querySelectorAll('track')].filter(t=>t.default).length, tracks:[...video.textTracks].map(t=>({lang:t.language,mode:t.mode}))})")
@@ -74,9 +82,79 @@ class StoryFormatsBrowserTests(unittest.TestCase):
                 route.get_by_role("radio", name="Audio y texto", exact=True).check()
                 self.assertTrue(route.locator(".route-grid").is_visible())
                 self.assertTrue(route.locator(".narrator").is_visible())
+                self.assertTrue(route.locator(".reading-settings").is_visible())
+                self.assertFalse(route.locator(".format-video-panel").is_visible())
+                self.assertTrue(pdf.is_visible())
+
+    def test_english_stories_have_one_inline_video_with_native_sources(self):
+        self.page.set_viewport_size({"width": 390, "height": 844})
+        self.page.goto(self.base + "index-en.html?lang=en#islas")
+        self.wait_for_app()
+        for slug in SLUGS:
+            with self.subTest(island=slug):
+                self.page.evaluate("slug => window.MitoMapaNavigation.go('isla/' + slug + '/cuento')", slug)
+                route = self.page.locator(f"#route-{slug}")
+                panel = route.locator(".format-video-panel")
+                self.assertTrue(route.get_by_role("radio", name="Video", exact=True).is_checked())
+                self.assertTrue(panel.is_visible())
+                self.assertEqual(panel.locator("a, button").count(), 0)
+                video = panel.locator("video")
+                self.assertEqual(video.count(), 1)
+                self.assertIsNone(video.get_attribute("src"))
+                state = video.evaluate("""video => ({
+                    controls: video.controls,
+                    inline: video.playsInline,
+                    paused: video.paused,
+                    sources: Array.from(video.querySelectorAll('source'), source => [
+                        source.getAttribute('src'), source.type
+                    ]),
+                    tracks: Array.from(video.querySelectorAll('track'), track => [
+                        track.srclang, track.default
+                    ])
+                })""")
+                self.assertEqual(state, {
+                    "controls": True, "inline": True, "paused": True,
+                    "sources": [
+                        [f"en/video-hls/{slug}/story.m3u8", "application/vnd.apple.mpegurl"],
+                        [f"en/media/{slug}/story.mp4", "video/mp4"],
+                    ],
+                    "tracks": [["en", False]],
+                })
+                pdf = route.get_by_role("link", name="Download story (PDF)")
+                self.assertTrue(pdf.is_visible())
+                self.assertTrue(pdf.get_attribute("href").endswith(".pdf"))
+                route.get_by_role("radio", name="Audio and text").check()
+                self.assertFalse(panel.is_visible())
+                self.assertTrue(route.locator(".route-grid").is_visible())
+                route.get_by_role("radio", name="Video", exact=True).check()
+                self.assertTrue(panel.is_visible())
+
+    def test_english_story_deep_link_survives_core_loading_after_document_ready(self):
+        held_core = []
+        self.page.route("**/scripts-en.js?*", lambda route: held_core.append(route))
+        with self.page.expect_request("**/scripts-en.js?*"):
+            self.page.goto(self.base + "index-en.html?lang=en#isla/tenerife/cuento",
+                           wait_until="domcontentloaded")
+        bootstrap = self.page.evaluate("""() => ({
+            documentReady: document.readyState !== 'loading',
+            navigationAvailable: typeof window.MitoMapaNavigation?.go === 'function',
+            navigationMounted: document.body.classList.contains('navigation-ready')
+        })""")
+        self.assertEqual(bootstrap, {"documentReady": True, "navigationAvailable": True,
+                                     "navigationMounted": False})
+        self.assertEqual(len(held_core), 1)
+        held_core[0].continue_()
+        self.wait_for_app()
+        story = self.page.locator("#route-tenerife")
+        self.assertTrue(story.is_visible())
+        self.assertTrue(story.get_by_role("radio", name="Video", exact=True).is_checked())
+        self.assertTrue(story.locator(".format-video-panel video").is_visible())
+        self.page.locator('.main-navigation a[data-nav="islas"]').click()
+        self.assertTrue(self.page.locator('[data-screen="islas"]').is_visible())
 
     def test_quick_help_is_in_teacher_and_save_help_opens_tools_with_keyboard(self):
         self.page.goto(self.base + "#recursos", wait_until="networkidle")
+        self.wait_for_app()
         self.assertEqual(self.page.locator('[data-screen="recursos"] .resource-quick-help').count(), 0)
         self.assertEqual(self.page.get_by_text("Abre el apartado que buscas.", exact=True).count(), 0)
         self.page.locator("#openTeacher").click()
@@ -91,6 +169,7 @@ class StoryFormatsBrowserTests(unittest.TestCase):
 
     def test_teacher_help_and_format_controls_fit_narrow_enlarged_text(self):
         self.page.goto(self.base + "#isla/la-palma/cuento", wait_until="networkidle")
+        self.wait_for_app()
         self.page.set_viewport_size({"width": 320, "height": 800})
         self.page.evaluate("document.documentElement.style.fontSize = '200%'")
         self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), 321)

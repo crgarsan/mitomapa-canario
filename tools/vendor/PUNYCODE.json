@@ -1,0 +1,25 @@
+{
+  "name": "punycode",
+  "version": "2.3.1",
+  "license": "MIT",
+  "purpose": "Step-scoped replacement for deprecated Node core punycode in deploy-pages v5.0.1; no runtime install or warning suppression.",
+  "upstream_commit": "9e1b2cda98d215d3a73fcbfe93c62e021f4ba768",
+  "source_url": "https://github.com/mathiasbynens/punycode.js/tree/9e1b2cda98d215d3a73fcbfe93c62e021f4ba768",
+  "registry_url": "https://registry.npmjs.org/punycode/2.3.1",
+  "tarball_url": "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz",
+  "tarball_integrity": "sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==",
+  "files": [
+    {
+      "path": "tools/vendor/punycode-2.3.1.js",
+      "bytes": 12711,
+      "sha256": "6052a80eac47e46bd4de17ae0095e0192c336d3d7c387d292ad2176ebfc53d04"
+    },
+    {
+      "path": "tools/vendor/punycode-LICENSE.txt",
+      "bytes": 1077,
+      "sha256": "483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a"
+    }
+  ],
+  "upstream_issue": "https://github.com/actions/deploy-pages/issues/413",
+  "removal": "Remove tools/pages-punycode.mjs and its deploy step NODE_OPTIONS only after an immutable upstream action bundle initializes without DEP0040 in the isolated check."
+}

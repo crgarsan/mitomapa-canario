@@ -5,11 +5,12 @@ from pathlib import Path
 import re
 import sys
 import unittest
+from unittest.mock import patch
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
-from release_support import MAX_ASSET_BYTES, digest, json_bytes, metadata, parse_sums, read_zip
+from release_support import MAX_ASSET_BYTES, STORY_ISLANDS, digest, json_bytes, metadata, parse_sums, read_zip
 from update_release import check_release, update_release
 from prepare_deploy import stage_assets
 import test_release_pipeline as release_fixtures
@@ -63,6 +64,7 @@ class StoryMediaReleaseTests(unittest.TestCase):
         self.addCleanup(self.fixture.doCleanups)
         self.root = self.fixture.root
         self.version = self.fixture.version
+        self.inventory = self.fixture.inventory
 
     def add_media(self):
         self.payload = b'public story movie fixture'
@@ -73,61 +75,148 @@ class StoryMediaReleaseTests(unittest.TestCase):
 
     def test_pinned_media_is_published_and_source_archive_explains_separate_download(self):
         self.add_media()
-        update_release(self.root)
+        update_release(self.root, inventory=self.inventory)
         public = parse_sums((self.root / 'SHA256SUMS.txt').read_text())
         self.assertIn(self.name, public)
         self.assertEqual(public[self.name], digest(self.payload))
         self.assertIn('MEDIA_MANIFEST.json', public)
-        stage_assets(self.root, self.root / '.deploy')
+        stage_assets(self.root, self.root / '.deploy', inventory=self.inventory)
         self.assertEqual((self.root / '.deploy' / self.name).read_bytes(), self.payload)
         sources = read_zip((self.root / self.version['source_archive']['path']).read_bytes())
         self.assertIn('MEDIA_MANIFEST.json', sources)
         self.assertNotIn(self.name, sources)
         self.assertIn('medios', sources['FUENTES_WEB_LEEME.txt'].decode().lower())
         self.assertIn('fetch_story_media.py', sources['FUENTES_WEB_LEEME.txt'].decode())
-        check_release(self.root)
+        check_release(self.root, inventory=self.inventory)
 
     def test_unlisted_drafts_are_not_published(self):
         self.add_media()
-        self.fixture.write('media/la-palma/draft.wav', b'not approved')
-        update_release(self.root)
+        self.fixture.write('media/la-palma/draft.wav', b'not approved', approve=False)
+        update_release(self.root, inventory=self.inventory)
         self.assertNotIn('media/la-palma/draft.wav', parse_sums((self.root / 'SHA256SUMS.txt').read_text()))
+
+    def test_deployment_only_parts_reconstruct_the_pinned_story_mp4(self):
+        self.add_media()
+        part_bytes = 1024 * 1024
+        payload = b'a' * part_bytes + b'b' * part_bytes + b'last bytes'
+        other = 'media/la-palma/other.mp4'
+        self.fixture.write(self.name, payload)
+        self.fixture.write(other, b'other approved media')
+        self.manifest['files'][self.name] = metadata(payload)
+        self.manifest['files'][other] = metadata(b'other approved media')
+        self.fixture.write('MEDIA_MANIFEST.json', json_bytes(self.manifest))
+        update_release(self.root, inventory=self.inventory)
+        output = self.root / '.deploy'
+        stage_assets(self.root, output, inventory=self.inventory)
+
+        parts = output / '_story_video_parts' / digest(payload)
+        self.assertTrue(parts.is_dir(), 'the stage needs the digest-addressed video parts')
+        self.assertEqual(sorted(p.name for p in parts.iterdir()), ['0.bin', '1.bin', '2.bin'])
+        chunks = [(parts / f'{index}.bin').read_bytes() for index in range(3)]
+        self.assertEqual([len(chunk) for chunk in chunks], [part_bytes, part_bytes, 10])
+        self.assertEqual(b''.join(chunks), (output / self.name).read_bytes())
+        self.assertEqual(list(parts.parent.iterdir()), [parts])
+        self.assertEqual((output / other).read_bytes(), b'other approved media')
+        self.assertFalse((self.root / '_story_video_parts').exists())
+        self.assertNotIn('_story_video_parts', (output / 'SHA256SUMS.txt').read_text())
 
     def test_source_archive_includes_backup_recovery_instructions(self):
         self.add_media()
         self.fixture.write('docs/RESPALDO.md', b'Independent recovery instructions')
-        update_release(self.root)
+        update_release(self.root, inventory=self.inventory)
         sources = read_zip((self.root / self.version['source_archive']['path']).read_bytes())
         self.assertEqual(sources['docs/RESPALDO.md'], b'Independent recovery instructions')
+
+    def test_opt_in_stage_remuxes_only_english_story_videos(self):
+        self.add_media()
+        for island in STORY_ISLANDS:
+            name = f'en/media/{island}/story.mp4'
+            payload = f'English video for {island}'.encode()
+            self.fixture.write(name, payload)
+            self.manifest['files'][name] = metadata(payload)
+        self.fixture.write('MEDIA_MANIFEST.json', json_bytes(self.manifest))
+        update_release(self.root, inventory=self.inventory)
+        output = self.root / '.deploy'
+        stage_assets(self.root, output, inventory=self.inventory)
+        self.assertFalse((output / 'en/video-hls').exists())
+
+        remuxed = []
+        def render(command, *, cwd, check):
+            island = cwd.name
+            source = Path(command[command.index('-i') + 1])
+            self.assertTrue(check)
+            self.assertTrue(source.as_posix().endswith(f'en/media/{island}/story.mp4'))
+            self.assertEqual(source.read_bytes(), f'English video for {island}'.encode())
+            self.assertEqual(command[command.index('-protocol_whitelist') + 1], 'file')
+            self.assertEqual(command[command.index('-c') + 1], 'copy')
+            self.assertEqual(command[command.index('-hls_segment_type') + 1], 'fmp4')
+            (cwd / 'story.m3u8').write_text(
+                '#EXTM3U\n#EXT-X-VERSION:7\n#EXT-X-TARGETDURATION:6\n'
+                '#EXT-X-MEDIA-SEQUENCE:0\n#EXT-X-PLAYLIST-TYPE:VOD\n'
+                '#EXT-X-INDEPENDENT-SEGMENTS\n#EXT-X-MAP:URI="init.mp4"\n'
+                '#EXTINF:6.0,\nseg-000.m4s\n#EXT-X-ENDLIST\n',
+                encoding='utf-8',
+            )
+            (cwd / 'init.mp4').write_bytes(b'initialization bytes')
+            (cwd / 'seg-000.m4s').write_bytes(b'fragment bytes')
+            remuxed.append(island)
+
+        with patch('prepare_deploy.subprocess.run', side_effect=render):
+            stage_assets(self.root, output, ffmpeg=sys.executable, inventory=self.inventory)
+
+        self.assertEqual(remuxed, list(STORY_ISLANDS))
+        self.assertEqual({p.name for p in (output / 'en/video-hls').iterdir()}, set(STORY_ISLANDS))
+        self.assertFalse((self.root / 'en/video-hls').exists())
+        self.assertNotIn('video-hls/', (output / 'SHA256SUMS.txt').read_text())
+        self.assertEqual((output / self.name).read_bytes(), self.payload)
+
+        def render_with_external_segment(command, *, cwd, check):
+            render(command, cwd=cwd, check=check)
+            playlist = cwd / 'story.m3u8'
+            playlist.write_text(playlist.read_text().replace('seg-000.m4s', 'https://example.org/seg.m4s'))
+
+        with patch('prepare_deploy.subprocess.run', side_effect=render_with_external_segment):
+            with self.assertRaisesRegex(ValueError, 'HLS segment'):
+                stage_assets(self.root, output, ffmpeg=sys.executable, inventory=self.inventory)
+        self.assertEqual((output / 'en/video-hls/el-hierro/seg-000.m4s').read_bytes(), b'fragment bytes')
 
     def test_stale_media_hash_stops_release_before_writing(self):
         self.add_media()
         self.fixture.write(self.name, b'changed movie')
         before = self.fixture.snapshot()
         with self.assertRaises(ValueError):
-            update_release(self.root)
+            update_release(self.root, inventory=self.inventory)
         self.assertEqual(self.fixture.snapshot(), before)
+
+    def test_check_requires_pinned_story_media_in_the_public_inventory(self):
+        self.add_media()
+        update_release(self.root, inventory=self.inventory)
+        sums = self.root / 'SHA256SUMS.txt'
+        sums.write_text(''.join(line for line in sums.read_text().splitlines(keepends=True)
+                                if not line.endswith(self.name + '\n')))
+        with self.assertRaisesRegex(ValueError, 'Story media are missing'):
+            check_release(self.root, inventory=self.inventory)
 
     def test_traversal_in_media_manifest_is_rejected(self):
         self.add_media()
         self.manifest['files'] = {'media/../index.html': metadata((self.root / 'index.html').read_bytes())}
         self.fixture.write('MEDIA_MANIFEST.json', json_bytes(self.manifest))
         with self.assertRaises(ValueError):
-            update_release(self.root)
+            update_release(self.root, inventory=self.inventory)
 
     def test_declared_oversize_media_is_rejected(self):
         self.add_media()
         self.manifest['files'][self.name]['bytes'] = MAX_ASSET_BYTES + 1
         self.fixture.write('MEDIA_MANIFEST.json', json_bytes(self.manifest))
         with self.assertRaises(ValueError):
-            update_release(self.root)
+            update_release(self.root, inventory=self.inventory)
 
     def test_manifest_cannot_publish_files_outside_media(self):
         self.add_media()
         self.manifest['files'] = {'index.html': metadata((self.root / 'index.html').read_bytes())}
         self.fixture.write('MEDIA_MANIFEST.json', json_bytes(self.manifest))
         with self.assertRaises(ValueError):
-            update_release(self.root)
+            update_release(self.root, inventory=self.inventory)
 
 
 if __name__ == '__main__':

@@ -9,6 +9,9 @@ const workshopActivities=Object.freeze({"tenerife":{"words":{"title":"Vocabulari
 const routeMarkup=["<section class=\"route\" id=\"route-tenerife\" aria-labelledby=\"title-tenerife\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">Tenerife</p><h2 id=\"title-tenerife\">Dácil y el regreso de Magec</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Progreso de la ruta\"><span class=\"route-step source-step\">1. Comprensión</span><span class=\"route-step truth-step\">2. Reto</span><span class=\"route-step badge-step\">3. Pieza</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_tenerife.webp\" alt=\"Una joven y otras tres personas miran hacia la luz del cielo junto al Teide. Ilustración ficticia del cuento de Dácil y Magec; no es una reconstrucción histórica.\"><figcaption>Imagen ilustrativa, no es una descripción histórica. Creada con IA para acompañar el cuento; no es una fotografía del pasado.</figcaption><details class=\"image-literacy\"><summary>Miramos la imagen con criterio</summary><p>¿Qué ves y qué necesitarías comprobar? Elige un detalle y contrástalo con una fuente. Un aspecto realista no garantiza exactitud histórica.</p><p>En Primaria, coméntalo con ayuda; en Secundaria, distingue dato, interpretación y ficción y revisa posibles estereotipos. Actividad opcional, oral o en el cuaderno.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Cuento legendario · Tenerife</p><p class=\"story-intro\">Cuento ambientado en el mundo guanche e inspirado en Echeyde, Guayota, Magec y Achamán.</p><div class=\"story-refrain\"><strong>Estribillo:</strong> «Achamán, devuelve a Magec y trae de nuevo la luz»</div><p>Cuando los guanches vivían entre barrancos y cañadas, Dácil cuidaba cabras cerca de Echeyde. Cada amanecer esperaba el primer rayo de Magec, el Sol, para comenzar el camino.</p><p>Pero una mañana la luz no llegó. Una nube negra cubría la montaña y la tierra temblaba bajo los pies. Las personas mayores recordaron el relato de Guayota, el ser que vivía dentro del volcán. Según la tradición, había atrapado a Magec y lo mantenía escondido en la oscuridad.</p><p>El frío entró en las cuevas. Dácil reunió a los niños junto al fuego y todos repitieron: «Achamán, devuelve a Magec y trae de nuevo la luz».</p><p>Desde la cumbre llegó un ruido profundo. Las nubes se tiñeron de rojo y una gran piedra rodó hasta la boca de Echeyde. Dácil abrazó a su hermano pequeño mientras el poblado pedía ayuda a Achamán, señor del cielo.</p><p>La tradición cuenta que Achamán descendió desde lo alto, venció a Guayota y liberó a Magec. Después cerró la entrada del volcán con una enorme roca para que el ser de fuego no escapara.</p><p>Entonces una línea dorada apareció detrás de Echeyde. Primero iluminó la cumbre, después las laderas y, por último, el rostro de Dácil. Las cabras salieron de su refugio y el frío comenzó a marcharse.</p><p>Desde aquel día, Dácil contó la historia cada vez que el volcán parecía despertar. Y al terminar, todas las voces repetían: «Achamán, devuelve a Magec y trae de nuevo la luz».</p><details class=\"radar\"><summary><strong>Para investigar: ¿cómo se fundamenta el cuento?</strong></summary><p>La relación entre Echeyde y Guayota aparece en fuentes históricas como Espinosa (1594), que deben leerse críticamente por haber sido escritas después de la conquista. La captura y liberación de Magec se ha difundido mediante recreaciones posteriores. Dácil es un antropónimo guanche difundido por la tradición literaria. En este cuento no representa al personaje de Antonio de Viana; sus acciones y los diálogos son una creación original.</p><section class=\"source-traceability\" data-source-route=\"tenerife\" aria-label=\"Fuentes del cuento\"><p><strong>Motivo tradicional o documentado:</strong> La liberación de Magec por Achamán frente a Guayota se cuenta en una versión divulgativa actual vinculada al Teide.</p><p><strong>Fuente identificada:</strong></p><ul><li>Gobierno de Canarias (s. f.). <a href=\"https://www.gobiernodecanarias.org/parquesnacionales/teide/el_parque/historia/\" target=\"_blank\" rel=\"noopener noreferrer\">Historia del Parque Nacional del Teide</a>. Apartado «La leyenda de Guayota y el Pan de Azúcar».</li></ul><p>La página presenta esa versión; no demuestra que todos sus episodios se narraran antes de la conquista. Las noticias antiguas sobre Echeyde y Guayota y las versiones posteriores requieren distinguirse.</p><p><strong>Notas sobre esta versión:</strong> Dácil es un personaje literario de este cuento, no la Dácil del poema de Viana. El cuidado del rebaño, su hermano, los diálogos y el estribillo son creación del recurso.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-tenerife\"><p class=\"challenge-kicker\">Reto 1 de 2</p><h3>Comprendemos el cuento</h3><p>Elige la respuesta correcta. Necesitas 3 de 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"tenerife\">Comprobar la comprensión</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-tenerife\"><p class=\"challenge-kicker\">Reto 2 de 2</p><h3>Reto de la pieza</h3><p>Marca verdadero o falso. La pieza se obtiene al completar los dos retos.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"tenerife\">Comprobar el reto</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_tenerife.webp\" alt=\"Vasija de barro de Tenerife\"><div><span>Insignia añadida automáticamente</span><strong>Pieza de la luz</strong><p>Puedes verla en cualquier momento desde el botón «Pasaporte» de la barra superior.</p><button class=\"button open-passport\" type=\"button\">Ver mi pasaporte</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Elegir otra isla</button></div></section>","<section class=\"route\" id=\"route-gran-canaria\" aria-labelledby=\"title-gran-canaria\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">Gran Canaria</p><h2 id=\"title-gran-canaria\">Guayarmina y el tibicena del barranco</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Progreso de la ruta\"><span class=\"route-step source-step\">1. Comprensión</span><span class=\"route-step truth-step\">2. Reto</span><span class=\"route-step badge-step\">3. Pieza</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_gran-canaria.webp\" alt=\"Una joven se agacha en un sendero de barranco mientras otras tres personas observan a su espalda. Ilustración ficticia del cuento de Guayarmina; no es una reconstrucción histórica.\"><figcaption>Imagen ilustrativa, no es una descripción histórica. Creada con IA para acompañar el cuento; no es una fotografía del pasado.</figcaption><details class=\"image-literacy\"><summary>Miramos la imagen con criterio</summary><p>¿Qué ves y qué necesitarías comprobar? Elige un detalle y contrástalo con una fuente. Un aspecto realista no garantiza exactitud histórica.</p><p>En Primaria, coméntalo con ayuda; en Secundaria, distingue dato, interpretación y ficción y revisa posibles estereotipos. Actividad opcional, oral o en el cuaderno.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Cuento legendario · Gran Canaria</p><p class=\"story-intro\">Cuento ambientado en la antigua Gran Canaria e inspirado en Acorán y los tibicenas.</p><div class=\"story-refrain\"><strong>Estribillo:</strong> «Juntos y con luz, el miedo se hace pequeño»</div><p>En la antigua Gran Canaria, Guayarmina guiaba a un pequeño rebaño por un sendero de barranco. Al ponerse el sol, reunió las cabras junto a una cueva y encendió una tea.</p><p>De pronto oyó un gruñido. Entre las tabaibas apareció una figura cubierta de pelo negro. Tenía forma de perro grande y sus ojos parecían dos brasas. Guayarmina recordó los relatos sobre los tibicenas, seres que caminaban por cuevas y lugares solitarios.</p><p>El miedo quiso empujarla a correr, pero ella llamó a los demás pastores. Juntos levantaron las teas y dijeron: «Juntos y con luz, el miedo se hace pequeño».</p><p>El tibicena dio una vuelta alrededor del fuego. Después dio otra. En la tercera se detuvo frente a Guayarmina. Ella pidió protección a Acorán y permaneció junto al rebaño.</p><p>Cuando el cielo comenzó a aclararse, la criatura retrocedió hasta desaparecer entre las rocas. En el suelo quedaron unas huellas grandes mezcladas con marcas de cabras.</p><p>Guayarmina contó lo ocurrido en el poblado. Las personas mayores no pudieron asegurar qué había visto, pero agradecieron que nadie se hubiera adentrado solo en el barranco.</p><p>Desde entonces, cuando la noche sorprendía a los pastores, reunían al rebaño, encendían una luz y recordaban: «Juntos y con luz, el miedo se hace pequeño».</p><details class=\"radar\"><summary><strong>Para investigar: ¿cómo se fundamenta el cuento?</strong></summary><p>Acorán figura en testimonios históricos sobre Gran Canaria. Los tibicenas pertenecen al ámbito de las creencias y presentan descripciones diferentes, entre ellas la de un gran perro oscuro. Guayarmina fue un nombre de la tradición aborigen de Gran Canaria. En este cuento no representa a la figura histórica; el campamento y las tres vueltas de la criatura son una recreación literaria original.</p><section class=\"source-traceability\" data-source-route=\"gran-canaria\" aria-label=\"Fuentes del cuento\"><p><strong>Motivo tradicional o documentado:</strong> Las tibicenas aparecen descritas con diversas formas de animales. La imagen de un gran perro procede de testimonios escritos posteriores a la conquista.</p><p><strong>Fuente identificada:</strong></p><ul><li>Corrales Zumbado, C., y Corbella Díaz, D. (2013). <a href=\"https://www.rae.es/tdhle/tibicena\" target=\"_blank\" rel=\"noopener noreferrer\">Diccionario histórico del español de Canarias: tibicena</a>. Entrada «tibicena»: Gómez Escudero, edición 1978, p. 439; Marín de Cubas, edición 1993, libro II, cap. 18, p. 204.</li></ul><p>Las palabras religiosas de los cronistas reflejan también su perspectiva cristiana; las fuentes no prueban que una criatura existiera. El cuento elige una de las formas transmitidas.</p><p><strong>Notas sobre esta versión:</strong> Guayarmina no representa a la figura histórica de ese nombre. El rebaño, las tres vueltas, las huellas, su petición a Acorán y la respuesta de los pastores son escenas inventadas.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-gran-canaria\"><p class=\"challenge-kicker\">Reto 1 de 2</p><h3>Comprendemos el cuento</h3><p>Elige la respuesta correcta. Necesitas 3 de 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"gran-canaria\">Comprobar la comprensión</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-gran-canaria\"><p class=\"challenge-kicker\">Reto 2 de 2</p><h3>Reto de la pieza</h3><p>Marca verdadero o falso. La pieza se obtiene al completar los dos retos.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"gran-canaria\">Comprobar el reto</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_gran_canaria.webp\" alt=\"Vasija de barro de Gran Canaria\"><div><span>Insignia añadida automáticamente</span><strong>Pieza de la memoria</strong><p>Puedes verla en cualquier momento desde el botón «Pasaporte» de la barra superior.</p><button class=\"button open-passport\" type=\"button\">Ver mi pasaporte</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Elegir otra isla</button></div></section>","<section class=\"route\" id=\"route-la-palma\" aria-labelledby=\"title-la-palma\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">La Palma</p><h2 id=\"title-la-palma\">Acerina y el roque que sostenía el cielo</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Progreso de la ruta\"><span class=\"route-step source-step\">1. Comprensión</span><span class=\"route-step truth-step\">2. Reto</span><span class=\"route-step badge-step\">3. Pieza</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_la-palma.webp\" alt=\"Una persona adulta y una niña contemplan un roque alto entre montañas y nubes. Ilustración ficticia del cuento de Acerina y el roque Idafe; no reproduce con exactitud el lugar.\"><figcaption>Imagen ilustrativa, no es una descripción histórica. Creada con IA para acompañar el cuento; no es una fotografía del pasado.</figcaption><details class=\"image-literacy\"><summary>Miramos la imagen con criterio</summary><p>¿Qué ves y qué necesitarías comprobar? Elige un detalle y contrástalo con una fuente. Un aspecto realista no garantiza exactitud histórica.</p><p>En Primaria, coméntalo con ayuda; en Secundaria, distingue dato, interpretación y ficción y revisa posibles estereotipos. Actividad opcional, oral o en el cuaderno.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Cuento legendario · La Palma</p><p class=\"story-intro\">Cuento ambientado en Benahoare e inspirado en Abora y el roque de Idafe.</p><div class=\"story-refrain\"><strong>Estribillo:</strong> «Idafe sigue en pie; nosotros guardamos su memoria»</div><p>En Benahoare, la isla que hoy llamamos La Palma, Acerina levantaba la cabeza cada vez que entraba en la Caldera. Allí estaba Idafe, un roque que parecía sostener el cielo.</p><p>Una mañana acompañó a su abuelo y a otras personas del poblado. Llevaban pequeñas vasijas con alimentos para una ceremonia antigua. El abuelo explicó que aquel lugar estaba unido a Abora y a la memoria de sus antepasados.</p><p>Al llegar, todos pronunciaron: «Idafe sigue en pie; nosotros guardamos su memoria».</p><p>De pronto, la tierra vibró. Varias piedras bajaron por la ladera y Acerina creyó que el roque iba a caer. El abuelo la tomó de la mano y el grupo se alejó del risco.</p><p>El ruido terminó. Idafe continuaba erguido contra el cielo. Acerina dejó su vasija en el lugar indicado y prometió aprender las palabras de la ceremonia para que no se perdieran.</p><p>Pasaron los años. Acerina se convirtió en una gran narradora. Llevaba a los niños hasta un lugar seguro desde el que podían contemplar el roque y les contaba lo que había vivido.</p><p>Al final, todos miraban la piedra y repetían: «Idafe sigue en pie; nosotros guardamos su memoria».</p><details class=\"radar\"><summary><strong>Para investigar: ¿cómo se fundamenta el cuento?</strong></summary><p>Las crónicas relacionan el roque de Idafe con prácticas rituales de la población aborigen de La Palma y recogen el nombre de Abora. Acerina es un nombre vinculado a la tradición legendaria de La Palma. En este cuento no representa al personaje de otras versiones; su abuelo, el temblor y la promesa de convertirse en narradora son elementos creados para esta adaptación.</p><section class=\"source-traceability\" data-source-route=\"la-palma\" aria-label=\"Fuentes del cuento\"><p><strong>Motivo tradicional o documentado:</strong> Una crónica transmite el temor a la caída de Idafe y la entrega de ofrendas junto al roque. La fuente del parque sitúa ese patrimonio en la Caldera.</p><p><strong>Fuente identificada:</strong></p><ul><li>Trapero, M., y Santana Martel, E. (s. f.). <a href=\"https://guanchismos.ulpgc.es/item/12902\" target=\"_blank\" rel=\"noopener noreferrer\">Diccionario de toponimia de Canarias: Idafe</a>. Entrada «Idafe»: cita a Abreu Galindo, edición 1977, p. 270.</li><li>Gobierno de Canarias (s. f.). <a href=\"https://www.gobiernodecanarias.org/parquesnacionales/caldera_de_taburiente/el_parque/valores_naturales/arqueologia/index.html\" target=\"_blank\" rel=\"noopener noreferrer\">Caldera de Taburiente: Arqueología</a>. Apartados sobre la población benahoarita y los rituales junto a Idafe.</li></ul><p>El pasaje citado no documenta la ceremonia exacta ni su relación concreta con Abora; esos detalles no deben utilizarse como reconstrucción de un rito.</p><p><strong>Notas sobre esta versión:</strong> Acerina no representa al personaje de otras versiones. El abuelo, las vasijas, el temblor, la promesa y el estribillo son inventados. «Sostener el cielo» es una imagen literaria del cuento.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-la-palma\"><p class=\"challenge-kicker\">Reto 1 de 2</p><h3>Comprendemos el cuento</h3><p>Elige la respuesta correcta. Necesitas 3 de 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"la-palma\">Comprobar la comprensión</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-la-palma\"><p class=\"challenge-kicker\">Reto 2 de 2</p><h3>Reto de la pieza</h3><p>Marca verdadero o falso. La pieza se obtiene al completar los dos retos.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"la-palma\">Comprobar el reto</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_la_palma.webp\" alt=\"Vasija de barro de La Palma\"><div><span>Insignia añadida automáticamente</span><strong>Pieza de Idafe</strong><p>Puedes verla en cualquier momento desde el botón «Pasaporte» de la barra superior.</p><button class=\"button open-passport\" type=\"button\">Ver mi pasaporte</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Elegir otra isla</button></div></section>","<section class=\"route\" id=\"route-la-gomera\" aria-labelledby=\"title-la-gomera\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">La Gomera</p><h2 id=\"title-la-gomera\">Gara y Jonay, dos voces en la cumbre</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Progreso de la ruta\"><span class=\"route-step source-step\">1. Comprensión</span><span class=\"route-step truth-step\">2. Reto</span><span class=\"route-step badge-step\">3. Pieza</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_la-gomera.webp\" alt=\"Una joven con las manos abiertas se dirige a dos grupos situados a ambos lados de un barranco. Ilustración ficticia del cuento de Gara y Jonay; no es una reconstrucción histórica.\"><figcaption>Imagen ilustrativa, no es una descripción histórica. Creada con IA para acompañar el cuento; no es una fotografía del pasado.</figcaption><details class=\"image-literacy\"><summary>Miramos la imagen con criterio</summary><p>¿Qué ves y qué necesitarías comprobar? Elige un detalle y contrástalo con una fuente. Un aspecto realista no garantiza exactitud histórica.</p><p>En Primaria, coméntalo con ayuda; en Secundaria, distingue dato, interpretación y ficción y revisa posibles estereotipos. Actividad opcional, oral o en el cuaderno.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Cuento legendario · La Gomera</p><p class=\"story-intro\">Adaptación infantil de la leyenda gomera de Gara y Jonay.</p><div class=\"story-refrain\"><strong>Estribillo:</strong> «Ni el mar ni el barranco pueden callar dos corazones»</div><p>Gara vivía en Agulo y conocía todos los sonidos de los barrancos. Un día miró su reflejo en un manantial y escuchó una advertencia: debía apartarse del fuego.</p><p>Al otro lado del mar, en Tenerife, vivía Jonay. Para llegar hasta La Gomera se lanzó al agua sobre odres hechos con piel de cabra. Nadó durante horas hasta alcanzar la orilla.</p><p>Cuando Gara y Jonay se conocieron, pasearon entre palmeras y hablaron hasta que la luna apareció. Los dos repetían: «Ni el mar ni el barranco pueden callar dos corazones».</p><p>Pero sus familias temían la antigua advertencia. Decían que el agua de Gara y el fuego de Jonay no debían encontrarse. Los jóvenes huyeron hacia la cumbre y pidieron ayuda a Orahan.</p><p>Las familias los buscaron entre la niebla. Cuando por fin los encontraron, la leyenda cuenta que la historia de Gara y Jonay terminó tristemente. Sus nombres quedaron unidos para siempre en la montaña de Garajonay.</p><p>Con el tiempo, las personas comprendieron que la enemistad y la falta de escucha habían causado mucho dolor. Desde entonces, cuando dos comunidades discutían, alguien recordaba a Gara y a Jonay antes de cerrar el camino al diálogo.</p><p>Y la cumbre devolvía en forma de eco: «Ni el mar ni el barranco pueden callar dos corazones».</p><details class=\"radar\"><summary><strong>Para investigar: ¿cómo se fundamenta el cuento?</strong></summary><p>Gara y Jonay es una leyenda con numerosas versiones. El cruce de Jonay desde Tenerife, la oposición familiar y el final trágico forman parte de versiones muy difundidas. Orahan aparece en testimonios sobre las creencias gomeras. La redacción y los detalles narrativos de este cuento son originales.</p><section class=\"source-traceability\" data-source-route=\"la-gomera\" aria-label=\"Fuentes del cuento\"><p><strong>Motivo tradicional o documentado:</strong> El viaje de Jonay sobre odres, el amor y el final trágico aparecen en la versión de Virgilio Brito recogida por Trapero. El reflejo de Gara y la oposición entre agua y fuego figuran también en Los Chorros de Epina, publicado por el MAPA.</p><p><strong>Fuentes identificadas:</strong></p><ul><li>Trapero, M. (1984). <a href=\"https://mdcs.ulpgc.es/files/original/a8601b5c5852953b6ae2c89a8016b0c6c2f7365a.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">La leyenda de Gara y Jonay en La Gomera</a>. Aguayro, 153, pp. 4–6; versión de Virgilio Brito en pp. 5–6.</li><li>Navarro Mederos, J. F. (2016). <a href=\"https://iehcan.com/wp-content/uploads/2016/12/1-Navarro-2016.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Arqueología en La Gomera: lo que va de ayer a hoy</a>. pp. 13–38.</li><li>Ministerio de Agricultura, Pesca y Alimentación (s. f.). <a href=\"https://caminosnaturales.es/es/red-de-caminos-naturales/poi-detalle/ID.07.06.03.15/733f2db0-312c-4386-aec1-d79cf82d3ab6\" target=\"_blank\" rel=\"noopener noreferrer\">Los Chorros de Epina</a>. Caminos Naturales; apartado de la leyenda de Gara y Jonay. <small class=\"source-consultation\">Referencia identificada en el cotejo complementario de 01/11/2026. No consta como consulta realizada durante la creación del cuento.</small></li></ul><p>Agua y fuego no aparecen en la versión de Brito citada. Su presencia en otras publicaciones no establece el origen, la antigüedad ni la fuente directa de ese motivo en este cuento.</p><p><strong>Notas sobre esta versión:</strong> Esta versión simplifica los episodios y no describe explícitamente el final trágico. El estribillo, la reflexión sobre el diálogo y la petición de ayuda a Orahan forman parte de su recreación literaria.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-la-gomera\"><p class=\"challenge-kicker\">Reto 1 de 2</p><h3>Comprendemos el cuento</h3><p>Elige la respuesta correcta. Necesitas 3 de 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"la-gomera\">Comprobar la comprensión</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-la-gomera\"><p class=\"challenge-kicker\">Reto 2 de 2</p><h3>Reto de la pieza</h3><p>Marca verdadero o falso. La pieza se obtiene al completar los dos retos.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"la-gomera\">Comprobar el reto</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_la_gomera.webp\" alt=\"Vasija de barro de La Gomera\"><div><span>Insignia añadida automáticamente</span><strong>Pieza del encuentro</strong><p>Puedes verla en cualquier momento desde el botón «Pasaporte» de la barra superior.</p><button class=\"button open-passport\" type=\"button\">Ver mi pasaporte</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Elegir otra isla</button></div></section>","<section class=\"route\" id=\"route-el-hierro\" aria-labelledby=\"title-el-hierro\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">El Hierro</p><h2 id=\"title-el-hierro\">Agarfa y las gotas del Garoé</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Progreso de la ruta\"><span class=\"route-step source-step\">1. Comprensión</span><span class=\"route-step truth-step\">2. Reto</span><span class=\"route-step badge-step\">3. Pieza</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_el-hierro.webp\" alt=\"Una niña y dos personas adultas recogen agua bajo un árbol entre la niebla, usando recipientes de aspecto flexible. Ilustración ficticia del cuento de Agarfa y el Garoé; no es una reconstrucción histórica.\"><figcaption>Imagen ilustrativa, no es una descripción histórica. Creada con IA para acompañar el cuento; no es una fotografía del pasado.</figcaption><details class=\"image-literacy\"><summary>Miramos la imagen con criterio</summary><p>¿Qué ves y qué necesitarías comprobar? Elige un detalle y contrástalo con una fuente. Un aspecto realista no garantiza exactitud histórica.</p><p>En Primaria, coméntalo con ayuda; en Secundaria, distingue dato, interpretación y ficción y revisa posibles estereotipos. Actividad opcional, oral o en el cuaderno.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Cuento legendario · El Hierro</p><p class=\"story-intro\">Cuento ambientado entre la población aborigen de El Hierro, los bimbapes, e inspirado en el árbol Garoé.</p><div class=\"story-refrain\"><strong>Estribillo:</strong> «Rama a rama, gota a gota, el Garoé nos da su agua»</div><p>Cuando los bimbapes habitaban El Hierro, Agarfa caminaba cada mañana hasta el Garoé. La niebla se enredaba en sus ramas y se convertía en gotas que caían dentro de unas piletas de piedra.</p><p>Toda la comunidad dependía de aquella agua. Agarfa llenaba las vasijas despacio para no desperdiciar nada y repetía: «Rama a rama, gota a gota, el Garoé nos da su agua».</p><p>Un día aparecieron velas desconocidas en el horizonte. Las personas mayores temieron que los recién llegados encontraran el árbol y se apoderaran de la fuente.</p><p>Cubrieron el sendero con ramas y pidieron a Agarfa que llevara las vasijas por otro camino. La niña avanzó entre la niebla sin revelar dónde se encontraba el Garoé.</p><p>Durante muchas jornadas guardaron el secreto. La tradición cuenta distintas versiones sobre cómo fue descubierto después. También recuerda que una gran tormenta derribó el árbol muchos años más tarde.</p><p>Pero la historia del Garoé no desapareció. Las familias continuaron contando cómo un árbol podía peinar la niebla y convertirla en agua para una isla entera.</p><p>Al recordarlo, todas las voces decían: «Rama a rama, gota a gota, el Garoé nos da su agua».</p><details class=\"radar\"><summary><strong>Para investigar: ¿cómo se fundamenta el cuento?</strong></summary><p>El Garoé fue un árbol real asociado a la captación de agua de la niebla. Las versiones sobre el secreto del árbol y su revelación pertenecen a la tradición histórica; también se recuerda su caída durante una tormenta. Agarfa es un nombre bimbape transmitido por la tradición de El Hierro. En este cuento no representa al personaje de otras versiones del Garoé; los recorridos para ocultar el sendero son ficción original.</p><section class=\"source-traceability\" data-source-route=\"el-hierro\" aria-label=\"Fuentes del cuento\"><p><strong>Motivo tradicional o documentado:</strong> El Garoé se asocia a la recogida de agua de la niebla. La ocultación del árbol y Agarfa aparecen en una versión divulgativa de su leyenda.</p><p><strong>Fuente identificada:</strong></p><ul><li>Gobierno de Canarias (s. f.). <a href=\"https://www3.gobiernodecanarias.org/medusa/wiki/index.php?title=Leyenda_del_garo%C3%A9\" target=\"_blank\" rel=\"noopener noreferrer\">Leyenda del garoé</a>. CanariWiki, apartado «Historia».</li><li>El Hierro Travel (s. f.). <a href=\"https://elhierro.travel/museos-y-visitas-de-interes/el-hierro/arbol-garoe/\" target=\"_blank\" rel=\"noopener noreferrer\">Árbol Garoé</a>. Apartado «El árbol sagrado de El Hierro».</li></ul><p>El fenómeno de captación de agua y los episodios legendarios no son la misma clase de información. Una versión actual de la leyenda no prueba por sí sola la antigüedad de cada detalle.</p><p><strong>Notas sobre esta versión:</strong> Nuestra Agarfa es una niña que protege el sendero, no el personaje de la versión enlazada. Su recorrido, las conversaciones y el estribillo son inventados.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-el-hierro\"><p class=\"challenge-kicker\">Reto 1 de 2</p><h3>Comprendemos el cuento</h3><p>Elige la respuesta correcta. Necesitas 3 de 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"el-hierro\">Comprobar la comprensión</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-el-hierro\"><p class=\"challenge-kicker\">Reto 2 de 2</p><h3>Reto de la pieza</h3><p>Marca verdadero o falso. La pieza se obtiene al completar los dos retos.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"el-hierro\">Comprobar el reto</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_el_hierro.webp\" alt=\"Vasija de barro de El Hierro\"><div><span>Insignia añadida automáticamente</span><strong>Pieza de la niebla</strong><p>Puedes verla en cualquier momento desde el botón «Pasaporte» de la barra superior.</p><button class=\"button open-passport\" type=\"button\">Ver mi pasaporte</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Elegir otra isla</button></div></section>","<section class=\"route\" id=\"route-fuerteventura\" aria-labelledby=\"title-fuerteventura\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">Fuerteventura</p><h2 id=\"title-fuerteventura\">La luz de Mafasca en el camino</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Progreso de la ruta\"><span class=\"route-step source-step\">1. Comprensión</span><span class=\"route-step truth-step\">2. Reto</span><span class=\"route-step badge-step\">3. Pieza</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_fuerteventura.webp\" alt=\"Una mujer y una niña observan una pequeña luz en un paisaje pedregoso al anochecer. Ilustración ficticia del cuento de la Luz de Mafasca; no es una reconstrucción histórica.\"><figcaption>Imagen ilustrativa, no es una descripción histórica. Creada con IA para acompañar el cuento; no es una fotografía del pasado.</figcaption><details class=\"image-literacy\"><summary>Miramos la imagen con criterio</summary><p>¿Qué ves y qué necesitarías comprobar? Elige un detalle y contrástalo con una fuente. Un aspecto realista no garantiza exactitud histórica.</p><p>En Primaria, coméntalo con ayuda; en Secundaria, distingue dato, interpretación y ficción y revisa posibles estereotipos. Actividad opcional, oral o en el cuaderno.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Cuento legendario · Fuerteventura</p><p class=\"story-intro\">Cuento inspirado en una de las versiones de la luz de Mafasca, una tradición oral de Fuerteventura. Esta versión incluye una cruz cristiana; no permite fechar el origen de toda la leyenda.</p><div class=\"story-refrain\"><strong>Estribillo:</strong> «La luz de Mafasca, no te sigo: regreso por el camino»</div><p>Hace mucho tiempo, dos pastores llamados Guise y Ayose regresaban con sus cabras por un camino de Fuerteventura. La noche era fría y el viento apagaba cada chispa.</p><p>Junto al sendero encontraron una vieja cruz de madera. Sin pensar, arrancaron un trozo y lo utilizaron para encender una hoguera. Calentaron el gofio y se prepararon para seguir.</p><p>Entonces una luz pálida salió de las llamas. No era grande, pero flotaba sobre las piedras. Los pastores recordaron los relatos de Mafasca y dijeron: «La luz de Mafasca, no te sigo: regreso por el camino».</p><p>Caminaron deprisa. La luz avanzó detrás de ellos. Se detuvieron y la luz también se detuvo. Guise y Ayose comprendieron que habían utilizado una cruz sin respetar lo que significaba.</p><p>Prometieron volver al amanecer, reparar la cruz y no arrancar de nuevo madera de aquel lugar. En ese instante, la claridad se hizo pequeña hasta desaparecer.</p><p>Al día siguiente cumplieron su promesa. Después contaron la historia a otros pastores para que nadie repitiera su acción.</p><p>Desde entonces, cuando una luz temblaba en la noche, recordaban: «La luz de Mafasca, no te sigo: regreso por el camino».</p><details class=\"radar\"><summary><strong>Para investigar: ¿cómo se fundamenta el cuento?</strong></summary><p>La luz de Mafasca cuenta con versiones y testimonios diversos en Fuerteventura, incluidos relatos recogidos en Tindaya. La quema de una cruz pertenece a algunas versiones: ese motivo cristiano no demuestra cuándo nació el conjunto de la tradición. Tampoco la localización de un testimonio cerca de Tindaya demuestra por sí sola un origen aborigen o una continuidad religiosa. Este cuento recrea la versión de la cruz; no establece una explicación histórica del fenómeno. Guise y Ayose fueron nombres de la población maho de Fuerteventura. En este cuento se reutilizan con intención literaria y no representan a los dirigentes históricos; el desarrollo exacto de la escena es una recreación original.</p><p><a href=\"https://www.cabildofuer.es/documentos/Patrimonio_cultural/jornadas_ftv_lzt/volumenes/15_jornadas_ftv_lzt_tomo2.pdf#page=285\" target=\"_blank\" rel=\"noopener\">Consulta: Carreras Navarro (2016), La Luz de Mafasca, pp. 285-310</a>.</p><section class=\"source-traceability\" data-source-route=\"fuerteventura\" aria-label=\"Fuentes del cuento\"><p><strong>Motivo tradicional o documentado:</strong> La quema de una cruz y la aparición de la luz se encuentran en testimonios orales sobre Mafasca. Hay versiones y explicaciones diferentes.</p><p><strong>Fuente identificada:</strong></p><ul><li>Carreras Navarro, J. (2016). <a href=\"https://www.cabildofuer.es/documentos/Patrimonio_cultural/jornadas_ftv_lzt/volumenes/15_jornadas_ftv_lzt_tomo2.pdf#page=293\" target=\"_blank\" rel=\"noopener noreferrer\">La Luz de Mafasca</a>. pp. 285–310; testimonios sobre la cruz en pp. 293 y 297–298.</li></ul><p>El motivo de la cruz no permite fechar toda la tradición. Que un testimonio se recoja cerca de Tindaya tampoco demuestra un origen aborigen. El cuento no explica científicamente la luz.</p><p><strong>Notas sobre esta versión:</strong> Guise y Ayose son pastores ficticios y no representan a los dirigentes históricos. El gofio, los diálogos, la promesa de reparar la cruz y el estribillo son decisiones de esta adaptación.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-fuerteventura\"><p class=\"challenge-kicker\">Reto 1 de 2</p><h3>Comprendemos el cuento</h3><p>Elige la respuesta correcta. Necesitas 3 de 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"fuerteventura\">Comprobar la comprensión</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-fuerteventura\"><p class=\"challenge-kicker\">Reto 2 de 2</p><h3>Reto de la pieza</h3><p>Marca verdadero o falso. La pieza se obtiene al completar los dos retos.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"fuerteventura\">Comprobar el reto</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_fuerteventura.webp\" alt=\"Vasija de barro de Fuerteventura\"><div><span>Insignia añadida automáticamente</span><strong>Pieza de Mafasca</strong><p>Puedes verla en cualquier momento desde el botón «Pasaporte» de la barra superior.</p><button class=\"button open-passport\" type=\"button\">Ver mi pasaporte</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Elegir otra isla</button></div></section>","<section class=\"route\" id=\"route-lanzarote\" aria-labelledby=\"title-lanzarote\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">Lanzarote</p><h2 id=\"title-lanzarote\">Ico y la prueba del humo</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Progreso de la ruta\"><span class=\"route-step source-step\">1. Comprensión</span><span class=\"route-step truth-step\">2. Reto</span><span class=\"route-step badge-step\">3. Pieza</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_lanzarote.webp\" alt=\"Una joven habla ante un grupo sentado en un paisaje volcánico, acompañada por una mujer mayor. Ilustración ficticia del cuento de Ico; no es una reconstrucción histórica.\"><figcaption>Imagen ilustrativa, no es una descripción histórica. Creada con IA para acompañar el cuento; no es una fotografía del pasado.</figcaption><details class=\"image-literacy\"><summary>Miramos la imagen con criterio</summary><p>¿Qué ves y qué necesitarías comprobar? Elige un detalle y contrástalo con una fuente. Un aspecto realista no garantiza exactitud histórica.</p><p>En Primaria, coméntalo con ayuda; en Secundaria, distingue dato, interpretación y ficción y revisa posibles estereotipos. Actividad opcional, oral o en el cuaderno.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Cuento legendario · Lanzarote</p><p class=\"story-intro\">Adaptación infantil de la historia de la princesa Ico en la antigua Lanzarote.</p><div class=\"story-refrain\"><strong>Estribillo:</strong> «La verdad no necesita una prueba injusta»</div><p>En la antigua Lanzarote vivía Ico, hija de Zonzamas y Fayna. Algunas personas del consejo desconfiaban de ella porque su piel era más clara y decidieron someterla a una prueba.</p><p>Prepararon una habitación en la que arderían ramas verdes para llenarla de humo. Una anciana sabía que aquella decisión era injusta. Antes de la prueba entregó a Ico una esponja mojada y le explicó cómo respirar a través de ella.</p><p>Ico guardó la esponja y pensó: «La verdad no necesita una prueba injusta».</p><p>El humo comenzó a llenar el recinto. Ico se agachó, cubrió su boca con la esponja húmeda y esperó. Cuando abrieron la puerta, salió caminando.</p><p>El consejo aceptó entonces que pertenecía al linaje. Ico agradeció la ayuda de la anciana, pero no celebró la prueba. Miró a quienes la habían juzgado y preguntó por qué una persona debía ponerse en peligro para demostrar quién era.</p><p>Nadie supo responder. La inteligencia y la solidaridad habían salvado a Ico, pero su pregunta quedó en la memoria de su isla.</p><p>Desde entonces, al contar su historia, muchas voces repiten: «La verdad no necesita una prueba injusta».</p><details class=\"radar\"><summary><strong>Para investigar: ¿cómo se fundamenta el cuento?</strong></summary><p>La historia de Ico fue recogida y reelaborada en crónicas y versiones posteriores. La prueba del humo y la ayuda de una mujer mayor forman parte del relato transmitido, aunque los detalles cambian. Las palabras de Ico y su pregunta final son creación original de este recurso.</p><section class=\"source-traceability\" data-source-route=\"lanzarote\" aria-label=\"Fuentes del cuento\"><p><strong>Motivo tradicional o documentado:</strong> La prueba del humo, la ayuda de una mujer mayor y la esponja se encuentran en el relato de Abreu Galindo reproducido y estudiado por Pérez Saavedra.</p><p><strong>Fuentes identificadas:</strong></p><ul><li>Pérez Saavedra, F. (1995). <a href=\"https://bk.memoriadelanzarote.com/media/docs/items/20110708111921AVENDAO-E-ICO.pdf#page=19\" target=\"_blank\" rel=\"noopener noreferrer\">La aventura de Avendaño y la leyenda de Ico</a>. Anuario de Estudios Atlánticos, 41, pp. 207–226; prueba y ayuda en pp. 223–224.</li></ul><p>El estudio recoge la atribución de la paternidad biológica de Ico a Avendaño y discute su filiación. El cuento la presenta como «hija de Zonzamas y Fayna» para simplificar el relato; esa fórmula no debe leerse como un dato genealógico comprobado.</p><p><strong>Notas sobre esta versión:</strong> Esta versión simplifica el conflicto y centra el episodio en Ico. Sus palabras, la pregunta al consejo y el estribillo forman parte de esta recreación literaria.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-lanzarote\"><p class=\"challenge-kicker\">Reto 1 de 2</p><h3>Comprendemos el cuento</h3><p>Elige la respuesta correcta. Necesitas 3 de 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"lanzarote\">Comprobar la comprensión</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-lanzarote\"><p class=\"challenge-kicker\">Reto 2 de 2</p><h3>Reto de la pieza</h3><p>Marca verdadero o falso. La pieza se obtiene al completar los dos retos.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"lanzarote\">Comprobar el reto</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_lanzarote.webp\" alt=\"Vasija de barro de Lanzarote\"><div><span>Insignia añadida automáticamente</span><strong>Pieza de Ico</strong><p>Puedes verla en cualquier momento desde el botón «Pasaporte» de la barra superior.</p><button class=\"button open-passport\" type=\"button\">Ver mi pasaporte</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Elegir otra isla</button></div></section>","<section class=\"route\" id=\"route-la-graciosa\" aria-labelledby=\"title-la-graciosa\">\n<div class=\"route-head\"><div><p class=\"eyebrow\" style=\"color:#865000;margin:0\">La Graciosa</p><h2 id=\"title-la-graciosa\">Guadarfía y la isla de San Borondón</h2></div></div>\n<div class=\"route-steps\" aria-label=\"Progreso de la ruta\"><span class=\"route-step source-step\">1. Comprensión</span><span class=\"route-step truth-step\">2. Reto</span><span class=\"route-step badge-step\">3. Pieza</span></div>\n<div class=\"route-grid\"><figure class=\"route-figure\"><img src=\"content/resources/scene_la-graciosa.webp\" alt=\"Pequeña carabela de madera con dos mástiles y velas triangulares, con varios tripulantes en cubierta, navegando al atardecer. Recreación literaria de comienzos del siglo XVI; no representa un viaje documentado.\"><figcaption>Imagen ilustrativa, no es una descripción histórica. Creada con IA para acompañar el cuento; no es una fotografía del pasado.</figcaption><details class=\"image-literacy\"><summary>Miramos la imagen con criterio</summary><p>¿Qué ves y qué necesitarías comprobar? Elige un detalle y contrástalo con una fuente. Un aspecto realista no garantiza exactitud histórica.</p><p>En Primaria, coméntalo con ayuda; en Secundaria, distingue dato, interpretación y ficción y revisa posibles estereotipos. Actividad opcional, oral o en el cuaderno.</p></details></figure><article class=\"story\"><p class=\"route-meta\">Cuento legendario · La Graciosa</p><p class=\"story-intro\">Cuento ambientado en la navegación a vela e inspirado en la leyenda de San Borondón, una isla fantasma que cronistas y cartógrafos situaron al oeste de Canarias y que, según distintas versiones, podía avistarse desde La Palma, El Hierro o La Gomera. Durante siglos, fue conocida como «la octava isla». La Graciosa, en cambio, no tuvo población estable hasta finales del siglo XIX, por lo que no aparecía en los antiguos recuentos de islas habitadas.</p><div class=\"story-refrain\"><strong>Estribillo:</strong> «Isla de la bruma, apareces y te vas»</div><p>Cuando las embarcaciones navegaban a vela y los mapas se dibujaban sobre pergamino, Guadarfía era grumete en un pequeño barco. Una tarde cruzaban el mar cerca de la isla que hoy llamamos La Graciosa.</p><p>Detrás de una franja de bruma apareció una tierra desconocida. Tenía una montaña oscura, árboles y una playa brillante. El capitán recordó las historias sobre San Borondón, la isla que aparecía y desaparecía.</p><p>Guadarfía señaló el horizonte y dijo: «Isla de la bruma, apareces y te vas».</p><p>La tripulación cambió el rumbo, pero cuanto más avanzaba la nave, más lejos parecía estar la isla. Después llegó una niebla tan espesa que tuvieron que bajar las velas y esperar.</p><p>Al amanecer, la bruma se había marchado. Delante del barco solo quedaba el mar. El capitán marcó el lugar en su carta y Guadarfía dibujó la forma que recordaba.</p><p>Otros navegantes contaron visiones parecidas y algunos mapas incluyeron San Borondón. Sin embargo, nadie consiguió alcanzarla.</p><p>La isla continuó apareciendo en los relatos, siempre detrás de la niebla: «Isla de la bruma, apareces y te vas».</p><details class=\"radar\"><summary><strong>Para investigar: ¿cómo se fundamenta el cuento?</strong></summary><p>San Borondón es una leyenda compartida por Canarias. Cronistas y cartógrafos la situaron al oeste del archipiélago y durante siglos fue conocida como «la octava isla»; las versiones sobre sus avistamientos varían. La Graciosa no tuvo población estable hasta finales del siglo XIX. Situar a Guadarfía y su embarcación en estas aguas es una recreación literaria para vincular la leyenda con la ruta actual de La Graciosa; el personaje no representa al dirigente histórico del mismo nombre.</p><section class=\"source-traceability\" data-source-route=\"la-graciosa\" aria-label=\"Fuentes del cuento\"><p><strong>Motivo tradicional o documentado:</strong> San Borondón aparece en mapas históricos y relatos de viajeros. Algunos testimonios recogidos por Chaparro afirman supuestas llegadas; no equivalen a un hallazgo comprobado. La tradición se vincula al viaje legendario de san Brandán.</p><p><strong>Fuentes identificadas:</strong></p><ul><li>Chaparro Domínguez, M. Á. (2013). <a href=\"https://revistas.ucm.es/index.php/RFRM/article/download/45706/42966/73431#page=4\" target=\"_blank\" rel=\"noopener noreferrer\">Revisión del mito geográfico de San Borondón y aproximación a su huella en la literatura y otras artes</a>. Revista de Filología Románica, 30(2), pp. 229–244; origen y viajeros en pp. 232–236.</li><li>Martínez Berriel, S. (2001–2002). <a href=\"https://revistavegueta.ulpgc.es/ojs/index.php/revistavegueta/article/view/225\" target=\"_blank\" rel=\"noopener noreferrer\">La isla de las buenas costumbres: cambio social y cultural en la isla de La Graciosa</a>. Vegueta, 6; resumen y contexto del poblamiento.</li><li>William Turpin; Dickinson College Commentaries. <a href=\"https://dcc.dickinson.edu/navigatio-brendani/intro/introduction\" target=\"_blank\" rel=\"noopener noreferrer\">Introduction — The Voyage of Saint Brendan the Abbot</a>. <small class=\"source-consultation\">Consulta durante esta revisión editorial, 01/11/2026.</small></li><li>Dickinson College Commentaries, edición William Turpin. <a href=\"https://dcc.dickinson.edu/navigatio-brendani/intro/latin-text-whole\" target=\"_blank\" rel=\"noopener noreferrer\">Latin Text of Navigatio Brendani</a>. <small class=\"source-consultation\">Consulta durante esta revisión editorial, 01/11/2026.</small></li><li>Luis Regueira Benítez (El Museo Canario) y Manuel Poggio Capote (Real Sociedad Cosmológica). <a href=\"https://dialnet.unirioja.es/descarga/articulo/5759160.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">El capellán Juan Díaz, «obispo de San Borondón». Nuevas noticias sobre la exploración del Atlántico (1526–1529)</a>. <small class=\"source-consultation\">Consulta durante esta revisión editorial, 01/11/2026.</small></li><li>Direção Cultural da Marinha; Museu de Marinha. <a href=\"https://cultura.marinha.pt/pt/museumarinha_web/colecoes_web/pecasemdestaque_web/Paginas/caravela-latina.aspx\" target=\"_blank\" rel=\"noopener noreferrer\">Caravela latina — modelo MM.05724</a>. <small class=\"source-consultation\">Consulta durante esta revisión editorial, 01/11/2026.</small></li><li>Armada Española. <a href=\"https://armada.defensa.gob.es/archivo/ohycn/navegaciones/comun/Buques%20epoca%20descubrimiento%20y%20exploracion%20Rev.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">Los tipos de naos en la época de los descubrimientos y exploraciones, siglos XV–XVII</a>. <small class=\"source-consultation\">Consulta durante esta revisión editorial, 01/11/2026.</small></li></ul><p>La frase «nadie consiguió alcanzarla» se conserva como simplificación literaria de las búsquedas sin hallazgo comprobado. Las fuentes sí recogen supuestas arribadas. El episodio junto a La Graciosa es ficticio: la tradición suele situar San Borondón al oeste de Canarias.</p><p><strong>Notas sobre esta versión:</strong> Se conservan íntegros el cuento y la narración originales. Guadarfía es un grumete ficticio, distinto del dirigente histórico de Lanzarote. Para las ilustraciones se elige una pequeña carabela de dos mástiles y velas latinas, verosímil a comienzos del siglo XVI; no identifica la nave de una expedición real. El capitán, el dibujo, los diálogos y el estribillo forman parte de la recreación literaria.</p></section></details></article></div>\n<div class=\"quiz source-quiz\" id=\"source-la-graciosa\"><p class=\"challenge-kicker\">Reto 1 de 2</p><h3>Comprendemos el cuento</h3><p>Elige la respuesta correcta. Necesitas 3 de 3.</p><div class=\"source-questions\"></div><button class=\"button check-source\" type=\"button\" data-route=\"la-graciosa\">Comprobar la comprensión</button><div class=\"source-status\" role=\"status\"></div></div>\n<div class=\"quiz\" id=\"quiz-la-graciosa\"><p class=\"challenge-kicker\">Reto 2 de 2</p><h3>Reto de la pieza</h3><p>Marca verdadero o falso. La pieza se obtiene al completar los dos retos.</p><div class=\"questions\"></div><button class=\"button check-quiz\" type=\"button\" data-route=\"la-graciosa\">Comprobar el reto</button><div class=\"quiz-status\" role=\"status\"></div><div class=\"reward\"><img src=\"content/resources/insignia_la_graciosa.webp\" alt=\"Caracola de barro, símbolo contemporáneo de La Graciosa\"><div><span>Insignia añadida automáticamente</span><strong>Pieza del horizonte</strong><p>Puedes verla en cualquier momento desde el botón «Pasaporte» de la barra superior.</p><button class=\"button open-passport\" type=\"button\">Ver mi pasaporte</button></div></div></div>\n<div class=\"route-nav\"><button class=\"button secondary back-map choose-island\" type=\"button\">Elegir otra isla</button></div></section>"];
 const storageKey="mitomapa-canario-v2";
 const legacyKey="mitomapa-canario-v1";
+const learnerGenerationKey="mitomapa-canario-sesion-v1";
+const feedbackConfigKey="mitomapa-canario-formulario-web-v1";
+const readingPreferencesKey="mitomapa-canario-lectura-v1";
 const byId=id=>document.getElementById(id);
 const validIds=new Set(routes.map(route=>route.id));
 const normalize=values=>new Set((Array.isArray(values)?values:[]).filter(id=>validIds.has(id)));
@@ -18,13 +21,85 @@ function updateStorageNotice(){
  const notice=byId("storageNotice");if(!notice)return;
  notice.hidden=storageFailures.size===0&&!storageReadIssue;
 }
+function readLearnerGeneration(){
+ try{return localStorage.getItem(learnerGenerationKey);}
+ catch(error){storageReadIssue=true;updateStorageNotice();return undefined;}
+}
+const learnerRetentionKey=window.MitoMapaRetention.key;
+const initialRetention=window.MitoMapaRetention.initial();
+if(initialRetention.unavailable){storageReadIssue=true;updateStorageNotice();}
+let learnerGeneration=initialRetention.blocked||initialRetention.expired?undefined:readLearnerGeneration();
+let learnerRetentionTimer=null,learnerRetentionDeadline=null;
+let learnerRevision=0;
+let learnerViewStale=false;
+let awaitingLearnerResume=false;
+function usesLearnerGeneration(key){
+ return key!==feedbackConfigKey&&key!==readingPreferencesKey;
+}
+function progressStorageKey(key,generation=learnerGeneration){
+ return generation&&usesLearnerGeneration(key)?learnerGenerationKey+":"+generation+":"+key:key;
+}
+function invalidateLearnerView(){
+ if(learnerViewStale)return;
+ learnerViewStale=true;
+ document.documentElement.style.visibility="hidden";
+ document.body.inert=true;
+ discardStoredLearnerProgress(learnerGeneration);
+ // A passive reload must not choose the old learner's route for the new one.
+ if(/^#(?:isla\/|route-|ordenar$)/.test(location.hash))history.replaceState(null,"","#inicio");
+ location.reload();
+}
+function learnerSessionCurrent(){
+ if(learnerViewStale)return false;
+ // Keep working in memory until reload if this tab cannot use storage.
+ if(learnerGeneration===undefined)return true;
+ const retention=window.MitoMapaRetention.ensure();
+ if(retention.unavailable){storageReadIssue=true;updateStorageNotice();}
+ if(retention.blocked||retention.expired){invalidateLearnerView();return false;}
+ const current=retention.generation;
+ if(current===learnerGeneration){scheduleLearnerExpiry(retention);return true;}
+ // A storage access error after a successful read cannot confirm this session.
+ if(current===undefined)return false;
+ invalidateLearnerView();
+ return false;
+}
+function scheduleLearnerExpiry(retention){
+ const notice=byId("retentionNotice");
+ if(notice)notice.textContent=retention.expiresAt&&!retention.unavailable?`El trabajo guardado caduca el ${new Intl.DateTimeFormat("es-ES",{dateStyle:"long"}).format(new Date(retention.expiresAt))}. Guarda el seguimiento si quieres conservar una copia. El plazo de 15 días no se amplía al volver a entrar.`:"El navegador no permite garantizar la caducidad del guardado. Guarda una copia y revisa los datos de este sitio en los ajustes del navegador.";
+ if(retention.expiresAt===learnerRetentionDeadline)return;
+ clearTimeout(learnerRetentionTimer);
+ learnerRetentionDeadline=retention.expiresAt;
+ if(retention.expiresAt)learnerRetentionTimer=setTimeout(reconcileLearnerView,Math.max(1,retention.expiresAt-Date.now()));
+}
+function reconcileLearnerView(){
+ if(learnerSessionCurrent()&&awaitingLearnerResume){
+  awaitingLearnerResume=false;
+  document.documentElement.style.visibility="";
+ }
+}
 function readJSON(key,fallback){
- try{const value=localStorage.getItem(key);return value?JSON.parse(value):fallback;}
+ try{
+  if((initialRetention.blocked||initialRetention.expired)&&usesLearnerGeneration(key))return key==="mitomapa-canario-preferencias-v3"?initialRetention.preferences||fallback:fallback;
+  if(learnerGeneration===undefined&&usesLearnerGeneration(key))return fallback;
+  const value=localStorage.getItem(progressStorageKey(key));return value?JSON.parse(value):fallback;
+ }
  catch(error){storageReadIssue=true;updateStorageNotice();return fallback;}
 }
 function isRecordValue(value){return value!==null&&typeof value==="object"&&!Array.isArray(value);}
 function writeJSON(key,value){
- try{localStorage.setItem(key,JSON.stringify(value));storageFailures.delete(key);updateStorageNotice();return true;}
+ try{
+  const serialized=JSON.stringify(value),scoped=usesLearnerGeneration(key);
+  if(scoped&&!learnerSessionCurrent())return false;
+  if(scoped&&learnerGeneration===undefined)throw new Error("STORAGE_UNAVAILABLE");
+  const target=progressStorageKey(key);
+  localStorage.setItem(target,serialized);
+  if(scoped&&!learnerSessionCurrent()){
+   // The obsolete write cannot affect the active generation.
+   if(learnerViewStale)localStorage.removeItem(target);
+   return false;
+  }
+  storageFailures.delete(key);updateStorageNotice();return true;
+ }
  catch(error){storageFailures.add(key);updateStorageNotice();return false;}
 }
 const legacy=normalize(readJSON(legacyKey,[]));
@@ -140,19 +215,18 @@ function injectExperienceTools(){
  const panel=document.createElement("section");
  panel.className="experience-tools";
  panel.setAttribute("aria-labelledby","experienceToolsTitle");
- panel.innerHTML=`<h2 id="experienceToolsTitle">Prepara tu expedición</h2><p>Elige la etapa y la presentación. Puedes cambiarlas cuando quieras.</p><div class="learning-level-block"><h3>Etapa recomendada</h3><div class="learning-level-switch" role="group" aria-label="Etapa educativa"><button type="button" data-learning-level="early">Infantil y 1.º ciclo</button><button type="button" data-learning-level="middle">2.º ciclo</button><button type="button" data-learning-level="advanced">3.º ciclo</button><button type="button" data-learning-level="secondary">Secundaria</button></div><p class="mode-status" id="learningLevelStatus" role="status"></p></div><div class="learning-level-block"><h3>Presentación del texto</h3><div class="mode-switch" role="group" aria-label="Modo de lectura"><button type="button" data-reader-mode="guided">Lectura acompañada</button><button type="button" data-reader-mode="complete">Explora a fondo</button></div><p class="mode-status" id="readerModeStatus" role="status"></p></div><div class="experience-actions"><button class="text-button" id="resumeRoute" type="button">Continuar última isla</button><button class="text-button" id="printResource" type="button">Imprimir cuentos</button></div>`;
+ panel.innerHTML=`<h2 id="experienceToolsTitle">Prepara tu expedición</h2><p>Elige la etapa y la presentación. Puedes cambiarlas cuando quieras.</p><div class="learning-level-block"><h3>Etapa recomendada</h3><div class="learning-level-switch" role="group" aria-label="Etapa educativa"><button type="button" data-learning-level="early">Infantil y 1.º ciclo</button><button type="button" data-learning-level="middle">2.º ciclo</button><button type="button" data-learning-level="advanced">3.º ciclo</button><button type="button" data-learning-level="secondary">Secundaria</button></div><p class="mode-status" id="learningLevelStatus" role="status"></p></div><div class="learning-level-block"><h3>Presentación del texto</h3><div class="mode-switch" role="group" aria-label="Modo de lectura"><button type="button" data-reader-mode="guided">Lectura acompañada</button><button type="button" data-reader-mode="complete">Explora a fondo</button></div><p class="mode-status" id="readerModeStatus" role="status"></p></div><div class="experience-actions"><button class="text-button" id="resumeRoute" type="button">Continuar última isla</button></div>`;
  const hero=legend.closest(".hero");if(hero)hero.append(panel);else legend.after(panel);
  panel.querySelectorAll("[data-reader-mode]").forEach(button=>button.addEventListener("click",()=>setReaderMode(button.dataset.readerMode)));
  panel.querySelectorAll("[data-learning-level]").forEach(button=>button.addEventListener("click",()=>setLearningLevel(button.dataset.learningLevel)));
   byId("resumeRoute").addEventListener("click",()=>{if(!window.MitoMapaNavigation?.resume?.()&&lastRouteId)showRoute(lastRouteId);});
- byId("printResource").addEventListener("click",()=>{routes.forEach(route=>ensureRoute(route.id));window.setTimeout(()=>window.print(),80);});
  byId("resumeRoute").disabled=!lastRouteId;
  const passportKicker=document.querySelector("#passportDialog .challenge-kicker");
  if(passportKicker)passportKicker.textContent="Guardado en este navegador";
  const puzzleLead=byId("missionTitle")?.closest("section")?.querySelector(".lead");
  if(puzzleLead)puzzleLead.textContent="Reconstruye el mapa observando sus formas y colores. Arrastra una pieza sobre otra o selecciona dos para intercambiarlas. Con el teclado, usa Tab para recorrer las piezas y Enter o espacio para seleccionarlas. Puedes utilizar «Mostrar solución» como apoyo.";
  const footer=document.querySelector(".footer-inner");
- if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacidad y guardado</summary><p>No necesitas una cuenta. El progreso se guarda solo en este navegador. El nombre o equipo es opcional y se utiliza en el seguimiento y el diploma. Los cuentos con grabación reproducen el audio indicado junto al reproductor; los demás usan las voces disponibles en el dispositivo. El sonido comienza cuando pulsas Reproducir. Para cambiar de navegador, guarda el seguimiento desde Docente.</p></details>`);
+ if(footer)footer.insertAdjacentHTML("beforeend",`<details class="footer-privacy"><summary>Privacidad y guardado</summary><p>No necesitas una cuenta. El trabajo se guarda solo en este navegador y caduca a los 15 días. Volver a entrar no amplía el plazo. Guarda una copia desde Docente antes de que caduque. La limpieza se ejecuta con la web abierta o al volver a ella y conserva los ajustes de lectura. Los archivos descargados no se borran. El nombre o equipo es opcional y se utiliza en el seguimiento docente. El diploma es genérico y no incluye nombres personales. Los cuentos con grabación reproducen el audio indicado junto al reproductor; los demás usan las voces disponibles en el dispositivo. El sonido comienza cuando pulsas Reproducir. Para cambiar de navegador, guarda el seguimiento desde Docente.</p></details>`);
  setReaderMode(readerMode);
  setLearningLevel(learningLevel,false);
 }
@@ -538,8 +612,10 @@ function showRoute(id,options={}){
  const section=ensureRoute(id);if(!section)return;
  section.classList.add("active");
  window.MitoMapaRouteFlow?.showStep(section,step||"cuento",{focus:false,notify:false});
- lastRouteId=id;savePreferences();
- const resume=byId("resumeRoute");if(resume)resume.disabled=false;
+ if(options.remember!==false){
+  lastRouteId=id;savePreferences();
+  const resume=byId("resumeRoute");if(resume)resume.disabled=false;
+ }
  window.MitoMapaNavigation?.refreshResume?.();
  const reduced=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
  section.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
@@ -554,11 +630,13 @@ function returnToExploreMap(){
  map.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
  const heading=map.querySelector("h2")||map;heading.setAttribute("tabindex","-1");heading.focus({preventScroll:true});
 }
-function tryAward(id){
+function tryAward(id,previousCount=currentBadgeCount()){
  if(!badgeRequirementsMet(id))return false;
  const wasNew=!earned.has(id);
  earned.add(id);save();updateProgress();
- if(wasNew){
+ if(previousCount<routes.length&&currentBadgeCount()===routes.length){
+  showDiplomaPreview();
+ }else if(wasNew){
   const route=routes.find(item=>item.id===id);
   byId("dialogBadge").src=`${ASSETS[route.badge]}`;
   byId("dialogBadge").alt=route.badgeAlt;
@@ -757,21 +835,62 @@ function creationReviewResult(state,routeId,level=learningLevel){
 function creationReviewSummaryText(result){
  return result.total?`${result.reviewed}/${result.total} criterios revisados${result.excluded?`; ${result.excluded} no procede`:""}. La lista orienta la revisión; no genera puntos ni una calificación.`:"No hay criterios aplicables en esta lista. Confirma con tu docente qué revisión se ha acordado; no genera puntos ni una calificación.";
 }
-function workshopCreationReviewMarkup(routeId,state){
- const criteria=creationReviewCriteria(routeId),values=state.creationReviewV1?.[learningLevel]||{};
- const row=item=>{
-  const labelId=`creation-review-label-${routeId}-${learningLevel}-${item.id}`,value=values[item.id]||"pending";
-  return `<label class="creation-review-row"><span id="${labelId}">${activityEscape(item.text)}</span><select data-creation-review="${item.id}" data-creation-review-level="${learningLevel}" aria-labelledby="${labelId}">${creationReviewOptions.map(([key,label])=>`<option value="${key}"${key===value?" selected":""}>${label}</option>`).join("")}</select></label>`;
- };
- const genre=learningLevel==="secondary"?`<div class="creation-review-genre"><h5>SOLO Secundaria · Género acordado</h5><p>Marca «No procede» cuando el criterio no corresponde al formato oral, gráfico u otro formato acordado.</p>${criteria.slice(3).map(row).join("")}</div>`:"";
- const optional=learningLevel==="early"?"En Infantil y 1.º ciclo, esta lista es opcional: puedes conversar sobre tu creación con ayuda. No añade un requisito para participar.":"Esta lista es opcional: elige con tu docente los criterios que vas a revisar. Puedes compartir una creación «En proceso» para recibir ayuda. La preparación y la revisión se registran por separado; usa «No procede» cuando un criterio no se haya acordado.";
- const previousPrepared=itineraryFor(routeId).evidenceMode==="external"?itineraryFor(routeId).externalCreation:learningLevel==="secondary"?state.secondaryCreation:state.creation;
- const previous=previousPrepared&&!Object.keys(values).length?"<p class=\"creation-review-prior\">Tu borrador y la preparación anterior se conservan. Los estados de esta lista nueva empiezan pendientes y no sustituyen esa preparación. Revísalos con ayuda cuando se acuerde.</p>":"";
- return `<fieldset class="creation-review"><legend>Revisión de la creación · ${learningLevel==="secondary"?"Secundaria":learningLevel==="early"?"Infantil y 1.º ciclo":"Primaria"}</legend><p>${optional}</p>${criteria.slice(0,3).map(row).join("")}${genre}${previous}<p class="creation-review-summary" role="status" aria-live="polite" aria-atomic="true">${creationReviewSummaryText(creationReviewResult(state,routeId))}</p></fieldset>`;
-}
 function refreshCreationReview(workshop,routeId){
  const container=workshop.querySelector("[data-creation-review-container]");
- if(container)container.innerHTML=workshopCreationReviewMarkup(routeId,getWorkshopRouteState(routeId));
+ if(!container)return;
+ const state=getWorkshopRouteState(routeId);
+ const criteria=creationReviewCriteria(routeId),values=state.creationReviewV1?.[learningLevel]||{};
+ const fieldset=document.createElement("fieldset");
+ fieldset.className="creation-review";
+ const legend=document.createElement("legend");
+ legend.textContent=`Revisión de la creación · ${learningLevel==="secondary"?"Secundaria":learningLevel==="early"?"Infantil y 1.º ciclo":"Primaria"}`;
+ const guidance=document.createElement("p");
+ guidance.textContent=learningLevel==="early"?"En Infantil y 1.º ciclo, esta lista es opcional: puedes conversar sobre tu creación con ayuda. No añade un requisito para participar.":"Esta lista es opcional: elige con tu docente los criterios que vas a revisar. Puedes compartir una creación «En proceso» para recibir ayuda. La preparación y la revisión se registran por separado; usa «No procede» cuando un criterio no se haya acordado.";
+ fieldset.append(legend,guidance);
+
+ function reviewRow(item){
+  const label=document.createElement("label");
+  label.className="creation-review-row";
+  const caption=document.createElement("span");
+  caption.id=`creation-review-label-${routeId}-${learningLevel}-${item.id}`;
+  caption.textContent=item.text;
+  const select=document.createElement("select");
+  select.dataset.creationReview=item.id;
+  select.dataset.creationReviewLevel=learningLevel;
+  select.setAttribute("aria-labelledby",caption.id);
+  for(const [value,text] of creationReviewOptions)select.add(new Option(text,value));
+  select.value=values[item.id]||"pending";
+  label.append(caption,select);
+  return label;
+ }
+
+ fieldset.append(...criteria.slice(0,3).map(reviewRow));
+ if(learningLevel==="secondary"){
+  const genre=document.createElement("div");
+  genre.className="creation-review-genre";
+  const heading=document.createElement("h5");
+  heading.textContent="SOLO Secundaria · Género acordado";
+  const hint=document.createElement("p");
+  hint.textContent="Marca «No procede» cuando el criterio no corresponde al formato oral, gráfico u otro formato acordado.";
+  genre.append(heading,hint,...criteria.slice(3).map(reviewRow));
+  fieldset.append(genre);
+ }
+ const itinerary=itineraryFor(routeId);
+ const previousPrepared=itinerary.evidenceMode==="external"?itinerary.externalCreation:learningLevel==="secondary"?state.secondaryCreation:state.creation;
+ if(previousPrepared&&!Object.keys(values).length){
+  const previous=document.createElement("p");
+  previous.className="creation-review-prior";
+  previous.textContent="Tu borrador y la preparación anterior se conservan. Los estados de esta lista nueva empiezan pendientes y no sustituyen esa preparación. Revísalos con ayuda cuando se acuerde.";
+  fieldset.append(previous);
+ }
+ const summary=document.createElement("p");
+ summary.className="creation-review-summary";
+ summary.setAttribute("role","status");
+ summary.setAttribute("aria-live","polite");
+ summary.setAttribute("aria-atomic","true");
+ summary.textContent=creationReviewSummaryText(creationReviewResult(state,routeId));
+ fieldset.append(summary);
+ container.replaceChildren(fieldset);
 }
 function updateCreationReviewSummary(workshop,routeId){
  const summary=workshop.querySelector(".creation-review-summary");
@@ -824,26 +943,22 @@ function workshopResearchMarkup(routeId,research){
  const sources=research.sources?.length?`<details class="activity-sources"><summary>Fuentes para seguir investigando</summary><ul>${research.sources.map(source=>`<li><a href="${activityEscape(source.url)}" target="_blank" rel="noopener noreferrer">${activityEscape(source.label)}</a></li>`).join("")}</ul></details>`:"";
  return `<div class="activity-panel" id="activity-${routeId}-research" role="tabpanel" aria-labelledby="activity-tab-${routeId}-research" data-activity-panel="research" hidden><h4>${activityEscape(research.title)}</h4><p>${activityEscape(research.intro)}</p>${questions}<button class="button activity-check-research" type="button">Comprobar la investigación</button><p class="activity-panel-status" role="status" aria-live="polite"></p>${sources}<p class="activity-tip">La comprobación reconoce estas dos respuestas. Completa además la investigación y el contraste de fuentes que te haya indicado tu docente.</p><label class="activity-text-label"><span>Mi fuente y lo que he comprobado (opcional)</span><textarea rows="3" maxlength="600" data-research-evidence placeholder="Anota el título o enlace de una fuente y un dato que hayas contrastado."></textarea></label><p class="research-draft-status" role="status"></p></div>`;
 }
-function workshopPrimaryCreationMarkup(routeId,creation,state){
- const textValue=activityEscape(state.text||"");
+function workshopPrimaryCreationMarkup(creation){
  if(creation.type==="drawing"){
-  return `<div class="creation-version creation-primary" data-creation-version="primary"><p class="creation-stage-label">Propuesta para Primaria</p><h4>${activityEscape(creation.title)}</h4><p>${activityEscape(creation.prompt)}</p><p class="activity-tip">${activityEscape(creation.tip)}</p><div class="drawing-toolbar" aria-label="Herramientas de dibujo"><span>Color</span><button type="button" class="draw-color is-selected" data-draw-color="#2f2b26" style="--draw-color:#2f2b26" aria-label="Negro" aria-pressed="true"></button><button type="button" class="draw-color" data-draw-color="#9b5738" style="--draw-color:#9b5738" aria-label="Barro" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#dfb94f" style="--draw-color:#dfb94f" aria-label="Amarillo" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#72a4aa" style="--draw-color:#72a4aa" aria-label="Azul claro" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#829276" style="--draw-color:#829276" aria-label="Verde" aria-pressed="false"></button><label>Grosor <input class="draw-size" type="range" min="2" max="24" value="7" aria-label="Grosor del trazo"></label></div><div class="drawing-frame"><canvas class="activity-canvas" width="900" height="520" role="img" aria-label="Lienzo para dibujar al tibicena. Hay una alternativa de descripción escrita bajo el lienzo."></canvas></div><div class="drawing-actions"><button class="text-button draw-undo" type="button">Deshacer</button><button class="text-button draw-clear" type="button">Borrar dibujo</button><button class="text-button draw-download" type="button">Guardar imagen</button></div><label class="activity-text-label"><span>Alternativa escrita</span><textarea maxlength="500" rows="4" data-primary-text placeholder="${activityEscape(creation.placeholder)}">${textValue}</textarea><small><span class="activity-character-count">${textValue.length}</span>/500 caracteres</small></label></div>`;
+  return `<div class="creation-version creation-primary" data-creation-version="primary"><p class="creation-stage-label">Propuesta para Primaria</p><h4>${activityEscape(creation.title)}</h4><p>${activityEscape(creation.prompt)}</p><p class="activity-tip">${activityEscape(creation.tip)}</p><div class="drawing-toolbar" aria-label="Herramientas de dibujo"><span>Color</span><button type="button" class="draw-color is-selected" data-draw-color="#2f2b26" style="--draw-color:#2f2b26" aria-label="Negro" aria-pressed="true"></button><button type="button" class="draw-color" data-draw-color="#9b5738" style="--draw-color:#9b5738" aria-label="Barro" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#dfb94f" style="--draw-color:#dfb94f" aria-label="Amarillo" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#72a4aa" style="--draw-color:#72a4aa" aria-label="Azul claro" aria-pressed="false"></button><button type="button" class="draw-color" data-draw-color="#829276" style="--draw-color:#829276" aria-label="Verde" aria-pressed="false"></button><label>Grosor <input class="draw-size" type="range" min="2" max="24" value="7" aria-label="Grosor del trazo"></label></div><div class="drawing-frame"><canvas class="activity-canvas" width="900" height="520" role="img" aria-label="Lienzo para dibujar al tibicena. Hay una alternativa de descripción escrita bajo el lienzo."></canvas></div><div class="drawing-actions"><button class="text-button draw-undo" type="button">Deshacer</button><button class="text-button draw-clear" type="button">Borrar dibujo</button><button class="text-button draw-download" type="button">Guardar imagen</button></div><label class="activity-text-label"><span>Alternativa escrita</span><textarea maxlength="500" rows="4" data-primary-text placeholder="${activityEscape(creation.placeholder)}"></textarea><small><span class="activity-character-count">0</span>/500 caracteres</small></label></div>`;
  }
- return `<div class="creation-version creation-primary" data-creation-version="primary"><p class="creation-stage-label">Propuesta para Primaria</p><h4>${activityEscape(creation.title)}</h4><p>${activityEscape(creation.prompt)}</p><p class="activity-tip">${activityEscape(creation.tip)}</p><label class="activity-text-label"><span>Tu creación</span><textarea maxlength="500" rows="4" data-primary-text placeholder="${activityEscape(creation.placeholder)}">${textValue}</textarea><small><span class="activity-character-count">${textValue.length}</span>/500 caracteres</small></label></div>`;
+ return `<div class="creation-version creation-primary" data-creation-version="primary"><p class="creation-stage-label">Propuesta para Primaria</p><h4>${activityEscape(creation.title)}</h4><p>${activityEscape(creation.prompt)}</p><p class="activity-tip">${activityEscape(creation.tip)}</p><label class="activity-text-label"><span>Tu creación</span><textarea maxlength="500" rows="4" data-primary-text placeholder="${activityEscape(creation.placeholder)}"></textarea><small><span class="activity-character-count">0</span>/500 caracteres</small></label></div>`;
 }
-function workshopSecondaryCreationMarkup(routeId,secondary,state){
- const textValue=activityEscape(state.secondaryText||"");
- const choices=secondary.choices?.length?`<fieldset class="secondary-scene-choice"><legend>Elige una escena</legend>${secondary.choices.map((choice,index)=>`<label><input type="radio" name="secondary-scene-${routeId}" data-secondary-choice value="${activityEscape(choice)}" ${state.secondaryChoice===choice?"checked":""}><span>${index+1}. ${activityEscape(choice)}</span></label>`).join("")}</fieldset>`:"";
+function workshopSecondaryCreationMarkup(routeId,secondary){
+ const choices=secondary.choices?.length?`<fieldset class="secondary-scene-choice"><legend>Elige una escena</legend>${secondary.choices.map((choice,index)=>`<label><input type="radio" name="secondary-scene-${routeId}" data-secondary-choice value="${activityEscape(choice)}"><span>${index+1}. ${activityEscape(choice)}</span></label>`).join("")}</fieldset>`:"";
  const structure=`<section class="secondary-brief" aria-labelledby="secondary-structure-${routeId}"><h5 id="secondary-structure-${routeId}">Estructura de apoyo</h5><ol>${secondary.structure.map(item=>`<li>${activityEscape(item)}</li>`).join("")}</ol></section>`;
- const words=workshopWordCount(state.secondaryText||"");
- return `<div class="creation-version creation-secondary" data-creation-version="secondary"><p class="creation-stage-label">Crea · ${activityEscape(routes.find(route=>route.id===routeId)?.island||"")} · Secundaria</p><h4>${activityEscape(secondary.title)}</h4><p>${activityEscape(secondary.prompt)}</p>${choices}${structure}<label class="activity-text-label secondary-text-label"><span>Tu producción</span><textarea maxlength="5000" rows="12" data-secondary-text placeholder="${activityEscape(secondary.placeholder)}">${textValue}</textarea><small><span class="activity-word-count">${words}</span> palabras · <span class="activity-character-count">${textValue.length}</span>/5000 caracteres</small></label><p class="secondary-length-note">${activityEscape(secondary.lengthLabel)}</p></div>`;
+ return `<div class="creation-version creation-secondary" data-creation-version="secondary"><p class="creation-stage-label">Crea · ${activityEscape(routes.find(route=>route.id===routeId)?.island||"")} · Secundaria</p><h4>${activityEscape(secondary.title)}</h4><p>${activityEscape(secondary.prompt)}</p>${choices}${structure}<label class="activity-text-label secondary-text-label"><span>Tu producción</span><textarea maxlength="5000" rows="12" data-secondary-text placeholder="${activityEscape(secondary.placeholder)}"></textarea><small><span class="activity-word-count">0</span> palabras · <span class="activity-character-count">0</span>/5000 caracteres</small></label><p class="secondary-length-note">${activityEscape(secondary.lengthLabel)}</p></div>`;
 }
-function workshopCreationMarkup(routeId,creation,secondary,state){
- return `<div class="activity-panel" id="activity-${routeId}-creation" role="tabpanel" aria-labelledby="activity-tab-${routeId}-creation" data-activity-panel="creation" hidden>${workshopPrimaryCreationMarkup(routeId,creation,state)}${workshopSecondaryCreationMarkup(routeId,secondary,state)}<p class="external-creation-note" hidden></p><div data-creation-review-container>${workshopCreationReviewMarkup(routeId,state)}</div><button class="button activity-save-creation" data-creation-track="${learningLevel==="secondary"?"secondary":"primary"}" type="button">${learningLevel==="secondary"?"Marcar propuesta como preparada":"Marcar creación como preparada"}</button><p class="draft-status" role="status" aria-live="polite"></p><div class="drawing-actions"><button class="text-button activity-download-draft" type="button">Descargar mi borrador</button></div><p class="activity-panel-status" role="status" aria-live="polite"></p></div>`;
+function workshopCreationMarkup(routeId,creation,secondary){
+ return `<div class="activity-panel" id="activity-${routeId}-creation" role="tabpanel" aria-labelledby="activity-tab-${routeId}-creation" data-activity-panel="creation" hidden>${workshopPrimaryCreationMarkup(creation)}${workshopSecondaryCreationMarkup(routeId,secondary)}<p class="external-creation-note" hidden></p><div data-creation-review-container></div><button class="button activity-save-creation" data-creation-track="${learningLevel==="secondary"?"secondary":"primary"}" type="button">${learningLevel==="secondary"?"Marcar propuesta como preparada":"Marcar creación como preparada"}</button><p class="draft-status" role="status" aria-live="polite"></p><div class="drawing-actions"><button class="text-button activity-download-draft" type="button">Descargar mi borrador</button></div><p class="activity-panel-status" role="status" aria-live="polite"></p></div>`;
 }
 function workshopMarkup(route,activity){
- const state=getWorkshopRouteState(route.id);
- return `<section class="activity-workshop" id="activity-${route.id}" aria-labelledby="activity-title-${route.id}"><div class="activity-workshop-head"><div><p class="challenge-kicker">Actividad complementaria · Infantil, Primaria y Secundaria</p><h3 id="activity-title-${route.id}">Cuaderno activo de ${activityEscape(route.island)}</h3><p>Explora vocabulario, contrasta información y crea. En Secundaria, el apartado «Crea» propone un género discursivo diferente en cada ruta. Esta parte no bloquea la pieza.</p></div><span class="activity-workshop-progress" role="status" aria-live="polite">0/3</span></div><div class="activity-tabs" role="tablist" aria-label="Apartados del cuaderno"><button id="activity-tab-${route.id}-words" type="button" role="tab" aria-selected="true" aria-controls="activity-${route.id}-words" data-activity-tab="words">1. Vocabulario</button><button id="activity-tab-${route.id}-research" type="button" role="tab" aria-selected="false" aria-controls="activity-${route.id}-research" data-activity-tab="research" tabindex="-1">2. Investiga</button><button id="activity-tab-${route.id}-creation" type="button" role="tab" aria-selected="false" aria-controls="activity-${route.id}-creation" data-activity-tab="creation" tabindex="-1">3. Crea</button></div><div class="activity-panel" id="activity-${route.id}-words" role="tabpanel" aria-labelledby="activity-tab-${route.id}-words" data-activity-panel="words"><h4>${activityEscape(activity.words.title)}</h4><p>${activityEscape(activity.words.intro)}</p>${workshopMatchMarkup(route.id,activity.words.match)}${workshopFillMarkup(activity.words)}<button class="button activity-check-words" type="button">Comprobar el vocabulario</button><p class="activity-panel-status" role="status" aria-live="polite"></p></div>${workshopResearchMarkup(route.id,activity.research)}${workshopCreationMarkup(route.id,activity.creation,secondaryCreations[route.id],state)}</section>`;
+ return `<section class="activity-workshop" id="activity-${route.id}" aria-labelledby="activity-title-${route.id}"><div class="activity-workshop-head"><div><p class="challenge-kicker">Actividad complementaria · Infantil, Primaria y Secundaria</p><h3 id="activity-title-${route.id}">Cuaderno activo de ${activityEscape(route.island)}</h3><p>Explora vocabulario, contrasta información y crea. En Secundaria, el apartado «Crea» propone un género discursivo diferente en cada ruta. Esta parte no bloquea la pieza.</p></div><span class="activity-workshop-progress" role="status" aria-live="polite">0/3</span></div><div class="activity-tabs" role="tablist" aria-label="Apartados del cuaderno"><button id="activity-tab-${route.id}-words" type="button" role="tab" aria-selected="true" aria-controls="activity-${route.id}-words" data-activity-tab="words">1. Vocabulario</button><button id="activity-tab-${route.id}-research" type="button" role="tab" aria-selected="false" aria-controls="activity-${route.id}-research" data-activity-tab="research" tabindex="-1">2. Investiga</button><button id="activity-tab-${route.id}-creation" type="button" role="tab" aria-selected="false" aria-controls="activity-${route.id}-creation" data-activity-tab="creation" tabindex="-1">3. Crea</button></div><div class="activity-panel" id="activity-${route.id}-words" role="tabpanel" aria-labelledby="activity-tab-${route.id}-words" data-activity-panel="words"><h4>${activityEscape(activity.words.title)}</h4><p>${activityEscape(activity.words.intro)}</p>${workshopMatchMarkup(route.id,activity.words.match)}${workshopFillMarkup(activity.words)}<button class="button activity-check-words" type="button">Comprobar el vocabulario</button><p class="activity-panel-status" role="status" aria-live="polite"></p></div>${workshopResearchMarkup(route.id,activity.research)}${workshopCreationMarkup(route.id,activity.creation,secondaryCreations[route.id])}</section>`;
 }
 function activateWorkshopPanel(workshop,name,focus=false){
  const tabs=[...workshop.querySelectorAll("[data-activity-tab]")];
@@ -870,7 +985,14 @@ function downloadWorkshopDraft(id){
  const text=`MitoMapa ${RESOURCE_VERSION} · ${route.island} · ${learningLevelLabel()}\nVersión del esquema de exportación: ${EXPORT_SCHEMA_VERSION}\n\nCREACIÓN\n${learningLevel==="secondary"?state.secondaryText:state.text}\n\nFUENTE Y CONTRASTE\n${state.researchEvidence}\n\nBorrador personal; requiere revisión con el docente.`;
  downloadLocalText(text,`borrador-mitomapa-${id}.txt`,"text/plain");
 }
-function downloadLocalText(content,filename,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function downloadLocalText(content,filename,type){
+ if(!learnerSessionCurrent())return false;
+ const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),link=document.createElement("a");
+ link.href=url;link.download=filename;
+ if(!learnerSessionCurrent()){URL.revokeObjectURL(url);return false;}
+ link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ return true;
+}
 function updateWorkshopSummary(routeId){
  const workshop=byId(`activity-${routeId}`);if(!workshop)return;
  const state=getWorkshopRouteState(routeId),creationDone=workshopCreationComplete(state,routeId),selected=selectedNotebookTasks(routeId),completion=notebookCompletion(routeId);
@@ -956,7 +1078,7 @@ function setupWorkshopCanvas(workshop,routeId){
  const state=getWorkshopRouteState(routeId),baseColor="#fffdf7";
  let drawing=false,lastPoint=null,pendingSnapshot=null,strokeStartPixels=null,currentColor="#2f2b26",history=[];
  const clearSurface=()=>{context.save();context.fillStyle=baseColor;context.fillRect(0,0,canvas.width,canvas.height);context.restore();};
- const restore=async imageData=>{const image=await loadWorkshopDrawing(imageData);clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};
+ const restore=async imageData=>{const revision=learnerRevision;const image=await loadWorkshopDrawing(imageData);if(revision!==learnerRevision||!workshop.isConnected||!learnerSessionCurrent())return;clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};
  clearSurface();if(state.drawing)restore(state.drawing);
  const pointFromEvent=event=>{const box=canvas.getBoundingClientRect();return{x:(event.clientX-box.left)*canvas.width/box.width,y:(event.clientY-box.top)*canvas.height/box.height};};
  const snapshot=()=>({image:canvas.toDataURL("image/webp",.82),hasInk:Boolean(state.drawingHasInk)});
@@ -967,9 +1089,17 @@ function setupWorkshopCanvas(workshop,routeId){
  const finish=event=>{if(!drawing)return;drawing=false;lastPoint=null;try{canvas.releasePointerCapture?.(event.pointerId);}catch(error){}if(pendingSnapshot&&strokeStartPixels!==canvas.toDataURL("image/png")){history.push(pendingSnapshot);if(history.length>18)history.shift();commitDrawing();}pendingSnapshot=null;strokeStartPixels=null;};
  canvas.addEventListener("pointerup",finish);canvas.addEventListener("pointercancel",finish);canvas.addEventListener("pointerleave",event=>{if(event.buttons===0)finish(event);});
  workshop.querySelectorAll(".draw-color").forEach(button=>button.addEventListener("click",()=>{currentColor=button.dataset.drawColor;workshop.querySelectorAll(".draw-color").forEach(item=>{const selected=item===button;item.classList.toggle("is-selected",selected);item.setAttribute("aria-pressed",String(selected));});}));
- workshop.querySelector(".draw-undo")?.addEventListener("click",async()=>{const previous=history.pop();if(!previous)return;await restore(previous.image);state.drawing=previous.image;state.drawingHasInk=previous.hasInk;state.creation=false;refreshCreationReviewAfterEdit(workshop,routeId,state,"primary");invalidateItineraryTask(routeId,"creation","primary");showDraftStatus(routeId,saveWorkshopState());updateWorkshopSummary(routeId);});
+ workshop.querySelector(".draw-undo")?.addEventListener("click",async()=>{
+  const previous=history.pop();if(!previous||!learnerSessionCurrent())return;
+  const revision=learnerRevision;
+  await restore(previous.image);
+  if(revision!==learnerRevision||!workshop.isConnected||!learnerSessionCurrent())return;
+  state.drawing=previous.image;state.drawingHasInk=previous.hasInk;state.creation=false;
+  refreshCreationReviewAfterEdit(workshop,routeId,state,"primary");invalidateItineraryTask(routeId,"creation","primary");
+  showDraftStatus(routeId,saveWorkshopState());updateWorkshopSummary(routeId);
+ });
  workshop.querySelector(".draw-clear")?.addEventListener("click",()=>{history.push(snapshot());clearSurface();state.drawing=null;state.drawingHasInk=false;state.creation=false;refreshCreationReviewAfterEdit(workshop,routeId,state,"primary");invalidateItineraryTask(routeId,"creation","primary");showDraftStatus(routeId,saveWorkshopState());updateWorkshopSummary(routeId);workshop.querySelector('[data-activity-panel="creation"] .activity-panel-status').textContent="Lienzo borrado.";});
- workshop.querySelector(".draw-download")?.addEventListener("click",()=>{const link=document.createElement("a");link.download="tibicena-de-gran-canaria.png";link.href=canvas.toDataURL("image/png");link.click();workshop.querySelector('[data-activity-panel="creation"] .activity-panel-status').textContent="La imagen se ha preparado para guardarla en tu dispositivo.";});
+ workshop.querySelector(".draw-download")?.addEventListener("click",()=>{if(!learnerSessionCurrent())return;const link=document.createElement("a");link.download="tibicena-de-gran-canaria.png";link.href=canvas.toDataURL("image/png");if(!learnerSessionCurrent())return;link.click();workshop.querySelector('[data-activity-panel="creation"] .activity-panel-status').textContent="La imagen se ha preparado para guardarla en tu dispositivo.";});
 }
 function bindWorkshop(section,route){
  const workshop=section.querySelector(`#activity-${route.id}`);if(!workshop)return;
@@ -986,6 +1116,12 @@ function bindWorkshop(section,route){
  workshop.querySelectorAll(".activity-save-creation").forEach(button=>button.addEventListener("click",()=>saveWorkshopCreation(route.id,button.dataset.creationTrack)));
  workshop.querySelector(".activity-download-draft")?.addEventListener("click",()=>downloadWorkshopDraft(route.id));
  const state=getWorkshopRouteState(route.id),panel=workshop.querySelector('[data-activity-panel="creation"]');
+ const primaryText=panel.querySelector("[data-primary-text]");
+ const secondaryText=panel.querySelector("[data-secondary-text]");
+ primaryText.value=state.text;
+ secondaryText.value=state.secondaryText;
+ panel.querySelectorAll("[data-secondary-choice]").forEach(input=>input.checked=input.value===state.secondaryChoice);
+ refreshCreationReview(workshop,route.id);
  workshop.addEventListener("change",event=>{
   const select=event.target.closest("select[data-creation-review]");
   if(!select||select.dataset.creationReviewLevel!==learningLevel||!creationReviewCriteria(route.id).some(item=>item.id===select.dataset.creationReview)||!creationReviewOptions.some(option=>option[0]===select.value))return;
@@ -1127,13 +1263,9 @@ function renderFinalChallenge(){
 function updateFinalExperience(){
  const unlocked=currentBadgeCount()===routes.length;
  const challenge=byId("finalChallengeBox");
- const celebration=byId("finalCelebration");
  const diplomaButton=byId("printDiploma");
  if(challenge)challenge.hidden=!unlocked;
- if(celebration)celebration.hidden=!(unlocked&&finalState.passed);
- if(diplomaButton)diplomaButton.disabled=!(unlocked&&finalState.passed);
- const nameInput=byId("diplomaName");
- if(nameInput&&nameInput.value!==learnerName)nameInput.value=learnerName;
+ if(diplomaButton)diplomaButton.disabled=!unlocked;
 }
 
 function checkFinalChallenge(){
@@ -1158,7 +1290,8 @@ function checkFinalChallenge(){
 
 function syncLearnerName(value){
  learnerName=String(value||"").replace(/\s+/g," ").trim().slice(0,80);
- [byId("teacherLearnerName"),byId("diplomaName")].forEach(input=>{if(input&&input.value!==learnerName)input.value=learnerName;});
+ const input=byId("teacherLearnerName");
+ if(input&&input.value!==learnerName)input.value=learnerName;
  savePreferences();
 }
 
@@ -1172,13 +1305,15 @@ function teacherStatusWord(done){return done?"Superado":"Pendiente";}
 function updateTeacherDialog(){
  const tbody=byId("teacherProgressBody");
  if(!tbody)return;
- tbody.innerHTML=routes.map(route=>`<tr><th scope="row">${activityEscape(route.island)}</th><td>${teacherStatusWord(sourcePassed.has(route.id))}</td><td>${learningLevel==="early"?"Opcional":teacherStatusWord(truthPassed.has(route.id))}</td><td>${selectedNotebookTasks(route.id).length?`${workshopStageCount(route.id)}/${selectedNotebookTasks(route.id).length}`:"Sin tareas"}</td><td>${teacherStatusWord(badgeCountsForLevel(route.id))}</td><td>${teacherTaskMarkup(route)}<label class="review-toggle"><input type="checkbox" data-review-route="${route.id}" ${itineraryFor(route.id).reviewed?"checked":""} aria-label="Itinerario revisado de ${activityEscape(route.island)} en ${activityEscape(learningLevelLabel())}"> Revisado con el alumnado</label><label class="assigned-label">Tareas acordadas para ${activityEscape(route.island)}<textarea data-task-route="${route.id}" rows="2" maxlength="240">${activityEscape(itineraryFor(route.id).tasks)}</textarea></label></td></tr>`).join("");
+ tbody.innerHTML=routes.map(route=>`<tr role="row" data-teacher-island="${route.id}"><th scope="row" role="rowheader">${activityEscape(route.island)}</th><td role="cell" data-label="Comprensión">${teacherStatusWord(sourcePassed.has(route.id))}</td><td role="cell" data-label="Reto">${learningLevel==="early"?"Opcional":teacherStatusWord(truthPassed.has(route.id))}</td><td role="cell" data-label="Cuaderno">${selectedNotebookTasks(route.id).length?`${workshopStageCount(route.id)}/${selectedNotebookTasks(route.id).length}`:"Sin tareas"}</td><td role="cell" data-label="Pieza">${teacherStatusWord(badgeCountsForLevel(route.id))}</td><td role="cell" data-label="Tareas y revisión">${teacherTaskMarkup(route)}<label class="review-toggle"><input type="checkbox" data-review-route="${route.id}" ${itineraryFor(route.id).reviewed?"checked":""} aria-label="Itinerario revisado de ${activityEscape(route.island)} en ${activityEscape(learningLevelLabel())}"> Revisado con el alumnado</label><label class="assigned-label">Tareas acordadas para ${activityEscape(route.island)}<textarea data-task-route="${route.id}" rows="2" maxlength="240">${activityEscape(itineraryFor(route.id).tasks)}</textarea></label></td></tr>`).join("");
+ window.MitoMapaTeacher?.filterIslands();
  byId("teacherLevelSummary").textContent=learningLevelLabel();
  byId("teacherOverallSummary").textContent=`${currentBadgeCount()}/8 piezas · ${sourcePassed.size}/8 comprensiones · ${truthPassed.size}/8 retos · ${finalState.passed?(currentBadgeCount()===routes.length?"gran reto superado":"gran reto conservado; faltan requisitos de esta etapa"):"gran reto pendiente"}.`;
  const input=byId("teacherLearnerName");if(input)input.value=learnerName;
 }
 
 function exportProgress(){
+ if(!learnerSessionCurrent())return;
  const payload={
   app:"mitomapa-canario",version:RESOURCE_VERSION,schemaVersion:EXPORT_SCHEMA_VERSION,exportedAt:new Date().toISOString(),learningLevel,learnerName,
   progress:{sourcePassed:[...sourcePassed],truthPassed:[...truthPassed],earned:[...earned]},
@@ -1188,11 +1323,9 @@ function exportProgress(){
   final:{passed:Boolean(finalState.passed)},
   interactive:{stories:window.MitoMapaStories?.exportState(),comparison:window.MitoMapaCompare?.exportState()}
  };
- const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
- const link=document.createElement("a"),url=URL.createObjectURL(blob);
- link.href=url;link.download=`seguimiento-mitomapa-${new Date().toISOString().slice(0,10)}.json`;link.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
- byId("teacherImportStatus").textContent="Seguimiento preparado para guardarlo en el dispositivo.";
+ if(downloadLocalText(JSON.stringify(payload,null,2),`seguimiento-mitomapa-${new Date().toISOString().slice(0,10)}.json`,"application/json")){
+  byId("teacherImportStatus").textContent="Seguimiento preparado para guardarlo en el dispositivo.";
+ }
 }
 
 function sanitizeImportedWorkshop(raw){
@@ -1264,12 +1397,119 @@ function prepareImportedActivityState(payload){
  return {journey,stories,comparison:{pair:rawComparison?.pair?[...rawComparison.pair]:["tenerife","el-hierro"],notes}};
 }
 
+const journeyProgressKey="mitomapa-canario-ruta-acordada-v1";
+const sequenceProgressKey="mitomapa-canario-secuencias-v1";
+const comparisonProgressKey="mitomapa-canario-comparaciones-v1";
+const resumeProgressKey="mitomapa-canario-ultimo-apartado-v1";
+const learnerProgressKeys=[learnerRetentionKey,legacyKey,storageKey,preferencesKey,workshopStorageKey,itineraryKey,finalStorageKey,
+ journeyProgressKey,sequenceProgressKey,comparisonProgressKey,resumeProgressKey];
+
+function removeStoredLearnerProgress(generation){
+ for(const key of learnerProgressKeys)localStorage.removeItem(progressStorageKey(key,generation));
+}
+
+function discardStoredLearnerProgress(generation){
+ if(generation===undefined)return;
+ try{
+  const current=readLearnerGeneration();
+  if(current===undefined||current===generation)return;
+  removeStoredLearnerProgress(generation);
+ }catch(error){storageFailures.add(learnerGenerationKey);updateStorageNotice();}
+}
+
+function collectAbandonedLearnerProgress(){
+ if(!navigator.locks||learnerGeneration===undefined)return;
+ navigator.locks.request(learnerGenerationKey,()=>{
+  try{
+   const current=readLearnerGeneration();
+   if(current===undefined)return;
+   const prefix=learnerGenerationKey+":";
+   const abandoned=new Set();
+   for(const key of Object.keys(localStorage)){
+    if(!key.startsWith(prefix))continue;
+    const generation=key.slice(prefix.length).split(":")[0];
+    if(/^l-[0-9a-f]{32}$/.test(generation)&&generation!==current)abandoned.add(generation);
+   }
+   for(const generation of abandoned)discardStoredLearnerProgress(generation);
+   if(current!==null)discardStoredLearnerProgress(null);
+  }catch(error){storageFailures.add(learnerGenerationKey);updateStorageNotice();}
+ }).catch(()=>{ /* Fallback writers can still discard their known obsolete generation. */ });
+}
+
+function replaceLearnerProgress(entries,{locked,reset=false}){
+ if(!learnerSessionCurrent())return false;
+ if(learnerGeneration===undefined){
+  // A browser that denied storage from startup can still use the current tab.
+  learnerRevision++;
+  return true;
+ }
+ const previous=learnerGeneration;
+ const retentionRecord=window.MitoMapaRetention.record(previous);
+ const generation=(locked?"l-":"")+Array.from(crypto.getRandomValues(new Uint8Array(16)),byte=>byte.toString(16).padStart(2,"0")).join("");
+ const publish=()=>{
+  for(const [key,value] of entries)localStorage.setItem(progressStorageKey(key,generation),JSON.stringify(value));
+  localStorage.setItem(progressStorageKey(learnerRetentionKey,generation),JSON.stringify(retentionRecord));
+  publishMarker();
+ };
+ const publishMarker=()=>{
+  if(!learnerSessionCurrent())throw new Error("LEARNER_SESSION_CHANGED");
+  localStorage.setItem(learnerGenerationKey,generation);
+ };
+ let resetStartedErasing=false;
+ try{
+  try{publish();}
+  catch(error){
+   if(!reset||error.name!=="QuotaExceededError"||!learnerSessionCurrent())throw error;
+   // Only a confirmed reset may erase the old learner's keys to make room.
+   resetStartedErasing=true;
+   removeStoredLearnerProgress(previous);
+   try{publish();}
+   catch(retryError){
+    if(retryError.name!=="QuotaExceededError")throw retryError;
+    // An empty session still takes effect if only the marker fits.
+    discardStoredLearnerProgress(generation);
+    publishMarker();
+   }
+  }
+ }catch(error){
+  discardStoredLearnerProgress(generation);
+  storageFailures.add(learnerGenerationKey);updateStorageNotice();
+  if(resetStartedErasing&&learnerSessionCurrent()){
+   learnerGeneration=undefined;
+   learnerRevision++;
+   return true;
+  }
+  return false;
+ }
+ learnerGeneration=generation;
+ learnerRevision++;
+ discardStoredLearnerProgress(previous);
+ if(!learnerSessionCurrent())return false;
+ storageFailures.delete(learnerGenerationKey);updateStorageNotice();
+ return true;
+}
+
+function withLearnerReplacement(replace){
+ if(learnerGeneration===undefined||!navigator.locks)return replace(false);
+ let started=false;
+ return navigator.locks.request(learnerGenerationKey,()=>{
+  started=true;
+  return replace(true);
+ }).catch(error=>{
+  if(started)throw error;
+  // Stored generations still isolate writes when Web Locks is unavailable.
+  return replace(false);
+ });
+}
+
 async function importProgressFile(file){
  const status=byId("teacherImportStatus");
- if(!file)return;
+ if(!file||!learnerSessionCurrent())return;
  if(file.size>5000000){status.textContent="El archivo supera el límite de 5 MB.";return;}
+ const revision=learnerRevision;
  try{
   const payload=JSON.parse(await file.text());
+  if(revision!==learnerRevision||!learnerSessionCurrent())return;
   validateImportedProgress(payload);
   const importedWorkshop=await normalizeImportedDrawings(sanitizeImportedWorkshop(payload.workshop));
   const importedProgress={
@@ -1278,50 +1518,77 @@ async function importProgressFile(file){
    learnerName:(payload.learnerName||"").replace(/\s+/g," ").trim().slice(0,80),
    final:{passed:payload.final?.passed===true},itineraries:sanitizeItineraries(payload.itineraries),activities:prepareImportedActivityState(payload)
   };
+  if(revision!==learnerRevision||!learnerSessionCurrent())return;
   if(!confirm("¿Quieres sustituir el progreso de este navegador por el del archivo seleccionado?")){status.textContent="Importación cancelada.";return;}
-  // El estado anterior solo se sustituye después de preparar todo el archivo.
-  clearLearnerResponses();
-  sourcePassed=importedProgress.sourcePassed;truthPassed=importedProgress.truthPassed;earned=importedProgress.earned;
-  learningLevel=importedProgress.learningLevel;learnerName=importedProgress.learnerName;
-  workshopState=importedWorkshop;
-  finalState=importedProgress.final;
-  itineraries=importedProgress.itineraries;saveItineraries();
-  window.MitoMapaJourney?.importState(importedProgress.activities.journey);
-  window.MitoMapaStories?.importState(importedProgress.activities.stories);
-  window.MitoMapaCompare?.importState(importedProgress.activities.comparison);
-  window.MitoMapaExplorer?.reset();
-  window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
-  save();savePreferences();saveWorkshopState();saveFinalState();
-  renderRoutes();setLearningLevel(learningLevel,false);updateTeacherDialog();updateFinalExperience();
-  window.MitoMapaNavigation?.refresh();
-  status.textContent="Seguimiento cargado correctamente.";
- }catch(error){status.textContent=error.message==="DRAWING_INVALID"?"No se pudo cargar: contiene un dibujo dañado, animado o demasiado grande. Se conserva el progreso anterior.":"No se pudo cargar: el archivo no tiene un formato válido del MitoMapa.";}
+  await withLearnerReplacement(locked=>{
+   if(revision!==learnerRevision||!learnerSessionCurrent())return;
+   const storedProgress={sourcePassed:[...importedProgress.sourcePassed],truthPassed:[...importedProgress.truthPassed],earned:[...importedProgress.earned]};
+   const preferences={readerMode,learningLevel:importedProgress.learningLevel,learnerName:importedProgress.learnerName,lastRouteId:null,selectedVoiceURI,narrationAmbient};
+   if(!replaceLearnerProgress([
+    [storageKey,storedProgress],[preferencesKey,preferences],[workshopStorageKey,importedWorkshop],[finalStorageKey,importedProgress.final],
+    [itineraryKey,importedProgress.itineraries],[journeyProgressKey,importedProgress.activities.journey],
+    [sequenceProgressKey,importedProgress.activities.stories],[comparisonProgressKey,importedProgress.activities.comparison]
+   ],{locked})){
+    status.textContent="No se pudo guardar el seguimiento en este navegador.";
+    return;
+   }
+   clearLearnerResponses();
+   sourcePassed=importedProgress.sourcePassed;truthPassed=importedProgress.truthPassed;earned=importedProgress.earned;
+   learningLevel=importedProgress.learningLevel;learnerName=importedProgress.learnerName;lastRouteId=null;
+   workshopState=importedWorkshop;
+   finalState=importedProgress.final;
+   itineraries=importedProgress.itineraries;
+   window.MitoMapaJourney?.importState(importedProgress.activities.journey);
+   window.MitoMapaStories?.importState(importedProgress.activities.stories);
+   window.MitoMapaCompare?.importState(importedProgress.activities.comparison);
+   window.MitoMapaExplorer?.reset();
+   window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
+   renderRoutes();setLearningLevel(learningLevel,false);updateTeacherDialog();updateFinalExperience();
+   window.MitoMapaNavigation?.refresh({remember:false});
+   status.textContent=learnerGeneration===undefined?"Seguimiento cargado en esta pestaña. El navegador no permite guardarlo.":"Seguimiento cargado correctamente.";
+  });
+ }catch(error){if(revision===learnerRevision&&learnerSessionCurrent())status.textContent=error.message==="DRAWING_INVALID"?"No se pudo cargar: contiene un dibujo dañado, animado o demasiado grande. Se conserva el progreso anterior.":"No se pudo cargar: el archivo no tiene un formato válido del MitoMapa.";}
 }
 
 function clearPrintMode(){
+ document.documentElement.classList.remove("print-session-unverified");
  document.body.classList.remove("print-diploma","print-passport");
 }
 
-function printDiploma(){
- if(currentBadgeCount()!==routes.length||!finalState.passed)return;
- const name=learnerName||"Explorador o exploradora del MitoMapa";
- byId("diplomaPrintName").textContent=name;
+function prepareDiploma(){
  byId("diplomaPrintDate").textContent=new Intl.DateTimeFormat("es-ES",{dateStyle:"long"}).format(new Date());
  byId("diplomaPrintBadges").innerHTML=routes.map(route=>`<img src="${ASSETS[route.badge]}" alt="">`).join("");
+}
+
+function showDiplomaPreview(){
+ if(!learnerSessionCurrent()||currentBadgeCount()!==routes.length)return;
+ prepareDiploma();
+ const sheet=byId("diplomaPrint").querySelector(".diploma-sheet").cloneNode(true);
+ sheet.querySelectorAll("[id]").forEach(element=>element.removeAttribute("id"));
+ byId("diplomaPreview").replaceChildren(sheet);
+ ["passportDialog","badgeDialog"].forEach(id=>{const dialog=byId(id);if(dialog?.open)closeDialog(dialog);});
+ openDialog(byId("diplomaDialog"));
+}
+
+function printDiploma(){
+ if(!learnerSessionCurrent()||currentBadgeCount()!==routes.length)return;
+ ["passportDialog","diplomaDialog"].forEach(id=>{const dialog=byId(id);if(dialog?.open)closeDialog(dialog);});
+ prepareDiploma();
  document.body.classList.add("print-diploma");
- requestAnimationFrame(()=>window.print());
+ requestAnimationFrame(()=>{if(learnerSessionCurrent())window.print();else clearPrintMode();});
 }
 
 function printPassport(){
+ if(!learnerSessionCurrent())return;
  const grid=byId("passportPrintGrid");
  grid.innerHTML=routes.map(route=>`<article class="passport-print-slot ${badgeCountsForLevel(route.id)?"earned":""}"><img src="${ASSETS[route.badge]}" alt=""><h3>${activityEscape(route.island)}</h3><p>${badgeCountsForLevel(route.id)?activityEscape(route.badgeName):"Pieza pendiente"}</p></article>`).join("");
  byId("passportPrintName").textContent=(learnerName?`de ${learnerName}`:"del MitoMapa")+` · ${learningLevelLabel()} · requisitos de la etapa seleccionada`;
  document.body.classList.add("print-passport");
- requestAnimationFrame(()=>window.print());
+ requestAnimationFrame(()=>{if(learnerSessionCurrent())window.print();else clearPrintMode();});
 }
 
 function resetV34State(){
- finalState={passed:false};learnerName="";
+ finalState={passed:false};learnerName="";lastRouteId=null;
  itineraries=sanitizeItineraries({});saveItineraries();
  saveFinalState();
  byId("finalMatchGrid")?.querySelectorAll("select").forEach(select=>{select.value="";select.closest(".final-match-item")?.removeAttribute("data-result");});
@@ -1335,6 +1602,8 @@ function resetV34State(){
 // la persona anterior, ni siquiera en actividades que no se exportan.
 function clearLearnerResponses(){
  stopNarration();
+ clearPrintMode();
+ byId("passportPrintName").textContent="";
  window.MitoMapaLearning?.reset?.();
  window.MitoMapaNavigation?.resetResume?.();
  document.querySelectorAll(".route .quiz").forEach(quiz=>{
@@ -1356,18 +1625,49 @@ function clearLearnerResponses(){
 }
 
 function resetProgress(){
+ if(!learnerSessionCurrent())return;
+ const revision=learnerRevision;
  if(!confirm("¿Quieres borrar los retos, las piezas, el gran reto, el cuaderno y las nuevas actividades guardadas en este navegador?"))return;
- sourcePassed.clear();truthPassed.clear();earned.clear();
- try{localStorage.removeItem(legacyKey);}catch(error){}
- clearLearnerResponses();resetV34State();window.MitoMapaJourney?.reset();resetAllWorkshops();
- document.querySelectorAll(".route").forEach(applyLearningLevelToRoute);
- window.MitoMapaStories?.reset();window.MitoMapaCompare?.reset();window.MitoMapaExplorer?.reset();window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
- shuffle();save();updateProgress();updateTeacherDialog();syncTeacherScroll();
- if(byId("teacherImportStatus"))byId("teacherImportStatus").textContent="Progreso reiniciado. No quedan respuestas de la sesión anterior.";
+ return withLearnerReplacement(locked=>{
+  if(revision!==learnerRevision||!learnerSessionCurrent())return;
+  const status=byId("teacherImportStatus");
+  const wasUsingStorage=learnerGeneration!==undefined;
+  const preferences={readerMode,learningLevel,learnerName:"",lastRouteId:null,selectedVoiceURI,narrationAmbient};
+  if(!replaceLearnerProgress([[preferencesKey,preferences]],{locked,reset:true})){
+   status.textContent="No se pudo reiniciar el progreso guardado en este navegador.";
+   return;
+  }
+  sourcePassed.clear();truthPassed.clear();earned.clear();
+  clearLearnerResponses();resetV34State();window.MitoMapaJourney?.reset();resetAllWorkshops();
+  document.querySelectorAll(".route").forEach(applyLearningLevelToRoute);
+  window.MitoMapaStories?.reset();window.MitoMapaCompare?.reset();window.MitoMapaExplorer?.reset();window.MitoMapaNames?.reset();window.MitoMapaPieces?.reset();
+  shuffle();save();updateProgress();updateTeacherDialog();syncTeacherScroll();
+  if(learnerGeneration!==undefined)status.textContent="Progreso reiniciado. No quedan respuestas de la sesión anterior.";
+  else if(wasUsingStorage)status.textContent="Progreso borrado en esta pestaña. El navegador no pudo completar el reinicio. Cierra las otras pestañas de MitoMapa.";
+  else status.textContent="Progreso reiniciado en esta pestaña. El navegador no permite guardarlo.";
+ });
 }
 
 function setupV34Features(){
- byId("storageExportHelp")?.addEventListener("click",()=>{updateTeacherDialog();window.MitoMapaTeacher?.show("tools",{focus:false});openDialog(byId("teacherDialog"));byId("exportProgress")?.focus();});
+ const teacherDialog=byId("teacherDialog");
+ let teacherOpener;
+ function openTeacherSpace(panel, control, opener){
+  if(!teacherDialog.open){
+   teacherOpener=opener;
+   updateTeacherDialog();
+   window.MitoMapaTeacher?.show(panel,{focus:false});
+   openDialog(teacherDialog);
+  }
+  window.MitoMapaTeacher?.show(panel,{focus:!control});
+  if(control)window.MitoMapaTeacher?.focusControl(byId(control));
+ }
+ teacherDialog.addEventListener("close",()=>{
+  const opener=teacherOpener?.getClientRects().length ? teacherOpener : byId("openTeacher");
+  opener?.focus({preventScroll:true});
+  teacherOpener=null;
+ });
+ byId("storageExportHelp")?.addEventListener("click",event=>openTeacherSpace("tools","exportProgress",event.currentTarget));
+ byId("teacherSaveHelp")?.addEventListener("click",()=>openTeacherSpace("tools","exportProgress"));
  byId("teacherProgressBody")?.addEventListener("change",event=>{
   const input=event.target,d=input.dataset,id=d.reviewRoute||d.taskRoute||d.assignRoute||d.evidenceRoute||d.externalRoute||d.flexibleRoute;
   if(!validIds.has(id))return;
@@ -1389,9 +1689,10 @@ function setupV34Features(){
  });
  renderFinalChallenge();
  byId("checkFinalChallenge")?.addEventListener("click",checkFinalChallenge);
- byId("diplomaName")?.addEventListener("change",event=>syncLearnerName(event.target.value));
  byId("printDiploma")?.addEventListener("click",printDiploma);
- byId("openTeacher")?.addEventListener("click",()=>{updateTeacherDialog();window.MitoMapaTeacher?.show("guide",{focus:false});openDialog(byId("teacherDialog"));window.MitoMapaTeacher?.show("guide");});
+ byId("printDiplomaPreview")?.addEventListener("click",printDiploma);
+ byId("closeDiploma")?.addEventListener("click",()=>closeDialog(byId("diplomaDialog")));
+ byId("openTeacher")?.addEventListener("click",event=>openTeacherSpace("guide",null,event.currentTarget));
  byId("closeTeacher")?.addEventListener("click",()=>closeDialog(byId("teacherDialog")));
  byId("teacherLearnerName")?.addEventListener("change",event=>syncLearnerName(event.target.value));
  byId("exportProgress")?.addEventListener("click",exportProgress);
@@ -1399,6 +1700,7 @@ function setupV34Features(){
  byId("importProgressFile")?.addEventListener("change",event=>{importProgressFile(event.target.files?.[0]);event.target.value="";});
  byId("printPassport")?.addEventListener("click",printPassport);
  window.addEventListener("afterprint",clearPrintMode);
+ window.addEventListener("beforeprint",()=>{if(!learnerSessionCurrent()){clearPrintMode();document.documentElement.classList.add("print-session-unverified");}});
  setLearningLevel(learningLevel,false);updateFinalExperience();
 }
 function enhanceRoute(section,route){
@@ -1467,6 +1769,7 @@ function renderRoutes(){
  updateProgress();refreshVoices();
 }
 function checkSource(id){
+ const previousCount=currentBadgeCount();
  const route=routes.find(item=>item.id===id),box=byId(`source-${id}`);let correct=0,complete=true,firstIncomplete=-1,firstIncorrect=-1;
  route.quick.forEach((question,index)=>{
   const choice=box.querySelector(`input[name="source-${id}-${index}"]:checked`),feedback=box.querySelectorAll(".feedback")[index];
@@ -1481,10 +1784,11 @@ function checkSource(id){
  if(correct===route.quick.length){sourcePassed.add(id);save();status.textContent=`Resultado: ${correct} de ${route.quick.length}. Comprensión superada.`;}
  else{status.textContent=`Resultado: ${correct} de ${route.quick.length}. Revisa las pistas e inténtalo de nuevo.`;box._showQuestion?.(firstIncorrect,{focus:true});}
  updateProgress();
- if(badgeRequirementsMet(id))tryAward(id);
+ if(badgeRequirementsMet(id))tryAward(id,previousCount);
  else if(sourcePassed.has(id))status.textContent+=" Ahora supera «Reto de la pieza».";
 }
 function checkQuiz(id){
+ const previousCount=currentBadgeCount();
  const route=routes.find(item=>item.id===id),box=byId(`quiz-${id}`);let correct=0,complete=true,firstIncomplete=-1,firstIncorrect=-1;
  route.questions.forEach((question,index)=>{
   const choice=box.querySelector(`input[name="truth-${id}-${index}"]:checked`),feedback=box.querySelectorAll(".feedback")[index];
@@ -1499,7 +1803,7 @@ function checkQuiz(id){
  if(correct===route.questions.length){truthPassed.add(id);save();status.textContent="Resultado: 3 de 3. Reto superado.";}
  else{status.textContent=`Resultado: ${correct} de 3. Revisa las pistas e inténtalo de nuevo.`;box._showQuestion?.(firstIncorrect,{focus:true});}
  updateProgress();
- if(badgeRequirementsMet(id))tryAward(id);
+ if(badgeRequirementsMet(id))tryAward(id,previousCount);
  else if(truthPassed.has(id))status.textContent+=" Ahora supera «Comprendemos el cuento».";
 }
 const cols=4,rows=3;let order=[],selected=null,dragPosition=null;
@@ -1546,13 +1850,20 @@ byId("dismissBadge").addEventListener("click",()=>closeDialog(byId("badgeDialog"
 byId("resetProgress").addEventListener("click",resetProgress);
 if(speechSupported){window.speechSynthesis.addEventListener?.("voiceschanged",refreshVoices);refreshVoices();}
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&narrationState.routeId&&!narrationState.paused)toggleNarrationPause(narrationState.routeId);});
-window.addEventListener("pagehide",()=>stopNarration());
+window.addEventListener("pagehide",event=>{
+ stopNarration();
+ if(event.persisted){
+  awaitingLearnerResume=true;
+  document.documentElement.style.visibility="hidden";
+ }
+});
 window.MitoMapaReading?.init({readJSON,writeJSON});
 window.MitoMapaLearning?.init({openStory:(id,options={})=>{
  if(!validIds.has(id))return;
  showRoute(id,{step:"cuento"});
  const section=byId(`route-${id}`),target=typeof options.paragraphId==="string"?byId(options.paragraphId):null;
  if(target&&section?.contains(target)&&target.matches("[data-learning-fragment]")){
+  section.querySelector('.format-options input[value="audio-text"]')?.click();
   target.scrollIntoView({block:"center",behavior:"auto"});target.focus({preventScroll:true});
  }
 }});
@@ -1566,12 +1877,15 @@ window.MitoMapaPieces?.mount({routes,assets:ASSETS});
 // Recuperar la ruta acordada antes de resolver un enlace directo a Crear.
 window.MitoMapaJourney?.init({routes,getLevel:()=>learningLevel,isReviewed:id=>itineraryFor(id).reviewed,assignment:id=>itineraryFor(id),badgeCount:currentBadgeCount,readJSON,writeJSON,onChange:()=>updateItineraryUI()});
 window.MitoMapaNavigation?.mount({routes,openRoute:showRoute,stopNarration,lastRoute:()=>lastRouteId,readJSON,writeJSON});
-window.MitoMapaTeacher?.init({setLevel:level=>{setLearningLevel(level);updateTeacherDialog();},refresh:syncTeacherScroll});
+window.MitoMapaTeacher?.init({routes,setLevel:level=>{setLearningLevel(level);updateTeacherDialog();},refresh:syncTeacherScroll});
 window.MitoMapaJourney?.refresh();
 
 // Ajustar el salto a la altura real de la cabecera, también al ampliar el texto.
 function updateHeaderOffset(){const header=document.querySelector("header"),navigation=document.querySelector(".main-navigation");if(header){const height=Math.ceil(header.getBoundingClientRect().height);document.documentElement.style.setProperty("--topbar-height",`${height}px`);document.documentElement.style.setProperty("--header-offset",`${height+Math.ceil(navigation?.getBoundingClientRect().height||0)+24}px`);}}
-if(typeof ResizeObserver!=="undefined"){const header=document.querySelector("header");if(header)new ResizeObserver(updateHeaderOffset).observe(header);}
+if(typeof ResizeObserver!=="undefined"){
+  const headerResizeObserver=new ResizeObserver(updateHeaderOffset);
+  document.querySelectorAll("header.topbar,.main-navigation").forEach(element=>headerResizeObserver.observe(element));
+}
 window.addEventListener("resize",updateHeaderOffset);updateHeaderOffset();updateStorageNotice();
 
 // Controles alternativos para barras horizontales ocultas por el sistema.
@@ -1579,11 +1893,13 @@ function syncTeacherScroll(){
  const box=byId("teacherTableViewport"),controls=byId("teacherScrollControls");if(!box||!controls)return;
  const remaining=box.scrollWidth-box.clientWidth;
  controls.hidden=remaining<=1;
- byId("teacherScrollLeft").disabled=box.scrollLeft<=1;
- byId("teacherScrollRight").disabled=remaining-box.scrollLeft<=1;
+ byId("teacherScrollLeft").setAttribute("aria-disabled",String(box.scrollLeft<=1));
+ byId("teacherScrollRight").setAttribute("aria-disabled",String(remaining-box.scrollLeft<=1));
 }
 function moveTeacherColumns(direction){
- const box=byId("teacherTableViewport");if(!box)return;
+ const box=byId("teacherTableViewport");
+ const control=byId(direction<0?"teacherScrollLeft":"teacherScrollRight");
+ if(!box||control?.getAttribute("aria-disabled")==="true")return;
  box.scrollBy({left:direction*Math.max(180,box.clientWidth*.7),behavior:window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches?"auto":"smooth"});
 }
 byId("teacherScrollLeft")?.addEventListener("click",()=>moveTeacherColumns(-1));
@@ -1594,7 +1910,6 @@ window.addEventListener("resize",syncTeacherScroll);
 if(typeof ResizeObserver!=="undefined"&&byId("teacherTableViewport"))new ResizeObserver(syncTeacherScroll).observe(byId("teacherTableViewport"));
 
 /* Opinión voluntaria: no recoge nombres ni envía respuestas automáticamente. */
-const feedbackConfigKey="mitomapa-canario-formulario-web-v1";
 const feedbackLabels=["Me ha resultado fácil usar la herramienta.","Las instrucciones y las explicaciones me han ayudado.","Las imágenes y los textos se han visto con claridad.","La actividad me ha ayudado a comprender los cuentos y el patrimonio.","He disfrutado la actividad y estoy satisfecho/a con la experiencia."];
 function validFeedbackURL(value){try{const u=new URL(String(value).trim());return u.protocol==="https:"&&(u.hostname==="forms.gle"||u.hostname==="docs.google.com"&&/^\/forms\/(?:d\/e\/[^/]+\/viewform|d\/[^/]+\/viewform)/.test(u.pathname))?u.href:"";}catch(error){return "";}}
 function applyFeedbackURL(value){const url=validFeedbackURL(value),link=byId("openWebFeedback");if(link){link.hidden=!url;if(url)link.href=url;else link.removeAttribute("href");}const input=byId("webFeedbackURL");if(input)input.value=url;}
@@ -1607,6 +1922,22 @@ byId("downloadFeedback").addEventListener("click",()=>{
  const liked=document.querySelector('[data-feedback-open="liked"]').value.trim(),improve=document.querySelector('[data-feedback-open="improve"]').value.trim();
  if(ratings.every(r=>r.response===null)&&!liked&&!improve){byId("feedbackStatus").textContent="Responde al menos una pregunta de la escala o escribe un comentario antes de descargar tu valoración.";return;}
  const response={resource:"MitoMapa web",version:RESOURCE_VERSION,schemaVersion:EXPORT_SCHEMA_VERSION,stage:learningLevelLabel(),ratings,liked,improve};
- downloadLocalText(JSON.stringify(response,null,2),"valoracion-mitomapa-web.json","application/json");
- byId("feedbackStatus").textContent="Valoración preparada para descargar. Si quieres compartirla con MitoMapa, abre «Enviar valoración por correo» y adjunta manualmente el archivo descargado.";
+ if(downloadLocalText(JSON.stringify(response,null,2),"valoracion-mitomapa-web.json","application/json")){
+  byId("feedbackStatus").textContent="Valoración preparada para descargar. Si quieres compartirla con MitoMapa, abre «Enviar valoración por correo» y adjunta manualmente el archivo descargado.";
+ }
 });
+
+window.addEventListener("storage",event=>{
+ if(event.key!==learnerGenerationKey&&event.key!==null)return;
+ if(event.key===learnerGenerationKey&&event.oldValue!==learnerGeneration)discardStoredLearnerProgress(event.oldValue);
+ learnerSessionCurrent();
+});
+window.addEventListener("focus",reconcileLearnerView);
+window.addEventListener("pageshow",reconcileLearnerView);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)reconcileLearnerView();});
+if(initialRetention.expired)invalidateLearnerView();
+else{
+ scheduleLearnerExpiry(initialRetention);
+ learnerSessionCurrent();
+ collectAbandonedLearnerProgress();
+}

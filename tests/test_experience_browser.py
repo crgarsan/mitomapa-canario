@@ -135,6 +135,7 @@ class ExperienceBrowserTest(unittest.TestCase):
         self.assertEqual(self.page.locator("#passportCount").text_content(), "1/8")
         self.page.locator("#openTeacher").click()
         self.page.evaluate("document.getElementById('resetProgress').click()")
+        self.page.wait_for_function("()=>document.getElementById('teacherImportStatus').textContent.includes('Progreso reiniciado')")
         self.assertEqual(self.page.locator("#passportCount").text_content(), "0/8")
         self.assertEqual(self.page.locator(".route .question input[type=radio]:checked").count(), 0)
         self.assertEqual(self.page.locator(".route .feedback.ok,.route .feedback.ko,.reward.show,.route-step.complete").count(), 0)
@@ -202,6 +203,7 @@ class ExperienceBrowserTest(unittest.TestCase):
         requests = []
         self.page.on("request", lambda request: requests.append(request.url) if request.url.endswith(("/narracion.mp3", "/narracion-con-fondo.m4a")) else None)
         self.page.goto(self.base + "#isla/tenerife/cuento", wait_until="networkidle")
+        self.page.locator("#route-tenerife").get_by_role("radio", name="Audio y texto", exact=True).check()
         narrator = self.page.locator("#route-tenerife .narrator")
         self.assertEqual(requests, [])
         self.assertTrue(narrator.locator(".narration-seek").is_disabled())
@@ -238,6 +240,7 @@ class ExperienceBrowserTest(unittest.TestCase):
     def test_failed_recording_leaves_position_controls_disabled(self):
         self.page.route(NARRATION_REQUESTS, lambda route: route.abort())
         self.page.goto(self.base + "#isla/tenerife/cuento", wait_until="networkidle")
+        self.page.locator("#route-tenerife").get_by_role("radio", name="Audio y texto", exact=True).check()
         narrator = self.page.locator("#route-tenerife .narrator")
         narrator.locator(".narration-play").click()
         self.page.wait_for_function("()=>document.querySelector('#route-tenerife .narration-status').textContent.includes('No se pudo')")
@@ -260,6 +263,7 @@ class ExperienceBrowserTest(unittest.TestCase):
             self.page.route(NARRATION_REQUESTS, hold_audio_fetch)
         self.no_range_navigation = getattr(self, "no_range_navigation", 0) + 1
         response = self.page.goto(self.no_range_base + f"?audio-test={self.no_range_navigation}#isla/tenerife/cuento", wait_until="networkidle")
+        self.page.locator("#route-tenerife").get_by_role("radio", name="Audio y texto", exact=True).check()
         self.assertIn("connect-src 'self'", response.headers["content-security-policy"])
         self.assertIn("blob:", response.headers["content-security-policy"])
         self.assertEqual(self.page.evaluate("window.__audioAudit.fetches.length"), 0)

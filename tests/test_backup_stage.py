@@ -20,6 +20,7 @@ class BackupStageTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / 'source'
         self.root.mkdir()
+        self.inventory = self.root.parent / 'release-paths.json'
         self.stage = self.root / '.backup'
         self.files = {
             'index.html': '<html><head><title>MitoMapa</title></head><body><h1>MitoMapa Canario</h1><video src="/media/isla/cuento.mp4"></video><a href="downloads/current.elpx">Actual</a><a href="downloads/historical.elpx">Anterior</a><script src="/app.js"></script></body></html>',
@@ -64,11 +65,13 @@ class BackupStageTests(unittest.TestCase):
             path.write_bytes(payload.encode() if isinstance(payload, str) else payload)
         sums = ''.join(f'{sha256((self.root / name).read_bytes()).hexdigest()}  {name}\n' for name in sorted(self.files))
         (self.root / 'SHA256SUMS.txt').write_text(sums)
+        self.inventory.write_text(json.dumps(sorted([*self.files, 'SHA256SUMS.txt'])))
 
-    def run_stage(self, *extra):
+    def run_stage(self, *extra, commit='a'*40):
+        source_commit = ['--source-commit', commit] if commit is not None else []
         return subprocess.run([sys.executable, str(SCRIPT), '--root', str(self.root),
             '--output', str(self.stage), '--primary-url', 'https://primary.example/',
-            '--base-path', '/backup-repo/', '--source-commit', 'a'*40, *extra],
+            '--base-path', '/backup-repo/', '--inventory', str(self.inventory), *source_commit, *extra],
             text=True, capture_output=True)
 
     def test_stage_excludes_history_and_private_files_but_keeps_runtime_media(self):
@@ -108,6 +111,18 @@ class BackupStageTests(unittest.TestCase):
         for name, expected in entries.items():
             self.assertEqual(sha256((self.stage / name).read_bytes()).hexdigest(), expected, name)
 
+    def test_export_backup_requires_its_own_source_commit(self):
+        parent = self.root.parent
+        subprocess.run(['git', '-C', parent, 'init', '-q'], check=True, capture_output=True)
+        subprocess.run(['git', '-C', parent, '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
+                        'commit', '--allow-empty', '--no-gpg-sign', '-qm', 'Unrelated parent commit'],
+                       check=True, capture_output=True)
+
+        result = self.run_stage(commit=None)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('--source-commit', result.stderr)
+        self.assertFalse(self.stage.exists())
+
     def test_media_mismatch_fails_before_replacing_an_existing_backup(self):
         self.stage.mkdir(); (self.stage / 'previous.txt').write_text('keep me')
         self.files['media/isla/cuento.mp4'] = b'tampered-media'
@@ -116,6 +131,15 @@ class BackupStageTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('media', result.stderr.lower())
         self.assertEqual((self.stage / 'previous.txt').read_text(), 'keep me')
+
+    def test_backup_requires_media_to_be_in_the_public_inventory(self):
+        sums = self.root / 'SHA256SUMS.txt'
+        sums.write_text(''.join(line for line in sums.read_text().splitlines(keepends=True)
+                                if not line.endswith('media/isla/cuento.mp4\n')))
+        result = self.run_stage()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('media', result.stderr.lower())
+        self.assertFalse(self.stage.exists())
 
     def test_size_limit_fails_without_leaving_a_partial_backup(self):
         result = self.run_stage('--max-bytes', '100')
@@ -196,6 +220,92 @@ class BackupStageTests(unittest.TestCase):
             self.assertEqual((self.stage / name).read_bytes(), (self.root / name).read_bytes())
             self.assertIn('href="' + name + '"', staged)
             self.assertNotIn('href="https://primary.example/' + name + '"', staged)
+
+    def test_pintadera_viewer_keeps_relative_paths_under_the_pages_prefix(self):
+        name = 'pintaderas-visor.js'
+        module = (SCRIPT.parent.parent / name).read_bytes()
+        self.files[name] = module
+        self.write_fixture()
+        result = self.run_stage()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.stage / name).read_bytes(), module)
+
+    def test_pintadera_downloads_stay_on_the_independent_backup(self):
+        prefix = 'downloads/pintaderas-3d'
+        slugs = ('chevron', 'circulos', 'dentada', 'doble_triangulo', 'espiral_cuadrada',
+                 'rombos', 'roseta', 'seis_triangulos', 'sol', 'triangulo')
+        models = {}
+        for group in ('recreaciones', 'sellos'):
+            models[f'{prefix}/{group}.zip'] = b'example archive for staging'
+            for slug in slugs:
+                models[f'{prefix}/{group}/pintadera_{slug}.stl'] = f'{group} {slug}'.encode()
+        self.files.update(models)
+        self.files['PINTADERAS_3D.json'] = json.dumps({'version': 1, 'files': {
+            name: {'sha256': sha256(payload).hexdigest(), 'bytes': len(payload)}
+            for name, payload in models.items()
+        }})
+        self.files['index.html'] += ''.join(f'<a href="{name}" download>Descargar</a>' for name in models)
+        self.write_fixture()
+        result = self.run_stage()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        staged = (self.stage / 'index.html').read_text()
+        for name, payload in models.items():
+            self.assertEqual((self.stage / name).read_bytes(), payload)
+            self.assertIn(f'href="{name}" download', staged)
+
+    def test_vasija_download_and_viewer_stay_local_under_the_pages_prefix(self):
+        model = 'downloads/vasija/vasija_canaria.stl'
+        unrelated = 'downloads/vasija/otro_modelo.stl'
+        viewer = 'vasija-visor.js'
+        module = (SCRIPT.parent.parent / viewer).read_bytes()
+        self.files.update({
+            model: b'example binary model',
+            unrelated: b'not selected for release',
+            viewer: module,
+            'pintaderas-visor.css': b'/* viewer layout */',
+            'assets/vasija/ficha.json': '{}',
+            'assets/vasija/vistas.webp': b'example fallback image',
+        })
+        collection = {'downloads/vasijas/coleccion.zip': b'example collection archive'}
+        for slug in ('gran-canaria', 'la-palma', 'lanzarote', 'fuerteventura', 'la-gomera', 'el-hierro'):
+            collection[f'downloads/vasijas/{slug}.stl'] = slug.encode()
+            self.files[f'assets/vasijas/{slug}.webp'] = b'example fallback image'
+        self.files['assets/vasijas/coleccion.json'] = '[]'
+        self.files.update(collection)
+        self.files['downloads/vasijas/otro_modelo.stl'] = b'not selected for release'
+        self.files['index.html'] += ''.join(
+            f'<a href="{name}" download>Descargar</a>' for name in (model, *collection)
+        )
+        self.write_fixture()
+
+        result = self.run_stage()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.stage / model).read_bytes(), self.files[model])
+        self.assertEqual((self.stage / viewer).read_bytes(), module)
+        self.assertIn(f'href="{model}" download', (self.stage / 'index.html').read_text())
+        for name, payload in collection.items():
+            self.assertEqual((self.stage / name).read_bytes(), payload)
+            self.assertIn(f'href="{name}" download', (self.stage / 'index.html').read_text())
+        self.assertFalse((self.stage / unrelated).exists())
+        self.assertFalse((self.stage / 'downloads/vasijas/otro_modelo.stl').exists())
+
+    def test_lapa_model_and_viewer_stay_local_under_the_pages_prefix(self):
+        model = 'downloads/lapa-blanca/lapa-blanca-la-graciosa.stl'
+        other = 'downloads/lapa-blanca/otro_modelo.stl'
+        self.files.update({
+            model: b'example binary model',
+            other: b'not selected for release',
+            'lapa-visor.js': b'/* example viewer */',
+            'assets/lapa-blanca/miniatura.webp': b'thumbnail',
+            'assets/lapa-blanca/vistas.webp': b'fixed views',
+        })
+        self.files['index.html'] += f'<a href="{model}" download>Descargar STL</a>'
+        self.write_fixture()
+        result = self.run_stage()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.stage / model).read_bytes(), self.files[model])
+        self.assertIn(f'href="{model}" download', (self.stage / 'index.html').read_text())
+        self.assertFalse((self.stage / other).exists())
 
     def test_staged_safe_local_url_preserves_slash_splitting_and_rejects_traversal(self):
         node = shutil.which('node')

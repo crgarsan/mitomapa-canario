@@ -1,5 +1,5 @@
 {
-  "web_version": "4.9.3",
+  "web_version": "4.10.0",
   "rea_exelearning_version": "4.8.9",
   "exelearning_runtime_version": "4.0.5",
   "prepared_at": "2026-11-02",
@@ -8,7 +8,7 @@
     "sha256": "2b595cc0851d78dec66dd4e595e4ced9a9be012955986f14cba37ce32750fb8a",
     "bytes": 25876757
   },
-  "previous_web_version": "4.9.2",
+  "previous_web_version": "4.9.4",
   "previous_rea_version": "4.8.8",
   "public_download_before_update": "4.4.0 — edición original",
   "deployment_format": "static_assets_root",
@@ -34,7 +34,7 @@
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0.elpx",
     "downloads/MitoMapa_canario_REA_eXeLearning_v4_0_1.elpx"
   ],
-  "release_notes": "CAMBIOS_WEB_4_9_3.md",
+  "release_notes": "CAMBIOS_WEB_4_10_0.md",
   "rea_release_notes": "CAMBIOS_REA_4_8_9.md",
   "rea_edition": "Adaptación GobCan",
   "rea_structure": {
@@ -110,13 +110,13 @@
     "qualitative_checklists_score_enabled": false
   },
   "sharing_archive": {
-    "path": "downloads/MitoMapa_REA_v4_9_3.zip",
+    "path": "downloads/MitoMapa_REA_v4_10_0.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "06c449c1b4ff30b3148ccccab9f3239cb13e2767d451353a08b374d23a60ea74",
-    "bytes": 25707661
+    "sha256": "1cd427b882d1f1349f991b8f268dad261adc121c04e1bf860e7c68b1d9f984f9",
+    "bytes": 25709630
   },
   "source_archive": {
-    "path": "downloads/MitoMapa_fuentes_web_v4_9_3.zip",
+    "path": "downloads/MitoMapa_fuentes_web_v4_10_0.zip",
     "contains_elpx": false,
     "story_media_manifest": "MEDIA_MANIFEST.json",
     "story_media_separate": true
@@ -178,7 +178,7 @@
     "group_address": "ustedes",
     "cover_layout": "four_badges_map_four_badges"
   },
-  "release_version": "4.9.3",
+  "release_version": "4.10.0",
   "passport_icons_revision": {
     "date": "2026-10-22",
     "vessel_count": 7,
@@ -206,7 +206,7 @@
     "counts_towards_passport": false,
     "source_reference": "FUENTES_CUENTOS.html#ceramica-pasaporte"
   },
-  "web_revision_date": "2026-11-01",
+  "web_revision_date": "2026-11-16",
   "elpx_thumbnail": {
     "path": "assets/images/miniatura_elpx.png",
     "sha256": "614768b1fa733f2b2c155c4508a8446dbcdd94d7bf543abee21bf4c2b2cfbda0",
@@ -297,5 +297,101 @@
     "current_packages_only": true,
     "historical_downloads_unchanged": true,
     "application_unzip_reachability_established": false
+  },
+  "bilingual_revision": {
+    "languages": [
+      "es",
+      "en"
+    ],
+    "english_narrator": "Zeus Plasencia Carballo",
+    "english_page": "index-en.html"
+  },
+  "english_edition": {
+    "language": "en-GB",
+    "base_rea_version": "4.8.9",
+    "download": {
+      "path": "en/downloads/MitoMapa_Canary_Islands_EN.elpx",
+      "sha256": "2ffbc36918dec41c71be10a136c6907a5ffd1dda66f767c3c4af34567d093ec8",
+      "bytes": 25157814
+    },
+    "sharing_archive": {
+      "path": "en/downloads/MitoMapa_Canary_Islands_EN.zip",
+      "sha256": "cd94badc79b344502d0ef937c3f1658f298629f2406b83e8470c5ee7cfab33df",
+      "bytes": 25119315
+    },
+    "declared_editorial_status": "4.8.9",
+    "editorial_status_note": "La etiqueta editorial identifica la edición inglesa del REA. La publicación pública de esta copia se comprueba por sus huellas y fecha de observación; preparar el paquete no acredita un despliegue."
+  },
+  "external_publications": {
+    "production": {
+      "checked_at_utc": "2026-11-17T22:26:29.092821+00:00",
+      "reference_commit": "b4014344450e1862bf1d441df59d824ec2714c22",
+      "artifacts": [
+        {
+          "path": "en/downloads/MitoMapa_Canary_Islands_EN.elpx",
+          "http_status": 200,
+          "bytes": 25157855,
+          "sha256": "9d2e645de970b0fe40984e34b79910bd3f17d72eca295d0d770e670e7acc8072"
+        },
+        {
+          "path": "en/downloads/MitoMapa_Canary_Islands_EN.zip",
+          "http_status": 200,
+          "bytes": 25119356,
+          "sha256": "99ba29952817263751bef3eb7da0f7f2fa37e0e567712f504f4518bfc57bf076"
+        },
+        {
+          "path": "downloads/MitoMapa_canario_GobCan.elpx",
+          "http_status": 200,
+          "bytes": 25876757,
+          "sha256": "2b595cc0851d78dec66dd4e595e4ced9a9be012955986f14cba37ce32750fb8a"
+        },
+        {
+          "path": "downloads/MitoMapa_REA_v4_10_0.zip",
+          "http_status": 200,
+          "bytes": 25707716,
+          "sha256": "7d3cadebc57705e960c1cdc4dc80d52a01d5ecd85e493f2ab9c60f9795c0c0ee"
+        },
+        {
+          "path": "en/downloads/Canary_Islands_Stories.pdf",
+          "http_status": 200,
+          "bytes": 23275566,
+          "sha256": "da0bfb01f61d5b694e963388c058f54a29c19d150e373b8a703d1b9870f54fb5"
+        },
+        {
+          "path": "en/downloads/Canary_Islands_Stories_and_Activities.pdf",
+          "http_status": 200,
+          "bytes": 24640580,
+          "sha256": "c82eb806479e80bb117941830fc6eabdc8d2fb76e9279825ddfc3856d34b55a8"
+        },
+        {
+          "path": "en/downloads/MitoMapa_review_sheet.csv",
+          "http_status": 200,
+          "bytes": 913,
+          "sha256": "72cb85dcfb552a967ffd5205fedaab45fe57343cb3e4ab2bf37956eb8b766607"
+        }
+      ]
+    },
+    "mediateca": {
+      "checked_at_utc": "2026-11-17T22:26:29.092821+00:00",
+      "item_url": "https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363",
+      "announced_title": "MitoMapa canario: ocho islas, ocho piezas",
+      "announced_version": "4.8.4",
+      "announced_version_date": "2026-10-22",
+      "announced_version_source": "Public HTML dcterms:abstract",
+      "download_url": "https://www3.gobiernodecanarias.org/medusa/mediateca/files/original/8723f5c4cd8eb79c892c31fe478fa51015f76f4c.elpx",
+      "download_source": "Public HTML data-elp-url on exelearning viewer for media id 274712",
+      "http_status": 200,
+      "sha256": "cedaa18b42271e02547847800a8fd8a7094ccf9a021892942f5370a3dc25a477",
+      "bytes": 25875879,
+      "embedded_version": "4.8.8",
+      "embedded_revision_date": "2026-10-29",
+      "embedded_runtime_version": "4.0.5",
+      "embedded_version_sources": [
+        "EDITORIAL_MANIFEST.json: edition=4.8.8",
+        "content.xml: Versión y trazabilidad; Objeto de Aprendizaje 4.8.8.; Revisión editorial del 2026-10-29.; Preparado para eXeLearning 4.0.5."
+      ],
+      "source_of_inspection": "Downloaded ELPX bytes held as mediateca-public.elpx; metadata inspected with zipfile without extracting or executing archive contents.",
+      "announced_pilot_status": "Pendiente de aplicación con alumnado"
+    }
   }
 }

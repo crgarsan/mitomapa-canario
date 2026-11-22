@@ -149,8 +149,9 @@
       "", "Nuestra comparación", reflection, "",
       "Para continuar: ¿qué se parece?, ¿qué cambia?, ¿cómo influyen las decisiones de los personajes?"
     ].join("\n");
-    context.downloadText(text, "comparacion-mitomapa.txt", "text/plain;charset=utf-8");
-    controls.saved.textContent = "Comparación preparada para descargar. Compártela si tu docente te lo indica.";
+    if (context.downloadText(text, "comparacion-mitomapa.txt", "text/plain;charset=utf-8")) {
+      controls.saved.textContent = "Comparación preparada para descargar. Compártela si tu docente te lo indica.";
+    }
   }
 
   function init(options) {

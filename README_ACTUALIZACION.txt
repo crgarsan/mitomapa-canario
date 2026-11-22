@@ -1,4 +1,4 @@
-MITOMAPA CANARIO · WEB 4.9.3 · REVISIÓN WEB 02/11/2026
+MITOMAPA CANARIO · WEB 4.10.0
 REA EDITABLE 4.8.9 · REVISIÓN 02/11/2026
 
 WEB PUBLICADA
@@ -6,20 +6,16 @@ https://mitomapacanario.org/
 
 EDITABLE VIGENTE
 downloads/MitoMapa_canario_GobCan.elpx
-Abrir con eXeLearning 4.0.5 o compatible y guardar una copia antes de adaptar.
-Contiene 34 páginas, 118 iDevices, 42 juegos nativos y 16 MP3. Conserva los ocho
-cuentos, las ocho escenas vigentes, las actividades editables, las guías y la
-narración de Jesica. No contiene la aplicación web local ni la incrusta.
-La última página incluye un enlace opcional a la web como recurso extra;
-el Objeto de Aprendizaje nativo y la web son recursos diferenciados.
+Abrir con eXeLearning 4.0.5 y guardar una copia antes de adaptar.
+El ELPX y la web son recursos diferenciados, con seguimientos independientes.
 
 PAQUETES DE ESTA EDICIÓN
-downloads/MitoMapa_REA_v4_9_3.zip: editable ELPX 4.8.9 y documentación actual.
-downloads/MitoMapa_fuentes_web_v4_9_3.zip: fuentes, imágenes, audios y herramientas
-de la web, sin ELPX ni ZIP anidados. Los medios nuevos se recuperan por separado
-con python3 tools/fetch_story_media.py; el origen estático predeterminado es GitHub Pages
-y cada archivo se comprueba con HTTPS, tamaño y SHA-256. Las descargas históricas conservan sus
-direcciones públicas, archivos y condiciones de publicación originales.
+downloads/MitoMapa_REA_v4_10_0.zip: ELPX vigente y documentación de la entrega.
+downloads/MitoMapa_fuentes_web_v4_10_0.zip: fuentes web sin ZIP ni ELPX anidados.
+Los medios nuevos se recuperan con python3 tools/fetch_story_media.py.
+Las huellas de los paquetes se consultan en SHA256SUMS.txt y en el catálogo externo.
+La matriz EDICIONES.md distingue productos, idiomas y publicaciones observadas.
+Las descargas históricas conservan sus archivos, direcciones y condiciones.
 
 REVISIÓN ANTERIOR WEB 4.9.1 / ELPX 4.8.8 · 29/10/2026
 Renderizado de metadatos nativos: texto inerte y formato HTML limitado saneado.

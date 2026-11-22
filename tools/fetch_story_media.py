@@ -5,13 +5,18 @@ import hashlib
 from pathlib import Path
 import tempfile
 from urllib.parse import urljoin, urlsplit
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 from release_support import story_media_inventory
 
 ROOT = Path(__file__).resolve().parent.parent
 # The independent static host serves the pinned HTML without edge-injected scripts.
 PUBLIC_URL = 'https://crgarsan.github.io/mitomapa-canario/'
+
+
+class NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self, request, response, code, message, headers, new_url):
+        return None
 
 
 def secure_base(value):
@@ -22,9 +27,11 @@ def secure_base(value):
     return value.rstrip('/') + '/'
 
 
-def download_media(root=ROOT, base_url=PUBLIC_URL, opener=urlopen):
+def download_media(root=ROOT, base_url=PUBLIC_URL, opener=None):
     base_url = secure_base(base_url)
     media = story_media_inventory(root)
+    # Reject redirects before another request, retaining normal proxy and TLS checks.
+    opener = opener if opener is not None else build_opener(NoRedirect()).open
     count = 0
     for name, expected in sorted(media.items()):
         target = root.joinpath(*name.split('/'))

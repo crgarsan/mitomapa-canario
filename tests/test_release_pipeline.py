@@ -5,6 +5,7 @@ import csv
 from html.parser import HTMLParser
 import json
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -16,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from prepare_deploy import stage_assets
+from release_metadata import document_outputs, version_module
 from release_support import (
     digest, json_bytes, metadata, parse_sums, read_zip, sums_bytes,
     verify_manifest, zip_bytes,
@@ -27,7 +29,8 @@ class ReleasePipelineTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
-        self.root = Path(self.temporary.name)
+        self.root = Path(self.temporary.name) / "release"
+        self.inventory = self.root.parent / "release-paths.json"
         self.version = {
             "web_version": "4.6.0", "rea_exelearning_version": "4.6.0",
             "previous_web_version": "4.5.1",
@@ -37,14 +40,22 @@ class ReleasePipelineTests(unittest.TestCase):
             "release_notes": "CAMBIOS_WEB_4_6_0.md",
             "rea_release_notes": "CAMBIOS_REA_4_6_0.md",
         }
+        self.approved = {self.version[key]["path"] for key in ("sharing_archive", "source_archive")}
         self.write("VERSION.json", json_bytes(self.version))
         self.write("index.html", b'<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>')
-        self.write("version.js", b'window.MitoMapaVersion={web:"4.6.0"};\n')
+        self.write("version.js", version_module(self.version))
+        self.write("VERSION.txt", b"Previous release\n")
+        self.write("README_ACTUALIZACION.txt", b"Previous update notice\n")
+        self.write("README.md", b"# MitoMapa canario\n\n## Edici\xc3\xb3n vigente\n\n- Previous download.\n\n## Classroom\n\nPreserved prose.\n")
+        self.write("EDICIONES.md", b"Previous edition matrix\n")
         self.write("itinerario.js", b"/* current route module */\n")
         self.write("tests/current_test.py", b"# current tests\n")
         self.write("tools/current_tool.py", b"# current tool\n")
         for name in (*DOCUMENTS, self.version["release_notes"], self.version["rea_release_notes"]):
             self.write(name, f"Current document {name}\n".encode())
+        for name in ("GUIA_DOCENTE.html", "GUIA_REUTILIZACION.html"):
+            self.write(name, b'<html><p>Web <span data-release-version="web">4.5.1</span> '
+                            b'REA <span data-release-version="rea">4.5.1</span></p></html>')
         self.old_name = "downloads/MitoMapa_fuentes_web_v4_5_1.zip"
         self.old_payload = zip_bytes({"index.html": b"Historical content"})
         self.write(self.old_name, self.old_payload)
@@ -62,17 +73,37 @@ class ReleasePipelineTests(unittest.TestCase):
         listed = {name: (self.root / name).read_bytes() for name in (self.old_name, "index.html", self.version["download"]["path"])}
         self.write("SHA256SUMS.txt", sums_bytes(listed))
 
-    def write(self, name, payload):
+    def write(self, name, payload, *, approve=True):
         destination = self.root / name
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_bytes(payload)
+        if approve:
+            self.approved.add(name)
+            self.inventory.write_bytes(json_bytes(sorted(self.approved)))
 
     def snapshot(self):
         return {path.relative_to(self.root).as_posix(): (digest(path.read_bytes()), path.stat().st_mtime_ns)
                 for path in self.root.rglob("*") if path.is_file()}
 
+    def test_source_package_keeps_pages_contract_fixtures_and_their_license(self):
+        # The source ZIP ships the backup tests; their offline action metadata
+        # and upstream licence must travel with them, not only provenance JSON.
+        fixtures = {
+            "tests/fixtures/pages-actions/contract.yml": b"runs:\n  using: node24\n",
+            "tests/fixtures/pages-actions/contract.yaml": b"inputs: {}\n",
+            "tests/fixtures/pages-actions/LICENSE": b"MIT fixture licence\n",
+        }
+        for name, payload in fixtures.items():
+            self.write(name, payload)
+        self.write("tests/fixtures/unrelated/config.yml", b"not part of the Pages fixtures\n")
+        update_release(self.root, inventory=self.inventory)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        for name, payload in fixtures.items():
+            self.assertEqual(sources.get(name), payload, name)
+        self.assertNotIn("tests/fixtures/unrelated/config.yml", sources)
+
     def test_packages_preserve_history_and_check_is_read_only(self):
-        update_release(self.root)
+        update_release(self.root, inventory=self.inventory)
         self.assertEqual((self.root / self.old_name).read_bytes(), self.old_payload)
         public = parse_sums((self.root / "SHA256SUMS.txt").read_text())
         self.assertIn(self.old_name, public)
@@ -87,26 +118,164 @@ class ReleasePipelineTests(unittest.TestCase):
         self.assertNotIn("sha256", internal_version["sharing_archive"])
         self.assertIn("sha256", internal_version["download"])
         before = self.snapshot()
-        check_release(self.root)
+        check_release(self.root, inventory=self.inventory)
         self.assertEqual(self.snapshot(), before)
-        update_release(self.root)
+        update_release(self.root, inventory=self.inventory)
         self.assertEqual({name: details[0] for name, details in self.snapshot().items()},
                          {name: details[0] for name, details in before.items()})
 
-    def test_check_rejects_stale_sources_even_if_public_checksums_are_refreshed(self):
+    def test_first_packaging_uses_current_guide_versions_without_a_second_generation(self):
+        native = (self.root / self.version["download"]["path"]).read_bytes()
+        update_release(self.root, inventory=self.inventory)
+        sharing = read_zip((self.root / self.version["sharing_archive"]["path"]).read_bytes())
+        for name in ("GUIA_DOCENTE.html", "GUIA_REUTILIZACION.html"):
+            with self.subTest(name=name):
+                guide = sharing["documentacion/" + name]
+                self.assertIn(b'<span data-release-version="web">4.6.0</span>', guide)
+                self.assertIn(b'<span data-release-version="rea">4.6.0</span>', guide)
+                self.assertNotIn(b'4.5.1', guide)
+        self.assertEqual(sharing["MitoMapa_canario_GobCan.elpx"], native)
+        self.assertEqual((self.root / self.version["download"]["path"]).read_bytes(), native)
+        before = self.snapshot()
+        check_release(self.root, inventory=self.inventory)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_packaging_derives_documents_and_check_detects_each_contradiction(self):
+        update_release(self.root, inventory=self.inventory)
+        version = json.loads((self.root / "VERSION.json").read_bytes())
+        outputs = document_outputs(self.root, version)
+        for name, expected in outputs.items():
+            self.assertEqual((self.root / name).read_bytes(), expected)
+        for name in ("README.md", "VERSION.txt", "version.js"):
+            with self.subTest(name=name):
+                original = (self.root / name).read_bytes()
+                self.write(name, original.replace(b"4.6.0", b"4.5.1", 1))
+                before = self.snapshot()
+                with self.assertRaisesRegex(ValueError, "Release documents differ.*" + name.replace(".", r"\.")):
+                    check_release(self.root, inventory=self.inventory)
+                self.assertEqual(self.snapshot(), before)
+                self.write(name, original)
+
+    def test_sources_include_reviewed_publication_guides_and_collaboration_templates(self):
+        documents = {"docs/PUBLICACIONES.md", "docs/ARCHIVO_HISTORICO.md", "docs/MEDIATECA_RECTIFICACION.md",
+                     ".github/PULL_REQUEST_TEMPLATE.md", ".github/ISSUE_TEMPLATE/error.yml"}
+        for name in documents:
+            self.write(name, b"Reviewed contribution and publication material\n")
+        self.write(".github/ISSUE_TEMPLATE/unreviewed.yml", b"Unreviewed local draft", approve=False)
+        update_release(self.root, inventory=self.inventory)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        self.assertTrue(documents <= sources.keys())
+        self.assertNotIn(".github/ISSUE_TEMPLATE/unreviewed.yml", sources)
+
+    def test_source_zip_preserves_disclosure_and_custody_link_targets(self):
+        documents = {
+            "CONTRIBUTING.md": (b"[Security](.github/SECURITY.md)\n"
+                                b"[Custody](docs/CUSTODIA_SEGUIMIENTO.md)\n"),
+            ".github/SECURITY.md": (b"[Editions](../EDICIONES.md)\n"
+                                    b"[Custody](../docs/CUSTODIA_SEGUIMIENTO.md)\n"),
+            "docs/CUSTODIA_SEGUIMIENTO.md": b"[Editions](../EDICIONES.md)\n",
+        }
+        for name, payload in documents.items():
+            self.write(name, payload)
+        self.write(".github/private-report-draft.md", b"Unreviewed local draft", approve=False)
+        update_release(self.root, inventory=self.inventory)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        for name, payload in documents.items():
+            self.assertEqual(sources.get(name), payload, name)
+        self.assertIn("EDICIONES.md", sources)
+        self.assertNotIn(".github/private-report-draft.md", sources)
+
+    def test_reviewed_english_runtime_and_module_worker_ship_in_sources(self):
+        self.write("scripts-en.js", b"/* English runtime */")
+        self.write("tools/story-video-ranges.mjs", b"export default {};")
+        update_release(self.root, inventory=self.inventory)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        self.assertEqual(sources["scripts-en.js"], b"/* English runtime */")
+        self.assertEqual(sources["tools/story-video-ranges.mjs"], b"export default {};")
+
+    def test_packaging_uses_the_git_index_to_select_release_files(self):
+        def git(*args):
+            subprocess.run(["git", "-C", self.root, *args], check=True, capture_output=True)
+
+        git("init", "-q")
+        self.write("assets/after-review.txt", b"Reviewed public material")
+        self.write("notes-for-later.txt", b"Local working notes")
+        git("add", "--", ".")
+        git("rm", "--cached", "--", "notes-for-later.txt")
+        self.write("layout-in-progress.html", b"Layout draft")
+        self.write("assets/illustration-draft.txt", b"Illustration draft")
+        self.write("tools/helper-draft.py", b"# Draft helper")
+        self.write("tests/example-draft.py", b"# Draft test")
+        git("add", "-N", "--", "layout-in-progress.html")
+
         update_release(self.root)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        public = parse_sums((self.root / "SHA256SUMS.txt").read_text())
+        self.assertIn("assets/after-review.txt", sources)
+        self.assertIn("assets/after-review.txt", public)
+        local = {"notes-for-later.txt", "layout-in-progress.html", "assets/illustration-draft.txt",
+                 "tools/helper-draft.py", "tests/example-draft.py"}
+        self.assertFalse(local & sources.keys())
+        self.assertFalse(local & public.keys())
+
+    def test_regenerates_current_archives_before_adding_them_to_git(self):
+        def git(*args):
+            subprocess.run(["git", "-C", self.root, *args], check=True, capture_output=True)
+
+        git("init", "-q")
+        git("add", "--", ".")
+        update_release(self.root)
+        revised_source = b"/* revised route while preparing the release */\n"
+        self.write("itinerario.js", revised_source)
+        update_release(self.root)
+
+        source_archive = self.version["source_archive"]["path"]
+        sharing_archive = self.version["sharing_archive"]["path"]
+        sources = read_zip((self.root / source_archive).read_bytes())
+        self.assertEqual(sources["itinerario.js"], revised_source)
+        output = self.root / ".deploy"
+        with self.assertRaisesRegex(ValueError, "release inventory"):
+            check_release(self.root)
+        with self.assertRaisesRegex(ValueError, "release inventory"):
+            stage_assets(self.root, output)
+        self.assertFalse(output.exists())
+        git("add", "--", source_archive, sharing_archive)
+        check_release(self.root)
+        stage_assets(self.root, output)
+        self.assertEqual((output / "itinerario.js").read_bytes(), revised_source)
+
+    def test_repackaging_without_git_requires_an_explicit_inventory(self):
+        with self.assertRaisesRegex(ValueError, "release inventory"):
+            update_release(self.root)
+        self.write("assets/illustration-draft.txt", b"Illustration draft", approve=False)
+        update_release(self.root, inventory=self.inventory)
+        check_release(self.root, inventory=self.inventory)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        self.assertNotIn("assets/illustration-draft.txt", sources)
+
+    def test_deploy_requires_every_checksum_path_to_be_approved(self):
+        update_release(self.root, inventory=self.inventory)
+        self.approved.remove("itinerario.js")
+        self.inventory.write_bytes(json_bytes(sorted(self.approved)))
+        with self.assertRaisesRegex(ValueError, "release inventory: itinerario.js"):
+            stage_assets(self.root, self.root / ".deploy", inventory=self.inventory)
+        self.assertFalse((self.root / ".deploy").exists())
+
+    def test_check_rejects_stale_sources_even_if_public_checksums_are_refreshed(self):
+        update_release(self.root, inventory=self.inventory)
         self.write("itinerario.js", b"/* changed source not repackaged */\n")
         public = parse_sums((self.root / "SHA256SUMS.txt").read_text())
         self.write("SHA256SUMS.txt", sums_bytes({name: (self.root / name).read_bytes() for name in public}))
         with self.assertRaisesRegex(ValueError, "source archive is not synchronized"):
-            check_release(self.root)
+            check_release(self.root, inventory=self.inventory)
 
     def test_sharing_guides_have_local_styles_templates_and_editable_link(self):
         self.write("GUIA_DOCENTE.html", b'''<link href="styles.css"><link href="docente.css">
+<p>Web <span data-release-version="web">4.6.0</span> REA <span data-release-version="rea">4.6.0</span></p>
 <a href="downloads/Pauta_de_revision_MitoMapa.html">Pauta</a>
 <a href="index.html#recursos">Web</a>
 <a href="downloads/MitoMapa_canario_GobCan.elpx">Editar</a>''')
-        update_release(self.root)
+        update_release(self.root, inventory=self.inventory)
         sharing = read_zip((self.root / self.version["sharing_archive"]["path"]).read_bytes())
         guide = sharing["documentacion/GUIA_DOCENTE.html"].decode()
         self.assertIn('href="styles.css"', guide)
@@ -120,13 +289,80 @@ class ReleasePipelineTests(unittest.TestCase):
     def test_historical_archives_cannot_be_silently_replaced(self):
         self.write(self.old_name, zip_bytes({"index.html": b"Different history"}))
         with self.assertRaisesRegex(ValueError, "Historical download changed"):
-            update_release(self.root)
+            update_release(self.root, inventory=self.inventory)
+
+    def test_current_pintaderas_can_be_updated_only_as_matching_collections(self):
+        def write_pintaderas(revision, *, mismatch=False):
+            files = {}
+            for group in ("recreaciones", "sellos"):
+                folder = f"downloads/pintaderas-3d/{group}"
+                models = {
+                    f"pintadera_{letter}.stl": f"{group}/{letter}/{revision}".encode()
+                    for letter in "abcdefghij"
+                }
+                files.update({f"{folder}/{name}": data for name, data in models.items()})
+                if mismatch and group == "sellos":
+                    models["pintadera_a.stl"] = b"Different stamp"
+                files[f"{folder}.zip"] = zip_bytes(models)
+            for name, data in files.items():
+                self.write(name, data)
+            self.write("PINTADERAS_3D.json", json_bytes({
+                "version": 1, "files": {name: metadata(data) for name, data in files.items()},
+            }))
+
+        write_pintaderas(1)
+        update_release(self.root, inventory=self.inventory)
+        write_pintaderas(2)
+        update_release(self.root, inventory=self.inventory)
+        check_release(self.root, inventory=self.inventory)
+        write_pintaderas(3, mismatch=True)
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, "Pintadera ZIP does not match"):
+            update_release(self.root, inventory=self.inventory)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_vasija_zip_tracks_only_the_six_individual_models(self):
+        ids = ('gran-canaria', 'la-palma', 'lanzarote', 'fuerteventura', 'la-gomera', 'el-hierro')
+        packed = {f'MitoMapa_{slug}.stl': slug.encode() for slug in ids}
+        for slug in ids:
+            self.write(f'downloads/vasijas/{slug}.stl', slug.encode())
+            self.write(f'assets/vasijas/{slug}.webp', b'fallback')
+        self.write('assets/vasijas/coleccion.json', json_bytes([{'id': slug} for slug in ids]))
+        archive = 'downloads/vasijas/coleccion.zip'
+        self.write(archive, zip_bytes(packed))
+        update_release(self.root, inventory=self.inventory)
+        check_release(self.root, inventory=self.inventory)
+        public = parse_sums((self.root / 'SHA256SUMS.txt').read_text())
+        self.assertIn(archive, public)
+        self.assertTrue(all(f'downloads/vasijas/{slug}.stl' in public for slug in ids))
+        self.write(archive, zip_bytes({**packed, 'MitoMapa_tenerife.stl': b'additional model'}))
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'Vasija ZIP does not match'):
+            update_release(self.root, inventory=self.inventory)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_lapa_release_requires_the_model_with_its_viewer_and_images(self):
+        model = 'downloads/lapa-blanca/lapa-blanca-la-graciosa.stl'
+        companions = {
+            'lapa-visor.js': b'/* viewer module */',
+            'assets/lapa-blanca/miniatura.webp': b'thumbnail',
+            'assets/lapa-blanca/vistas.webp': b'fixed views',
+        }
+        for path, content in companions.items():
+            self.write(path, content)
+        with self.assertRaisesRegex(ValueError, 'lapa-blanca-la-graciosa.stl'):
+            update_release(self.root, inventory=self.inventory)
+        self.write(model, b'example STL')
+        update_release(self.root, inventory=self.inventory)
+        check_release(self.root, inventory=self.inventory)
+        public = parse_sums((self.root / 'SHA256SUMS.txt').read_text())
+        self.assertTrue({model, *companions} <= public.keys())
 
     def test_oversized_release_is_rejected_before_any_file_is_written(self):
         before = self.snapshot()
         with patch("update_release.MAX_ASSET_BYTES", 10):
             with self.assertRaisesRegex(ValueError, "25 MiB"):
-                update_release(self.root)
+                update_release(self.root, inventory=self.inventory)
         self.assertEqual(self.snapshot(), before)
 
     def test_oversize_or_bad_hash_preserves_existing_stage(self):
@@ -135,10 +371,10 @@ class ReleasePipelineTests(unittest.TestCase):
         (output / "sentinel").write_text("previous deployment")
         with patch("release_support.MAX_ASSET_BYTES", 10):
             with self.assertRaisesRegex(ValueError, "25 MiB"):
-                stage_assets(self.root, output)
+                stage_assets(self.root, output, inventory=self.inventory)
         self.write("index.html", b"unrecorded modification")
         with self.assertRaisesRegex(ValueError, "Checksum mismatch"):
-            stage_assets(self.root, output)
+            stage_assets(self.root, output, inventory=self.inventory)
         self.assertEqual((output / "sentinel").read_text(), "previous deployment")
         self.assertFalse(list(self.root.glob(".deploy-*")))
 
@@ -234,7 +470,7 @@ class ReleasePipelineTests(unittest.TestCase):
     def test_source_archive_includes_dependabot_configuration_when_present(self):
         config = b"version: 2\nupdates: []\n"
         self.write(".github/dependabot.yml", config)
-        update_release(self.root)
+        update_release(self.root, inventory=self.inventory)
         sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
         self.assertEqual(sources.get(".github/dependabot.yml"), config)
 
@@ -249,7 +485,7 @@ class ReleasePipelineTests(unittest.TestCase):
         }
         for name, payload in inputs.items():
             self.write(name, payload)
-        update_release(self.root)
+        update_release(self.root, inventory=self.inventory)
         sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
         for name, payload in inputs.items():
             with self.subTest(input=name):

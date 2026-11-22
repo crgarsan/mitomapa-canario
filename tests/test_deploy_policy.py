@@ -5,9 +5,14 @@ import binascii
 import copy
 import json
 import hashlib
+import os
 from fnmatch import fnmatchcase
 from html.parser import HTMLParser
 import struct
+import subprocess
+import sys
+import tempfile
+import textwrap
 from pathlib import Path, PurePosixPath
 import re
 import unittest
@@ -121,15 +126,98 @@ class DeployPolicyTests(unittest.TestCase):
         install = next(step for step in self.steps if step.startswith("name: Install Wrangler\n"))
         deploy = next(step for step in self.steps if step.startswith("name: Deploy existing Worker\n"))
         self.assertIn("        run: npm ci --ignore-scripts --no-audit --no-fund\n", install)
-        self.assertIn("          ./node_modules/.bin/wrangler deploy --config wrangler.jsonc\n", deploy)
-        self.assertLess(deploy.index("python3 tools/check_custom_domain.py"),
-                        deploy.index("./node_modules/.bin/wrangler deploy"))
+        self.assertNotRegex(deploy, r"wrangler\s+(?:deploy|triggers)\b|tools/(?:ensure_https_redirect|check_custom_domain)\.py")
         self.assertLess(self.steps.index(install), self.steps.index(deploy))
         self.assertIn("      WRANGLER_SEND_METRICS: 'false'\n", self.workflow)
+        self.assertIn("        run: python3 tools/deploy_cloudflare.py\n", deploy)
+        script = (ROOT / "tools/deploy_cloudflare.py").read_text()
+        version_id = "147e050b-52e5-4abb-b0a4-8760c96d59f6"
+        report = {"type": "version-upload", "version": 1,
+                  "worker_name": "mitomapa-canario", "version_id": version_id}
+        reports = [
+            (json.dumps(report), True),
+            (json.dumps({**report, "worker_name": "other-worker"}), False),
+            (json.dumps({**report, "version_id": "private-test-marker; env"}), False),
+            (json.dumps({**report, "version_id": None}), False),
+            (json.dumps({**report, "version": True}), False),
+            (json.dumps(report) + "\n" + json.dumps(report), False),
+            ("not JSON private-test-marker", False),
+        ]
+        for payload, valid in reports:
+            with self.subTest(report=payload), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary).resolve()
+                config = json.loads((ROOT / "wrangler.jsonc").read_text())
+                config["observability"] = {"enabled": True}
+                config["vars"] = {"SHOULD_NOT_LEAK": "private-test-marker"}
+                (root / "wrangler.jsonc").write_text(json.dumps(config))
+                # Replace only the external CLI; execute the real publication script.
+                cli = root / "node_modules" / ".bin" / "wrangler"
+                cli.parent.mkdir(parents=True)
+                cli.write_text("#!" + sys.executable + "\n" + textwrap.dedent('''\
+                    import json, os, sys
+                    from pathlib import Path
+                    args = sys.argv[1:]
+                    root = Path(os.environ["RUNNER_TEMP"])
+                    config = json.loads(Path(args[args.index("--config") + 1]).read_text())
+                    with (root / "calls.jsonl").open("a") as stream:
+                        stream.write(json.dumps({"args": args, "config": config}) + "\\n")
+                    if args[:2] == ["versions", "upload"]:
+                        Path(os.environ["WRANGLER_OUTPUT_FILE_PATH"]).write_text(os.environ["UPLOAD_REPORT"])
+                    '''))
+                cli.chmod(0o755)
+                result = subprocess.run([sys.executable, "-c", script], cwd=root,
+                                        env={"PATH": os.environ["PATH"], "RUNNER_TEMP": temporary,
+                                             "GITHUB_SHA": "a" * 40, "GITHUB_RUN_ID": "123",
+                                             "GITHUB_RUN_ATTEMPT": "1", "UPLOAD_REPORT": payload,
+                                             "CLOUDFLARE_API_TOKEN": "fictitious-token",
+                                             "CLOUDFLARE_ACCOUNT_ID": "fictitious-account"},
+                                        capture_output=True, text=True)
+                calls = [json.loads(line) for line in (root / "calls.jsonl").read_text().splitlines()]
+                self.assertEqual([call["args"][:2] for call in calls],
+                                 [["versions", "upload"], ["versions", "deploy"]] if valid
+                                 else [["versions", "upload"]])
+                self.assertEqual(result.returncode == 0, valid, result.stderr)
+                self.assertNotIn("private-test-marker", result.stdout + result.stderr)
+                uploaded = calls[0]
+                self.assertIn("--keep-vars", uploaded["args"])
+                self.assertIn("--strict", uploaded["args"])
+                self.assertEqual(set(uploaded["config"]), {"name", "compatibility_date", "assets", "main"})
+                self.assertEqual(uploaded["config"]["main"], str(root / "tools/story-video-ranges.mjs"))
+                self.assertEqual(uploaded["config"]["name"], "mitomapa-canario")
+                self.assertEqual(uploaded["config"]["compatibility_date"], config["compatibility_date"])
+                self.assertEqual(uploaded["config"]["assets"],
+                                 {**config["assets"], "directory": str(root / ".deploy")})
+                if valid:
+                    self.assertEqual(calls[1]["args"][2], version_id + "@100%")
+                    self.assertIn("--yes", calls[1]["args"])
+
+    def test_only_story_videos_run_worker_before_assets(self):
+        config = json.loads((ROOT / "wrangler.jsonc").read_text())
+        self.assertEqual(config["main"], "tools/story-video-ranges.mjs")
+        self.assertEqual(config["assets"]["binding"], "ASSETS")
+        self.assertEqual(config["assets"]["run_worker_first"], [
+            "/media/el-hierro/cuento.mp4",
+            "/media/fuerteventura/cuento.mp4",
+            "/media/gran-canaria/cuento.mp4",
+            "/media/la-gomera/cuento.mp4",
+            "/media/la-graciosa/cuento.mp4",
+            "/media/la-palma/cuento.mp4",
+            "/media/lanzarote/cuento.mp4",
+            "/media/tenerife/cuento.mp4",
+            "/en/media/el-hierro/story.mp4",
+            "/en/media/fuerteventura/story.mp4",
+            "/en/media/gran-canaria/story.mp4",
+            "/en/media/la-gomera/story.mp4",
+            "/en/media/la-graciosa/story.mp4",
+            "/en/media/la-palma/story.mp4",
+            "/en/media/lanzarote/story.mp4",
+            "/en/media/tenerife/story.mp4",
+        ])
+        self.assertNotIn(config["main"], (ROOT / "SHA256SUMS.txt").read_text())
 
     def test_checks_run_before_credentials(self):
         deploy_index = next(i for i, step in enumerate(self.steps)
-                            if "secrets.CLOUDFLARE_API_TOKEN" in step)
+                            if "secrets.CLOUDFLARE_PRODUCTION_API_TOKEN" in step)
         prior_steps = "\n".join(self.steps[:deploy_index])
         self.assertNotIn("secrets.", prior_steps)
         self.assertIn("python3 -m unittest discover -s tests -p 'test_deploy_policy.py'", prior_steps)
@@ -142,8 +230,9 @@ class DeployPolicyTests(unittest.TestCase):
         self.assertIn("python3 tools/sync_current_elpx.py --check", prior_steps)
         self.assertIn("test_experience_browser.py", prior_steps)
         self.assertEqual(self.workflow.count("secrets."), 2)
-        self.assertIn("CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}", self.steps[deploy_index])
-        self.assertIn("CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}", self.steps[deploy_index])
+        self.assertIn("test_deploy_cloudflare.py", prior_steps)
+        self.assertIn("CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PRODUCTION_API_TOKEN }}", self.steps[deploy_index])
+        self.assertIn("CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_PRODUCTION_ACCOUNT_ID }}", self.steps[deploy_index])
 
     def test_deployment_contracts_remain_restricted(self):
         self.assertIn("  pull_request:\n", self.workflow)
@@ -185,6 +274,11 @@ class DeployPolicyTests(unittest.TestCase):
             self.assertIn("run: python3 tools/check_public_transport.py", step)
             self.assertNotIn("secrets.", step)
             self.assertNotIn("env:", step)
+        verify_ranges = next(step for step in self.steps
+                             if step.startswith("name: Verify public story video ranges after publication\n"))
+        self.assertLess(self.steps.index(after), self.steps.index(verify_ranges))
+        self.assertIn("run: python3 tools/check_public_video_ranges.py", verify_ranges)
+        self.assertNotIn("secrets.", verify_ranges)
         self.assertIn("test_public_transport.py", self.workflow)
         self.assertIn("test_python_lock.py", self.workflow)
         self.assertIn("test_archive_limits.py", self.workflow)

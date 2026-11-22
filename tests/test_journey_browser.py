@@ -7,11 +7,12 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
+import re
 import shutil
 import threading
 import unittest
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import expect, sync_playwright
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -113,6 +114,45 @@ class JourneyBrowserTest(unittest.TestCase):
         self.assertIn(
             "correctamente", self.page.locator("#teacherImportStatus").text_content()
         )
+
+    def test_english_session_briefs_keep_their_language_and_user_entered_tasks(self):
+        self.page.goto(self.base + "index-en.html?lang=en", wait_until="networkidle")
+        islands = ("tenerife", "gran-canaria", "la-palma", "la-gomera",
+                   "el-hierro", "fuerteventura", "lanzarote", "la-graciosa")
+        untranslated = re.compile(r"Propuesta|explorar vocabulario|Ir al taller|Ruta acordada", re.I)
+        for level in ("early", "middle", "advanced", "secondary"):
+            self.page.evaluate('window.MitoMapaNavigation.go("inicio")')
+            settings = self.page.locator("#readingSettings")
+            if settings.get_attribute("open") is None:
+                settings.locator(":scope > summary").click()
+            settings.locator(f'[data-learning-level="{level}"]').click()
+            for island in islands:
+                with self.subTest(level=level, island=island):
+                    self.page.evaluate("island => window.MitoMapaNavigation.go('isla/' + island + '/cuento')", island)
+                    brief = self.page.locator(f"#route-{island} .route-session-brief")
+                    expect(brief).to_be_visible()
+                    self.assertIsNone(untranslated.search(brief.inner_text()))
+                    expect(brief.locator(".route-session-task")).to_contain_text(
+                        re.compile("read or listen to the story", re.I)
+                    )
+                    expect(brief.get_by_role("link", name=re.compile(r"\bworkshop\b", re.I))).to_have_attribute(
+                        "href", f"#isla/{island}/taller"
+                    )
+
+        self.open_tools()
+        self.select_routes("lanzarote")
+        teacher_note = "Explicar la fuente elegida"
+        field = self.page.locator('[data-task-route="lanzarote"]')
+        field.fill(teacher_note)
+        field.press("Tab")
+        self.page.locator("#closeTeacher").click()
+        self.page.evaluate('window.MitoMapaNavigation.go("isla/lanzarote/cuento")')
+        expect(self.page.locator("#route-lanzarote .route-session-task")).to_have_text(teacher_note)
+        self.page.goto(self.base + "index.html?lang=es#isla/lanzarote/cuento", wait_until="networkidle")
+        expect(self.page.locator("#route-lanzarote .route-session-task")).to_have_text(teacher_note)
+        expect(self.page.locator("#route-lanzarote .route-session-brief").get_by_role(
+            "link", name="Ir al taller"
+        )).to_be_visible()
 
     def test_two_reviewed_islands_complete_the_route_without_awarding_badges(self):
         self.open_tools()
@@ -227,6 +267,7 @@ class JourneyBrowserTest(unittest.TestCase):
         self.select_routes("lanzarote")
         self.review_routes("lanzarote")
         self.page.locator("#resetProgress").click()
+        self.page.wait_for_function("()=>document.getElementById('teacherImportStatus').textContent.includes('Progreso reiniciado')")
         self.assertEqual(self.selected_routes(), [])
         self.assertEqual(self.page.locator("[data-review-route]:checked").count(), 0)
         self.assertIsNotNone(

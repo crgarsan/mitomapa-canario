@@ -1,0 +1,32 @@
+name: Error de funcionamiento
+description: Describir un fallo reproducible con un ejemplo ficticio.
+title: "[Error] "
+body:
+  - type: markdown
+    attributes:
+      value: No incluya nombres, respuestas reales del alumnado, claves ni archivos de seguimiento personales.
+  - type: dropdown
+    id: product
+    attributes:
+      label: Producto
+      options:
+        - Web en español
+        - Web en inglés
+        - ELPX en español
+        - ELPX en inglés
+        - Descarga o material docente
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Versión, enlace y dispositivo o navegador
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Pasos para reproducir el error
+      description: Indique qué esperaba y qué ocurrió.
+    validations:
+      required: true

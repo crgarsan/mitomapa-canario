@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="es"><head>
-<meta charset="utf-8">
+<meta charset="utf-8"><script src="language-choice.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#063a54">
 <meta name="robots" content="index,follow">
+<meta name="google-site-verification" content="V4twxZ7Kr80JSxsljh4uQW0XYPTV9XyQGFcWttFo6XQ">
 <title>MitoMapa canario: ocho islas, ocho piezas</title>
 <meta name="description" content="Expedición literaria, patrimonial y multinivel por los mitos y las leyendas de las ocho islas habitadas de Canarias.">
 <meta name="author" content="Jesica Fortes Regalado, Gloria Elsa González Martín, Cristian García Santana">
@@ -24,59 +25,427 @@
 <meta name="twitter:title" content="MitoMapa canario">
 <meta name="twitter:description" content="Expedición literaria y patrimonial por las Islas Canarias.">
 <meta name="twitter:image" content="https://mitomapacanario.org/og-image-v4-8-8.png">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon-pintadera-sol-catalogo.png" type="image/png" sizes="64x64">
+<link rel="stylesheet" href="styles.css?revision=37c9c06b963f">
 <link rel="stylesheet" href="explorador.css">
 <link rel="stylesheet" href="historias.css">
 <link rel="stylesheet" href="comparador.css">
 <link rel="stylesheet" href="recorrido.css">
-<link rel="stylesheet" href="navegacion.css">
-<link rel="stylesheet" href="docente.css">
+<link rel="stylesheet" href="navegacion.css?revision=ed5a0adb6b32">
+<link rel="stylesheet" href="ojear-cuentos.css?revision=5f076fda7883">
+<script src="ojear-cuentos.js?revision=b93a83655828" defer></script>
+<link rel="stylesheet" href="docente.css?revision=6ab2fc6a2c75">
+<link rel="stylesheet" href="espacio-docente.css?revision=b66af26e4f93">
 <link rel="stylesheet" href="itinerario.css">
 <link rel="stylesheet" href="narracion.css">
 <link rel="stylesheet" href="nombres-islas.css">
 <link rel="stylesheet" href="piezas-islas.css">
-<link rel="stylesheet" href="lectura.css">
+<link rel="stylesheet" href="lectura.css?revision=2802d2de34d3">
 <link rel="stylesheet" href="aprendizaje.css">
 <link rel="stylesheet" href="accesibilidad.css">
-<link rel="stylesheet" href="formatos.css">
+<link rel="stylesheet" href="formatos.css?revision=2f676cd6fb93">
+<link rel="stylesheet" href="pintaderas-visor.css?revision=7dac55b944aa">
+<script src="pintaderas-visor.js?revision=17100ee257dd" type="module"></script>
+<script src="vasija-visor.js" type="module"></script>
+<script src="lapa-visor.js" type="module"></script>
 <script src="version.js" defer></script>
 <script src="configuracion.js" defer></script>
 <script src="narraciones.js" defer></script>
 <script src="historias.js" defer></script>
 <script src="explorador.js" defer></script>
-<script src="comparador.js" defer></script>
+<script src="comparador.js?revision=8ba770a172b1" defer></script>
 <script src="recorrido.js" defer></script>
-<script src="navegacion.js" defer></script>
-<script src="docente.js" defer></script>
+<script src="navegacion.js?revision=3408a47a3047" defer></script>
+<script src="docente.js?revision=24ddc3eb7842" defer></script>
 <script src="itinerario.js" defer></script>
 <script src="nombres-islas.js" defer></script>
 <script src="piezas-islas.js" defer></script>
 <script src="lectura.js" defer></script>
 <script src="aprendizaje.js" defer></script>
 <script src="formatos-data.js" defer></script>
-<script src="formatos.js" defer></script>
-<script src="scripts.js" defer></script>
+<script src="formatos.js?revision=7090a708a145" defer></script>
+<script src="learner-retention.js?revision=4a912bd0e6e5" data-app-src="scripts.js?revision=b2ccd814937a" defer></script>
+<link rel="stylesheet" href="language-switch.css?revision=08decb96f8ec">
+<link rel="alternate" hreflang="es" href="https://mitomapacanario.org/">
+<link rel="alternate" hreflang="en" href="https://mitomapacanario.org/index-en.html">
+<link rel="alternate" hreflang="x-default" href="https://mitomapacanario.org/">
 </head>
 <body><a class="skip-link" href="#main">Saltar al contenido</a><noscript><p class="noscript-note"><strong>JavaScript está desactivado.</strong> Actívalo para utilizar el puzle, los retos, la locución y el pasaporte. Los textos seguirán disponibles en la versión eXeLearning del REA.</p></noscript>
-<header class="topbar"><a class="brand" href="#inicio">MitoMapa canario</a><div class="progress-wrap" role="group" aria-label="Colección de ocho piezas"><div class="progress" aria-hidden="true"><span id="progressBar"></span></div><span class="progress-text" id="progressText">0/8</span></div><button class="passport-button" id="openPassport" type="button" aria-haspopup="dialog">Pasaporte <span id="passportCount">0/8</span></button><button class="teacher-button" id="openTeacher" type="button" aria-haspopup="dialog">Docente</button><button class="reset" id="resetProgress" type="button">Reiniciar progreso</button></header>
-<main id="main"><aside id="storageNotice" class="storage-notice" role="alert" hidden><strong>Atención al guardado.</strong> No se ha podido leer o guardar parte del progreso en este navegador. Puedes seguir trabajando, pero antes de cerrar descarga una copia desde «Docente → Guardar seguimiento». No recargues hasta hacerlo. <button id="storageExportHelp" type="button" class="button secondary">Abrir seguimiento</button></aside>
-<nav class="main-navigation" aria-label="Secciones principales"><a href="#inicio" data-nav="inicio" aria-current="page">Inicio</a><a href="#islas" data-nav="islas">Islas</a><a href="#juegos" data-nav="juegos">Juegos</a><a href="#recursos" data-nav="recursos">Recursos</a></nav>
-<p class="navigation-location" id="navigationLocation" aria-live="polite">Inicio</p>
+<header class="topbar is-bilingual"><div class="topbar-identity"><a class="brand" href="#inicio" aria-label="MitoMapa canario">MitoMapa<span class="brand-detail"> canario</span></a><nav class="language-switch" aria-label="Idioma del recurso"><a href="index.html?lang=es#inicio" lang="es" hreflang="es" aria-current="true"><span class="language-name">Español</span></a><a href="index-en.html?lang=en#inicio" lang="en" hreflang="en"><span class="language-name">English</span></a></nav></div><div class="progress-wrap" role="group" aria-label="Colección de ocho piezas"><div class="progress" aria-hidden="true"><span id="progressBar"></span></div><span class="progress-text" id="progressText">0/8</span></div><button class="passport-button" id="openPassport" type="button" aria-haspopup="dialog"><span class="passport-label">Pasaporte</span> <span id="passportCount">0/8</span></button><button class="teacher-button" id="openTeacher" type="button" aria-haspopup="dialog">Docente</button><button class="reset" id="resetProgress" type="button">Reiniciar progreso</button></header>
+<main id="main"><aside id="storageNotice" class="storage-notice" role="alert" hidden><strong>Atención al guardado.</strong> No se ha podido leer, guardar o borrar parte del progreso en este navegador. No se puede garantizar su caducidad. Puedes seguir trabajando, pero antes de cerrar descarga una copia desde «Docente → Guardar seguimiento». No recargues hasta hacerlo. <button id="storageExportHelp" type="button" class="button secondary">Abrir seguimiento</button></aside>
+<nav class="main-navigation" aria-label="Secciones principales">
+  <div class="nav-links">
+    <a href="#inicio" data-nav="inicio" aria-current="page"><span class="nav-pintadera" aria-hidden="true"><img src="assets/images/pintadera_sol.webp" width="26" height="26" alt=""></span><span>Inicio</span></a>
+    <a href="#islas" data-nav="islas"><span class="nav-pintadera" aria-hidden="true"><img src="assets/images/pintadera_seis_triangulos.webp" width="26" height="26" alt=""></span><span>Islas</span></a>
+    <a href="#juegos" data-nav="juegos"><span class="nav-pintadera" aria-hidden="true"><img src="assets/images/pintadera_espiral_cuadrada.webp" width="26" height="26" alt=""></span><span>Juegos</span></a>
+    <a href="#recursos" data-nav="recursos"><span class="nav-pintadera" aria-hidden="true"><img src="assets/images/pintadera_doble_triangulo.webp" width="26" height="26" alt=""></span><span>Recursos</span></a>
+  </div>
+</nav>
+<p class="navigation-location" id="navigationLocation" aria-live="polite" hidden>Inicio</p>
 <section class="hero"><div><p class="eyebrow">Expedición literaria y patrimonial</p><h1>Tu viaje por los cuentos de Canarias</h1><p>Elige una isla, lee su cuento y supera sus retos para conseguir una pieza.</p><div class="home-actions" id="homeActions"><a class="button" href="#islas">Empezar por el mapa →</a></div><p class="agreed-route-summary" id="agreedRouteSummary" role="status" hidden></p><p class="hero-authors"><strong>Autoría:</strong> Jesica Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana. <a href="#creditsTitle">Créditos y fuentes</a></p><div class="legend"><span class="chip">Sin registro</span><span class="chip">A tu ritmo</span></div></div><aside class="hero-visual" aria-label="Las islas de la expedición"><figure class="hero-map"><img src="assets/images/mapa_canarias.webp" width="3000" height="1514" alt="Mapa de relieve de las ocho islas de Canarias"></figure></aside></section>
 <section class="section" aria-labelledby="missionTitle"><h2 class="section-title" id="missionTitle">Reconstruye el mapa · opcional</h2><details class="puzzle-disclosure"><summary>Abrir el puzle del archipiélago</summary><p class="lead">Reconstruye el mapa observando sus formas y colores. Arrastra una pieza sobre otra o selecciona dos para intercambiarlas. Puedes utilizar «Mostrar solución» como apoyo.</p><div class="panel puzzle-layout"><div><div class="puzzle-board" id="puzzleBoard" role="group" aria-label="Puzle del mapa de Canarias"></div><div class="puzzle-actions"><button class="button" id="shufflePuzzle" type="button">Mezclar</button><button class="button secondary" id="solvePuzzle" type="button">Mostrar solución</button></div><div class="status" id="puzzleStatus" role="status">Selecciona dos piezas para intercambiarlas.</div></div><aside><h3>Tu misión</h3><ol><li>Explora las islas desde el mapa o reconstruye el archipiélago.</li><li>Abre una ruta insular.</li><li>Lee el cuento y repite su estribillo.</li><li>Supera la comprensión y, salvo en «Infantil y 1.º ciclo», el reto de verdadero o falso.</li><li>Comprueba cómo la insignia se añade automáticamente al pasaporte.</li></ol><p><strong>Tu itinerario:</strong> elige la etapa con tu docente. Empieza por el cuento y la comprensión; continúa con las tareas de investigación y creación que te indique.</p></aside></div></details></section>
 <section class="section" aria-labelledby="passportTitle"><div class="reuse-heading"><img src="assets/images/pintadera_dentada.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy"><div><h2 class="section-title" id="passportTitle">Pasaporte de piezas</h2></div></div><p class="lead"><strong>Aquí aparecen automáticamente las insignias conseguidas.</strong> También puedes abrir el pasaporte desde la barra superior en cualquier momento. El progreso se guarda únicamente en este navegador.</p><p class="passport-criteria"><strong>¿Qué reconoce la pieza?</strong> En «Infantil y 1.º ciclo» se obtiene al superar la comprensión; en las demás etapas, al superar la comprensión y el reto de verdadero o falso. La insignia reconoce esos retos. Para completar el itinerario, realiza también las actividades de investigación y creación que te indique tu docente.</p><div class="learning-path" aria-labelledby="learningPathTitle"><h3 id="learningPathTitle">Cómo se aprende y qué se revisa</h3><ol><li><strong>Retos automáticos:</strong> comprende el cuento y completa el verdadero/falso cuando lo pide tu etapa; entonces aparece la pieza.</li><li><strong>Tareas abiertas:</strong> investiga una fuente y crea una producción propia con los apoyos que necesites.</li><li><strong>Revisión docente:</strong> explica qué sabes, qué es incierto y qué has inventado. Tu docente revisa las evidencias acordadas; la pieza por sí sola no es una calificación.</li></ol></div><p class="heritage-note"><strong>Las piezas del pasaporte son recreaciones contemporáneas:</strong> siete vasijas inspiradas en referencias cerámicas y una caracola para La Graciosa. No son reproducciones exactas de piezas arqueológicas ni acreditan su presencia histórica en cada isla.</p><p id="badgeStageNotice" class="passport-criteria" role="status"></p><p id="itinerarySummary" class="progress-dual" role="status"></p><section class="agreed-route-completion" id="agreedRouteCompletion" aria-labelledby="agreedRouteCompletionTitle" hidden><h3 id="agreedRouteCompletionTitle">Ruta acordada revisada</h3><p id="agreedRouteCompletionText"></p><p>No necesitas reunir las ocho piezas para cerrar el trabajo acordado.</p></section><div class="badge-shelf" id="badgeShelf" aria-live="polite" aria-label="Colección de piezas"></div><h3>Elige una ruta</h3><div class="island-grid" id="islandGrid"></div></section>
 <div id="routes"></div>
-<section class="section panel" id="finalMission" aria-labelledby="finalTitle"><h2 class="section-title" id="finalTitle">Gran reto: conecta las ocho islas</h2><div class="final-lock" id="finalLock"><p>Reúne las ocho piezas para desbloquear el gran reto. Al superarlo, podrás preparar el diploma.</p></div><div class="final-content" id="finalContent"><p class="eyebrow" style="color:#8a4f00">Gran reto desbloqueado</p><h3>¿A qué isla pertenece cada huella?</h3><p>Relaciona cada pista con su isla. Todas las leyendas forman parte de una misma expedición.</p><div class="final-challenge" id="finalChallengeBox" hidden><div class="final-match-grid" id="finalMatchGrid"></div><button class="button" id="checkFinalChallenge" type="button">Comprobar el gran reto</button><p id="finalChallengeStatus" class="status" role="status" aria-live="polite"></p><div class="final-celebration" id="finalCelebration" hidden><p class="challenge-kicker">Retos del pasaporte superados</p><h4>Las ocho piezas protegen ya tu pasaporte</h4><p>Escribe un nombre o el nombre del equipo para preparar el diploma. Este dato queda solo en el navegador.</p><label class="final-identity"><span>Nombre o equipo (opcional)</span><input id="diplomaName" type="text" maxlength="80" autocomplete="off"></label><button class="button" id="printDiploma" type="button">Imprimir o guardar el diploma</button></div></div><div class="final-project"><h3>Ahora, vuelve a narrar una historia del MitoMapa</h3><p>En equipo, creen una locución, un pequeño teatro, un kamishibai, un cómic o una secuencia ilustrada.</p><table class="source-table"><thead><tr><th>Debe incluir</th><th>Pregunta de control</th></tr></thead><tbody><tr><td>Isla y lugar</td><td>¿Podemos situarlos en el mapa?</td></tr><tr><td>Personajes y conflicto</td><td>¿Reconocemos el mito o la leyenda?</td></tr><tr><td>Estribillo</td><td>¿Puede repetirlo el público?</td></tr><tr><td>Recreación propia</td><td>¿Explicamos qué hemos añadido?</td></tr><tr><td>Accesibilidad y créditos</td><td>¿Se comprende sin sonido y se citan las imágenes?</td></tr></tbody></table></div></div></section>
+<section class="section panel" id="finalMission" aria-labelledby="finalTitle"><h2 class="section-title" id="finalTitle">Gran reto: conecta las ocho islas</h2><div class="final-lock" id="finalLock"><p>Reúne las ocho piezas de la etapa seleccionada para habilitar tu diploma genérico en el pasaporte y desbloquear el gran reto opcional.</p></div><div class="final-content" id="finalContent"><p class="eyebrow" style="color:#8a4f00">Gran reto opcional desbloqueado</p><h3>¿A qué isla pertenece cada huella?</h3><p>Si quieres, relaciona cada pista con su isla. Todas las leyendas forman parte de una misma expedición. Puedes obtener el diploma sin completar este reto.</p><div class="final-challenge" id="finalChallengeBox" hidden><div class="final-match-grid" id="finalMatchGrid"></div><button class="button" id="checkFinalChallenge" type="button">Comprobar el gran reto</button><p id="finalChallengeStatus" class="status" role="status" aria-live="polite"></p></div><div class="final-project"><h3>Ahora, vuelve a narrar una historia del MitoMapa</h3><p>En equipo, creen una locución, un pequeño teatro, un kamishibai, un cómic o una secuencia ilustrada.</p><table class="source-table"><thead><tr><th>Debe incluir</th><th>Pregunta de control</th></tr></thead><tbody><tr><td>Isla y lugar</td><td>¿Podemos situarlos en el mapa?</td></tr><tr><td>Personajes y conflicto</td><td>¿Reconocemos el mito o la leyenda?</td></tr><tr><td>Estribillo</td><td>¿Puede repetirlo el público?</td></tr><tr><td>Recreación propia</td><td>¿Explicamos qué hemos añadido?</td></tr><tr><td>Accesibilidad y créditos</td><td>¿Se comprende sin sonido y se citan las imágenes?</td></tr></tbody></table></div></div></section>
 <section id="studentFeedback" class="section panel" aria-labelledby="feedbackTitle"><p class="eyebrow">Tu opinión cuenta</p><div class="reuse-heading"><img src="assets/images/pintadera_sol.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy"><div><h2 id="feedbackTitle">¿Cómo ha sido tu expedición?</h2></div></div><p>Puedes valorar el recurso después de una o varias rutas. Tus respuestas no cambian las piezas ni las calificaciones. No escribas nombres ni datos personales.</p><p class="feedback-note">Elige de 1 (muy poco) a 5 (mucho), o «No puedo valorarlo». La respuesta queda en pantalla hasta que descargues una copia; no se envía automáticamente.</p><div class="feedback-grid" id="feedbackQuestions"></div><div class="dialog-actions feedback-actions"><button id="downloadFeedback" class="button" type="button">Descargar mi valoración</button><a class="button secondary" href="mailto:sugerencias.mitomapacanario@gmail.com?subject=Valoraci%C3%B3n%20de%20MitoMapa%20Canario" aria-describedby="feedbackEmailHelp">Enviar valoración por correo</a><a id="openWebFeedback" class="button secondary" target="_blank" rel="noopener noreferrer" hidden>Responder al formulario de Google</a></div><p class="feedback-mail-suggestion">Si quieres ayudarnos a mejorar MitoMapa, puedes enviar tu valoración a <a href="mailto:sugerencias.mitomapacanario@gmail.com?subject=Valoraci%C3%B3n%20de%20MitoMapa%20Canario">sugerencias.mitomapacanario@gmail.com</a>. Descarga el archivo y adjúntalo al mensaje. Si eres alumno o alumna, pide ayuda a tu docente o a tu familia.</p><p class="feedback-note" id="feedbackEmailHelp">El enlace abre tu programa de correo; adjunta manualmente el archivo descargado y envía el mensaje.</p><p id="feedbackStatus" role="status"></p></section>
 <section class="section panel credits" aria-labelledby="creditsTitle"><div class="reuse-heading"><img src="assets/images/pintadera_seis_triangulos.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy"><div><h2 id="creditsTitle">Guía breve, autoría y fuentes</h2></div></div><p><strong>Aplicación multinivel:</strong> el profesorado concreta el anclaje curricular, las tareas y los apoyos. Elige una isla en una sesión de unos 45 minutos, dos islas en cuatro sesiones de unos 50 minutos o el banco completo opcional en ocho a diez sesiones de 35–50 minutos. Una ruta acordada puede terminar con dos islas revisadas de dos, con independencia de la colección de ocho piezas. Consulta las orientaciones en Docente.</p><p><strong>Autoría:</strong> Jesica Fortes Regalado; Gloria Elsa González Martín; Cristian García Santana. <strong>Narración:</strong> Jesica Fortes Regalado. Las grabaciones se reproducen al pulsar Reproducir; puedes elegir voz sola o efectos naturales suaves de fondo. <a href="AUDIO_CREDITOS.html">Créditos del audio</a>. <strong>Mapa:</strong> imagen de relieve aportada por la autoría; procedencia indicada: <a href="https://www3.gobiernodecanarias.org/medusa/apps/tongapp/" target="_blank" rel="noopener noreferrer">TongApp del Gobierno de Canarias</a>. Se conserva la imagen del archivo recibido. <a href="assets/images/mapa_canarias_original.svg">Archivo SVG aportado</a>. El aviso de TongApp facilitado por la autoría declara la titularidad del Gobierno de Canarias y el libre uso por la comunidad educativa. El mapa conserva esas condiciones originales; no se le atribuye la licencia de los materiales propios del proyecto. <strong>Ilustraciones:</strong> ocho escenas y diez pintaderas generadas para el recurso. Herramienta consignada originalmente: OpenAI ImageGen; asistente indicado por la autoría: Astra 6. Son recreaciones contemporáneas. Las pintaderas se inspiran en el <a href="https://www.elmuseocanario.com/images/documentospdf/pintaderaselmuseocanario.pdf" target="_blank" rel="noopener noreferrer">documento indicado de El Museo Canario</a>; no representan una pieza arqueológica propia de cada isla. <strong>Licencia de los materiales propios:</strong> <a rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank"><img src="assets/images/cc-by-sa-4.0.svg" width="88" height="31" alt="CC BY-SA 4.0" style="vertical-align:middle"></a> <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p><p>Para preparar una sesión, consulta la <a href="GUIA_DOCENTE.html">guía docente</a>. La <a href="GUIA_REUTILIZACION.html#curriculo">guía de reutilización</a> indica cómo relacionar las actividades con criterios curriculares concretos de cada etapa. Esa correspondencia requiere selección y revisión docente antes de un uso institucional.</p><p><strong>Criterio editorial:</strong> la tradición documentada, las preguntas de investigación y la recreación literaria aparecen diferenciadas. Los cuentos son originales, están ambientados con intención didáctica y no sustituyen a las fuentes históricas o arqueológicas.</p><section id="acknowledgements" aria-labelledby="acknowledgementsTitle"><h3 id="acknowledgementsTitle">Agradecimientos</h3><p>Se agradece la colaboración de las personas consultadas sobre aspectos históricos, técnicos y didácticos durante la elaboración y revisión de MitoMapa canario. Sus observaciones y sugerencias han contribuido a revisar y mejorar los contenidos, el funcionamiento y las propuestas de aprendizaje del recurso.</p></section><details class="credits-references"><summary>Fuentes y fundamentación del recurso</summary><div><ul><li>Artículo y propuesta didáctica facilitados por la autoría.</li><li>Decreto 196/2022, de 13 de octubre, sobre la ordenación y el currículo de Educación Infantil en Canarias.</li><li>Decreto 211/2022, sobre la ordenación y el currículo de Educación Primaria en Canarias.</li><li>Decreto 30/2023, de 16 de marzo, sobre la ordenación y el currículo de ESO y Bachillerato en Canarias.</li><li>Espinosa (1594), Del Arco y Navarro (1987) y León Barreto (1995), según la bibliografía desarrollada en el artículo base.</li><li>Materiales patrimoniales del CACT Lanzarote y documentación sobre pintaderas de El Museo Canario.</li><li><a href="https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf" target="_blank" rel="noopener noreferrer">Diferencias de la cerámica canario-amazigh en cada isla</a>. Infografía consultada como referencia visual para las siete recreaciones de vasijas del pasaporte. La caracola de La Graciosa es un símbolo contemporáneo sin atribución arqueológica.</li></ul><p>Las fuentes específicas y los enlaces de consulta de cada tema se ofrecen en el apartado <strong>Investiga</strong> de su ruta. Conviene comprobar la vigencia y la accesibilidad de los enlaces antes de una publicación académica definitiva.</p></div></details></section>
-<section class="section panel reuse-panel" aria-labelledby="reuseTitle"><div class="reuse-heading"><img src="assets/images/pintadera_roseta.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy"><div><p class="challenge-kicker">Un recurso para compartir y adaptar</p><h2 id="reuseTitle">Descarga y reutiliza este REA</h2></div></div><p>Puedes conservar, copiar, adaptar y compartir este recurso con atribución, también con fines comerciales y manteniendo la licencia <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es">CC BY-SA 4.0</a>. Indica los cambios que hagas. La licencia se aplica a los materiales propios sobre los que la autoría dispone de derechos; las fuentes externas enlazadas conservan sus condiciones.</p><div class="rea-downloads">
+<section class="section panel reuse-panel" aria-labelledby="reuseTitle"><div class="reuse-heading"><img src="assets/images/pintadera_roseta.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy"><div><p class="challenge-kicker">Un recurso para compartir y adaptar</p><h2 id="reuseTitle">Descarga y reutiliza este REA</h2></div></div>
+<p>Puedes conservar, copiar, adaptar y compartir este recurso con atribución, también con fines comerciales y manteniendo la licencia <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es">CC BY-SA 4.0</a>. Indica los cambios que hagas. La licencia se aplica a los materiales propios sobre los que la autoría dispone de derechos; las fuentes externas enlazadas conservan sus condiciones.</p><div class="rea-downloads">
 <article id="mediatecaResource" class="download-card mediateca-card"><div class="mediateca-brand"><img class="mediateca-logo" src="assets/images/logo_mediateca_canarias.png" width="504" height="95" alt="Mediateca del Gobierno de Canarias" loading="lazy"></div><div class="mediateca-access"><p class="download-format">REPOSITORIO INSTITUCIONAL</p><h3>MitoMapa en la Mediateca</h3><p>Consulta, utiliza o descarga la edición publicada de MitoMapa canario desde su ficha en la Mediateca del Gobierno de Canarias.</p><a class="button" href="https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363" target="_blank" rel="noopener noreferrer" aria-label="Abrir MitoMapa en la Mediateca en una pestaña nueva">Ver en la Mediateca</a></div></article>
-<article class="download-card"><p class="download-format">ELPX 4.8.9 · Multinivel · revisión 02/11/2026</p><h3>Descarga directa del ELPX</h3><p>Incluye los cuentos, las actividades nativas, las narraciones y la guía docente en cajas desplegables. La web se ofrece como recurso adicional mediante un enlace final, sin embeberla. Ofrece orientaciones multinivel y un ejemplo de cuatro sesiones con dos islas. El profesorado concreta el anclaje curricular. Se abre en eXeLearning 4.0.5.</p><a id="currentReaDownload" class="button" data-rea-version="4.8.9" href="downloads/MitoMapa_canario_GobCan.elpx?revision=2b595cc0851d" download="MitoMapa_canario_4_8_9.elpx">Descargar REA 4.8.9</a><p class="download-help"><a id="currentReaZipDownload" href="downloads/MitoMapa_REA_v4_9_3.zip" download="MitoMapa_REA_v4_9_3.zip">Descargar en ZIP si el ELPX no se descarga</a></p></article>
-<article class="download-card"><p class="download-format">REPOSITORIO · WEB 4.9.3</p><h3>Adaptar la web</h3><p>Consulta el repositorio del proyecto para trabajar con su código y materiales. El repositorio es público y permite consultar las fuentes y su historial de cambios.</p><a class="button secondary" href="https://github.com/crgarsan/mitomapa-canario" target="_blank" rel="noopener noreferrer" aria-label="Abrir repositorio en una pestaña nueva">Abrir repositorio</a></article>
+<article id="storyBookDownloads" class="download-card story-book-card" aria-labelledby="storyBookDownloadsTitle">
+  <img class="story-book-cover" src="assets/images/portada-cuentos-canarias.webp" width="840" height="594" alt="Portada de Cuentos de Canarias con una escena ilustrada de cada isla" loading="lazy">
+  <div>
+    <h3 id="storyBookDownloadsTitle">Cuentos en PDF</h3>
+    <ul class="story-book-links" role="list">
+    <li><a class="button secondary" id="downloadStoryBook" href="downloads/MitoMapa_Cuentos_de_Canarias.pdf" download="MitoMapa_Cuentos_de_Canarias.pdf">Descargar los ocho cuentos (PDF)</a></li>
+    <li><a class="button secondary" id="downloadStoryActivityBook" href="downloads/MitoMapa_Cuentos_y_Fichas_de_Actividades.pdf" download="MitoMapa_Cuentos_y_Fichas_de_Actividades.pdf">Descargar cuentos y fichas de actividades (PDF)</a></li>
+    </ul>
+  </div>
+</article>
+<article class="download-card"><p class="download-format">ELPX 4.8.9 · Multinivel · revisión 02/11/2026</p><h3>Descarga directa del ELPX</h3><p>Incluye los cuentos, las actividades nativas, las narraciones y la guía docente en cajas desplegables. La web se ofrece como recurso adicional mediante un enlace final, sin embeberla. Ofrece orientaciones multinivel y un ejemplo de cuatro sesiones con dos islas. El profesorado concreta el anclaje curricular. Se abre en eXeLearning 4.0.5.</p><a id="currentReaDownload" class="button" data-rea-version="4.8.9" href="downloads/MitoMapa_canario_GobCan.elpx?revision=2b595cc0851d" download="MitoMapa_canario_4_8_9.elpx">Descargar REA 4.8.9</a><p class="download-help"><a id="currentReaZipDownload" href="downloads/MitoMapa_REA_v4_10_0.zip" download="MitoMapa_REA_v4_10_0.zip">Descargar en ZIP si el ELPX no se descarga</a></p></article>
+<article class="download-card"><p class="download-format">REPOSITORIO · WEB 4.10.0</p><h3>Adaptar la web</h3><p>Consulta el repositorio del proyecto para trabajar con su código y materiales. El repositorio es público y permite consultar las fuentes y su historial de cambios.</p><a class="button secondary" href="https://github.com/crgarsan/mitomapa-canario" target="_blank" rel="noopener noreferrer" aria-label="Abrir repositorio en una pestaña nueva">Abrir repositorio</a></article>
 <article class="download-card"><p class="download-format">GUÍA · LECTURA WEB</p><h3>Preparar la actividad</h3><p>Consulta las orientaciones de uso, el seguimiento, la licencia y los créditos.</p><a class="button secondary" href="GUIA_REUTILIZACION.html">Abrir la guía</a></article>
 </div>
-<div class="classroom-materials" id="classroomMaterials"><h3>Materiales para el aula</h3><p>Plantillas para planificar la ruta, preparar una creación y conversar sobre lo aprendido. Acuerden con el profesorado las islas, las tareas y los apoyos. Pueden imprimirlas o adaptar una copia; no fijan un curso ni generan puntuaciones.</p><ul><li><a href="downloads/Cuaderno_de_ruta_MitoMapa.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir el cuaderno de ruta en una pestaña nueva">Cuaderno de ruta: planificar, explorar y crear</a></li><li><a href="downloads/Pauta_de_revision_MitoMapa.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir la pauta de revisión en una pestaña nueva">Pauta para conversar y mejorar</a></li><li><a href="downloads/Pauta_de_revision_MitoMapa.csv" download>Pauta editable para el profesorado (CSV)</a></li></ul><p>Son hojas de uso independiente: las anotaciones no se sincronizan con el seguimiento de la web ni con el pasaporte manual del ELPX. Cada docente selecciona las tareas y los apoyos y concreta su anclaje curricular.</p></div><p>La web 4.9.3 ofrece el REA editable 4.8.9, preparado para eXeLearning 4.0.5: 34 páginas, 118 iDevices, 42 juegos nativos y 16 pistas de audio. Incluye los cuentos y las actividades nativas editables, la guía docente en cajas desplegables y las fuentes reunidas por apartados. La web mantiene su mapa con piezas y sus juegos, y se enlaza al final del ELPX como un recurso adicional independiente. El ejemplo curricular de tercer ciclo de Primaria trabaja dos islas en cuatro sesiones; la propuesta multinivel permite que cada docente concrete su itinerario y anclaje curricular. El pasaporte nativo se revisa manualmente; la web tiene seguimiento propio y no se sincroniza con el ELPX. Las descargas no incluyen respuestas ni datos del alumnado.</p></section><section class="section panel historical-review" aria-labelledby="historicalReviewTitle"><div class="reuse-heading"><img src="assets/images/pintadera_espiral_cuadrada.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy"><div><h2 id="historicalReviewTitle">Historia, imágenes y fuentes</h2></div></div><h3>Una imagen no prueba cómo fue el pasado</h3>
+<div class="classroom-materials" id="classroomMaterials"><h3>Materiales para el aula</h3><p>Plantillas para planificar la ruta, preparar una creación y conversar sobre lo aprendido. Acuerden con el profesorado las islas, las tareas y los apoyos. Pueden imprimirlas o adaptar una copia; no fijan un curso ni generan puntuaciones.</p><ul><li><a href="downloads/Cuaderno_de_ruta_MitoMapa.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir el cuaderno de ruta en una pestaña nueva">Cuaderno de ruta: planificar, explorar y crear</a></li><li><a href="downloads/Pauta_de_revision_MitoMapa.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir la pauta de revisión en una pestaña nueva">Pauta para conversar y mejorar</a></li><li><a href="downloads/Pauta_de_revision_MitoMapa.csv" download>Pauta editable para el profesorado (CSV)</a></li></ul><p>Son hojas de uso independiente: las anotaciones no se sincronizan con el seguimiento de la web ni con el pasaporte manual del ELPX. Cada docente selecciona las tareas y los apoyos y concreta su anclaje curricular.</p></div><p>La web 4.10.0 ofrece el REA editable 4.8.9, preparado para eXeLearning 4.0.5: 34 páginas, 118 iDevices, 42 juegos nativos y 16 pistas de audio. Incluye los cuentos y las actividades nativas editables, la guía docente en cajas desplegables y las fuentes reunidas por apartados. La web mantiene su mapa con piezas y sus juegos, y se enlaza al final del ELPX como un recurso adicional independiente. El ejemplo curricular de tercer ciclo de Primaria trabaja dos islas en cuatro sesiones; la propuesta multinivel permite que cada docente concrete su itinerario y anclaje curricular. El pasaporte nativo se revisa manualmente; la web tiene seguimiento propio y no se sincroniza con el ELPX. Las descargas no incluyen respuestas ni datos del alumnado.</p></section>
+<section class="section panel pintaderas-3d" aria-labelledby="pintaderas3d">
+  <div class="reuse-heading"><img src="assets/images/pintadera_roseta.webp" width="72" height="72" alt="" loading="lazy"><div><h2 id="pintaderas3d">Pintaderas en 3D</h2></div></div>
+  <p>Diez motivos de MitoMapa para explorar el relieve y la estampación. Las medidas de la cara son aproximadas y se han ajustado por pieza a partir de las referencias del museo. Importen los archivos STL en milímetros.</p>
+  <section class="pintadera-gallery" aria-labelledby="pintaderas-recreaciones">
+    <h3 id="pintaderas-recreaciones">Modelos recreados en 3D</h3>
+    <p>Piezas educativas con el relieve visible y el reverso plano.</p>
+    <p><a class="button" href="downloads/pintaderas-3d/recreaciones.zip" download="MitoMapa_pintaderas_3D_recreaciones.zip">Descargar los 10 modelos (ZIP)</a></p>
+    <ul class="pintadera-collection" role="list" aria-labelledby="pintaderas-recreaciones" data-pintadera-collection="recreaciones">
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_chevron.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Bandas en uve</h4><p class="pintadera-tile-size">81 × 67 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/chevron" aria-label="Ver en 3D: Bandas en uve, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_chevron.webp" data-pintadera-still aria-label="Ver imágenes de Bandas en uve, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_chevron.stl" download="recreaciones_pintadera_chevron.stl" aria-label="Descargar STL: Bandas en uve, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_circulos.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Círculos y triángulos</h4><p class="pintadera-tile-size">36 × 53 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/circulos" aria-label="Ver en 3D: Círculos y triángulos, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_circulos.webp" data-pintadera-still aria-label="Ver imágenes de Círculos y triángulos, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_circulos.stl" download="recreaciones_pintadera_circulos.stl" aria-label="Descargar STL: Círculos y triángulos, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_dentada.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Disco dentado</h4><p class="pintadera-tile-size">31 × 31 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/dentada" aria-label="Ver en 3D: Disco dentado, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_dentada.webp" data-pintadera-still aria-label="Ver imágenes de Disco dentado, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_dentada.stl" download="recreaciones_pintadera_dentada.stl" aria-label="Descargar STL: Disco dentado, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_doble_triangulo.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Triángulos unidos</h4><p class="pintadera-tile-size">44 × 43 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/doble_triangulo" aria-label="Ver en 3D: Triángulos unidos, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_doble_triangulo.webp" data-pintadera-still aria-label="Ver imágenes de Triángulos unidos, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_doble_triangulo.stl" download="recreaciones_pintadera_doble_triangulo.stl" aria-label="Descargar STL: Triángulos unidos, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_espiral_cuadrada.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Espiral cuadrada</h4><p class="pintadera-tile-size">45 × 45 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/espiral_cuadrada" aria-label="Ver en 3D: Espiral cuadrada, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_espiral_cuadrada.webp" data-pintadera-still aria-label="Ver imágenes de Espiral cuadrada, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_espiral_cuadrada.stl" download="recreaciones_pintadera_espiral_cuadrada.stl" aria-label="Descargar STL: Espiral cuadrada, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_rombos.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Franja de rombos</h4><p class="pintadera-tile-size">83 × 21 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/rombos" aria-label="Ver en 3D: Franja de rombos, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_rombos.webp" data-pintadera-still aria-label="Ver imágenes de Franja de rombos, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_rombos.stl" download="recreaciones_pintadera_rombos.stl" aria-label="Descargar STL: Franja de rombos, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_roseta.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Roseta</h4><p class="pintadera-tile-size">38 × 38 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/roseta" aria-label="Ver en 3D: Roseta, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_roseta.webp" data-pintadera-still aria-label="Ver imágenes de Roseta, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_roseta.stl" download="recreaciones_pintadera_roseta.stl" aria-label="Descargar STL: Roseta, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_seis_triangulos.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Seis triángulos</h4><p class="pintadera-tile-size">22 × 20 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/seis_triangulos" aria-label="Ver en 3D: Seis triángulos, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_seis_triangulos.webp" data-pintadera-still aria-label="Ver imágenes de Seis triángulos, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_seis_triangulos.stl" download="recreaciones_pintadera_seis_triangulos.stl" aria-label="Descargar STL: Seis triángulos, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_sol.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Disco de ocho rayos</h4><p class="pintadera-tile-size">34 × 34 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/sol" aria-label="Ver en 3D: Disco de ocho rayos, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_sol.webp" data-pintadera-still aria-label="Ver imágenes de Disco de ocho rayos, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_sol.stl" download="recreaciones_pintadera_sol.stl" aria-label="Descargar STL: Disco de ocho rayos, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/recreaciones/pintadera_triangulo.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Triángulo con incisiones</h4><p class="pintadera-tile-size">79 × 69 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="recreaciones/triangulo" aria-label="Ver en 3D: Triángulo con incisiones, modelo recreado" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/recreaciones/pintadera_triangulo.webp" data-pintadera-still aria-label="Ver imágenes de Triángulo con incisiones, modelo recreado">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/recreaciones/pintadera_triangulo.stl" download="recreaciones_pintadera_triangulo.stl" aria-label="Descargar STL: Triángulo con incisiones, modelo recreado">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <section class="pintadera-gallery" aria-labelledby="pintaderas-sellos">
+    <h3 id="pintaderas-sellos">Sellos para arcilla</h3>
+    <p>Piezas de estampación con un rebaje lateral para sujetarlas entre el pulgar y el índice. El motivo se ha reflejado y se ha invertido el relieve para transferir el dibujo a la arcilla.</p>
+    <p><a class="button" href="downloads/pintaderas-3d/sellos.zip" download="MitoMapa_pintaderas_3D_sellos.zip">Descargar los 10 sellos (ZIP)</a></p>
+    <ul class="pintadera-collection" role="list" aria-labelledby="pintaderas-sellos" data-pintadera-collection="sellos">
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_chevron.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Bandas en uve</h4><p class="pintadera-tile-size">81 × 67 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/chevron" aria-label="Ver en 3D: Bandas en uve, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_chevron.webp" data-pintadera-still aria-label="Ver imágenes de Bandas en uve, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_chevron.stl" download="sellos_pintadera_chevron.stl" aria-label="Descargar STL: Bandas en uve, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_circulos.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Círculos y triángulos</h4><p class="pintadera-tile-size">36 × 53 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/circulos" aria-label="Ver en 3D: Círculos y triángulos, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_circulos.webp" data-pintadera-still aria-label="Ver imágenes de Círculos y triángulos, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_circulos.stl" download="sellos_pintadera_circulos.stl" aria-label="Descargar STL: Círculos y triángulos, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_dentada.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Disco dentado</h4><p class="pintadera-tile-size">31 × 31 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/dentada" aria-label="Ver en 3D: Disco dentado, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_dentada.webp" data-pintadera-still aria-label="Ver imágenes de Disco dentado, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_dentada.stl" download="sellos_pintadera_dentada.stl" aria-label="Descargar STL: Disco dentado, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_doble_triangulo.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Triángulos unidos</h4><p class="pintadera-tile-size">44 × 43 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/doble_triangulo" aria-label="Ver en 3D: Triángulos unidos, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_doble_triangulo.webp" data-pintadera-still aria-label="Ver imágenes de Triángulos unidos, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_doble_triangulo.stl" download="sellos_pintadera_doble_triangulo.stl" aria-label="Descargar STL: Triángulos unidos, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_espiral_cuadrada.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Espiral cuadrada</h4><p class="pintadera-tile-size">45 × 45 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/espiral_cuadrada" aria-label="Ver en 3D: Espiral cuadrada, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_espiral_cuadrada.webp" data-pintadera-still aria-label="Ver imágenes de Espiral cuadrada, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_espiral_cuadrada.stl" download="sellos_pintadera_espiral_cuadrada.stl" aria-label="Descargar STL: Espiral cuadrada, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_rombos.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Franja de rombos</h4><p class="pintadera-tile-size">83 × 21 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/rombos" aria-label="Ver en 3D: Franja de rombos, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_rombos.webp" data-pintadera-still aria-label="Ver imágenes de Franja de rombos, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_rombos.stl" download="sellos_pintadera_rombos.stl" aria-label="Descargar STL: Franja de rombos, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_roseta.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Roseta</h4><p class="pintadera-tile-size">38 × 38 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/roseta" aria-label="Ver en 3D: Roseta, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_roseta.webp" data-pintadera-still aria-label="Ver imágenes de Roseta, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_roseta.stl" download="sellos_pintadera_roseta.stl" aria-label="Descargar STL: Roseta, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_seis_triangulos.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Seis triángulos</h4><p class="pintadera-tile-size">22 × 20 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/seis_triangulos" aria-label="Ver en 3D: Seis triángulos, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_seis_triangulos.webp" data-pintadera-still aria-label="Ver imágenes de Seis triángulos, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_seis_triangulos.stl" download="sellos_pintadera_seis_triangulos.stl" aria-label="Descargar STL: Seis triángulos, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_sol.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Disco de ocho rayos</h4><p class="pintadera-tile-size">34 × 34 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/sol" aria-label="Ver en 3D: Disco de ocho rayos, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_sol.webp" data-pintadera-still aria-label="Ver imágenes de Disco de ocho rayos, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_sol.stl" download="sellos_pintadera_sol.stl" aria-label="Descargar STL: Disco de ocho rayos, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+      <li class="pintadera-tile">
+        <img src="assets/pintaderas-3d/miniaturas/sellos/pintadera_triangulo.webp" alt="" width="240" height="160" loading="lazy">
+        <div class="pintadera-tile-label"><h4>Triángulo con incisiones</h4><p class="pintadera-tile-size">79 × 69 mm</p></div>
+        <div class="pintadera-tile-actions">
+          <button class="button" type="button" data-pintadera-open="sellos/triangulo" aria-label="Ver en 3D: Triángulo con incisiones, sello para arcilla" aria-haspopup="dialog" aria-controls="pintaderaViewer" hidden>Ver en 3D</button>
+          <a class="button" href="assets/pintaderas-3d/vistas/sellos/pintadera_triangulo.webp" data-pintadera-still aria-label="Ver imágenes de Triángulo con incisiones, sello para arcilla">Ver imágenes</a>
+          <a class="button secondary" href="downloads/pintaderas-3d/sellos/pintadera_triangulo.stl" download="sellos_pintadera_triangulo.stl" aria-label="Descargar STL: Triángulo con incisiones, sello para arcilla">STL <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <details class="pintadera-files"><summary>Cómo imprimir las piezas</summary>
+    <p>Coloquen la base plana en la cama de impresión y dejen el relieve hacia arriba. Las dos colecciones están diseñadas para impresión FDM sin soportes en esa orientación. Comprueben en la vista de capas que se conserva el relieve, especialmente en las piezas pequeñas.</p>
+  </details>
+  <details class="pintadera-files"><summary>Referencias de escala</summary>
+    <p>El punto de partida son las ilustraciones contemporáneas del recurso. Las fichas y el <a href="https://www.elmuseocanario.com/images/documentospdf/pintaderaselmuseocanario.pdf">catálogo de El Museo Canario</a> orientan el tamaño de la cara por semejanza. Se conservan las proporciones del motivo de MitoMapa. El grosor, el reverso y el agarre son decisiones del modelado didáctico.</p>
+    <ul>
+      <li>Bandas en uve. <a href="https://www.elmuseocanario.com/archivo/pintadera-3049/">Inv. 3049 · ancho del campo triangular de 81 mm</a></li>
+      <li>Círculos y triángulos. <a href="https://www.elmuseocanario.com/archivo/pintadera-3125/">Inv. 3125 · alto del campo de 53 mm</a></li>
+      <li>Disco dentado. <a href="https://www.elmuseocanario.com/archivo/pintadera-3064/">Inv. 3064 · diámetro del campo de 31 mm</a></li>
+      <li>Triángulos unidos. <a href="https://www.elmuseocanario.com/archivo/pintadera-3149/">Inv. 3149 · ancho de 44 mm como escala análoga al motivo bitriangular del inv. 3134</a></li>
+      <li>Espiral cuadrada. <a href="https://www.elmuseocanario.com/registro-3083-coleccion-de-arqueologia-de-gran-canaria/">Inv. 3083 · campo cuadrado de 45 mm como escala análoga al motivo del inv. 3087</a></li>
+      <li>Franja de rombos. <a href="https://www.elmuseocanario.com/archivo/pintadera-3123/">Inv. 3123 · ancho de 83 mm como escala análoga para el motivo alargado del inv. 3172</a></li>
+      <li>Roseta. <a href="https://www.elmuseocanario.com/archivo/pintadera-3074/">Inv. 3074 · diámetro de 38 mm como escala análoga al motivo circular del inv. 3056</a></li>
+      <li>Seis triángulos. <a href="https://www.elmuseocanario.com/images/documentospdf/pintaderaselmuseocanario.pdf">Inv. 3035 · eje mayor de 22 mm según el capítulo 2.1 del catálogo</a></li>
+      <li>Disco de ocho rayos. <a href="https://www.elmuseocanario.com/archivo/pintadera-3080/">Inv. 3080 · diámetro del campo de 34 mm</a></li>
+      <li>Triángulo con incisiones. <a href="https://www.elmuseocanario.com/archivo/pintadera-3032/">Inv. 3032 · ancho del campo de 79 mm como escala análoga al motivo del inv. 3034</a></li>
+    </ul>
+  </details>
+  <p>Modelado educativo de MitoMapa. <a href="LICENCIA_Y_CREDITOS.txt">Licencia y créditos de los materiales</a>. <a href="assets/pintaderas-3d/lib/LICENSE.txt">Licencia MIT del visor Three.js</a>.</p>
+</section>
+<section class="section panel vasija-3d" aria-labelledby="vasijacanaria3d">
+  <h2 id="vasijacanaria3d">Vasijas canarias en 3D</h2>
+  <p>Exploren las vasijas del pasaporte. En el visor pueden cambiar de isla y examinar el interior, el perfil y la base de cada pieza.</p>
+  <p><a id="vasijaCollectionDownload" class="button" href="downloads/vasijas/coleccion.zip" download="MitoMapa_STL_seis_vasijas.zip">Descargar los seis STL nuevos (ZIP · 21 MB)</a></p>
+  <ul class="vasija-collection" role="list" aria-label="Vasijas por isla">
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_tenerife.webp" alt="Insignia del pasaporte de Tenerife" width="512" height="512" loading="lazy">
+      <h3>Tenerife</h3>
+      <div class="vasija-tile-actions">
+        <button id="openVasijaViewer" class="button" type="button" data-vasija-open="tenerife" aria-label="Explorar la vasija de Tenerife en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="tenerife" href="assets/vasija/vistas.webp" aria-label="Ver imágenes fijas de la vasija de Tenerife">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasija/vasija_canaria.stl" download="MitoMapa_Vasija_Tenerife.stl" aria-label="Descargar el STL de Tenerife">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_gran_canaria.webp" alt="Insignia del pasaporte de Gran Canaria" width="512" height="512" loading="lazy">
+      <h3>Gran Canaria</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="gran-canaria" aria-label="Explorar la vasija de Gran Canaria en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="gran-canaria" href="assets/vasijas/gran-canaria.webp" aria-label="Ver imágenes fijas de la vasija de Gran Canaria">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/gran-canaria.stl" download="MitoMapa_Vasija_gran_canaria.stl" aria-label="Descargar el STL de Gran Canaria">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_la_palma.webp" alt="Insignia del pasaporte de La Palma" width="512" height="512" loading="lazy">
+      <h3>La Palma</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="la-palma" aria-label="Explorar la vasija de La Palma en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="la-palma" href="assets/vasijas/la-palma.webp" aria-label="Ver imágenes fijas de la vasija de La Palma">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/la-palma.stl" download="MitoMapa_Vasija_la_palma.stl" aria-label="Descargar el STL de La Palma">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_lanzarote.webp" alt="Insignia del pasaporte de Lanzarote" width="512" height="512" loading="lazy">
+      <h3>Lanzarote</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="lanzarote" aria-label="Explorar la vasija de Lanzarote en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="lanzarote" href="assets/vasijas/lanzarote.webp" aria-label="Ver imágenes fijas de la vasija de Lanzarote">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/lanzarote.stl" download="MitoMapa_Vasija_lanzarote.stl" aria-label="Descargar el STL de Lanzarote">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_fuerteventura.webp" alt="Insignia del pasaporte de Fuerteventura" width="512" height="512" loading="lazy">
+      <h3>Fuerteventura</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="fuerteventura" aria-label="Explorar la vasija de Fuerteventura en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="fuerteventura" href="assets/vasijas/fuerteventura.webp" aria-label="Ver imágenes fijas de la vasija de Fuerteventura">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/fuerteventura.stl" download="MitoMapa_Vasija_fuerteventura.stl" aria-label="Descargar el STL de Fuerteventura">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_la_gomera.webp" alt="Insignia del pasaporte de La Gomera" width="512" height="512" loading="lazy">
+      <h3>La Gomera</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="la-gomera" aria-label="Explorar la vasija de La Gomera en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="la-gomera" href="assets/vasijas/la-gomera.webp" aria-label="Ver imágenes fijas de la vasija de La Gomera">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/la-gomera.stl" download="MitoMapa_Vasija_la_gomera.stl" aria-label="Descargar el STL de La Gomera">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+    <li class="vasija-tile">
+      <img src="assets/images/insignia_el_hierro.webp" alt="Insignia del pasaporte de El Hierro" width="512" height="512" loading="lazy">
+      <h3>El Hierro</h3>
+      <div class="vasija-tile-actions">
+        <button class="button" type="button" data-vasija-open="el-hierro" aria-label="Explorar la vasija de El Hierro en 3D" aria-haspopup="dialog" aria-controls="vasijaViewer" hidden>Ver en 3D</button>
+        <a class="button" data-vasija-still="el-hierro" href="assets/vasijas/el-hierro.webp" aria-label="Ver imágenes fijas de la vasija de El Hierro">Ver imágenes</a>
+        <a class="button secondary" href="downloads/vasijas/el-hierro.stl" download="MitoMapa_Vasija_el_hierro.stl" aria-label="Descargar el STL de El Hierro">STL <span aria-hidden="true">↓</span></a>
+      </div>
+    </li>
+  </ul>
+  <div class="vasija-print-notes">
+    <p><strong>Impresión 3D.</strong> Importen los STL en milímetros y coloquen la base plana sobre la cama con la boca hacia arriba. Las seis nuevas recreaciones tienen medidas didácticas y geometrías pensadas para imprimir sin soportes. Queda pendiente la prueba física.</p>
+    <p><a data-vasija-pdf href="https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf">Infografía de la cerámica canario-amazigh (PDF)</a></p>
+  </div>
+  <details class="vasija-ficha">
+    <summary>Ficha y referencias de Tenerife</summary>
+    <article class="download-card" id="vasijaTenerifeFicha">
+      <div class="vasija-card-intro">
+        <div>
+          <h3 data-vasija-field="title">Vasija alta de Tenerife</h3>
+          <p data-vasija-field="description">Exploren la forma del recipiente, su perfil, el interior y la base.</p>
+        </div>
+        <figure id="vasijaBadgeFigure" class="vasija-badge" hidden>
+          <img id="vasijaBadge" width="512" height="512" alt="">
+          <figcaption>Insignia del pasaporte</figcaption>
+        </figure>
+      </div>
+      <dl class="vasija-medidas">
+        <div><dt>Referencias de tamaño</dt><dd data-vasija-field="documentedDimensions">Cargando ficha…</dd></div>
+        <div><dt>Medidas del STL</dt><dd data-vasija-field="modelDimensions">Cargando ficha…</dd></div>
+      </dl>
+      <p data-vasija-field="adaptations"></p>
+      <p><strong>Impresión.</strong> Importen el STL en milímetros y comprueben que la cama admite el tamaño indicado con margen alrededor. Apoyen la base plana sobre la cama y coloquen la boca hacia arriba. El modelo está diseñado para imprimir sin soportes. Queda pendiente la prueba física.</p>
+      <ul class="vasija-referencias" aria-label="Fuentes de la vasija">
+        <li><a href="https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf">Infografía de la cerámica canario-amazigh del pasaporte (PDF)</a></li>
+        <li hidden><a data-vasija-reference></a></li>
+        <li hidden><a data-vasija-supplemental></a></li>
+      </ul>
+    </article>
+  </details>
+</section>
+<section class="section panel lapa-3d" aria-labelledby="patrimonioNatural3d">
+  <h2 id="patrimonioNatural3d">Patrimonio natural en 3D</h2>
+  <article class="download-card lapa-card" aria-labelledby="lapa-blanca">
+    <figure class="lapa-card-image">
+      <img src="assets/lapa-blanca/miniatura.webp?revision=4746669da950" alt="Modelo de la concha de lapa blanca, con crestas que bajan desde el ápice hasta el borde" width="360" height="250" loading="lazy">
+    </figure>
+    <div class="lapa-card-content">
+      <h3 id="lapa-blanca">Lapa blanca de La Graciosa</h3>
+      <p class="lapa-species"><i>Patella aspera</i></p>
+      <p>Esta lapa vive en costas rocosas y está documentada en La Graciosa. El modelo reproduce la forma cónica, el contorno ovalado y las crestas que recorren la concha desde el ápice hasta el borde.</p>
+      <p><strong>Medidas del modelo.</strong> <span data-lapa-dimensions>60 × 46 × 19 mm</span></p>
+      <p><strong>Impresión 3D.</strong> El modelo representa el exterior de la concha. Su base plana permite imprimirla con las crestas hacia arriba, sin soportes. Importen el STL en milímetros. Queda pendiente la prueba física.</p>
+      <p><a href="https://www.biodiversidadcanarias.es/centinela/especie/E00699">Ficha de la lapa blanca en Centinela</a></p>
+      <div class="pintadera-viewer-actions">
+        <button id="openLapaViewer" type="button" class="button" aria-haspopup="dialog" aria-controls="lapaViewer" hidden>Ver en 3D</button>
+        <a id="lapaStillLink" class="button" href="assets/lapa-blanca/vistas.webp">Ver imágenes fijas</a>
+        <a id="lapaCardDownload" class="button secondary" href="downloads/lapa-blanca/lapa-blanca-la-graciosa.stl" download="MitoMapa_Lapa_blanca_La_Graciosa.stl">Descargar STL</a>
+      </div>
+    </div>
+  </article>
+</section>
+<section class="section panel historical-review" aria-labelledby="historicalReviewTitle"><div class="reuse-heading"><img src="assets/images/pintadera_espiral_cuadrada.webp" width="72" height="72" alt="" aria-hidden="true" loading="lazy"><div><h2 id="historicalReviewTitle">Historia, imágenes y fuentes</h2></div></div><h3>Una imagen no prueba cómo fue el pasado</h3>
 <p>Las escenas creadas con IA acompañan cuentos originales; el mapa de relieve procede del archivo aportado por la autoría, cuya fuente indicada es TongApp del Gobierno de Canarias. Su aspecto realista no demuestra que la ropa, los objetos, los rostros, los edificios o las acciones representadas fueran así. Tampoco son retratos de personas históricas ni reproducciones exactas del paisaje.</p>
 <p>Para conocer el pasado combinamos y contrastamos fuentes. Muchas noticias sobre nombres y creencias nos llegan por crónicas y otros escritos, a menudo posteriores a la conquista y condicionados por la perspectiva de sus autores. La arqueología estudia restos materiales; la tradición oral conserva relatos y versiones. Ninguna ilustración inventada sustituye a esas fuentes.</p>
 <ul><li><strong>Testimonio escrito:</strong> ¿quién lo escribió, cuándo y con qué propósito?</li><li><strong>Resto arqueológico:</strong> ¿qué objeto o contexto se ha estudiado y qué interpretación permite?</li><li><strong>Tradición oral:</strong> ¿quién contó el relato, dónde y qué variantes conocemos?</li><li><strong>Ficción del recurso:</strong> personajes, diálogos y escenas inventados para leer y crear.</li></ul>
@@ -105,27 +474,216 @@
 <p>Las vasijas se inspiran en la infografía del Gobierno de Canarias <a href="https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf" target="_blank" rel="noopener">Diferencias de la cerámica canario-amazigh en cada isla</a>. Se respetan las diferencias de forma y ornamentación; Lanzarote mantiene el recubrimiento claro denominado «tegue». Las tonalidades terrosas de las demás ilustraciones son una decisión de esta recreación visual.</p>
 <p>Para El Hierro se ha utilizado además una fotografía de vasijas facilitada por la autoría; esa imagen no permite fecharlas ni identificar una pieza prehispánica excavada concreta. La ilustración incorpora dos asas laterales cortas inspiradas en esa referencia; no es una reproducción exacta de una pieza arqueológica. La caracola de La Graciosa es un símbolo contemporáneo de su vínculo con el mar, sin atribuir a la isla una tipología cerámica documentada.</p>
 <p>Las ocho imágenes se generaron con la herramienta de imágenes de OpenAI el 22/10/2026; la versión técnica exacta del modelo no se expone en esta herramienta. Son propuestas originales con pequeñas variaciones respecto a las referencias, no reproducciones exactas de piezas arqueológicas. Las copias de uso conservan transparencia y se han optimizado para el recurso; los PNG originales se mantienen en la <a href="https://github.com/crgarsan/mitomapa-canario/tree/propuesta-vasijas-20261022" target="_blank" rel="noopener">galería de propuestas</a>.</p>
-<p>Se aplica <a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank">CC BY-SA 4.0</a> sobre los derechos propios que correspondan. Las fuentes de consulta conservan sus condiciones originales.</p></section></details></section></main><footer class="footer"><div class="footer-inner"><strong>MitoMapa canario: ocho islas, ocho piezas</strong><br><span>Autoría: Jesica Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.</span><br><span class="version-label">Versión web 4.9.3 · noviembre de 2026</span><p class="suggestions-contact"><strong>Sugerencias y propuestas de mejora:</strong> <a href="mailto:sugerencias.mitomapacanario@gmail.com?subject=Sugerencias%20MitoMapa%20canario">sugerencias.mitomapacanario@gmail.com</a></p></div></footer>
-<dialog id="passportDialog" aria-labelledby="passportDialogTitle"><div class="dialog-head"><div><p class="challenge-kicker">Colección persistente</p><h2 id="passportDialogTitle">Pasaporte de piezas</h2></div><button class="dialog-close" id="closePassport" type="button" aria-label="Cerrar pasaporte">×</button></div><p id="passportDialogStatus" class="lead"></p><div class="passport-dialog-grid" id="passportDialogGrid"></div><p class="passport-help">Cada espacio indica la isla y el estado de su insignia. La pieza acredita los retos de comprensión, no la revisión de las producciones abiertas. Selecciona una ruta para volver a ella.</p><div class="passport-actions"><button class="button secondary" id="printPassport" type="button">Imprimir pasaporte</button></div></dialog>
+<p>Se aplica <a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank">CC BY-SA 4.0</a> sobre los derechos propios que correspondan. Las fuentes de consulta conservan sus condiciones originales.</p></section></details></section></main><footer class="footer"><div class="footer-inner"><strong>MitoMapa canario: ocho islas, ocho piezas</strong><br><span>Autoría: Jesica Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.</span><br><span class="version-label">Versión web 4.10.0 · noviembre de 2026</span><p class="suggestions-contact"><strong>Sugerencias y propuestas de mejora:</strong> <a href="mailto:sugerencias.mitomapacanario@gmail.com?subject=Sugerencias%20MitoMapa%20canario">sugerencias.mitomapacanario@gmail.com</a></p></div></footer>
+<dialog id="pintaderaViewer" class="pintadera-viewer" aria-labelledby="pintaderaTitle">
+  <header class="pintadera-viewer-head">
+    <div>
+      <p id="pintaderaKind" class="pintadera-kicker">Exploración 3D</p>
+      <h2 id="pintaderaTitle">Pintaderas en 3D</h2>
+      <p id="pintaderaSize"></p>
+    </div>
+    <button id="pintaderaClose" type="button" class="button secondary" autofocus>Cerrar</button>
+  </header>
+  <div class="pintadera-viewer-body">
+    <div class="pintadera-viewer-visual">
+      <div id="pintaderaStage" class="pintadera-stage" role="img" aria-label="Vista interactiva de la pieza"></div>
+      <figure id="pintaderaFallback" class="pintadera-fallback" hidden>
+        <img id="pintaderaStill" width="840" height="460" alt="">
+        <figcaption>Vistas de la geometría del STL.</figcaption>
+      </figure>
+      <p id="pintaderaStatus" class="pintadera-status" role="status"></p>
+      <p id="pintaderaGesture" class="pintadera-gesture" hidden>Giro y zoom con los botones, el ratón o los gestos táctiles.</p>
+    </div>
+    <div class="pintadera-viewer-panel">
+      <div class="pintadera-selectors">
+        <label for="pintaderaSeries">Colección
+          <select id="pintaderaSeries">
+            <option value="recreaciones">Modelos recreados en 3D</option>
+            <option value="sellos">Sellos para arcilla</option>
+          </select>
+        </label>
+        <label for="pintaderaMotif">Motivo
+          <select id="pintaderaMotif"></select>
+        </label>
+      </div>
+      <p id="pintaderaDescription" class="pintadera-description"></p>
+      <div id="pintaderaTools" class="pintadera-viewer-tools" hidden>
+        <div role="group" aria-label="Vistas de la pieza" class="pintadera-control-group">
+          <button type="button" data-pintadera-view="cara">Cara</button>
+          <button type="button" data-pintadera-view="perfil">Perfil</button>
+          <button type="button" data-pintadera-view="reverso">Reverso</button>
+          <button type="button" data-pintadera-view="perspectiva">Perspectiva</button>
+        </div>
+        <div role="group" aria-label="Giro y zoom" class="pintadera-control-group pintadera-motion">
+          <button type="button" data-pintadera-turn="-25" aria-label="Girar a la izquierda">←</button>
+          <button type="button" data-pintadera-turn="25" aria-label="Girar a la derecha">→</button>
+          <button type="button" data-pintadera-tilt="25" aria-label="Inclinar hacia arriba">↑</button>
+          <button type="button" data-pintadera-tilt="-25" aria-label="Inclinar hacia abajo">↓</button>
+          <button type="button" data-pintadera-zoom="0.8" aria-label="Alejar la pieza">−</button>
+          <button type="button" data-pintadera-zoom="1.25" aria-label="Acercar la pieza">+</button>
+        </div>
+        <button id="pintaderaSpin" class="pintadera-spin" type="button" aria-pressed="false">Giro automático</button>
+      </div>
+      <div class="pintadera-viewer-actions">
+        <button type="button" class="button secondary" id="pintaderaToggle" aria-controls="pintaderaStage pintaderaFallback">Ver imágenes fijas</button>
+        <a id="pintaderaDownload" class="button" download>Descargar STL</a>
+      </div>
+    </div>
+  </div>
+</dialog>
+<dialog id="vasijaViewer" class="pintadera-viewer" aria-labelledby="vasijaViewerTitle">
+  <header class="pintadera-viewer-head">
+    <div>
+      <p class="pintadera-kicker">Modelo didáctico</p>
+      <h2 id="vasijaViewerTitle" data-vasija-field="title">Vasija del pasaporte</h2>
+      <p id="vasijaViewerSize" data-vasija-field="modelDimensions"></p>
+    </div>
+    <button id="vasijaClose" type="button" class="button secondary" autofocus>Cerrar</button>
+  </header>
+  <div class="pintadera-selectors vasija-selector">
+    <label for="vasijaSelect">Isla</label>
+    <select id="vasijaSelect"></select>
+  </div>
+  <div class="pintadera-viewer-body">
+    <div class="pintadera-viewer-visual">
+      <div id="vasijaStage" class="pintadera-stage" role="img" aria-label="Vista interactiva de la vasija" hidden></div>
+      <figure id="vasijaFallback" class="pintadera-fallback" hidden>
+        <img id="vasijaStill" alt="Vistas fijas de la vasija, con su interior, perfil y base">
+        <figcaption>Vistas generadas a partir de la geometría del STL.</figcaption>
+      </figure>
+      <p id="vasijaStatus" class="pintadera-status" role="status"></p>
+      <p id="vasijaGesture" class="pintadera-gesture" hidden>Giro y zoom con los botones, el ratón o los gestos táctiles.</p>
+    </div>
+    <div class="pintadera-viewer-panel">
+      <p class="pintadera-description" data-vasija-field="description"></p>
+      <p class="pintadera-description" id="vasijaViewerDocumented" hidden><strong>Referencias de tamaño.</strong> <span data-vasija-field="documentedDimensions"></span></p>
+      <p class="pintadera-description" data-vasija-field="adaptations"></p>
+      <ul class="vasija-referencias pintadera-description" aria-label="Fuentes de la vasija">
+        <li><a data-vasija-pdf href="https://www3.gobiernodecanarias.org/medusa/ecoescuela/recursosdigitales/files/formidable/6/cd-03-0000079-infografia-simple-doble-formato-historia-tipos-de-ceramica-por-isla.pdf">Infografía de la cerámica canario-amazigh (PDF)</a></li>
+        <li hidden><a data-vasija-reference></a></li>
+        <li hidden><a data-vasija-supplemental></a></li>
+      </ul>
+      <div id="vasijaTools" class="pintadera-viewer-tools" hidden>
+        <div role="group" aria-label="Vistas de la vasija" class="pintadera-control-group">
+          <button type="button" data-vasija-view="cara">Interior</button>
+          <button type="button" data-vasija-view="perfil">Perfil</button>
+          <button type="button" data-vasija-view="reverso">Base</button>
+          <button type="button" data-vasija-view="perspectiva">Perspectiva</button>
+        </div>
+        <div role="group" aria-label="Giro y zoom" class="pintadera-control-group pintadera-motion">
+          <button type="button" data-vasija-turn="-25" aria-label="Girar a la izquierda">←</button>
+          <button type="button" data-vasija-turn="25" aria-label="Girar a la derecha">→</button>
+          <button type="button" data-vasija-tilt="25" aria-label="Inclinar hacia arriba">↑</button>
+          <button type="button" data-vasija-tilt="-25" aria-label="Inclinar hacia abajo">↓</button>
+          <button type="button" data-vasija-zoom="0.8" aria-label="Alejar la vasija">−</button>
+          <button type="button" data-vasija-zoom="1.25" aria-label="Acercar la vasija">+</button>
+        </div>
+        <button id="vasijaSpin" class="pintadera-spin" type="button" aria-pressed="false">Giro automático</button>
+      </div>
+      <div class="pintadera-viewer-actions">
+        <button type="button" class="button secondary" id="vasijaToggle" aria-controls="vasijaStage vasijaFallback">Ver imágenes fijas</button>
+        <a id="vasijaDownload" class="button" href="downloads/vasija/vasija_canaria.stl" download="MitoMapa_Vasija_Tenerife.stl">Descargar STL</a>
+      </div>
+    </div>
+  </div>
+</dialog>
+<dialog id="lapaViewer" class="pintadera-viewer" aria-labelledby="lapaViewerTitle">
+  <header class="pintadera-viewer-head">
+    <div>
+      <p class="pintadera-kicker">Patrimonio natural en 3D</p>
+      <h2 id="lapaViewerTitle">Lapa blanca de La Graciosa</h2>
+      <p class="lapa-viewer-meta"><i>Patella aspera</i> · <span data-lapa-dimensions>60 × 46 × 19 mm</span></p>
+    </div>
+    <button id="lapaClose" type="button" class="button secondary" autofocus>Cerrar</button>
+  </header>
+  <div class="pintadera-viewer-body">
+    <div class="pintadera-viewer-visual">
+      <div id="lapaStage" class="pintadera-stage" role="img" aria-label="Vista interactiva de la concha de lapa blanca" hidden></div>
+      <figure id="lapaFallback" class="pintadera-fallback" hidden>
+        <img id="lapaStill" alt="Tres vistas fijas de la concha de lapa blanca, desde arriba, de perfil y desde la base">
+        <figcaption>Vistas superior, de perfil y de la base, generadas a partir del STL.</figcaption>
+      </figure>
+      <p id="lapaStatus" class="pintadera-status" role="status"></p>
+      <p id="lapaGesture" class="pintadera-gesture" hidden>Giren la concha y cambien el zoom con los botones, el ratón o los gestos táctiles.</p>
+    </div>
+    <div class="pintadera-viewer-panel">
+      <p class="pintadera-description">Observen cómo las crestas se abren hacia el borde ovalado. Al girar la concha, se aprecia su altura y la forma de su base.</p>
+      <p class="pintadera-description"><a href="https://www.biodiversidadcanarias.es/centinela/especie/E00699">Ficha de la lapa blanca en Centinela</a></p>
+      <div id="lapaTools" class="pintadera-viewer-tools" hidden>
+        <div role="group" aria-label="Vistas de la concha" class="pintadera-control-group lapa-views">
+          <button type="button" data-lapa-view="cara">Superior</button>
+          <button type="button" data-lapa-view="perfil">Perfil</button>
+          <button type="button" data-lapa-view="reverso">Base</button>
+          <button type="button" data-lapa-view="perspectiva">Perspectiva</button>
+        </div>
+        <div role="group" aria-label="Giro y zoom" class="pintadera-control-group pintadera-motion">
+          <button type="button" data-lapa-turn="-25" aria-label="Girar a la izquierda">←</button>
+          <button type="button" data-lapa-turn="25" aria-label="Girar a la derecha">→</button>
+          <button type="button" data-lapa-tilt="25" aria-label="Inclinar hacia arriba">↑</button>
+          <button type="button" data-lapa-tilt="-25" aria-label="Inclinar hacia abajo">↓</button>
+          <button type="button" data-lapa-zoom="0.8" aria-label="Alejar la concha">−</button>
+          <button type="button" data-lapa-zoom="1.25" aria-label="Acercar la concha">+</button>
+        </div>
+      </div>
+      <div class="pintadera-viewer-actions">
+        <button id="lapaToggle" type="button" class="button secondary" aria-controls="lapaStage lapaFallback">Ver imágenes fijas</button>
+        <a id="lapaDownload" class="button" href="downloads/lapa-blanca/lapa-blanca-la-graciosa.stl" download="MitoMapa_Lapa_blanca_La_Graciosa.stl">Descargar STL</a>
+      </div>
+    </div>
+  </div>
+</dialog>
+<dialog id="passportDialog" aria-labelledby="passportDialogTitle"><div class="dialog-head"><div><p class="challenge-kicker">Colección persistente</p><h2 id="passportDialogTitle">Pasaporte de piezas</h2></div><button class="dialog-close" id="closePassport" type="button" aria-label="Cerrar pasaporte">×</button></div><p id="passportDialogStatus" class="lead"></p><div class="passport-dialog-grid" id="passportDialogGrid"></div><p class="passport-help">Cada espacio indica la isla y el estado de su insignia. La pieza acredita los retos de comprensión, no la revisión de las producciones abiertas. Selecciona una ruta para volver a ella.</p><p class="passport-help" id="diplomaAvailability">El diploma aparece automáticamente al conseguir la octava pieza válida de la etapa seleccionada. También puedes imprimirlo o guardarlo desde aquí. No necesitas completar el gran reto.</p><div class="passport-actions"><button class="button secondary" id="printPassport" type="button">Imprimir pasaporte</button><button class="button" id="printDiploma" type="button" aria-describedby="diplomaAvailability" disabled>Imprimir o guardar el diploma</button></div></dialog>
+<dialog id="diplomaDialog" aria-labelledby="diplomaDialogTitle"><div class="dialog-head"><div><p class="challenge-kicker">Pasaporte completo</p><h2 id="diplomaDialogTitle">Tu diploma está listo</h2></div><button class="dialog-close" id="closeDiploma" type="button" aria-label="Cerrar diploma">×</button></div><div id="diplomaPreview"></div><p class="passport-help">Puedes imprimirlo o guardarlo ahora y volver a encontrarlo en tu pasaporte.</p><div class="dialog-actions"><button class="button" id="printDiplomaPreview" type="button">Imprimir o guardar el diploma</button></div></dialog>
 <dialog id="badgeDialog" aria-labelledby="dialogTitle"><img class="dialog-badge" id="dialogBadge" alt=""><p class="challenge-kicker">Nueva insignia</p><h2 id="dialogTitle"></h2><p id="dialogText"></p><div class="dialog-actions"><button class="button" id="viewPassport" type="button">Ver mi pasaporte</button><button class="button secondary" id="dismissBadge" type="button">Seguir explorando</button></div></dialog>
 
-<dialog id="teacherDialog" aria-labelledby="teacherDialogTitle"><div class="dialog-head"><div><p class="challenge-kicker">Acompañar la expedición</p><h2 id="teacherDialogTitle">Espacio docente</h2></div><button class="dialog-close" id="closeTeacher" type="button" aria-label="Cerrar espacio docente">×</button></div><div class="teacher-tabs" role="tablist" aria-label="Orientaciones y herramientas docentes"><button id="teacherGuideTab" data-teacher-tab="guide" type="button" role="tab" aria-selected="true" aria-controls="teacherGuidePanel">Guía de actividad</button><button id="teacherToolsTab" data-teacher-tab="tools" type="button" role="tab" aria-selected="false" aria-controls="teacherToolsPanel" tabindex="-1">Ajustes y seguimiento</button></div><section id="teacherGuidePanel" tabindex="0" role="tabpanel" aria-labelledby="teacherGuideTab"><section class="teacher-guide" aria-labelledby="teacherGuideTitle">
+<dialog id="teacherDialog" aria-labelledby="teacherDialogTitle">
+  <div class="dialog-head">
+    <div><h2 id="teacherDialogTitle">Espacio docente</h2></div>
+    <button class="dialog-close teacher-close" id="closeTeacher" type="button" aria-label="Cerrar espacio docente">Cerrar</button>
+  </div>
+  <div class="teacher-body">
+    <div class="teacher-tabs" role="tablist" aria-label="Espacio docente">
+      <button id="teacherGuideTab" data-teacher-tab="guide" type="button" role="tab" aria-selected="true" aria-controls="teacherGuidePanel">Guía de actividad</button>
+      <button id="teacherToolsTab" data-teacher-tab="tools" type="button" role="tab" aria-selected="false" aria-controls="teacherToolsPanel" tabindex="-1">Ajustes y seguimiento</button>
+    </div>
+    <section id="teacherGuidePanel" tabindex="0" role="tabpanel" aria-labelledby="teacherGuideTab">
+<section class="teacher-guide" aria-labelledby="teacherGuideTitle">
   <h3 id="teacherGuideTitle">Cómo llevar MitoMapa al aula</h3>
   <p class="teacher-guide-lead"><strong>Empieza por una isla y una conversación.</strong> Propuesta multinivel: tú concretas el anclaje curricular, las tareas y los apoyos. No hay una isla inicial obligatoria ni necesitas completar las ocho.</p>
-  <p><strong>Juego opcional de nombres:</strong> en Juegos → Los nombres de las islas puedes relacionar las fichas con el mapa, mediante arrastre, teclado o selectores. Sirve para situarse y conversar sobre las fuentes y sus incertidumbres; no añade calificaciones ni piezas. <a href="GUIA_DOCENTE.html#teacherNamesTitle" target="_blank" rel="noopener">Orientaciones para acompañar el juego</a>.</p>
-  <nav aria-label="Tres formatos de actividad"><ul>
-    <li><a class="teacher-guide-download" href="GUIA_DOCENTE.html#teacherSessionTitle" target="_blank" rel="noopener">Una isla · una sesión de unos 45 min</a></li>
-    <li><a class="teacher-guide-download" href="GUIA_DOCENTE_GOBCAN.html" target="_blank" rel="noopener">Dos islas · cuatro sesiones de unos 50 min</a></li>
-    <li><a class="teacher-guide-download" href="GUIA_DOCENTE.html#teacherPathsTitle" target="_blank" rel="noopener">Banco completo opcional · ocho a diez sesiones de 35–50 min</a></li>
-  </ul></nav>
 
-  <details class="teacher-guide-disclosure"><summary>Qué queremos aprender</summary><section class="teacher-guide-block" aria-labelledby="teacherPurposeTitle">
-    <h4 id="teacherPurposeTitle">Qué queremos aprender</h4>
+  <nav class="resource-quick-help teacher-task-cards" aria-label="Accesos rápidos para el profesorado">
+    <a href="GUIA_DOCENTE.html" aria-labelledby="teacherGuideLink" aria-describedby="teacherGuideLinkHelp">
+      <strong id="teacherGuideLink">Cómo empezar y preparar la actividad</strong>
+      <span id="teacherGuideLinkHelp">Consulta la guía para organizar la sesión y elegir los apoyos.</span>
+    </a>
+    <a href="downloads/Cuaderno_de_ruta_MitoMapa.html" aria-labelledby="teacherBookLink" aria-describedby="teacherBookLinkHelp">
+      <strong id="teacherBookLink">Cuaderno imprimible</strong>
+      <span id="teacherBookLinkHelp">Abre el material para trabajar en papel.</span>
+    </a>
+    <button type="button" id="teacherSaveHelp" aria-labelledby="teacherSaveLabel" aria-describedby="teacherSaveDescription">
+      <strong id="teacherSaveLabel">Guardar o recuperar el trabajo</strong>
+      <span id="teacherSaveDescription">Descarga una copia del progreso o carga una que ya tengas.</span>
+    </button>
+  </nav>
+  <nav class="teacher-session-options" aria-labelledby="teacherFormatsTitle">
+    <h4 id="teacherFormatsTitle">Elige cuánto tiempo dedicar</h4>
+    <ul>
+      <li><a href="GUIA_DOCENTE.html#teacherSessionTitle" target="_blank" rel="noopener"><strong>Una isla</strong><span>Una sesión de unos 45 min</span></a></li>
+      <li><a href="GUIA_DOCENTE_GOBCAN.html" target="_blank" rel="noopener"><strong>Dos islas</strong><span>Cuatro sesiones de unos 50 min</span></a></li>
+      <li><a href="GUIA_DOCENTE.html#teacherPathsTitle" target="_blank" rel="noopener"><strong>Banco completo opcional</strong><span>De ocho a diez sesiones de 35–50 min</span></a></li>
+    </ul>
+  </nav>
+  <section class="teacher-orientations" aria-labelledby="teacherOrientationsTitle">
+    <h4 class="teacher-guide-topics" id="teacherOrientationsTitle">Orientaciones para el aula</h4>
+    <div class="teacher-orientation-group">
+      <h5>Preparar la sesión</h5>
+      <div class="teacher-orientation-items">
+        <details class="teacher-guide-disclosure"><summary>Qué queremos aprender</summary><section class="teacher-guide-block" aria-labelledby="teacherPurposeTitle">
+    <h6 id="teacherPurposeTitle">Qué queremos aprender</h6>
     <p>Situar un relato en una isla, comprender qué les ocurre a sus personajes y explicar sus decisiones. Con los apoyos adecuados, el alumnado también puede distinguir la recreación literaria de la información contrastada y crear una respuesta propia: oral, escrita, dibujada o representada.</p>
   </section></details>
-
-  <details class="teacher-guide-disclosure"><summary>Preparar el grupo y el taller</summary><section aria-labelledby="teacherPrepareTitle">
-    <h4 id="teacherPrepareTitle">Antes de empezar</h4>
+        <details class="teacher-guide-disclosure"><summary>Preparar el grupo y el taller</summary><section aria-labelledby="teacherPrepareTitle">
+    <h6 id="teacherPrepareTitle">Antes de empezar</h6>
 <div class="learning-level-switch" role="group" aria-label="Etapa educativa para preparar la actividad"><button type="button" data-learning-level="early">Infantil y 1.º ciclo</button><button type="button" data-learning-level="middle">2.º ciclo</button><button type="button" data-learning-level="advanced">3.º ciclo</button><button type="button" data-learning-level="secondary">Secundaria</button></div>
     <ol>
       <li><strong>Acuerda la ruta.</strong> En «Ajustes y seguimiento», selecciona la isla o las islas y las tareas que se revisarán. Lee el cuento y consulta sus fuentes antes de presentarlo.</li>
@@ -134,9 +692,24 @@
       <li><strong>Prepara el Taller.</strong> En «Ajustes y seguimiento», activa solo los apartados que vayas a utilizar. Puedes acordar una producción oral, en papel o fuera de la web.</li>
     </ol>
   </section></details>
-
-  <details class="teacher-guide-disclosure"><summary>Ejemplo de una sesión de 45 minutos</summary><section class="teacher-guide-block" aria-labelledby="teacherSessionTitle">
-    <h4 id="teacherSessionTitle">Una sesión posible</h4>
+        <details class="teacher-guide-disclosure">
+    <summary>Adaptar la propuesta a cada etapa</summary>
+    <ul>
+      <li><strong>Infantil y 1.º ciclo:</strong> lectura acompañada, estribillo, conversación breve y dibujo o relato oral. Las preguntas se pueden leer con ayuda.</li>
+      <li><strong>2.º ciclo:</strong> lectura compartida, vocabulario y una pequeña explicación de las acciones de los personajes.</li>
+      <li><strong>3.º ciclo:</strong> contraste de una fuente y creación con un ejemplo del cuento que permita explicar las decisiones tomadas.</li>
+      <li><strong>Secundaria:</strong> comparación de interpretaciones y fuentes, relaciones de causa y consecuencia y producción discursiva con los apoyos y extensión acordados.</li>
+    </ul>
+    <p>Son puntos de partida. Tú eliges las tareas y los apoyos; usar ayuda no impide participar ni reduce por sí mismo el valor del trabajo.</p>
+  </details>
+        <details class="teacher-guide-disclosure"><summary>Ejemplo curricular GobCan: dos islas y cuatro sesiones</summary><p>La guía GobCan desarrolla un ejemplo del tercer ciclo de Primaria, con 6.º como referencia y adaptable a 5.º. Es una posibilidad de anclaje curricular del recurso multinivel. Elige dos islas y organiza cuatro sesiones de unos 50 minutos; para otro grupo, concreta los criterios y los apoyos pertinentes.</p><ol><li>Elegir, situar y escuchar el primer cuento; conversar sobre una decisión de sus personajes.</li><li>Leer el segundo cuento y comparar sus personajes, conflictos o paisajes.</li><li>Contrastar un detalle con una fuente y crear una pieza de museo con relato, dato documentado y créditos.</li><li>Revisar con el grupo, compartir la pieza y proponer una acción de cuidado del patrimonio.</li></ol><p>La pauta cualitativa recoge evidencias, avances y un siguiente paso. No genera puntuaciones, porcentajes ni calificaciones. Los juegos ayudan a practicar; sus aciertos y piezas no sustituyen la valoración docente. La propuesta aún no se ha aplicado con alumnado.</p><p><a href="GUIA_DOCENTE_GOBCAN.html" target="_blank" rel="noopener">Consultar la guía de aplicación y su selección curricular</a> · <a href="downloads/Pauta_de_revision_MitoMapa.html" target="_blank" rel="noopener">Abrir la pauta de revisión</a></p></details>
+      </div>
+    </div>
+    <div class="teacher-orientation-group">
+      <h5>Acompañar la actividad</h5>
+      <div class="teacher-orientation-items">
+        <details class="teacher-guide-disclosure"><summary>Ejemplo de una sesión de 45 minutos</summary><section class="teacher-guide-block" aria-labelledby="teacherSessionTitle">
+    <h6 id="teacherSessionTitle">Una sesión posible</h6>
     <p>Este ejemplo dura unos 45 minutos. Ajusta los tiempos, omite una actividad o reparte la propuesta en dos sesiones.</p>
     <div class="teacher-guide-table-wrap">
       <table class="teacher-guide-session">
@@ -153,9 +726,8 @@
     </div>
     <p><strong>Cuento → Retos → Taller</strong> ayuda a orientarse, pero puedes volver atrás, detenerte en una conversación o trabajar solo los apartados que hayas acordado. El Taller no exige reunir piezas.</p>
   </section></details>
-
-  <details class="teacher-guide-disclosure"><summary>Acompañar la lectura y la creación</summary><section aria-labelledby="teacherSupportTitle">
-    <h4 id="teacherSupportTitle">Cómo acompañar la actividad</h4>
+        <details class="teacher-guide-disclosure"><summary>Acompañar la lectura y la creación</summary><section aria-labelledby="teacherSupportTitle">
+    <h6 id="teacherSupportTitle">Cómo acompañar la actividad</h6>
     <ul>
       <li><strong>Da tiempo para comprender.</strong> Lee en voz alta, relee fragmentos, explica vocabulario y permite responder oralmente, señalar o dibujar antes de escribir.</li>
       <li><strong>Haz visibles las decisiones.</strong> Pregunta «¿Qué harías tú?» y «¿Qué parte del cuento te hace pensar eso?». Escucha distintas interpretaciones y ayuda a justificarlas.</li>
@@ -163,20 +735,9 @@
       <li><strong>Apoya la creación.</strong> Ofrece un inicio de frase, un esquema o una escena que puedan transformar. El alumnado puede crear de manera oral, escrita, gráfica o escénica.</li>
     </ul>
   </section></details>
-
-  <details class="teacher-guide-disclosure">
-    <summary>Adaptar la propuesta a cada etapa</summary>
-    <ul>
-      <li><strong>Infantil y 1.º ciclo:</strong> lectura acompañada, estribillo, conversación breve y dibujo o relato oral. Las preguntas se pueden leer con ayuda.</li>
-      <li><strong>2.º ciclo:</strong> lectura compartida, vocabulario y una pequeña explicación de las acciones de los personajes.</li>
-      <li><strong>3.º ciclo:</strong> contraste de una fuente y creación con un ejemplo del cuento que permita explicar las decisiones tomadas.</li>
-      <li><strong>Secundaria:</strong> comparación de interpretaciones y fuentes, relaciones de causa y consecuencia y producción discursiva con los apoyos y extensión acordados.</li>
-    </ul>
-    <p>Son puntos de partida. Tú eliges las tareas y los apoyos; usar ayuda no impide participar ni reduce por sí mismo el valor del trabajo.</p>
-  </details>
-
-  <details class="teacher-guide-disclosure">
+        <details class="teacher-guide-disclosure">
     <summary>Elegir juegos para ampliar o cambiar el ritmo</summary>
+    <p><strong>Juego opcional de nombres:</strong> en Juegos → Los nombres de las islas puedes relacionar las fichas con el mapa, mediante arrastre, teclado o selectores. Sirve para situarse y conversar sobre las fuentes y sus incertidumbres; no añade calificaciones ni piezas. <a href="GUIA_DOCENTE.html#teacherNamesTitle" target="_blank" rel="noopener">Orientaciones para acompañar el juego</a>.</p>
     <ul>
       <li><strong>Mapa y pistas:</strong> explora la ubicación de las islas o inicia una conversación con una pista. Se puede pasar a otra o abrir el cuento sin penalización.</li>
       <li><strong>Puzle:</strong> reconstruye el mapa por parejas. Mostrar la solución es un apoyo disponible.</li>
@@ -185,17 +746,161 @@
     </ul>
     <p>No hace falta usar todos los juegos. Elige el que ayude al propósito de esa sesión.</p>
   </details>
-
-  <details class="teacher-guide-disclosure"><summary>Guardar el trabajo y entender las piezas</summary><aside class="teacher-guide-progress" aria-label="Recordar y retomar el trabajo">
-    <h4>El progreso ayuda a retomar</h4>
+      </div>
+    </div>
+    <div class="teacher-orientation-group">
+      <h5>Revisar y mejorar</h5>
+      <div class="teacher-orientation-items">
+        <details class="teacher-guide-disclosure"><summary>Guardar el trabajo y entender las piezas</summary><aside class="teacher-guide-progress" aria-label="Recordar y retomar el trabajo">
+    <h6>El progreso ayuda a retomar</h6>
     <p>El seguimiento recuerda el trabajo de este navegador; puedes guardar una copia para continuar en otro dispositivo. Selecciona las islas y tareas en «Ajustes y seguimiento» y revisa las evidencias con el alumnado. Una ruta de dos islas puede terminar con «Ruta completada: 2/2». La colección de ocho piezas se muestra aparte.</p><p>La conversación, la investigación y la creación necesitan revisión docente. El cierre de la ruta reconoce las tareas pactadas, sin puntos ni calificación automática.</p>
-    <p><small>La pieza se obtiene con la comprensión en Infantil y 1.º ciclo; en las demás etapas, con comprensión y verdadero/falso. Reunir las ocho desbloquea el gran reto; superarlo permite preparar el diploma. Estos requisitos no condicionan la elección de isla ni son necesarios para desarrollar una sesión.</small></p>
+    <p><small>La pieza se obtiene con la comprensión en Infantil y 1.º ciclo; en las demás etapas, con comprensión y verdadero/falso. Al conseguir la octava pieza válida de la etapa seleccionada, aparece automáticamente el diploma genérico, sin introducir nombres. También puedes imprimirlo o guardarlo desde el pasaporte. El gran reto es opcional y no es necesario para obtener el diploma. Estos requisitos no condicionan la elección de isla ni son necesarios para desarrollar una sesión.</small></p>
   </aside></details>
-<details class="teacher-guide-disclosure"><summary>Ejemplo curricular GobCan: dos islas y cuatro sesiones</summary><p>La guía GobCan desarrolla un ejemplo del tercer ciclo de Primaria, con 6.º como referencia y adaptable a 5.º. Es una posibilidad de anclaje curricular del recurso multinivel. Elige dos islas y organiza cuatro sesiones de unos 50 minutos; para otro grupo, concreta los criterios y los apoyos pertinentes.</p><ol><li>Elegir, situar y escuchar el primer cuento; conversar sobre una decisión de sus personajes.</li><li>Leer el segundo cuento y comparar sus personajes, conflictos o paisajes.</li><li>Contrastar un detalle con una fuente y crear una pieza de museo con relato, dato documentado y créditos.</li><li>Revisar con el grupo, compartir la pieza y proponer una acción de cuidado del patrimonio.</li></ol><p>La pauta cualitativa recoge evidencias, avances y un siguiente paso. No genera puntuaciones, porcentajes ni calificaciones. Los juegos ayudan a practicar; sus aciertos y piezas no sustituyen la valoración docente. La propuesta aún no se ha aplicado con alumnado.</p><p><a href="GUIA_DOCENTE_GOBCAN.html" target="_blank" rel="noopener">Consultar la guía de aplicación y su selección curricular</a> · <a href="downloads/Pauta_de_revision_MitoMapa.html" target="_blank" rel="noopener">Abrir la pauta de revisión</a></p></details>
-  <details class="teacher-guide-disclosure"><summary>Preparar una primera aplicación en el aula</summary><p><strong>Pilotaje pendiente:</strong> aún no se ha aplicado con alumnado. Anota tiempos reales, ayudas, dificultades de acceso y consignas que necesitan explicación, sin identificadores del alumnado. Estas observaciones ayudan a mejorar el recurso y no demuestran eficacia educativa.</p><p><a href="PROTOCOLO_PILOTAJE_WEB_4_9_0.html" target="_blank" rel="noopener">Abrir el protocolo y su hoja imprimible</a>.</p></details>
+        <details class="teacher-guide-disclosure"><summary>Preparar una primera aplicación en el aula</summary><p><strong>Pilotaje pendiente:</strong> aún no se ha aplicado con alumnado. Anota tiempos reales, ayudas, dificultades de acceso y consignas que necesitan explicación, sin identificadores del alumnado. Estas observaciones ayudan a mejorar el recurso y no demuestran eficacia educativa.</p><p><a href="PROTOCOLO_PILOTAJE_WEB_4_9_0.html" target="_blank" rel="noopener">Abrir el protocolo y su hoja imprimible</a>.</p></details>
+      </div>
+    </div>
+  </section>
   <a class="teacher-guide-download" href="GUIA_DOCENTE.html" target="_blank" rel="noopener">Abrir la guía para imprimir o compartir</a>
 </section>
-</section><section id="teacherToolsPanel" tabindex="0" role="tabpanel" aria-labelledby="teacherToolsTab" hidden><p class="teacher-local-note"><strong>Privacidad:</strong> este resumen se crea en el dispositivo. No se envían nombres, respuestas ni resultados.</p><details class="agreed-route-settings" id="agreedRouteSettings"><summary>Elegir las islas de la ruta acordada</summary><div class="agreed-route-body"><p>Selecciona con el alumnado las islas que van a trabajar. Puedes elegir una, dos o las que necesiten; todas siguen abiertas para explorar.</p><fieldset id="agreedRouteChoices" class="agreed-route-choices"><legend>Islas que vamos a trabajar</legend></fieldset><p id="agreedRouteTeacherStatus" role="status"></p><p id="agreedRouteCollection"></p><p>La ruta se cierra al revisar las tareas acordadas en la tabla. Las piezas reconocen los retos y se cuentan por separado.</p><button id="clearAgreedRoute" class="button secondary" type="button">Volver a exploración libre</button></div></details><label class="teacher-name"><span>Nombre o equipo (opcional)</span><input id="teacherLearnerName" type="text" maxlength="80" autocomplete="off"></label><div class="teacher-summary"><span>Nivel: <strong id="teacherLevelSummary"></strong></span><span id="teacherOverallSummary"></span></div><p class="teacher-review-help">Marca «Revisado» después de revisar con el alumnado las tareas acordadas. Es una anotación manual local, no una calificación ni una firma autenticada. Las marcas corresponden a la etapa seleccionada. El cuaderno cuenta solo los apartados seleccionados. Puedes activar tareas adicionales y acordar una creación oral o fuera de la web. Marca la producción externa únicamente tras revisar su evidencia. Cambiar las tareas acordadas o el contenido del cuaderno asignado requiere revisar de nuevo las evidencias.</p><div id="teacherScrollControls" class="teacher-scroll-controls" hidden><p id="teacherScrollHelp">La tabla tiene más columnas. Usa estos botones, la barra inferior o las flechas del teclado con la tabla enfocada.</p><button id="teacherScrollLeft" class="button secondary" type="button" aria-controls="teacherTableViewport">← Ver izquierda</button><button id="teacherScrollRight" class="button secondary" type="button" aria-controls="teacherTableViewport">Ver derecha →</button></div><div id="teacherTableViewport" aria-describedby="teacherScrollHelp" class="teacher-table-wrap" tabindex="0" role="region" aria-label="Seguimiento por islas; desplaza horizontalmente si es necesario"><table class="teacher-table"><thead><tr><th>Isla</th><th>Comprensión</th><th>Reto</th><th>Cuaderno</th><th>Pieza</th><th>Revisión del itinerario</th></tr></thead><tbody id="teacherProgressBody"></tbody></table></div><label class="form-url-setting"><span>Enlace público del formulario web de satisfacción (opcional)</span><input id="webFeedbackURL" type="url" placeholder="Pega aquí el enlace de respuesta de Google Forms" autocomplete="off"><small>Utiliza el enlace público para responder, no el enlace de edición. Se guarda únicamente en este navegador.</small></label><p id="feedbackURLStatus" role="status"></p><div class="dialog-actions"><button class="button" id="exportProgress" type="button">Guardar seguimiento</button><button class="button secondary" id="importProgress" type="button">Cargar seguimiento</button><input class="file-input-hidden" id="importProgressFile" type="file" accept="application/json,.json"></div><p id="teacherImportStatus" role="status" aria-live="polite"></p></section></dialog>
-<section class="print-artifact" id="diplomaPrint" aria-hidden="true"><div class="diploma-sheet"><p class="diploma-kicker">Diploma de exploración literaria y patrimonial</p><h1>MitoMapa canario</h1><p>Se concede a</p><p class="diploma-name" id="diplomaPrintName"></p><p>por reunir las ocho piezas y relacionar los mitos y las leyendas de las Islas Canarias.</p><div class="diploma-badges" id="diplomaPrintBadges"></div><p>Fecha: <span id="diplomaPrintDate"></span></p><p class="print-credit">MitoMapa canario · Autoría: Jesica Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.</p></div></section>
+</section><section id="teacherToolsPanel" tabindex="0" role="tabpanel" aria-labelledby="teacherToolsTab" hidden>
+      <nav class="teacher-tool-index teacher-task-cards" aria-label="Apartados de ajustes y seguimiento">
+        <button type="button" data-teacher-jump="teacherRouteTitle" aria-labelledby="teacherJumpRoute" aria-describedby="teacherJumpRouteHelp">
+          <strong id="teacherJumpRoute">Ruta acordada</strong>
+          <span id="teacherJumpRouteHelp">Elige las islas y consulta la etapa de la actividad.</span>
+        </button>
+        <button type="button" data-teacher-jump="teacherFollowTitle" aria-labelledby="teacherJumpFollow" aria-describedby="teacherJumpFollowHelp">
+          <strong id="teacherJumpFollow">Seguimiento por islas</strong>
+          <span id="teacherJumpFollowHelp">Consulta el progreso, asigna tareas y anota su revisión.</span>
+        </button>
+        <button type="button" data-teacher-jump="teacherFilesTitle" aria-labelledby="teacherJumpFiles" aria-describedby="teacherJumpFilesHelp">
+          <strong id="teacherJumpFiles">Guardar o recuperar</strong>
+          <span id="teacherJumpFilesHelp">Guarda una copia del progreso o recupera una sesión.</span>
+        </button>
+      </nav>
+      <section class="teacher-tool-section" aria-labelledby="teacherRouteTitle">
+        <h3 id="teacherRouteTitle" tabindex="-1">Ruta acordada</h3>
+        <div class="teacher-stage-choice">
+          <p>Etapa actual <strong id="teacherLevelSummary"></strong></p>
+          <button id="teacherChangeStage" class="button secondary" type="button" aria-controls="teacherGuidePanel">Cambiar etapa</button>
+        </div>
+        <details class="agreed-route-settings" id="agreedRouteSettings">
+          <summary>Elegir las islas de la ruta acordada</summary>
+          <div class="agreed-route-body">
+          <p>Selecciona con el alumnado las islas que van a trabajar. Puedes elegir una, dos o las que necesiten; todas siguen abiertas para explorar.</p>
+          <fieldset id="agreedRouteChoices" class="agreed-route-choices">
+          <legend>Islas que vamos a trabajar</legend>
+          </fieldset>
+          <p id="agreedRouteTeacherStatus" role="status">
+          </p>
+          <p id="agreedRouteCollection">
+          </p>
+          <p>La ruta se cierra al revisar las tareas acordadas en la tabla. Las piezas reconocen los retos y se cuentan por separado.</p>
+          <button id="clearAgreedRoute" class="button secondary" type="button">Volver a exploración libre</button>
+          </div>
+          </details>
+          <label class="teacher-name">
+          <span>Nombre o equipo (opcional)</span>
+          <input id="teacherLearnerName" type="text" maxlength="80" autocomplete="off">
+          </label>
+      </section>
+      <section class="teacher-tool-section" aria-labelledby="teacherFollowTitle">
+        <h3 id="teacherFollowTitle" tabindex="-1">Seguimiento por islas</h3>
+        <div class="teacher-summary">
+          <span id="teacherOverallSummary">
+          </span>
+          </div>
+          <p class="teacher-review-help">Marca «Revisado con el alumnado» después de comprobar las tareas acordadas.</p>
+        <details class="teacher-guide-disclosure teacher-review-details">
+          <summary>Cómo revisar las tareas</summary>
+          <p>La revisión se guarda en este navegador y corresponde a la etapa seleccionada. Es una anotación manual, sin calificación ni firma.</p>
+          <p>El cuaderno cuenta los apartados que selecciones. Puedes acordar una creación oral o fuera de la web. Marca la producción externa cuando hayas comprobado su evidencia.</p>
+          <p>Si cambias las tareas acordadas o el contenido del cuaderno, revisa de nuevo las evidencias.</p>
+        </details>
+          <div class="teacher-follow-filter">
+          <label for="teacherIslandFilter">Isla que quieres consultar</label>
+          <select id="teacherIslandFilter" aria-controls="teacherTableViewport">
+            <option value="">Todas las islas</option>
+          </select>
+          <p id="teacherIslandFilterStatus" role="status"></p>
+        </div>
+          <div id="teacherScrollControls" class="teacher-scroll-controls" hidden>
+          <p id="teacherScrollHelp">La tabla tiene más columnas. Usa estos botones, la barra inferior o las flechas del teclado con la tabla enfocada.</p>
+          <button id="teacherScrollLeft" class="button secondary" type="button" aria-controls="teacherTableViewport">← Ver izquierda</button>
+          <button id="teacherScrollRight" class="button secondary" type="button" aria-controls="teacherTableViewport">Ver derecha →</button>
+          </div>
+          <div id="teacherTableViewport" aria-describedby="teacherScrollHelp" class="teacher-table-wrap" tabindex="0" role="region" aria-labelledby="teacherFollowTitle">
+          <table class="teacher-table" role="table" aria-labelledby="teacherFollowTitle">
+            <thead role="rowgroup">
+          <tr role="row">
+              <th scope="col" role="columnheader">Isla</th>
+              <th scope="col" role="columnheader">Comprensión</th>
+              <th scope="col" role="columnheader">Reto</th>
+              <th scope="col" role="columnheader">Cuaderno</th>
+              <th scope="col" role="columnheader">Pieza</th>
+              <th scope="col" role="columnheader">Tareas y revisión</th>
+            </tr>
+          </thead>
+            <tbody role="rowgroup" id="teacherProgressBody">
+          </tbody>
+          </table>
+          </div>
+      </section>
+      <section class="teacher-tool-section" aria-labelledby="teacherFilesTitle">
+        <h3 id="teacherFilesTitle" tabindex="-1">Guardar o recuperar el trabajo</h3>
+        <p>Guarda un archivo para continuar en otro dispositivo. Para recuperar una sesión, selecciona su archivo guardado.</p>
+        <p id="retentionNotice" class="teacher-local-note">El trabajo guardado en este navegador caduca a los 15 días. Guarda una copia si quieres conservarlo.</p>
+        <p>La limpieza se realiza al cumplirse el plazo con la web abierta o al volver a ella. Conserva el idioma y los ajustes de lectura. Los archivos descargados no se borran; en equipos compartidos, reinicia el progreso al terminar.</p>
+        <div class="dialog-actions">
+          <button class="button" id="exportProgress" type="button">Guardar copia</button>
+          <button class="button secondary" id="importProgress" type="button">Cargar copia</button>
+          <input class="file-input-hidden" id="importProgressFile" type="file" accept="application/json,.json">
+          </div>
+          <p id="teacherImportStatus" role="status" aria-live="polite">
+          </p><p class="teacher-local-note"><strong>Privacidad:</strong> este resumen se crea en el dispositivo. No se envían nombres, respuestas ni resultados.</p>
+      </section>
+      <details class="teacher-guide-disclosure teacher-advanced">
+        <summary>Formulario de valoración</summary>
+        <section>
+          <label class="form-url-setting">
+          <span>Enlace público del formulario web de satisfacción (opcional)</span>
+          <input id="webFeedbackURL" type="url" placeholder="Pega aquí el enlace de respuesta de Google Forms" autocomplete="off">
+          <small>Utiliza el enlace público para responder, no el enlace de edición. Se guarda únicamente en este navegador.</small>
+          </label>
+          <p id="feedbackURLStatus" role="status">
+          </p>
+        </section>
+      </details>
+      <section class="teacher-tool-section teacher-reset-section" id="teacherResetSection" aria-labelledby="teacherResetTitle">
+        <h3 id="teacherResetTitle">Empezar de nuevo</h3>
+        <p>Guarda una copia antes de empezar una actividad desde cero.</p>
+      </section>
+    </section>
+  </div>
+</dialog>
+<section class="print-artifact" id="diplomaPrint" aria-hidden="true"><div class="diploma-sheet"><p class="diploma-kicker">Diploma de exploración literaria y patrimonial</p><h1>MitoMapa canario</h1><p class="diploma-recognition" id="diplomaRecognition">Se concede este diploma a la persona que ha explorado el MitoMapa canario, reuniendo las ocho piezas y relacionando los mitos y las leyendas de las Islas Canarias.</p><div class="diploma-badges" id="diplomaPrintBadges"></div><p>Fecha: <span id="diplomaPrintDate"></span></p><div class="diploma-signature"><img src="assets/images/pintadera_triangulo.webp" width="72" height="72" alt="" aria-hidden="true"><p>Por el equipo de MitoMapa canario</p></div></div></section>
 <section class="print-artifact" id="passportPrint" aria-hidden="true"><div class="passport-print-sheet"><h1>Pasaporte de piezas</h1><p id="passportPrintName"></p><div class="passport-print-grid" id="passportPrintGrid"></div><p class="print-credit">MitoMapa canario · Autoría: Jesica Fortes Regalado, Gloria Elsa González Martín y Cristian García Santana.</p></div></section>
+<dialog id="storyBookPreview" class="book-preview" aria-labelledby="bookPreviewTitle">
+  <div class="book-preview-header">
+    <h2 id="bookPreviewTitle">Ojear en la web</h2>
+    <button id="bookPreviewClose" class="button secondary" type="button" autofocus>Cerrar</button>
+  </div>
+  <p>Elige una edición y consulta cinco páginas de muestra.</p>
+  <fieldset class="book-preview-editions">
+    <legend>Edición</legend>
+    <label><input type="radio" name="previewEdition" value="cuentos" checked> Ocho cuentos</label>
+    <label><input type="radio" name="previewEdition" value="fichas"> Cuentos y fichas</label>
+  </fieldset>
+  <nav class="book-preview-controls" aria-label="Páginas de la muestra">
+    <button id="bookPreviewPrevious" class="button secondary" type="button" aria-disabled="true">Anterior</button>
+    <p id="bookPreviewPosition" role="status">Cargando la muestra…</p>
+    <button id="bookPreviewNext" class="button secondary" type="button" aria-disabled="true">Siguiente</button>
+  </nav>
+  <figure id="bookPreviewFigure" hidden>
+    <img id="bookPreviewPage" alt="" width="1300" height="919">
+  </figure>
+  <details id="bookPreviewText" hidden>
+    <summary>Leer el texto de esta página</summary>
+    <div id="bookPreviewTextBody"></div>
+  </details>
+</dialog>
 </body></html>

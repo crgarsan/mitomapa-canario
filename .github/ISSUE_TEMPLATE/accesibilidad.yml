@@ -1,0 +1,24 @@
+name: Accesibilidad y uso
+description: Comunicar una barrera de acceso o de comprensión.
+title: "[Accesibilidad] "
+body:
+  - type: markdown
+    attributes:
+      value: Use un ejemplo ficticio y evite datos personales. Una comprobación automática o emulada no equivale a una prueba con personas o dispositivos físicos.
+  - type: input
+    id: location
+    attributes:
+      label: Producto, versión, idioma y apartado
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Dispositivo, navegador y apoyo utilizado
+      description: Por ejemplo, teclado, VoiceOver, NVDA o texto ampliado. Distinga dispositivo físico y emulación.
+  - type: textarea
+    id: barrier
+    attributes:
+      label: Barrera encontrada y comportamiento esperado
+    validations:
+      required: true

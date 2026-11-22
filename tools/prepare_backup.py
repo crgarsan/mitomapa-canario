@@ -14,7 +14,11 @@ import tempfile
 from urllib.parse import unquote, urljoin, urlsplit
 from urllib.request import Request, urlopen
 
-from release_support import parse_sums, safe_name, source_path
+from release_support import (
+    LAPA_STL, PINTADERA_MANIFEST, PINTADERA_STL, VASIJA_COLLECTION_MODELS, VASIJA_STL,
+    approved_release_paths, english_edition_assets, lapa_assets, parse_sums,
+    pintadera_inventory, require_approved, safe_name, source_path, story_book_assets, vasija_assets,
+)
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -68,7 +72,9 @@ def public_static(name):
         return False
     if name in {'CNAME', '_headers', '_redirects', 'SHA256SUMS.txt'}:
         return False
-    if Path(name).suffix.lower() not in STATIC_SUFFIXES and name not in {'LICENSE', 'COPYING'}:
+    if (Path(name).suffix.lower() not in STATIC_SUFFIXES and name not in {'LICENSE', 'COPYING'}
+            and name not in {VASIJA_STL, LAPA_STL} and name not in VASIJA_COLLECTION_MODELS.values()
+            and not PINTADERA_STL.fullmatch(name)):
         return False
     return True
 
@@ -85,13 +91,23 @@ def download_paths(version):
     return result
 
 
-def inventory(root):
+def inventory(root, approved):
+    require_approved({'SHA256SUMS.txt', 'VERSION.json', 'MEDIA_MANIFEST.json'}, approved)
     sums = parse_sums(source_path(root, 'SHA256SUMS.txt').read_text(encoding='utf-8'))
+    require_approved(sums, approved)
     version = json.loads(source_path(root, 'VERSION.json').read_text(encoding='utf-8'))
     current = download_paths(version)
-    retained_downloads = current | TEACHER_MATERIALS
+    pintaderas = pintadera_inventory(root, approved=approved)
+    models_3d = vasija_assets(root, approved=approved) | lapa_assets(root, approved=approved)
+    retained_downloads = (current | TEACHER_MATERIALS | pintaderas.keys()
+                          | story_book_assets(root, approved=approved)
+                          | english_edition_assets(root, approved=approved))
+    retained_downloads.update(name for name in models_3d if name.startswith('downloads/'))
     selected = {name: value for name, value in sums.items() if public_static(name) and (not name.startswith('downloads/') or name in retained_downloads)}
-    for required in {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads:
+    required_assets = {'index.html', 'VERSION.json', 'MEDIA_MANIFEST.json'} | retained_downloads | models_3d
+    if pintaderas:
+        required_assets.add(PINTADERA_MANIFEST)
+    for required in required_assets:
         if required not in selected:
             raise ValueError('Required public asset is not pinned in SHA256SUMS.txt: ' + required)
     media_path = source_path(root, 'MEDIA_MANIFEST.json')
@@ -101,17 +117,18 @@ def inventory(root):
     if not isinstance(media, dict) or media.get('version') != 1 or not isinstance(media.get('files'), dict) or not media['files']:
         raise ValueError('Invalid media inventory')
     for name, details in media['files'].items():
-        if (not isinstance(name, str) or not name.startswith('media/') or not public_static(name)
+        if (not isinstance(name, str) or not name.startswith(('media/', 'en/media/')) or not public_static(name)
                 or not isinstance(details, dict) or set(details) != {'sha256', 'bytes'}
                 or not isinstance(details['sha256'], str) or not re.fullmatch('[0-9a-f]{64}', details['sha256'])
                 or type(details['bytes']) is not int or details['bytes'] < 1):
             raise ValueError('Invalid media inventory entry')
+        if name not in selected:
+            raise ValueError('Required media asset is not pinned in SHA256SUMS.txt: ' + name)
+        if selected[name] != details['sha256']:
+            raise ValueError('Public and media inventories disagree: ' + name)
         source = source_path(root, name)
         if source.stat().st_size != details['bytes'] or file_hash(source) != details['sha256']:
             raise ValueError('Pinned media mismatch: ' + name)
-        if name in selected and selected[name] != details['sha256']:
-            raise ValueError('Public and media inventories disagree: ' + name)
-        selected[name] = details['sha256']
     paths = {}
     for name, expected in selected.items():
         path = source_path(root, name)
@@ -119,6 +136,8 @@ def inventory(root):
             raise ValueError('Public asset size exceeds 25 MiB: ' + name)
         if file_hash(path) != expected:
             raise ValueError('Checksum mismatch: ' + name)
+        if name in pintaderas and pintaderas[name] != {'sha256': expected, 'bytes': path.stat().st_size}:
+            raise ValueError('Pintadera inventory differs from the public inventory: ' + name)
         paths[name] = path
     historical = sorted(name for name in sums if name.startswith('downloads/') and name not in retained_downloads)
     return paths, version, current, historical
@@ -137,11 +156,15 @@ def adapt_text(text, primary, prefix, current):
     return CSS_ROOT.sub(lambda m: 'url(' + local(m.group(1)) + ')', text)
 
 
-def banner(text, primary):
+def banner(text, primary, *, english=False):
+    label = 'Backup copy' if english else 'Copia de respaldo'
+    link = 'Open the main website' if english else 'Ir a la web principal'
+    if english:
+        primary = urljoin(primary, 'index-en.html')
     notice = ('<aside id="backup-notice" role="note" style="padding:.45rem 1rem;'
               'background:#f3efe5;color:#292a25;text-align:center;font-size:.875rem">'
-              'Copia de respaldo · <a href="' + html.escape(primary, quote=True) +
-              '" style="color:inherit">Ir a la web principal</a></aside>')
+              + label + ' · <a href="' + html.escape(primary, quote=True) +
+              '" style="color:inherit">' + link + '</a></aside>')
     if not re.search(r'<body\b[^>]*>', text, re.I):
         raise ValueError('The backup needs the actual MitoMapa HTML body')
     return re.sub(r'(<body\b[^>]*>)', lambda m: m.group(1) + notice, text, count=1, flags=re.I)
@@ -157,7 +180,7 @@ def git_identity(root, supplied):
     return commit, dirty
 
 
-def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org/', prefix='/mitomapa-canario/', commit=None, max_bytes=MAX_BYTES):
+def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org/', prefix='/mitomapa-canario/', commit=None, max_bytes=MAX_BYTES, release_inventory=None):
     root = Path(root).resolve()
     output = Path(output) if output is not None else root / '.backup'
     if output.is_symlink():
@@ -168,7 +191,9 @@ def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org
     primary, prefix = https_url(primary), base_path(prefix)
     if not 0 < max_bytes <= MAX_BYTES:
         raise ValueError('Backup size limit must be positive and no greater than 1 GB')
-    paths, version, current, historical = inventory(root)
+    if release_inventory is not None and not commit:
+        raise ValueError('--inventory requires --source-commit with the full Git commit ID of the export')
+    paths, version, current, historical = inventory(root, approved_release_paths(root, release_inventory))
     source_commit, dirty = git_identity(root, commit)
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = Path(tempfile.mkdtemp(prefix='.backup-stage-', dir=output.parent))
@@ -178,9 +203,9 @@ def stage_backup(root=ROOT, output=None, *, primary='https://mitomapacanario.org
             destination = temporary / name
             destination.parent.mkdir(parents=True, exist_ok=True)
             if source.suffix.lower() in TEXT_SUFFIXES:
-                text = adapt_text(source.read_text(encoding='utf-8'), primary, prefix, current | TEACHER_MATERIALS)
-                if name == 'index.html':
-                    text = banner(text, primary)
+                text = adapt_text(source.read_text(encoding='utf-8'), primary, prefix, paths)
+                if name in ('index.html', 'index-en.html'):
+                    text = banner(text, primary, english=name == 'index-en.html')
                 destination.write_text(text, encoding='utf-8')
             else:
                 shutil.copyfile(source, destination)
@@ -257,8 +282,9 @@ def main():
     parser.add_argument('--output', type=Path)
     parser.add_argument('--primary-url', default='https://mitomapacanario.org/')
     parser.add_argument('--base-path', default='/mitomapa-canario/')
-    parser.add_argument('--source-commit')
+    parser.add_argument('--source-commit', help='Full Git commit ID required with --inventory or --verify-url')
     parser.add_argument('--max-bytes', type=int, default=MAX_BYTES)
+    parser.add_argument('--inventory', type=Path, help='Reviewed JSON file list for a complete non-Git export')
     parser.add_argument('--verify-url')
     parser.add_argument('--expected-manifest-sha')
     args = parser.parse_args()
@@ -266,7 +292,8 @@ def main():
         if args.verify_url:
             result = verify_publication(args.verify_url, expected_commit=args.source_commit, expected_manifest_sha=args.expected_manifest_sha)
         else:
-            result = stage_backup(args.root, args.output, primary=args.primary_url, prefix=args.base_path, commit=args.source_commit, max_bytes=args.max_bytes)
+            result = stage_backup(args.root, args.output, primary=args.primary_url, prefix=args.base_path,
+                                  commit=args.source_commit, max_bytes=args.max_bytes, release_inventory=args.inventory)
     except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
         print('Backup verification failed: ' + str(error), file=sys.stderr)
         return 1

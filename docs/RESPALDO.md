@@ -12,13 +12,15 @@ Después de instalar los medios definitivos y regenerar la edición pública:
 
 ```sh
 python3 tools/update_release.py --check
-python3 -m unittest discover -s tests -p 'test_backup_stage.py'
+python3 -m unittest discover -s tests -p 'test_backup*.py'
 python3 tools/prepare_backup.py
 cd .backup
 sha256sum --check SHA256SUMS.txt
 ```
 
 En macOS puede utilizarse `shasum -a 256 -c SHA256SUMS.txt` para la última comprobación. El preparador sustituye `.backup` solo después de validar los archivos y el tamaño. Un fallo conserva la copia anterior. No se debe añadir `.backup` al historial del repositorio.
+
+Si preparas el respaldo desde una exportación completa sin Git, indica su inventario revisado con `--inventory RUTA` y el identificador completo del commit de origen con `--source-commit ID`.
 
 La selección parte del inventario público firmado por hashes, comprueba además los pines de `MEDIA_MANIFEST.json` y rechaza rutas inseguras y enlaces simbólicos. Excluye herramientas, pruebas, QA, secretos, directorios ocultos, archivos `.old` y la configuración específica del proveedor principal. Las referencias locales con una ruta nombrada que comienza por `/` se adaptan a `/mitomapa-canario/`; los medios continúan alojados en el propio respaldo. El literal `/` aislado no se modifica: se conserva, entre otros usos, el separador de `decoded.split('/')` con el que el código rechaza rutas `../` y sus variantes codificadas.
 
@@ -31,9 +33,23 @@ La selección parte del inventario público firmado por hashes, comprueba ademá
 3. Revisar la protección del entorno `github-pages` para permitir únicamente la rama `main` y las aprobaciones que correspondan.
 4. Tras integrar y verificar la edición, ejecutar manualmente **Validate and publish the independent backup**, marcando `deploy`. Las ejecuciones por una propuesta de cambios o por un envío a `main` validan y preparan el artefacto; no publican.
 
-GitHub permite Pages en repositorios públicos con su plan gratuito. El despliegue de una Pages ya configurada usa los permisos `pages: write` e `id-token: write` del token automático. La [acción oficial de configuración](https://github.com/actions/configure-pages/blob/983d7736d9b0ae728b81ab479565c72886d7745b/action.yml) indica que activar Pages mediante `enablement` requiere otro tipo de credencial; el flujo mantiene **`enablement: false`**. No crea ni solicita un PAT. Si Pages no está configurada, debe completarse el paso anterior desde la cuenta propietaria. Véanse la [disponibilidad de Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), el [flujo oficial de publicación](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) y sus [permisos de despliegue](https://github.com/actions/deploy-pages#security-considerations).
+GitHub permite Pages en repositorios públicos con su plan gratuito. El despliegue de una Pages ya configurada usa los permisos `pages: write` e `id-token: write` del token automático. La [acción oficial de configuración](https://github.com/actions/configure-pages/blob/45bfe0192ca1faeb007ade9deae92b16b8254a0d/action.yml) indica que activar Pages mediante `enablement` requiere otro tipo de credencial; el flujo mantiene **`enablement: false`**. No crea ni solicita un PAT. Si Pages no está configurada, debe completarse el paso anterior desde la cuenta propietaria. Véanse la [disponibilidad de Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), el [flujo oficial de publicación](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) y sus [permisos de despliegue](https://github.com/actions/deploy-pages#security-considerations).
 
-Todas las acciones utilizadas son oficiales y están fijadas a commits completos: checkout `v7.0.1`, setup-node `v7.1.0`, configure-pages `v5.0.0`, upload-pages-artifact `v5.0.0` y deploy-pages `v4.0.5`. Node 22 ejecuta también la prueba del control de rutas sobre el JavaScript realmente preparado. El flujo no contiene credenciales de Cloudflare ni cambios de configuración de esa infraestructura.
+Todas las acciones utilizadas son oficiales y están fijadas a commits completos: checkout `v7.0.1`, setup-node `v7.1.0`, configure-pages `v6.0.0`, upload-pages-artifact `v5.0.0` y deploy-pages `v5.0.1`. Node 24 ejecuta también la prueba del control de rutas sobre el JavaScript realmente preparado. El flujo no contiene credenciales de Cloudflare ni cambios de configuración de esa infraestructura.
+
+## Compatibilidad temporal de deploy-pages
+
+La versión oficial `v5.0.1` carga una dependencia que importa el módulo obsoleto `punycode` de Node. El paso de publicación conserva su commit oficial y precarga `tools/pages-punycode.mjs` mediante `NODE_OPTIONS`, sólo en ese paso. La precarga resuelve exclusivamente `punycode` y `node:punycode` a una fachada que conserva los exports CommonJS y ESM de una copia sin modificar de `punycode` 2.3.1, con licencia MIT, origen y hashes en `tools/vendor/PUNYCODE.json`. No instala paquetes al publicar ni desactiva avisos de Node.
+
+Antes de construir el respaldo, la validación ejecuta con Node 24:
+
+```sh
+python3 tools/check_pages_runtime.py --check
+```
+
+La comprobación descarga el bundle y el registro de mapas de la acción oficial fijada, verifica sus hashes y prueba el arranque en procesos sin credenciales con la red bloqueada. Compara un control sin precarga con las opciones reales del flujo; el contexto ficticio detiene ambos procesos antes de poder publicar. Las pruebas offline cubren también dominios Unicode, rutas con espacios y que otros avisos sigan visibles. Esto verifica el arranque, no sustituye la comprobación de una publicación autorizada.
+
+Cuando se publique una versión oficial corregida, revisar su nuevo pin y sus hashes y comprobar el arranque del control sin precarga: debe dejar de emitir `DEP0040`. Actualizar en esa misma PR la expectativa del comprobador —que actualmente exige reproducir el aviso en el control— y retirar la precarga, la fachada y su dependencia. No debe retirarse sólo ocultando `DEP0040`.
 
 ## Verificar la publicación y recuperar el servicio
 

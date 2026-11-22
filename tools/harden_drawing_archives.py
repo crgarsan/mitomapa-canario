@@ -20,10 +20,10 @@ import subprocess
 import zipfile
 
 from harden_jspdf_exports import (
-    ArchiveBudget, SCRIPT_PATHS as JSPDF_SCRIPT_PATHS, patch_loader, public_archives,
-    read_archive, read_archive_file,
+    ArchiveBudget, DELIVERY_NATIVE, DeliveryFiles, SCRIPT_PATHS as JSPDF_SCRIPT_PATHS,
+    patch_loader, public_archives, read_archive, read_archive_file,
 )
-from release_support import MAX_ASSET_BYTES, parse_sums, source_path
+from release_support import MAX_ASSET_BYTES, parse_sums
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -199,6 +199,9 @@ def drawing_policy(candidate: str):
             "Current drawing helpers are incomplete")
     getter = line(function(candidate, "getWorkshopRouteState"), " state.drawing=")
     restore = line(function(candidate, "setupWorkshopCanvas"), " const restore=")
+    # Historical releases already use the bounded decoder. Session isolation
+    # adds a lifecycle check without changing that image-validation boundary.
+    historical_restore = " const restore=async imageData=>{const image=await loadWorkshopDrawing(imageData);clearSurface();if(image)context.drawImage(image,0,0,canvas.width,canvas.height);};\n"
     sanitizer = function(candidate, "sanitizeImportedWorkshop")
     source = line(sanitizer, "  const source=")
     guard = between(sanitizer, source, "  clean.routes[")
@@ -211,8 +214,10 @@ def drawing_policy(candidate: str):
     def verify(text: str) -> None:
         require(between(text, HELPER_MARKER, STORAGE) == helpers,
                 "Distributed drawing helpers differ from the reviewed policy")
-        for anchor in (getter, restore):
-            once(text, anchor)
+        once(text, getter)
+        actual_restore = line(function(text, "setupWorkshopCanvas"), " const restore=")
+        require(actual_restore in (restore, historical_restore),
+                "Drawing restore differs from the reviewed decoder variants")
         current = function(text, "sanitizeImportedWorkshop")
         require(between(current, source, "  clean.routes[") == guard,
                 "Imported drawing validation differs from the reviewed policy")
@@ -251,13 +256,13 @@ def verify_drawing_archive(payload: bytes, verify, *, budget: ArchiveBudget | No
     _, files, _ = read_archive(payload, budget=budget, depth=depth)
     scripts = nested_archives = 0
     for name, data in files.items():
-        if (name == "scripts.js" or name.endswith("/scripts.js")) and b"function sanitizeImportedWorkshop(" in data:
+        if Path(name).name in {"scripts.js", "scripts-en.js"}:
             verify(data.decode("utf-8"))
             scripts += 1
             portable = str(Path(name).parent / "PORTABLE_MANIFEST.json")
             if portable in files:
                 manifest = json.loads(files[portable])
-                require(manifest["assets"]["scripts.js"] == {"sha256": digest(data), "bytes": len(data)},
+                require(manifest["assets"][Path(name).name] == {"sha256": digest(data), "bytes": len(data)},
                         "Stale drawing manifest: " + name)
         elif name.lower().endswith((".elpx", ".zip")):
             found, nested = verify_drawing_archive(data, verify, budget=budget, depth=depth + 1)
@@ -268,15 +273,19 @@ def verify_drawing_archive(payload: bytes, verify, *, budget: ArchiveBudget | No
 
 def verify_delivery(directory: Path, verify) -> None:
     """Check an optional delivery without invoking the historical migrator."""
-    native = directory / "MitoMapa_canario_GobCan.elpx"
-    require(read_archive_file(native) == read_archive_file(ROOT / "downloads" / native.name),
-            "Delivery/public ELPX copies differ")
-    for path in directory.iterdir():
-        if path.suffix in {".zip", ".elpx"}:
-            verify_drawing_archive(read_archive_file(path), verify)
-    for name, expected in parse_sums((directory / "SHA256SUMS.txt").read_text("utf-8")).items():
-        require(digest(read_archive_file(source_path(directory, name))) == expected,
-                "Stale delivery checksum: " + name)
+    with DeliveryFiles(directory) as delivery:
+        native = delivery.read(DELIVERY_NATIVE)
+        require(native == read_archive_file(ROOT / "downloads" / DELIVERY_NATIVE),
+                "Delivery/public ELPX copies differ")
+        sums = delivery.read("SHA256SUMS.txt")
+        checksums = parse_sums(sums.decode("utf-8"))
+        archives = set(delivery.archive_names()) | {DELIVERY_NATIVE}
+        for name in sorted(archives | checksums.keys()):
+            data = native if name == DELIVERY_NATIVE else delivery.read(name)
+            if name in checksums:
+                require(digest(data) == checksums[name], "Stale delivery checksum: " + name)
+            if name in archives:
+                verify_drawing_archive(data, verify)
 
 
 def write_archive(infos, files, comment: bytes) -> bytes:
@@ -419,7 +428,7 @@ def main() -> None:
         nested_archives += nested
     require(drawing_scripts > 0, "The public inventory contains no reviewed drawing import scripts")
     if args.delivery_dir:
-        verify_delivery(args.delivery_dir.resolve(), verify)
+        verify_delivery(args.delivery_dir, verify)
     print(json.dumps({"mode": "checked", "public_archives": len(public),
                       "affected_archives": affected, "drawing_scripts": drawing_scripts,
                       "nested_archives": nested_archives,

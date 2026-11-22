@@ -1,0 +1,166 @@
+.topbar-identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .25rem .85rem;
+  min-width: 0;
+}
+.topbar-identity .brand {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.topbar-identity .brand-detail { white-space: pre; }
+.language-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .25rem .35rem;
+}
+.language-switch a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  padding: .25rem .5rem;
+  border: 1px solid var(--paper);
+  border-radius: 4px;
+  color: var(--paper);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+.language-switch a[aria-current="true"] {
+  background: var(--paper);
+  color: var(--earth-dark);
+}
+.language-switch a:hover { text-decoration: underline; }
+.language-switch a:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.language-switch a::before {
+  content: "";
+  flex: 0 0 27px;
+  width: 27px;
+  height: 27px;
+  border: 1px solid var(--paper);
+  border-radius: 50%;
+}
+.language-switch a[hreflang="es"]::before {
+  background: linear-gradient(#aa151b 25%, #f1bf00 25% 75%, #aa151b 75%);
+}
+.language-switch a[hreflang="en"]::before {
+  background:
+    linear-gradient(0deg, transparent 42%, #c8102e 42% 58%, transparent 58%),
+    linear-gradient(90deg, transparent 42%, #c8102e 42% 58%, transparent 58%),
+    linear-gradient(0deg, transparent 37%, #fff 37% 63%, transparent 63%),
+    linear-gradient(90deg, transparent 37%, #fff 37% 63%, transparent 63%),
+    linear-gradient(45deg, transparent 46%, #c8102e 46% 53%, transparent 53%),
+    linear-gradient(-45deg, transparent 46%, #c8102e 46% 53%, transparent 53%),
+    linear-gradient(45deg, transparent 41%, #fff 41% 59%, transparent 59%),
+    linear-gradient(-45deg, transparent 41%, #fff 41% 59%, transparent 59%),
+    #012169;
+}
+
+@media (forced-colors: active) {
+  .language-switch a::before { display: none; }
+}
+
+.topbar #openPassport .passport-label {
+  display: inline;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+@media (max-width: 480px) {
+  .topbar.is-bilingual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .3rem;
+    padding-inline: .6rem;
+  }
+  .topbar.is-bilingual .topbar-identity { gap: .25rem .35rem; }
+  .topbar.is-bilingual .topbar-identity .brand {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+  .topbar-identity .brand-detail { display: none; }
+  .topbar.is-bilingual :is(#openPassport, #openTeacher) {
+    width: auto;
+    min-height: 44px;
+    padding-inline: .45rem;
+  }
+  .topbar #passportCount { min-width: 1.65rem; margin-left: .12rem; }
+
+  .language-switch { gap: 0; }
+  .language-switch a {
+    position: relative;
+    width: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+  }
+  .language-switch a[aria-current="true"] { background: transparent; }
+  .language-switch a[aria-current="true"]::before {
+    outline: 2px solid var(--yellow);
+    outline-offset: 2px;
+  }
+  .language-switch .language-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) and (forced-colors: active) {
+  .language-switch { gap: .25rem .35rem; }
+  .language-switch a {
+    width: auto;
+    padding: .25rem .5rem;
+    border: 1px solid ButtonText;
+    border-radius: 4px;
+  }
+  .language-switch a::before { display: none; }
+  .language-switch a[aria-current="true"] {
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+  .language-switch .language-name {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .topbar.is-bilingual {
+    column-gap: .2rem;
+    padding-inline: .5rem;
+  }
+  .topbar #openPassport .passport-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .topbar.is-bilingual #openPassport::before {
+    content: "";
+    display: inline-block;
+    width: .64em;
+    height: .82em;
+    border: 1px solid currentColor;
+    border-left-width: 2px;
+    border-radius: 2px;
+    vertical-align: -.08em;
+    margin-right: .18em;
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "title": "Tall vessel from Tenerife",
+  "badgePath": "assets/images/insignia_tenerife.webp",
+  "referenceLabel": "MUNA catalogue · Amphora-shaped vessel 34.1/M, p. 59",
+  "referenceUrl": "https://www.museosdetenerife.org/assets/downloads/publication-afc6d05a44.pdf#page=60",
+  "supplementalReferenceLabel": "La Piedra Zanata · Vessel from Los Frontones, fig. 26",
+  "supplementalReferenceUrl": "https://www.museosdetenerife.org/assets/downloads/publication-482861aeb1.pdf#page=166",
+  "documentedDimensions": "The amphora-shaped vessel 34.1/M from Montaña Blanca is 400 mm high and 240 mm in diameter at its widest point. The model uses those dimensions at 1:2 scale.",
+  "modelDimensions": "200 mm high · Ø 120 mm at the widest point · 128 mm including the lugs",
+  "description": "A teaching model based on the Tenerife badge in the MitoMapa passport. It keeps the oval body, the narrow grooved neck, the row of dots and the two pierced lugs.",
+  "adaptations": "The model can print upright without supports because it has a flat base and holes that taper to a point at the top of each lug. The opening, lugs and decoration follow the badge."
+}
