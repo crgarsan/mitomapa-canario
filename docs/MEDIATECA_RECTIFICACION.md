@@ -1,6 +1,6 @@
 # Rectificación preparada para Mediateca
 
-Esta propuesta no se ha enviado ni publicado. Requiere una cuenta con permisos de edición de la ficha institucional.
+Esta propuesta no se ha enviado ni publicado. La rectificación debe tramitarla el equipo gestor de Mediateca; el texto está preparado para remitirlo a ese equipo, sin solicitar credenciales ni acceso de edición.
 
 Decisión de la autoría del 18/11/2026: mantener anunciada la edición **4.8.8**, correspondiente al ELPX adjunto actual. La rectificación propuesta afecta al texto y a los campos de versión de la ficha; conserva el archivo adjunto, su URL y sus bytes.
 
@@ -13,13 +13,26 @@ Decisión de la autoría del 18/11/2026: mantener anunciada la edición **4.8.8*
 
 Los archivos se descargaron por HTTPS y se inspeccionaron sin ejecutar su contenido. El contraste se hizo con `main b4014344450e1862bf1d441df59d824ec2714c22`.
 
-## Texto propuesto para el apartado de versión
+## Reconfirmación del 22/11/2026
+
+La ficha 271363 se volvió a consultar a las 09:06 UTC y seguía anunciando 4.8.4. El adjunto obtenido en esa misma comprobación conserva 25 875 879 bytes y el SHA-256 indicado arriba, declara 4.8.8 y supera la comprobación CRC de sus 375 miembros. Esta observación confirma la discrepancia de texto; no acredita que se haya tramitado una rectificación.
+
+## Texto exacto preparado para rectificar la ficha
+
+Campos de la edición del recurso:
+
+- Versión: **4.8.8**.
+- Fecha de revisión del REA: **29/10/2026**.
+- Runtime de referencia: **eXeLearning 4.0.5**.
+- Archivo adjunto: conservar la URL, los bytes y el SHA-256 indicados en la comprobación; no sustituirlo por el ELPX 4.8.9 del proyecto.
+
+Texto para el apartado de versión:
 
 > REA editable MitoMapa canario 4.8.8, revisión editorial del 29/10/2026 para eXeLearning 4.0.5. Esta es la edición del archivo adjunto de Mediateca. La aplicación web es un recurso diferenciado, actualmente identificado como web 4.10.0; su progreso es independiente del seguimiento nativo del ELPX. El pilotaje con alumnado sigue pendiente de evidencias.
 
 La autoría, las licencias, las fuentes históricas y las condiciones particulares de los componentes se conservan. La existencia de la ficha o del archivo no acredita eficacia pedagógica ni conformidad completa de accesibilidad.
 
-## Pasos para quien edita la ficha
+## Pasos para el equipo gestor de la ficha
 
 1. Revisar y aprobar el texto para la edición 4.8.8; conservar el ELPX adjunto cuya huella se indica arriba.
 2. Actualizar de forma coordinada la versión a 4.8.8 y su fecha de revisión a 29/10/2026 en la descripción y en los campos propios del recurso. La fecha de edición de la ficha puede ser posterior y debe distinguirse de la revisión del ELPX.

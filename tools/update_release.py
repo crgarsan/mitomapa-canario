@@ -37,7 +37,7 @@ SOURCE_EXPLICIT = {
     "LICENSE", "_headers", "wrangler.jsonc", "requirements-browser-tests.txt",
     ".github/dependabot.yml", "docs/RESPALDO.md",
     "docs/PUBLICACIONES.md", "docs/ARCHIVO_HISTORICO.md", "docs/MEDIATECA_RECTIFICACION.md",
-    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/PULL_REQUEST_TEMPLATE.md", ".github/SECURITY.md", "docs/CUSTODIA_SEGUIMIENTO.md",
 }
 DOCUMENTS = (
     "GUIA_DOCENTE.html", "GUIA_DOCENTE_GOBCAN.html", "GUIA_REUTILIZACION.html",
