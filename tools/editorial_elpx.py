@@ -1154,8 +1154,8 @@ def apply_editorial(files, root, version):
     if version.get("native_runtime_security_revision"):
         texts["20260929THISTORIAL39"] += (
             '<p>En esta revisión se limita la interpretación de metadatos en el informe de progreso y '
-            'las listas de cotejo. Se utiliza DOMPurify 3.4.17, de Cure53 y colaboradores, con una '
-            '<a href="https://github.com/cure53/DOMPurify/blob/3.4.17/LICENSE">licencia Apache 2.0</a> '
+            'las listas de cotejo. Se utiliza DOMPurify 3.5.0, de Cure53 y colaboradores, con una '
+            '<a href="https://github.com/cure53/DOMPurify/blob/3.5.0/LICENSE">licencia Apache 2.0</a> '
             'conservada en el paquete. Los textos simples permanecen inertes y los campos que admiten '
             'formato conservan HTML pasivo saneado. Esta corrección no actualiza la instalación de un '
             'editor externo ni hace confiable cualquier proyecto ejecutable de terceros.</p>'

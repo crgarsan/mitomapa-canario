@@ -26,6 +26,17 @@ class NativeRuntimeSecurityBuildTests(unittest.TestCase):
         self.assertEqual(changed,set(MEMBERS)|{LICENSE_MEMBER})
         self.assertIn(b'Apache License',files[LICENSE_MEMBER])
 
+    def test_current_english_copies_keep_the_reviewed_runtime_and_notice(self):
+        english=self.version['english_edition']
+        payload=(ROOT/english['download']['path']).read_bytes()
+        files=read_zip(payload)
+        for name,expected in hardened_members(self.baseline).items():
+            with self.subTest(member=name):
+                self.assertEqual(files[name],expected)
+        sharing=read_zip((ROOT/english['sharing_archive']['path']).read_bytes())
+        nested=[value for name,value in sharing.items() if name.endswith('.elpx')]
+        self.assertEqual(nested,[payload])
+
     def test_an_unknown_runtime_source_is_rejected_before_any_change(self):
         for name in MEMBERS:
             with self.subTest(member=name):
