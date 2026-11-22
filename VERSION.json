@@ -5,8 +5,8 @@
   "prepared_at": "2026-11-02",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "14258a036a8af636a1d38065a5e5c5473666472ea210ccb816877fcca65326b5",
-    "bytes": 25876702
+    "sha256": "26b439da276ebd10393c57eb8d79a75af56abcdd033a57e187f2a8b8a4e8741f",
+    "bytes": 25877806
   },
   "previous_web_version": "4.9.4",
   "previous_rea_version": "4.8.8",
@@ -112,8 +112,8 @@
   "sharing_archive": {
     "path": "downloads/MitoMapa_REA_v4_10_0.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "1afa15db791abf7995c69d3f8bfe3bdcb184806fad81d69baa1f4a09b7fd2067",
-    "bytes": 25709621
+    "sha256": "725bbfcce1e3c19786e1e8336bb143b4f85caf112a784b878baa9333139c2e44",
+    "bytes": 25710604
   },
   "source_archive": {
     "path": "downloads/MitoMapa_fuentes_web_v4_10_0.zip",
@@ -258,7 +258,7 @@
       "idevices/progress-report/progress-report.js",
       "idevices/checklist/checklist.js"
     ],
-    "sanitizer": "DOMPurify 3.4.18, private instance, Apache-2.0 option",
+    "sanitizer": "DOMPurify 3.5.0, private instance, Apache-2.0 option",
     "raw_game_data_preserved": true,
     "media_preserved": true,
     "historical_downloads_unchanged": true,
@@ -313,13 +313,13 @@
     "base_rea_version": "4.8.9",
     "download": {
       "path": "en/downloads/MitoMapa_Canary_Islands_EN.elpx",
-      "sha256": "0d0e39ad2d834e740ee53c8efb767af23fd13653ac183bf7f6a45b7ccb9157da",
-      "bytes": 25157759
+      "sha256": "a74d9c0026696c1b79725b2fdf95417a7212f51939093239cdf3af50ce12a48b",
+      "bytes": 25158862
     },
     "sharing_archive": {
       "path": "en/downloads/MitoMapa_Canary_Islands_EN.zip",
-      "sha256": "673379bfdb64552aed713f52c1ee843b0f070f2cbb93b610290b83a1bd8e115c",
-      "bytes": 25119265
+      "sha256": "8944b446aa8d090cdebe1bd4368601f33134038c32ec50ecf48d66eafb391158",
+      "bytes": 25120407
     },
     "declared_editorial_status": "4.8.9",
     "editorial_status_note": "La etiqueta editorial identifica la edición inglesa del REA. La publicación pública de esta copia se comprueba por sus huellas y fecha de observación; preparar el paquete no acredita un despliegue."

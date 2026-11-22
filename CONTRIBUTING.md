@@ -45,4 +45,12 @@ La PR debe explicar el cambio, sus pruebas y cualquier comprobación pendiente. 
 
 El procedimiento de [preparación de publicaciones](docs/PUBLICACIONES.md) produce una entrega fijada a un commit. La preparación, la creación de una release y el despliegue son acciones distintas.
 
-La propuesta de política de divulgación privada de seguridad se mantiene en la [PR #47](https://github.com/crgarsan/mitomapa-canario/pull/47). Esa referencia no acredita que un canal privado esté habilitado.
+## Vulnerabilidades y archivos de seguimiento
+
+Para comunicar una posible vulnerabilidad, sigan la [política de divulgación privada](https://github.com/crgarsan/mitomapa-canario/blob/main/.github/SECURITY.md). El canal privado de GitHub se observó habilitado el 22/11/2026; la política explica también qué hacer si deja de estar disponible. La [PR #47](https://github.com/crgarsan/mitomapa-canario/pull/47) conserva la propuesta original de esta documentación.
+
+Las incidencias, las pruebas y las demostraciones deben utilizar datos ficticios. Antes de manejar exportaciones reales, consulten las [pautas de custodia del seguimiento](https://github.com/crgarsan/mitomapa-canario/blob/main/docs/CUSTODIA_SEGUIMIENTO.md) y concreten con el centro las personas con acceso, el canal de intercambio y el plazo de conservación. Los 15 días de caducidad local de la web no eliminan los archivos exportados ni el seguimiento del ELPX o de Moodle.
+
+La [rectificación de Mediateca](https://github.com/crgarsan/mitomapa-canario/blob/main/docs/MEDIATECA_RECTIFICACION.md) contiene el texto preparado para anunciar la edición 4.8.8 y conservar su adjunto. No acredita que la ficha institucional se haya actualizado.
+
+Para consultar estos documentos sin conexión, abran `.github/SECURITY.md`, `docs/CUSTODIA_SEGUIMIENTO.md` y `docs/MEDIATECA_RECTIFICACION.md` dentro del ZIP de fuentes. Los enlaces anteriores llevan a sus copias canónicas en GitHub.

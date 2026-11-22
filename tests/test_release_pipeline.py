@@ -167,6 +167,24 @@ class ReleasePipelineTests(unittest.TestCase):
         self.assertTrue(documents <= sources.keys())
         self.assertNotIn(".github/ISSUE_TEMPLATE/unreviewed.yml", sources)
 
+    def test_source_zip_preserves_disclosure_and_custody_link_targets(self):
+        documents = {
+            "CONTRIBUTING.md": (b"[Security](.github/SECURITY.md)\n"
+                                b"[Custody](docs/CUSTODIA_SEGUIMIENTO.md)\n"),
+            ".github/SECURITY.md": (b"[Editions](../EDICIONES.md)\n"
+                                    b"[Custody](../docs/CUSTODIA_SEGUIMIENTO.md)\n"),
+            "docs/CUSTODIA_SEGUIMIENTO.md": b"[Editions](../EDICIONES.md)\n",
+        }
+        for name, payload in documents.items():
+            self.write(name, payload)
+        self.write(".github/private-report-draft.md", b"Unreviewed local draft", approve=False)
+        update_release(self.root, inventory=self.inventory)
+        sources = read_zip((self.root / self.version["source_archive"]["path"]).read_bytes())
+        for name, payload in documents.items():
+            self.assertEqual(sources.get(name), payload, name)
+        self.assertIn("EDICIONES.md", sources)
+        self.assertNotIn(".github/private-report-draft.md", sources)
+
     def test_reviewed_english_runtime_and_module_worker_ship_in_sources(self):
         self.write("scripts-en.js", b"/* English runtime */")
         self.write("tools/story-video-ranges.mjs", b"export default {};")

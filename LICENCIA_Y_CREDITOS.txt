@@ -152,8 +152,8 @@ Ficha del recurso:
 https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363
 
 DEPENDENCIA DEL RENDERIZADO NATIVO · REVISIÓN 22/11/2026
-DOMPurify 3.4.18, Cure53 y colaboradores. Se utiliza la opción Apache-2.0 de su
-licencia dual. Fuente: https://registry.npmjs.org/dompurify/-/dompurify-3.4.18.tgz
+DOMPurify 3.5.0, Cure53 y colaboradores. Se utiliza la opción Apache-2.0 de su
+licencia dual. Fuente: https://registry.npmjs.org/dompurify/-/dompurify-3.5.0.tgz
 La licencia completa se conserva en libs/mitomapa-native-runtime-LICENSE.txt
 del ELPX y en tools/vendor/dompurify-LICENSE.txt de las fuentes. La versión y
 las integridades se fijan en tools/vendor/DOMPURIFY.json y package-lock.json.

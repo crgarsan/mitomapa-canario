@@ -253,19 +253,20 @@ en los campos que admiten formato. Los demás componentes y medios se preservaro
 
 ## Actualización de DOMPurify — 22/11/2026
 
-Se actualizan las copias vigentes ES/EN de DOMPurify 3.4.17 a 3.4.18 por
-el [aviso upstream GHSA-qm7q-q8h9-jg8q](https://github.com/cure53/DOMPurify/security/advisories/GHSA-qm7q-q8h9-jg8q).
-El uso actual no activa `SAFE_FOR_TEMPLATES` ni compila plantillas después del
-saneamiento; esta actualización es mantenimiento preventivo. Web 4.10.0 y REA
-4.8.9 conservan su versión de producto; el commit distingue esta revisión de
-los paquetes. No se reescriben históricos ni el adjunto 4.8.8 de Mediateca.
+Las copias vigentes ES/EN usan [DOMPurify 3.5.0](https://github.com/cure53/DOMPurify/releases/tag/3.5.0).
+MitoMapa sanea cadenas de texto con una lista de elementos y atributos permitidos.
+Su configuración no activa el modo opcional de plantillas y los runtimes no
+compilan plantillas. Web 4.10.0 y REA 4.8.9 conservan su versión de producto.
+El commit identifica esta revisión de los paquetes. Las ediciones históricas y
+el adjunto 4.8.8 de Mediateca conservan sus bytes.
 
-La prueba local del modo opcional `SAFE_FOR_TEMPLATES` con el artefacto oficial
-3.4.18 no confirmó la corrección anunciada: las dos variantes del aviso
-conservaron delimitadores de plantilla después de volver a interpretar el HTML.
-Este candidato de mantenimiento no se presenta como remediación verificada de
-GHSA-qm7q-q8h9-jg8q ni se recomienda integrarlo con esa justificación. La política
-real de MitoMapa sigue sin activar ese modo ni un motor de plantillas.
+La revisión aislada del [aviso GHSA-qm7q-q8h9-jg8q](https://github.com/cure53/DOMPurify/security/advisories/GHSA-qm7q-q8h9-jg8q)
+comprobó nodos de texto individuales tras volver a interpretar el resultado
+del saneamiento. En 3.4.18, uno de los dos casos conservó el marcador de prueba
+en un solo nodo. La comprobación anterior había contado el otro caso al unir
+texto de nodos separados. Con 3.5.0, ninguno de esos dos casos conservó el
+marcador en un solo nodo. La revisión usó cadenas de prueba inertes en Chromium
+y no ejecutó expresiones de plantilla.
 
 La previsualización de autor de eXe 4.0.5 admite código del proyecto en su mismo
 origen. Este cambio no convierte en confiable un proyecto externo arbitrario ni

@@ -1,10 +1,10 @@
 {
-  "version": "3.4.18",
-  "path": "tools/vendor/dompurify-3.4.18.min.js",
-  "sha256": "8053ee2a6a09f9d50f7fcd6fb7f07072f52c7f3fa9aa12147cab4feaf65ee970",
+  "version": "3.5.0",
+  "path": "tools/vendor/dompurify-3.5.0.min.js",
+  "sha256": "f69a46022ab1f53e969c8ebbca98172c8995785a9b3be72ea4a12d25b1a1bf67",
   "license_path": "tools/vendor/dompurify-LICENSE.txt",
   "license_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-  "npm_integrity": "sha512-ofe3wI/uNm68HInABYFJYqQxRw1EaKAjNdrFVKqjUY+UZurvNd2L/HuQe097s/4RivWiZyP6tT7aoT8atjfhwg==",
+  "npm_integrity": "sha512-LYC0ZkE8P1V42JsRYTwMdme/2ET8SpOc5AA2eOFjP/IadvRd2fwiT4TVz5vkfy0XUx12aS2UaRkTnfVPNOv9vw==",
   "license": "Apache-2.0 (chosen dual-license option)",
-  "source": "https://registry.npmjs.org/dompurify/-/dompurify-3.4.18.tgz"
+  "source": "https://registry.npmjs.org/dompurify/-/dompurify-3.5.0.tgz"
 }

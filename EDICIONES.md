@@ -11,10 +11,10 @@ Las huellas de los ELPX locales describen esta entrega; los hechos de publicaci�
 | --- | --- | --- | --- | --- | ---: | --- |
 | Web | es | 4.10.0 | — | index.html | Consultar catálogo externo | SHA256SUMS.txt / catálogo externo |
 | Web | en-GB | 4.10.0 | — | index-en.html | Consultar catálogo externo | SHA256SUMS.txt / catálogo externo |
-| ELPX | es | 4.8.9 | 4.8.9 | downloads/MitoMapa_canario_GobCan.elpx | 25876702 | 14258a036a8af636a1d38065a5e5c5473666472ea210ccb816877fcca65326b5 |
+| ELPX | es | 4.8.9 | 4.8.9 | downloads/MitoMapa_canario_GobCan.elpx | 25877806 | 26b439da276ebd10393c57eb8d79a75af56abcdd033a57e187f2a8b8a4e8741f |
 | ZIP REA | es | 4.10.0 | 4.8.9 | downloads/MitoMapa_REA_v4_10_0.zip | Consultar catálogo externo | SHA256SUMS.txt / catálogo externo |
 | ZIP fuentes | es/en-GB | 4.10.0 | 4.8.9 | downloads/MitoMapa_fuentes_web_v4_10_0.zip | Consultar catálogo externo | SHA256SUMS.txt / catálogo externo |
-| ELPX | en-GB | 4.8.9 | 4.8.9 | en/downloads/MitoMapa_Canary_Islands_EN.elpx | 25157759 | 0d0e39ad2d834e740ee53c8efb767af23fd13653ac183bf7f6a45b7ccb9157da |
+| ELPX | en-GB | 4.8.9 | 4.8.9 | en/downloads/MitoMapa_Canary_Islands_EN.elpx | 25158862 | a74d9c0026696c1b79725b2fdf95417a7212f51939093239cdf3af50ce12a48b |
 | ZIP REA | en-GB | 4.8.9 | 4.8.9 | en/downloads/MitoMapa_Canary_Islands_EN.zip | Consultar catálogo externo | SHA256SUMS.txt / catálogo externo |
 | Mediateca (adjunto) | es | 4.8.8 | 4.8.8 | https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363 | 25875879 | cedaa18b42271e02547847800a8fd8a7094ccf9a021892942f5370a3dc25a477 |
 
