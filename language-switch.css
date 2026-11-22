@@ -21,6 +21,7 @@
   min-height: 44px;
   align-items: center;
   justify-content: center;
+  gap: .45rem;
   padding: .25rem .5rem;
   border: 1px solid var(--paper);
   border-radius: 4px;
@@ -35,6 +36,33 @@
 }
 .language-switch a:hover { text-decoration: underline; }
 .language-switch a:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.language-switch a::before {
+  content: "";
+  flex: 0 0 27px;
+  width: 27px;
+  height: 27px;
+  border: 1px solid var(--paper);
+  border-radius: 50%;
+}
+.language-switch a[hreflang="es"]::before {
+  background: linear-gradient(#aa151b 25%, #f1bf00 25% 75%, #aa151b 75%);
+}
+.language-switch a[hreflang="en"]::before {
+  background:
+    linear-gradient(0deg, transparent 42%, #c8102e 42% 58%, transparent 58%),
+    linear-gradient(90deg, transparent 42%, #c8102e 42% 58%, transparent 58%),
+    linear-gradient(0deg, transparent 37%, #fff 37% 63%, transparent 63%),
+    linear-gradient(90deg, transparent 37%, #fff 37% 63%, transparent 63%),
+    linear-gradient(45deg, transparent 46%, #c8102e 46% 53%, transparent 53%),
+    linear-gradient(-45deg, transparent 46%, #c8102e 46% 53%, transparent 53%),
+    linear-gradient(45deg, transparent 41%, #fff 41% 59%, transparent 59%),
+    linear-gradient(-45deg, transparent 41%, #fff 41% 59%, transparent 59%),
+    #012169;
+}
+
+@media (forced-colors: active) {
+  .language-switch a::before { display: none; }
+}
 
 .topbar #openPassport .passport-label {
   display: inline;
@@ -73,31 +101,9 @@
     border-radius: 50%;
   }
   .language-switch a[aria-current="true"] { background: transparent; }
-  .language-switch a::before {
-    content: "";
-    width: 27px;
-    height: 27px;
-    border: 1px solid var(--paper);
-    border-radius: 50%;
-  }
   .language-switch a[aria-current="true"]::before {
     outline: 2px solid var(--yellow);
     outline-offset: 2px;
-  }
-  .language-switch a[hreflang="es"]::before {
-    background: linear-gradient(#aa151b 25%, #f1bf00 25% 75%, #aa151b 75%);
-  }
-  .language-switch a[hreflang="en"]::before {
-    background:
-      linear-gradient(0deg, transparent 42%, #c8102e 42% 58%, transparent 58%),
-      linear-gradient(90deg, transparent 42%, #c8102e 42% 58%, transparent 58%),
-      linear-gradient(0deg, transparent 37%, #fff 37% 63%, transparent 63%),
-      linear-gradient(90deg, transparent 37%, #fff 37% 63%, transparent 63%),
-      linear-gradient(45deg, transparent 46%, #c8102e 46% 53%, transparent 53%),
-      linear-gradient(-45deg, transparent 46%, #c8102e 46% 53%, transparent 53%),
-      linear-gradient(45deg, transparent 41%, #fff 41% 59%, transparent 59%),
-      linear-gradient(-45deg, transparent 41%, #fff 41% 59%, transparent 59%),
-      #012169;
   }
   .language-switch .language-name {
     position: absolute;
