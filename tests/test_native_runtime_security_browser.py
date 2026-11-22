@@ -235,8 +235,26 @@ class NativeRuntimeSecurityTests(unittest.TestCase):
         self.page.reload(wait_until='networkidle')
         expect(self.page.locator('.CTJP-Item select').first).to_have_value('1')
 
+    def test_template_reparse_vectors_remain_passive_in_the_actual_native_policy(self):
+        # The upstream optional SAFE_FOR_TEMPLATES mode is probed separately;
+        # this exercises the policy actually used by both native renderers.
+        for vector in ['<form><div>{</form><form>{mitoValue}</form>}',
+                       '<b><i>}<x></x>}{</i>{mitoValue}</b>}']:
+            with self.subTest(vector=vector):
+                actual=self.child.evaluate("""value=>{
+                  const node=document.createElement('div');
+                  node.innerHTML=$eXeListaCotejo._mitoSafety.rich('<strong>Canarias</strong>'+value);
+                  return {text:node.textContent,strong:node.querySelector('strong')?.textContent,
+                    active:node.querySelectorAll('form,script,template,[onerror],[onload]').length};
+                }""",vector)
+                self.assertEqual(actual['active'],0)
+                self.assertEqual(actual['strong'],'Canarias')
+                self.assertIn('mitoValue',actual['text'])
+        self.assert_no_active_metadata()
+
     def test_a_host_sanitizer_instance_is_not_replaced(self):
-        vendor=(ROOT/'tools/vendor/dompurify-3.4.17.min.js').read_text()
+        metadata=json.loads((ROOT/'tools/vendor/DOMPURIFY.json').read_text())
+        vendor=(ROOT/metadata['path']).read_text()
         self.context.add_init_script(vendor+'\nwindow.__hostSanitizer=window.DOMPurify;')
         self.page.reload(wait_until='networkidle')
         child=self.page.frames[1]

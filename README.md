@@ -246,10 +246,26 @@ En esa revisión se conservó el ELPX 4.8.7 byte a byte, junto con las grabacion
 
 ## Renderizado nativo revisado — 29/10/2026
 
-La corrección actual se limita a dos runtimes nativos del ELPX y a la identidad
-de su entrega. DOMPurify 3.4.17 se incorpora con versión, integridad y licencia
-fijadas; sus instancias son privadas. Se mantienen negritas y enlaces seguros
-en los campos que admiten formato. Los demás componentes y medios se preservan.
+La revisión del 29/10 se limitó a dos runtimes nativos del ELPX y a la identidad
+de su entrega. DOMPurify 3.4.17 se incorporó con versión, integridad y licencia
+fijadas; sus instancias eran privadas. Se mantuvieron negritas y enlaces seguros
+en los campos que admiten formato. Los demás componentes y medios se preservaron.
+
+## Actualización de DOMPurify — 22/11/2026
+
+Se actualizan las copias vigentes ES/EN de DOMPurify 3.4.17 a 3.4.18 por
+el [aviso upstream GHSA-qm7q-q8h9-jg8q](https://github.com/cure53/DOMPurify/security/advisories/GHSA-qm7q-q8h9-jg8q).
+El uso actual no activa `SAFE_FOR_TEMPLATES` ni compila plantillas después del
+saneamiento; esta actualización es mantenimiento preventivo. Web 4.10.0 y REA
+4.8.9 conservan su versión de producto; el commit distingue esta revisión de
+los paquetes. No se reescriben históricos ni el adjunto 4.8.8 de Mediateca.
+
+La prueba local del modo opcional `SAFE_FOR_TEMPLATES` con el artefacto oficial
+3.4.18 no confirmó la corrección anunciada: las dos variantes del aviso
+conservaron delimitadores de plantilla después de volver a interpretar el HTML.
+Este candidato de mantenimiento no se presenta como remediación verificada de
+GHSA-qm7q-q8h9-jg8q ni se recomienda integrarlo con esa justificación. La política
+real de MitoMapa sigue sin activar ese modo ni un motor de plantillas.
 
 La previsualización de autor de eXe 4.0.5 admite código del proyecto en su mismo
 origen. Este cambio no convierte en confiable un proyecto externo arbitrario ni

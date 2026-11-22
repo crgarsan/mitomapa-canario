@@ -5,8 +5,8 @@
   "prepared_at": "2026-11-02",
   "download": {
     "path": "downloads/MitoMapa_canario_GobCan.elpx",
-    "sha256": "2b595cc0851d78dec66dd4e595e4ced9a9be012955986f14cba37ce32750fb8a",
-    "bytes": 25876757
+    "sha256": "14258a036a8af636a1d38065a5e5c5473666472ea210ccb816877fcca65326b5",
+    "bytes": 25876702
   },
   "previous_web_version": "4.9.4",
   "previous_rea_version": "4.8.8",
@@ -112,8 +112,8 @@
   "sharing_archive": {
     "path": "downloads/MitoMapa_REA_v4_10_0.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "1cd427b882d1f1349f991b8f268dad261adc121c04e1bf860e7c68b1d9f984f9",
-    "bytes": 25709630
+    "sha256": "1afa15db791abf7995c69d3f8bfe3bdcb184806fad81d69baa1f4a09b7fd2067",
+    "bytes": 25709621
   },
   "source_archive": {
     "path": "downloads/MitoMapa_fuentes_web_v4_10_0.zip",
@@ -258,13 +258,15 @@
       "idevices/progress-report/progress-report.js",
       "idevices/checklist/checklist.js"
     ],
-    "sanitizer": "DOMPurify 3.4.17, private instance, Apache-2.0 option",
+    "sanitizer": "DOMPurify 3.4.18, private instance, Apache-2.0 option",
     "raw_game_data_preserved": true,
     "media_preserved": true,
     "historical_downloads_unchanged": true,
     "hosted_editor_modified": false,
     "untrusted_project_execution_isolation_guaranteed": false,
-    "reference_report_revision": "f5d9864dafb351cd18e1d9dc8287352c3eec5317"
+    "reference_report_revision": "f5d9864dafb351cd18e1d9dc8287352c3eec5317",
+    "sanitizer_revision": "2026-11-22",
+    "sanitizer_advisory": "GHSA-qm7q-q8h9-jg8q"
   },
   "story_formats_revision": {
     "date": "2026-11-01",
@@ -311,13 +313,13 @@
     "base_rea_version": "4.8.9",
     "download": {
       "path": "en/downloads/MitoMapa_Canary_Islands_EN.elpx",
-      "sha256": "2ffbc36918dec41c71be10a136c6907a5ffd1dda66f767c3c4af34567d093ec8",
-      "bytes": 25157814
+      "sha256": "0d0e39ad2d834e740ee53c8efb767af23fd13653ac183bf7f6a45b7ccb9157da",
+      "bytes": 25157759
     },
     "sharing_archive": {
       "path": "en/downloads/MitoMapa_Canary_Islands_EN.zip",
-      "sha256": "cd94badc79b344502d0ef937c3f1658f298629f2406b83e8470c5ee7cfab33df",
-      "bytes": 25119315
+      "sha256": "673379bfdb64552aed713f52c1ee843b0f070f2cbb93b610290b83a1bd8e115c",
+      "bytes": 25119265
     },
     "declared_editorial_status": "4.8.9",
     "editorial_status_note": "La etiqueta editorial identifica la edición inglesa del REA. La publicación pública de esta copia se comprueba por sus huellas y fecha de observación; preparar el paquete no acredita un despliegue."
