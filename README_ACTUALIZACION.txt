@@ -17,6 +17,13 @@ Las huellas de los paquetes se consultan en SHA256SUMS.txt y en el catálogo ext
 La matriz EDICIONES.md distingue productos, idiomas y publicaciones observadas.
 Las descargas históricas conservan sus archivos, direcciones y condiciones.
 
+ELPX NATIVOS EXTERNOS
+
+Español: edición 5.0.1 para eXeLearning 4.0.6.
+https://github.com/crgarsan/mitomapa-canario/releases/download/elpx-v5.0.1/MitoMapa_Canario_ES_v5_0_1.elpx
+Inglés: edición 5.0.1 para eXeLearning 4.0.6.
+https://github.com/crgarsan/mitomapa-canario/releases/download/elpx-v5.0.1/MitoMapa_Canary_Islands_EN_v5_0_1.elpx
+
 REVISIÓN ANTERIOR WEB 4.9.1 / ELPX 4.8.8 · 29/10/2026
 Renderizado de metadatos nativos: texto inerte y formato HTML limitado saneado.
 Se conservan medios, identidades, preguntas y seguimiento. Consultar las notas

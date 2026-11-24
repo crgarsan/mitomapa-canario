@@ -48,6 +48,38 @@ def package_version(version):
                key=lambda value: tuple(int(part) for part in value.split(".")))
 
 
+def native_download_rows(version):
+    """Validate external native identities without fetching or staging binaries."""
+    if "native_downloads" not in version:
+        return []
+    entries = version["native_downloads"]
+    if not isinstance(entries, list) or len(entries) != 2:
+        raise ValueError("Invalid native download catalogue: expected Spanish and English editions")
+    filenames = {"es": "MitoMapa_Canario_ES", "en-GB": "MitoMapa_Canary_Islands_EN"}
+    fields = {"language", "version", "exelearning_runtime_version", "filename", "url", "sha256", "bytes"}
+    rows = {}
+    for entry in entries:
+        if not isinstance(entry, dict) or set(entry) != fields:
+            raise ValueError("Invalid native download metadata fields")
+        language = entry["language"]
+        if not isinstance(language, str) or language not in filenames or language in rows:
+            raise ValueError("Invalid native download language")
+        edition, runtime = entry["version"], entry["exelearning_runtime_version"]
+        if any(not isinstance(value, str) or not re.fullmatch(r"\d+\.\d+\.\d+", value)
+               for value in (edition, runtime)):
+            raise ValueError("Invalid native download edition or eXeLearning version")
+        filename = f"{filenames[language]}_v{edition.replace('.', '_')}.elpx"
+        url = f"https://github.com/crgarsan/mitomapa-canario/releases/download/elpx-v{edition}/{filename}"
+        if entry["filename"] != filename or entry["url"] != url:
+            raise ValueError("Invalid native download URL or filename")
+        if (not isinstance(entry["sha256"], str) or not re.fullmatch(r"[0-9a-f]{64}", entry["sha256"])
+                or type(entry["bytes"]) is not int or entry["bytes"] < 1):
+            raise ValueError("Invalid native download SHA-256 or byte length")
+        rows[language] = {**entry, "product": "native_elpx", "path": None, "base_version": None,
+                          "availability": "external_catalogued"}
+    return [rows[language] for language in filenames]
+
+
 def _local_row(root, version, product, language, path, edition, base=None):
     payload = read_archive_file(source_path(root, path), max_bytes=MAX_ASSET_BYTES)
     row = {"product": product, "language": language, "path": path, "version": edition,
@@ -78,6 +110,7 @@ def product_rows(root, version):
     Publication facts retain their observation date and reference commit.
     """
     root = Path(root)
+    native = native_download_rows(version)
     web, rea = version["web_version"], version["rea_exelearning_version"]
     rows = []
     for language, path in (("es", "index.html"), ("en-GB", "index-en.html")):
@@ -108,6 +141,7 @@ def product_rows(root, version):
                 if row.get("declared_editorial_status") != english["declared_editorial_status"]:
                     raise ValueError("The English ELPX editorial label differs from VERSION.json")
             rows.append(row)
+    rows.extend(native)
     mediateca = version.get("external_publications", {}).get("mediateca")
     if mediateca:
         rows.append({"product": "mediateca", "language": "es", "path": None,
@@ -138,6 +172,9 @@ def _current_block(version):
     if english:
         lines.extend([f"- [REA editable inglés · base {english['base_rea_version']}]({english['download']['path']}).",
                       f"- [Paquete REA inglés]({english['sharing_archive']['path']})."])
+    for row in native_download_rows(version):
+        language = "español" if row["language"] == "es" else "inglés"
+        lines.append(f"- [ELPX nativo {row['version']} · {language} · eXeLearning {row['exelearning_runtime_version']}]({row['url']}).")
     mediateca = version.get("external_publications", {}).get("mediateca")
     if mediateca:
         lines.append(f"- [Mediateca {mediateca['embedded_version']} · archivo adjunto conservado]({mediateca['item_url']}).")
@@ -202,6 +239,14 @@ def _update_notice(root, version):
              "Las huellas de los paquetes se consultan en SHA256SUMS.txt y en el catálogo externo.",
              "La matriz EDICIONES.md distingue productos, idiomas y publicaciones observadas.",
              "Las descargas históricas conservan sus archivos, direcciones y condiciones.", ""]
+    native = native_download_rows(version)
+    if native:
+        lines.extend(["ELPX NATIVOS EXTERNOS", ""])
+        for row in native:
+            language = "Español" if row["language"] == "es" else "Inglés"
+            lines.extend([f"{language}: edición {row['version']} para eXeLearning {row['exelearning_runtime_version']}.",
+                          row["url"]])
+        lines.append("")
     return ("\n".join(lines) + "\n" + tail).encode("utf-8")
 
 
@@ -216,7 +261,8 @@ def _editions(version, rows):
              "Las huellas de los ELPX locales describen esta entrega; los hechos de publicación conservan su fecha de observación.", "",
              "| Producto | Idioma | Versión | Base REA | Ruta o ficha | Bytes | SHA-256 / referencia |",
              "| --- | --- | --- | --- | --- | ---: | --- |"]
-    labels = {"web": "Web", "elpx": "ELPX", "sharing_zip": "ZIP REA", "source_zip": "ZIP fuentes", "mediateca": "Mediateca (adjunto)"}
+    labels = {"web": "Web", "elpx": "ELPX", "native_elpx": "ELPX nativo (externo)",
+              "sharing_zip": "ZIP REA", "source_zip": "ZIP fuentes", "mediateca": "Mediateca (adjunto)"}
     for row in rows:
         generated = row["product"] in {"sharing_zip", "source_zip"}
         route = row.get("path") or row.get("url")
@@ -230,6 +276,14 @@ def _editions(version, rows):
     lines.extend(["", "Los ZIP generados se identifican fuera de los paquetes mediante `SHA256SUMS.txt` y el catálogo",
                   "externo de la entrega. Sus propios tamaños y huellas se omiten aquí para evitar referencias circulares.",
                   "El catálogo externo también puede identificar los HTML locales; una inyección del alojamiento puede cambiar su hash público."])
+    native = [row for row in rows if row["product"] == "native_elpx"]
+    if native:
+        lines.extend(["", "## ELPX nativos externos", "",
+                      "Estas ediciones tienen versión y runtime propios. Sus archivos se alojan en GitHub Releases;",
+                      "las huellas y tamaños del catálogo identifican los paquetes, sin sustituir una comprobación de disponibilidad pública."])
+        for row in native:
+            language = "Español" if row["language"] == "es" else "Inglés"
+            lines.append(f"- {language}: edición **{row['version']}**, preparada para eXeLearning **{row['exelearning_runtime_version']}**.")
     english = version.get("english_edition")
     if english:
         lines.extend(["", "## Inglés: estado editorial declarado y disponibilidad", "",

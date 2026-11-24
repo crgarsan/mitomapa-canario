@@ -1,4 +1,24 @@
 {
+  "native_downloads": [
+    {
+      "language": "es",
+      "version": "5.0.1",
+      "exelearning_runtime_version": "4.0.6",
+      "filename": "MitoMapa_Canario_ES_v5_0_1.elpx",
+      "url": "https://github.com/crgarsan/mitomapa-canario/releases/download/elpx-v5.0.1/MitoMapa_Canario_ES_v5_0_1.elpx",
+      "sha256": "1fab3a2a52020fd415a296f4da5d4c750222aefafdfab491777705ae61c1a7cc",
+      "bytes": 277563047
+    },
+    {
+      "language": "en-GB",
+      "version": "5.0.1",
+      "exelearning_runtime_version": "4.0.6",
+      "filename": "MitoMapa_Canary_Islands_EN_v5_0_1.elpx",
+      "url": "https://github.com/crgarsan/mitomapa-canario/releases/download/elpx-v5.0.1/MitoMapa_Canary_Islands_EN_v5_0_1.elpx",
+      "sha256": "bf40e6aae7dab57c2a54c28d11ece5318c09d34f4ce9d6b08546a7e3560ac1fb",
+      "bytes": 228635903
+    }
+  ],
   "web_version": "4.10.0",
   "rea_exelearning_version": "4.8.9",
   "exelearning_runtime_version": "4.0.5",
@@ -112,8 +132,8 @@
   "sharing_archive": {
     "path": "downloads/MitoMapa_REA_v4_10_0.zip",
     "contents": "Objeto de Aprendizaje nativo editable y documentación de la edición vigente",
-    "sha256": "725bbfcce1e3c19786e1e8336bb143b4f85caf112a784b878baa9333139c2e44",
-    "bytes": 25710604
+    "sha256": "871f7b3e1739fefe7c0608ad35a8053394e9bf467eba700347d372656265887b",
+    "bytes": 25710807
   },
   "source_archive": {
     "path": "downloads/MitoMapa_fuentes_web_v4_10_0.zip",

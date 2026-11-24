@@ -16,11 +16,20 @@ Las huellas de los ELPX locales describen esta entrega; los hechos de publicaci�
 | ZIP fuentes | es/en-GB | 4.10.0 | 4.8.9 | downloads/MitoMapa_fuentes_web_v4_10_0.zip | Consultar catálogo externo | SHA256SUMS.txt / catálogo externo |
 | ELPX | en-GB | 4.8.9 | 4.8.9 | en/downloads/MitoMapa_Canary_Islands_EN.elpx | 25158862 | a74d9c0026696c1b79725b2fdf95417a7212f51939093239cdf3af50ce12a48b |
 | ZIP REA | en-GB | 4.8.9 | 4.8.9 | en/downloads/MitoMapa_Canary_Islands_EN.zip | Consultar catálogo externo | SHA256SUMS.txt / catálogo externo |
+| ELPX nativo (externo) | es | 5.0.1 | — | https://github.com/crgarsan/mitomapa-canario/releases/download/elpx-v5.0.1/MitoMapa_Canario_ES_v5_0_1.elpx | 277563047 | 1fab3a2a52020fd415a296f4da5d4c750222aefafdfab491777705ae61c1a7cc |
+| ELPX nativo (externo) | en-GB | 5.0.1 | — | https://github.com/crgarsan/mitomapa-canario/releases/download/elpx-v5.0.1/MitoMapa_Canary_Islands_EN_v5_0_1.elpx | 228635903 | bf40e6aae7dab57c2a54c28d11ece5318c09d34f4ce9d6b08546a7e3560ac1fb |
 | Mediateca (adjunto) | es | 4.8.8 | 4.8.8 | https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363 | 25875879 | cedaa18b42271e02547847800a8fd8a7094ccf9a021892942f5370a3dc25a477 |
 
 Los ZIP generados se identifican fuera de los paquetes mediante `SHA256SUMS.txt` y el catálogo
 externo de la entrega. Sus propios tamaños y huellas se omiten aquí para evitar referencias circulares.
 El catálogo externo también puede identificar los HTML locales; una inyección del alojamiento puede cambiar su hash público.
+
+## ELPX nativos externos
+
+Estas ediciones tienen versión y runtime propios. Sus archivos se alojan en GitHub Releases;
+las huellas y tamaños del catálogo identifican los paquetes, sin sustituir una comprobación de disponibilidad pública.
+- Español: edición **5.0.1**, preparada para eXeLearning **4.0.6**.
+- Inglés: edición **5.0.1**, preparada para eXeLearning **4.0.6**.
 
 ## Inglés: estado editorial declarado y disponibilidad
 
