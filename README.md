@@ -22,6 +22,8 @@ El REA utiliza eXeLearning **4.0.5** y conserva su seguimiento nativo, independi
 - [Fuentes web 4.10.0 · paquete 4.10.0](downloads/MitoMapa_fuentes_web_v4_10_0.zip).
 - [REA editable inglés · base 4.8.9](en/downloads/MitoMapa_Canary_Islands_EN.elpx).
 - [Paquete REA inglés](en/downloads/MitoMapa_Canary_Islands_EN.zip).
+- [ELPX nativo 5.0.1 · español · eXeLearning 4.0.6](https://github.com/crgarsan/mitomapa-canario/releases/download/elpx-v5.0.1/MitoMapa_Canario_ES_v5_0_1.elpx).
+- [ELPX nativo 5.0.1 · inglés · eXeLearning 4.0.6](https://github.com/crgarsan/mitomapa-canario/releases/download/elpx-v5.0.1/MitoMapa_Canary_Islands_EN_v5_0_1.elpx).
 - [Mediateca 4.8.8 · archivo adjunto conservado](https://www3.gobiernodecanarias.org/medusa/mediateca/s/ecoescuela/item/271363).
   Nota de la comprobación externa: la ficha anunciaba 4.8.4; se mantiene la edición 4.8.8 del adjunto.
 - [Matriz de ediciones, idiomas e identidades](EDICIONES.md).
